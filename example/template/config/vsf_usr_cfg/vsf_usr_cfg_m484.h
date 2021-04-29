@@ -192,6 +192,9 @@
 
 #define VSF_USE_UI                                      ENABLED
 
+#define WEAK_VSF_MULTI_SPI_CS_INACTIVE
+#define WEAK_VSF_MULTI_SPI_CS_ACTIVE
+
 /*============================ TYPES =========================================*/
 /*============================ GLOBAL VARIABLES ==============================*/
 /*============================ LOCAL VARIABLES ===============================*/

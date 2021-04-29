@@ -118,6 +118,23 @@ usrapp_ui_common_t usrapp_ui_common = {
 #endif
         .init_seq               = (const uint8_t [])APP_DISP_DEMO_SEQ,
         .init_seq_len           = sizeof((const uint8_t [])APP_DISP_DEMO_SEQ),
+        .clock_hz               = 48 * 1000 * 1000,
+
+    },
+
+    .disp_fake                  = &usrapp_ui_common.disp_mipi_lcd_fake.use_as__vk_disp_t,
+    .disp_mipi_lcd_fake         = {
+        .param                  = {
+            .height             = APP_DISP_DEMO_HEIGHT,
+            .width              = APP_DISP_DEMO_WIDTH,
+            .drv                = &vk_disp_drv_mipi_lcd,
+            .color              = APP_DISP_DEMO_COLOR,
+        },
+
+        .spi                    = &VSF_SPI0_CS1,
+        .init_seq               = (const uint8_t [])APP_DISP_DEMO_SEQ,
+        .init_seq_len           = sizeof((const uint8_t [])APP_DISP_DEMO_SEQ),
+        .clock_hz               = 2 * 1000 * 1000,
 
     },
 #else

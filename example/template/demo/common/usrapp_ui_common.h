@@ -57,6 +57,10 @@ typedef struct usrapp_ui_common_t {
     vk_disp_fb_t disp_fb;
 #elif VSF_DISP_USE_MIPI_LCD == ENABLED
     vk_disp_mipi_lcd_t disp_mipi_lcd;
+
+    vk_disp_t *disp_fake;
+    vk_disp_mipi_lcd_t disp_mipi_lcd_fake;
+
 #endif
 
 #if VSF_USE_TINY_GUI == ENABLED

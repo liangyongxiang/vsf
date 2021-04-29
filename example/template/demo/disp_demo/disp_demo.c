@@ -47,6 +47,7 @@
 /*============================ GLOBAL VARIABLES ==============================*/
 /*============================ LOCAL VARIABLES ===============================*/
 static NO_INIT vsf_teda_t __disp_task;
+static NO_INIT vsf_teda_t __disp_fake_task;
 
 /*============================ PROTOTYPES ====================================*/
 /*============================ IMPLEMENTATION ================================*/
@@ -57,61 +58,55 @@ static NO_INIT vsf_teda_t __disp_task;
 #define PB13                     GPIO_PIN_DATA(1, 13) /*!< Specify PB.13 Pin Data Input/Output \hideinitializer */
 #define PB10                     GPIO_PIN_DATA(1, 10) /*!< Specify PB.13 Pin Data Input/Output \hideinitializer */
 #define PB11                     GPIO_PIN_DATA(1, 11) /*!< Specify PB.13 Pin Data Input/Output \hideinitializer */
+#define PB9                      GPIO_PIN_DATA(1, 9) /*!< Specify PB.13 Pin Data Input/Output \hideinitializer */
 
 #ifdef WEAK_VK_DISP_MIPI_LCD_IO_INIT
 void vk_disp_mipi_lcd_io_init(vk_disp_mipi_lcd_t *disp_mipi_lcd)
 {
-    SYS->GPB_MFPH = SYS->GPB_MFPH & ~(  SYS_GPB_MFPH_PB10MFP_Msk
-                                      | SYS_GPB_MFPH_PB12MFP_Msk
-                                      | SYS_GPB_MFPH_PB13MFP_Msk
-                                      | SYS_GPB_MFPH_PB14MFP_Msk
-                                      | SYS_GPB_MFPH_PB15MFP_Msk )
-
-                                      | (0x04UL << SYS_GPB_MFPH_PB12MFP_Pos)
-                                      | (0x00UL << SYS_GPB_MFPH_PB13MFP_Pos) //| (0x04UL << SYS_GPB_MFPH_PB13MFP_Pos)
-                                      | (0x00UL << SYS_GPB_MFPH_PB10MFP_Pos)
-                                      | (0x04UL << SYS_GPB_MFPH_PB14MFP_Pos)
-                                      | (0x04UL << SYS_GPB_MFPH_PB15MFP_Pos);
-    PB->SMTEN  |= GPIO_SMTEN_SMTEN15_Msk;
-    PB->SLEWCTL = (PB->SLEWCTL & 0x00FFFFFF) | 0x55100000;
-    PB->MODE = PB->MODE & ~(0x03 << 26) | (0x01 << 26);                // force MOSI as GPIO
-    PB->MODE = PB->MODE & ~(0x03 << 20) | (0x01 << 20);                // PB10
-
-
-    SYS->GPB_MFPH = SYS->GPB_MFPH & ~(  SYS_GPB_MFPH_PB10MFP_Msk
-                                      | SYS_GPB_MFPH_PB12MFP_Msk
-                                      | SYS_GPB_MFPH_PB13MFP_Msk
-                                      | SYS_GPB_MFPH_PB14MFP_Msk
-                                      | SYS_GPB_MFPH_PB15MFP_Msk )
-
-                                      | (0x04UL << SYS_GPB_MFPH_PB12MFP_Pos)
-                                      | (0x00UL << SYS_GPB_MFPH_PB13MFP_Pos) //| (0x04UL << SYS_GPB_MFPH_PB13MFP_Pos)
-                                      | (0x00UL << SYS_GPB_MFPH_PB10MFP_Pos)
-                                      | (0x04UL << SYS_GPB_MFPH_PB14MFP_Pos)
-                                      | (0x04UL << SYS_GPB_MFPH_PB15MFP_Pos);
-    PB->SMTEN  |= GPIO_SMTEN_SMTEN15_Msk;
-    PB->SLEWCTL = (PB->SLEWCTL & 0x00FFFFFF) | 0x55100000;
-    PB->MODE = PB->MODE & ~(0x03 << 26) | (0x01 << 26);                // force MOSI as GPIO
-    PB->MODE = PB->MODE & ~(0x03 << 20) | (0x01 << 20);                // PB10
-
-    // PB10 PB11 as gpio
     SYS->GPB_MFPH = SYS->GPB_MFPH & ~(  SYS_GPB_MFPH_PB9MFP_Msk
                                       | SYS_GPB_MFPH_PB10MFP_Msk
-                                      | SYS_GPB_MFPH_PB11MFP_Msk)
+                                      | SYS_GPB_MFPH_PB11MFP_Msk
+                                      | SYS_GPB_MFPH_PB12MFP_Msk
+                                      | SYS_GPB_MFPH_PB13MFP_Msk
+                                      | SYS_GPB_MFPH_PB14MFP_Msk
+                                      | SYS_GPB_MFPH_PB15MFP_Msk )
+
                                       | (0x00UL << SYS_GPB_MFPH_PB9MFP_Pos)
                                       | (0x00UL << SYS_GPB_MFPH_PB10MFP_Pos)
-                                      | (0x00UL << SYS_GPB_MFPH_PB11MFP_Pos);
+                                      | (0x00UL << SYS_GPB_MFPH_PB11MFP_Pos)
+                                      | (0x04UL << SYS_GPB_MFPH_PB12MFP_Pos)
+                                      | (0x00UL << SYS_GPB_MFPH_PB13MFP_Pos) //| (0x04UL << SYS_GPB_MFPH_PB13MFP_Pos)
+                                      | (0x04UL << SYS_GPB_MFPH_PB14MFP_Pos)
+                                      | (0x04UL << SYS_GPB_MFPH_PB15MFP_Pos);
+    PB->SMTEN  |= GPIO_SMTEN_SMTEN15_Msk;
+
     // high speed
-    PB->SLEWCTL = (PB->SLEWCTL & ~(GPIO_SLEWCTL_HSREN9_Msk | GPIO_SLEWCTL_HSREN10_Msk | GPIO_SLEWCTL_HSREN11_Msk))
-                    | (0x1UL << GPIO_SLEWCTL_HSREN9_Pos)
-                    | (0x1UL << GPIO_SLEWCTL_HSREN10_Pos)
-                    | (0x1UL << GPIO_SLEWCTL_HSREN11_Pos) ;
+    PB->SLEWCTL = (PB->SLEWCTL & ~(   GPIO_SLEWCTL_HSREN9_Msk
+                                    | GPIO_SLEWCTL_HSREN10_Msk
+                                    | GPIO_SLEWCTL_HSREN11_Msk
+                                    | GPIO_SLEWCTL_HSREN12_Msk
+                                    | GPIO_SLEWCTL_HSREN13_Msk
+                                    | GPIO_SLEWCTL_HSREN14_Msk
+                                    | GPIO_SLEWCTL_HSREN15_Msk))
+
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN9_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN10_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN11_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN12_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN13_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN14_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN15_Pos);
 
     // input or ouput
-    PB->MODE = PB->MODE & ~(GPIO_MODE_MODE10_Msk | GPIO_MODE_MODE11_Msk)
-                | (0x01 << GPIO_MODE_MODE9_Pos)  // output
-                | (0x01 << GPIO_MODE_MODE10_Pos)  // output
-                | (0x00 << GPIO_MODE_MODE11_Pos); // input
+    PB->MODE = PB->MODE & ~(  GPIO_MODE_MODE9_Pos
+                            | GPIO_MODE_MODE10_Msk
+                            | GPIO_MODE_MODE11_Msk
+                            | GPIO_MODE_MODE13_Msk)
+
+                            | (0x01 << GPIO_MODE_MODE9_Pos)  // output
+                            | (0x01 << GPIO_MODE_MODE10_Pos)  // output
+                            | (0x00 << GPIO_MODE_MODE11_Pos)  // input
+                            | (0x01 << GPIO_MODE_MODE13_Pos); // output
 }
 #endif
 
@@ -128,15 +123,52 @@ void vk_disp_mipi_lcd_hw_reset(vk_disp_mipi_lcd_t *disp_mipi_lcd, bool level)
 
 void vk_disp_mipi_lcd_dcx_set(vk_disp_mipi_lcd_t *disp_mipi_lcd, bool state)
 {
-    PB13 = state;
+    if (&usrapp_ui_common.disp_mipi_lcd == disp_mipi_lcd) {
+        PB13 = state;
+    }
 }
 
 void vk_disp_mipi_te_line_interrupt_enable_once(vk_disp_mipi_lcd_t *disp_mipi_lcd)
 {
-    while (PB11 != 0);
-    while (PB11 == 0);
-
+    if (&usrapp_ui_common.disp_mipi_lcd == disp_mipi_lcd) {
+        while (PB11 != 0);
+        while (PB11 == 0);
+    }
     vk_disp_mipi_tearing_effect_line_ready(disp_mipi_lcd);
+}
+#endif
+
+#ifdef WEAK_VSF_MULTI_SPI_CS_ACTIVE
+void vsf_multi_spi_cs_active(vsf_spi_cs_t* spi_cs_ptr,
+                            uint8_t cs,
+                            uint_fast8_t index)
+{
+    VSF_HAL_ASSERT(cs < VSF_MULTI_SPI_MAX_CS);
+    VSF_HAL_ASSERT(spi_cs_ptr != NULL);
+    VSF_HAL_ASSERT(spi_cs_ptr->spi != NULL);
+
+    if (cs == 0) {
+        vsf_spi_cs_active(spi_cs_ptr->spi, index);
+    } else {
+        PB9 = 0;
+    }
+}
+#endif
+
+#ifdef WEAK_VSF_MULTI_SPI_CS_INACTIVE
+void vsf_multi_spi_cs_inactive(vsf_spi_cs_t* spi_cs_ptr,
+                              uint8_t cs,
+                              uint_fast8_t index)
+{
+    VSF_HAL_ASSERT(cs < VSF_MULTI_SPI_MAX_CS);
+    VSF_HAL_ASSERT(spi_cs_ptr != NULL);
+    VSF_HAL_ASSERT(spi_cs_ptr->spi != NULL);
+
+    if (cs == 0) {
+        vsf_spi_cs_inactive(spi_cs_ptr->spi, index);
+    } else {
+        PB9 = 1;
+    }
 }
 #endif
 
@@ -216,6 +248,37 @@ static void __disp_demo_evthandler(vsf_eda_t* eda, vsf_evt_t evt)
     }
 }
 
+static void __disp_fake_demo_evthandler(vsf_eda_t* eda, vsf_evt_t evt)
+{
+    static uint16_t __color_buf[10 * 10];
+    static vk_disp_area_t __disp_area = {
+        .pos = {
+            .x = 0,
+            .y = 0,
+        },
+        .size = {
+            .x = 10,
+            .y = 10,
+        },
+    };
+
+    vk_disp_t * disp = usrapp_ui_common.disp_fake;
+    VSF_ASSERT(NULL != eda);
+
+    switch (evt) {
+    case VSF_EVT_INIT:
+        disp->ui_data = eda;
+        disp->ui_on_ready = __vk_disp_on_ready;
+        vk_disp_init(disp);
+        break;
+
+    case VSF_EVT_MESSAGE:
+        vk_disp_refresh(disp, &__disp_area, __color_buf);
+        break;
+    }
+}
+
+
 #if APP_USE_LINUX_DEMO == ENABLED
 int disp_main(int argc, char *argv[])
 {
@@ -235,6 +298,15 @@ int VSF_USER_ENTRY(void)
         .priority = APP_DISP_DEMO_PRIO,
     };
     vsf_teda_start(&__disp_task, (vsf_eda_cfg_t*)&cfg);
+
+    {
+        const vsf_eda_cfg_t cfg = {
+            .fn.evthandler = __disp_fake_demo_evthandler,
+            .priority = vsf_prio_1,
+        };
+        vsf_teda_start(&__disp_fake_task, (vsf_eda_cfg_t*)&cfg);
+    }
+
 
     return 0;
 }

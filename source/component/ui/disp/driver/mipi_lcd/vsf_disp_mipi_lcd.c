@@ -31,7 +31,7 @@
 
 /*============================ MACROS ========================================*/
 #ifndef MIPI_LCD_SPI_FREQ
-#   define MIPI_LCD_SPI_FREQ                            (48ul * 1000 * 1000)
+#   define MIPI_LCD_SPI_FREQ                            disp_mipi_lcd->clock_hz//(48ul * 1000 * 1000)
 #endif
 
 #ifndef MIPI_LCD_SPI_PRIO

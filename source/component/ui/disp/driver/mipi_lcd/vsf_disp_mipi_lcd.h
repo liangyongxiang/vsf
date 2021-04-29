@@ -275,6 +275,9 @@ vsf_class(vk_disp_mipi_lcd_t) {
 #else
         vsf_spi_t       *spi;
 #endif
+
+        uint32_t        clock_hz;
+
         const uint8_t   *init_seq;
         const uint16_t  init_seq_len;
     )

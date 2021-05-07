@@ -27,11 +27,11 @@
 /*============================ MACROS ========================================*/
 
 #ifndef APP_DISP_DEMO_CFG_WIDTH
-#   define APP_DISP_DEMO_CFG_WIDTH          320
+#   define APP_DISP_DEMO_CFG_WIDTH          80
 #endif
 
 #ifndef APP_DISP_DEMO_CFG_HEIGHT
-#   define APP_DISP_DEMO_CFG_HEIGHT         100
+#   define APP_DISP_DEMO_CFG_HEIGHT         320
 #endif
 
 #ifndef APP_DISP_DEMO_FPS_OUTPUT
@@ -61,57 +61,50 @@ static NO_INIT vsf_teda_t __disp_task;
 #ifdef WEAK_VK_DISP_MIPI_LCD_IO_INIT
 void vk_disp_mipi_lcd_io_init(vk_disp_mipi_lcd_t *disp_mipi_lcd)
 {
-    SYS->GPB_MFPH = SYS->GPB_MFPH & ~(  SYS_GPB_MFPH_PB10MFP_Msk
-                                      | SYS_GPB_MFPH_PB12MFP_Msk
-                                      | SYS_GPB_MFPH_PB13MFP_Msk
-                                      | SYS_GPB_MFPH_PB14MFP_Msk
-                                      | SYS_GPB_MFPH_PB15MFP_Msk )
-
-                                      | (0x04UL << SYS_GPB_MFPH_PB12MFP_Pos)
-                                      | (0x00UL << SYS_GPB_MFPH_PB13MFP_Pos) //| (0x04UL << SYS_GPB_MFPH_PB13MFP_Pos)
-                                      | (0x00UL << SYS_GPB_MFPH_PB10MFP_Pos)
-                                      | (0x04UL << SYS_GPB_MFPH_PB14MFP_Pos)
-                                      | (0x04UL << SYS_GPB_MFPH_PB15MFP_Pos);
-    PB->SMTEN  |= GPIO_SMTEN_SMTEN15_Msk;
-    PB->SLEWCTL = (PB->SLEWCTL & 0x00FFFFFF) | 0x55100000;
-    PB->MODE = PB->MODE & ~(0x03 << 26) | (0x01 << 26);                // force MOSI as GPIO
-    PB->MODE = PB->MODE & ~(0x03 << 20) | (0x01 << 20);                // PB10
-
-
-    SYS->GPB_MFPH = SYS->GPB_MFPH & ~(  SYS_GPB_MFPH_PB10MFP_Msk
-                                      | SYS_GPB_MFPH_PB12MFP_Msk
-                                      | SYS_GPB_MFPH_PB13MFP_Msk
-                                      | SYS_GPB_MFPH_PB14MFP_Msk
-                                      | SYS_GPB_MFPH_PB15MFP_Msk )
-
-                                      | (0x04UL << SYS_GPB_MFPH_PB12MFP_Pos)
-                                      | (0x00UL << SYS_GPB_MFPH_PB13MFP_Pos) //| (0x04UL << SYS_GPB_MFPH_PB13MFP_Pos)
-                                      | (0x00UL << SYS_GPB_MFPH_PB10MFP_Pos)
-                                      | (0x04UL << SYS_GPB_MFPH_PB14MFP_Pos)
-                                      | (0x04UL << SYS_GPB_MFPH_PB15MFP_Pos);
-    PB->SMTEN  |= GPIO_SMTEN_SMTEN15_Msk;
-    PB->SLEWCTL = (PB->SLEWCTL & 0x00FFFFFF) | 0x55100000;
-    PB->MODE = PB->MODE & ~(0x03 << 26) | (0x01 << 26);                // force MOSI as GPIO
-    PB->MODE = PB->MODE & ~(0x03 << 20) | (0x01 << 20);                // PB10
-
-    // PB10 PB11 as gpio
     SYS->GPB_MFPH = SYS->GPB_MFPH & ~(  SYS_GPB_MFPH_PB9MFP_Msk
                                       | SYS_GPB_MFPH_PB10MFP_Msk
-                                      | SYS_GPB_MFPH_PB11MFP_Msk)
+                                      | SYS_GPB_MFPH_PB11MFP_Msk
+                                      | SYS_GPB_MFPH_PB12MFP_Msk
+                                      | SYS_GPB_MFPH_PB13MFP_Msk
+                                      | SYS_GPB_MFPH_PB14MFP_Msk
+                                      | SYS_GPB_MFPH_PB15MFP_Msk )
+
                                       | (0x00UL << SYS_GPB_MFPH_PB9MFP_Pos)
                                       | (0x00UL << SYS_GPB_MFPH_PB10MFP_Pos)
-                                      | (0x00UL << SYS_GPB_MFPH_PB11MFP_Pos);
+                                      | (0x00UL << SYS_GPB_MFPH_PB11MFP_Pos)
+                                      | (0x04UL << SYS_GPB_MFPH_PB12MFP_Pos)
+                                      | (0x00UL << SYS_GPB_MFPH_PB13MFP_Pos) //| (0x04UL << SYS_GPB_MFPH_PB13MFP_Pos)
+                                      | (0x04UL << SYS_GPB_MFPH_PB14MFP_Pos)
+                                      | (0x04UL << SYS_GPB_MFPH_PB15MFP_Pos);
+    PB->SMTEN  |= GPIO_SMTEN_SMTEN15_Msk;
+
     // high speed
-    PB->SLEWCTL = (PB->SLEWCTL & ~(GPIO_SLEWCTL_HSREN9_Msk | GPIO_SLEWCTL_HSREN10_Msk | GPIO_SLEWCTL_HSREN11_Msk))
-                    | (0x1UL << GPIO_SLEWCTL_HSREN9_Pos)
-                    | (0x1UL << GPIO_SLEWCTL_HSREN10_Pos)
-                    | (0x1UL << GPIO_SLEWCTL_HSREN11_Pos) ;
+    PB->SLEWCTL = (PB->SLEWCTL & ~(   GPIO_SLEWCTL_HSREN9_Msk
+                                    | GPIO_SLEWCTL_HSREN10_Msk
+                                    | GPIO_SLEWCTL_HSREN11_Msk
+                                    | GPIO_SLEWCTL_HSREN12_Msk
+                                    | GPIO_SLEWCTL_HSREN13_Msk
+                                    | GPIO_SLEWCTL_HSREN14_Msk
+                                    | GPIO_SLEWCTL_HSREN15_Msk))
+
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN9_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN10_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN11_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN12_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN13_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN14_Pos)
+                                    | (0x1UL << GPIO_SLEWCTL_HSREN15_Pos);
 
     // input or ouput
-    PB->MODE = PB->MODE & ~(GPIO_MODE_MODE10_Msk | GPIO_MODE_MODE11_Msk)
-                | (0x01 << GPIO_MODE_MODE9_Pos)  // output
-                | (0x01 << GPIO_MODE_MODE10_Pos)  // output
-                | (0x00 << GPIO_MODE_MODE11_Pos); // input
+    PB->MODE = PB->MODE & ~(  GPIO_MODE_MODE9_Pos
+                            | GPIO_MODE_MODE10_Msk
+                            | GPIO_MODE_MODE11_Msk
+                            | GPIO_MODE_MODE13_Msk)
+
+                            | (0x01 << GPIO_MODE_MODE9_Pos)  // output
+                            | (0x01 << GPIO_MODE_MODE10_Pos)  // output
+                            | (0x00 << GPIO_MODE_MODE11_Pos)  // input
+                            | (0x01 << GPIO_MODE_MODE13_Pos); // output
 }
 #endif
 
@@ -209,6 +202,9 @@ static void __disp_demo_evthandler(vsf_eda_t* eda, vsf_evt_t evt)
         break;
 
     case VSF_EVT_MESSAGE:
+        //vsf_teda_set_timer_ms(1000);
+        //break;
+    case VSF_EVT_TIMER:
         __disp_demo_update_buffer(__color_buf, dimof(__color_buf));
         vk_disp_refresh(disp, &__disp_area, __color_buf);
         __disp_demo_fps_dump();

@@ -185,10 +185,13 @@
 #   define WEAK_VK_DISP_MIPI_LCD_IO_INIT
 #   define VK_DISP_MIPI_LCD_SUPPORT_HARDWARE_RESET      ENABLED
 
+
+#   define APP_DISP_DEMO_COLOR                          VSF_DISP_COLOR_RGB565
 #   define APP_DISP_DEMO_HEIGHT                         320
 #   define APP_DISP_DEMO_WIDTH                          240
-#   define APP_DISP_DEMO_COLOR                          VSF_DISP_COLOR_RGB565
-#   define APP_DISP_DEMO_SEQ                            VSF_DISP_MIPI_LCD_ILI9341
+//#   define APP_DISP_DEMO_SEQ                            VSF_DISP_MIPI_LCD_ILI9341
+#   define APP_DISP_DEMO_SEQ                            VSF_DISP_MIPI_LCD_ST7789V
+
 
 #define VSF_USE_UI                                      ENABLED
 

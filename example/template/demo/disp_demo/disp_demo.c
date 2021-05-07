@@ -202,8 +202,8 @@ static void __disp_demo_evthandler(vsf_eda_t* eda, vsf_evt_t evt)
         break;
 
     case VSF_EVT_MESSAGE:
-        //vsf_teda_set_timer_ms(1000);
-        //break;
+        vsf_teda_set_timer_ms(500);
+        break;
     case VSF_EVT_TIMER:
         __disp_demo_update_buffer(__color_buf, dimof(__color_buf));
         vk_disp_refresh(disp, &__disp_area, __color_buf);

@@ -98,9 +98,9 @@ $(function() {
 <div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="vsf__audio_8h.html#aca9316f646ed225e105beaace2e73208">   50</a></span>&#160;} <a class="code" href="vsf__audio_8h.html#aca9316f646ed225e105beaace2e73208">vk_audio_stream_drv_t</a>;</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
 <div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classvk__audio__drv__t.html">   52</a></span>&#160;<a class="code" href="ooc__class_8h.html#a62f3fe6fb9699483707f5352d777f2f0">vsf_class</a>(<a class="code" href="classvk__audio__drv__t.html">vk_audio_drv_t</a>) {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="____vk__tgui__slider_8h.html#a18a08e9b63d9280e8ea55441982d45f9">protected_member</a>(</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    protected_member(</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <a class="code" href="vsf__component__cfg_8h.html#a9e64f7b80402f0ed4368d8012bac8ecb">vsf_peda_evthandler_t</a>   init;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    )</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classvk__audio__drv__t.html#a50ab4529c50765d02b85e3b2422f55fe">   55</a></span>&#160;    )</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="structvk__audio__format__t.html">   58</a></span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structvk__audio__format__t.html">vk_audio_format_t</a> {</div>
@@ -124,7 +124,7 @@ $(function() {
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        vsf_arch_prio_t         hw_prio;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <a class="code" href="arm_2type_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a>                 stream_num;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <a class="code" href="structvk__audio__stream__t.html">vk_audio_stream_t</a>       stream[0];</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    )</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classvk__audio__dev__t.html#a047c5cd46c20b6e92dd2b5790cdc2550">   79</a></span>&#160;    )</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
 <div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="vsf__audio_8h.html#a16a003083c7af1e6af19dc79e2060372">   82</a></span>&#160;<a class="code" href="vsf__audio_8h.html#a16a003083c7af1e6af19dc79e2060372">__vsf_component_peda_ifs</a>(<a class="code" href="vsf__audio_8h.html#adce5ebb036d84eb254da5341b1923c1f">vk_audio_init</a>)</div>
@@ -164,13 +164,12 @@ $(function() {
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="preprocessor">#endif      </span><span class="comment">// VSF_USE_AUDIO</span></div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="preprocessor">#endif      </span><span class="comment">// __VSF_AUDIO_H__</span></div>
 <div class="ttc" id="a____type_8h_html_ac6c55e737799b5e73899ccfae13b98e4"><div class="ttname"><a href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a></div><div class="ttdeci">vsf_err_t</div><div class="ttdef"><b>Definition:</b> __type.h:42</div></div>
-<div class="ttc" id="a____vk__tgui__slider_8h_html_a18a08e9b63d9280e8ea55441982d45f9"><div class="ttname"><a href="____vk__tgui__slider_8h.html#a18a08e9b63d9280e8ea55441982d45f9">protected_member</a></div><div class="ttdeci">protected_member(struct { int16_t iTarget;int16_t iCurrent;int16_t iResidual;} tPosition;) vsf_tgui_timer_t tSlideTimer</div></div>
 <div class="ttc" id="aarm_2type_8h_html_a273cf69d639a59973b6019625df33e30"><div class="ttname"><a href="arm_2type_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a></div><div class="ttdeci">unsigned short uint16_t</div><div class="ttdef"><b>Definition:</b> type.h:32</div></div>
 <div class="ttc" id="aarm_2type_8h_html_aba7bc1797add20fe3efdf37ced1182c5"><div class="ttname"><a href="arm_2type_8h.html#aba7bc1797add20fe3efdf37ced1182c5">uint8_t</a></div><div class="ttdeci">unsigned char uint8_t</div><div class="ttdef"><b>Definition:</b> type.h:27</div></div>
 <div class="ttc" id="aarm_2type_8h_html_ad0906fbe05a45fbdb000c58fe8929e70"><div class="ttname"><a href="arm_2type_8h.html#ad0906fbe05a45fbdb000c58fe8929e70">uint_fast8_t</a></div><div class="ttdeci">unsigned int uint_fast8_t</div><div class="ttdef"><b>Definition:</b> type.h:29</div></div>
 <div class="ttc" id="aclassvk__audio__dev__t_html"><div class="ttname"><a href="classvk__audio__dev__t.html">vk_audio_dev_t</a></div><div class="ttdef"><b>Definition:</b> vsf_audio.h:73</div></div>
 <div class="ttc" id="aclassvk__audio__drv__t_html"><div class="ttname"><a href="classvk__audio__drv__t.html">vk_audio_drv_t</a></div><div class="ttdef"><b>Definition:</b> vsf_audio.h:52</div></div>
-<div class="ttc" id="aclassvsf__stream__t_html"><div class="ttname"><a href="classvsf__stream__t.html">vsf_stream_t</a></div><div class="ttdef"><b>Definition:</b> vsf_simple_stream.h:123</div></div>
+<div class="ttc" id="aclassvsf__stream__t_html"><div class="ttname"><a href="classvsf__stream__t.html">vsf_stream_t</a></div><div class="ttdef"><b>Definition:</b> vsf_simple_stream.h:203</div></div>
 <div class="ttc" id="aooc__class_8h_html"><div class="ttname"><a href="ooc__class_8h.html">ooc_class.h</a></div></div>
 <div class="ttc" id="aooc__class_8h_html_a62f3fe6fb9699483707f5352d777f2f0"><div class="ttname"><a href="ooc__class_8h.html#a62f3fe6fb9699483707f5352d777f2f0">vsf_class</a></div><div class="ttdeci">#define vsf_class(__name)</div><div class="ttdef"><b>Definition:</b> ooc_class.h:33</div></div>
 <div class="ttc" id="astructvk__audio__format__t_html"><div class="ttname"><a href="structvk__audio__format__t.html">vk_audio_format_t</a></div><div class="ttdef"><b>Definition:</b> vsf_audio.h:58</div></div>

@@ -355,7 +355,7 @@ Macros</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line">            <a class="code" href="vsf__eda_8h.html#a5a41340d536d1d301822b160ccbd0d1e">dcl_vsf_peda_ctx</a>(__peda_name)                                       \</div>
 <div class="line">            def_vsf_peda_ctx(__peda_name,                                       \</div>
 <div class="line">                <a class="code" href="vsf__eda_8h.html#a7a5185bc6ab661fae2b983a9419ca564">def_args</a>(                                                       \</div>
-<div class="line">                    <a class="code" href="vsf__tgui__control_8h.html#ab22607f667714f8d9845cb5d50f98493">implement</a>(<a class="code" href="vsf__eda_8h.html#a7cf725ab8706059a445fdc092cc5eabc">vsf_peda_arg</a>(__ifs_name))                         \</div>
+<div class="line">                    implement(<a class="code" href="vsf__eda_8h.html#a7cf725ab8706059a445fdc092cc5eabc">vsf_peda_arg</a>(__ifs_name))                         \</div>
 <div class="line">                )                                                               \</div>
 <div class="line">                <a class="code" href="vsf__eda_8h.html#aa7f01b9dfc5d4dac9bbcd44afbee9661">def_locals</a>(                                                     \</div>
 <div class="line">                    __VA_ARGS__                                                 \</div>
@@ -366,7 +366,6 @@ Macros</h2></td></tr>
 <div class="ttc" id="avsf__eda_8h_html_a7cf725ab8706059a445fdc092cc5eabc"><div class="ttname"><a href="vsf__eda_8h.html#a7cf725ab8706059a445fdc092cc5eabc">vsf_peda_arg</a></div><div class="ttdeci">#define vsf_peda_arg(__name)</div><div class="ttdef"><b>Definition:</b> vsf_eda.h:169</div></div>
 <div class="ttc" id="avsf__eda_8h_html_aa7f01b9dfc5d4dac9bbcd44afbee9661"><div class="ttname"><a href="vsf__eda_8h.html#aa7f01b9dfc5d4dac9bbcd44afbee9661">def_locals</a></div><div class="ttdeci">#define def_locals(...)</div><div class="ttdef"><b>Definition:</b> vsf_eda.h:474</div></div>
 <div class="ttc" id="avsf__eda_8h_html_add5ed539f8c54f2ec96716fd9fb9c66f"><div class="ttname"><a href="vsf__eda_8h.html#add5ed539f8c54f2ec96716fd9fb9c66f">imp_vsf_peda</a></div><div class="ttdeci">#define imp_vsf_peda(...)</div><div class="ttdef"><b>Definition:</b> vsf_eda.h:542</div></div>
-<div class="ttc" id="avsf__tgui__control_8h_html_ab22607f667714f8d9845cb5d50f98493"><div class="ttname"><a href="vsf__tgui__control_8h.html#ab22607f667714f8d9845cb5d50f98493">implement</a></div><div class="ttdeci">implement(vsf_callback_timer_t) const vsf_tgui_control_t *target_ptr</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -690,14 +689,14 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">            {                                                                   \</div>
-<div class="line">                vsf_peda_arg(__peda_name) <a class="code" href="vsf__msg__tree_8h.html#a47773275be3caf7f6425c3543128387a">_</a> = { __VA_ARGS__ };                  \</div>
+<div class="line">                vsf_peda_arg(__peda_name) <a class="code" href="vsf__msg__tree_8h.html#a4e033cacc200db19fcb4ed1ffaa24da3">_</a> = { __VA_ARGS__ };                  \</div>
 <div class="line">                *(&amp;(__err)) = <a class="code" href="vsf__simple_8h.html#af2f23062a7a5453b1f095a053c399448">vsf_call_peda</a>(__peda_name,                        \</div>
 <div class="line">                                            (<a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a>)(__entry),               \</div>
 <div class="line">                                            (__extra_local_size),               \</div>
 <div class="line">                                            (<a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a>)(__param),               \</div>
-<div class="line">                                            (<a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a>)&amp;<a class="code" href="vsf__msg__tree_8h.html#a47773275be3caf7f6425c3543128387a">_</a>);                     \</div>
+<div class="line">                                            (<a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a>)&amp;<a class="code" href="vsf__msg__tree_8h.html#a4e033cacc200db19fcb4ed1ffaa24da3">_</a>);                     \</div>
 <div class="line">            }</div>
-<div class="ttc" id="avsf__msg__tree_8h_html_a47773275be3caf7f6425c3543128387a"><div class="ttname"><a href="vsf__msg__tree_8h.html#a47773275be3caf7f6425c3543128387a">_</a></div><div class="ttdeci">struct @254::@259 _</div></div>
+<div class="ttc" id="avsf__msg__tree_8h_html_a4e033cacc200db19fcb4ed1ffaa24da3"><div class="ttname"><a href="vsf__msg__tree_8h.html#a4e033cacc200db19fcb4ed1ffaa24da3">_</a></div><div class="ttdeci">struct @298::@303 _</div></div>
 </div><!-- fragment -->
 </div>
 </div>

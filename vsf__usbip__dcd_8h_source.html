@@ -200,13 +200,13 @@ $(function() {
 <div class="line"><a name="l00152"></a><span class="lineno"><a class="line" href="structvk__usbip__dcd__ep__t.html#a47d3e8e8fcfd07b10fbc0f1adf39ac1a">  152</a></span>&#160;        <a class="code" href="arm_2type_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> <a class="code" href="structvk__usbip__dcd__ep__t.html#a47d3e8e8fcfd07b10fbc0f1adf39ac1a">size</a>;</div>
 <div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="structvk__usbip__dcd__ep__t.html#a451992732ff4d83ef742c34b670688cf">  153</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="structvk__usbip__dcd__ep__t.html#a451992732ff4d83ef742c34b670688cf">zlp</a>;</div>
 <div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="structvk__usbip__dcd__ep__t.html#ac49989c101ed924967cf950387c59a9d">  154</a></span>&#160;        <span class="keywordtype">bool</span> <a class="code" href="structvk__usbip__dcd__ep__t.html#ac49989c101ed924967cf950387c59a9d">pending</a>;</div>
-<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="structvk__usbip__dcd__ep__t.html#a2cc052b6e678ca80be7a738f21aaf48c">  155</a></span>&#160;    } <a class="code" href="structvk__usbip__dcd__ep__t.html#a2cc052b6e678ca80be7a738f21aaf48c">transfer</a>;</div>
+<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="structvk__usbip__dcd__ep__t.html#a6f9600a86f5316c0f57a1d97b2a1a9eb">  155</a></span>&#160;    } <a class="code" href="structvk__usbip__dcd__ep__t.html#a6f9600a86f5316c0f57a1d97b2a1a9eb">transfer</a>;</div>
 <div class="line"><a name="l00156"></a><span class="lineno"><a class="line" href="vsf__usbip__dcd_8h.html#aa7b43b93439096e0f869b34824cb1086">  156</a></span>&#160;} <a class="code" href="vsf__usbip__dcd_8h.html#aa7b43b93439096e0f869b34824cb1086">vk_usbip_dcd_ep_t</a>;</div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160; </div>
 <div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="classvk__usbip__dcd__t.html">  158</a></span>&#160;<a class="code" href="ooc__class_8h.html#a62f3fe6fb9699483707f5352d777f2f0">vsf_class</a>(<a class="code" href="classvk__usbip__dcd__t.html">vk_usbip_dcd_t</a>) {</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    public_member(</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <a class="code" href="structvk__usbip__dcd__param__t.html">vk_usbip_dcd_param_t</a> <span class="keyword">const</span> * <span class="keyword">const</span> param;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    )</div>
+<div class="line"><a name="l00161"></a><span class="lineno"><a class="line" href="classvk__usbip__dcd__t.html#a1aec619e5ffb11312bfb98fc271c5555">  161</a></span>&#160;    )</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    private_member(</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <span class="keyword">struct</span> {</div>
@@ -235,14 +235,14 @@ $(function() {
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">#   undef __VSF_USBIP_DCD_CLASS_IMPLEMENT_BACKEND__</span></div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="keyword">enum</span> {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    VSF_USBIP_SERVER_EVT                        = <a class="code" href="vsf__eda_8h.html#af26f449e73437e60d22c20b4f2cb2aceafb9153262c6fa7b1868c65e7fd68ef59">VSF_EVT_USER</a> + 0,</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    VSF_USBIP_SERVER_EVT                        = <a class="code" href="vsf__eda_8h.html#a0c5bde183ecefe103f70b49ad9740bcdafb9153262c6fa7b1868c65e7fd68ef59">VSF_EVT_USER</a> + 0,</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    VSF_USBIP_SERVER_EVT_BACKEND_INIT_DONE      = VSF_USBIP_SERVER_EVT + 0,</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    VSF_USBIP_SERVER_EVT_BACKEND_CONNECTED      = VSF_USBIP_SERVER_EVT + 1,</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    VSF_USBIP_SERVER_EVT_BACKEND_DISCONNECTED   = VSF_USBIP_SERVER_EVT + 2,</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    VSF_USBIP_SERVER_EVT_BACKEND_RECV_DONE      = VSF_USBIP_SERVER_EVT + 3,</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    VSF_USBIP_SERVER_EVT_BACKEND_SEND_DONE      = VSF_USBIP_SERVER_EVT + 4,</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    VSF_USBIP_USBD_EVT                          = <a class="code" href="vsf__eda_8h.html#af26f449e73437e60d22c20b4f2cb2aceafb9153262c6fa7b1868c65e7fd68ef59">VSF_EVT_USER</a> + 0x10,</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    VSF_USBIP_USBD_EVT                          = <a class="code" href="vsf__eda_8h.html#a0c5bde183ecefe103f70b49ad9740bcdafb9153262c6fa7b1868c65e7fd68ef59">VSF_EVT_USER</a> + 0x10,</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;};</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>vk_usbip_rep_ifs_t {</div>
@@ -289,7 +289,7 @@ $(function() {
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="comment">// OP_REQ_DEVLIST</span></div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>vk_usbip_req_devlist_t {</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <a class="code" href="vsf__tgui__control_8h.html#ab22607f667714f8d9845cb5d50f98493">implement</a>(vk_usbip_op_common_t)</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    implement(vk_usbip_op_common_t)</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;} <a class="code" href="vsf__malfs_8c.html#af11eb5c92113b11905b4bad9c321f846">PACKED</a> vk_usbip_req_devlist_t;</div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="comment">// OP_REP_DEVLIST</span></div>
@@ -297,13 +297,13 @@ $(function() {
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment">//  vk_usbip_rep_dev_t[devnum]</span></div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment">//  vk_usbip_rep_devlist_ifs_t[bNumInterfaces]</span></div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>vk_usbip_rep_devlist_t {</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <a class="code" href="vsf__tgui__control_8h.html#ab22607f667714f8d9845cb5d50f98493">implement</a>(vk_usbip_op_common_t)</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    implement(vk_usbip_op_common_t)</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <a class="code" href="arm_2type_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>    devnum;     <span class="comment">// number of devices</span></div>
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;} <a class="code" href="vsf__malfs_8c.html#af11eb5c92113b11905b4bad9c321f846">PACKED</a> vk_usbip_rep_devlist_t;</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="comment">// OP_REQ_IMPORT</span></div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>vk_usbip_req_import_t {</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <a class="code" href="vsf__tgui__control_8h.html#ab22607f667714f8d9845cb5d50f98493">implement</a>(vk_usbip_op_common_t)</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    implement(vk_usbip_op_common_t)</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keywordtype">char</span>        busid[32];</div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;} <a class="code" href="vsf__malfs_8c.html#af11eb5c92113b11905b4bad9c321f846">PACKED</a> vk_usbip_req_import_t;</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
@@ -311,7 +311,7 @@ $(function() {
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="comment">//  vk_usbip_rep_import_t</span></div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="comment">//  vk_usbip_rep_dev_t</span></div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span>vk_usbip_rep_import_t {</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <a class="code" href="vsf__tgui__control_8h.html#ab22607f667714f8d9845cb5d50f98493">implement</a>(vk_usbip_op_common_t)</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    implement(vk_usbip_op_common_t)</div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;} <a class="code" href="vsf__malfs_8c.html#af11eb5c92113b11905b4bad9c321f846">PACKED</a> vk_usbip_rep_import_t;</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="comment">// USBIP_CMD_SUBMIT</span></div>
@@ -514,10 +514,10 @@ $(function() {
 <div class="ttc" id="astructusb__ctrlrequest__t_html"><div class="ttname"><a href="structusb__ctrlrequest__t.html">usb_ctrlrequest_t</a></div><div class="ttdef"><b>Definition:</b> usb_common.h:85</div></div>
 <div class="ttc" id="astructvk__usbip__dcd__ep__t_html"><div class="ttname"><a href="structvk__usbip__dcd__ep__t.html">vk_usbip_dcd_ep_t</a></div><div class="ttdef"><b>Definition:</b> vsf_usbip_dcd.h:143</div></div>
 <div class="ttc" id="astructvk__usbip__dcd__ep__t_html_a20ad1d201784c84cd44b9a007d3e6e32"><div class="ttname"><a href="structvk__usbip__dcd__ep__t.html#a20ad1d201784c84cd44b9a007d3e6e32">vk_usbip_dcd_ep_t::mem</a></div><div class="ttdeci">vsf_mem_t mem</div><div class="ttdef"><b>Definition:</b> vsf_usbip_dcd.h:151</div></div>
-<div class="ttc" id="astructvk__usbip__dcd__ep__t_html_a2cc052b6e678ca80be7a738f21aaf48c"><div class="ttname"><a href="structvk__usbip__dcd__ep__t.html#a2cc052b6e678ca80be7a738f21aaf48c">vk_usbip_dcd_ep_t::transfer</a></div><div class="ttdeci">struct vk_usbip_dcd_ep_t::@113 transfer</div></div>
 <div class="ttc" id="astructvk__usbip__dcd__ep__t_html_a451992732ff4d83ef742c34b670688cf"><div class="ttname"><a href="structvk__usbip__dcd__ep__t.html#a451992732ff4d83ef742c34b670688cf">vk_usbip_dcd_ep_t::zlp</a></div><div class="ttdeci">bool zlp</div><div class="ttdef"><b>Definition:</b> vsf_usbip_dcd.h:153</div></div>
 <div class="ttc" id="astructvk__usbip__dcd__ep__t_html_a47d3e8e8fcfd07b10fbc0f1adf39ac1a"><div class="ttname"><a href="structvk__usbip__dcd__ep__t.html#a47d3e8e8fcfd07b10fbc0f1adf39ac1a">vk_usbip_dcd_ep_t::size</a></div><div class="ttdeci">uint32_t size</div><div class="ttdef"><b>Definition:</b> vsf_usbip_dcd.h:152</div></div>
 <div class="ttc" id="astructvk__usbip__dcd__ep__t_html_a67723cad14ac46658382eabf9ec0f77c"><div class="ttname"><a href="structvk__usbip__dcd__ep__t.html#a67723cad14ac46658382eabf9ec0f77c">vk_usbip_dcd_ep_t::size</a></div><div class="ttdeci">uint16_t size</div><div class="ttdef"><b>Definition:</b> vsf_usbip_dcd.h:144</div></div>
+<div class="ttc" id="astructvk__usbip__dcd__ep__t_html_a6f9600a86f5316c0f57a1d97b2a1a9eb"><div class="ttname"><a href="structvk__usbip__dcd__ep__t.html#a6f9600a86f5316c0f57a1d97b2a1a9eb">vk_usbip_dcd_ep_t::transfer</a></div><div class="ttdeci">struct vk_usbip_dcd_ep_t::@142 transfer</div></div>
 <div class="ttc" id="astructvk__usbip__dcd__ep__t_html_a7c63de1fbfe762fd5174b9035339d0cf"><div class="ttname"><a href="structvk__usbip__dcd__ep__t.html#a7c63de1fbfe762fd5174b9035339d0cf">vk_usbip_dcd_ep_t::urb_list</a></div><div class="ttdeci">vsf_dlist_t urb_list</div><div class="ttdef"><b>Definition:</b> vsf_usbip_dcd.h:149</div></div>
 <div class="ttc" id="astructvk__usbip__dcd__ep__t_html_a8400229444ae08b00bf3248e21e683e1"><div class="ttname"><a href="structvk__usbip__dcd__ep__t.html#a8400229444ae08b00bf3248e21e683e1">vk_usbip_dcd_ep_t::type</a></div><div class="ttdeci">usb_ep_type_t type</div><div class="ttdef"><b>Definition:</b> vsf_usbip_dcd.h:145</div></div>
 <div class="ttc" id="astructvk__usbip__dcd__ep__t_html_aa32b4cf3722bc1eff919ecdd4f0f2a7d"><div class="ttname"><a href="structvk__usbip__dcd__ep__t.html#aa32b4cf3722bc1eff919ecdd4f0f2a7d">vk_usbip_dcd_ep_t::is_stalled</a></div><div class="ttdeci">bool is_stalled</div><div class="ttdef"><b>Definition:</b> vsf_usbip_dcd.h:146</div></div>
@@ -531,13 +531,12 @@ $(function() {
 <div class="ttc" id="aunistd_8h_html_af3cee068f32a919cdd638e0578c1e5f8"><div class="ttname"><a href="unistd_8h.html#af3cee068f32a919cdd638e0578c1e5f8">unlink</a></div><div class="ttdeci">int unlink(const char *pathname)</div></div>
 <div class="ttc" id="ausb__common_8h_html"><div class="ttname"><a href="usb__common_8h.html">usb_common.h</a></div></div>
 <div class="ttc" id="avsf__audio_8h_html_ad64e18f867699b8e854388de816016af"><div class="ttname"><a href="vsf__audio_8h.html#ad64e18f867699b8e854388de816016af">type</a></div><div class="ttdeci">vk_av_control_type_t type</div><div class="ttdef"><b>Definition:</b> vsf_audio.h:85</div></div>
-<div class="ttc" id="avsf__eda_8h_html_af26f449e73437e60d22c20b4f2cb2aceafb9153262c6fa7b1868c65e7fd68ef59"><div class="ttname"><a href="vsf__eda_8h.html#af26f449e73437e60d22c20b4f2cb2aceafb9153262c6fa7b1868c65e7fd68ef59">VSF_EVT_USER</a></div><div class="ttdeci">@ VSF_EVT_USER</div><div class="ttdef"><b>Definition:</b> vsf_eda.h:588</div></div>
+<div class="ttc" id="avsf__eda_8h_html_a0c5bde183ecefe103f70b49ad9740bcdafb9153262c6fa7b1868c65e7fd68ef59"><div class="ttname"><a href="vsf__eda_8h.html#a0c5bde183ecefe103f70b49ad9740bcdafb9153262c6fa7b1868c65e7fd68ef59">VSF_EVT_USER</a></div><div class="ttdeci">@ VSF_EVT_USER</div><div class="ttdef"><b>Definition:</b> vsf_eda.h:588</div></div>
 <div class="ttc" id="avsf__kernel_8h_html"><div class="ttname"><a href="vsf__kernel_8h.html">vsf_kernel.h</a></div></div>
 <div class="ttc" id="avsf__malfs_8c_html_af11eb5c92113b11905b4bad9c321f846"><div class="ttname"><a href="vsf__malfs_8c.html#af11eb5c92113b11905b4bad9c321f846">PACKED</a></div><div class="ttdeci">struct vk_malfs_dpt_t PACKED</div></div>
 <div class="ttc" id="avsf__memfs_8h_html_ab2c6b258f02add8fdf4cfc7c371dd772"><div class="ttname"><a href="vsf__memfs_8h.html#ab2c6b258f02add8fdf4cfc7c371dd772">size</a></div><div class="ttdeci">uint32_t size</div><div class="ttdef"><b>Definition:</b> vsf_memfs.h:49</div></div>
 <div class="ttc" id="avsf__msg__tree_8h_html_a0b57aa10271a66f3dc936bba1d2f3830"><div class="ttname"><a href="vsf__msg__tree_8h.html#a0b57aa10271a66f3dc936bba1d2f3830">state</a></div><div class="ttdeci">uint8_t state</div><div class="ttdef"><b>Definition:</b> vsf_msg_tree.h:247</div></div>
 <div class="ttc" id="avsf__tgui_8h_html_ade818037fd6c985038ff29656089758d"><div class="ttname"><a href="vsf__tgui_8h.html#ade818037fd6c985038ff29656089758d">status</a></div><div class="ttdeci">uint8_t status</div><div class="ttdef"><b>Definition:</b> vsf_tgui.h:122</div></div>
-<div class="ttc" id="avsf__tgui__control_8h_html_ab22607f667714f8d9845cb5d50f98493"><div class="ttname"><a href="vsf__tgui__control_8h.html#ab22607f667714f8d9845cb5d50f98493">implement</a></div><div class="ttdeci">implement(vsf_callback_timer_t) const vsf_tgui_control_t *target_ptr</div></div>
 <div class="ttc" id="avsf__usb__cfg_8h_html"><div class="ttname"><a href="vsf__usb__cfg_8h.html">vsf_usb_cfg.h</a></div></div>
 <div class="ttc" id="avsf__usbip__dcd_8h_html_a2a87dd49c462657bc86eb73c19bf25f7"><div class="ttname"><a href="vsf__usbip__dcd_8h.html#a2a87dd49c462657bc86eb73c19bf25f7">vk_usbip_usbd_ep_transaction_enable_out</a></div><div class="ttdeci">vsf_err_t vk_usbip_usbd_ep_transaction_enable_out(vk_usbip_dcd_t *usbd, uint_fast8_t ep)</div><div class="ttdef"><b>Definition:</b> vsf_usbip_dcd.c:735</div></div>
 <div class="ttc" id="avsf__usbip__dcd_8h_html_a2bd321c2b54f1ad993ecb74ac175b2e9"><div class="ttname"><a href="vsf__usbip__dcd_8h.html#a2bd321c2b54f1ad993ecb74ac175b2e9">vk_usbip_usbd_ep_get_data_size</a></div><div class="ttdeci">uint_fast32_t vk_usbip_usbd_ep_get_data_size(vk_usbip_dcd_t *usbd, uint_fast8_t ep)</div><div class="ttdef"><b>Definition:</b> vsf_usbip_dcd.c:724</div></div>

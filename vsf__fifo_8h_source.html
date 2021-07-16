@@ -211,8 +211,8 @@ $(function() {
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
 <div class="line"><a name="l00172"></a><span class="lineno"><a class="line" href="classvsf__fifo__base__t.html">  172</a></span>&#160;<a class="code" href="ooc__class_8h.html#a62f3fe6fb9699483707f5352d777f2f0">vsf_class</a>(<a class="code" href="classvsf__fifo__base__t.html">vsf_fifo_base_t</a>) {</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    private_member(</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <a class="code" href="vsf__fifo_8h.html#a01f4bb2dc82e096ef4a49ba409fd8fda">vsf_fifo_index_t</a> head;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <a class="code" href="vsf__fifo_8h.html#a01f4bb2dc82e096ef4a49ba409fd8fda">vsf_fifo_index_t</a> tail;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <a class="code" href="vsf__fifo_8h.html#a01f4bb2dc82e096ef4a49ba409fd8fda">vsf_fifo_index_t</a> <a class="code" href="vsf__queue_8h.html#ae0411d119b6e19281b04bbe57cc854bc">head</a>;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <a class="code" href="vsf__fifo_8h.html#a01f4bb2dc82e096ef4a49ba409fd8fda">vsf_fifo_index_t</a> <a class="code" href="vsf__queue_8h.html#ace756213e1bd262b8d63eaf28e6249c9">tail</a>;</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <a class="code" href="vsf__fifo_8h.html#a01f4bb2dc82e096ef4a49ba409fd8fda">vsf_fifo_index_t</a> number;</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        <a class="code" href="vsf__fifo_8h.html#a01f4bb2dc82e096ef4a49ba409fd8fda">vsf_fifo_index_t</a> depth;</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    )</div>
@@ -220,7 +220,7 @@ $(function() {
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
 <div class="line"><a name="l00183"></a><span class="lineno"><a class="line" href="classvsf__fifo__t.html">  183</a></span>&#160;<a class="code" href="ooc__class_8h.html#a62f3fe6fb9699483707f5352d777f2f0">vsf_class</a>(<a class="code" href="classvsf__fifo__t.html">vsf_fifo_t</a>) {</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    private_member(</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <a class="code" href="vsf__tgui__control_8h.html#ab22607f667714f8d9845cb5d50f98493">implement</a>(<a class="code" href="classvsf__fifo__base__t.html">vsf_fifo_base_t</a>)</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        implement(<a class="code" href="classvsf__fifo__base__t.html">vsf_fifo_base_t</a>)</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <a class="code" href="arm_2type_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a> nodes[0];</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    )</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;};</div>
@@ -265,8 +265,9 @@ $(function() {
 <div class="ttc" id="avsf__fifo_8h_html_af040c59e4d2a47a7c13d7af35198ef46"><div class="ttname"><a href="vsf__fifo_8h.html#af040c59e4d2a47a7c13d7af35198ef46">vsf_fifo_init</a></div><div class="ttdeci">void vsf_fifo_init(vsf_fifo_t *fifo, vsf_fifo_fast_index_t fifo_depth)</div><div class="ttdef"><b>Definition:</b> vsf_fifo.c:61</div></div>
 <div class="ttc" id="avsf__msg__tree_8h_html_ace2852557ffa7f64f597d2b77aa26529"><div class="ttname"><a href="vsf__msg__tree_8h.html#ace2852557ffa7f64f597d2b77aa26529">fifo</a></div><div class="ttdeci">__bfs_node_fifo_t fifo</div><div class="ttdef"><b>Definition:</b> vsf_msg_tree.h:247</div></div>
 <div class="ttc" id="avsf__pool_8h_html_ad27d25a00990c74c7bf1cc2bca27b745"><div class="ttname"><a href="vsf__pool_8h.html#ad27d25a00990c74c7bf1cc2bca27b745">item_size</a></div><div class="ttdeci">uintptr_t uint_fast32_t item_size</div><div class="ttdef"><b>Definition:</b> vsf_pool.h:477</div></div>
+<div class="ttc" id="avsf__queue_8h_html_ace756213e1bd262b8d63eaf28e6249c9"><div class="ttname"><a href="vsf__queue_8h.html#ace756213e1bd262b8d63eaf28e6249c9">tail</a></div><div class="ttdeci">uint16_t tail</div><div class="ttdef"><b>Definition:</b> vsf_queue.h:632</div></div>
+<div class="ttc" id="avsf__queue_8h_html_ae0411d119b6e19281b04bbe57cc854bc"><div class="ttname"><a href="vsf__queue_8h.html#ae0411d119b6e19281b04bbe57cc854bc">head</a></div><div class="ttdeci">uint16_t head</div><div class="ttdef"><b>Definition:</b> vsf_queue.h:632</div></div>
 <div class="ttc" id="avsf__service__cfg_8h_html"><div class="ttname"><a href="vsf__service__cfg_8h.html">vsf_service_cfg.h</a></div></div>
-<div class="ttc" id="avsf__tgui__control_8h_html_ab22607f667714f8d9845cb5d50f98493"><div class="ttname"><a href="vsf__tgui__control_8h.html#ab22607f667714f8d9845cb5d50f98493">implement</a></div><div class="ttdeci">implement(vsf_callback_timer_t) const vsf_tgui_control_t *target_ptr</div></div>
 <div class="ttc" id="avsf__utilities_8h_html"><div class="ttname"><a href="vsf__utilities_8h.html">vsf_utilities.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

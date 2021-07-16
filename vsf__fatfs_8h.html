@@ -43,7 +43,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
@@ -60,9 +60,7 @@ $(function() {
 <p><a href="vsf__fatfs_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvk__fat__type__t.html">vk_fat_type_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structvk__fatfs__dentry__parser__t.html">vk_fatfs_dentry_parser_t</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classvk__fatfs__file__t.html">vk_fatfs_file_t</a></td></tr>
@@ -81,13 +79,28 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a7648c8cd40d9fd2ccc6eae1a27a18f12"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classenum.html">enum</a> <a class="el" href="vsf__fatfs_8h.html#afba38d970e31d95540f505b1c42cfff4">vk_fat_file_attr_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__fatfs_8h.html#a7648c8cd40d9fd2ccc6eae1a27a18f12">vk_fat_file_attr_t</a></td></tr>
+<tr class="memitem:a3895e03f73baa09c25e018d59c090e1d"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="vsf__fatfs_8h.html#aaad59c94624b814b9a7ef30a34c099a5">vk_fat_type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__fatfs_8h.html#a3895e03f73baa09c25e018d59c090e1d">vk_fat_type_t</a></td></tr>
+<tr class="separator:a3895e03f73baa09c25e018d59c090e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7648c8cd40d9fd2ccc6eae1a27a18f12"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="vsf__fatfs_8h.html#afba38d970e31d95540f505b1c42cfff4">vk_fat_file_attr_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__fatfs_8h.html#a7648c8cd40d9fd2ccc6eae1a27a18f12">vk_fat_file_attr_t</a></td></tr>
 <tr class="separator:a7648c8cd40d9fd2ccc6eae1a27a18f12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cdd0b3ab3c0a49e452b3eb23158a043"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structvk__fatfs__dentry__parser__t.html">vk_fatfs_dentry_parser_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__fatfs_8h.html#a2cdd0b3ab3c0a49e452b3eb23158a043">vk_fatfs_dentry_parser_t</a></td></tr>
 <tr class="separator:a2cdd0b3ab3c0a49e452b3eb23158a043"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:aaad59c94624b814b9a7ef30a34c099a5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__fatfs_8h.html#aaad59c94624b814b9a7ef30a34c099a5">vk_fat_type_t</a> { <br />
+&#160;&#160;<a class="el" href="vsf__fatfs_8h.html#aaad59c94624b814b9a7ef30a34c099a5acbd87c98ae712d1befcf64846898fe1b">VSF_FAT_NONE</a>
+, <br />
+&#160;&#160;<a class="el" href="vsf__fatfs_8h.html#aaad59c94624b814b9a7ef30a34c099a5a799220edeee50a5e6203d0d84bdda4f5">VSF_FAT_12</a>
+, <br />
+&#160;&#160;<a class="el" href="vsf__fatfs_8h.html#aaad59c94624b814b9a7ef30a34c099a5adf391e24a0243184b2421982f61bb59d">VSF_FAT_16</a>
+, <br />
+&#160;&#160;<a class="el" href="vsf__fatfs_8h.html#aaad59c94624b814b9a7ef30a34c099a5a7183e90a3e8fafd4fa2ab6f0a8986397">VSF_FAT_32</a>
+, <br />
+&#160;&#160;<a class="el" href="vsf__fatfs_8h.html#aaad59c94624b814b9a7ef30a34c099a5ab731c1f6ac6482b1492af9cc396df9c6">VSF_FAT_EX</a>
+<br />
+ }</td></tr>
+<tr class="separator:aaad59c94624b814b9a7ef30a34c099a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afba38d970e31d95540f505b1c42cfff4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__fatfs_8h.html#afba38d970e31d95540f505b1c42cfff4">vk_fat_file_attr_t</a> { <br />
 &#160;&#160;<a class="el" href="vsf__fatfs_8h.html#afba38d970e31d95540f505b1c42cfff4a9938ba17b34f85e5e63d17021dd17c4e">VSF_FAT_FILE_ATTR_VOLUMID</a> = VSF_FILE_ATTR_EXT
 , <br />
@@ -107,8 +120,6 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ad30d4297b577d3d6abb02a37913da935"><td class="memItemLeft" align="right" valign="top">class <a class="el" href="classvk__fatfs__file__t.html">vk_fatfs_file_t</a> class <a class="el" href="class____vk__fatfs__info__t.html">__vk_fatfs_info_t</a> typedef <a class="el" href="classenum.html">enum</a> <a class="el" href="classvk__fat__type__t.html">vk_fat_type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__fatfs_8h.html#ad30d4297b577d3d6abb02a37913da935">vk_fat_type_t</a></td></tr>
-<tr class="separator:ad30d4297b577d3d6abb02a37913da935"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af38e25abcde7ac198fe49c0dea29c8df"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classvk__fs__op__t.html">vk_fs_op_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__fatfs_8h.html#af38e25abcde7ac198fe49c0dea29c8df">vk_fatfs_op</a></td></tr>
 <tr class="separator:af38e25abcde7ac198fe49c0dea29c8df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -138,10 +149,9 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <a class="code" href="vsf__tgui__control_8h.html#ab22607f667714f8d9845cb5d50f98493">implement</a>(<a class="code" href="class____vk__fatfs__info__t.html">__vk_fatfs_info_t</a>)                                                \</div>
+<b>Value:</b><div class="fragment"><div class="line">    implement(<a class="code" href="class____vk__fatfs__info__t.html">__vk_fatfs_info_t</a>)                                                \</div>
 <div class="line">    __implement_malfs_cache(__block_size, __cache_num)</div>
 <div class="ttc" id="aclass____vk__fatfs__info__t_html"><div class="ttname"><a href="class____vk__fatfs__info__t.html">__vk_fatfs_info_t</a></div><div class="ttdef"><b>Definition:</b> vsf_fatfs.h:117</div></div>
-<div class="ttc" id="avsf__tgui__control_8h_html_ab22607f667714f8d9845cb5d50f98493"><div class="ttname"><a href="vsf__tgui__control_8h.html#ab22607f667714f8d9845cb5d50f98493">implement</a></div><div class="ttdeci">implement(vsf_callback_timer_t) const vsf_tgui_control_t *target_ptr</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -230,6 +240,20 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Typedef Documentation</h2>
+<a id="a3895e03f73baa09c25e018d59c090e1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3895e03f73baa09c25e018d59c090e1d">&#9670;&nbsp;</a></span>vk_fat_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef enum <a class="el" href="vsf__fatfs_8h.html#aaad59c94624b814b9a7ef30a34c099a5">vk_fat_type_t</a> <a class="el" href="vsf__fatfs_8h.html#aaad59c94624b814b9a7ef30a34c099a5">vk_fat_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a7648c8cd40d9fd2ccc6eae1a27a18f12"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7648c8cd40d9fd2ccc6eae1a27a18f12">&#9670;&nbsp;</a></span>vk_fat_file_attr_t</h2>
 
@@ -237,7 +261,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef <a class="el" href="classenum.html">enum</a> <a class="el" href="vsf__fatfs_8h.html#afba38d970e31d95540f505b1c42cfff4">vk_fat_file_attr_t</a> <a class="el" href="vsf__fatfs_8h.html#afba38d970e31d95540f505b1c42cfff4">vk_fat_file_attr_t</a></td>
+          <td class="memname">typedef enum <a class="el" href="vsf__fatfs_8h.html#afba38d970e31d95540f505b1c42cfff4">vk_fat_file_attr_t</a> <a class="el" href="vsf__fatfs_8h.html#afba38d970e31d95540f505b1c42cfff4">vk_fat_file_attr_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -259,6 +283,27 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="aaad59c94624b814b9a7ef30a34c099a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaad59c94624b814b9a7ef30a34c099a5">&#9670;&nbsp;</a></span>vk_fat_type_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="vsf__fatfs_8h.html#aaad59c94624b814b9a7ef30a34c099a5">vk_fat_type_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aaad59c94624b814b9a7ef30a34c099a5acbd87c98ae712d1befcf64846898fe1b"></a>VSF_FAT_NONE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaad59c94624b814b9a7ef30a34c099a5a799220edeee50a5e6203d0d84bdda4f5"></a>VSF_FAT_12&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaad59c94624b814b9a7ef30a34c099a5adf391e24a0243184b2421982f61bb59d"></a>VSF_FAT_16&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaad59c94624b814b9a7ef30a34c099a5a7183e90a3e8fafd4fa2ab6f0a8986397"></a>VSF_FAT_32&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaad59c94624b814b9a7ef30a34c099a5ab731c1f6ac6482b1492af9cc396df9c6"></a>VSF_FAT_EX&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a id="afba38d970e31d95540f505b1c42cfff4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afba38d970e31d95540f505b1c42cfff4">&#9670;&nbsp;</a></span>vk_fat_file_attr_t</h2>
 
@@ -266,7 +311,7 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classenum.html">enum</a> <a class="el" href="vsf__fatfs_8h.html#afba38d970e31d95540f505b1c42cfff4">vk_fat_file_attr_t</a></td>
+          <td class="memname">enum <a class="el" href="vsf__fatfs_8h.html#afba38d970e31d95540f505b1c42cfff4">vk_fat_file_attr_t</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -316,20 +361,6 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="ad30d4297b577d3d6abb02a37913da935"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad30d4297b577d3d6abb02a37913da935">&#9670;&nbsp;</a></span>vk_fat_type_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">class <a class="el" href="classvk__fatfs__file__t.html">vk_fatfs_file_t</a> class <a class="el" href="class____vk__fatfs__info__t.html">__vk_fatfs_info_t</a> typedef <a class="el" href="classenum.html">enum</a> <a class="el" href="classvk__fat__type__t.html">vk_fat_type_t</a> <a class="el" href="classvk__fat__type__t.html">vk_fat_type_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="af38e25abcde7ac198fe49c0dea29c8df"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af38e25abcde7ac198fe49c0dea29c8df">&#9670;&nbsp;</a></span>vk_fatfs_op</h2>
 

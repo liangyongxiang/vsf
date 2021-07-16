@@ -1,0 +1,169 @@
+\hypertarget{vsf__stream__writer_8h}{}\doxysection{source/service/stream/vsf\+\_\+stream\+\_\+writer.h File Reference}
+\label{vsf__stream__writer_8h}\index{source/service/stream/vsf\_stream\_writer.h@{source/service/stream/vsf\_stream\_writer.h}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./pbuf/vsf\+\_\+pbuf.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./pbuf/vsf\+\_\+pbuf\+\_\+pool.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./interface.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../pool/vsf\+\_\+pool.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./pbuf\+\_\+queue/vsf\+\_\+pbuf\+\_\+queue.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+stream\+\_\+base.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__stream__writer_8h_ab03dcdedfdc9861a978626b67957afb9}{\+\_\+\+\_\+\+PLOOC\+\_\+\+CLASS\+\_\+\+USE\+\_\+\+STRICT\+\_\+\+TEMPLATE\+\_\+\+\_\+}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__stream__writer_8h_a0aa87fbca544611e93309461d0bed7cb}{declare\+\_\+class}} (vsf\+\_\+stream\+\_\+writer\+\_\+t)
+\item 
+\mbox{\hyperlink{vsf__stream__writer_8h_a493cae98b1ca44e796e12d92030f7484}{def\+\_\+class}} (vsf\+\_\+stream\+\_\+writer\+\_\+t, \mbox{\hyperlink{vsf__tgui__text__list_8h_afc9ae8c2f6efa9885a093f19ce6a4235}{which}}(vsf\+\_\+stream\+\_\+src\+\_\+t), private\+:vsf\+\_\+pbuf\+\_\+t $\ast$current\+\_\+ptr;\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} hw\+Offset;\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} hw\+Buffer\+Size;) \mbox{\hyperlink{vsf__queue_8h_a817d298db719db9ea152846aa732b10d}{end\+\_\+def\+\_\+class}}(vsf\+\_\+stream\+\_\+writer\+\_\+t) \mbox{\hyperlink{vsf__stream__reader_8h_aebd2b84bb53996382b2fbf5cdbb2fe75}{def\+\_\+interface}}(i\+\_\+stream\+\_\+writer\+\_\+t) \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}}($\ast$Init)(vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr
+\item 
+\mbox{\hyperlink{vsf__stream__writer_8h_ae36133f72825b1b5e4240c7bdffe49b6}{end\+\_\+def\+\_\+interface}} (i\+\_\+stream\+\_\+writer\+\_\+t) extern const i\+\_\+stream\+\_\+writer\+\_\+t \mbox{\hyperlink{vsf__stream__writer_8c_a348d99ee9922c2c6c768fd80cc01b683}{VSF\+\_\+\+STREAM\+\_\+\+WRITER}}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__writer_8h_a931c0fbca063b743df2f367a69fd869b}{vsf\+\_\+stream\+\_\+writer\+\_\+init}} (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, const \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__stream__writer_8h_a4867ae13f79e7bd89b5442224cdd20bd}{cfg\+\_\+ptr}})
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__writer_8h_a7b02f1d28639e4f436c5e84269e77a0d}{vsf\+\_\+stream\+\_\+writer\+\_\+send\+\_\+pbuf}} (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, vsf\+\_\+pbuf\+\_\+t $\ast$pt\+Old\+Block)
+\item 
+\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__stream__writer_8h_ab31e4a8894b9959525ad09909e1d04b3}{vsf\+\_\+stream\+\_\+writer\+\_\+write}} (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} u16\+\_\+size)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__stream__writer_8h_a8e82cf8806f25b5ddbacd56413dc1aaf}{vsf\+\_\+stream\+\_\+writer\+\_\+write\+\_\+byte}} (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} ch\+Byte)
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__stream__writer_8h_aeca5fe8f51509037862af90c88d8f48d}{vsf\+\_\+stream\+\_\+writer\+\_\+flush}} (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__stream__writer_8h_a4867ae13f79e7bd89b5442224cdd20bd}{cfg\+\_\+ptr}}
+\item 
+\mbox{\hyperlink{interface_8h_a9b969da23063dbeba929bd965b6e3688}{vsf\+\_\+stream\+\_\+tx\+\_\+t}} $\ast$($\ast$ \mbox{\hyperlink{vsf__stream__writer_8h_ad772a71583a015552e208e19d2523987}{Get\+TX}} )(vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>vsf\_pbuf\_t $\ast$($\ast$ \mbox{\hyperlink{vsf__stream__writer_8h_a554d1000a33336918ba3f1f383d40767}{New}} )(vsf\_stream\_writer\_t $\ast$obj\_ptr, \\
+\>\>\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\_fast32\_t}} \mbox{\hyperlink{vsf__pbuf_8h_aeba9bd476cd1ffb394fbece1ced3b334}{nNoLessThan}}, \\
+\>\>\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\_fast32\_t}} \mbox{\hyperlink{vsf__pbuf_8h_abef06d546b0e264503ffb0fb936221bb}{nBestSize}})\\
+\>\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\_err\_t}}($\ast$ \mbox{\hyperlink{vsf__stream__writer_8h_a92a1d083b8092327024dad57a18b656e}{Send}} )(vsf\_stream\_writer\_t $\ast$obj\_ptr, \\
+\>\>vsf\_pbuf\_t $\ast$ptOldBlock)\\
+\} \mbox{\hyperlink{vsf__stream__writer_8h_ae0c308f2ef99522dc03eda09dbfdfdda}{Block}}\\
+
+\end{tabbing}\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}($\ast$ \mbox{\hyperlink{vsf__stream__writer_8h_a61506a3fe27a8e34bc1f9fa23a3f4d5a}{Write\+Byte}} )(vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} ch\+Byte)
+\item 
+\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}($\ast$ \mbox{\hyperlink{vsf__stream__writer_8h_ada401642b54808c7966282cd26338880}{Write}} )(vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} u16\+\_\+size)
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}}($\ast$ \mbox{\hyperlink{vsf__stream__writer_8h_aa1aaa4d02bdfb4dfd56a079b938222cd}{Flush}} )(vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__stream__writer_8h_ab03dcdedfdc9861a978626b67957afb9}\label{vsf__stream__writer_8h_ab03dcdedfdc9861a978626b67957afb9}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_@{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}}
+\index{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_@{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+PLOOC\+\_\+\+CLASS\+\_\+\+USE\+\_\+\+STRICT\+\_\+\+TEMPLATE\+\_\+\+\_\+}
+
+\textbackslash{}\+NOTE\+: Make sure \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{} is close to the class ! definition and there is NO ANY OTHER module-\/interface-\/header file ! included in this file 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__stream__writer_8h_a0aa87fbca544611e93309461d0bed7cb}\label{vsf__stream__writer_8h_a0aa87fbca544611e93309461d0bed7cb}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!declare\_class@{declare\_class}}
+\index{declare\_class@{declare\_class}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{declare\_class()}{declare\_class()}}
+{\footnotesize\ttfamily declare\+\_\+class (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_a493cae98b1ca44e796e12d92030f7484}\label{vsf__stream__writer_8h_a493cae98b1ca44e796e12d92030f7484}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!def\_class@{def\_class}}
+\index{def\_class@{def\_class}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{def\_class()}{def\_class()}}
+{\footnotesize\ttfamily def\+\_\+class (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t}]{,  }\item[{\mbox{\hyperlink{vsf__tgui__text__list_8h_afc9ae8c2f6efa9885a093f19ce6a4235}{which}}( vsf\+\_\+stream\+\_\+src\+\_\+t)}]{,  }\item[{private\+:vsf\+\_\+pbuf\+\_\+t $\ast$current\+\_\+ptr;\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} hw\+Offset;\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} hw\+Buffer\+Size;}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_ae36133f72825b1b5e4240c7bdffe49b6}\label{vsf__stream__writer_8h_ae36133f72825b1b5e4240c7bdffe49b6}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!end\_def\_interface@{end\_def\_interface}}
+\index{end\_def\_interface@{end\_def\_interface}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{end\_def\_interface()}{end\_def\_interface()}}
+{\footnotesize\ttfamily end\+\_\+def\+\_\+interface (\begin{DoxyParamCaption}\item[{i\+\_\+stream\+\_\+writer\+\_\+t}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_a931c0fbca063b743df2f367a69fd869b}\label{vsf__stream__writer_8h_a931c0fbca063b743df2f367a69fd869b}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!vsf\_stream\_writer\_init@{vsf\_stream\_writer\_init}}
+\index{vsf\_stream\_writer\_init@{vsf\_stream\_writer\_init}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_writer\_init()}{vsf\_stream\_writer\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+writer\+\_\+init (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{const \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} $\ast$}]{cfg\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_a7b02f1d28639e4f436c5e84269e77a0d}\label{vsf__stream__writer_8h_a7b02f1d28639e4f436c5e84269e77a0d}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!vsf\_stream\_writer\_send\_pbuf@{vsf\_stream\_writer\_send\_pbuf}}
+\index{vsf\_stream\_writer\_send\_pbuf@{vsf\_stream\_writer\_send\_pbuf}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_writer\_send\_pbuf()}{vsf\_stream\_writer\_send\_pbuf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+writer\+\_\+send\+\_\+pbuf (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{vsf\+\_\+pbuf\+\_\+t $\ast$}]{pt\+Old\+Block }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_ab31e4a8894b9959525ad09909e1d04b3}\label{vsf__stream__writer_8h_ab31e4a8894b9959525ad09909e1d04b3}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!vsf\_stream\_writer\_write@{vsf\_stream\_writer\_write}}
+\index{vsf\_stream\_writer\_write@{vsf\_stream\_writer\_write}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_writer\_write()}{vsf\_stream\_writer\_write()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} vsf\+\_\+stream\+\_\+writer\+\_\+write (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buffer\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{u16\+\_\+size }\end{DoxyParamCaption})}
+
+current buffer is full\mbox{\Hypertarget{vsf__stream__writer_8h_a8e82cf8806f25b5ddbacd56413dc1aaf}\label{vsf__stream__writer_8h_a8e82cf8806f25b5ddbacd56413dc1aaf}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!vsf\_stream\_writer\_write\_byte@{vsf\_stream\_writer\_write\_byte}}
+\index{vsf\_stream\_writer\_write\_byte@{vsf\_stream\_writer\_write\_byte}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_writer\_write\_byte()}{vsf\_stream\_writer\_write\_byte()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+stream\+\_\+writer\+\_\+write\+\_\+byte (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{ch\+Byte }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_aeca5fe8f51509037862af90c88d8f48d}\label{vsf__stream__writer_8h_aeca5fe8f51509037862af90c88d8f48d}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!vsf\_stream\_writer\_flush@{vsf\_stream\_writer\_flush}}
+\index{vsf\_stream\_writer\_flush@{vsf\_stream\_writer\_flush}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_writer\_flush()}{vsf\_stream\_writer\_flush()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vsf\+\_\+stream\+\_\+writer\+\_\+flush (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__stream__writer_8h_a4867ae13f79e7bd89b5442224cdd20bd}\label{vsf__stream__writer_8h_a4867ae13f79e7bd89b5442224cdd20bd}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!cfg\_ptr@{cfg\_ptr}}
+\index{cfg\_ptr@{cfg\_ptr}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{cfg\_ptr}{cfg\_ptr}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}}$\ast$ cfg\+\_\+ptr}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_ad772a71583a015552e208e19d2523987}\label{vsf__stream__writer_8h_ad772a71583a015552e208e19d2523987}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!GetTX@{GetTX}}
+\index{GetTX@{GetTX}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{GetTX}{GetTX}}
+{\footnotesize\ttfamily \mbox{\hyperlink{interface_8h_a9b969da23063dbeba929bd965b6e3688}{vsf\+\_\+stream\+\_\+tx\+\_\+t}}$\ast$($\ast$ Get\+TX) (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_a554d1000a33336918ba3f1f383d40767}\label{vsf__stream__writer_8h_a554d1000a33336918ba3f1f383d40767}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!New@{New}}
+\index{New@{New}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{New}{New}}
+{\footnotesize\ttfamily vsf\+\_\+pbuf\+\_\+t$\ast$($\ast$ New) (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__pbuf_8h_aeba9bd476cd1ffb394fbece1ced3b334}{n\+No\+Less\+Than}}, \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__pbuf_8h_abef06d546b0e264503ffb0fb936221bb}{n\+Best\+Size}}) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}}]{n\+No\+Less\+Than,  }\item[{\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}}]{n\+Best\+Size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_a92a1d083b8092327024dad57a18b656e}\label{vsf__stream__writer_8h_a92a1d083b8092327024dad57a18b656e}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!Send@{Send}}
+\index{Send@{Send}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{Send}{Send}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}}($\ast$ Send) (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, vsf\+\_\+pbuf\+\_\+t $\ast$pt\+Old\+Block) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{vsf\+\_\+pbuf\+\_\+t $\ast$}]{pt\+Old\+Block }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_ae0c308f2ef99522dc03eda09dbfdfdda}\label{vsf__stream__writer_8h_ae0c308f2ef99522dc03eda09dbfdfdda}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!Block@{Block}}
+\index{Block@{Block}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  Block}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_a61506a3fe27a8e34bc1f9fa23a3f4d5a}\label{vsf__stream__writer_8h_a61506a3fe27a8e34bc1f9fa23a3f4d5a}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!WriteByte@{WriteByte}}
+\index{WriteByte@{WriteByte}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{WriteByte}{WriteByte}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}($\ast$ Write\+Byte) (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} ch\+Byte) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{ch\+Byte }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_ada401642b54808c7966282cd26338880}\label{vsf__stream__writer_8h_ada401642b54808c7966282cd26338880}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!Write@{Write}}
+\index{Write@{Write}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{Write}{Write}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}($\ast$ Write) (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} u16\+\_\+size) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buffer\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{u16\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8h_aa1aaa4d02bdfb4dfd56a079b938222cd}\label{vsf__stream__writer_8h_aa1aaa4d02bdfb4dfd56a079b938222cd}} 
+\index{vsf\_stream\_writer.h@{vsf\_stream\_writer.h}!Flush@{Flush}}
+\index{Flush@{Flush}!vsf\_stream\_writer.h@{vsf\_stream\_writer.h}}
+\doxysubsubsection{\texorpdfstring{Flush}{Flush}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}}($\ast$ Flush) (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+

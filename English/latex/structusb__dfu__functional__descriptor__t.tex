@@ -1,0 +1,101 @@
+\hypertarget{structusb__dfu__functional__descriptor__t}{}\doxysection{usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t Struct Reference}
+\label{structusb__dfu__functional__descriptor__t}\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+
+
+{\ttfamily \#include $<$vsf\+\_\+usb\+\_\+dfu.\+h$>$}
+
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{structusb__dfu__functional__descriptor__t_a92202e34536f75a8923d450c3941986c}{b\+Length}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{structusb__dfu__functional__descriptor__t_a886fe0210c10738220e076994f327efa}{b\+Descriptor\+Type}}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{structusb__dfu__functional__descriptor__t_a524091cc25beb8016bb87212d3f0696b}{bmAttributes}}\\
+\>struct \{\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{structusb__dfu__functional__descriptor__t_a62394606c63eeac1ee48c619efa9e982}{bitCanDnload}}: 1\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{structusb__dfu__functional__descriptor__t_ab39b2e4432e9c96dd7f28880895f44b4}{bitCanUpload}}: 1\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{structusb__dfu__functional__descriptor__t_aff4a46f3c34480c8cb302f7e07fb6d05}{bitManifestationTolerant}}: 1\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{structusb__dfu__functional__descriptor__t_a799dccf0959d08f6ea2632bae51fd737}{bitWillDetach}}: 1\\
+\>\} \\
+\} \mbox{\hyperlink{structusb__dfu__functional__descriptor__t_aa2cfc8bcdbc331ecc32f37eb17ba0440}{PACKED}}\\
+
+\end{tabbing}\item 
+\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{structusb__dfu__functional__descriptor__t_aeff4c2fb395c25988cd84526681dfd2b}{w\+Detach\+Time\+Out}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{structusb__dfu__functional__descriptor__t_ac1ca2d86ef595ebd26e09a1fdee09a6e}{w\+Transfer\+Size}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{structusb__dfu__functional__descriptor__t_a94639a583942af2754d744730d51ae0f}{bcd\+DFUVersion}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{structusb__dfu__functional__descriptor__t_a92202e34536f75a8923d450c3941986c}\label{structusb__dfu__functional__descriptor__t_a92202e34536f75a8923d450c3941986c}} 
+\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}!bLength@{bLength}}
+\index{bLength@{bLength}!usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+\doxysubsubsection{\texorpdfstring{bLength}{bLength}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t\+::b\+Length}
+
+\mbox{\Hypertarget{structusb__dfu__functional__descriptor__t_a886fe0210c10738220e076994f327efa}\label{structusb__dfu__functional__descriptor__t_a886fe0210c10738220e076994f327efa}} 
+\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}!bDescriptorType@{bDescriptorType}}
+\index{bDescriptorType@{bDescriptorType}!usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+\doxysubsubsection{\texorpdfstring{bDescriptorType}{bDescriptorType}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t\+::b\+Descriptor\+Type}
+
+\mbox{\Hypertarget{structusb__dfu__functional__descriptor__t_a524091cc25beb8016bb87212d3f0696b}\label{structusb__dfu__functional__descriptor__t_a524091cc25beb8016bb87212d3f0696b}} 
+\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}!bmAttributes@{bmAttributes}}
+\index{bmAttributes@{bmAttributes}!usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+\doxysubsubsection{\texorpdfstring{bmAttributes}{bmAttributes}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t\+::bm\+Attributes}
+
+\mbox{\Hypertarget{structusb__dfu__functional__descriptor__t_a62394606c63eeac1ee48c619efa9e982}\label{structusb__dfu__functional__descriptor__t_a62394606c63eeac1ee48c619efa9e982}} 
+\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}!bitCanDnload@{bitCanDnload}}
+\index{bitCanDnload@{bitCanDnload}!usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+\doxysubsubsection{\texorpdfstring{bitCanDnload}{bitCanDnload}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t\+::bit\+Can\+Dnload}
+
+\mbox{\Hypertarget{structusb__dfu__functional__descriptor__t_ab39b2e4432e9c96dd7f28880895f44b4}\label{structusb__dfu__functional__descriptor__t_ab39b2e4432e9c96dd7f28880895f44b4}} 
+\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}!bitCanUpload@{bitCanUpload}}
+\index{bitCanUpload@{bitCanUpload}!usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+\doxysubsubsection{\texorpdfstring{bitCanUpload}{bitCanUpload}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t\+::bit\+Can\+Upload}
+
+\mbox{\Hypertarget{structusb__dfu__functional__descriptor__t_aff4a46f3c34480c8cb302f7e07fb6d05}\label{structusb__dfu__functional__descriptor__t_aff4a46f3c34480c8cb302f7e07fb6d05}} 
+\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}!bitManifestationTolerant@{bitManifestationTolerant}}
+\index{bitManifestationTolerant@{bitManifestationTolerant}!usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+\doxysubsubsection{\texorpdfstring{bitManifestationTolerant}{bitManifestationTolerant}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t\+::bit\+Manifestation\+Tolerant}
+
+\mbox{\Hypertarget{structusb__dfu__functional__descriptor__t_a799dccf0959d08f6ea2632bae51fd737}\label{structusb__dfu__functional__descriptor__t_a799dccf0959d08f6ea2632bae51fd737}} 
+\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}!bitWillDetach@{bitWillDetach}}
+\index{bitWillDetach@{bitWillDetach}!usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+\doxysubsubsection{\texorpdfstring{bitWillDetach}{bitWillDetach}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t\+::bit\+Will\+Detach}
+
+\mbox{\Hypertarget{structusb__dfu__functional__descriptor__t_aa2cfc8bcdbc331ecc32f37eb17ba0440}\label{structusb__dfu__functional__descriptor__t_aa2cfc8bcdbc331ecc32f37eb17ba0440}} 
+\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}!PACKED@{PACKED}}
+\index{PACKED@{PACKED}!usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily union \{ ... \}  usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t\+::\+PACKED}
+
+\mbox{\Hypertarget{structusb__dfu__functional__descriptor__t_aeff4c2fb395c25988cd84526681dfd2b}\label{structusb__dfu__functional__descriptor__t_aeff4c2fb395c25988cd84526681dfd2b}} 
+\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}!wDetachTimeOut@{wDetachTimeOut}}
+\index{wDetachTimeOut@{wDetachTimeOut}!usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+\doxysubsubsection{\texorpdfstring{wDetachTimeOut}{wDetachTimeOut}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t\+::w\+Detach\+Time\+Out}
+
+\mbox{\Hypertarget{structusb__dfu__functional__descriptor__t_ac1ca2d86ef595ebd26e09a1fdee09a6e}\label{structusb__dfu__functional__descriptor__t_ac1ca2d86ef595ebd26e09a1fdee09a6e}} 
+\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}!wTransferSize@{wTransferSize}}
+\index{wTransferSize@{wTransferSize}!usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+\doxysubsubsection{\texorpdfstring{wTransferSize}{wTransferSize}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t\+::w\+Transfer\+Size}
+
+\mbox{\Hypertarget{structusb__dfu__functional__descriptor__t_a94639a583942af2754d744730d51ae0f}\label{structusb__dfu__functional__descriptor__t_a94639a583942af2754d744730d51ae0f}} 
+\index{usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}!bcdDFUVersion@{bcdDFUVersion}}
+\index{bcdDFUVersion@{bcdDFUVersion}!usb\_dfu\_functional\_descriptor\_t@{usb\_dfu\_functional\_descriptor\_t}}
+\doxysubsubsection{\texorpdfstring{bcdDFUVersion}{bcdDFUVersion}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} usb\+\_\+dfu\+\_\+functional\+\_\+descriptor\+\_\+t\+::bcd\+DFUVersion}
+

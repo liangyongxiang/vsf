@@ -1,0 +1,77 @@
+\hypertarget{vsf__usbd___m_s_c_8c}{}\doxysection{source/component/usb/device/class/\+MSC/vsf\+\_\+usbd\+\_\+\+MSC.c File Reference}
+\label{vsf__usbd___m_s_c_8c}\index{source/component/usb/device/class/MSC/vsf\_usbd\_MSC.c@{source/component/usb/device/class/MSC/vsf\_usbd\_MSC.c}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+usbd.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+usbd\+\_\+\+MSC.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___m_s_c_8c_ae68af52b29d55a0d7474c656fd71d931}{\+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___m_s_c_8c_ae102590e559cc57dd5f257f783e99b6a}{\+\_\+\+\_\+\+VSF\+\_\+\+USBD\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___m_s_c_8c_ad6866467e60a1f9e1b84bbf6a2e4fc57}{\+\_\+\+\_\+\+VSF\+\_\+\+USBD\+\_\+\+MSC\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{vsf__usbd___m_s_c_8c_a97f905ac94bfebd46e50e32c7389e6eba2d0c708c64b41f2253d8427734bb103f}{VSF\+\_\+\+EVT\+\_\+\+EXECUTE}} = VSF\+\_\+\+EVT\+\_\+\+USER + 0
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t \mbox{\hyperlink{vsf__usbd___m_s_c_8c_a7b19641957bc5f9b523345baf9e3fde4}{vk\+\_\+usbd\+\_\+msc}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__usbd___m_s_c_8c_ae68af52b29d55a0d7474c656fd71d931}\label{vsf__usbd___m_s_c_8c_ae68af52b29d55a0d7474c656fd71d931}} 
+\index{vsf\_usbd\_MSC.c@{vsf\_usbd\_MSC.c}!\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}!vsf\_usbd\_MSC.c@{vsf\_usbd\_MSC.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__usbd___m_s_c_8c_ae102590e559cc57dd5f257f783e99b6a}\label{vsf__usbd___m_s_c_8c_ae102590e559cc57dd5f257f783e99b6a}} 
+\index{vsf\_usbd\_MSC.c@{vsf\_usbd\_MSC.c}!\_\_VSF\_USBD\_CLASS\_INHERIT\_\_@{\_\_VSF\_USBD\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_USBD\_CLASS\_INHERIT\_\_@{\_\_VSF\_USBD\_CLASS\_INHERIT\_\_}!vsf\_usbd\_MSC.c@{vsf\_usbd\_MSC.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_USBD\_CLASS\_INHERIT\_\_}{\_\_VSF\_USBD\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+USBD\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__usbd___m_s_c_8c_ad6866467e60a1f9e1b84bbf6a2e4fc57}\label{vsf__usbd___m_s_c_8c_ad6866467e60a1f9e1b84bbf6a2e4fc57}} 
+\index{vsf\_usbd\_MSC.c@{vsf\_usbd\_MSC.c}!\_\_VSF\_USBD\_MSC\_CLASS\_IMPLEMENT@{\_\_VSF\_USBD\_MSC\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_USBD\_MSC\_CLASS\_IMPLEMENT@{\_\_VSF\_USBD\_MSC\_CLASS\_IMPLEMENT}!vsf\_usbd\_MSC.c@{vsf\_usbd\_MSC.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_USBD\_MSC\_CLASS\_IMPLEMENT}{\_\_VSF\_USBD\_MSC\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+USBD\+\_\+\+MSC\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__usbd___m_s_c_8c_a97f905ac94bfebd46e50e32c7389e6eb}\label{vsf__usbd___m_s_c_8c_a97f905ac94bfebd46e50e32c7389e6eb}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_EVT\_EXECUTE@{VSF\_EVT\_EXECUTE}!vsf\_usbd\_MSC.c@{vsf\_usbd\_MSC.c}}\index{vsf\_usbd\_MSC.c@{vsf\_usbd\_MSC.c}!VSF\_EVT\_EXECUTE@{VSF\_EVT\_EXECUTE}}}\mbox{\Hypertarget{vsf__usbd___m_s_c_8c_a97f905ac94bfebd46e50e32c7389e6eba2d0c708c64b41f2253d8427734bb103f}\label{vsf__usbd___m_s_c_8c_a97f905ac94bfebd46e50e32c7389e6eba2d0c708c64b41f2253d8427734bb103f}} 
+VSF\+\_\+\+EVT\+\_\+\+EXECUTE&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__usbd___m_s_c_8c_a7b19641957bc5f9b523345baf9e3fde4}\label{vsf__usbd___m_s_c_8c_a7b19641957bc5f9b523345baf9e3fde4}} 
+\index{vsf\_usbd\_MSC.c@{vsf\_usbd\_MSC.c}!vk\_usbd\_msc@{vk\_usbd\_msc}}
+\index{vk\_usbd\_msc@{vk\_usbd\_msc}!vsf\_usbd\_MSC.c@{vsf\_usbd\_MSC.c}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_msc}{vk\_usbd\_msc}}
+{\footnotesize\ttfamily const vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t vk\+\_\+usbd\+\_\+msc}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    .request\_prepare = \_\_vk\_usbd\_msc\_request\_prepare,}
+\DoxyCodeLine{    .init = \_\_vk\_usbd\_msc\_init,}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

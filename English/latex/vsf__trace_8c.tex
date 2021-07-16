@@ -1,0 +1,197 @@
+\hypertarget{vsf__trace_8c}{}\doxysection{source/service/trace/vsf\+\_\+trace.c File Reference}
+\label{vsf__trace_8c}\index{source/service/trace/vsf\_trace.c@{source/service/trace/vsf\_trace.c}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}hal/vsf\+\_\+hal.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+trace.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvsf__trace__t}{vsf\+\_\+trace\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__trace_8c_ad7d87250c98d8b5845622d5493ec4009}{VSF\+\_\+\+TRACE\+\_\+\+CFG\+\_\+\+BUFSIZE}}~1024
+\begin{DoxyCompactList}\small\item\em todo\+: remove this dependency \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{vsf__trace_8c_afc379cb33ac82a72f56f165e8dae6a93}{VSF\+\_\+\+TRACE\+\_\+\+LINEBUF\+\_\+\+SIZE}}~128
+\item 
+\#define \mbox{\hyperlink{vsf__trace_8c_a404058a771d652e1c832b59e04de8211}{VSF\+\_\+\+TRACE\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}}~interrupt
+\item 
+\#define \mbox{\hyperlink{vsf__trace_8c_ae460cc98a49699fbe8d985ab8c7e372f}{vsf\+\_\+trace\+\_\+protect}}~vsf\+\_\+protect(\mbox{\hyperlink{vsf__trace_8c_a404058a771d652e1c832b59e04de8211}{VSF\+\_\+\+TRACE\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})
+\item 
+\#define \mbox{\hyperlink{vsf__trace_8c_a055d16f8931d70a89f93770a0b650a54}{vsf\+\_\+trace\+\_\+unprotect}}~vsf\+\_\+unprotect(\mbox{\hyperlink{vsf__trace_8c_a404058a771d652e1c832b59e04de8211}{VSF\+\_\+\+TRACE\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__trace__t}{vsf\+\_\+trace\+\_\+t}} \mbox{\hyperlink{vsf__trace_8c_afdce09c08d1dc3b52704e84d20adce6e}{vsf\+\_\+trace\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__trace_8c_a08a827d27a887683a9a52e602f523ae9}{\+\_\+\+\_\+vsf\+\_\+trace\+\_\+output}} (const char $\ast$\mbox{\hyperlink{vsf__memfs_8h_a8b212742c92a124f2eb4a244acc19f7c}{buff}}, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+void \mbox{\hyperlink{vsf__trace_8c_af3197af9a7d3ba4c0540c6cd9158734c}{\+\_\+\+\_\+vsf\+\_\+trace\+\_\+init}} (\mbox{\hyperlink{classvsf__stream__t}{vsf\+\_\+stream\+\_\+t}} $\ast$stream)
+\item 
+void \mbox{\hyperlink{vsf__trace_8c_a33ae4aed0b1f5ae6a73536c6de6f9a5d}{vsf\+\_\+trace\+\_\+fini}} (void)
+\item 
+void \mbox{\hyperlink{vsf__trace_8c_ac4fa34c584ae6790d8bbe1e0bea7b575}{vsf\+\_\+trace\+\_\+output\+\_\+string}} (const char $\ast$str)
+\item 
+void \mbox{\hyperlink{vsf__trace_8c_ab15318128e0672514ab7555953dbff88}{vsf\+\_\+trace\+\_\+string}} (\mbox{\hyperlink{vsf__trace_8h_a910616905801f71809ab727d6a5bf8ec}{vsf\+\_\+trace\+\_\+level\+\_\+t}} level, const char $\ast$str)
+\item 
+void \mbox{\hyperlink{vsf__trace_8c_a09a0c8b759d297c9d67022d296d78296}{\+\_\+\+\_\+vsf\+\_\+trace\+\_\+buffer}} (\mbox{\hyperlink{vsf__trace_8h_a910616905801f71809ab727d6a5bf8ec}{vsf\+\_\+trace\+\_\+level\+\_\+t}} level, void $\ast$buffer, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} len, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} flag)
+\item 
+void \mbox{\hyperlink{vsf__trace_8c_a5f333822ad6a3c4b3a2b12d3f5a2ccbd}{vsf\+\_\+trace\+\_\+arg}} (\mbox{\hyperlink{vsf__trace_8h_a910616905801f71809ab727d6a5bf8ec}{vsf\+\_\+trace\+\_\+level\+\_\+t}} level, const char $\ast$\mbox{\hyperlink{vsf__sdl2__pixelformat_8c_a4be577502bbbb32a53837492421f2369}{format}}, va\+\_\+list arg)
+\item 
+void \mbox{\hyperlink{vsf__trace_8c_a80aa44883df227a9de64a6de4332f595}{vsf\+\_\+trace}} (\mbox{\hyperlink{vsf__trace_8h_a910616905801f71809ab727d6a5bf8ec}{vsf\+\_\+trace\+\_\+level\+\_\+t}} level, const char $\ast$\mbox{\hyperlink{vsf__sdl2__pixelformat_8c_a4be577502bbbb32a53837492421f2369}{format}},...)
+\item 
+void \mbox{\hyperlink{vsf__trace_8c_a02dcef3b8697690e6b76092f0ee290bc}{vsf\+\_\+stdout\+\_\+init}} (void)
+\item 
+void \mbox{\hyperlink{vsf__trace_8c_a1e4fd0aec4f8b911c836ea1e1e652214}{vsf\+\_\+stderr\+\_\+init}} (void)
+\item 
+void \mbox{\hyperlink{vsf__trace_8c_a1839e71f6fd9ce6fefbac7a27414f5df}{vsf\+\_\+stdin\+\_\+init}} (void)
+\item 
+int \mbox{\hyperlink{vsf__trace_8c_a89d7da1278427ddebf0b84bb011fc299}{vsf\+\_\+stdout\+\_\+putchar}} (char ch)
+\item 
+int \mbox{\hyperlink{vsf__trace_8c_a88a2bfae87ae5733490e0c835f159196}{vsf\+\_\+stderr\+\_\+putchar}} (char ch)
+\item 
+int \mbox{\hyperlink{vsf__trace_8c_a0118182c495ae81441a45c1ad58e3d09}{vsf\+\_\+stdin\+\_\+getchar}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__trace_8c_ad7d87250c98d8b5845622d5493ec4009}\label{vsf__trace_8c_ad7d87250c98d8b5845622d5493ec4009}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!VSF\_TRACE\_CFG\_BUFSIZE@{VSF\_TRACE\_CFG\_BUFSIZE}}
+\index{VSF\_TRACE\_CFG\_BUFSIZE@{VSF\_TRACE\_CFG\_BUFSIZE}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{VSF\_TRACE\_CFG\_BUFSIZE}{VSF\_TRACE\_CFG\_BUFSIZE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TRACE\+\_\+\+CFG\+\_\+\+BUFSIZE~1024}
+
+
+
+todo\+: remove this dependency 
+
+\mbox{\Hypertarget{vsf__trace_8c_afc379cb33ac82a72f56f165e8dae6a93}\label{vsf__trace_8c_afc379cb33ac82a72f56f165e8dae6a93}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!VSF\_TRACE\_LINEBUF\_SIZE@{VSF\_TRACE\_LINEBUF\_SIZE}}
+\index{VSF\_TRACE\_LINEBUF\_SIZE@{VSF\_TRACE\_LINEBUF\_SIZE}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{VSF\_TRACE\_LINEBUF\_SIZE}{VSF\_TRACE\_LINEBUF\_SIZE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TRACE\+\_\+\+LINEBUF\+\_\+\+SIZE~128}
+
+\mbox{\Hypertarget{vsf__trace_8c_a404058a771d652e1c832b59e04de8211}\label{vsf__trace_8c_a404058a771d652e1c832b59e04de8211}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!VSF\_TRACE\_CFG\_PROTECT\_LEVEL@{VSF\_TRACE\_CFG\_PROTECT\_LEVEL}}
+\index{VSF\_TRACE\_CFG\_PROTECT\_LEVEL@{VSF\_TRACE\_CFG\_PROTECT\_LEVEL}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{VSF\_TRACE\_CFG\_PROTECT\_LEVEL}{VSF\_TRACE\_CFG\_PROTECT\_LEVEL}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TRACE\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL~interrupt}
+
+\begin{DoxyNote}{Note}
+By default, the driver tries to make all APIs interrupt-\/safe, ! ! in the case when you want to disable it, ! please use following macro\+: ! \#define VSF\+\_\+\+TRACE\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL none ! ! in the case when you want to use interrupt-\/safe, ! please use following macro\+: ! \#define VSF\+\_\+\+TRACE\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL interrupt ! ! NOTE\+: This macro should be defined in vsf\+\_\+usr\+\_\+\+CFG.\+h 
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__trace_8c_ae460cc98a49699fbe8d985ab8c7e372f}\label{vsf__trace_8c_ae460cc98a49699fbe8d985ab8c7e372f}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_trace\_protect@{vsf\_trace\_protect}}
+\index{vsf\_trace\_protect@{vsf\_trace\_protect}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_trace\_protect}{vsf\_trace\_protect}}
+{\footnotesize\ttfamily \#define vsf\+\_\+trace\+\_\+protect~vsf\+\_\+protect(\mbox{\hyperlink{vsf__trace_8c_a404058a771d652e1c832b59e04de8211}{VSF\+\_\+\+TRACE\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})}
+
+\mbox{\Hypertarget{vsf__trace_8c_a055d16f8931d70a89f93770a0b650a54}\label{vsf__trace_8c_a055d16f8931d70a89f93770a0b650a54}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_trace\_unprotect@{vsf\_trace\_unprotect}}
+\index{vsf\_trace\_unprotect@{vsf\_trace\_unprotect}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_trace\_unprotect}{vsf\_trace\_unprotect}}
+{\footnotesize\ttfamily \#define vsf\+\_\+trace\+\_\+unprotect~vsf\+\_\+unprotect(\mbox{\hyperlink{vsf__trace_8c_a404058a771d652e1c832b59e04de8211}{VSF\+\_\+\+TRACE\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__trace_8c_afdce09c08d1dc3b52704e84d20adce6e}\label{vsf__trace_8c_afdce09c08d1dc3b52704e84d20adce6e}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_trace\_t@{vsf\_trace\_t}}
+\index{vsf\_trace\_t@{vsf\_trace\_t}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_trace\_t}{vsf\_trace\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__trace__t}{vsf\+\_\+trace\+\_\+t}} \mbox{\hyperlink{structvsf__trace__t}{vsf\+\_\+trace\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__trace_8c_a08a827d27a887683a9a52e602f523ae9}\label{vsf__trace_8c_a08a827d27a887683a9a52e602f523ae9}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!\_\_vsf\_trace\_output@{\_\_vsf\_trace\_output}}
+\index{\_\_vsf\_trace\_output@{\_\_vsf\_trace\_output}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_trace\_output()}{\_\_vsf\_trace\_output()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+trace\+\_\+output (\begin{DoxyParamCaption}\item[{const char $\ast$}]{buff,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_af3197af9a7d3ba4c0540c6cd9158734c}\label{vsf__trace_8c_af3197af9a7d3ba4c0540c6cd9158734c}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!\_\_vsf\_trace\_init@{\_\_vsf\_trace\_init}}
+\index{\_\_vsf\_trace\_init@{\_\_vsf\_trace\_init}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_trace\_init()}{\_\_vsf\_trace\_init()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+trace\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__stream__t}{vsf\+\_\+stream\+\_\+t}} $\ast$}]{stream }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_a33ae4aed0b1f5ae6a73536c6de6f9a5d}\label{vsf__trace_8c_a33ae4aed0b1f5ae6a73536c6de6f9a5d}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_trace\_fini@{vsf\_trace\_fini}}
+\index{vsf\_trace\_fini@{vsf\_trace\_fini}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_trace\_fini()}{vsf\_trace\_fini()}}
+{\footnotesize\ttfamily void vsf\+\_\+trace\+\_\+fini (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_ac4fa34c584ae6790d8bbe1e0bea7b575}\label{vsf__trace_8c_ac4fa34c584ae6790d8bbe1e0bea7b575}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_trace\_output\_string@{vsf\_trace\_output\_string}}
+\index{vsf\_trace\_output\_string@{vsf\_trace\_output\_string}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_trace\_output\_string()}{vsf\_trace\_output\_string()}}
+{\footnotesize\ttfamily void vsf\+\_\+trace\+\_\+output\+\_\+string (\begin{DoxyParamCaption}\item[{const char $\ast$}]{str }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_ab15318128e0672514ab7555953dbff88}\label{vsf__trace_8c_ab15318128e0672514ab7555953dbff88}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_trace\_string@{vsf\_trace\_string}}
+\index{vsf\_trace\_string@{vsf\_trace\_string}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_trace\_string()}{vsf\_trace\_string()}}
+{\footnotesize\ttfamily void vsf\+\_\+trace\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__trace_8h_a910616905801f71809ab727d6a5bf8ec}{vsf\+\_\+trace\+\_\+level\+\_\+t}}}]{level,  }\item[{const char $\ast$}]{str }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_a09a0c8b759d297c9d67022d296d78296}\label{vsf__trace_8c_a09a0c8b759d297c9d67022d296d78296}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!\_\_vsf\_trace\_buffer@{\_\_vsf\_trace\_buffer}}
+\index{\_\_vsf\_trace\_buffer@{\_\_vsf\_trace\_buffer}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_trace\_buffer()}{\_\_vsf\_trace\_buffer()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+trace\+\_\+buffer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__trace_8h_a910616905801f71809ab727d6a5bf8ec}{vsf\+\_\+trace\+\_\+level\+\_\+t}}}]{level,  }\item[{void $\ast$}]{buffer,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{len,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{flag }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_a5f333822ad6a3c4b3a2b12d3f5a2ccbd}\label{vsf__trace_8c_a5f333822ad6a3c4b3a2b12d3f5a2ccbd}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_trace\_arg@{vsf\_trace\_arg}}
+\index{vsf\_trace\_arg@{vsf\_trace\_arg}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_trace\_arg()}{vsf\_trace\_arg()}}
+{\footnotesize\ttfamily void vsf\+\_\+trace\+\_\+arg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__trace_8h_a910616905801f71809ab727d6a5bf8ec}{vsf\+\_\+trace\+\_\+level\+\_\+t}}}]{level,  }\item[{const char $\ast$}]{format,  }\item[{va\+\_\+list}]{arg }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_a80aa44883df227a9de64a6de4332f595}\label{vsf__trace_8c_a80aa44883df227a9de64a6de4332f595}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_trace@{vsf\_trace}}
+\index{vsf\_trace@{vsf\_trace}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_trace()}{vsf\_trace()}}
+{\footnotesize\ttfamily void vsf\+\_\+trace (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__trace_8h_a910616905801f71809ab727d6a5bf8ec}{vsf\+\_\+trace\+\_\+level\+\_\+t}}}]{level,  }\item[{const char $\ast$}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_a02dcef3b8697690e6b76092f0ee290bc}\label{vsf__trace_8c_a02dcef3b8697690e6b76092f0ee290bc}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_stdout\_init@{vsf\_stdout\_init}}
+\index{vsf\_stdout\_init@{vsf\_stdout\_init}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stdout\_init()}{vsf\_stdout\_init()}}
+{\footnotesize\ttfamily void vsf\+\_\+stdout\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_a1e4fd0aec4f8b911c836ea1e1e652214}\label{vsf__trace_8c_a1e4fd0aec4f8b911c836ea1e1e652214}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_stderr\_init@{vsf\_stderr\_init}}
+\index{vsf\_stderr\_init@{vsf\_stderr\_init}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stderr\_init()}{vsf\_stderr\_init()}}
+{\footnotesize\ttfamily void vsf\+\_\+stderr\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_a1839e71f6fd9ce6fefbac7a27414f5df}\label{vsf__trace_8c_a1839e71f6fd9ce6fefbac7a27414f5df}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_stdin\_init@{vsf\_stdin\_init}}
+\index{vsf\_stdin\_init@{vsf\_stdin\_init}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stdin\_init()}{vsf\_stdin\_init()}}
+{\footnotesize\ttfamily void vsf\+\_\+stdin\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_a89d7da1278427ddebf0b84bb011fc299}\label{vsf__trace_8c_a89d7da1278427ddebf0b84bb011fc299}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_stdout\_putchar@{vsf\_stdout\_putchar}}
+\index{vsf\_stdout\_putchar@{vsf\_stdout\_putchar}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stdout\_putchar()}{vsf\_stdout\_putchar()}}
+{\footnotesize\ttfamily int vsf\+\_\+stdout\+\_\+putchar (\begin{DoxyParamCaption}\item[{char}]{ch }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_a88a2bfae87ae5733490e0c835f159196}\label{vsf__trace_8c_a88a2bfae87ae5733490e0c835f159196}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_stderr\_putchar@{vsf\_stderr\_putchar}}
+\index{vsf\_stderr\_putchar@{vsf\_stderr\_putchar}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stderr\_putchar()}{vsf\_stderr\_putchar()}}
+{\footnotesize\ttfamily int vsf\+\_\+stderr\+\_\+putchar (\begin{DoxyParamCaption}\item[{char}]{ch }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__trace_8c_a0118182c495ae81441a45c1ad58e3d09}\label{vsf__trace_8c_a0118182c495ae81441a45c1ad58e3d09}} 
+\index{vsf\_trace.c@{vsf\_trace.c}!vsf\_stdin\_getchar@{vsf\_stdin\_getchar}}
+\index{vsf\_stdin\_getchar@{vsf\_stdin\_getchar}!vsf\_trace.c@{vsf\_trace.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stdin\_getchar()}{vsf\_stdin\_getchar()}}
+{\footnotesize\ttfamily int vsf\+\_\+stdin\+\_\+getchar (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+

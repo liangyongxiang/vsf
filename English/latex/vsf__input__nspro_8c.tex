@@ -1,0 +1,82 @@
+\hypertarget{vsf__input__nspro_8c}{}\doxysection{source/component/input/driver/nspro/vsf\+\_\+input\+\_\+nspro.c File Reference}
+\label{vsf__input__nspro_8c}\index{source/component/input/driver/nspro/vsf\_input\_nspro.c@{source/component/input/driver/nspro/vsf\_input\_nspro.c}}
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+input\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+input.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__input__nspro_8c_a1bfe4fbb919c41252f431fae57bb38dc}{vsf\+\_\+input\+\_\+on\+\_\+new\+\_\+dev}} (\mbox{\hyperlink{vsf__input_8h_af0514a3f61422726e0fbaf9b456ba72e}{vk\+\_\+input\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_ad64e18f867699b8e854388de816016af}{type}}, void $\ast$dev)
+\item 
+void \mbox{\hyperlink{vsf__input__nspro_8c_a67db6964f651c796849cee0a4daae607}{vsf\+\_\+input\+\_\+on\+\_\+free\+\_\+dev}} (\mbox{\hyperlink{vsf__input_8h_af0514a3f61422726e0fbaf9b456ba72e}{vk\+\_\+input\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_ad64e18f867699b8e854388de816016af}{type}}, void $\ast$dev)
+\item 
+void \mbox{\hyperlink{vsf__input__nspro_8c_ab71c42a882b0eebdb8abe0aa225ac403}{vsf\+\_\+input\+\_\+on\+\_\+sensor}} (\mbox{\hyperlink{structvk__sensor__evt__t}{vk\+\_\+sensor\+\_\+evt\+\_\+t}} $\ast$sensor\+\_\+evt)
+\item 
+void \mbox{\hyperlink{vsf__input__nspro_8c_aa573d867b7a53b9a9d0f7cc3893a11f9}{vsf\+\_\+input\+\_\+on\+\_\+gamepad}} (\mbox{\hyperlink{structvk__gamepad__evt__t}{vk\+\_\+gamepad\+\_\+evt\+\_\+t}} $\ast$gamepad\+\_\+evt)
+\item 
+void \mbox{\hyperlink{vsf__input__nspro_8c_a03a9ccd8e47710db5c8a79380403596e}{vsf\+\_\+nspro\+\_\+on\+\_\+new\+\_\+dev}} (void $\ast$dev)
+\item 
+void \mbox{\hyperlink{vsf__input__nspro_8c_abe9af5a0c82cc1a9d6277dd3906ba597}{vsf\+\_\+nspro\+\_\+on\+\_\+free\+\_\+dev}} (void $\ast$dev)
+\item 
+void \mbox{\hyperlink{vsf__input__nspro_8c_a335e8268a47a3a9a3764a40714b69205}{vsf\+\_\+nspro\+\_\+on\+\_\+report\+\_\+parsed}} (\mbox{\hyperlink{structvk__input__evt__t}{vk\+\_\+input\+\_\+evt\+\_\+t}} $\ast$evt)
+\item 
+void \mbox{\hyperlink{vsf__input__nspro_8c_a40e12c7be224940ffae80917f9b23f50}{vsf\+\_\+nspro\+\_\+on\+\_\+gamepad}} (\mbox{\hyperlink{structvk__gamepad__evt__t}{vk\+\_\+gamepad\+\_\+evt\+\_\+t}} $\ast$gamepad\+\_\+evt)
+\item 
+void \mbox{\hyperlink{vsf__input__nspro_8c_a9b6e41c87da0e0335e240211d34ee857}{vsf\+\_\+nspro\+\_\+on\+\_\+sensor}} (\mbox{\hyperlink{structvk__sensor__evt__t}{vk\+\_\+sensor\+\_\+evt\+\_\+t}} $\ast$sensor\+\_\+evt)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__input__nspro_8c_a1bfe4fbb919c41252f431fae57bb38dc}\label{vsf__input__nspro_8c_a1bfe4fbb919c41252f431fae57bb38dc}} 
+\index{vsf\_input\_nspro.c@{vsf\_input\_nspro.c}!vsf\_input\_on\_new\_dev@{vsf\_input\_on\_new\_dev}}
+\index{vsf\_input\_on\_new\_dev@{vsf\_input\_on\_new\_dev}!vsf\_input\_nspro.c@{vsf\_input\_nspro.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_on\_new\_dev()}{vsf\_input\_on\_new\_dev()}}
+{\footnotesize\ttfamily void vsf\+\_\+input\+\_\+on\+\_\+new\+\_\+dev (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__input_8h_af0514a3f61422726e0fbaf9b456ba72e}{vk\+\_\+input\+\_\+type\+\_\+t}}}]{type,  }\item[{void $\ast$}]{dev }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__input__nspro_8c_a67db6964f651c796849cee0a4daae607}\label{vsf__input__nspro_8c_a67db6964f651c796849cee0a4daae607}} 
+\index{vsf\_input\_nspro.c@{vsf\_input\_nspro.c}!vsf\_input\_on\_free\_dev@{vsf\_input\_on\_free\_dev}}
+\index{vsf\_input\_on\_free\_dev@{vsf\_input\_on\_free\_dev}!vsf\_input\_nspro.c@{vsf\_input\_nspro.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_on\_free\_dev()}{vsf\_input\_on\_free\_dev()}}
+{\footnotesize\ttfamily void vsf\+\_\+input\+\_\+on\+\_\+free\+\_\+dev (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__input_8h_af0514a3f61422726e0fbaf9b456ba72e}{vk\+\_\+input\+\_\+type\+\_\+t}}}]{type,  }\item[{void $\ast$}]{dev }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__input__nspro_8c_ab71c42a882b0eebdb8abe0aa225ac403}\label{vsf__input__nspro_8c_ab71c42a882b0eebdb8abe0aa225ac403}} 
+\index{vsf\_input\_nspro.c@{vsf\_input\_nspro.c}!vsf\_input\_on\_sensor@{vsf\_input\_on\_sensor}}
+\index{vsf\_input\_on\_sensor@{vsf\_input\_on\_sensor}!vsf\_input\_nspro.c@{vsf\_input\_nspro.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_on\_sensor()}{vsf\_input\_on\_sensor()}}
+{\footnotesize\ttfamily void vsf\+\_\+input\+\_\+on\+\_\+sensor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__sensor__evt__t}{vk\+\_\+sensor\+\_\+evt\+\_\+t}} $\ast$}]{sensor\+\_\+evt }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__input__nspro_8c_aa573d867b7a53b9a9d0f7cc3893a11f9}\label{vsf__input__nspro_8c_aa573d867b7a53b9a9d0f7cc3893a11f9}} 
+\index{vsf\_input\_nspro.c@{vsf\_input\_nspro.c}!vsf\_input\_on\_gamepad@{vsf\_input\_on\_gamepad}}
+\index{vsf\_input\_on\_gamepad@{vsf\_input\_on\_gamepad}!vsf\_input\_nspro.c@{vsf\_input\_nspro.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_on\_gamepad()}{vsf\_input\_on\_gamepad()}}
+{\footnotesize\ttfamily void vsf\+\_\+input\+\_\+on\+\_\+gamepad (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__gamepad__evt__t}{vk\+\_\+gamepad\+\_\+evt\+\_\+t}} $\ast$}]{gamepad\+\_\+evt }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__input__nspro_8c_a03a9ccd8e47710db5c8a79380403596e}\label{vsf__input__nspro_8c_a03a9ccd8e47710db5c8a79380403596e}} 
+\index{vsf\_input\_nspro.c@{vsf\_input\_nspro.c}!vsf\_nspro\_on\_new\_dev@{vsf\_nspro\_on\_new\_dev}}
+\index{vsf\_nspro\_on\_new\_dev@{vsf\_nspro\_on\_new\_dev}!vsf\_input\_nspro.c@{vsf\_input\_nspro.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_nspro\_on\_new\_dev()}{vsf\_nspro\_on\_new\_dev()}}
+{\footnotesize\ttfamily void vsf\+\_\+nspro\+\_\+on\+\_\+new\+\_\+dev (\begin{DoxyParamCaption}\item[{void $\ast$}]{dev }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__input__nspro_8c_abe9af5a0c82cc1a9d6277dd3906ba597}\label{vsf__input__nspro_8c_abe9af5a0c82cc1a9d6277dd3906ba597}} 
+\index{vsf\_input\_nspro.c@{vsf\_input\_nspro.c}!vsf\_nspro\_on\_free\_dev@{vsf\_nspro\_on\_free\_dev}}
+\index{vsf\_nspro\_on\_free\_dev@{vsf\_nspro\_on\_free\_dev}!vsf\_input\_nspro.c@{vsf\_input\_nspro.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_nspro\_on\_free\_dev()}{vsf\_nspro\_on\_free\_dev()}}
+{\footnotesize\ttfamily void vsf\+\_\+nspro\+\_\+on\+\_\+free\+\_\+dev (\begin{DoxyParamCaption}\item[{void $\ast$}]{dev }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__input__nspro_8c_a335e8268a47a3a9a3764a40714b69205}\label{vsf__input__nspro_8c_a335e8268a47a3a9a3764a40714b69205}} 
+\index{vsf\_input\_nspro.c@{vsf\_input\_nspro.c}!vsf\_nspro\_on\_report\_parsed@{vsf\_nspro\_on\_report\_parsed}}
+\index{vsf\_nspro\_on\_report\_parsed@{vsf\_nspro\_on\_report\_parsed}!vsf\_input\_nspro.c@{vsf\_input\_nspro.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_nspro\_on\_report\_parsed()}{vsf\_nspro\_on\_report\_parsed()}}
+{\footnotesize\ttfamily void vsf\+\_\+nspro\+\_\+on\+\_\+report\+\_\+parsed (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__input__evt__t}{vk\+\_\+input\+\_\+evt\+\_\+t}} $\ast$}]{evt }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__input__nspro_8c_a40e12c7be224940ffae80917f9b23f50}\label{vsf__input__nspro_8c_a40e12c7be224940ffae80917f9b23f50}} 
+\index{vsf\_input\_nspro.c@{vsf\_input\_nspro.c}!vsf\_nspro\_on\_gamepad@{vsf\_nspro\_on\_gamepad}}
+\index{vsf\_nspro\_on\_gamepad@{vsf\_nspro\_on\_gamepad}!vsf\_input\_nspro.c@{vsf\_input\_nspro.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_nspro\_on\_gamepad()}{vsf\_nspro\_on\_gamepad()}}
+{\footnotesize\ttfamily void vsf\+\_\+nspro\+\_\+on\+\_\+gamepad (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__gamepad__evt__t}{vk\+\_\+gamepad\+\_\+evt\+\_\+t}} $\ast$}]{gamepad\+\_\+evt }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__input__nspro_8c_a9b6e41c87da0e0335e240211d34ee857}\label{vsf__input__nspro_8c_a9b6e41c87da0e0335e240211d34ee857}} 
+\index{vsf\_input\_nspro.c@{vsf\_input\_nspro.c}!vsf\_nspro\_on\_sensor@{vsf\_nspro\_on\_sensor}}
+\index{vsf\_nspro\_on\_sensor@{vsf\_nspro\_on\_sensor}!vsf\_input\_nspro.c@{vsf\_input\_nspro.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_nspro\_on\_sensor()}{vsf\_nspro\_on\_sensor()}}
+{\footnotesize\ttfamily void vsf\+\_\+nspro\+\_\+on\+\_\+sensor (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__sensor__evt__t}{vk\+\_\+sensor\+\_\+evt\+\_\+t}} $\ast$}]{sensor\+\_\+evt }\end{DoxyParamCaption})}
+

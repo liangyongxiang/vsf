@@ -1,0 +1,666 @@
+\hypertarget{vsf__fsm_8h}{}\doxysection{source/kernel/task/vsf\+\_\+fsm.h File Reference}
+\label{vsf__fsm_8h}\index{source/kernel/task/vsf\_fsm.h@{source/kernel/task/vsf\_fsm.h}}
+{\ttfamily \#include \char`\"{}./kernel/vsf\+\_\+kernel\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/vsf\+\_\+utilities.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a47d14110b1f90de23386a4a168f23756}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+SIMPLE\+\_\+\+FSM}}~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}{vsf\+\_\+this}}~($\ast$vsf\+\_\+pthis)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a2a0042983fc97d15294b93cd37735e27}{def\+\_\+states}}(...)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a44467ee748493ad3350b79386c8b9fec}{def\+\_\+params}}(...)~\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a11165c692d7f6453044c1b75189b63e1}{vsf\+\_\+args}}(...)~,\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_abc2141737569ececdd6986a5aa1270e7}{vsf\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\mbox{\hyperlink{vsf__task_8h_a9b40883403fafe023b10939a9b08a3ff}{vsf\+\_\+task}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_ab89827a6653d41c82432144d6d324793}{\+\_\+\+\_\+def\+\_\+fsm}}(\+\_\+\+\_\+fsm\+\_\+type, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a6f56161c98d33c0fcb4fc73c13e4ec8b}{def\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, ...)~        \mbox{\hyperlink{vsf__fsm_8h_ab89827a6653d41c82432144d6d324793}{\+\_\+\+\_\+def\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a940d95e65a2530a1bf4b05b10b858259}{def\+\_\+simple\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a6f741052b49f5bdbd889cc56e2774820}{end\+\_\+def\+\_\+simple\+\_\+fsm}}(...)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a95fc3d633fe204703285e697e753591b}{\+\_\+\+\_\+declare\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~        \mbox{\hyperlink{vsf__task_8h_a7aec93c63f7da05b14d507586091111d}{declare\+\_\+vsf\+\_\+task}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a9e21378d05cd9b33e5f73effc8dd9e86}{declare\+\_\+vsf\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\mbox{\hyperlink{vsf__fsm_8h_a95fc3d633fe204703285e697e753591b}{\+\_\+\+\_\+declare\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a258296f2610c630d4ed2917b128e6492}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+initialiser}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, ...)
+\begin{DoxyCompactList}\small\item\em extern fsm initialisation function and provide function prototye as $<$\+\_\+\+\_\+name$>$\+\_\+fn, E.\+g \mbox{\hyperlink{vsf__fsm_8h_a182cde2c665ae2637390a7f4783b2f5d}{extern\+\_\+vsf\+\_\+fsm\+\_\+initialiser( demo\+\_\+fsm )}}; we extern a function called\+: extern fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$demo\+\_\+fsm\+\_\+init( fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$fsm\+\_\+ptr ); and a prototype definition\+: typedef fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$demo\+\_\+fsm\+\_\+init\+\_\+fn( fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$fsm\+\_\+ptr ); We can then use demo\+\_\+fsm\+\_\+init\+\_\+fn to define function pointer \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a182cde2c665ae2637390a7f4783b2f5d}{extern\+\_\+vsf\+\_\+fsm\+\_\+initialiser}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, ...)~            \mbox{\hyperlink{vsf__fsm_8h_a258296f2610c630d4ed2917b128e6492}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+initialiser}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_ae15cf6f97ad15390ed8253ff31ffac19}{call\+\_\+vsf\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+fsm)~            \mbox{\hyperlink{vsf__task_8h_a9794a2572e3b6c580fa38ffb8634aeae}{vsf\+\_\+task\+\_\+call\+\_\+task}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+fsm)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a0e3a5d43e5f97cfa5b7825466ce64f01}{\+\_\+\+\_\+\+\_\+\+\_\+state}}(\+\_\+\+\_\+state, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a6aa5fc134f3fb5ae0e91c3386754dfb0}{vsf\+\_\+state}}(\+\_\+\+\_\+state, ...)~break; \mbox{\hyperlink{vsf__fsm_8h_a0e3a5d43e5f97cfa5b7825466ce64f01}{\+\_\+\+\_\+\+\_\+\+\_\+state}}(\+\_\+\+\_\+state, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a10320bf60e721faa3bfeff2f858e8bf2}{on\+\_\+start}}(...)~\{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+;\}
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a1947719e0249f225049282d165dc413a}{reset\+\_\+vsf\+\_\+fsm}}()~do \{ vsf\+\_\+this.\+fsm\+\_\+state = 0; \} while(0);
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_ae91b53dd0681685e661994dad0358163}{vsf\+\_\+fsm\+\_\+cpl}}()~do \{\mbox{\hyperlink{vsf__fsm_8h_a1947719e0249f225049282d165dc413a}{reset\+\_\+vsf\+\_\+fsm}}(); return \mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba4a8c8376097bb3422341537d533739c2}{fsm\+\_\+rt\+\_\+cpl}};\} while(0);
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a751531bde0d76b646a62d293361810c8}{vsf\+\_\+fsm\+\_\+report}}(\+\_\+\+\_\+\+ERROR)~do \{\mbox{\hyperlink{vsf__fsm_8h_a1947719e0249f225049282d165dc413a}{reset\+\_\+vsf\+\_\+fsm}}(); return (\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}})(\+\_\+\+\_\+\+ERROR); \} while(0);
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a42ccf733e73241eb04fdaa2eea96c2bf}{vsf\+\_\+fsm\+\_\+wait\+\_\+for\+\_\+obj}}()~return \mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0f040e69a462defae9298b7946f997bf}{fsm\+\_\+rt\+\_\+wait\+\_\+for\+\_\+obj}};
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a0226cd0fe6f5363cbcb3884f33094da1}{vsf\+\_\+fsm\+\_\+on\+\_\+going}}()~return \mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64baab382e0a010b65ca433edb2e8e6f2aee}{fsm\+\_\+rt\+\_\+on\+\_\+going}};
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a4a1435f1f0942039248f47dfc5417510}{update\+\_\+state\+\_\+to}}(\+\_\+\+\_\+state)~        \{ vsf\+\_\+this.\+fsm\+\_\+state = (\+\_\+\+\_\+state); goto \+\_\+\+\_\+state\+\_\+entry\+\_\+\#\#\+\_\+\+\_\+state;\}
+\begin{DoxyCompactList}\small\item\em fsm\+\_\+continue is deprecated, should not be used anymore \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a21879330e362c9d96b984a213d6dbb79}{transfer\+\_\+to}}(\+\_\+\+\_\+state)~         \{ vsf\+\_\+this.\+fsm\+\_\+state = (\+\_\+\+\_\+state); \mbox{\hyperlink{vsf__fsm_8h_a0226cd0fe6f5363cbcb3884f33094da1}{vsf\+\_\+fsm\+\_\+on\+\_\+going}}() \}
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a89b94314d343772254577144057090f2}{\+\_\+\+\_\+fsm\+\_\+initialiser}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_ae564c3e47bcdb224abc4814f2fb7f4c9}{vsf\+\_\+fsm\+\_\+initialiser}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, ...)~            \mbox{\hyperlink{vsf__fsm_8h_a89b94314d343772254577144057090f2}{\+\_\+\+\_\+fsm\+\_\+initialiser}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a8473d068a6a9fa8998a2b634b0694a24}{abort\+\_\+vsf\+\_\+fsm\+\_\+init}}()~return \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_afb7ae6d03c21e3dfbfa1bd3928ff3ec7}{vsf\+\_\+fsm\+\_\+init\+\_\+body}}(...)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a93717ef6e8acc690a86659f06c1283a0}{init\+\_\+vsf\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+fsm, ...)~        \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+init(\+\_\+\+\_\+fsm \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a3ee0fdc9a5dd78f6567881b3710633cf}{init\+\_\+simple\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+fsm, ...)~        \mbox{\hyperlink{vsf__fsm_8h_a93717ef6e8acc690a86659f06c1283a0}{init\+\_\+vsf\+\_\+fsm}}(\+\_\+\+\_\+fsm \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_adb7129a9a995ceb78ea95a3a6f42bf52}{start\+\_\+vsf\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+fsm,  \+\_\+\+\_\+pri, ...)~            \mbox{\hyperlink{vsf__task_8h_acdc6da176d824777856f9d2991623117}{init\+\_\+vsf\+\_\+task}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+fsm), (\+\_\+\+\_\+pri), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_ab72e2dcbdecd935d6e68eebaa00bd37f}{start\+\_\+simple\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+fsm,  \+\_\+\+\_\+pri, ...)~            \mbox{\hyperlink{vsf__fsm_8h_adb7129a9a995ceb78ea95a3a6f42bf52}{start\+\_\+vsf\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+fsm), (\+\_\+\+\_\+pri), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_ad2dd23ab1fd916c823767426e3319a52}{\+\_\+\+\_\+implement\+\_\+fsm\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}})
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a59fca299a8656dad1c8b77e733decaa4}{\+\_\+\+\_\+body}}(...)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a5c2d4d6ee61e78daf90361f02b9d65fe}{vsf\+\_\+fsm\+\_\+body}}(...)~\mbox{\hyperlink{vsf__fsm_8h_a59fca299a8656dad1c8b77e733decaa4}{\+\_\+\+\_\+body}}(\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a5768678565d3e59808fe2ff812755fea}{vsf\+\_\+fsm\+\_\+begin}}()
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a0575af5e2ff35dbdbf67dc1a1b7f30a0}{vsf\+\_\+fsm\+\_\+end}}()
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a337a9cd285d0b058b695ef6b37bd2ede}{implement\+\_\+fsm\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}})~            \mbox{\hyperlink{vsf__fsm_8h_ad2dd23ab1fd916c823767426e3319a52}{\+\_\+\+\_\+implement\+\_\+fsm\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}})
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_ab44b5e064f88a55d8809e63d1e6cf008}{\+\_\+\+\_\+implement\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~            \mbox{\hyperlink{vsf__fsm_8h_a337a9cd285d0b058b695ef6b37bd2ede}{implement\+\_\+fsm\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_afbbec52f379850d7f734f63e91809042}{implement\+\_\+vsf\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, ...)~\mbox{\hyperlink{vsf__fsm_8h_ab44b5e064f88a55d8809e63d1e6cf008}{\+\_\+\+\_\+implement\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a3ad2aac049a08156f927d0fb85bd99db}{\+\_\+\+\_\+privilege\+\_\+state}}(\+\_\+\+\_\+state, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a6c2e237576d016bdaf4f9642da8d2abe}{privilege\+\_\+state}}(\+\_\+\+\_\+state, ...)~            \mbox{\hyperlink{vsf__fsm_8h_a3ad2aac049a08156f927d0fb85bd99db}{\+\_\+\+\_\+privilege\+\_\+state}}(\+\_\+\+\_\+state, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a542ba57bb98397507bedae5df5c517a2}{privilege\+\_\+group}}(...)~\{ \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+;\}
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a070b156e6005bdb6fb7e27a4247bae75}{privilege\+\_\+body}}(...)
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_aad0636ed009ff32be2209d84962698b2}{\+\_\+\+\_\+\+FSM\+\_\+\+RT\+\_\+\+TYPE\+\_\+\+\_\+}}
+\end{DoxyCompactItemize}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a1e774155d2f06c053cdafc3b2adbe42e}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+implementation\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}})
+\begin{DoxyCompactList}\small\item\em extern fsm task function and provide function prototye as $<$\+\_\+\+\_\+name$>$\+\_\+fn, E.\+g \mbox{\hyperlink{vsf__fsm_8h_a79ef75f2f00a54f16ff10901f1dd3658}{extern\+\_\+vsf\+\_\+fsm\+\_\+implementation( demo\+\_\+fsm )}}; we extern a function called\+: fsm\+\_\+rt\+\_\+t demo\+\_\+fsm( fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$fsm\+\_\+ptr ) and a prototype definition\+: typedef fsm\+\_\+rt\+\_\+t demo\+\_\+fsm\+\_\+fn (fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$fsm\+\_\+ptr); We can then use demo\+\_\+fsm\+\_\+fn to define function pointer \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_ae1533bee606f3aae2b83ed0d5e4a680c}{declare\+\_\+vsf\+\_\+fsm\+\_\+implementation\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}})~            \mbox{\hyperlink{vsf__fsm_8h_a1e774155d2f06c053cdafc3b2adbe42e}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+implementation\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}})
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_aa4d8d717601ab7b6889073d2fcf24036}{extern\+\_\+vsf\+\_\+fsm\+\_\+implementation\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}})~            \mbox{\hyperlink{vsf__fsm_8h_a1e774155d2f06c053cdafc3b2adbe42e}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+implementation\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}})
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_a79ef75f2f00a54f16ff10901f1dd3658}{extern\+\_\+vsf\+\_\+fsm\+\_\+implementation}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~            \mbox{\hyperlink{vsf__fsm_8h_a1e774155d2f06c053cdafc3b2adbe42e}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+implementation\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__fsm_8h_af344a6ebc006e7d0c7d7cb0971977cac}{declare\+\_\+vsf\+\_\+fsm\+\_\+implementation}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~            \mbox{\hyperlink{vsf__fsm_8h_a1e774155d2f06c053cdafc3b2adbe42e}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+implementation\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\end{DoxyCompactItemize}
+
+\doxysubsection*{Enumerations}
+\begin{Indent}\textbf{ finit vsf\+\_\+state machine vsf\+\_\+state}\par
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0ab46ffc875089c19bdd6a7845628892}{fsm\+\_\+rt\+\_\+err}} = -\/1
+, \newline
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba4a8c8376097bb3422341537d533739c2}{fsm\+\_\+rt\+\_\+cpl}} = 0
+, \newline
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64baab382e0a010b65ca433edb2e8e6f2aee}{fsm\+\_\+rt\+\_\+on\+\_\+going}} = 1
+, \newline
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0f040e69a462defae9298b7946f997bf}{fsm\+\_\+rt\+\_\+wait\+\_\+for\+\_\+obj}} = 2
+, \newline
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0a969ed0ac28b396f075d63d6c6e5079}{fsm\+\_\+rt\+\_\+asyn}} = 3
+, \newline
+\mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0ab46ffc875089c19bdd6a7845628892}{fsm\+\_\+rt\+\_\+err}} = -\/1
+, \newline
+\mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba4a8c8376097bb3422341537d533739c2}{fsm\+\_\+rt\+\_\+cpl}} = 0
+, \newline
+\mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64baab382e0a010b65ca433edb2e8e6f2aee}{fsm\+\_\+rt\+\_\+on\+\_\+going}} = 1
+, \newline
+\mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba7ada37e5681b5e67679104f23898a060}{fsm\+\_\+rt\+\_\+yield}} = 1
+, \newline
+\mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0f040e69a462defae9298b7946f997bf}{fsm\+\_\+rt\+\_\+wait\+\_\+for\+\_\+obj}} = 2
+, \newline
+\mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba05117f71a2c83284c937e4a57156af0c}{fsm\+\_\+rt\+\_\+wait\+\_\+for\+\_\+evt}} = 2
+, \newline
+\mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba95d186191eb763fc07b337f854c554bd}{fsm\+\_\+rt\+\_\+wfe}} = 2
+, \newline
+\mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0a969ed0ac28b396f075d63d6c6e5079}{fsm\+\_\+rt\+\_\+asyn}} = 3
+, \newline
+\mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba36c957f5963006a690a6db52cfdbbfb0}{fsm\+\_\+rt\+\_\+user}} = 4
+ \}
+\end{DoxyCompactItemize}
+\end{Indent}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__fsm_8h_a47d14110b1f90de23386a4a168f23756}\label{vsf__fsm_8h_a47d14110b1f90de23386a4a168f23756}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM}}
+\index{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM}{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+SIMPLE\+\_\+\+FSM~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}\label{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_this@{vsf\_this}}
+\index{vsf\_this@{vsf\_this}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_this}{vsf\_this}}
+{\footnotesize\ttfamily \#define vsf\+\_\+this~($\ast$vsf\+\_\+pthis)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a2a0042983fc97d15294b93cd37735e27}\label{vsf__fsm_8h_a2a0042983fc97d15294b93cd37735e27}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!def\_states@{def\_states}}
+\index{def\_states@{def\_states}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{def\_states}{def\_states}}
+{\footnotesize\ttfamily \#define def\+\_\+states(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keyword}{enum} \{                                                                  \(\backslash\)}
+\DoxyCodeLine{            START = 0,                                                          \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_                                                         \(\backslash\)}
+\DoxyCodeLine{        \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_a44467ee748493ad3350b79386c8b9fec}\label{vsf__fsm_8h_a44467ee748493ad3350b79386c8b9fec}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!def\_params@{def\_params}}
+\index{def\_params@{def\_params}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{def\_params}{def\_params}}
+{\footnotesize\ttfamily \#define def\+\_\+params(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a11165c692d7f6453044c1b75189b63e1}\label{vsf__fsm_8h_a11165c692d7f6453044c1b75189b63e1}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_args@{vsf\_args}}
+\index{vsf\_args@{vsf\_args}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_args}{vsf\_args}}
+{\footnotesize\ttfamily \#define vsf\+\_\+args(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~,\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__fsm_8h_abc2141737569ececdd6986a5aa1270e7}\label{vsf__fsm_8h_abc2141737569ececdd6986a5aa1270e7}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_fsm@{vsf\_fsm}}
+\index{vsf\_fsm@{vsf\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fsm}{vsf\_fsm}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__task_8h_a9b40883403fafe023b10939a9b08a3ff}{vsf\+\_\+task}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__fsm_8h_ab89827a6653d41c82432144d6d324793}\label{vsf__fsm_8h_ab89827a6653d41c82432144d6d324793}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!\_\_def\_fsm@{\_\_def\_fsm}}
+\index{\_\_def\_fsm@{\_\_def\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{\_\_def\_fsm}{\_\_def\_fsm}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+def\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+fsm\+\_\+type,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \mbox{\hyperlink{vsf__task_8h_a7700600746a180e7398d65ef3f18d867}{def\_vsf\_task}}(\_\_fsm\_type,                                                \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_);}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_a6f56161c98d33c0fcb4fc73c13e4ec8b}\label{vsf__fsm_8h_a6f56161c98d33c0fcb4fc73c13e4ec8b}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!def\_fsm@{def\_fsm}}
+\index{def\_fsm@{def\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{def\_fsm}{def\_fsm}}
+{\footnotesize\ttfamily \#define def\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{... }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__fsm_8h_ab89827a6653d41c82432144d6d324793}{\+\_\+\+\_\+def\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a940d95e65a2530a1bf4b05b10b858259}\label{vsf__fsm_8h_a940d95e65a2530a1bf4b05b10b858259}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!def\_simple\_fsm@{def\_simple\_fsm}}
+\index{def\_simple\_fsm@{def\_simple\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{def\_simple\_fsm}{def\_simple\_fsm}}
+{\footnotesize\ttfamily \#define def\+\_\+simple\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \mbox{\hyperlink{vsf__fsm_8h_a95fc3d633fe204703285e697e753591b}{\_\_declare\_fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}});                                                  \(\backslash\)}
+\DoxyCodeLine{        \_\_def\_fsm(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}, \_\_VA\_ARGS\_\_)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_a6f741052b49f5bdbd889cc56e2774820}\label{vsf__fsm_8h_a6f741052b49f5bdbd889cc56e2774820}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!end\_def\_simple\_fsm@{end\_def\_simple\_fsm}}
+\index{end\_def\_simple\_fsm@{end\_def\_simple\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{end\_def\_simple\_fsm}{end\_def\_simple\_fsm}}
+{\footnotesize\ttfamily \#define end\+\_\+def\+\_\+simple\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a95fc3d633fe204703285e697e753591b}\label{vsf__fsm_8h_a95fc3d633fe204703285e697e753591b}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!\_\_declare\_fsm@{\_\_declare\_fsm}}
+\index{\_\_declare\_fsm@{\_\_declare\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{\_\_declare\_fsm}{\_\_declare\_fsm}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+declare\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__task_8h_a7aec93c63f7da05b14d507586091111d}{declare\+\_\+vsf\+\_\+task}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a9e21378d05cd9b33e5f73effc8dd9e86}\label{vsf__fsm_8h_a9e21378d05cd9b33e5f73effc8dd9e86}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!declare\_vsf\_fsm@{declare\_vsf\_fsm}}
+\index{declare\_vsf\_fsm@{declare\_vsf\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{declare\_vsf\_fsm}{declare\_vsf\_fsm}}
+{\footnotesize\ttfamily \#define declare\+\_\+vsf\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__fsm_8h_a95fc3d633fe204703285e697e753591b}{\+\_\+\+\_\+declare\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a258296f2610c630d4ed2917b128e6492}\label{vsf__fsm_8h_a258296f2610c630d4ed2917b128e6492}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!\_\_extern\_fsm\_initialiser@{\_\_extern\_fsm\_initialiser}}
+\index{\_\_extern\_fsm\_initialiser@{\_\_extern\_fsm\_initialiser}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{\_\_extern\_fsm\_initialiser}{\_\_extern\_fsm\_initialiser}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+extern\+\_\+fsm\+\_\+initialiser(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \mbox{\hyperlink{vsf__fsm_8h_abc2141737569ececdd6986a5aa1270e7}{vsf\_fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}) *\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_init(\mbox{\hyperlink{vsf__fsm_8h_abc2141737569ececdd6986a5aa1270e7}{vsf\_fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}) *fsm\_ptr \_\_VA\_ARGS\_\_);           \(\backslash\)}
+\DoxyCodeLine{        typedef \mbox{\hyperlink{vsf__fsm_8h_abc2141737569ececdd6986a5aa1270e7}{vsf\_fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}) *\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_init\_fn(\mbox{\hyperlink{vsf__fsm_8h_abc2141737569ececdd6986a5aa1270e7}{vsf\_fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}) *fsm\_ptr \_\_VA\_ARGS\_\_);}
+
+\end{DoxyCode}
+
+
+extern fsm initialisation function and provide function prototye as $<$\+\_\+\+\_\+name$>$\+\_\+fn, E.\+g \mbox{\hyperlink{vsf__fsm_8h_a182cde2c665ae2637390a7f4783b2f5d}{extern\+\_\+vsf\+\_\+fsm\+\_\+initialiser( demo\+\_\+fsm )}}; we extern a function called\+: extern fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$demo\+\_\+fsm\+\_\+init( fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$fsm\+\_\+ptr ); and a prototype definition\+: typedef fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$demo\+\_\+fsm\+\_\+init\+\_\+fn( fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$fsm\+\_\+ptr ); We can then use demo\+\_\+fsm\+\_\+init\+\_\+fn to define function pointer 
+
+\mbox{\Hypertarget{vsf__fsm_8h_a182cde2c665ae2637390a7f4783b2f5d}\label{vsf__fsm_8h_a182cde2c665ae2637390a7f4783b2f5d}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!extern\_vsf\_fsm\_initialiser@{extern\_vsf\_fsm\_initialiser}}
+\index{extern\_vsf\_fsm\_initialiser@{extern\_vsf\_fsm\_initialiser}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{extern\_vsf\_fsm\_initialiser}{extern\_vsf\_fsm\_initialiser}}
+{\footnotesize\ttfamily \#define extern\+\_\+vsf\+\_\+fsm\+\_\+initialiser(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fsm_8h_a258296f2610c630d4ed2917b128e6492}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+initialiser}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a1e774155d2f06c053cdafc3b2adbe42e}\label{vsf__fsm_8h_a1e774155d2f06c053cdafc3b2adbe42e}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!\_\_extern\_fsm\_implementation\_ex@{\_\_extern\_fsm\_implementation\_ex}}
+\index{\_\_extern\_fsm\_implementation\_ex@{\_\_extern\_fsm\_implementation\_ex}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{\_\_extern\_fsm\_implementation\_ex}{\_\_extern\_fsm\_implementation\_ex}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+extern\+\_\+fsm\+\_\+implementation\+\_\+ex(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}} }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\_rt\_t}} \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}(fsm(\mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\_\_type}}) *vsf\_pthis, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\_evt\_t}} evt);                 \(\backslash\)}
+\DoxyCodeLine{        typedef \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\_rt\_t}} \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_fn( \mbox{\hyperlink{vsf__fsm_8h_abc2141737569ececdd6986a5aa1270e7}{vsf\_fsm}}(\mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\_\_type}}) *vsf\_pthis, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\_evt\_t}} evt );}
+
+\end{DoxyCode}
+
+
+extern fsm task function and provide function prototye as $<$\+\_\+\+\_\+name$>$\+\_\+fn, E.\+g \mbox{\hyperlink{vsf__fsm_8h_a79ef75f2f00a54f16ff10901f1dd3658}{extern\+\_\+vsf\+\_\+fsm\+\_\+implementation( demo\+\_\+fsm )}}; we extern a function called\+: fsm\+\_\+rt\+\_\+t demo\+\_\+fsm( fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$fsm\+\_\+ptr ) and a prototype definition\+: typedef fsm\+\_\+rt\+\_\+t demo\+\_\+fsm\+\_\+fn (fsm\+\_\+demo\+\_\+fsm\+\_\+t $\ast$fsm\+\_\+ptr); We can then use demo\+\_\+fsm\+\_\+fn to define function pointer 
+
+\mbox{\Hypertarget{vsf__fsm_8h_ae1533bee606f3aae2b83ed0d5e4a680c}\label{vsf__fsm_8h_ae1533bee606f3aae2b83ed0d5e4a680c}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!declare\_vsf\_fsm\_implementation\_ex@{declare\_vsf\_fsm\_implementation\_ex}}
+\index{declare\_vsf\_fsm\_implementation\_ex@{declare\_vsf\_fsm\_implementation\_ex}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{declare\_vsf\_fsm\_implementation\_ex}{declare\_vsf\_fsm\_implementation\_ex}}
+{\footnotesize\ttfamily \#define declare\+\_\+vsf\+\_\+fsm\+\_\+implementation\+\_\+ex(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}} }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fsm_8h_a1e774155d2f06c053cdafc3b2adbe42e}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+implementation\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}})}
+
+\mbox{\Hypertarget{vsf__fsm_8h_aa4d8d717601ab7b6889073d2fcf24036}\label{vsf__fsm_8h_aa4d8d717601ab7b6889073d2fcf24036}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!extern\_vsf\_fsm\_implementation\_ex@{extern\_vsf\_fsm\_implementation\_ex}}
+\index{extern\_vsf\_fsm\_implementation\_ex@{extern\_vsf\_fsm\_implementation\_ex}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{extern\_vsf\_fsm\_implementation\_ex}{extern\_vsf\_fsm\_implementation\_ex}}
+{\footnotesize\ttfamily \#define extern\+\_\+vsf\+\_\+fsm\+\_\+implementation\+\_\+ex(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}} }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fsm_8h_a1e774155d2f06c053cdafc3b2adbe42e}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+implementation\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}})}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a79ef75f2f00a54f16ff10901f1dd3658}\label{vsf__fsm_8h_a79ef75f2f00a54f16ff10901f1dd3658}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!extern\_vsf\_fsm\_implementation@{extern\_vsf\_fsm\_implementation}}
+\index{extern\_vsf\_fsm\_implementation@{extern\_vsf\_fsm\_implementation}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{extern\_vsf\_fsm\_implementation}{extern\_vsf\_fsm\_implementation}}
+{\footnotesize\ttfamily \#define extern\+\_\+vsf\+\_\+fsm\+\_\+implementation(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fsm_8h_a1e774155d2f06c053cdafc3b2adbe42e}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+implementation\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__fsm_8h_af344a6ebc006e7d0c7d7cb0971977cac}\label{vsf__fsm_8h_af344a6ebc006e7d0c7d7cb0971977cac}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!declare\_vsf\_fsm\_implementation@{declare\_vsf\_fsm\_implementation}}
+\index{declare\_vsf\_fsm\_implementation@{declare\_vsf\_fsm\_implementation}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{declare\_vsf\_fsm\_implementation}{declare\_vsf\_fsm\_implementation}}
+{\footnotesize\ttfamily \#define declare\+\_\+vsf\+\_\+fsm\+\_\+implementation(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fsm_8h_a1e774155d2f06c053cdafc3b2adbe42e}{\+\_\+\+\_\+extern\+\_\+fsm\+\_\+implementation\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__fsm_8h_ae15cf6f97ad15390ed8253ff31ffac19}\label{vsf__fsm_8h_ae15cf6f97ad15390ed8253ff31ffac19}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!call\_vsf\_fsm@{call\_vsf\_fsm}}
+\index{call\_vsf\_fsm@{call\_vsf\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{call\_vsf\_fsm}{call\_vsf\_fsm}}
+{\footnotesize\ttfamily \#define call\+\_\+vsf\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+fsm }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__task_8h_a9794a2572e3b6c580fa38ffb8634aeae}{vsf\+\_\+task\+\_\+call\+\_\+task}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+fsm)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a0e3a5d43e5f97cfa5b7825466ce64f01}\label{vsf__fsm_8h_a0e3a5d43e5f97cfa5b7825466ce64f01}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!\_\_\_\_state@{\_\_\_\_state}}
+\index{\_\_\_\_state@{\_\_\_\_state}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{\_\_\_\_state}{\_\_\_\_state}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+\_\+\+\_\+state(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{keywordflow}{case} \_\_state:                                                       \(\backslash\)}
+\DoxyCodeLine{        \_\_state\_entry\_\#\#\_\_state:\{                                               \(\backslash\)}
+\DoxyCodeLine{                \_\_VA\_ARGS\_\_;                                                    \(\backslash\)}
+\DoxyCodeLine{            \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_a6aa5fc134f3fb5ae0e91c3386754dfb0}\label{vsf__fsm_8h_a6aa5fc134f3fb5ae0e91c3386754dfb0}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_state@{vsf\_state}}
+\index{vsf\_state@{vsf\_state}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_state}{vsf\_state}}
+{\footnotesize\ttfamily \#define vsf\+\_\+state(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state,  }\item[{}]{... }\end{DoxyParamCaption})~break; \mbox{\hyperlink{vsf__fsm_8h_a0e3a5d43e5f97cfa5b7825466ce64f01}{\+\_\+\+\_\+\+\_\+\+\_\+state}}(\+\_\+\+\_\+state, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a10320bf60e721faa3bfeff2f858e8bf2}\label{vsf__fsm_8h_a10320bf60e721faa3bfeff2f858e8bf2}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!on\_start@{on\_start}}
+\index{on\_start@{on\_start}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{on\_start}{on\_start}}
+{\footnotesize\ttfamily \#define on\+\_\+start(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+;\}}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a1947719e0249f225049282d165dc413a}\label{vsf__fsm_8h_a1947719e0249f225049282d165dc413a}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!reset\_vsf\_fsm@{reset\_vsf\_fsm}}
+\index{reset\_vsf\_fsm@{reset\_vsf\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{reset\_vsf\_fsm}{reset\_vsf\_fsm}}
+{\footnotesize\ttfamily \#define reset\+\_\+vsf\+\_\+fsm(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~do \{ vsf\+\_\+this.\+fsm\+\_\+state = 0; \} while(0);}
+
+\mbox{\Hypertarget{vsf__fsm_8h_ae91b53dd0681685e661994dad0358163}\label{vsf__fsm_8h_ae91b53dd0681685e661994dad0358163}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_fsm\_cpl@{vsf\_fsm\_cpl}}
+\index{vsf\_fsm\_cpl@{vsf\_fsm\_cpl}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fsm\_cpl}{vsf\_fsm\_cpl}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fsm\+\_\+cpl(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~do \{\mbox{\hyperlink{vsf__fsm_8h_a1947719e0249f225049282d165dc413a}{reset\+\_\+vsf\+\_\+fsm}}(); return \mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba4a8c8376097bb3422341537d533739c2}{fsm\+\_\+rt\+\_\+cpl}};\} while(0);}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a751531bde0d76b646a62d293361810c8}\label{vsf__fsm_8h_a751531bde0d76b646a62d293361810c8}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_fsm\_report@{vsf\_fsm\_report}}
+\index{vsf\_fsm\_report@{vsf\_fsm\_report}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fsm\_report}{vsf\_fsm\_report}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fsm\+\_\+report(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+ERROR }\end{DoxyParamCaption})~do \{\mbox{\hyperlink{vsf__fsm_8h_a1947719e0249f225049282d165dc413a}{reset\+\_\+vsf\+\_\+fsm}}(); return (\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}})(\+\_\+\+\_\+\+ERROR); \} while(0);}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a42ccf733e73241eb04fdaa2eea96c2bf}\label{vsf__fsm_8h_a42ccf733e73241eb04fdaa2eea96c2bf}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_fsm\_wait\_for\_obj@{vsf\_fsm\_wait\_for\_obj}}
+\index{vsf\_fsm\_wait\_for\_obj@{vsf\_fsm\_wait\_for\_obj}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fsm\_wait\_for\_obj}{vsf\_fsm\_wait\_for\_obj}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fsm\+\_\+wait\+\_\+for\+\_\+obj(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~return \mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0f040e69a462defae9298b7946f997bf}{fsm\+\_\+rt\+\_\+wait\+\_\+for\+\_\+obj}};}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a0226cd0fe6f5363cbcb3884f33094da1}\label{vsf__fsm_8h_a0226cd0fe6f5363cbcb3884f33094da1}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_fsm\_on\_going@{vsf\_fsm\_on\_going}}
+\index{vsf\_fsm\_on\_going@{vsf\_fsm\_on\_going}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fsm\_on\_going}{vsf\_fsm\_on\_going}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fsm\+\_\+on\+\_\+going(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~return \mbox{\hyperlink{____type_8h_ae61ab5e1d66a489d89fa8786e6b5f64baab382e0a010b65ca433edb2e8e6f2aee}{fsm\+\_\+rt\+\_\+on\+\_\+going}};}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a4a1435f1f0942039248f47dfc5417510}\label{vsf__fsm_8h_a4a1435f1f0942039248f47dfc5417510}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!update\_state\_to@{update\_state\_to}}
+\index{update\_state\_to@{update\_state\_to}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{update\_state\_to}{update\_state\_to}}
+{\footnotesize\ttfamily \#define update\+\_\+state\+\_\+to(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state }\end{DoxyParamCaption})~        \{ vsf\+\_\+this.\+fsm\+\_\+state = (\+\_\+\+\_\+state); goto \+\_\+\+\_\+state\+\_\+entry\+\_\+\#\#\+\_\+\+\_\+state;\}}
+
+
+
+fsm\+\_\+continue is deprecated, should not be used anymore 
+
+\mbox{\Hypertarget{vsf__fsm_8h_a21879330e362c9d96b984a213d6dbb79}\label{vsf__fsm_8h_a21879330e362c9d96b984a213d6dbb79}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!transfer\_to@{transfer\_to}}
+\index{transfer\_to@{transfer\_to}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{transfer\_to}{transfer\_to}}
+{\footnotesize\ttfamily \#define transfer\+\_\+to(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state }\end{DoxyParamCaption})~         \{ vsf\+\_\+this.\+fsm\+\_\+state = (\+\_\+\+\_\+state); \mbox{\hyperlink{vsf__fsm_8h_a0226cd0fe6f5363cbcb3884f33094da1}{vsf\+\_\+fsm\+\_\+on\+\_\+going}}() \}}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a89b94314d343772254577144057090f2}\label{vsf__fsm_8h_a89b94314d343772254577144057090f2}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!\_\_fsm\_initialiser@{\_\_fsm\_initialiser}}
+\index{\_\_fsm\_initialiser@{\_\_fsm\_initialiser}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{\_\_fsm\_initialiser}{\_\_fsm\_initialiser}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+fsm\+\_\+initialiser(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \mbox{\hyperlink{vsf__fsm_8h_abc2141737569ececdd6986a5aa1270e7}{vsf\_fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}) *\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_init(\mbox{\hyperlink{vsf__fsm_8h_abc2141737569ececdd6986a5aa1270e7}{vsf\_fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}) *vsf\_pthis \_\_VA\_ARGS\_\_)  \(\backslash\)}
+\DoxyCodeLine{        \{                                                                       \(\backslash\)}
+\DoxyCodeLine{            VSF\_KERNEL\_ASSERT (\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} != vsf\_pthis);                              \(\backslash\)}
+\DoxyCodeLine{            vsf\_this.fsm\_state = 0;}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_ae564c3e47bcdb224abc4814f2fb7f4c9}\label{vsf__fsm_8h_ae564c3e47bcdb224abc4814f2fb7f4c9}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_fsm\_initialiser@{vsf\_fsm\_initialiser}}
+\index{vsf\_fsm\_initialiser@{vsf\_fsm\_initialiser}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fsm\_initialiser}{vsf\_fsm\_initialiser}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fsm\+\_\+initialiser(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fsm_8h_a89b94314d343772254577144057090f2}{\+\_\+\+\_\+fsm\+\_\+initialiser}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a8473d068a6a9fa8998a2b634b0694a24}\label{vsf__fsm_8h_a8473d068a6a9fa8998a2b634b0694a24}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!abort\_vsf\_fsm\_init@{abort\_vsf\_fsm\_init}}
+\index{abort\_vsf\_fsm\_init@{abort\_vsf\_fsm\_init}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{abort\_vsf\_fsm\_init}{abort\_vsf\_fsm\_init}}
+{\footnotesize\ttfamily \#define abort\+\_\+vsf\+\_\+fsm\+\_\+init(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~return \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};}
+
+\mbox{\Hypertarget{vsf__fsm_8h_afb7ae6d03c21e3dfbfa1bd3928ff3ec7}\label{vsf__fsm_8h_afb7ae6d03c21e3dfbfa1bd3928ff3ec7}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_fsm\_init\_body@{vsf\_fsm\_init\_body}}
+\index{vsf\_fsm\_init\_body@{vsf\_fsm\_init\_body}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fsm\_init\_body}{vsf\_fsm\_init\_body}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fsm\+\_\+init\+\_\+body(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_                                                         \(\backslash\)}
+\DoxyCodeLine{            return \&\mbox{\hyperlink{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}{vsf\_this}};                                                   \(\backslash\)}
+\DoxyCodeLine{        \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_a93717ef6e8acc690a86659f06c1283a0}\label{vsf__fsm_8h_a93717ef6e8acc690a86659f06c1283a0}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!init\_vsf\_fsm@{init\_vsf\_fsm}}
+\index{init\_vsf\_fsm@{init\_vsf\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{init\_vsf\_fsm}{init\_vsf\_fsm}}
+{\footnotesize\ttfamily \#define init\+\_\+vsf\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+fsm,  }\item[{}]{... }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+init(\+\_\+\+\_\+fsm \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a3ee0fdc9a5dd78f6567881b3710633cf}\label{vsf__fsm_8h_a3ee0fdc9a5dd78f6567881b3710633cf}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!init\_simple\_fsm@{init\_simple\_fsm}}
+\index{init\_simple\_fsm@{init\_simple\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{init\_simple\_fsm}{init\_simple\_fsm}}
+{\footnotesize\ttfamily \#define init\+\_\+simple\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+fsm,  }\item[{}]{... }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__fsm_8h_a93717ef6e8acc690a86659f06c1283a0}{init\+\_\+vsf\+\_\+fsm}}(\+\_\+\+\_\+fsm \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_adb7129a9a995ceb78ea95a3a6f42bf52}\label{vsf__fsm_8h_adb7129a9a995ceb78ea95a3a6f42bf52}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!start\_vsf\_fsm@{start\_vsf\_fsm}}
+\index{start\_vsf\_fsm@{start\_vsf\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{start\_vsf\_fsm}{start\_vsf\_fsm}}
+{\footnotesize\ttfamily \#define start\+\_\+vsf\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+fsm,  }\item[{}]{\+\_\+\+\_\+pri,  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__task_8h_acdc6da176d824777856f9d2991623117}{init\+\_\+vsf\+\_\+task}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+fsm), (\+\_\+\+\_\+pri), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_ab72e2dcbdecd935d6e68eebaa00bd37f}\label{vsf__fsm_8h_ab72e2dcbdecd935d6e68eebaa00bd37f}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!start\_simple\_fsm@{start\_simple\_fsm}}
+\index{start\_simple\_fsm@{start\_simple\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{start\_simple\_fsm}{start\_simple\_fsm}}
+{\footnotesize\ttfamily \#define start\+\_\+simple\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+fsm,  }\item[{}]{\+\_\+\+\_\+pri,  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fsm_8h_adb7129a9a995ceb78ea95a3a6f42bf52}{start\+\_\+vsf\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+fsm), (\+\_\+\+\_\+pri), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_ad2dd23ab1fd916c823767426e3319a52}\label{vsf__fsm_8h_ad2dd23ab1fd916c823767426e3319a52}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!\_\_implement\_fsm\_ex@{\_\_implement\_fsm\_ex}}
+\index{\_\_implement\_fsm\_ex@{\_\_implement\_fsm\_ex}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{\_\_implement\_fsm\_ex}{\_\_implement\_fsm\_ex}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+implement\+\_\+fsm\+\_\+ex(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}} }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \mbox{\hyperlink{vsf__task_8h_a541ee9e52780730e811b613fa9bed692}{implement\_vsf\_task}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}})                                                  \(\backslash\)}
+\DoxyCodeLine{    \{                                                                           \(\backslash\)}
+\DoxyCodeLine{        vsf\_task\_begin();                                                       \(\backslash\)}
+\DoxyCodeLine{        if (\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} == vsf\_pthis) \{                                                \(\backslash\)}
+\DoxyCodeLine{            return \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0ab46ffc875089c19bdd6a7845628892}{fsm\_rt\_err}};                                                  \(\backslash\)}
+\DoxyCodeLine{        \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_a59fca299a8656dad1c8b77e733decaa4}\label{vsf__fsm_8h_a59fca299a8656dad1c8b77e733decaa4}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!\_\_body@{\_\_body}}
+\index{\_\_body@{\_\_body}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{\_\_body}{\_\_body}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+body(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keywordflow}{switch} (\mbox{\hyperlink{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}{vsf\_this}}.fsm\_state) \{                                           \(\backslash\)}
+\DoxyCodeLine{            case 0:                                                             \(\backslash\)}
+\DoxyCodeLine{                vsf\_this.fsm\_state++;                                           \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_                                                         \(\backslash\)}
+\DoxyCodeLine{            break;                                                              \(\backslash\)}
+\DoxyCodeLine{            default:                                                            \(\backslash\)}
+\DoxyCodeLine{            return \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0ab46ffc875089c19bdd6a7845628892}{fsm\_rt\_err}};                                                  \(\backslash\)}
+\DoxyCodeLine{        \}                                                                       \mbox{\hyperlink{vsf__task_8h_aae6ec9f60d7a8a43cbb1dc8643b41712}{\(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{vsf__task_8h_aae6ec9f60d7a8a43cbb1dc8643b41712}{                                                                                \(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{vsf__task_8h_aae6ec9f60d7a8a43cbb1dc8643b41712}{        vsf\_task\_end}}();                                                         \(\backslash\)}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_a5c2d4d6ee61e78daf90361f02b9d65fe}\label{vsf__fsm_8h_a5c2d4d6ee61e78daf90361f02b9d65fe}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_fsm\_body@{vsf\_fsm\_body}}
+\index{vsf\_fsm\_body@{vsf\_fsm\_body}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fsm\_body}{vsf\_fsm\_body}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fsm\+\_\+body(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__fsm_8h_a59fca299a8656dad1c8b77e733decaa4}{\+\_\+\+\_\+body}}(\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a5768678565d3e59808fe2ff812755fea}\label{vsf__fsm_8h_a5768678565d3e59808fe2ff812755fea}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_fsm\_begin@{vsf\_fsm\_begin}}
+\index{vsf\_fsm\_begin@{vsf\_fsm\_begin}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fsm\_begin}{vsf\_fsm\_begin}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fsm\+\_\+begin(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{keywordflow}{switch} (\mbox{\hyperlink{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}{vsf\_this}}.fsm\_state) \{                                       \(\backslash\)}
+\DoxyCodeLine{                case 0:                                                         \(\backslash\)}
+\DoxyCodeLine{                    vsf\_this.fsm\_state++;}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_a0575af5e2ff35dbdbf67dc1a1b7f30a0}\label{vsf__fsm_8h_a0575af5e2ff35dbdbf67dc1a1b7f30a0}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!vsf\_fsm\_end@{vsf\_fsm\_end}}
+\index{vsf\_fsm\_end@{vsf\_fsm\_end}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fsm\_end}{vsf\_fsm\_end}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fsm\+\_\+end(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{                \textcolor{keywordflow}{break};                                                          \(\backslash\)}
+\DoxyCodeLine{                default:                                                        \(\backslash\)}
+\DoxyCodeLine{                return \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0ab46ffc875089c19bdd6a7845628892}{fsm\_rt\_err}};                                              \(\backslash\)}
+\DoxyCodeLine{            \}                                                                   \(\backslash\)}
+\DoxyCodeLine{        \}\mbox{\hyperlink{vsf__task_8h_aae6ec9f60d7a8a43cbb1dc8643b41712}{vsf\_task\_end}}()}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_a337a9cd285d0b058b695ef6b37bd2ede}\label{vsf__fsm_8h_a337a9cd285d0b058b695ef6b37bd2ede}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!implement\_fsm\_ex@{implement\_fsm\_ex}}
+\index{implement\_fsm\_ex@{implement\_fsm\_ex}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{implement\_fsm\_ex}{implement\_fsm\_ex}}
+{\footnotesize\ttfamily \#define implement\+\_\+fsm\+\_\+ex(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}} }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fsm_8h_ad2dd23ab1fd916c823767426e3319a52}{\+\_\+\+\_\+implement\+\_\+fsm\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}})}
+
+\begin{DoxyNote}{Note}
+Debug Support\+: You can use body\+\_\+begin() together with body\+\_\+end() ! to enable debug, this means you are ale to set break ! points and single-\/step into those states. ! ! Example\+: \begin{DoxyVerb}  vsf_fsm_begin()
+      vsf_state(xxxxx,
+\end{DoxyVerb}
+ the range no debug is allowed )
+\end{DoxyNote}
+\mbox{\hyperlink{vsf__fsm_8h_a6aa5fc134f3fb5ae0e91c3386754dfb0}{vsf\+\_\+state(xxxxx)}}\{ the range you can debug with \}
+
+\mbox{\hyperlink{vsf__fsm_8h_a0575af5e2ff35dbdbf67dc1a1b7f30a0}{vsf\+\_\+fsm\+\_\+end()}} \mbox{\Hypertarget{vsf__fsm_8h_ab44b5e064f88a55d8809e63d1e6cf008}\label{vsf__fsm_8h_ab44b5e064f88a55d8809e63d1e6cf008}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!\_\_implement\_fsm@{\_\_implement\_fsm}}
+\index{\_\_implement\_fsm@{\_\_implement\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{\_\_implement\_fsm}{\_\_implement\_fsm}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+implement\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fsm_8h_a337a9cd285d0b058b695ef6b37bd2ede}{implement\+\_\+fsm\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__fsm_8h_afbbec52f379850d7f734f63e91809042}\label{vsf__fsm_8h_afbbec52f379850d7f734f63e91809042}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!implement\_vsf\_fsm@{implement\_vsf\_fsm}}
+\index{implement\_vsf\_fsm@{implement\_vsf\_fsm}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{implement\_vsf\_fsm}{implement\_vsf\_fsm}}
+{\footnotesize\ttfamily \#define implement\+\_\+vsf\+\_\+fsm(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{... }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__fsm_8h_ab44b5e064f88a55d8809e63d1e6cf008}{\+\_\+\+\_\+implement\+\_\+fsm}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a3ad2aac049a08156f927d0fb85bd99db}\label{vsf__fsm_8h_a3ad2aac049a08156f927d0fb85bd99db}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!\_\_privilege\_state@{\_\_privilege\_state}}
+\index{\_\_privilege\_state@{\_\_privilege\_state}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{\_\_privilege\_state}{\_\_privilege\_state}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+privilege\+\_\+state(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{keywordflow}{break};\textcolor{keywordflow}{do} \{                                                          \(\backslash\)}
+\DoxyCodeLine{                do \{                                                            \(\backslash\)}
+\DoxyCodeLine{                    \_\_\_\_state(\_\_state, \_\_VA\_ARGS\_\_)                             \(\backslash\)}
+\DoxyCodeLine{                \} \textcolor{keywordflow}{while}(0); \textcolor{comment}{/* add extra while(0) to catch the fsm\_continue()*/} \(\backslash\)}
+\DoxyCodeLine{                if (\mbox{\hyperlink{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}{vsf\_this}}.fsm\_state != (\_\_state)) \{                          \(\backslash\)}
+\DoxyCodeLine{                    break;                                                      \(\backslash\)}
+\DoxyCodeLine{                \}                                                               \(\backslash\)}
+\DoxyCodeLine{            \} \textcolor{keywordflow}{while}(1);}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_a6c2e237576d016bdaf4f9642da8d2abe}\label{vsf__fsm_8h_a6c2e237576d016bdaf4f9642da8d2abe}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!privilege\_state@{privilege\_state}}
+\index{privilege\_state@{privilege\_state}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{privilege\_state}{privilege\_state}}
+{\footnotesize\ttfamily \#define privilege\+\_\+state(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state,  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fsm_8h_a3ad2aac049a08156f927d0fb85bd99db}{\+\_\+\+\_\+privilege\+\_\+state}}(\+\_\+\+\_\+state, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a542ba57bb98397507bedae5df5c517a2}\label{vsf__fsm_8h_a542ba57bb98397507bedae5df5c517a2}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!privilege\_group@{privilege\_group}}
+\index{privilege\_group@{privilege\_group}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{privilege\_group}{privilege\_group}}
+{\footnotesize\ttfamily \#define privilege\+\_\+group(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\{ \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+;\}}
+
+\mbox{\Hypertarget{vsf__fsm_8h_a070b156e6005bdb6fb7e27a4247bae75}\label{vsf__fsm_8h_a070b156e6005bdb6fb7e27a4247bae75}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!privilege\_body@{privilege\_body}}
+\index{privilege\_body@{privilege\_body}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{privilege\_body}{privilege\_body}}
+{\footnotesize\ttfamily \#define privilege\+\_\+body(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keywordflow}{do} \{                                                                    \(\backslash\)}
+\DoxyCodeLine{            switch (\mbox{\hyperlink{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}{vsf\_this}}.fsm\_state) \{                                       \(\backslash\)}
+\DoxyCodeLine{                case 0:                                                         \(\backslash\)}
+\DoxyCodeLine{                    vsf\_this.fsm\_state++;                                       \(\backslash\)}
+\DoxyCodeLine{                \_\_VA\_ARGS\_\_                                                     \(\backslash\)}
+\DoxyCodeLine{            \}                                                                   \(\backslash\)}
+\DoxyCodeLine{        while(1);                                                               \(\backslash\)}
+\DoxyCodeLine{                                                                                \(\backslash\)}
+\DoxyCodeLine{        return \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64baab382e0a010b65ca433edb2e8e6f2aee}{fsm\_rt\_on\_going}};                                                 \(\backslash\)}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fsm_8h_aad0636ed009ff32be2209d84962698b2}\label{vsf__fsm_8h_aad0636ed009ff32be2209d84962698b2}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!\_\_FSM\_RT\_TYPE\_\_@{\_\_FSM\_RT\_TYPE\_\_}}
+\index{\_\_FSM\_RT\_TYPE\_\_@{\_\_FSM\_RT\_TYPE\_\_}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{\_\_FSM\_RT\_TYPE\_\_}{\_\_FSM\_RT\_TYPE\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+FSM\+\_\+\+RT\+\_\+\+TYPE\+\_\+\+\_\+}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}} 
+\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_t@{fsm\_rt\_t}}
+\index{fsm\_rt\_t@{fsm\_rt\_t}!vsf\_fsm.h@{vsf\_fsm.h}}
+\doxysubsubsection{\texorpdfstring{fsm\_rt\_t}{fsm\_rt\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_err@{fsm\_rt\_err}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_err@{fsm\_rt\_err}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0ab46ffc875089c19bdd6a7845628892}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0ab46ffc875089c19bdd6a7845628892}} 
+fsm\+\_\+rt\+\_\+err&fsm error, error code can be get from other interface \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_cpl@{fsm\_rt\_cpl}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_cpl@{fsm\_rt\_cpl}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba4a8c8376097bb3422341537d533739c2}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba4a8c8376097bb3422341537d533739c2}} 
+fsm\+\_\+rt\+\_\+cpl&fsm complete \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_on\_going@{fsm\_rt\_on\_going}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_on\_going@{fsm\_rt\_on\_going}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64baab382e0a010b65ca433edb2e8e6f2aee}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64baab382e0a010b65ca433edb2e8e6f2aee}} 
+fsm\+\_\+rt\+\_\+on\+\_\+going&fsm on-\/going \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_wait\_for\_obj@{fsm\_rt\_wait\_for\_obj}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_wait\_for\_obj@{fsm\_rt\_wait\_for\_obj}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0f040e69a462defae9298b7946f997bf}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0f040e69a462defae9298b7946f997bf}} 
+fsm\+\_\+rt\+\_\+wait\+\_\+for\+\_\+obj&fsm wait for object \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_asyn@{fsm\_rt\_asyn}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_asyn@{fsm\_rt\_asyn}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0a969ed0ac28b396f075d63d6c6e5079}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0a969ed0ac28b396f075d63d6c6e5079}} 
+fsm\+\_\+rt\+\_\+asyn&fsm asynchronose complete, you can check it later. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_err@{fsm\_rt\_err}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_err@{fsm\_rt\_err}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0ab46ffc875089c19bdd6a7845628892}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0ab46ffc875089c19bdd6a7845628892}} 
+fsm\+\_\+rt\+\_\+err&fsm error, error code can be get from other interface \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_cpl@{fsm\_rt\_cpl}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_cpl@{fsm\_rt\_cpl}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba4a8c8376097bb3422341537d533739c2}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba4a8c8376097bb3422341537d533739c2}} 
+fsm\+\_\+rt\+\_\+cpl&fsm complete \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_on\_going@{fsm\_rt\_on\_going}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_on\_going@{fsm\_rt\_on\_going}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64baab382e0a010b65ca433edb2e8e6f2aee}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64baab382e0a010b65ca433edb2e8e6f2aee}} 
+fsm\+\_\+rt\+\_\+on\+\_\+going&fsm on-\/going \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_yield@{fsm\_rt\_yield}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_yield@{fsm\_rt\_yield}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba7ada37e5681b5e67679104f23898a060}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba7ada37e5681b5e67679104f23898a060}} 
+fsm\+\_\+rt\+\_\+yield&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_wait\_for\_obj@{fsm\_rt\_wait\_for\_obj}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_wait\_for\_obj@{fsm\_rt\_wait\_for\_obj}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0f040e69a462defae9298b7946f997bf}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0f040e69a462defae9298b7946f997bf}} 
+fsm\+\_\+rt\+\_\+wait\+\_\+for\+\_\+obj&fsm wait for object \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_wait\_for\_evt@{fsm\_rt\_wait\_for\_evt}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_wait\_for\_evt@{fsm\_rt\_wait\_for\_evt}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba05117f71a2c83284c937e4a57156af0c}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba05117f71a2c83284c937e4a57156af0c}} 
+fsm\+\_\+rt\+\_\+wait\+\_\+for\+\_\+evt&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_wfe@{fsm\_rt\_wfe}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_wfe@{fsm\_rt\_wfe}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba95d186191eb763fc07b337f854c554bd}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba95d186191eb763fc07b337f854c554bd}} 
+fsm\+\_\+rt\+\_\+wfe&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_asyn@{fsm\_rt\_asyn}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_asyn@{fsm\_rt\_asyn}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0a969ed0ac28b396f075d63d6c6e5079}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba0a969ed0ac28b396f075d63d6c6e5079}} 
+fsm\+\_\+rt\+\_\+asyn&fsm asynchronose complete, you can check it later. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{fsm\_rt\_user@{fsm\_rt\_user}!vsf\_fsm.h@{vsf\_fsm.h}}\index{vsf\_fsm.h@{vsf\_fsm.h}!fsm\_rt\_user@{fsm\_rt\_user}}}\mbox{\Hypertarget{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba36c957f5963006a690a6db52cfdbbfb0}\label{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64ba36c957f5963006a690a6db52cfdbbfb0}} 
+fsm\+\_\+rt\+\_\+user&\\
+\hline
+
+\end{DoxyEnumFields}

@@ -1,0 +1,128 @@
+\hypertarget{vsf__multiplex__iic_8c}{}\doxysection{source/osa\+\_\+hal/driver/customised/multiplex\+\_\+hal/iic/vsf\+\_\+multiplex\+\_\+iic.c File Reference}
+\label{vsf__multiplex__iic_8c}\index{source/osa\_hal/driver/customised/multiplex\_hal/iic/vsf\_multiplex\_iic.c@{source/osa\_hal/driver/customised/multiplex\_hal/iic/vsf\_multiplex\_iic.c}}
+{\ttfamily \#include \char`\"{}./vsf\+\_\+multiplex\+\_\+iic.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/vsf\+\_\+component.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__multiplex__iic_8c_a37295e5a8aadc9df9929914bb2d42486}{\+\_\+\+\_\+\+VSF\+\_\+\+MULTIPLEX\+\_\+\+IIC\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__multiplex__iic_8c_a932ce61e37357570bae96dd32e53458f}{\+\_\+\+\_\+\+VSF\+\_\+\+MULTIPLEX\+\_\+\+HAL\+\_\+\+CLASS\+\_\+\+INHERIT}}
+\item 
+\#define \mbox{\hyperlink{vsf__multiplex__iic_8c_a284983113956efb2c4b6cda9bfd1bf1f}{\+\_\+\+\_\+\+VSF\+\_\+\+IO\+\_\+\+IIC\+\_\+\+CLASS\+\_\+\+INHERIT}}
+\item 
+\#define \mbox{\hyperlink{vsf__multiplex__iic_8c_a6905c693c5f08554abb7bc23560372f4}{IIC\+\_\+\+READ}}~1
+\item 
+\#define \mbox{\hyperlink{vsf__multiplex__iic_8c_a6734e0effd27afbbb57c804eda05f42f}{IIC\+\_\+\+WRITE}}~0
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__multiplex__iic_8c_a922bfd3ae9c0fb926ed01be78da03ee9}{vsf\+\_\+multiplex\+\_\+iic\+\_\+init}} (\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$iic)
+\item 
+\mbox{\hyperlink{vsf__multiplex__iic_8c_a0e09d508fe6627956df64693466dcee8}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+private\+\_\+entry}} (\+\_\+\+\_\+vsf\+\_\+multiplex\+\_\+iic\+\_\+rw, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} is\+\_\+read;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} chip\+\_\+addr;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} flags;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer;\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}};)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__multiplex__iic_8c_a9f11877e3ce7aa1e7d79a6cf1b9b2fc6}{vsf\+\_\+multiplex\+\_\+iic\+\_\+read}} (\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$iic, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} chip\+\_\+addr, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}}, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} flags)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__multiplex__iic_8c_a7b6630e9d3a9670823656d9428c64fed}{vsf\+\_\+multiplex\+\_\+iic\+\_\+write}} (\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$iic, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} chip\+\_\+addr, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}}, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} flags)
+\item 
+\mbox{\hyperlink{vsf__multiplex__iic_8c_a9cf3758c016d5809c857a22a89101235}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+private\+\_\+entry}} (\+\_\+\+\_\+vsf\+\_\+multiplex\+\_\+iic\+\_\+reg\+\_\+access, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} is\+\_\+read;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} chip\+\_\+addr;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} reg\+\_\+addr\+\_\+size;\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} reg\+\_\+addr;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer;\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}};)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__multiplex__iic_8c_a28c93e33304c4ab03337816f1b66f4a0}{vsf\+\_\+multiplex\+\_\+iic\+\_\+read\+\_\+reg}} (\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$iic, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} chip\+\_\+addr, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} reg\+\_\+addr, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} reg\+\_\+addr\+\_\+size, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__multiplex__iic_8c_a2ff0200edcdaeba667a1bb8fe1cd32cc}{vsf\+\_\+multiplex\+\_\+iic\+\_\+write\+\_\+reg}} (\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$iic, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} chip\+\_\+addr, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} reg\+\_\+addr, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} reg\+\_\+addr\+\_\+size, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+\mbox{\hyperlink{vsf__multiplex__iic_8c_ab5da6cf5e45015ab06cad2e2a161562e}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+private\+\_\+entry}} (\+\_\+\+\_\+vsf\+\_\+multiplex\+\_\+iic\+\_\+execute, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} chip\+\_\+addr;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$cmd;\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}};)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__multiplex__iic_8c_a820a382a453fe1d004ceab760ae9c264}{vsf\+\_\+multiplex\+\_\+iic\+\_\+execute}} (\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$iic, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} chip\+\_\+addr, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$cmd, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a37295e5a8aadc9df9929914bb2d42486}\label{vsf__multiplex__iic_8c_a37295e5a8aadc9df9929914bb2d42486}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!\_\_VSF\_MULTIPLEX\_IIC\_CLASS\_IMPLEMENT@{\_\_VSF\_MULTIPLEX\_IIC\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_MULTIPLEX\_IIC\_CLASS\_IMPLEMENT@{\_\_VSF\_MULTIPLEX\_IIC\_CLASS\_IMPLEMENT}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_MULTIPLEX\_IIC\_CLASS\_IMPLEMENT}{\_\_VSF\_MULTIPLEX\_IIC\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+MULTIPLEX\+\_\+\+IIC\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a932ce61e37357570bae96dd32e53458f}\label{vsf__multiplex__iic_8c_a932ce61e37357570bae96dd32e53458f}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!\_\_VSF\_MULTIPLEX\_HAL\_CLASS\_INHERIT@{\_\_VSF\_MULTIPLEX\_HAL\_CLASS\_INHERIT}}
+\index{\_\_VSF\_MULTIPLEX\_HAL\_CLASS\_INHERIT@{\_\_VSF\_MULTIPLEX\_HAL\_CLASS\_INHERIT}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_MULTIPLEX\_HAL\_CLASS\_INHERIT}{\_\_VSF\_MULTIPLEX\_HAL\_CLASS\_INHERIT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+MULTIPLEX\+\_\+\+HAL\+\_\+\+CLASS\+\_\+\+INHERIT}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a284983113956efb2c4b6cda9bfd1bf1f}\label{vsf__multiplex__iic_8c_a284983113956efb2c4b6cda9bfd1bf1f}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!\_\_VSF\_IO\_IIC\_CLASS\_INHERIT@{\_\_VSF\_IO\_IIC\_CLASS\_INHERIT}}
+\index{\_\_VSF\_IO\_IIC\_CLASS\_INHERIT@{\_\_VSF\_IO\_IIC\_CLASS\_INHERIT}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_IO\_IIC\_CLASS\_INHERIT}{\_\_VSF\_IO\_IIC\_CLASS\_INHERIT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+IO\+\_\+\+IIC\+\_\+\+CLASS\+\_\+\+INHERIT}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a6905c693c5f08554abb7bc23560372f4}\label{vsf__multiplex__iic_8c_a6905c693c5f08554abb7bc23560372f4}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!IIC\_READ@{IIC\_READ}}
+\index{IIC\_READ@{IIC\_READ}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{IIC\_READ}{IIC\_READ}}
+{\footnotesize\ttfamily \#define IIC\+\_\+\+READ~1}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a6734e0effd27afbbb57c804eda05f42f}\label{vsf__multiplex__iic_8c_a6734e0effd27afbbb57c804eda05f42f}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!IIC\_WRITE@{IIC\_WRITE}}
+\index{IIC\_WRITE@{IIC\_WRITE}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{IIC\_WRITE}{IIC\_WRITE}}
+{\footnotesize\ttfamily \#define IIC\+\_\+\+WRITE~0}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a922bfd3ae9c0fb926ed01be78da03ee9}\label{vsf__multiplex__iic_8c_a922bfd3ae9c0fb926ed01be78da03ee9}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!vsf\_multiplex\_iic\_init@{vsf\_multiplex\_iic\_init}}
+\index{vsf\_multiplex\_iic\_init@{vsf\_multiplex\_iic\_init}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_multiplex\_iic\_init()}{vsf\_multiplex\_iic\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+multiplex\+\_\+iic\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$}]{iic }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a0e09d508fe6627956df64693466dcee8}\label{vsf__multiplex__iic_8c_a0e09d508fe6627956df64693466dcee8}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!\_\_vsf\_component\_peda\_private\_entry@{\_\_vsf\_component\_peda\_private\_entry}}
+\index{\_\_vsf\_component\_peda\_private\_entry@{\_\_vsf\_component\_peda\_private\_entry}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_private\_entry()}{\_\_vsf\_component\_peda\_private\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+private\+\_\+entry (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+vsf\+\_\+multiplex\+\_\+iic\+\_\+rw}]{,  }\item[{\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} is\+\_\+read;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} chip\+\_\+addr;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} flags;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer;\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}};}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a9f11877e3ce7aa1e7d79a6cf1b9b2fc6}\label{vsf__multiplex__iic_8c_a9f11877e3ce7aa1e7d79a6cf1b9b2fc6}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!vsf\_multiplex\_iic\_read@{vsf\_multiplex\_iic\_read}}
+\index{vsf\_multiplex\_iic\_read@{vsf\_multiplex\_iic\_read}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_multiplex\_iic\_read()}{vsf\_multiplex\_iic\_read()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+multiplex\+\_\+iic\+\_\+read (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$}]{iic,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{chip\+\_\+addr,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buffer,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{flags }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a7b6630e9d3a9670823656d9428c64fed}\label{vsf__multiplex__iic_8c_a7b6630e9d3a9670823656d9428c64fed}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!vsf\_multiplex\_iic\_write@{vsf\_multiplex\_iic\_write}}
+\index{vsf\_multiplex\_iic\_write@{vsf\_multiplex\_iic\_write}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_multiplex\_iic\_write()}{vsf\_multiplex\_iic\_write()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+multiplex\+\_\+iic\+\_\+write (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$}]{iic,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{chip\+\_\+addr,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buffer,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{flags }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a9cf3758c016d5809c857a22a89101235}\label{vsf__multiplex__iic_8c_a9cf3758c016d5809c857a22a89101235}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!\_\_vsf\_component\_peda\_private\_entry@{\_\_vsf\_component\_peda\_private\_entry}}
+\index{\_\_vsf\_component\_peda\_private\_entry@{\_\_vsf\_component\_peda\_private\_entry}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_private\_entry()}{\_\_vsf\_component\_peda\_private\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+private\+\_\+entry (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+vsf\+\_\+multiplex\+\_\+iic\+\_\+reg\+\_\+access}]{,  }\item[{\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} is\+\_\+read;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} chip\+\_\+addr;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} reg\+\_\+addr\+\_\+size;\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} reg\+\_\+addr;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer;\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}};}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a28c93e33304c4ab03337816f1b66f4a0}\label{vsf__multiplex__iic_8c_a28c93e33304c4ab03337816f1b66f4a0}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!vsf\_multiplex\_iic\_read\_reg@{vsf\_multiplex\_iic\_read\_reg}}
+\index{vsf\_multiplex\_iic\_read\_reg@{vsf\_multiplex\_iic\_read\_reg}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_multiplex\_iic\_read\_reg()}{vsf\_multiplex\_iic\_read\_reg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+multiplex\+\_\+iic\+\_\+read\+\_\+reg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$}]{iic,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{chip\+\_\+addr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{reg\+\_\+addr,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{reg\+\_\+addr\+\_\+size,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buffer,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a2ff0200edcdaeba667a1bb8fe1cd32cc}\label{vsf__multiplex__iic_8c_a2ff0200edcdaeba667a1bb8fe1cd32cc}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!vsf\_multiplex\_iic\_write\_reg@{vsf\_multiplex\_iic\_write\_reg}}
+\index{vsf\_multiplex\_iic\_write\_reg@{vsf\_multiplex\_iic\_write\_reg}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_multiplex\_iic\_write\_reg()}{vsf\_multiplex\_iic\_write\_reg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+multiplex\+\_\+iic\+\_\+write\+\_\+reg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$}]{iic,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{chip\+\_\+addr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{reg\+\_\+addr,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{reg\+\_\+addr\+\_\+size,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buffer,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_ab5da6cf5e45015ab06cad2e2a161562e}\label{vsf__multiplex__iic_8c_ab5da6cf5e45015ab06cad2e2a161562e}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!\_\_vsf\_component\_peda\_private\_entry@{\_\_vsf\_component\_peda\_private\_entry}}
+\index{\_\_vsf\_component\_peda\_private\_entry@{\_\_vsf\_component\_peda\_private\_entry}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_private\_entry()}{\_\_vsf\_component\_peda\_private\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+private\+\_\+entry (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+vsf\+\_\+multiplex\+\_\+iic\+\_\+execute}]{,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} chip\+\_\+addr;\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$cmd;\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}};}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__multiplex__iic_8c_a820a382a453fe1d004ceab760ae9c264}\label{vsf__multiplex__iic_8c_a820a382a453fe1d004ceab760ae9c264}} 
+\index{vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}!vsf\_multiplex\_iic\_execute@{vsf\_multiplex\_iic\_execute}}
+\index{vsf\_multiplex\_iic\_execute@{vsf\_multiplex\_iic\_execute}!vsf\_multiplex\_iic.c@{vsf\_multiplex\_iic.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_multiplex\_iic\_execute()}{vsf\_multiplex\_iic\_execute()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+multiplex\+\_\+iic\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__multiplex__iic__t}{vsf\+\_\+multiplex\+\_\+iic\+\_\+t}} $\ast$}]{iic,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{chip\+\_\+addr,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{cmd,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+

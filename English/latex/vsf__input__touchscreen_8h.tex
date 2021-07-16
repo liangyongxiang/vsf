@@ -1,0 +1,114 @@
+\hypertarget{vsf__input__touchscreen_8h}{}\doxysection{source/component/input/protocol/vsf\+\_\+input\+\_\+touchscreen.h File Reference}
+\label{vsf__input__touchscreen_8h}\index{source/component/input/protocol/vsf\_input\_touchscreen.h@{source/component/input/protocol/vsf\_input\_touchscreen.h}}
+{\ttfamily \#include \char`\"{}../vsf\+\_\+input\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../vsf\+\_\+input\+\_\+get\+\_\+type.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvk__touchscreen__info__t}{vk\+\_\+touchscreen\+\_\+info\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__touchscreen__evt__t}{vk\+\_\+touchscreen\+\_\+evt\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__input__touchscreen_8h_af4cae9d0eb2942db58e162318dafbc73}{vsf\+\_\+input\+\_\+touchscreen\+\_\+set}}(\+\_\+\+\_\+evt,  \+\_\+\+\_\+id,  \+\_\+\+\_\+is\+\_\+down,  \+\_\+\+\_\+pressure,  \+\_\+\+\_\+x,  \+\_\+\+\_\+y)
+\item 
+\#define \mbox{\hyperlink{vsf__input__touchscreen_8h_afe5c5c88c644c64c98a7758fafe62231}{vsf\+\_\+input\+\_\+touchscreen\+\_\+get\+\_\+id}}(\+\_\+\+\_\+evt)~            ((\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}})(((\+\_\+\+\_\+evt)-\/$>$id $>$$>$ 0) \& 0x\+FF))
+\item 
+\#define \mbox{\hyperlink{vsf__input__touchscreen_8h_a9803a59f9152431a64d0b2bb001cd4a2}{vsf\+\_\+input\+\_\+touchscreen\+\_\+is\+\_\+down}}(\+\_\+\+\_\+evt)~            (!!(((\+\_\+\+\_\+evt)-\/$>$id $>$$>$ 8) \& 0x\+FF))
+\item 
+\#define \mbox{\hyperlink{vsf__input__touchscreen_8h_a2f7ed0cc9329394c493a008c58de9a7b}{vsf\+\_\+input\+\_\+touchscreen\+\_\+get\+\_\+x}}(\+\_\+\+\_\+evt)~            ((\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}})(((\+\_\+\+\_\+evt)-\/$>$cur.\+valu64 $>$$>$ 0) \& 0x\+FFFF))
+\item 
+\#define \mbox{\hyperlink{vsf__input__touchscreen_8h_aebc7e1f707ba5f62486f9874c766403f}{vsf\+\_\+input\+\_\+touchscreen\+\_\+get\+\_\+y}}(\+\_\+\+\_\+evt)~            ((\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}})(((\+\_\+\+\_\+evt)-\/$>$cur.\+valu64 $>$$>$ 16) \& 0x\+FFFF))
+\item 
+\#define \mbox{\hyperlink{vsf__input__touchscreen_8h_a7f2d913316a5caf881735d636181a204}{vsf\+\_\+input\+\_\+touchscreen\+\_\+get\+\_\+pressure}}(\+\_\+\+\_\+evt)~            ((\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}})(((\+\_\+\+\_\+evt)-\/$>$cur.\+valu64 $>$$>$ 32) \& 0x\+FFFF))
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvk__touchscreen__info__t}{vk\+\_\+touchscreen\+\_\+info\+\_\+t}} \mbox{\hyperlink{vsf__input__touchscreen_8h_a6bf4e0acc1dec23a08b838be5ed32b51}{vk\+\_\+touchscreen\+\_\+info\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__touchscreen__evt__t}{vk\+\_\+touchscreen\+\_\+evt\+\_\+t}} \mbox{\hyperlink{vsf__input__touchscreen_8h_a0fe05bd305b867bac3a9076078c1c262}{vk\+\_\+touchscreen\+\_\+evt\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{vsf__input__touchscreen_8h_ab48899087cc647f0f791ed0c459adc53ac5d4aee82c269c80a092f597268d4012}{VSF\+\_\+\+INPUT\+\_\+\+TYPE\+\_\+\+TOUCHSCREEN}} = VSF\+\_\+\+INPUT\+\_\+\+USER\+\_\+\+TYPE
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__input__touchscreen_8h_af4cae9d0eb2942db58e162318dafbc73}\label{vsf__input__touchscreen_8h_af4cae9d0eb2942db58e162318dafbc73}} 
+\index{vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}!vsf\_input\_touchscreen\_set@{vsf\_input\_touchscreen\_set}}
+\index{vsf\_input\_touchscreen\_set@{vsf\_input\_touchscreen\_set}!vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_touchscreen\_set}{vsf\_input\_touchscreen\_set}}
+{\footnotesize\ttfamily \#define vsf\+\_\+input\+\_\+touchscreen\+\_\+set(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+evt,  }\item[{}]{\+\_\+\+\_\+id,  }\item[{}]{\+\_\+\+\_\+is\+\_\+down,  }\item[{}]{\+\_\+\+\_\+pressure,  }\item[{}]{\+\_\+\+\_\+x,  }\item[{}]{\+\_\+\+\_\+y }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{keywordflow}{do} \{                                                                \(\backslash\)}
+\DoxyCodeLine{                (\_\_evt)-\/>\textcolor{keywordtype}{id} = ((\_\_id) | ((\_\_is\_down) << 8));                    \(\backslash\)}
+\DoxyCodeLine{                (\_\_evt)-\/>cur.valu64 = (\_\_x) | ((\_\_y) << 16) | ((\mbox{\hyperlink{arm_2type_8h_aaa5d1cd013383c889537491c3cfd9aad}{uint64\_t}})(\_\_pressure) << 32);\(\backslash\)}
+\DoxyCodeLine{            \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__input__touchscreen_8h_afe5c5c88c644c64c98a7758fafe62231}\label{vsf__input__touchscreen_8h_afe5c5c88c644c64c98a7758fafe62231}} 
+\index{vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}!vsf\_input\_touchscreen\_get\_id@{vsf\_input\_touchscreen\_get\_id}}
+\index{vsf\_input\_touchscreen\_get\_id@{vsf\_input\_touchscreen\_get\_id}!vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_touchscreen\_get\_id}{vsf\_input\_touchscreen\_get\_id}}
+{\footnotesize\ttfamily \#define vsf\+\_\+input\+\_\+touchscreen\+\_\+get\+\_\+id(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+evt }\end{DoxyParamCaption})~            ((\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}})(((\+\_\+\+\_\+evt)-\/$>$id $>$$>$ 0) \& 0x\+FF))}
+
+\mbox{\Hypertarget{vsf__input__touchscreen_8h_a9803a59f9152431a64d0b2bb001cd4a2}\label{vsf__input__touchscreen_8h_a9803a59f9152431a64d0b2bb001cd4a2}} 
+\index{vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}!vsf\_input\_touchscreen\_is\_down@{vsf\_input\_touchscreen\_is\_down}}
+\index{vsf\_input\_touchscreen\_is\_down@{vsf\_input\_touchscreen\_is\_down}!vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_touchscreen\_is\_down}{vsf\_input\_touchscreen\_is\_down}}
+{\footnotesize\ttfamily \#define vsf\+\_\+input\+\_\+touchscreen\+\_\+is\+\_\+down(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+evt }\end{DoxyParamCaption})~            (!!(((\+\_\+\+\_\+evt)-\/$>$id $>$$>$ 8) \& 0x\+FF))}
+
+\mbox{\Hypertarget{vsf__input__touchscreen_8h_a2f7ed0cc9329394c493a008c58de9a7b}\label{vsf__input__touchscreen_8h_a2f7ed0cc9329394c493a008c58de9a7b}} 
+\index{vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}!vsf\_input\_touchscreen\_get\_x@{vsf\_input\_touchscreen\_get\_x}}
+\index{vsf\_input\_touchscreen\_get\_x@{vsf\_input\_touchscreen\_get\_x}!vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_touchscreen\_get\_x}{vsf\_input\_touchscreen\_get\_x}}
+{\footnotesize\ttfamily \#define vsf\+\_\+input\+\_\+touchscreen\+\_\+get\+\_\+x(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+evt }\end{DoxyParamCaption})~            ((\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}})(((\+\_\+\+\_\+evt)-\/$>$cur.\+valu64 $>$$>$ 0) \& 0x\+FFFF))}
+
+\mbox{\Hypertarget{vsf__input__touchscreen_8h_aebc7e1f707ba5f62486f9874c766403f}\label{vsf__input__touchscreen_8h_aebc7e1f707ba5f62486f9874c766403f}} 
+\index{vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}!vsf\_input\_touchscreen\_get\_y@{vsf\_input\_touchscreen\_get\_y}}
+\index{vsf\_input\_touchscreen\_get\_y@{vsf\_input\_touchscreen\_get\_y}!vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_touchscreen\_get\_y}{vsf\_input\_touchscreen\_get\_y}}
+{\footnotesize\ttfamily \#define vsf\+\_\+input\+\_\+touchscreen\+\_\+get\+\_\+y(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+evt }\end{DoxyParamCaption})~            ((\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}})(((\+\_\+\+\_\+evt)-\/$>$cur.\+valu64 $>$$>$ 16) \& 0x\+FFFF))}
+
+\mbox{\Hypertarget{vsf__input__touchscreen_8h_a7f2d913316a5caf881735d636181a204}\label{vsf__input__touchscreen_8h_a7f2d913316a5caf881735d636181a204}} 
+\index{vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}!vsf\_input\_touchscreen\_get\_pressure@{vsf\_input\_touchscreen\_get\_pressure}}
+\index{vsf\_input\_touchscreen\_get\_pressure@{vsf\_input\_touchscreen\_get\_pressure}!vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_touchscreen\_get\_pressure}{vsf\_input\_touchscreen\_get\_pressure}}
+{\footnotesize\ttfamily \#define vsf\+\_\+input\+\_\+touchscreen\+\_\+get\+\_\+pressure(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+evt }\end{DoxyParamCaption})~            ((\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}})(((\+\_\+\+\_\+evt)-\/$>$cur.\+valu64 $>$$>$ 32) \& 0x\+FFFF))}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__input__touchscreen_8h_a6bf4e0acc1dec23a08b838be5ed32b51}\label{vsf__input__touchscreen_8h_a6bf4e0acc1dec23a08b838be5ed32b51}} 
+\index{vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}!vk\_touchscreen\_info\_t@{vk\_touchscreen\_info\_t}}
+\index{vk\_touchscreen\_info\_t@{vk\_touchscreen\_info\_t}!vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}}
+\doxysubsubsection{\texorpdfstring{vk\_touchscreen\_info\_t}{vk\_touchscreen\_info\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__touchscreen__info__t}{vk\+\_\+touchscreen\+\_\+info\+\_\+t}} \mbox{\hyperlink{structvk__touchscreen__info__t}{vk\+\_\+touchscreen\+\_\+info\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__input__touchscreen_8h_a0fe05bd305b867bac3a9076078c1c262}\label{vsf__input__touchscreen_8h_a0fe05bd305b867bac3a9076078c1c262}} 
+\index{vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}!vk\_touchscreen\_evt\_t@{vk\_touchscreen\_evt\_t}}
+\index{vk\_touchscreen\_evt\_t@{vk\_touchscreen\_evt\_t}!vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}}
+\doxysubsubsection{\texorpdfstring{vk\_touchscreen\_evt\_t}{vk\_touchscreen\_evt\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__touchscreen__evt__t}{vk\+\_\+touchscreen\+\_\+evt\+\_\+t}} \mbox{\hyperlink{structvk__touchscreen__evt__t}{vk\+\_\+touchscreen\+\_\+evt\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__input__touchscreen_8h_ab48899087cc647f0f791ed0c459adc53}\label{vsf__input__touchscreen_8h_ab48899087cc647f0f791ed0c459adc53}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_INPUT\_TYPE\_TOUCHSCREEN@{VSF\_INPUT\_TYPE\_TOUCHSCREEN}!vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}}\index{vsf\_input\_touchscreen.h@{vsf\_input\_touchscreen.h}!VSF\_INPUT\_TYPE\_TOUCHSCREEN@{VSF\_INPUT\_TYPE\_TOUCHSCREEN}}}\mbox{\Hypertarget{vsf__input__touchscreen_8h_ab48899087cc647f0f791ed0c459adc53ac5d4aee82c269c80a092f597268d4012}\label{vsf__input__touchscreen_8h_ab48899087cc647f0f791ed0c459adc53ac5d4aee82c269c80a092f597268d4012}} 
+VSF\+\_\+\+INPUT\+\_\+\+TYPE\+\_\+\+TOUCHSCREEN&\\
+\hline
+
+\end{DoxyEnumFields}

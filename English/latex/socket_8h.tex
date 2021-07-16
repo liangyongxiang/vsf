@@ -1,0 +1,526 @@
+\hypertarget{socket_8h}{}\doxysection{source/shell/sys/linux/include/sys/socket.h File Reference}
+\label{socket_8h}\index{source/shell/sys/linux/include/sys/socket.h@{source/shell/sys/linux/include/sys/socket.h}}
+{\ttfamily \#include \char`\"{}shell/sys/linux/vsf\+\_\+linux\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../sys/types.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/vsf\+\_\+utilities.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structsockaddr}{sockaddr}}
+\item 
+struct \mbox{\hyperlink{structsockaddr__storage}{sockaddr\+\_\+storage}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{socket_8h_ae77ae24b14b7b7f294f3e04121173f12}{AF\+\_\+\+UNSPEC}}~0
+\item 
+\#define \mbox{\hyperlink{socket_8h_a9930604d0e32588eae76f43ca38e7826}{AF\+\_\+\+INET}}~2
+\item 
+\#define \mbox{\hyperlink{socket_8h_aa03706b2738b9a58d4985dfbe99e1bac}{AF\+\_\+\+INET6}}~10
+\item 
+\#define \mbox{\hyperlink{socket_8h_a51dba11ffc8e3b1bf695e721b3144094}{PF\+\_\+\+UNSPEC}}~0
+\item 
+\#define \mbox{\hyperlink{socket_8h_a3f5da0b5be27fe31ec7cc11bfa8d1a25}{PF\+\_\+\+INET}}~\mbox{\hyperlink{socket_8h_a9930604d0e32588eae76f43ca38e7826}{AF\+\_\+\+INET}}
+\item 
+\#define \mbox{\hyperlink{socket_8h_a323f2649198fc7e64b19881869265618}{PF\+\_\+\+INET6}}~\mbox{\hyperlink{socket_8h_aa03706b2738b9a58d4985dfbe99e1bac}{AF\+\_\+\+INET6}}
+\item 
+\#define \mbox{\hyperlink{socket_8h_a249394484f9410a2e3f8eba24657feb9}{SOCK\+\_\+\+STREAM}}~1
+\item 
+\#define \mbox{\hyperlink{socket_8h_a4db8b9a846c67404db0b6f014f9a9fdf}{SOCK\+\_\+\+DGRAM}}~2
+\item 
+\#define \mbox{\hyperlink{socket_8h_a26769957ec1a2beaf223f33b66ee64ab}{INVALID\+\_\+\+SOCKET}}~-\/1
+\item 
+\#define \mbox{\hyperlink{socket_8h_a633b0396ff93d336a088412a190a5072}{SOCKET\+\_\+\+ERROR}}~-\/1
+\item 
+\#define \mbox{\hyperlink{socket_8h_a2ebd12809845fab1c8fe85b1337de183}{setsockopt}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+setsockopt
+\item 
+\#define \mbox{\hyperlink{socket_8h_a6d2e979cce939b0bccfe059fb553dbb8}{getsockopt}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+getsockopt
+\item 
+\#define \mbox{\hyperlink{socket_8h_a1defe1af9b3afa03c09c0e4755048e7c}{getpeername}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+getpeername
+\item 
+\#define \mbox{\hyperlink{socket_8h_aa2348cb2e6f1d3bee7ffec9bcb33ca58}{getsockname}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+getsockname
+\item 
+\#define \mbox{\hyperlink{socket_8h_a2fe3d034024f850bed737a97851616bf}{accept}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+accept
+\item 
+\#define \mbox{\hyperlink{socket_8h_af65cc88d9ccb2274b94e0025d25d965f}{bind}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+bind
+\item 
+\#define \mbox{\hyperlink{socket_8h_adfd4ee688142ebda1142c1b0c7577e91}{connect}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+connect
+\item 
+\#define \mbox{\hyperlink{socket_8h_a2d3d00e67d3046983357fc3a5b0e63ed}{listen}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+listen
+\item 
+\#define \mbox{\hyperlink{socket_8h_af5c55c2a392615b0376df3644dc2e792}{recv}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+recv
+\item 
+\#define \mbox{\hyperlink{socket_8h_a3102fdddc55c0c8906c40365b5b2fa71}{recvfrom}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+recvfrom
+\item 
+\#define \mbox{\hyperlink{socket_8h_af9761b02a9cdd0bba649e4f48ce07eb1}{send}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+send
+\item 
+\#define \mbox{\hyperlink{socket_8h_a41f9a86568fee1d3e923e08583a37e83}{sendto}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+sendto
+\item 
+\#define \mbox{\hyperlink{socket_8h_abb5abf491305ecb624576b9d3120e0ae}{shutdown}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+shutdown
+\item 
+\#define \mbox{\hyperlink{socket_8h_aa8318fbee111c5bde5952c63e894c962}{socket}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+socket
+\item 
+\#define \mbox{\hyperlink{socket_8h_ab93f620662d6d88d2b7c0b8fd8378760}{socketpair}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+socketpair
+\item 
+\#define \mbox{\hyperlink{socket_8h_a92d045f6ee2f343d6b28830a9fec082e}{SOL\+\_\+\+SOCKET}}~0x\+FFFF
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{socket_8h_a22bf2db06ebc5466014e637d419cef90}{sa\+\_\+family\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{socket_8h_a57ea8175acdce8eeb8af23163fe5a045a4a3c433d15859f62bacc06312791a45e}{IPPROTO\+\_\+\+TCP}} = 6
+, \newline
+\mbox{\hyperlink{socket_8h_a57ea8175acdce8eeb8af23163fe5a045abd7dfb22e255a4eed332f41de12d7321}{IPPROTO\+\_\+\+UDP}} = 17
+ \}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{socket_8h_ace732421f7fcef3496e066edfe51cfbaae66573a5ee2c4868c14ca9d499ef6b5d}{SO\+\_\+\+DEBUG}} = 1
+, \newline
+\mbox{\hyperlink{socket_8h_ace732421f7fcef3496e066edfe51cfbaa9a69076a9b2bdef693708d5005f4cf46}{SO\+\_\+\+REUSEADDR}}
+, \newline
+\mbox{\hyperlink{socket_8h_ace732421f7fcef3496e066edfe51cfbaaa985052d483e1e379df8fe24e5ae9323}{SO\+\_\+\+ACCEPTCONN}}
+, \newline
+\mbox{\hyperlink{socket_8h_ace732421f7fcef3496e066edfe51cfbaa4540c38a6d26cae663b162aa08b2cd1b}{SO\+\_\+\+KEEPALIVE}}
+, \newline
+\mbox{\hyperlink{socket_8h_ace732421f7fcef3496e066edfe51cfbaa717302eb594c7eba70dd5ebec1ba89d2}{SO\+\_\+\+BROADCAST}}
+, \newline
+\mbox{\hyperlink{socket_8h_ace732421f7fcef3496e066edfe51cfbaa518fcdee784798ddf4db7a593e794340}{SO\+\_\+\+TYPE}}
+, \newline
+\mbox{\hyperlink{socket_8h_ace732421f7fcef3496e066edfe51cfbaac9c377737c401ee3826e199d5ec2c6c7}{SO\+\_\+\+ERROR}}
+, \newline
+\mbox{\hyperlink{socket_8h_ace732421f7fcef3496e066edfe51cfbaa1df7a92f3c90d78f7be79280937cc48f}{SO\+\_\+\+SNDBUF}}
+, \newline
+\mbox{\hyperlink{socket_8h_ace732421f7fcef3496e066edfe51cfbaa2b21411458e656e4dae50ed07bc49fe9}{SO\+\_\+\+RCVBUF}}
+, \newline
+\mbox{\hyperlink{socket_8h_ace732421f7fcef3496e066edfe51cfbaa6c96d07febacc120844c83a5a1745210}{SO\+\_\+\+RCVTIMEO}}
+, \newline
+\mbox{\hyperlink{socket_8h_ace732421f7fcef3496e066edfe51cfbaa06ca2351a5e739ece940781372796f4b}{SO\+\_\+\+SNDTIMEO}}
+ \}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{socket_8h_acdbe0b9425baedbd77beccda99ac3dbea890be29a00a90e15eb7e50a1cbba95ab}{MSG\+\_\+\+OOB}} = 1 $<$$<$ 0
+, \newline
+\mbox{\hyperlink{socket_8h_acdbe0b9425baedbd77beccda99ac3dbea41ac2d38ac3e36d430b72abfb78273e5}{MSG\+\_\+\+PEEK}} = 1 $<$$<$ 1
+, \newline
+\mbox{\hyperlink{socket_8h_acdbe0b9425baedbd77beccda99ac3dbeab08ae4c3cc1347cc51ea0bbb0056c110}{MSG\+\_\+\+WAITALL}} = 1 $<$$<$ 2
+ \}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{socket_8h_ae532194333327ea37ac5798e8af0a53da1c2982a59d309707236caafd09e43ecd}{SHUT\+\_\+\+RD}} = 1 $<$$<$ 0
+, \newline
+\mbox{\hyperlink{socket_8h_ae532194333327ea37ac5798e8af0a53da1c9e3081960c88d43f9b6c686235a26e}{SHUT\+\_\+\+WR}} = 1 $<$$<$ 1
+, \newline
+\mbox{\hyperlink{socket_8h_ae532194333327ea37ac5798e8af0a53dabe991fe694e235f0fe8678c15962a803}{SHUT\+\_\+\+RDWR}} = SHUT\+\_\+\+RD $\vert$ SHUT\+\_\+\+WR
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{socket_8h_a0905d58a6f3434afdb9e2212e7255e16}{setsockopt}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, int level, int optname, const void $\ast$optval, \mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} optlen)
+\item 
+int \mbox{\hyperlink{socket_8h_ae0993e7089e417ba5f68c9a048c68e25}{getsockopt}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, int level, int optname, void $\ast$optval, \mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} $\ast$optlen)
+\item 
+int \mbox{\hyperlink{socket_8h_a314deaf36cbd63e9d2fc443f8e879d86}{getpeername}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$addr, \mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} $\ast$addrlen)
+\item 
+int \mbox{\hyperlink{socket_8h_ae36700bc87153d376f97ec4c6117fdcf}{getsockname}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$addr, \mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} $\ast$addrlen)
+\item 
+int \mbox{\hyperlink{socket_8h_ab67d3561644376270b8c98ce010a6faa}{accept}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$addr, \mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} $\ast$addrlen)
+\item 
+int \mbox{\hyperlink{socket_8h_ac445858ac7e0ee1bad7aadd9ea08e8d0}{bind}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, const struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$addr, \mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} addrlen)
+\item 
+int \mbox{\hyperlink{socket_8h_a48180ae360a0a0352dea94bd863013f7}{connect}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, const struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$addr, \mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} addrlen)
+\item 
+int \mbox{\hyperlink{socket_8h_ab0df490f17896fb1fa5f65a4468d6096}{listen}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, int backlog)
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} \mbox{\hyperlink{socket_8h_a0c63bfe1c5681c844eb704d739e63c00}{recv}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, void $\ast$buffer, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} \mbox{\hyperlink{vsf__queue_8h_a1892eba2086d12ac2b09005aeb09ea3b}{length}}, int flags)
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} \mbox{\hyperlink{socket_8h_ab522bb62613b60394fc844a5796ee414}{recvfrom}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, void $\ast$buffer, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} \mbox{\hyperlink{vsf__queue_8h_a1892eba2086d12ac2b09005aeb09ea3b}{length}}, int flags, struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$src\+\_\+addr, \mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} $\ast$addrlen)
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} \mbox{\hyperlink{socket_8h_ab89c81591dff4f7a4fcb058cb4edc891}{send}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, const void $\ast$message, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} \mbox{\hyperlink{vsf__queue_8h_a1892eba2086d12ac2b09005aeb09ea3b}{length}}, int flags)
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} \mbox{\hyperlink{socket_8h_ab68a1453f827ccd2984c4440e3f28c5f}{sendto}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, const void $\ast$message, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} \mbox{\hyperlink{vsf__queue_8h_a1892eba2086d12ac2b09005aeb09ea3b}{length}}, int flags, const struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$dest\+\_\+addr, \mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} addrlen)
+\item 
+int \mbox{\hyperlink{socket_8h_a03016e1f876d02247e91a9aca1ff4f01}{shutdown}} (int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}}, int how)
+\item 
+int \mbox{\hyperlink{socket_8h_af4e0711877c45a41168ac677b0670ccd}{socket}} (int domain, int \mbox{\hyperlink{vsf__audio_8h_ad64e18f867699b8e854388de816016af}{type}}, int protocol)
+\item 
+int \mbox{\hyperlink{socket_8h_a30eaa8c34c882fe07f14e019e069b30e}{socketpair}} (int domain, int \mbox{\hyperlink{vsf__audio_8h_ad64e18f867699b8e854388de816016af}{type}}, int protocol, int socket\+\_\+vector\mbox{[}2\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{socket_8h_ae77ae24b14b7b7f294f3e04121173f12}\label{socket_8h_ae77ae24b14b7b7f294f3e04121173f12}} 
+\index{socket.h@{socket.h}!AF\_UNSPEC@{AF\_UNSPEC}}
+\index{AF\_UNSPEC@{AF\_UNSPEC}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{AF\_UNSPEC}{AF\_UNSPEC}}
+{\footnotesize\ttfamily \#define AF\+\_\+\+UNSPEC~0}
+
+\mbox{\Hypertarget{socket_8h_a9930604d0e32588eae76f43ca38e7826}\label{socket_8h_a9930604d0e32588eae76f43ca38e7826}} 
+\index{socket.h@{socket.h}!AF\_INET@{AF\_INET}}
+\index{AF\_INET@{AF\_INET}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{AF\_INET}{AF\_INET}}
+{\footnotesize\ttfamily \#define AF\+\_\+\+INET~2}
+
+\mbox{\Hypertarget{socket_8h_aa03706b2738b9a58d4985dfbe99e1bac}\label{socket_8h_aa03706b2738b9a58d4985dfbe99e1bac}} 
+\index{socket.h@{socket.h}!AF\_INET6@{AF\_INET6}}
+\index{AF\_INET6@{AF\_INET6}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{AF\_INET6}{AF\_INET6}}
+{\footnotesize\ttfamily \#define AF\+\_\+\+INET6~10}
+
+\mbox{\Hypertarget{socket_8h_a51dba11ffc8e3b1bf695e721b3144094}\label{socket_8h_a51dba11ffc8e3b1bf695e721b3144094}} 
+\index{socket.h@{socket.h}!PF\_UNSPEC@{PF\_UNSPEC}}
+\index{PF\_UNSPEC@{PF\_UNSPEC}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{PF\_UNSPEC}{PF\_UNSPEC}}
+{\footnotesize\ttfamily \#define PF\+\_\+\+UNSPEC~0}
+
+\mbox{\Hypertarget{socket_8h_a3f5da0b5be27fe31ec7cc11bfa8d1a25}\label{socket_8h_a3f5da0b5be27fe31ec7cc11bfa8d1a25}} 
+\index{socket.h@{socket.h}!PF\_INET@{PF\_INET}}
+\index{PF\_INET@{PF\_INET}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{PF\_INET}{PF\_INET}}
+{\footnotesize\ttfamily \#define PF\+\_\+\+INET~\mbox{\hyperlink{socket_8h_a9930604d0e32588eae76f43ca38e7826}{AF\+\_\+\+INET}}}
+
+\mbox{\Hypertarget{socket_8h_a323f2649198fc7e64b19881869265618}\label{socket_8h_a323f2649198fc7e64b19881869265618}} 
+\index{socket.h@{socket.h}!PF\_INET6@{PF\_INET6}}
+\index{PF\_INET6@{PF\_INET6}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{PF\_INET6}{PF\_INET6}}
+{\footnotesize\ttfamily \#define PF\+\_\+\+INET6~\mbox{\hyperlink{socket_8h_aa03706b2738b9a58d4985dfbe99e1bac}{AF\+\_\+\+INET6}}}
+
+\mbox{\Hypertarget{socket_8h_a249394484f9410a2e3f8eba24657feb9}\label{socket_8h_a249394484f9410a2e3f8eba24657feb9}} 
+\index{socket.h@{socket.h}!SOCK\_STREAM@{SOCK\_STREAM}}
+\index{SOCK\_STREAM@{SOCK\_STREAM}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{SOCK\_STREAM}{SOCK\_STREAM}}
+{\footnotesize\ttfamily \#define SOCK\+\_\+\+STREAM~1}
+
+\mbox{\Hypertarget{socket_8h_a4db8b9a846c67404db0b6f014f9a9fdf}\label{socket_8h_a4db8b9a846c67404db0b6f014f9a9fdf}} 
+\index{socket.h@{socket.h}!SOCK\_DGRAM@{SOCK\_DGRAM}}
+\index{SOCK\_DGRAM@{SOCK\_DGRAM}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{SOCK\_DGRAM}{SOCK\_DGRAM}}
+{\footnotesize\ttfamily \#define SOCK\+\_\+\+DGRAM~2}
+
+\mbox{\Hypertarget{socket_8h_a26769957ec1a2beaf223f33b66ee64ab}\label{socket_8h_a26769957ec1a2beaf223f33b66ee64ab}} 
+\index{socket.h@{socket.h}!INVALID\_SOCKET@{INVALID\_SOCKET}}
+\index{INVALID\_SOCKET@{INVALID\_SOCKET}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{INVALID\_SOCKET}{INVALID\_SOCKET}}
+{\footnotesize\ttfamily \#define INVALID\+\_\+\+SOCKET~-\/1}
+
+\mbox{\Hypertarget{socket_8h_a633b0396ff93d336a088412a190a5072}\label{socket_8h_a633b0396ff93d336a088412a190a5072}} 
+\index{socket.h@{socket.h}!SOCKET\_ERROR@{SOCKET\_ERROR}}
+\index{SOCKET\_ERROR@{SOCKET\_ERROR}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{SOCKET\_ERROR}{SOCKET\_ERROR}}
+{\footnotesize\ttfamily \#define SOCKET\+\_\+\+ERROR~-\/1}
+
+\mbox{\Hypertarget{socket_8h_a2ebd12809845fab1c8fe85b1337de183}\label{socket_8h_a2ebd12809845fab1c8fe85b1337de183}} 
+\index{socket.h@{socket.h}!setsockopt@{setsockopt}}
+\index{setsockopt@{setsockopt}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{setsockopt}{setsockopt}}
+{\footnotesize\ttfamily \#define setsockopt~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+setsockopt}
+
+\mbox{\Hypertarget{socket_8h_a6d2e979cce939b0bccfe059fb553dbb8}\label{socket_8h_a6d2e979cce939b0bccfe059fb553dbb8}} 
+\index{socket.h@{socket.h}!getsockopt@{getsockopt}}
+\index{getsockopt@{getsockopt}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{getsockopt}{getsockopt}}
+{\footnotesize\ttfamily \#define getsockopt~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+getsockopt}
+
+\mbox{\Hypertarget{socket_8h_a1defe1af9b3afa03c09c0e4755048e7c}\label{socket_8h_a1defe1af9b3afa03c09c0e4755048e7c}} 
+\index{socket.h@{socket.h}!getpeername@{getpeername}}
+\index{getpeername@{getpeername}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{getpeername}{getpeername}}
+{\footnotesize\ttfamily \#define getpeername~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+getpeername}
+
+\mbox{\Hypertarget{socket_8h_aa2348cb2e6f1d3bee7ffec9bcb33ca58}\label{socket_8h_aa2348cb2e6f1d3bee7ffec9bcb33ca58}} 
+\index{socket.h@{socket.h}!getsockname@{getsockname}}
+\index{getsockname@{getsockname}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{getsockname}{getsockname}}
+{\footnotesize\ttfamily \#define getsockname~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+getsockname}
+
+\mbox{\Hypertarget{socket_8h_a2fe3d034024f850bed737a97851616bf}\label{socket_8h_a2fe3d034024f850bed737a97851616bf}} 
+\index{socket.h@{socket.h}!accept@{accept}}
+\index{accept@{accept}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{accept}{accept}}
+{\footnotesize\ttfamily \#define accept~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+accept}
+
+\mbox{\Hypertarget{socket_8h_af65cc88d9ccb2274b94e0025d25d965f}\label{socket_8h_af65cc88d9ccb2274b94e0025d25d965f}} 
+\index{socket.h@{socket.h}!bind@{bind}}
+\index{bind@{bind}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{bind}{bind}}
+{\footnotesize\ttfamily \#define bind~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+bind}
+
+\mbox{\Hypertarget{socket_8h_adfd4ee688142ebda1142c1b0c7577e91}\label{socket_8h_adfd4ee688142ebda1142c1b0c7577e91}} 
+\index{socket.h@{socket.h}!connect@{connect}}
+\index{connect@{connect}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{connect}{connect}}
+{\footnotesize\ttfamily \#define connect~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+connect}
+
+\mbox{\Hypertarget{socket_8h_a2d3d00e67d3046983357fc3a5b0e63ed}\label{socket_8h_a2d3d00e67d3046983357fc3a5b0e63ed}} 
+\index{socket.h@{socket.h}!listen@{listen}}
+\index{listen@{listen}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{listen}{listen}}
+{\footnotesize\ttfamily \#define listen~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+listen}
+
+\mbox{\Hypertarget{socket_8h_af5c55c2a392615b0376df3644dc2e792}\label{socket_8h_af5c55c2a392615b0376df3644dc2e792}} 
+\index{socket.h@{socket.h}!recv@{recv}}
+\index{recv@{recv}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{recv}{recv}}
+{\footnotesize\ttfamily \#define recv~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+recv}
+
+\mbox{\Hypertarget{socket_8h_a3102fdddc55c0c8906c40365b5b2fa71}\label{socket_8h_a3102fdddc55c0c8906c40365b5b2fa71}} 
+\index{socket.h@{socket.h}!recvfrom@{recvfrom}}
+\index{recvfrom@{recvfrom}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{recvfrom}{recvfrom}}
+{\footnotesize\ttfamily \#define recvfrom~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+recvfrom}
+
+\mbox{\Hypertarget{socket_8h_af9761b02a9cdd0bba649e4f48ce07eb1}\label{socket_8h_af9761b02a9cdd0bba649e4f48ce07eb1}} 
+\index{socket.h@{socket.h}!send@{send}}
+\index{send@{send}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{send}{send}}
+{\footnotesize\ttfamily \#define send~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+send}
+
+\mbox{\Hypertarget{socket_8h_a41f9a86568fee1d3e923e08583a37e83}\label{socket_8h_a41f9a86568fee1d3e923e08583a37e83}} 
+\index{socket.h@{socket.h}!sendto@{sendto}}
+\index{sendto@{sendto}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{sendto}{sendto}}
+{\footnotesize\ttfamily \#define sendto~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+sendto}
+
+\mbox{\Hypertarget{socket_8h_abb5abf491305ecb624576b9d3120e0ae}\label{socket_8h_abb5abf491305ecb624576b9d3120e0ae}} 
+\index{socket.h@{socket.h}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{shutdown}{shutdown}}
+{\footnotesize\ttfamily \#define shutdown~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+shutdown}
+
+\mbox{\Hypertarget{socket_8h_aa8318fbee111c5bde5952c63e894c962}\label{socket_8h_aa8318fbee111c5bde5952c63e894c962}} 
+\index{socket.h@{socket.h}!socket@{socket}}
+\index{socket@{socket}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{socket}{socket}}
+{\footnotesize\ttfamily \#define socket~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+socket}
+
+\mbox{\Hypertarget{socket_8h_ab93f620662d6d88d2b7c0b8fd8378760}\label{socket_8h_ab93f620662d6d88d2b7c0b8fd8378760}} 
+\index{socket.h@{socket.h}!socketpair@{socketpair}}
+\index{socketpair@{socketpair}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{socketpair}{socketpair}}
+{\footnotesize\ttfamily \#define socketpair~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+socketpair}
+
+\mbox{\Hypertarget{socket_8h_a92d045f6ee2f343d6b28830a9fec082e}\label{socket_8h_a92d045f6ee2f343d6b28830a9fec082e}} 
+\index{socket.h@{socket.h}!SOL\_SOCKET@{SOL\_SOCKET}}
+\index{SOL\_SOCKET@{SOL\_SOCKET}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{SOL\_SOCKET}{SOL\_SOCKET}}
+{\footnotesize\ttfamily \#define SOL\+\_\+\+SOCKET~0x\+FFFF}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}\label{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}} 
+\index{socket.h@{socket.h}!socklen\_t@{socklen\_t}}
+\index{socklen\_t@{socklen\_t}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{socklen\_t}{socklen\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}}}
+
+\mbox{\Hypertarget{socket_8h_a22bf2db06ebc5466014e637d419cef90}\label{socket_8h_a22bf2db06ebc5466014e637d419cef90}} 
+\index{socket.h@{socket.h}!sa\_family\_t@{sa\_family\_t}}
+\index{sa\_family\_t@{sa\_family\_t}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{sa\_family\_t}{sa\_family\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{socket_8h_a22bf2db06ebc5466014e637d419cef90}{sa\+\_\+family\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{socket_8h_a57ea8175acdce8eeb8af23163fe5a045}\label{socket_8h_a57ea8175acdce8eeb8af23163fe5a045}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IPPROTO\_TCP@{IPPROTO\_TCP}!socket.h@{socket.h}}\index{socket.h@{socket.h}!IPPROTO\_TCP@{IPPROTO\_TCP}}}\mbox{\Hypertarget{socket_8h_a57ea8175acdce8eeb8af23163fe5a045a4a3c433d15859f62bacc06312791a45e}\label{socket_8h_a57ea8175acdce8eeb8af23163fe5a045a4a3c433d15859f62bacc06312791a45e}} 
+IPPROTO\+\_\+\+TCP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IPPROTO\_UDP@{IPPROTO\_UDP}!socket.h@{socket.h}}\index{socket.h@{socket.h}!IPPROTO\_UDP@{IPPROTO\_UDP}}}\mbox{\Hypertarget{socket_8h_a57ea8175acdce8eeb8af23163fe5a045abd7dfb22e255a4eed332f41de12d7321}\label{socket_8h_a57ea8175acdce8eeb8af23163fe5a045abd7dfb22e255a4eed332f41de12d7321}} 
+IPPROTO\+\_\+\+UDP&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfba}\label{socket_8h_ace732421f7fcef3496e066edfe51cfba}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SO\_DEBUG@{SO\_DEBUG}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SO\_DEBUG@{SO\_DEBUG}}}\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfbaae66573a5ee2c4868c14ca9d499ef6b5d}\label{socket_8h_ace732421f7fcef3496e066edfe51cfbaae66573a5ee2c4868c14ca9d499ef6b5d}} 
+SO\+\_\+\+DEBUG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SO\_REUSEADDR@{SO\_REUSEADDR}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SO\_REUSEADDR@{SO\_REUSEADDR}}}\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfbaa9a69076a9b2bdef693708d5005f4cf46}\label{socket_8h_ace732421f7fcef3496e066edfe51cfbaa9a69076a9b2bdef693708d5005f4cf46}} 
+SO\+\_\+\+REUSEADDR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SO\_ACCEPTCONN@{SO\_ACCEPTCONN}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SO\_ACCEPTCONN@{SO\_ACCEPTCONN}}}\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfbaaa985052d483e1e379df8fe24e5ae9323}\label{socket_8h_ace732421f7fcef3496e066edfe51cfbaaa985052d483e1e379df8fe24e5ae9323}} 
+SO\+\_\+\+ACCEPTCONN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SO\_KEEPALIVE@{SO\_KEEPALIVE}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SO\_KEEPALIVE@{SO\_KEEPALIVE}}}\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfbaa4540c38a6d26cae663b162aa08b2cd1b}\label{socket_8h_ace732421f7fcef3496e066edfe51cfbaa4540c38a6d26cae663b162aa08b2cd1b}} 
+SO\+\_\+\+KEEPALIVE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SO\_BROADCAST@{SO\_BROADCAST}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SO\_BROADCAST@{SO\_BROADCAST}}}\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfbaa717302eb594c7eba70dd5ebec1ba89d2}\label{socket_8h_ace732421f7fcef3496e066edfe51cfbaa717302eb594c7eba70dd5ebec1ba89d2}} 
+SO\+\_\+\+BROADCAST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SO\_TYPE@{SO\_TYPE}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SO\_TYPE@{SO\_TYPE}}}\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfbaa518fcdee784798ddf4db7a593e794340}\label{socket_8h_ace732421f7fcef3496e066edfe51cfbaa518fcdee784798ddf4db7a593e794340}} 
+SO\+\_\+\+TYPE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SO\_ERROR@{SO\_ERROR}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SO\_ERROR@{SO\_ERROR}}}\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfbaac9c377737c401ee3826e199d5ec2c6c7}\label{socket_8h_ace732421f7fcef3496e066edfe51cfbaac9c377737c401ee3826e199d5ec2c6c7}} 
+SO\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SO\_SNDBUF@{SO\_SNDBUF}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SO\_SNDBUF@{SO\_SNDBUF}}}\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfbaa1df7a92f3c90d78f7be79280937cc48f}\label{socket_8h_ace732421f7fcef3496e066edfe51cfbaa1df7a92f3c90d78f7be79280937cc48f}} 
+SO\+\_\+\+SNDBUF&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SO\_RCVBUF@{SO\_RCVBUF}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SO\_RCVBUF@{SO\_RCVBUF}}}\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfbaa2b21411458e656e4dae50ed07bc49fe9}\label{socket_8h_ace732421f7fcef3496e066edfe51cfbaa2b21411458e656e4dae50ed07bc49fe9}} 
+SO\+\_\+\+RCVBUF&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SO\_RCVTIMEO@{SO\_RCVTIMEO}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SO\_RCVTIMEO@{SO\_RCVTIMEO}}}\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfbaa6c96d07febacc120844c83a5a1745210}\label{socket_8h_ace732421f7fcef3496e066edfe51cfbaa6c96d07febacc120844c83a5a1745210}} 
+SO\+\_\+\+RCVTIMEO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SO\_SNDTIMEO@{SO\_SNDTIMEO}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SO\_SNDTIMEO@{SO\_SNDTIMEO}}}\mbox{\Hypertarget{socket_8h_ace732421f7fcef3496e066edfe51cfbaa06ca2351a5e739ece940781372796f4b}\label{socket_8h_ace732421f7fcef3496e066edfe51cfbaa06ca2351a5e739ece940781372796f4b}} 
+SO\+\_\+\+SNDTIMEO&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{socket_8h_acdbe0b9425baedbd77beccda99ac3dbe}\label{socket_8h_acdbe0b9425baedbd77beccda99ac3dbe}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MSG\_OOB@{MSG\_OOB}!socket.h@{socket.h}}\index{socket.h@{socket.h}!MSG\_OOB@{MSG\_OOB}}}\mbox{\Hypertarget{socket_8h_acdbe0b9425baedbd77beccda99ac3dbea890be29a00a90e15eb7e50a1cbba95ab}\label{socket_8h_acdbe0b9425baedbd77beccda99ac3dbea890be29a00a90e15eb7e50a1cbba95ab}} 
+MSG\+\_\+\+OOB&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MSG\_PEEK@{MSG\_PEEK}!socket.h@{socket.h}}\index{socket.h@{socket.h}!MSG\_PEEK@{MSG\_PEEK}}}\mbox{\Hypertarget{socket_8h_acdbe0b9425baedbd77beccda99ac3dbea41ac2d38ac3e36d430b72abfb78273e5}\label{socket_8h_acdbe0b9425baedbd77beccda99ac3dbea41ac2d38ac3e36d430b72abfb78273e5}} 
+MSG\+\_\+\+PEEK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MSG\_WAITALL@{MSG\_WAITALL}!socket.h@{socket.h}}\index{socket.h@{socket.h}!MSG\_WAITALL@{MSG\_WAITALL}}}\mbox{\Hypertarget{socket_8h_acdbe0b9425baedbd77beccda99ac3dbeab08ae4c3cc1347cc51ea0bbb0056c110}\label{socket_8h_acdbe0b9425baedbd77beccda99ac3dbeab08ae4c3cc1347cc51ea0bbb0056c110}} 
+MSG\+\_\+\+WAITALL&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{socket_8h_ae532194333327ea37ac5798e8af0a53d}\label{socket_8h_ae532194333327ea37ac5798e8af0a53d}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SHUT\_RD@{SHUT\_RD}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SHUT\_RD@{SHUT\_RD}}}\mbox{\Hypertarget{socket_8h_ae532194333327ea37ac5798e8af0a53da1c2982a59d309707236caafd09e43ecd}\label{socket_8h_ae532194333327ea37ac5798e8af0a53da1c2982a59d309707236caafd09e43ecd}} 
+SHUT\+\_\+\+RD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SHUT\_WR@{SHUT\_WR}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SHUT\_WR@{SHUT\_WR}}}\mbox{\Hypertarget{socket_8h_ae532194333327ea37ac5798e8af0a53da1c9e3081960c88d43f9b6c686235a26e}\label{socket_8h_ae532194333327ea37ac5798e8af0a53da1c9e3081960c88d43f9b6c686235a26e}} 
+SHUT\+\_\+\+WR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SHUT\_RDWR@{SHUT\_RDWR}!socket.h@{socket.h}}\index{socket.h@{socket.h}!SHUT\_RDWR@{SHUT\_RDWR}}}\mbox{\Hypertarget{socket_8h_ae532194333327ea37ac5798e8af0a53dabe991fe694e235f0fe8678c15962a803}\label{socket_8h_ae532194333327ea37ac5798e8af0a53dabe991fe694e235f0fe8678c15962a803}} 
+SHUT\+\_\+\+RDWR&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{socket_8h_a0905d58a6f3434afdb9e2212e7255e16}\label{socket_8h_a0905d58a6f3434afdb9e2212e7255e16}} 
+\index{socket.h@{socket.h}!setsockopt@{setsockopt}}
+\index{setsockopt@{setsockopt}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{setsockopt()}{setsockopt()}}
+{\footnotesize\ttfamily int setsockopt (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{int}]{level,  }\item[{int}]{optname,  }\item[{const void $\ast$}]{optval,  }\item[{\mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}}}]{optlen }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_ae0993e7089e417ba5f68c9a048c68e25}\label{socket_8h_ae0993e7089e417ba5f68c9a048c68e25}} 
+\index{socket.h@{socket.h}!getsockopt@{getsockopt}}
+\index{getsockopt@{getsockopt}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{getsockopt()}{getsockopt()}}
+{\footnotesize\ttfamily int getsockopt (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{int}]{level,  }\item[{int}]{optname,  }\item[{void $\ast$}]{optval,  }\item[{\mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} $\ast$}]{optlen }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_a314deaf36cbd63e9d2fc443f8e879d86}\label{socket_8h_a314deaf36cbd63e9d2fc443f8e879d86}} 
+\index{socket.h@{socket.h}!getpeername@{getpeername}}
+\index{getpeername@{getpeername}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{getpeername()}{getpeername()}}
+{\footnotesize\ttfamily int getpeername (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$}]{addr,  }\item[{\mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} $\ast$}]{addrlen }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_ae36700bc87153d376f97ec4c6117fdcf}\label{socket_8h_ae36700bc87153d376f97ec4c6117fdcf}} 
+\index{socket.h@{socket.h}!getsockname@{getsockname}}
+\index{getsockname@{getsockname}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{getsockname()}{getsockname()}}
+{\footnotesize\ttfamily int getsockname (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$}]{addr,  }\item[{\mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} $\ast$}]{addrlen }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_ab67d3561644376270b8c98ce010a6faa}\label{socket_8h_ab67d3561644376270b8c98ce010a6faa}} 
+\index{socket.h@{socket.h}!accept@{accept}}
+\index{accept@{accept}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{accept()}{accept()}}
+{\footnotesize\ttfamily int accept (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$}]{addr,  }\item[{\mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} $\ast$}]{addrlen }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_ac445858ac7e0ee1bad7aadd9ea08e8d0}\label{socket_8h_ac445858ac7e0ee1bad7aadd9ea08e8d0}} 
+\index{socket.h@{socket.h}!bind@{bind}}
+\index{bind@{bind}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{bind()}{bind()}}
+{\footnotesize\ttfamily int bind (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{const struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$}]{addr,  }\item[{\mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}}}]{addrlen }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_a48180ae360a0a0352dea94bd863013f7}\label{socket_8h_a48180ae360a0a0352dea94bd863013f7}} 
+\index{socket.h@{socket.h}!connect@{connect}}
+\index{connect@{connect}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{connect()}{connect()}}
+{\footnotesize\ttfamily int connect (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{const struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$}]{addr,  }\item[{\mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}}}]{addrlen }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_ab0df490f17896fb1fa5f65a4468d6096}\label{socket_8h_ab0df490f17896fb1fa5f65a4468d6096}} 
+\index{socket.h@{socket.h}!listen@{listen}}
+\index{listen@{listen}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{listen()}{listen()}}
+{\footnotesize\ttfamily int listen (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{int}]{backlog }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_a0c63bfe1c5681c844eb704d739e63c00}\label{socket_8h_a0c63bfe1c5681c844eb704d739e63c00}} 
+\index{socket.h@{socket.h}!recv@{recv}}
+\index{recv@{recv}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{recv()}{recv()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} recv (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{void $\ast$}]{buffer,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{length,  }\item[{int}]{flags }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_ab522bb62613b60394fc844a5796ee414}\label{socket_8h_ab522bb62613b60394fc844a5796ee414}} 
+\index{socket.h@{socket.h}!recvfrom@{recvfrom}}
+\index{recvfrom@{recvfrom}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{recvfrom()}{recvfrom()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} recvfrom (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{void $\ast$}]{buffer,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{length,  }\item[{int}]{flags,  }\item[{struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$}]{src\+\_\+addr,  }\item[{\mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}} $\ast$}]{addrlen }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_ab89c81591dff4f7a4fcb058cb4edc891}\label{socket_8h_ab89c81591dff4f7a4fcb058cb4edc891}} 
+\index{socket.h@{socket.h}!send@{send}}
+\index{send@{send}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{send()}{send()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} send (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{const void $\ast$}]{message,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{length,  }\item[{int}]{flags }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_ab68a1453f827ccd2984c4440e3f28c5f}\label{socket_8h_ab68a1453f827ccd2984c4440e3f28c5f}} 
+\index{socket.h@{socket.h}!sendto@{sendto}}
+\index{sendto@{sendto}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{sendto()}{sendto()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} sendto (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{const void $\ast$}]{message,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{length,  }\item[{int}]{flags,  }\item[{const struct \mbox{\hyperlink{structsockaddr}{sockaddr}} $\ast$}]{dest\+\_\+addr,  }\item[{\mbox{\hyperlink{socket_8h_a3f5f480bed01f54df564b99350f1d1bb}{socklen\+\_\+t}}}]{addrlen }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_a03016e1f876d02247e91a9aca1ff4f01}\label{socket_8h_a03016e1f876d02247e91a9aca1ff4f01}} 
+\index{socket.h@{socket.h}!shutdown@{shutdown}}
+\index{shutdown@{shutdown}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{shutdown()}{shutdown()}}
+{\footnotesize\ttfamily int shutdown (\begin{DoxyParamCaption}\item[{int}]{socket,  }\item[{int}]{how }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_af4e0711877c45a41168ac677b0670ccd}\label{socket_8h_af4e0711877c45a41168ac677b0670ccd}} 
+\index{socket.h@{socket.h}!socket@{socket}}
+\index{socket@{socket}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{socket()}{socket()}}
+{\footnotesize\ttfamily int socket (\begin{DoxyParamCaption}\item[{int}]{domain,  }\item[{int}]{type,  }\item[{int}]{protocol }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{socket_8h_a30eaa8c34c882fe07f14e019e069b30e}\label{socket_8h_a30eaa8c34c882fe07f14e019e069b30e}} 
+\index{socket.h@{socket.h}!socketpair@{socketpair}}
+\index{socketpair@{socketpair}!socket.h@{socket.h}}
+\doxysubsubsection{\texorpdfstring{socketpair()}{socketpair()}}
+{\footnotesize\ttfamily int socketpair (\begin{DoxyParamCaption}\item[{int}]{domain,  }\item[{int}]{type,  }\item[{int}]{protocol,  }\item[{int}]{socket\+\_\+vector\mbox{[}2\mbox{]} }\end{DoxyParamCaption})}
+

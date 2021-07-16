@@ -1,0 +1,193 @@
+\hypertarget{structvk__winusb__hcd__dev__t}{}\doxysection{vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t Struct Reference}
+\label{structvk__winusb__hcd__dev__t}\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{structvk__winusb__hcd__dev__t_a50dc5976b8bd38dda780bd570cafcab9ac62bc9e8c1262641f5b070f5a5521862}{VSF\+\_\+\+WINUSB\+\_\+\+HCD\+\_\+\+DEV\+\_\+\+STATE\+\_\+\+DETACHED}}
+, \newline
+\mbox{\hyperlink{structvk__winusb__hcd__dev__t_a50dc5976b8bd38dda780bd570cafcab9a27185b4ae713ccf52968ba2be12ae92b}{VSF\+\_\+\+WINUSB\+\_\+\+HCD\+\_\+\+DEV\+\_\+\+STATE\+\_\+\+DETACHING}}
+, \newline
+\mbox{\hyperlink{structvk__winusb__hcd__dev__t_a50dc5976b8bd38dda780bd570cafcab9addd8132638f1e5c4ece0570b07fee665}{VSF\+\_\+\+WINUSB\+\_\+\+HCD\+\_\+\+DEV\+\_\+\+STATE\+\_\+\+ATTACHED}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a17f9cfef3104e114c915d4e2d86b404a}{vid}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a53cd1587243af42b0ccead46a3d1090c}{pid}}
+\item 
+HANDLE \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a86cac2559e3193b294b5a09a2ec7bd54}{h\+Dev}}
+\item 
+WINUSB\+\_\+\+INTERFACE\+\_\+\+HANDLE \mbox{\hyperlink{structvk__winusb__hcd__dev__t_afd853ae4427f2e5bd4a2506633d986f5}{h\+Usb\+Ifs}} \mbox{[}8\mbox{]}
+\item 
+\mbox{\hyperlink{classvk__usbh__dev__t}{vk\+\_\+usbh\+\_\+dev\+\_\+t}} $\ast$ \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a798c7478d9fc1aeeb57b2423f84bbb98}{dev}}
+\item 
+enum \mbox{\hyperlink{usb__common_8h_a3e6b7483ab9f154c6557a4b127f3db1f}{usb\+\_\+device\+\_\+speed\+\_\+t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a88eec34739e037dff6fbfcb76bf666a0}{speed}}
+\item 
+enum vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+:: \{ ... \}  \mbox{\hyperlink{structvk__winusb__hcd__dev__t_aa458c92a972afb28cc61ee45abc112b8}{state}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a31c2c9b3731fa7eca8174de420d87d3a}{addr}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a7f28de20c8e02be72257d57282b566b1}{ifs\+\_\+num}}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_ae082ac00b14096bb38fc9fd5bf3ae1d5}{value}}\\
+\>struct \{\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a1347664ab455f5c11f451347ca18b39a}{is\_resetting}}: 1\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a75d0317a8cf2bceae5ccbd37410c747b}{is\_attaching}}: 1\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a76088b55a5fdfc0c2f4ff76963d55c9d}{is\_detaching}}: 1\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_ac635480fa940f7b0073aecde4155d6b0}{is\_detached}}: 1\\
+\>\} \\
+\} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a55e6e838bd5147c035607f25415077ff}{evt\_mask}}\\
+
+\end{tabbing}\item 
+vsf\+\_\+arch\+\_\+irq\+\_\+thread\+\_\+t \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a1ea4e35c92f59dc9210afcd5d5a76ee6}{irq\+\_\+thread}}
+\item 
+vsf\+\_\+arch\+\_\+irq\+\_\+request\+\_\+t \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a964e6ec68cda13cc6d2cd904b3ad77e6}{irq\+\_\+request}}
+\item 
+\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a7bf16081087440cbaad3edfd087146bf}{urb\+\_\+pending\+\_\+list}}
+\item 
+\mbox{\hyperlink{structvk__winusb__hcd__dev__ep__t}{vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+ep\+\_\+t}} \mbox{\hyperlink{structvk__winusb__hcd__dev__t_a9cdf14cbd1e5e199a07cb574ff710979}{ep}} \mbox{[}2 $\ast$16\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a50dc5976b8bd38dda780bd570cafcab9}\label{structvk__winusb__hcd__dev__t_a50dc5976b8bd38dda780bd570cafcab9}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_WINUSB\_HCD\_DEV\_STATE\_DETACHED@{VSF\_WINUSB\_HCD\_DEV\_STATE\_DETACHED}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!VSF\_WINUSB\_HCD\_DEV\_STATE\_DETACHED@{VSF\_WINUSB\_HCD\_DEV\_STATE\_DETACHED}}}\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a50dc5976b8bd38dda780bd570cafcab9ac62bc9e8c1262641f5b070f5a5521862}\label{structvk__winusb__hcd__dev__t_a50dc5976b8bd38dda780bd570cafcab9ac62bc9e8c1262641f5b070f5a5521862}} 
+VSF\+\_\+\+WINUSB\+\_\+\+HCD\+\_\+\+DEV\+\_\+\+STATE\+\_\+\+DETACHED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_WINUSB\_HCD\_DEV\_STATE\_DETACHING@{VSF\_WINUSB\_HCD\_DEV\_STATE\_DETACHING}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!VSF\_WINUSB\_HCD\_DEV\_STATE\_DETACHING@{VSF\_WINUSB\_HCD\_DEV\_STATE\_DETACHING}}}\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a50dc5976b8bd38dda780bd570cafcab9a27185b4ae713ccf52968ba2be12ae92b}\label{structvk__winusb__hcd__dev__t_a50dc5976b8bd38dda780bd570cafcab9a27185b4ae713ccf52968ba2be12ae92b}} 
+VSF\+\_\+\+WINUSB\+\_\+\+HCD\+\_\+\+DEV\+\_\+\+STATE\+\_\+\+DETACHING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_WINUSB\_HCD\_DEV\_STATE\_ATTACHED@{VSF\_WINUSB\_HCD\_DEV\_STATE\_ATTACHED}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!VSF\_WINUSB\_HCD\_DEV\_STATE\_ATTACHED@{VSF\_WINUSB\_HCD\_DEV\_STATE\_ATTACHED}}}\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a50dc5976b8bd38dda780bd570cafcab9addd8132638f1e5c4ece0570b07fee665}\label{structvk__winusb__hcd__dev__t_a50dc5976b8bd38dda780bd570cafcab9addd8132638f1e5c4ece0570b07fee665}} 
+VSF\+\_\+\+WINUSB\+\_\+\+HCD\+\_\+\+DEV\+\_\+\+STATE\+\_\+\+ATTACHED&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a17f9cfef3104e114c915d4e2d86b404a}\label{structvk__winusb__hcd__dev__t_a17f9cfef3104e114c915d4e2d86b404a}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!vid@{vid}}
+\index{vid@{vid}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{vid}{vid}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::vid}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a53cd1587243af42b0ccead46a3d1090c}\label{structvk__winusb__hcd__dev__t_a53cd1587243af42b0ccead46a3d1090c}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!pid@{pid}}
+\index{pid@{pid}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{pid}{pid}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::pid}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a86cac2559e3193b294b5a09a2ec7bd54}\label{structvk__winusb__hcd__dev__t_a86cac2559e3193b294b5a09a2ec7bd54}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!hDev@{hDev}}
+\index{hDev@{hDev}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{hDev}{hDev}}
+{\footnotesize\ttfamily HANDLE vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::h\+Dev}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_afd853ae4427f2e5bd4a2506633d986f5}\label{structvk__winusb__hcd__dev__t_afd853ae4427f2e5bd4a2506633d986f5}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!hUsbIfs@{hUsbIfs}}
+\index{hUsbIfs@{hUsbIfs}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{hUsbIfs}{hUsbIfs}}
+{\footnotesize\ttfamily WINUSB\+\_\+\+INTERFACE\+\_\+\+HANDLE vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::h\+Usb\+Ifs\mbox{[}8\mbox{]}}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a798c7478d9fc1aeeb57b2423f84bbb98}\label{structvk__winusb__hcd__dev__t_a798c7478d9fc1aeeb57b2423f84bbb98}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!dev@{dev}}
+\index{dev@{dev}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classvk__usbh__dev__t}{vk\+\_\+usbh\+\_\+dev\+\_\+t}}$\ast$ vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::dev}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a88eec34739e037dff6fbfcb76bf666a0}\label{structvk__winusb__hcd__dev__t_a88eec34739e037dff6fbfcb76bf666a0}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!speed@{speed}}
+\index{speed@{speed}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{speed}{speed}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{usb__common_8h_a3e6b7483ab9f154c6557a4b127f3db1f}{usb\+\_\+device\+\_\+speed\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::speed}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_aa458c92a972afb28cc61ee45abc112b8}\label{structvk__winusb__hcd__dev__t_aa458c92a972afb28cc61ee45abc112b8}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!state@{state}}
+\index{state@{state}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily enum \{ ... \}  vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::state}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a31c2c9b3731fa7eca8174de420d87d3a}\label{structvk__winusb__hcd__dev__t_a31c2c9b3731fa7eca8174de420d87d3a}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!addr@{addr}}
+\index{addr@{addr}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{addr}{addr}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::addr}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a7f28de20c8e02be72257d57282b566b1}\label{structvk__winusb__hcd__dev__t_a7f28de20c8e02be72257d57282b566b1}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!ifs\_num@{ifs\_num}}
+\index{ifs\_num@{ifs\_num}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{ifs\_num}{ifs\_num}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::ifs\+\_\+num}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_ae082ac00b14096bb38fc9fd5bf3ae1d5}\label{structvk__winusb__hcd__dev__t_ae082ac00b14096bb38fc9fd5bf3ae1d5}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!value@{value}}
+\index{value@{value}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::value}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a1347664ab455f5c11f451347ca18b39a}\label{structvk__winusb__hcd__dev__t_a1347664ab455f5c11f451347ca18b39a}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!is\_resetting@{is\_resetting}}
+\index{is\_resetting@{is\_resetting}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{is\_resetting}{is\_resetting}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::is\+\_\+resetting}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a75d0317a8cf2bceae5ccbd37410c747b}\label{structvk__winusb__hcd__dev__t_a75d0317a8cf2bceae5ccbd37410c747b}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!is\_attaching@{is\_attaching}}
+\index{is\_attaching@{is\_attaching}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{is\_attaching}{is\_attaching}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::is\+\_\+attaching}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a76088b55a5fdfc0c2f4ff76963d55c9d}\label{structvk__winusb__hcd__dev__t_a76088b55a5fdfc0c2f4ff76963d55c9d}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!is\_detaching@{is\_detaching}}
+\index{is\_detaching@{is\_detaching}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{is\_detaching}{is\_detaching}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::is\+\_\+detaching}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_ac635480fa940f7b0073aecde4155d6b0}\label{structvk__winusb__hcd__dev__t_ac635480fa940f7b0073aecde4155d6b0}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!is\_detached@{is\_detached}}
+\index{is\_detached@{is\_detached}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{is\_detached}{is\_detached}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::is\+\_\+detached}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a55e6e838bd5147c035607f25415077ff}\label{structvk__winusb__hcd__dev__t_a55e6e838bd5147c035607f25415077ff}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!evt\_mask@{evt\_mask}}
+\index{evt\_mask@{evt\_mask}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily union \{ ... \}  vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::evt\+\_\+mask}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a1ea4e35c92f59dc9210afcd5d5a76ee6}\label{structvk__winusb__hcd__dev__t_a1ea4e35c92f59dc9210afcd5d5a76ee6}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!irq\_thread@{irq\_thread}}
+\index{irq\_thread@{irq\_thread}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{irq\_thread}{irq\_thread}}
+{\footnotesize\ttfamily vsf\+\_\+arch\+\_\+irq\+\_\+thread\+\_\+t vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::irq\+\_\+thread}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a964e6ec68cda13cc6d2cd904b3ad77e6}\label{structvk__winusb__hcd__dev__t_a964e6ec68cda13cc6d2cd904b3ad77e6}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!irq\_request@{irq\_request}}
+\index{irq\_request@{irq\_request}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{irq\_request}{irq\_request}}
+{\footnotesize\ttfamily vsf\+\_\+arch\+\_\+irq\+\_\+request\+\_\+t vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::irq\+\_\+request}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a7bf16081087440cbaad3edfd087146bf}\label{structvk__winusb__hcd__dev__t_a7bf16081087440cbaad3edfd087146bf}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!urb\_pending\_list@{urb\_pending\_list}}
+\index{urb\_pending\_list@{urb\_pending\_list}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{urb\_pending\_list}{urb\_pending\_list}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::urb\+\_\+pending\+\_\+list}
+
+\mbox{\Hypertarget{structvk__winusb__hcd__dev__t_a9cdf14cbd1e5e199a07cb574ff710979}\label{structvk__winusb__hcd__dev__t_a9cdf14cbd1e5e199a07cb574ff710979}} 
+\index{vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}!ep@{ep}}
+\index{ep@{ep}!vk\_winusb\_hcd\_dev\_t@{vk\_winusb\_hcd\_dev\_t}}
+\doxysubsubsection{\texorpdfstring{ep}{ep}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvk__winusb__hcd__dev__ep__t}{vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+ep\+\_\+t}} vk\+\_\+winusb\+\_\+hcd\+\_\+dev\+\_\+t\+::ep\mbox{[}2 $\ast$16\mbox{]}}
+

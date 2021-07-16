@@ -1,0 +1,108 @@
+\hypertarget{structvk__libusb__hcd__urb__t}{}\doxysection{vk\+\_\+libusb\+\_\+hcd\+\_\+urb\+\_\+t Struct Reference}
+\label{structvk__libusb__hcd__urb__t}\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccda360a72885d4cf92914c7891127d538e5}{VSF\+\_\+\+LIBUSB\+\_\+\+HCD\+\_\+\+URB\+\_\+\+STATE\+\_\+\+IDLE}}
+, \newline
+\mbox{\hyperlink{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccdabb01c9072179b760431950b06ca9a712}{VSF\+\_\+\+LIBUSB\+\_\+\+HCD\+\_\+\+URB\+\_\+\+STATE\+\_\+\+QUEUED}}
+, \newline
+\mbox{\hyperlink{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccda2c64c00e13d72e4e00a512ba36f2fe62}{VSF\+\_\+\+LIBUSB\+\_\+\+HCD\+\_\+\+URB\+\_\+\+STATE\+\_\+\+SUBMITTING}}
+, \newline
+\mbox{\hyperlink{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccdab312bb18842bc713dc683101e1526090}{VSF\+\_\+\+LIBUSB\+\_\+\+HCD\+\_\+\+URB\+\_\+\+STATE\+\_\+\+WAIT\+\_\+\+TO\+\_\+\+FREE}}
+, \newline
+\mbox{\hyperlink{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccda7bf3dd90855d53f46f8a7501afc56509}{VSF\+\_\+\+LIBUSB\+\_\+\+HCD\+\_\+\+URB\+\_\+\+STATE\+\_\+\+TO\+\_\+\+FREE}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} \mbox{\hyperlink{structvk__libusb__hcd__urb__t_a8bc619a6fd6c01a6314b2821692baaeb}{urb\+\_\+node}}
+\item 
+\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} \mbox{\hyperlink{structvk__libusb__hcd__urb__t_a9f043df8ecc3c961b69c896b739a761e}{urb\+\_\+pending\+\_\+node}}
+\item 
+enum vk\+\_\+libusb\+\_\+hcd\+\_\+urb\+\_\+t\+:: \{ ... \}  \mbox{\hyperlink{structvk__libusb__hcd__urb__t_a09f0d509cb99049b76e02cfa18dbbc95}{state}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{structvk__libusb__hcd__urb__t_a2d169db06c2a973152daf49c39a9ffe5}{is\+\_\+irq\+\_\+enabled}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{structvk__libusb__hcd__urb__t_a39203454f19f1edbe8c5c620c7426c36}{is\+\_\+msg\+\_\+processed}}
+\item 
+vsf\+\_\+arch\+\_\+irq\+\_\+thread\+\_\+t \mbox{\hyperlink{structvk__libusb__hcd__urb__t_a49d4a05a08b722535677e0e9d4c53cb7}{irq\+\_\+thread}}
+\item 
+vsf\+\_\+arch\+\_\+irq\+\_\+request\+\_\+t \mbox{\hyperlink{structvk__libusb__hcd__urb__t_a824f2a6042a8879e8fc3ed927f26a943}{irq\+\_\+request}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccd}\label{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccd}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_LIBUSB\_HCD\_URB\_STATE\_IDLE@{VSF\_LIBUSB\_HCD\_URB\_STATE\_IDLE}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!VSF\_LIBUSB\_HCD\_URB\_STATE\_IDLE@{VSF\_LIBUSB\_HCD\_URB\_STATE\_IDLE}}}\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccda360a72885d4cf92914c7891127d538e5}\label{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccda360a72885d4cf92914c7891127d538e5}} 
+VSF\+\_\+\+LIBUSB\+\_\+\+HCD\+\_\+\+URB\+\_\+\+STATE\+\_\+\+IDLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_LIBUSB\_HCD\_URB\_STATE\_QUEUED@{VSF\_LIBUSB\_HCD\_URB\_STATE\_QUEUED}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!VSF\_LIBUSB\_HCD\_URB\_STATE\_QUEUED@{VSF\_LIBUSB\_HCD\_URB\_STATE\_QUEUED}}}\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccdabb01c9072179b760431950b06ca9a712}\label{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccdabb01c9072179b760431950b06ca9a712}} 
+VSF\+\_\+\+LIBUSB\+\_\+\+HCD\+\_\+\+URB\+\_\+\+STATE\+\_\+\+QUEUED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_LIBUSB\_HCD\_URB\_STATE\_SUBMITTING@{VSF\_LIBUSB\_HCD\_URB\_STATE\_SUBMITTING}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!VSF\_LIBUSB\_HCD\_URB\_STATE\_SUBMITTING@{VSF\_LIBUSB\_HCD\_URB\_STATE\_SUBMITTING}}}\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccda2c64c00e13d72e4e00a512ba36f2fe62}\label{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccda2c64c00e13d72e4e00a512ba36f2fe62}} 
+VSF\+\_\+\+LIBUSB\+\_\+\+HCD\+\_\+\+URB\+\_\+\+STATE\+\_\+\+SUBMITTING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_LIBUSB\_HCD\_URB\_STATE\_WAIT\_TO\_FREE@{VSF\_LIBUSB\_HCD\_URB\_STATE\_WAIT\_TO\_FREE}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!VSF\_LIBUSB\_HCD\_URB\_STATE\_WAIT\_TO\_FREE@{VSF\_LIBUSB\_HCD\_URB\_STATE\_WAIT\_TO\_FREE}}}\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccdab312bb18842bc713dc683101e1526090}\label{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccdab312bb18842bc713dc683101e1526090}} 
+VSF\+\_\+\+LIBUSB\+\_\+\+HCD\+\_\+\+URB\+\_\+\+STATE\+\_\+\+WAIT\+\_\+\+TO\+\_\+\+FREE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_LIBUSB\_HCD\_URB\_STATE\_TO\_FREE@{VSF\_LIBUSB\_HCD\_URB\_STATE\_TO\_FREE}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!VSF\_LIBUSB\_HCD\_URB\_STATE\_TO\_FREE@{VSF\_LIBUSB\_HCD\_URB\_STATE\_TO\_FREE}}}\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccda7bf3dd90855d53f46f8a7501afc56509}\label{structvk__libusb__hcd__urb__t_add1d14aaaacf5efbf3489d463d843ccda7bf3dd90855d53f46f8a7501afc56509}} 
+VSF\+\_\+\+LIBUSB\+\_\+\+HCD\+\_\+\+URB\+\_\+\+STATE\+\_\+\+TO\+\_\+\+FREE&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_a8bc619a6fd6c01a6314b2821692baaeb}\label{structvk__libusb__hcd__urb__t_a8bc619a6fd6c01a6314b2821692baaeb}} 
+\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!urb\_node@{urb\_node}}
+\index{urb\_node@{urb\_node}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}
+\doxysubsubsection{\texorpdfstring{urb\_node}{urb\_node}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} vk\+\_\+libusb\+\_\+hcd\+\_\+urb\+\_\+t\+::urb\+\_\+node}
+
+\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_a9f043df8ecc3c961b69c896b739a761e}\label{structvk__libusb__hcd__urb__t_a9f043df8ecc3c961b69c896b739a761e}} 
+\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!urb\_pending\_node@{urb\_pending\_node}}
+\index{urb\_pending\_node@{urb\_pending\_node}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}
+\doxysubsubsection{\texorpdfstring{urb\_pending\_node}{urb\_pending\_node}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} vk\+\_\+libusb\+\_\+hcd\+\_\+urb\+\_\+t\+::urb\+\_\+pending\+\_\+node}
+
+\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_a09f0d509cb99049b76e02cfa18dbbc95}\label{structvk__libusb__hcd__urb__t_a09f0d509cb99049b76e02cfa18dbbc95}} 
+\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!state@{state}}
+\index{state@{state}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily enum \{ ... \}  vk\+\_\+libusb\+\_\+hcd\+\_\+urb\+\_\+t\+::state}
+
+\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_a2d169db06c2a973152daf49c39a9ffe5}\label{structvk__libusb__hcd__urb__t_a2d169db06c2a973152daf49c39a9ffe5}} 
+\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!is\_irq\_enabled@{is\_irq\_enabled}}
+\index{is\_irq\_enabled@{is\_irq\_enabled}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}
+\doxysubsubsection{\texorpdfstring{is\_irq\_enabled}{is\_irq\_enabled}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vk\+\_\+libusb\+\_\+hcd\+\_\+urb\+\_\+t\+::is\+\_\+irq\+\_\+enabled}
+
+\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_a39203454f19f1edbe8c5c620c7426c36}\label{structvk__libusb__hcd__urb__t_a39203454f19f1edbe8c5c620c7426c36}} 
+\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!is\_msg\_processed@{is\_msg\_processed}}
+\index{is\_msg\_processed@{is\_msg\_processed}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}
+\doxysubsubsection{\texorpdfstring{is\_msg\_processed}{is\_msg\_processed}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vk\+\_\+libusb\+\_\+hcd\+\_\+urb\+\_\+t\+::is\+\_\+msg\+\_\+processed}
+
+\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_a49d4a05a08b722535677e0e9d4c53cb7}\label{structvk__libusb__hcd__urb__t_a49d4a05a08b722535677e0e9d4c53cb7}} 
+\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!irq\_thread@{irq\_thread}}
+\index{irq\_thread@{irq\_thread}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}
+\doxysubsubsection{\texorpdfstring{irq\_thread}{irq\_thread}}
+{\footnotesize\ttfamily vsf\+\_\+arch\+\_\+irq\+\_\+thread\+\_\+t vk\+\_\+libusb\+\_\+hcd\+\_\+urb\+\_\+t\+::irq\+\_\+thread}
+
+\mbox{\Hypertarget{structvk__libusb__hcd__urb__t_a824f2a6042a8879e8fc3ed927f26a943}\label{structvk__libusb__hcd__urb__t_a824f2a6042a8879e8fc3ed927f26a943}} 
+\index{vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}!irq\_request@{irq\_request}}
+\index{irq\_request@{irq\_request}!vk\_libusb\_hcd\_urb\_t@{vk\_libusb\_hcd\_urb\_t}}
+\doxysubsubsection{\texorpdfstring{irq\_request}{irq\_request}}
+{\footnotesize\ttfamily vsf\+\_\+arch\+\_\+irq\+\_\+request\+\_\+t vk\+\_\+libusb\+\_\+hcd\+\_\+urb\+\_\+t\+::irq\+\_\+request}
+

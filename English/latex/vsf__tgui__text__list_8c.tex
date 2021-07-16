@@ -1,0 +1,107 @@
+\hypertarget{vsf__tgui__text__list_8c}{}\doxysection{source/component/ui/tgui/controls/vsf\+\_\+tgui\+\_\+text\+\_\+list.c File Reference}
+\label{vsf__tgui__text__list_8c}\index{source/component/ui/tgui/controls/vsf\_tgui\_text\_list.c@{source/component/ui/tgui/controls/vsf\_tgui\_text\_list.c}}
+{\ttfamily \#include \char`\"{}../vsf\+\_\+tgui\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+tgui\+\_\+text\+\_\+list.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../view/vsf\+\_\+tgui\+\_\+v.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__text__list_8c_abf0cae389e141d94d280f2cb5c35a68d}{\+\_\+\+\_\+\+VSF\+\_\+\+TGUI\+\_\+\+CONTROLS\+\_\+\+TEXT\+\_\+\+LIST\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__text__list_8c_a6f4eaa4e1301fd54577b10260f9673a3}{\+\_\+\+\_\+\+VK\+\_\+\+TGUI\+\_\+\+CONTROLS\+\_\+\+SLIDER\+\_\+\+CLASS\+\_\+\+INHERIT}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__tgui__text__list_8c_aa36a30479829d470c73a06ae4ccf50dc}{declare\+\_\+class}} (vsf\+\_\+tgui\+\_\+t)
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__text__list_8c_ab1c2138e76851013b63898d1dbdc383a}{vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+msg\+\_\+handler}} (vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+t $\ast$pt\+Text\+List, \mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__tgui__label_8h_ad43a895bdb04cb4a659fa8f939e91b9e}{pt\+MSG}})
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__text__list_8c_a8f0ff7b279e6b6a6424fbb91f2dbfe01}{vk\+\_\+tgui\+\_\+text\+\_\+list\+\_\+update}} (vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+t $\ast$pt\+Text\+List)
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__text__list_8c_ad1fd357c6c8d9b4e315508e5c7773e46}{vk\+\_\+tgui\+\_\+text\+\_\+list\+\_\+init}} (vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+t $\ast$pt\+Text\+List)
+\item 
+\mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}} \mbox{\hyperlink{vsf__tgui__text__list_8c_ad027e9f68eb12075176751558c0115e9}{vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+select\+\_\+get}} (vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+t $\ast$pt\+Text\+List)
+\item 
+void \mbox{\hyperlink{vsf__tgui__text__list_8c_a81e747a432e13fffb631b4386da3051d}{vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+select\+\_\+set}} (vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+t $\ast$pt\+Text\+List, \mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}} i\+Select)
+\begin{DoxyCompactList}\small\item\em set the index of selection ! ! \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__tgui__text__list_8c_abf0cae389e141d94d280f2cb5c35a68d}\label{vsf__tgui__text__list_8c_abf0cae389e141d94d280f2cb5c35a68d}} 
+\index{vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}!\_\_VSF\_TGUI\_CONTROLS\_TEXT\_LIST\_CLASS\_IMPLEMENT@{\_\_VSF\_TGUI\_CONTROLS\_TEXT\_LIST\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_TGUI\_CONTROLS\_TEXT\_LIST\_CLASS\_IMPLEMENT@{\_\_VSF\_TGUI\_CONTROLS\_TEXT\_LIST\_CLASS\_IMPLEMENT}!vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_TGUI\_CONTROLS\_TEXT\_LIST\_CLASS\_IMPLEMENT}{\_\_VSF\_TGUI\_CONTROLS\_TEXT\_LIST\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+TGUI\+\_\+\+CONTROLS\+\_\+\+TEXT\+\_\+\+LIST\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__tgui__text__list_8c_a6f4eaa4e1301fd54577b10260f9673a3}\label{vsf__tgui__text__list_8c_a6f4eaa4e1301fd54577b10260f9673a3}} 
+\index{vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}!\_\_VK\_TGUI\_CONTROLS\_SLIDER\_CLASS\_INHERIT@{\_\_VK\_TGUI\_CONTROLS\_SLIDER\_CLASS\_INHERIT}}
+\index{\_\_VK\_TGUI\_CONTROLS\_SLIDER\_CLASS\_INHERIT@{\_\_VK\_TGUI\_CONTROLS\_SLIDER\_CLASS\_INHERIT}!vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VK\_TGUI\_CONTROLS\_SLIDER\_CLASS\_INHERIT}{\_\_VK\_TGUI\_CONTROLS\_SLIDER\_CLASS\_INHERIT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VK\+\_\+\+TGUI\+\_\+\+CONTROLS\+\_\+\+SLIDER\+\_\+\+CLASS\+\_\+\+INHERIT}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__tgui__text__list_8c_aa36a30479829d470c73a06ae4ccf50dc}\label{vsf__tgui__text__list_8c_aa36a30479829d470c73a06ae4ccf50dc}} 
+\index{vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}!declare\_class@{declare\_class}}
+\index{declare\_class@{declare\_class}!vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}}
+\doxysubsubsection{\texorpdfstring{declare\_class()}{declare\_class()}}
+{\footnotesize\ttfamily declare\+\_\+class (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__text__list_8c_ab1c2138e76851013b63898d1dbdc383a}\label{vsf__tgui__text__list_8c_ab1c2138e76851013b63898d1dbdc383a}} 
+\index{vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}!vsf\_tgui\_text\_list\_msg\_handler@{vsf\_tgui\_text\_list\_msg\_handler}}
+\index{vsf\_tgui\_text\_list\_msg\_handler@{vsf\_tgui\_text\_list\_msg\_handler}!vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_text\_list\_msg\_handler()}{vsf\_tgui\_text\_list\_msg\_handler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+msg\+\_\+handler (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+t $\ast$}]{pt\+Text\+List,  }\item[{\mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}} $\ast$}]{pt\+MSG }\end{DoxyParamCaption})}
+
+adjust the line select to the minimal positive range
+
+block backward propagation\mbox{\Hypertarget{vsf__tgui__text__list_8c_a8f0ff7b279e6b6a6424fbb91f2dbfe01}\label{vsf__tgui__text__list_8c_a8f0ff7b279e6b6a6424fbb91f2dbfe01}} 
+\index{vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}!vk\_tgui\_text\_list\_update@{vk\_tgui\_text\_list\_update}}
+\index{vk\_tgui\_text\_list\_update@{vk\_tgui\_text\_list\_update}!vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}}
+\doxysubsubsection{\texorpdfstring{vk\_tgui\_text\_list\_update()}{vk\_tgui\_text\_list\_update()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vk\+\_\+tgui\+\_\+text\+\_\+list\+\_\+update (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+t $\ast$}]{pt\+Text\+List }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{Note}
+before this function is called, all controls in the container are updated with TREE\+\_\+\+UPDATE message
+\end{DoxyNote}
+text list doesn\textquotesingle{}t support autosize, let\textquotesingle{}s fix this\mbox{\Hypertarget{vsf__tgui__text__list_8c_ad1fd357c6c8d9b4e315508e5c7773e46}\label{vsf__tgui__text__list_8c_ad1fd357c6c8d9b4e315508e5c7773e46}} 
+\index{vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}!vk\_tgui\_text\_list\_init@{vk\_tgui\_text\_list\_init}}
+\index{vk\_tgui\_text\_list\_init@{vk\_tgui\_text\_list\_init}!vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}}
+\doxysubsubsection{\texorpdfstring{vk\_tgui\_text\_list\_init()}{vk\_tgui\_text\_list\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vk\+\_\+tgui\+\_\+text\+\_\+list\+\_\+init (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+t $\ast$}]{pt\+Text\+List }\end{DoxyParamCaption})}
+
+$<$ slider
+
+$<$ host control
+
+$<$ use default fps\mbox{\Hypertarget{vsf__tgui__text__list_8c_ad027e9f68eb12075176751558c0115e9}\label{vsf__tgui__text__list_8c_ad027e9f68eb12075176751558c0115e9}} 
+\index{vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}!vsf\_tgui\_text\_list\_select\_get@{vsf\_tgui\_text\_list\_select\_get}}
+\index{vsf\_tgui\_text\_list\_select\_get@{vsf\_tgui\_text\_list\_select\_get}!vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_text\_list\_select\_get()}{vsf\_tgui\_text\_list\_select\_get()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}} vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+select\+\_\+get (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+t $\ast$}]{pt\+Text\+List }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__text__list_8c_a81e747a432e13fffb631b4386da3051d}\label{vsf__tgui__text__list_8c_a81e747a432e13fffb631b4386da3051d}} 
+\index{vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}!vsf\_tgui\_text\_list\_select\_set@{vsf\_tgui\_text\_list\_select\_set}}
+\index{vsf\_tgui\_text\_list\_select\_set@{vsf\_tgui\_text\_list\_select\_set}!vsf\_tgui\_text\_list.c@{vsf\_tgui\_text\_list.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_text\_list\_select\_set()}{vsf\_tgui\_text\_list\_select\_set()}}
+{\footnotesize\ttfamily void vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+select\+\_\+set (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+text\+\_\+list\+\_\+t $\ast$}]{pt\+Text\+List,  }\item[{\mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}}}]{i\+Select }\end{DoxyParamCaption})}
+
+
+
+set the index of selection ! ! 
+
+\begin{DoxyNote}{Note}
+if the input number is out of the valid range, the text list will automatically ! correct it to the valid range. ! !
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em pt\+Text\+List} & the target text list object !\\
+\hline
+{\em i\+Select} & user specified selection number ! \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+none 
+\end{DoxyReturn}

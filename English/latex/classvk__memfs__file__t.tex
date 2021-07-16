@@ -1,0 +1,92 @@
+\hypertarget{classvk__memfs__file__t}{}\doxysection{vk\+\_\+memfs\+\_\+file\+\_\+t Class Reference}
+\label{classvk__memfs__file__t}\index{vk\_memfs\_file\_t@{vk\_memfs\_file\_t}}
+
+
+{\ttfamily \#include $<$vsf\+\_\+memfs.\+h$>$}
+
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>struct \{\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} $\ast$ \mbox{\hyperlink{classvk__memfs__file__t_a8c0b47fe3ca895b28af02db75a4ddf3e}{buff}}\\
+\>\} \mbox{\hyperlink{classvk__memfs__file__t_afc0dadce4f7c72360c07d3936f27d327}{f}}\\
+\>struct \{\\
+\>\>\mbox{\hyperlink{classvk__memfs__file__t}{vk\_memfs\_file\_t}} $\ast$ \mbox{\hyperlink{classvk__memfs__file__t_aee0fcfaba1076e1dc5dd7ef0bcaa37b6}{child}}\\
+\>\>\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}} \mbox{\hyperlink{classvk__memfs__file__t_a78eca5b38c0ebb55279270308a669566}{child\_num}}\\
+\>\>\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}} \mbox{\hyperlink{classvk__memfs__file__t_a6db943a77addb83ac13f87d9c13625a4}{child\_size}}\\
+\>\} \mbox{\hyperlink{classvk__memfs__file__t_aefb9ce9a3a96209b6a3cf4a2e30ea233}{d}}\\
+\}; \\
+
+\end{tabbing}\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>void($\ast$ \mbox{\hyperlink{classvk__memfs__file__t_a61f5caf807cb0743be4821165cc0f1b7}{fn\_read}} )(\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\_t}} target, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\_evt\_t}} evt)\\
+\>void($\ast$ \mbox{\hyperlink{classvk__memfs__file__t_aad07f2b24aadff7550ccfc14fb269999}{fn\_write}} )(\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\_t}} target, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\_evt\_t}} evt)\\
+\} \mbox{\hyperlink{classvk__memfs__file__t_a11a51ae9ddc57ef40ba944b814819e50}{callback}}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{classvk__memfs__file__t_a8c0b47fe3ca895b28af02db75a4ddf3e}\label{classvk__memfs__file__t_a8c0b47fe3ca895b28af02db75a4ddf3e}} 
+\index{vk\_memfs\_file\_t@{vk\_memfs\_file\_t}!buff@{buff}}
+\index{buff@{buff}!vk\_memfs\_file\_t@{vk\_memfs\_file\_t}}
+\doxysubsubsection{\texorpdfstring{buff}{buff}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}$\ast$ vk\+\_\+memfs\+\_\+file\+\_\+t\+::buff}
+
+\mbox{\Hypertarget{classvk__memfs__file__t_afc0dadce4f7c72360c07d3936f27d327}\label{classvk__memfs__file__t_afc0dadce4f7c72360c07d3936f27d327}} 
+\index{vk\_memfs\_file\_t@{vk\_memfs\_file\_t}!f@{f}}
+\index{f@{f}!vk\_memfs\_file\_t@{vk\_memfs\_file\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vk\+\_\+memfs\+\_\+file\+\_\+t\+::f}
+
+\mbox{\Hypertarget{classvk__memfs__file__t_aee0fcfaba1076e1dc5dd7ef0bcaa37b6}\label{classvk__memfs__file__t_aee0fcfaba1076e1dc5dd7ef0bcaa37b6}} 
+\index{vk\_memfs\_file\_t@{vk\_memfs\_file\_t}!child@{child}}
+\index{child@{child}!vk\_memfs\_file\_t@{vk\_memfs\_file\_t}}
+\doxysubsubsection{\texorpdfstring{child}{child}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classvk__memfs__file__t}{vk\+\_\+memfs\+\_\+file\+\_\+t}}$\ast$ vk\+\_\+memfs\+\_\+file\+\_\+t\+::child}
+
+\mbox{\Hypertarget{classvk__memfs__file__t_a78eca5b38c0ebb55279270308a669566}\label{classvk__memfs__file__t_a78eca5b38c0ebb55279270308a669566}} 
+\index{vk\_memfs\_file\_t@{vk\_memfs\_file\_t}!child\_num@{child\_num}}
+\index{child\_num@{child\_num}!vk\_memfs\_file\_t@{vk\_memfs\_file\_t}}
+\doxysubsubsection{\texorpdfstring{child\_num}{child\_num}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} vk\+\_\+memfs\+\_\+file\+\_\+t\+::child\+\_\+num}
+
+\mbox{\Hypertarget{classvk__memfs__file__t_a6db943a77addb83ac13f87d9c13625a4}\label{classvk__memfs__file__t_a6db943a77addb83ac13f87d9c13625a4}} 
+\index{vk\_memfs\_file\_t@{vk\_memfs\_file\_t}!child\_size@{child\_size}}
+\index{child\_size@{child\_size}!vk\_memfs\_file\_t@{vk\_memfs\_file\_t}}
+\doxysubsubsection{\texorpdfstring{child\_size}{child\_size}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} vk\+\_\+memfs\+\_\+file\+\_\+t\+::child\+\_\+size}
+
+\mbox{\Hypertarget{classvk__memfs__file__t_aefb9ce9a3a96209b6a3cf4a2e30ea233}\label{classvk__memfs__file__t_aefb9ce9a3a96209b6a3cf4a2e30ea233}} 
+\index{vk\_memfs\_file\_t@{vk\_memfs\_file\_t}!d@{d}}
+\index{d@{d}!vk\_memfs\_file\_t@{vk\_memfs\_file\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vk\+\_\+memfs\+\_\+file\+\_\+t\+::d}
+
+\mbox{\Hypertarget{classvk__memfs__file__t_a99e8442a18057b419090575c4d5aca6e}\label{classvk__memfs__file__t_a99e8442a18057b419090575c4d5aca6e}} 
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily vk\+\_\+file\+\_\+t \{ ... \} }
+
+\mbox{\Hypertarget{classvk__memfs__file__t_a61f5caf807cb0743be4821165cc0f1b7}\label{classvk__memfs__file__t_a61f5caf807cb0743be4821165cc0f1b7}} 
+\index{vk\_memfs\_file\_t@{vk\_memfs\_file\_t}!fn\_read@{fn\_read}}
+\index{fn\_read@{fn\_read}!vk\_memfs\_file\_t@{vk\_memfs\_file\_t}}
+\doxysubsubsection{\texorpdfstring{fn\_read}{fn\_read}}
+{\footnotesize\ttfamily void($\ast$ vk\+\_\+memfs\+\_\+file\+\_\+t\+::fn\+\_\+read) (\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}} target, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}} evt)}
+
+\mbox{\Hypertarget{classvk__memfs__file__t_aad07f2b24aadff7550ccfc14fb269999}\label{classvk__memfs__file__t_aad07f2b24aadff7550ccfc14fb269999}} 
+\index{vk\_memfs\_file\_t@{vk\_memfs\_file\_t}!fn\_write@{fn\_write}}
+\index{fn\_write@{fn\_write}!vk\_memfs\_file\_t@{vk\_memfs\_file\_t}}
+\doxysubsubsection{\texorpdfstring{fn\_write}{fn\_write}}
+{\footnotesize\ttfamily void($\ast$ vk\+\_\+memfs\+\_\+file\+\_\+t\+::fn\+\_\+write) (\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}} target, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}} evt)}
+
+\mbox{\Hypertarget{classvk__memfs__file__t_a11a51ae9ddc57ef40ba944b814819e50}\label{classvk__memfs__file__t_a11a51ae9ddc57ef40ba944b814819e50}} 
+\index{vk\_memfs\_file\_t@{vk\_memfs\_file\_t}!callback@{callback}}
+\index{callback@{callback}!vk\_memfs\_file\_t@{vk\_memfs\_file\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vk\+\_\+memfs\+\_\+file\+\_\+t\+::callback}
+

@@ -1,0 +1,133 @@
+\hypertarget{vsf__audio_8h}{}\doxysection{source/component/av/audio/vsf\+\_\+audio.h File Reference}
+\label{vsf__audio_8h}\index{source/component/av/audio/vsf\_audio.h@{source/component/av/audio/vsf\_audio.h}}
+{\ttfamily \#include \char`\"{}../vsf\+\_\+av\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./decoder/wav/vsf\+\_\+wav.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvk__audio__stream__drv__t}{vk\+\_\+audio\+\_\+stream\+\_\+drv\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvk__audio__drv__t}{vk\+\_\+audio\+\_\+drv\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__audio__format__t}{vk\+\_\+audio\+\_\+format\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__audio__stream__t}{vk\+\_\+audio\+\_\+stream\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvk__audio__dev__t}{vk\+\_\+audio\+\_\+dev\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvk__audio__stream__drv__t}{vk\+\_\+audio\+\_\+stream\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_aca9316f646ed225e105beaace2e73208}{vk\+\_\+audio\+\_\+stream\+\_\+drv\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__audio__format__t}{vk\+\_\+audio\+\_\+format\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_aa0be83a1028c63d4eae4ce98ee736912}{vk\+\_\+audio\+\_\+format\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__audio__stream__t}{vk\+\_\+audio\+\_\+stream\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_aced57f03ef1f3fd342a8a9d91af26559}{vk\+\_\+audio\+\_\+stream\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__audio_8h_a16a003083c7af1e6af19dc79e2060372}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs}} (\mbox{\hyperlink{vsf__audio_8h_adce5ebb036d84eb254da5341b1923c1f}{vk\+\_\+audio\+\_\+init}}) \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs(\mbox{\hyperlink{vsf__audio_8h_a06ffd0eb1b8f5ae4734e1b1fb88360f4}{vk\+\_\+audio\+\_\+control}}
+\item 
+\mbox{\hyperlink{vsf__audio_8h_a8ce0911ffd8e0c108878a348361cad7b}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs}} (\mbox{\hyperlink{vsf__audio_8h_af43abf63cd96f2f782f2aea8924299be}{vk\+\_\+audio\+\_\+start}}, \mbox{\hyperlink{structvk__audio__stream__t}{vk\+\_\+audio\+\_\+stream\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__audio_8h_a5945eeebd1a54fb6d2114480265502d4}{audio\+\_\+stream}};) \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs(\mbox{\hyperlink{vsf__audio_8h_a256ae510e3e3dbcba90c18c0069d1a36}{vk\+\_\+audio\+\_\+stop}}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_adce5ebb036d84eb254da5341b1923c1f}{vk\+\_\+audio\+\_\+init}} (\mbox{\hyperlink{classvk__audio__dev__t}{vk\+\_\+audio\+\_\+dev\+\_\+t}} $\ast$pthis)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_a06ffd0eb1b8f5ae4734e1b1fb88360f4}{vk\+\_\+audio\+\_\+control}} (\mbox{\hyperlink{classvk__audio__dev__t}{vk\+\_\+audio\+\_\+dev\+\_\+t}} $\ast$pthis, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} stream\+\_\+idx, \mbox{\hyperlink{vsf__av_8h_ace248eac4dd8fbac7d715535a29158c9}{vk\+\_\+av\+\_\+control\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_ad64e18f867699b8e854388de816016af}{type}}, \mbox{\hyperlink{structvk__av__control__value__t}{vk\+\_\+av\+\_\+control\+\_\+value\+\_\+t}} \mbox{\hyperlink{vsf__msg__tree_8h_a638e4503e0ae6ce655b7ad2e17e8f0ad}{value}})
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_af43abf63cd96f2f782f2aea8924299be}{vk\+\_\+audio\+\_\+start}} (\mbox{\hyperlink{classvk__audio__dev__t}{vk\+\_\+audio\+\_\+dev\+\_\+t}} $\ast$pthis, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} stream\+\_\+idx, \mbox{\hyperlink{classvsf__stream__t}{vsf\+\_\+stream\+\_\+t}} $\ast$stream, \mbox{\hyperlink{structvk__audio__format__t}{vk\+\_\+audio\+\_\+format\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__sdl2__pixelformat_8c_a4be577502bbbb32a53837492421f2369}{format}})
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_a256ae510e3e3dbcba90c18c0069d1a36}{vk\+\_\+audio\+\_\+stop}} (\mbox{\hyperlink{classvk__audio__dev__t}{vk\+\_\+audio\+\_\+dev\+\_\+t}} $\ast$pthis, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} stream\+\_\+idx)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structvk__audio__stream__t}{vk\+\_\+audio\+\_\+stream\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__audio_8h_a5945eeebd1a54fb6d2114480265502d4}{audio\+\_\+stream}}
+\item 
+\mbox{\hyperlink{vsf__av_8h_ace248eac4dd8fbac7d715535a29158c9}{vk\+\_\+av\+\_\+control\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_ad64e18f867699b8e854388de816016af}{type}}
+\item 
+\mbox{\hyperlink{structvk__av__control__value__t}{vk\+\_\+av\+\_\+control\+\_\+value\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_ad5265e9eca2f756804584a9ac3335519}{value}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__audio_8h_aca9316f646ed225e105beaace2e73208}\label{vsf__audio_8h_aca9316f646ed225e105beaace2e73208}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!vk\_audio\_stream\_drv\_t@{vk\_audio\_stream\_drv\_t}}
+\index{vk\_audio\_stream\_drv\_t@{vk\_audio\_stream\_drv\_t}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{vk\_audio\_stream\_drv\_t}{vk\_audio\_stream\_drv\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__audio__stream__drv__t}{vk\+\_\+audio\+\_\+stream\+\_\+drv\+\_\+t}} \mbox{\hyperlink{structvk__audio__stream__drv__t}{vk\+\_\+audio\+\_\+stream\+\_\+drv\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__audio_8h_aa0be83a1028c63d4eae4ce98ee736912}\label{vsf__audio_8h_aa0be83a1028c63d4eae4ce98ee736912}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!vk\_audio\_format\_t@{vk\_audio\_format\_t}}
+\index{vk\_audio\_format\_t@{vk\_audio\_format\_t}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{vk\_audio\_format\_t}{vk\_audio\_format\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__audio__format__t}{vk\+\_\+audio\+\_\+format\+\_\+t}} \mbox{\hyperlink{structvk__audio__format__t}{vk\+\_\+audio\+\_\+format\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__audio_8h_aced57f03ef1f3fd342a8a9d91af26559}\label{vsf__audio_8h_aced57f03ef1f3fd342a8a9d91af26559}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!vk\_audio\_stream\_t@{vk\_audio\_stream\_t}}
+\index{vk\_audio\_stream\_t@{vk\_audio\_stream\_t}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{vk\_audio\_stream\_t}{vk\_audio\_stream\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__audio__stream__t}{vk\+\_\+audio\+\_\+stream\+\_\+t}} \mbox{\hyperlink{structvk__audio__stream__t}{vk\+\_\+audio\+\_\+stream\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__audio_8h_a16a003083c7af1e6af19dc79e2060372}\label{vsf__audio_8h_a16a003083c7af1e6af19dc79e2060372}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!\_\_vsf\_component\_peda\_ifs@{\_\_vsf\_component\_peda\_ifs}}
+\index{\_\_vsf\_component\_peda\_ifs@{\_\_vsf\_component\_peda\_ifs}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs()}{\_\_vsf\_component\_peda\_ifs()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__audio_8h_adce5ebb036d84eb254da5341b1923c1f}{vk\+\_\+audio\+\_\+init}}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__audio_8h_a8ce0911ffd8e0c108878a348361cad7b}\label{vsf__audio_8h_a8ce0911ffd8e0c108878a348361cad7b}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!\_\_vsf\_component\_peda\_ifs@{\_\_vsf\_component\_peda\_ifs}}
+\index{\_\_vsf\_component\_peda\_ifs@{\_\_vsf\_component\_peda\_ifs}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs()}{\_\_vsf\_component\_peda\_ifs()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__audio_8h_af43abf63cd96f2f782f2aea8924299be}{vk\+\_\+audio\+\_\+start}}}]{,  }\item[{\mbox{\hyperlink{structvk__audio__stream__t}{vk\+\_\+audio\+\_\+stream\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__audio_8h_a5945eeebd1a54fb6d2114480265502d4}{audio\+\_\+stream}};}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__audio_8h_adce5ebb036d84eb254da5341b1923c1f}\label{vsf__audio_8h_adce5ebb036d84eb254da5341b1923c1f}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!vk\_audio\_init@{vk\_audio\_init}}
+\index{vk\_audio\_init@{vk\_audio\_init}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{vk\_audio\_init()}{vk\_audio\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+audio\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__audio__dev__t}{vk\+\_\+audio\+\_\+dev\+\_\+t}} $\ast$}]{pthis }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__audio_8h_a06ffd0eb1b8f5ae4734e1b1fb88360f4}\label{vsf__audio_8h_a06ffd0eb1b8f5ae4734e1b1fb88360f4}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!vk\_audio\_control@{vk\_audio\_control}}
+\index{vk\_audio\_control@{vk\_audio\_control}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{vk\_audio\_control()}{vk\_audio\_control()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+audio\+\_\+control (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__audio__dev__t}{vk\+\_\+audio\+\_\+dev\+\_\+t}} $\ast$}]{pthis,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{stream\+\_\+idx,  }\item[{\mbox{\hyperlink{vsf__av_8h_ace248eac4dd8fbac7d715535a29158c9}{vk\+\_\+av\+\_\+control\+\_\+type\+\_\+t}}}]{type,  }\item[{\mbox{\hyperlink{structvk__av__control__value__t}{vk\+\_\+av\+\_\+control\+\_\+value\+\_\+t}}}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__audio_8h_af43abf63cd96f2f782f2aea8924299be}\label{vsf__audio_8h_af43abf63cd96f2f782f2aea8924299be}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!vk\_audio\_start@{vk\_audio\_start}}
+\index{vk\_audio\_start@{vk\_audio\_start}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{vk\_audio\_start()}{vk\_audio\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+audio\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__audio__dev__t}{vk\+\_\+audio\+\_\+dev\+\_\+t}} $\ast$}]{pthis,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{stream\+\_\+idx,  }\item[{\mbox{\hyperlink{classvsf__stream__t}{vsf\+\_\+stream\+\_\+t}} $\ast$}]{stream,  }\item[{\mbox{\hyperlink{structvk__audio__format__t}{vk\+\_\+audio\+\_\+format\+\_\+t}} $\ast$}]{format }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__audio_8h_a256ae510e3e3dbcba90c18c0069d1a36}\label{vsf__audio_8h_a256ae510e3e3dbcba90c18c0069d1a36}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!vk\_audio\_stop@{vk\_audio\_stop}}
+\index{vk\_audio\_stop@{vk\_audio\_stop}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{vk\_audio\_stop()}{vk\_audio\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+audio\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__audio__dev__t}{vk\+\_\+audio\+\_\+dev\+\_\+t}} $\ast$}]{pthis,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{stream\+\_\+idx }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__audio_8h_a5945eeebd1a54fb6d2114480265502d4}\label{vsf__audio_8h_a5945eeebd1a54fb6d2114480265502d4}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!audio\_stream@{audio\_stream}}
+\index{audio\_stream@{audio\_stream}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{audio\_stream}{audio\_stream}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvk__audio__stream__t}{vk\+\_\+audio\+\_\+stream\+\_\+t}} $\ast$ audio\+\_\+stream}
+
+\mbox{\Hypertarget{vsf__audio_8h_ad64e18f867699b8e854388de816016af}\label{vsf__audio_8h_ad64e18f867699b8e854388de816016af}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!type@{type}}
+\index{type@{type}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__av_8h_ace248eac4dd8fbac7d715535a29158c9}{vk\+\_\+av\+\_\+control\+\_\+type\+\_\+t}} type}
+
+\mbox{\Hypertarget{vsf__audio_8h_ad5265e9eca2f756804584a9ac3335519}\label{vsf__audio_8h_ad5265e9eca2f756804584a9ac3335519}} 
+\index{vsf\_audio.h@{vsf\_audio.h}!value@{value}}
+\index{value@{value}!vsf\_audio.h@{vsf\_audio.h}}
+\doxysubsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvk__av__control__value__t}{vk\+\_\+av\+\_\+control\+\_\+value\+\_\+t}} value}
+

@@ -1,0 +1,315 @@
+\hypertarget{vsf__pbuf__pool_8h}{}\doxysection{source/service/pbuf/vsf\+\_\+pbuf\+\_\+pool.h File Reference}
+\label{vsf__pbuf__pool_8h}\index{source/service/pbuf/vsf\_pbuf\_pool.h@{source/service/pbuf/vsf\_pbuf\_pool.h}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+pbuf.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}service/pool/vsf\+\_\+pool.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+union \mbox{\hyperlink{unionvsf__pbuf__pool__item__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+item\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_a7ab7da9dd3aac417a7f161435e0d88bd}{\+\_\+\+\_\+declare\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME)
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_ab96c5143b729200ad722966d42515d32}{\+\_\+\+\_\+def\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+SIZE, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_aff9742926285fe6a6f4e8bfd7f074c0a}{\+\_\+\+\_\+vsf\+\_\+pbuf\+\_\+pool\+\_\+req\+\_\+pbuf\+\_\+evt}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+POOL)
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_a533fcb77091a9e26cef2ee0c99ce5411}{\+\_\+\+\_\+implement\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME)
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_a9b72bce2ebd9beed39f8be20d44d775f}{\+\_\+\+\_\+init\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+POOL,  \+\_\+\+\_\+\+ID,  \+\_\+\+\_\+\+COUNT, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_a690bc60ca9a7f75880bd0702f8f6e56b}{init\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+POOL,  \+\_\+\+\_\+\+ID,  \+\_\+\+\_\+\+COUNT, ...)~        \mbox{\hyperlink{vsf__pbuf__pool_8h_a9b72bce2ebd9beed39f8be20d44d775f}{\+\_\+\+\_\+init\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+POOL), (\+\_\+\+\_\+\+ID), (\+\_\+\+\_\+\+COUNT), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_ad9763e5adb9a6c4bb03ad63e9a5202c9}{\+\_\+\+\_\+prepare\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+POOL,  \+\_\+\+\_\+\+ID, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_affa786487d7676df5c47e8adf628d353}{prepare\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+POOL,  \+\_\+\+\_\+\+ID, ...)~        \mbox{\hyperlink{vsf__pbuf__pool_8h_ad9763e5adb9a6c4bb03ad63e9a5202c9}{\+\_\+\+\_\+prepare\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+POOL), (\+\_\+\+\_\+\+ID), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_a8e17be8328922179b17838c1963dc096}{def\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+SIZE, ...)~        \mbox{\hyperlink{vsf__pbuf__pool_8h_ab96c5143b729200ad722966d42515d32}{\+\_\+\+\_\+def\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+SIZE), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_a4582958042e96be3135e5e71a8657d29}{declare\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME)~\mbox{\hyperlink{vsf__pbuf__pool_8h_a7ab7da9dd3aac417a7f161435e0d88bd}{\+\_\+\+\_\+declare\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME)
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_a501551998fd8925f748d35e894859be7}{vsf\+\_\+pbuf\+\_\+pool\+\_\+req\+\_\+pbuf\+\_\+evt}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+POOL)~            \mbox{\hyperlink{vsf__pbuf__pool_8h_aff9742926285fe6a6f4e8bfd7f074c0a}{\+\_\+\+\_\+vsf\+\_\+pbuf\+\_\+pool\+\_\+req\+\_\+pbuf\+\_\+evt}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+POOL))
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_a0beab2dfcd3c0ae4ff1b01b91e678907}{implement\+\_\+pbuf\+\_\+pool}}(...)~\mbox{\hyperlink{vsf__pbuf__pool_8h_a533fcb77091a9e26cef2ee0c99ce5411}{\+\_\+\+\_\+implement\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__pbuf__pool_8h_a4011e7094a0f3e247b8bcef846083e59}{vsf\+\_\+pbuf\+\_\+pool\+\_\+adapter}}(\+\_\+\+\_\+\+ID,  \+\_\+\+\_\+\+POOL)
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef union \mbox{\hyperlink{unionvsf__pbuf__pool__item__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+item\+\_\+t}} \mbox{\hyperlink{vsf__pbuf__pool_8h_afc21bddb65ee3ab3e968a3a63837f065}{vsf\+\_\+pbuf\+\_\+pool\+\_\+item\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} \mbox{\hyperlink{vsf__pbuf__pool_8h_a5b5f79976269fc075932f8b34abcb013}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__pbuf__pool_8h_a010681ee50a1cc4aad9e49522f0ae0c8}{vsf\+\_\+pbuf\+\_\+pool\+\_\+init}} (\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} u32\+\_\+item\+\_\+size, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} u16\+\_\+align, \mbox{\hyperlink{vsf__pool_8h_abc12eca64e8c7d9b3028c3fa40dd2ad2}{vsf\+\_\+pool\+\_\+cfg\+\_\+t}} $\ast$pcfg)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__pbuf__pool_8h_ac191577ea386d880229ea12431d1445c}{vsf\+\_\+pbuf\+\_\+pool\+\_\+add\+\_\+buffer}} (\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$this\+\_\+ptr, void $\ast$buffer\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} u32\+\_\+size, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} u16\+\_\+item\+\_\+size)
+\item 
+vsf\+\_\+pbuf\+\_\+t $\ast$ \mbox{\hyperlink{vsf__pbuf__pool_8h_ad064e30166aeca633173012f334a7025}{vsf\+\_\+pbuf\+\_\+pool\+\_\+alloc}} (\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$)
+\item 
+void \mbox{\hyperlink{vsf__pbuf__pool_8h_a5361a031dec217553c619944f6f04ee5}{vsf\+\_\+pbuf\+\_\+pool\+\_\+free}} (\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$, vsf\+\_\+pbuf\+\_\+t $\ast$)
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__pbuf__pool_8h_a7c38224d043f93eaa1962270b5c7f8fa}{vsf\+\_\+pbuf\+\_\+get\+\_\+pool\+\_\+item\+\_\+count}} (\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$)
+\item 
+vsf\+\_\+protect\+\_\+region\+\_\+t $\ast$ \mbox{\hyperlink{vsf__pbuf__pool_8h_a1378835f61c46ab7fd78ca3ac430375b}{vsf\+\_\+pbuf\+\_\+pool\+\_\+get\+\_\+region}} (\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$)
+\item 
+\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}} \mbox{\hyperlink{vsf__pbuf__pool_8h_a2469db322cd4aa312534cf4553b7efe0}{vsf\+\_\+pbuf\+\_\+pool\+\_\+get\+\_\+target}} (\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const i\+\_\+pbuf\+\_\+methods\+\_\+t \mbox{\hyperlink{vsf__pbuf__pool_8h_a5e9c19f0f02d57e59783d78bcdad8705}{VSF\+\_\+\+PBUF\+\_\+\+ADAPTER\+\_\+\+METHODS\+\_\+\+STREAM\+\_\+\+SRC}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a7ab7da9dd3aac417a7f161435e0d88bd}\label{vsf__pbuf__pool_8h_a7ab7da9dd3aac417a7f161435e0d88bd}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!\_\_declare\_pbuf\_pool@{\_\_declare\_pbuf\_pool}}
+\index{\_\_declare\_pbuf\_pool@{\_\_declare\_pbuf\_pool}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{\_\_declare\_pbuf\_pool}{\_\_declare\_pbuf\_pool}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+declare\+\_\+pbuf\+\_\+pool(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\_\_NAME\#\#\_pool\_item\_t \_\_NAME\#\#\_pool\_item\_t;               \(\backslash\)}
+\DoxyCodeLine{        typedef \textcolor{keyword}{struct }\_\_NAME\#\#\_pool\_t      \_\_NAME\#\#\_pool\_t;}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_ab96c5143b729200ad722966d42515d32}\label{vsf__pbuf__pool_8h_ab96c5143b729200ad722966d42515d32}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!\_\_def\_pbuf\_pool@{\_\_def\_pbuf\_pool}}
+\index{\_\_def\_pbuf\_pool@{\_\_def\_pbuf\_pool}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{\_\_def\_pbuf\_pool}{\_\_def\_pbuf\_pool}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+def\+\_\+pbuf\+\_\+pool(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+SIZE,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keyword}{struct }\_\_NAME\#\#\_pool\_item\_t \{                                           \(\backslash\)}
+\DoxyCodeLine{            implement(vsf\_pbuf\_t);                                              \(\backslash\)}
+\DoxyCodeLine{            uint8\_t u8\_buffer[\_\_SIZE];                                          \(\backslash\)}
+\DoxyCodeLine{        \};                                                                      \(\backslash\)}
+\DoxyCodeLine{        struct \_\_NAME\#\#\_pool\_t \{                                                \(\backslash\)}
+\DoxyCodeLine{            implement(\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\_pbuf\_pool\_t}})                                          \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_                                                         \(\backslash\)}
+\DoxyCodeLine{        \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_aff9742926285fe6a6f4e8bfd7f074c0a}\label{vsf__pbuf__pool_8h_aff9742926285fe6a6f4e8bfd7f074c0a}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!\_\_vsf\_pbuf\_pool\_req\_pbuf\_evt@{\_\_vsf\_pbuf\_pool\_req\_pbuf\_evt}}
+\index{\_\_vsf\_pbuf\_pool\_req\_pbuf\_evt@{\_\_vsf\_pbuf\_pool\_req\_pbuf\_evt}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_pbuf\_pool\_req\_pbuf\_evt}{\_\_vsf\_pbuf\_pool\_req\_pbuf\_evt}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+pbuf\+\_\+pool\+\_\+req\+\_\+pbuf\+\_\+evt(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+POOL }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            (\mbox{\hyperlink{vsf__pbuf_8h_ae4d224c0df9034ed66dc5f0f29a75115}{req\_pbuf\_evt\_t}})                                                    \(\backslash\)}
+\DoxyCodeLine{            \{ .handler\_fn = \_\_NAME\#\#\_req\_pbuf\_evt\_handler,                      \(\backslash\)}
+\DoxyCodeLine{              .target\_ptr = (\_\_POOL),                                           \(\backslash\)}
+\DoxyCodeLine{            \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a533fcb77091a9e26cef2ee0c99ce5411}\label{vsf__pbuf__pool_8h_a533fcb77091a9e26cef2ee0c99ce5411}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!\_\_implement\_pbuf\_pool@{\_\_implement\_pbuf\_pool}}
+\index{\_\_implement\_pbuf\_pool@{\_\_implement\_pbuf\_pool}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{\_\_implement\_pbuf\_pool}{\_\_implement\_pbuf\_pool}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+implement\+\_\+pbuf\+\_\+pool(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{      vsf\_pbuf\_t *\_\_NAME\#\#\_req\_pbuf\_evt\_handler(\textcolor{keywordtype}{void} *target\_ptr,               \(\backslash\)}
+\DoxyCodeLine{                                                \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\_fast32\_t}} \mbox{\hyperlink{vsf__pbuf_8h_aeba9bd476cd1ffb394fbece1ced3b334}{nNoLessThan}},       \(\backslash\)}
+\DoxyCodeLine{                                                \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\_fast32\_t}} \mbox{\hyperlink{vsf__pbuf_8h_abef06d546b0e264503ffb0fb936221bb}{nBestSize}},         \(\backslash\)}
+\DoxyCodeLine{                                                \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\_fast16\_t}} \mbox{\hyperlink{vsf__pbuf_8h_a24513ffb51d10aa3dbd03807dc940ca8}{hwReserve}})        \(\backslash\)}
+\DoxyCodeLine{\{                                                                               \(\backslash\)}
+\DoxyCodeLine{    vsf\_pool(\_\_NAME) *this\_ptr = (\mbox{\hyperlink{vsf__stream__base_8c_a094922c44b7c72664ea8780016b49c3f}{vsf\_pool}}(\_\_NAME) *)target\_ptr;                \(\backslash\)}
+\DoxyCodeLine{    VSF\_SERVICE\_ASSERT(\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} != this\_ptr);                                       \(\backslash\)}
+\DoxyCodeLine{    if (\mbox{\hyperlink{vsf__pbuf__pool_8h_a7c38224d043f93eaa1962270b5c7f8fa}{vsf\_pbuf\_get\_pool\_item\_count}}(                                           \(\backslash\)}
+\DoxyCodeLine{            \&(this\_ptr-\/>use\_as\_\_vsf\_pbuf\_pool\_t)) <= \mbox{\hyperlink{vsf__pbuf_8h_a24513ffb51d10aa3dbd03807dc940ca8}{hwReserve}}) \{               \(\backslash\)}
+\DoxyCodeLine{        return \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};                                                            \(\backslash\)}
+\DoxyCodeLine{    \}                                                                           \(\backslash\)}
+\DoxyCodeLine{    return \mbox{\hyperlink{vsf__pbuf__pool_8h_ad064e30166aeca633173012f334a7025}{vsf\_pbuf\_pool\_alloc}}(\&(this\_ptr-\/>use\_as\_\_vsf\_pbuf\_pool\_t));           \(\backslash\)}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a9b72bce2ebd9beed39f8be20d44d775f}\label{vsf__pbuf__pool_8h_a9b72bce2ebd9beed39f8be20d44d775f}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!\_\_init\_pbuf\_pool@{\_\_init\_pbuf\_pool}}
+\index{\_\_init\_pbuf\_pool@{\_\_init\_pbuf\_pool}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_pbuf\_pool}{\_\_init\_pbuf\_pool}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+init\+\_\+pbuf\+\_\+pool(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+POOL,  }\item[{}]{\+\_\+\+\_\+\+ID,  }\item[{}]{\+\_\+\+\_\+\+COUNT,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keywordflow}{do} \{                                                                    \(\backslash\)}
+\DoxyCodeLine{            NO\_INIT \textcolor{keyword}{static} \mbox{\hyperlink{vsf__pool_8h_a621f93b0f7cf7809c91e840f5e6a3b1f}{vsf\_pool\_item}}(\_\_NAME)                                \(\backslash\)}
+\DoxyCodeLine{                    \_\_\#\#\_\_NAME\#\#\_data\_buffer[\_\_COUNT];                          \(\backslash\)}
+\DoxyCodeLine{            const \mbox{\hyperlink{vsf__pbuf_8h_adc8c41260227e112eb070e90fe80d5c2}{vsf\_pbuf\_adapter\_t}} *adapter\_ptr =                             \(\backslash\)}
+\DoxyCodeLine{                    vsf\_pbuf\_adapter\_get(\_\_ID);                                 \(\backslash\)}
+\DoxyCodeLine{            vsf\_pool\_cfg\_t cfg = \{                                              \(\backslash\)}
+\DoxyCodeLine{                .target\_ptr = (\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\_t}})adapter\_ptr,                           \(\backslash\)}
+\DoxyCodeLine{                .pool\_name\_ptr = \#\_\_NAME,                                       \(\backslash\)}
+\DoxyCodeLine{                \_\_VA\_ARGS\_\_                                                     \(\backslash\)}
+\DoxyCodeLine{            \};                                                                  \mbox{\hyperlink{vsf__pbuf__pool_8h_a010681ee50a1cc4aad9e49522f0ae0c8}{\(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{vsf__pbuf__pool_8h_a010681ee50a1cc4aad9e49522f0ae0c8}{                                                                                \(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{vsf__pbuf__pool_8h_a010681ee50a1cc4aad9e49522f0ae0c8}{            vsf\_pbuf\_pool\_init}}( \&((\_\_POOL)-\/>use\_as\_\_vsf\_pbuf\_pool\_t),           \(\backslash\)}
+\DoxyCodeLine{                                \textcolor{keyword}{sizeof}(\mbox{\hyperlink{vsf__pool_8h_a621f93b0f7cf7809c91e840f5e6a3b1f}{vsf\_pool\_item}}(\_\_NAME)),                  \(\backslash\)}
+\DoxyCodeLine{                                \_\_alignof\_\_(\mbox{\hyperlink{vsf__pool_8h_a621f93b0f7cf7809c91e840f5e6a3b1f}{vsf\_pool\_item}}(\_\_NAME)),             \(\backslash\)}
+\DoxyCodeLine{                                \&cfg);                                          \(\backslash\)}
+\DoxyCodeLine{            vsf\_pbuf\_pool\_add\_buffer(   \&((\_\_POOL)-\/>use\_as\_\_vsf\_pbuf\_pool\_t),   \(\backslash\)}
+\DoxyCodeLine{                                        \_\_\#\#\_\_NAME\#\#\_data\_buffer,               \(\backslash\)}
+\DoxyCodeLine{                                        \textcolor{keyword}{sizeof}(\_\_\#\#\_\_NAME\#\#\_data\_buffer),       \(\backslash\)}
+\DoxyCodeLine{                                        \textcolor{keyword}{sizeof}(\mbox{\hyperlink{vsf__pool_8h_a621f93b0f7cf7809c91e840f5e6a3b1f}{vsf\_pool\_item}}(\_\_NAME)));         \(\backslash\)}
+\DoxyCodeLine{        \} \textcolor{keywordflow}{while}(0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a690bc60ca9a7f75880bd0702f8f6e56b}\label{vsf__pbuf__pool_8h_a690bc60ca9a7f75880bd0702f8f6e56b}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!init\_pbuf\_pool@{init\_pbuf\_pool}}
+\index{init\_pbuf\_pool@{init\_pbuf\_pool}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{init\_pbuf\_pool}{init\_pbuf\_pool}}
+{\footnotesize\ttfamily \#define init\+\_\+pbuf\+\_\+pool(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+POOL,  }\item[{}]{\+\_\+\+\_\+\+ID,  }\item[{}]{\+\_\+\+\_\+\+COUNT,  }\item[{}]{... }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__pbuf__pool_8h_a9b72bce2ebd9beed39f8be20d44d775f}{\+\_\+\+\_\+init\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+POOL), (\+\_\+\+\_\+\+ID), (\+\_\+\+\_\+\+COUNT), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_ad9763e5adb9a6c4bb03ad63e9a5202c9}\label{vsf__pbuf__pool_8h_ad9763e5adb9a6c4bb03ad63e9a5202c9}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!\_\_prepare\_pbuf\_pool@{\_\_prepare\_pbuf\_pool}}
+\index{\_\_prepare\_pbuf\_pool@{\_\_prepare\_pbuf\_pool}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{\_\_prepare\_pbuf\_pool}{\_\_prepare\_pbuf\_pool}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+prepare\+\_\+pbuf\+\_\+pool(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+POOL,  }\item[{}]{\+\_\+\+\_\+\+ID,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keywordflow}{do} \{                                                                    \(\backslash\)}
+\DoxyCodeLine{            const \mbox{\hyperlink{vsf__pbuf_8h_adc8c41260227e112eb070e90fe80d5c2}{vsf\_pbuf\_adapter\_t}} *adapter\_ptr =                             \(\backslash\)}
+\DoxyCodeLine{                    vsf\_pbuf\_adapter\_get(\_\_ID);                                 \(\backslash\)}
+\DoxyCodeLine{            vsf\_pool\_cfg\_t cfg = \{                                              \(\backslash\)}
+\DoxyCodeLine{                .target\_ptr = (\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\_t}})adapter\_ptr,                           \(\backslash\)}
+\DoxyCodeLine{                .pool\_name\_ptr = \#\_\_NAME,                                       \(\backslash\)}
+\DoxyCodeLine{                .item\_init\_fn = \&\mbox{\hyperlink{vsf__pbuf_8c_ac1d8cd4892d11ad7a20f55f18fa30581}{vsf\_pbuf\_pool\_item\_init\_event\_handler}},         \(\backslash\)}
+\DoxyCodeLine{                \_\_VA\_ARGS\_\_                                                     \(\backslash\)}
+\DoxyCodeLine{            \};                                                                  \mbox{\hyperlink{vsf__pbuf__pool_8h_a010681ee50a1cc4aad9e49522f0ae0c8}{\(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{vsf__pbuf__pool_8h_a010681ee50a1cc4aad9e49522f0ae0c8}{                                                                                \(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{vsf__pbuf__pool_8h_a010681ee50a1cc4aad9e49522f0ae0c8}{            vsf\_pbuf\_pool\_init}}( \&((\_\_POOL)-\/>use\_as\_\_vsf\_pbuf\_pool\_t),           \(\backslash\)}
+\DoxyCodeLine{                                \textcolor{keyword}{sizeof}(\mbox{\hyperlink{vsf__pool_8h_a621f93b0f7cf7809c91e840f5e6a3b1f}{vsf\_pool\_item}}(\_\_NAME)),                  \(\backslash\)}
+\DoxyCodeLine{                                \_\_alignof\_\_(\mbox{\hyperlink{vsf__pool_8h_a621f93b0f7cf7809c91e840f5e6a3b1f}{vsf\_pool\_item}}(\_\_NAME)),             \(\backslash\)}
+\DoxyCodeLine{                                \&cfg);                                          \(\backslash\)}
+\DoxyCodeLine{        \} \textcolor{keywordflow}{while}(0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_affa786487d7676df5c47e8adf628d353}\label{vsf__pbuf__pool_8h_affa786487d7676df5c47e8adf628d353}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!prepare\_pbuf\_pool@{prepare\_pbuf\_pool}}
+\index{prepare\_pbuf\_pool@{prepare\_pbuf\_pool}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{prepare\_pbuf\_pool}{prepare\_pbuf\_pool}}
+{\footnotesize\ttfamily \#define prepare\+\_\+pbuf\+\_\+pool(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+POOL,  }\item[{}]{\+\_\+\+\_\+\+ID,  }\item[{}]{... }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__pbuf__pool_8h_ad9763e5adb9a6c4bb03ad63e9a5202c9}{\+\_\+\+\_\+prepare\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+POOL), (\+\_\+\+\_\+\+ID), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a8e17be8328922179b17838c1963dc096}\label{vsf__pbuf__pool_8h_a8e17be8328922179b17838c1963dc096}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!def\_pbuf\_pool@{def\_pbuf\_pool}}
+\index{def\_pbuf\_pool@{def\_pbuf\_pool}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{def\_pbuf\_pool}{def\_pbuf\_pool}}
+{\footnotesize\ttfamily \#define def\+\_\+pbuf\+\_\+pool(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+SIZE,  }\item[{}]{... }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__pbuf__pool_8h_ab96c5143b729200ad722966d42515d32}{\+\_\+\+\_\+def\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+SIZE), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a4582958042e96be3135e5e71a8657d29}\label{vsf__pbuf__pool_8h_a4582958042e96be3135e5e71a8657d29}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!declare\_pbuf\_pool@{declare\_pbuf\_pool}}
+\index{declare\_pbuf\_pool@{declare\_pbuf\_pool}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{declare\_pbuf\_pool}{declare\_pbuf\_pool}}
+{\footnotesize\ttfamily \#define declare\+\_\+pbuf\+\_\+pool(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__pbuf__pool_8h_a7ab7da9dd3aac417a7f161435e0d88bd}{\+\_\+\+\_\+declare\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+NAME)}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a501551998fd8925f748d35e894859be7}\label{vsf__pbuf__pool_8h_a501551998fd8925f748d35e894859be7}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!vsf\_pbuf\_pool\_req\_pbuf\_evt@{vsf\_pbuf\_pool\_req\_pbuf\_evt}}
+\index{vsf\_pbuf\_pool\_req\_pbuf\_evt@{vsf\_pbuf\_pool\_req\_pbuf\_evt}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_pbuf\_pool\_req\_pbuf\_evt}{vsf\_pbuf\_pool\_req\_pbuf\_evt}}
+{\footnotesize\ttfamily \#define vsf\+\_\+pbuf\+\_\+pool\+\_\+req\+\_\+pbuf\+\_\+evt(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+POOL }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__pbuf__pool_8h_aff9742926285fe6a6f4e8bfd7f074c0a}{\+\_\+\+\_\+vsf\+\_\+pbuf\+\_\+pool\+\_\+req\+\_\+pbuf\+\_\+evt}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+POOL))}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a0beab2dfcd3c0ae4ff1b01b91e678907}\label{vsf__pbuf__pool_8h_a0beab2dfcd3c0ae4ff1b01b91e678907}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!implement\_pbuf\_pool@{implement\_pbuf\_pool}}
+\index{implement\_pbuf\_pool@{implement\_pbuf\_pool}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{implement\_pbuf\_pool}{implement\_pbuf\_pool}}
+{\footnotesize\ttfamily \#define implement\+\_\+pbuf\+\_\+pool(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__pbuf__pool_8h_a533fcb77091a9e26cef2ee0c99ce5411}{\+\_\+\+\_\+implement\+\_\+pbuf\+\_\+pool}}(\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a4011e7094a0f3e247b8bcef846083e59}\label{vsf__pbuf__pool_8h_a4011e7094a0f3e247b8bcef846083e59}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!vsf\_pbuf\_pool\_adapter@{vsf\_pbuf\_pool\_adapter}}
+\index{vsf\_pbuf\_pool\_adapter@{vsf\_pbuf\_pool\_adapter}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_pbuf\_pool\_adapter}{vsf\_pbuf\_pool\_adapter}}
+{\footnotesize\ttfamily \#define vsf\+\_\+pbuf\+\_\+pool\+\_\+adapter(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+ID,  }\item[{}]{\+\_\+\+\_\+\+POOL }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \{                                                                       \(\backslash\)}
+\DoxyCodeLine{            .target\_ptr = (\_\_POOL),                                             \(\backslash\)}
+\DoxyCodeLine{            .ID = (\_\_ID),                                                       \(\backslash\)}
+\DoxyCodeLine{            .methods\_ptr = \&\mbox{\hyperlink{vsf__pbuf__pool_8h_a5e9c19f0f02d57e59783d78bcdad8705}{VSF\_PBUF\_ADAPTER\_METHODS\_STREAM\_SRC}},                \(\backslash\)}
+\DoxyCodeLine{        \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_afc21bddb65ee3ab3e968a3a63837f065}\label{vsf__pbuf__pool_8h_afc21bddb65ee3ab3e968a3a63837f065}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!vsf\_pbuf\_pool\_item\_t@{vsf\_pbuf\_pool\_item\_t}}
+\index{vsf\_pbuf\_pool\_item\_t@{vsf\_pbuf\_pool\_item\_t}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_pbuf\_pool\_item\_t}{vsf\_pbuf\_pool\_item\_t}}
+{\footnotesize\ttfamily typedef union \mbox{\hyperlink{unionvsf__pbuf__pool__item__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+item\+\_\+t}} \mbox{\hyperlink{unionvsf__pbuf__pool__item__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+item\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a5b5f79976269fc075932f8b34abcb013}\label{vsf__pbuf__pool_8h_a5b5f79976269fc075932f8b34abcb013}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!vsf\_pbuf\_pool\_t@{vsf\_pbuf\_pool\_t}}
+\index{vsf\_pbuf\_pool\_t@{vsf\_pbuf\_pool\_t}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_pbuf\_pool\_t}{vsf\_pbuf\_pool\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} \mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a010681ee50a1cc4aad9e49522f0ae0c8}\label{vsf__pbuf__pool_8h_a010681ee50a1cc4aad9e49522f0ae0c8}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!vsf\_pbuf\_pool\_init@{vsf\_pbuf\_pool\_init}}
+\index{vsf\_pbuf\_pool\_init@{vsf\_pbuf\_pool\_init}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_pbuf\_pool\_init()}{vsf\_pbuf\_pool\_init()}}
+{\footnotesize\ttfamily void vsf\+\_\+pbuf\+\_\+pool\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{u32\+\_\+item\+\_\+size,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{u16\+\_\+align,  }\item[{\mbox{\hyperlink{vsf__pool_8h_abc12eca64e8c7d9b3028c3fa40dd2ad2}{vsf\+\_\+pool\+\_\+cfg\+\_\+t}} $\ast$}]{pcfg }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_ac191577ea386d880229ea12431d1445c}\label{vsf__pbuf__pool_8h_ac191577ea386d880229ea12431d1445c}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!vsf\_pbuf\_pool\_add\_buffer@{vsf\_pbuf\_pool\_add\_buffer}}
+\index{vsf\_pbuf\_pool\_add\_buffer@{vsf\_pbuf\_pool\_add\_buffer}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_pbuf\_pool\_add\_buffer()}{vsf\_pbuf\_pool\_add\_buffer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+pbuf\+\_\+pool\+\_\+add\+\_\+buffer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{void $\ast$}]{buffer\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{u32\+\_\+size,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{u16\+\_\+item\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_ad064e30166aeca633173012f334a7025}\label{vsf__pbuf__pool_8h_ad064e30166aeca633173012f334a7025}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!vsf\_pbuf\_pool\_alloc@{vsf\_pbuf\_pool\_alloc}}
+\index{vsf\_pbuf\_pool\_alloc@{vsf\_pbuf\_pool\_alloc}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_pbuf\_pool\_alloc()}{vsf\_pbuf\_pool\_alloc()}}
+{\footnotesize\ttfamily vsf\+\_\+pbuf\+\_\+t$\ast$ vsf\+\_\+pbuf\+\_\+pool\+\_\+alloc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$}]{this\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a5361a031dec217553c619944f6f04ee5}\label{vsf__pbuf__pool_8h_a5361a031dec217553c619944f6f04ee5}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!vsf\_pbuf\_pool\_free@{vsf\_pbuf\_pool\_free}}
+\index{vsf\_pbuf\_pool\_free@{vsf\_pbuf\_pool\_free}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_pbuf\_pool\_free()}{vsf\_pbuf\_pool\_free()}}
+{\footnotesize\ttfamily void vsf\+\_\+pbuf\+\_\+pool\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{vsf\+\_\+pbuf\+\_\+t $\ast$}]{item\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a7c38224d043f93eaa1962270b5c7f8fa}\label{vsf__pbuf__pool_8h_a7c38224d043f93eaa1962270b5c7f8fa}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!vsf\_pbuf\_get\_pool\_item\_count@{vsf\_pbuf\_get\_pool\_item\_count}}
+\index{vsf\_pbuf\_get\_pool\_item\_count@{vsf\_pbuf\_get\_pool\_item\_count}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_pbuf\_get\_pool\_item\_count()}{vsf\_pbuf\_get\_pool\_item\_count()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+pbuf\+\_\+get\+\_\+pool\+\_\+item\+\_\+count (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$}]{this\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a1378835f61c46ab7fd78ca3ac430375b}\label{vsf__pbuf__pool_8h_a1378835f61c46ab7fd78ca3ac430375b}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!vsf\_pbuf\_pool\_get\_region@{vsf\_pbuf\_pool\_get\_region}}
+\index{vsf\_pbuf\_pool\_get\_region@{vsf\_pbuf\_pool\_get\_region}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_pbuf\_pool\_get\_region()}{vsf\_pbuf\_pool\_get\_region()}}
+{\footnotesize\ttfamily vsf\+\_\+protect\+\_\+region\+\_\+t$\ast$ vsf\+\_\+pbuf\+\_\+pool\+\_\+get\+\_\+region (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$}]{this\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a2469db322cd4aa312534cf4553b7efe0}\label{vsf__pbuf__pool_8h_a2469db322cd4aa312534cf4553b7efe0}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!vsf\_pbuf\_pool\_get\_target@{vsf\_pbuf\_pool\_get\_target}}
+\index{vsf\_pbuf\_pool\_get\_target@{vsf\_pbuf\_pool\_get\_target}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_pbuf\_pool\_get\_target()}{vsf\_pbuf\_pool\_get\_target()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}} vsf\+\_\+pbuf\+\_\+pool\+\_\+get\+\_\+target (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__pbuf__pool__t}{vsf\+\_\+pbuf\+\_\+pool\+\_\+t}} $\ast$}]{this\+\_\+ptr }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__pbuf__pool_8h_a5e9c19f0f02d57e59783d78bcdad8705}\label{vsf__pbuf__pool_8h_a5e9c19f0f02d57e59783d78bcdad8705}} 
+\index{vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}!VSF\_PBUF\_ADAPTER\_METHODS\_STREAM\_SRC@{VSF\_PBUF\_ADAPTER\_METHODS\_STREAM\_SRC}}
+\index{VSF\_PBUF\_ADAPTER\_METHODS\_STREAM\_SRC@{VSF\_PBUF\_ADAPTER\_METHODS\_STREAM\_SRC}!vsf\_pbuf\_pool.h@{vsf\_pbuf\_pool.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_PBUF\_ADAPTER\_METHODS\_STREAM\_SRC}{VSF\_PBUF\_ADAPTER\_METHODS\_STREAM\_SRC}}
+{\footnotesize\ttfamily const i\+\_\+pbuf\+\_\+methods\+\_\+t VSF\+\_\+\+PBUF\+\_\+\+ADAPTER\+\_\+\+METHODS\+\_\+\+STREAM\+\_\+\+SRC\hspace{0.3cm}{\ttfamily [extern]}}
+

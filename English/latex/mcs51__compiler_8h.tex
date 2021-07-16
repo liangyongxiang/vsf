@@ -1,0 +1,69 @@
+\hypertarget{mcs51__compiler_8h}{}\doxysection{source/utilities/compiler/mcs51/mcs51\+\_\+compiler.h File Reference}
+\label{mcs51__compiler_8h}\index{source/utilities/compiler/mcs51/mcs51\_compiler.h@{source/utilities/compiler/mcs51/mcs51\_compiler.h}}
+{\ttfamily \#include \char`\"{}./type.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../\+\_\+\+\_\+common/\+\_\+\+\_\+compiler.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./msc51\+\_\+interrupt.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{mcs51__compiler_8h_a305ada4b711cab1d978663b0b02e5e60}{\+\_\+\+\_\+\+USE\+\_\+\+MCS51\+\_\+\+COMPILER\+\_\+\+H\+\_\+\+PART\+\_\+2\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{mcs51__compiler_8h_a1ea4382450d0f6032048add36aecf6a1}{ALIGN\+\_\+\+OF}}(\+\_\+\+\_\+\+TYPE)~\+\_\+\+\_\+\+ALIGN\+\_\+\+OF(\+\_\+\+\_\+\+TYPE)
+\begin{DoxyCompactList}\small\item\em none standard memory types \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{mcs51__compiler_8h_aaa36a0eb481d94f8af271f4899159335}{ALIGN\+\_\+\+WITH}}(\+\_\+\+\_\+\+TYPE)~\mbox{\hyperlink{____compiler_8h_a772cdb796bf75855c6a30626131d5e45}{ALIGN}}(\mbox{\hyperlink{mcs51__compiler_8h_a1ea4382450d0f6032048add36aecf6a1}{ALIGN\+\_\+\+OF}}(\+\_\+\+\_\+\+TYPE))
+\item 
+\#define \mbox{\hyperlink{mcs51__compiler_8h_ae98102c6b01460b1b6f62524457889a6}{ISR}}(\+\_\+\+\_\+\+VECT)~\+\_\+\+\_\+\+ISR(\+\_\+\+\_\+\+VECT)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{mcs51__compiler_8h_a7eae9495dadbcf2bf982e09f5240f1bd}{vsf\+\_\+stdio\+\_\+init}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{mcs51__compiler_8h_a305ada4b711cab1d978663b0b02e5e60}\label{mcs51__compiler_8h_a305ada4b711cab1d978663b0b02e5e60}} 
+\index{mcs51\_compiler.h@{mcs51\_compiler.h}!\_\_USE\_MCS51\_COMPILER\_H\_PART\_2\_\_@{\_\_USE\_MCS51\_COMPILER\_H\_PART\_2\_\_}}
+\index{\_\_USE\_MCS51\_COMPILER\_H\_PART\_2\_\_@{\_\_USE\_MCS51\_COMPILER\_H\_PART\_2\_\_}!mcs51\_compiler.h@{mcs51\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{\_\_USE\_MCS51\_COMPILER\_H\_PART\_2\_\_}{\_\_USE\_MCS51\_COMPILER\_H\_PART\_2\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+USE\+\_\+\+MCS51\+\_\+\+COMPILER\+\_\+\+H\+\_\+\+PART\+\_\+2\+\_\+\+\_\+}
+
+\begin{DoxyNote}{Note}
+for IAR
+
+for KEIL51 
+\end{DoxyNote}
+\mbox{\Hypertarget{mcs51__compiler_8h_a1ea4382450d0f6032048add36aecf6a1}\label{mcs51__compiler_8h_a1ea4382450d0f6032048add36aecf6a1}} 
+\index{mcs51\_compiler.h@{mcs51\_compiler.h}!ALIGN\_OF@{ALIGN\_OF}}
+\index{ALIGN\_OF@{ALIGN\_OF}!mcs51\_compiler.h@{mcs51\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{ALIGN\_OF}{ALIGN\_OF}}
+{\footnotesize\ttfamily \#define ALIGN\+\_\+\+OF(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+TYPE }\end{DoxyParamCaption})~\+\_\+\+\_\+\+ALIGN\+\_\+\+OF(\+\_\+\+\_\+\+TYPE)}
+
+
+
+none standard memory types 
+
+\mbox{\Hypertarget{mcs51__compiler_8h_aaa36a0eb481d94f8af271f4899159335}\label{mcs51__compiler_8h_aaa36a0eb481d94f8af271f4899159335}} 
+\index{mcs51\_compiler.h@{mcs51\_compiler.h}!ALIGN\_WITH@{ALIGN\_WITH}}
+\index{ALIGN\_WITH@{ALIGN\_WITH}!mcs51\_compiler.h@{mcs51\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{ALIGN\_WITH}{ALIGN\_WITH}}
+{\footnotesize\ttfamily \#define ALIGN\+\_\+\+WITH(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+TYPE }\end{DoxyParamCaption})~\mbox{\hyperlink{____compiler_8h_a772cdb796bf75855c6a30626131d5e45}{ALIGN}}(\mbox{\hyperlink{mcs51__compiler_8h_a1ea4382450d0f6032048add36aecf6a1}{ALIGN\+\_\+\+OF}}(\+\_\+\+\_\+\+TYPE))}
+
+\mbox{\Hypertarget{mcs51__compiler_8h_ae98102c6b01460b1b6f62524457889a6}\label{mcs51__compiler_8h_ae98102c6b01460b1b6f62524457889a6}} 
+\index{mcs51\_compiler.h@{mcs51\_compiler.h}!ISR@{ISR}}
+\index{ISR@{ISR}!mcs51\_compiler.h@{mcs51\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{ISR}{ISR}}
+{\footnotesize\ttfamily \#define ISR(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+VECT }\end{DoxyParamCaption})~\+\_\+\+\_\+\+ISR(\+\_\+\+\_\+\+VECT)}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{mcs51__compiler_8h_a7eae9495dadbcf2bf982e09f5240f1bd}\label{mcs51__compiler_8h_a7eae9495dadbcf2bf982e09f5240f1bd}} 
+\index{mcs51\_compiler.h@{mcs51\_compiler.h}!vsf\_stdio\_init@{vsf\_stdio\_init}}
+\index{vsf\_stdio\_init@{vsf\_stdio\_init}!mcs51\_compiler.h@{mcs51\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stdio\_init()}{vsf\_stdio\_init()}}
+{\footnotesize\ttfamily void vsf\+\_\+stdio\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+$<$ Macro to enable all interrupts.
+
+$<$ Macro to disable all interrupts. 

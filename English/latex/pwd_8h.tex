@@ -1,0 +1,45 @@
+\hypertarget{pwd_8h}{}\doxysection{source/shell/sys/linux/include/pwd.h File Reference}
+\label{pwd_8h}\index{source/shell/sys/linux/include/pwd.h@{source/shell/sys/linux/include/pwd.h}}
+{\ttfamily \#include \char`\"{}shell/sys/linux/vsf\+\_\+linux\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./sys/types.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpasswd}{passwd}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{pwd_8h_a844d3dee17e8924300992d69b641f7aa}{getuid}}()~((\mbox{\hyperlink{linux_2include_2sys_2types_8h_a69d80da7a8a72c4ededec9ea8497781c}{uid\+\_\+t}})0)
+\item 
+\#define \mbox{\hyperlink{pwd_8h_a9fd9100daba34168766de6c03e043960}{getpwuid}}(\+\_\+\+\_\+uid)~((struct \mbox{\hyperlink{structpasswd}{passwd}} $\ast$)\&\mbox{\hyperlink{pwd_8h_ac92b1ae6d8ecdbcd169df5afd14ddb59}{\+\_\+\+\_\+vsf\+\_\+default\+\_\+passwd}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const struct \mbox{\hyperlink{structpasswd}{passwd}} \mbox{\hyperlink{pwd_8h_ac92b1ae6d8ecdbcd169df5afd14ddb59}{\+\_\+\+\_\+vsf\+\_\+default\+\_\+passwd}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{pwd_8h_a844d3dee17e8924300992d69b641f7aa}\label{pwd_8h_a844d3dee17e8924300992d69b641f7aa}} 
+\index{pwd.h@{pwd.h}!getuid@{getuid}}
+\index{getuid@{getuid}!pwd.h@{pwd.h}}
+\doxysubsubsection{\texorpdfstring{getuid}{getuid}}
+{\footnotesize\ttfamily \#define getuid(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~((\mbox{\hyperlink{linux_2include_2sys_2types_8h_a69d80da7a8a72c4ededec9ea8497781c}{uid\+\_\+t}})0)}
+
+\mbox{\Hypertarget{pwd_8h_a9fd9100daba34168766de6c03e043960}\label{pwd_8h_a9fd9100daba34168766de6c03e043960}} 
+\index{pwd.h@{pwd.h}!getpwuid@{getpwuid}}
+\index{getpwuid@{getpwuid}!pwd.h@{pwd.h}}
+\doxysubsubsection{\texorpdfstring{getpwuid}{getpwuid}}
+{\footnotesize\ttfamily \#define getpwuid(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+uid }\end{DoxyParamCaption})~((struct \mbox{\hyperlink{structpasswd}{passwd}} $\ast$)\&\mbox{\hyperlink{pwd_8h_ac92b1ae6d8ecdbcd169df5afd14ddb59}{\+\_\+\+\_\+vsf\+\_\+default\+\_\+passwd}})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{pwd_8h_ac92b1ae6d8ecdbcd169df5afd14ddb59}\label{pwd_8h_ac92b1ae6d8ecdbcd169df5afd14ddb59}} 
+\index{pwd.h@{pwd.h}!\_\_vsf\_default\_passwd@{\_\_vsf\_default\_passwd}}
+\index{\_\_vsf\_default\_passwd@{\_\_vsf\_default\_passwd}!pwd.h@{pwd.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_default\_passwd}{\_\_vsf\_default\_passwd}}
+{\footnotesize\ttfamily const struct \mbox{\hyperlink{structpasswd}{passwd}} \+\_\+\+\_\+vsf\+\_\+default\+\_\+passwd\hspace{0.3cm}{\ttfamily [extern]}}
+

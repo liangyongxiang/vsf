@@ -1,0 +1,196 @@
+\hypertarget{vsf__disp__mipi__lcd_8c}{}\doxysection{source/component/ui/disp/driver/mipi\+\_\+lcd/vsf\+\_\+disp\+\_\+mipi\+\_\+lcd.c File Reference}
+\label{vsf__disp__mipi__lcd_8c}\index{source/component/ui/disp/driver/mipi\_lcd/vsf\_disp\_mipi\_lcd.c@{source/component/ui/disp/driver/mipi\_lcd/vsf\_disp\_mipi\_lcd.c}}
+{\ttfamily \#include \char`\"{}component/ui/vsf\+\_\+ui\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+disp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+disp\+\_\+mipi\+\_\+lcd.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_ae68af52b29d55a0d7474c656fd71d931}{\+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_af99b8578fffc21cf409b8a2b4de350f5}{\+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_a0399d9eb1d9e92508e56565904fbdc63}{\+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+MIPI\+\_\+\+LCD\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_abe36463e73eefafdfa5ce28aab1adf46}{MIPI\+\_\+\+LCD\+\_\+\+SPI\+\_\+\+FREQ}}~(48ul $\ast$ 1000 $\ast$ 1000)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_a4440ba3c68cd295c43bd60cc1632f769}{MIPI\+\_\+\+LCD\+\_\+\+SPI\+\_\+\+PRIO}}~vsf\+\_\+prio\+\_\+0
+\item 
+\#define \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_aa5c1ada83ea388fdc89149041c86baf1}{MIPI\+\_\+\+LCD\+\_\+\+SPI\+\_\+\+CFG}}~(SPI\+\_\+\+MASTER $\vert$ SPI\+\_\+\+MODE\+\_\+3 $\vert$ SPI\+\_\+\+MSB\+\_\+\+FIRST $\vert$ SPI\+\_\+\+DATASIZE\+\_\+8)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_affc62de535a3cc69bf411ae90804fd7b}{MIPI\+\_\+\+LCD\+\_\+\+RESET\+\_\+\+LOW\+\_\+\+PULSE\+\_\+\+TIME}}~1
+\item 
+\#define \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_aabe5945e8638fbda9baa3c7e306fff1e}{MIPI\+\_\+\+LCD\+\_\+\+RESET\+\_\+\+COMPLETION\+\_\+\+TIME}}~120
+\item 
+\#define \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_a4ea8dc97041d84588f84e7c5d9c64f1d}{VK\+\_\+\+DISP\+\_\+\+MIPI\+\_\+\+LCD\+\_\+\+SUPPORT\+\_\+\+HARDWARE\+\_\+\+RESET}}~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173a90039d7260262f128331e96d176368bd}{VSF\+\_\+\+EVT\+\_\+\+REFRESH}} = VSF\+\_\+\+EVT\+\_\+\+USER + 0
+, \newline
+\mbox{\hyperlink{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173af7f0218dad9a7490977bb05bd715ef79}{VSF\+\_\+\+EVT\+\_\+\+WAIT\+\_\+\+TE\+\_\+\+LINE}} = VSF\+\_\+\+EVT\+\_\+\+USER + 1
+, \newline
+\mbox{\hyperlink{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173ade7344efb160f25413fe733af3ad9751}{VSF\+\_\+\+EVT\+\_\+\+REFRESHING}} = VSF\+\_\+\+EVT\+\_\+\+USER + 2
+, \newline
+\mbox{\hyperlink{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173a8f2d51416addaa0ef55c876cf8408ab9}{VSF\+\_\+\+EVT\+\_\+\+CMD\+\_\+\+NEXT}} = VSF\+\_\+\+EVT\+\_\+\+USER + 0
+, \newline
+\mbox{\hyperlink{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173ae810080c8e990c573a178d506d3ad510}{VSF\+\_\+\+EVT\+\_\+\+SPI\+\_\+\+CPL}} = VSF\+\_\+\+EVT\+\_\+\+USER + 1
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_aa362276d0ee85c36234d6999ebc85628}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+hw\+\_\+reset}} (\mbox{\hyperlink{classvk__disp__mipi__lcd__t}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+t}} $\ast$disp\+\_\+mipi\+\_\+lcd, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} level)
+\item 
+void \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_a26c684dc853304ae3f2e80560a89b248}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+io\+\_\+init}} (\mbox{\hyperlink{classvk__disp__mipi__lcd__t}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+t}} $\ast$disp\+\_\+mipi\+\_\+lcd)
+\item 
+void \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_aebfc5d2027ac12562c2f3f4292a156a7}{vk\+\_\+disp\+\_\+mipi\+\_\+te\+\_\+line\+\_\+interrupt\+\_\+enable\+\_\+once}} (\mbox{\hyperlink{classvk__disp__mipi__lcd__t}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+t}} $\ast$disp\+\_\+mipi\+\_\+lcd)
+\item 
+void \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_ac55cbfe51dc7d5e0c99701ff45c4aa5e}{vk\+\_\+disp\+\_\+mipi\+\_\+tearing\+\_\+effect\+\_\+line\+\_\+ready}} (\mbox{\hyperlink{classvk__disp__mipi__lcd__t}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+t}} $\ast$disp\+\_\+mipi\+\_\+lcd)
+\item 
+void \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_a4367b9be55f0314fcc718026f37e2631}{vk\+\_\+disp\+\_\+mipi\+\_\+te\+\_\+line\+\_\+isr\+\_\+enable\+\_\+once}} (\mbox{\hyperlink{classvk__disp__mipi__lcd__t}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+t}} $\ast$disp\+\_\+mipi\+\_\+lcd)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__disp__mipi__lcd_8c_ac5b73c39753ac8b86c2f4a9415ee713b}{vk\+\_\+disp\+\_\+drv\+\_\+mipi\+\_\+lcd}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_ae68af52b29d55a0d7474c656fd71d931}\label{vsf__disp__mipi__lcd_8c_ae68af52b29d55a0d7474c656fd71d931}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_af99b8578fffc21cf409b8a2b4de350f5}\label{vsf__disp__mipi__lcd_8c_af99b8578fffc21cf409b8a2b4de350f5}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!\_\_VSF\_DISP\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_a0399d9eb1d9e92508e56565904fbdc63}\label{vsf__disp__mipi__lcd_8c_a0399d9eb1d9e92508e56565904fbdc63}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!\_\_VSF\_DISP\_MIPI\_LCD\_CLASS\_IMPLEMENT@{\_\_VSF\_DISP\_MIPI\_LCD\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_DISP\_MIPI\_LCD\_CLASS\_IMPLEMENT@{\_\_VSF\_DISP\_MIPI\_LCD\_CLASS\_IMPLEMENT}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISP\_MIPI\_LCD\_CLASS\_IMPLEMENT}{\_\_VSF\_DISP\_MIPI\_LCD\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+MIPI\+\_\+\+LCD\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_abe36463e73eefafdfa5ce28aab1adf46}\label{vsf__disp__mipi__lcd_8c_abe36463e73eefafdfa5ce28aab1adf46}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!MIPI\_LCD\_SPI\_FREQ@{MIPI\_LCD\_SPI\_FREQ}}
+\index{MIPI\_LCD\_SPI\_FREQ@{MIPI\_LCD\_SPI\_FREQ}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{MIPI\_LCD\_SPI\_FREQ}{MIPI\_LCD\_SPI\_FREQ}}
+{\footnotesize\ttfamily \#define MIPI\+\_\+\+LCD\+\_\+\+SPI\+\_\+\+FREQ~(48ul $\ast$ 1000 $\ast$ 1000)}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_a4440ba3c68cd295c43bd60cc1632f769}\label{vsf__disp__mipi__lcd_8c_a4440ba3c68cd295c43bd60cc1632f769}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!MIPI\_LCD\_SPI\_PRIO@{MIPI\_LCD\_SPI\_PRIO}}
+\index{MIPI\_LCD\_SPI\_PRIO@{MIPI\_LCD\_SPI\_PRIO}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{MIPI\_LCD\_SPI\_PRIO}{MIPI\_LCD\_SPI\_PRIO}}
+{\footnotesize\ttfamily \#define MIPI\+\_\+\+LCD\+\_\+\+SPI\+\_\+\+PRIO~vsf\+\_\+prio\+\_\+0}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_aa5c1ada83ea388fdc89149041c86baf1}\label{vsf__disp__mipi__lcd_8c_aa5c1ada83ea388fdc89149041c86baf1}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!MIPI\_LCD\_SPI\_CFG@{MIPI\_LCD\_SPI\_CFG}}
+\index{MIPI\_LCD\_SPI\_CFG@{MIPI\_LCD\_SPI\_CFG}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{MIPI\_LCD\_SPI\_CFG}{MIPI\_LCD\_SPI\_CFG}}
+{\footnotesize\ttfamily \#define MIPI\+\_\+\+LCD\+\_\+\+SPI\+\_\+\+CFG~(SPI\+\_\+\+MASTER $\vert$ SPI\+\_\+\+MODE\+\_\+3 $\vert$ SPI\+\_\+\+MSB\+\_\+\+FIRST $\vert$ SPI\+\_\+\+DATASIZE\+\_\+8)}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_affc62de535a3cc69bf411ae90804fd7b}\label{vsf__disp__mipi__lcd_8c_affc62de535a3cc69bf411ae90804fd7b}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!MIPI\_LCD\_RESET\_LOW\_PULSE\_TIME@{MIPI\_LCD\_RESET\_LOW\_PULSE\_TIME}}
+\index{MIPI\_LCD\_RESET\_LOW\_PULSE\_TIME@{MIPI\_LCD\_RESET\_LOW\_PULSE\_TIME}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{MIPI\_LCD\_RESET\_LOW\_PULSE\_TIME}{MIPI\_LCD\_RESET\_LOW\_PULSE\_TIME}}
+{\footnotesize\ttfamily \#define MIPI\+\_\+\+LCD\+\_\+\+RESET\+\_\+\+LOW\+\_\+\+PULSE\+\_\+\+TIME~1}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_aabe5945e8638fbda9baa3c7e306fff1e}\label{vsf__disp__mipi__lcd_8c_aabe5945e8638fbda9baa3c7e306fff1e}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!MIPI\_LCD\_RESET\_COMPLETION\_TIME@{MIPI\_LCD\_RESET\_COMPLETION\_TIME}}
+\index{MIPI\_LCD\_RESET\_COMPLETION\_TIME@{MIPI\_LCD\_RESET\_COMPLETION\_TIME}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{MIPI\_LCD\_RESET\_COMPLETION\_TIME}{MIPI\_LCD\_RESET\_COMPLETION\_TIME}}
+{\footnotesize\ttfamily \#define MIPI\+\_\+\+LCD\+\_\+\+RESET\+\_\+\+COMPLETION\+\_\+\+TIME~120}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_a4ea8dc97041d84588f84e7c5d9c64f1d}\label{vsf__disp__mipi__lcd_8c_a4ea8dc97041d84588f84e7c5d9c64f1d}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!VK\_DISP\_MIPI\_LCD\_SUPPORT\_HARDWARE\_RESET@{VK\_DISP\_MIPI\_LCD\_SUPPORT\_HARDWARE\_RESET}}
+\index{VK\_DISP\_MIPI\_LCD\_SUPPORT\_HARDWARE\_RESET@{VK\_DISP\_MIPI\_LCD\_SUPPORT\_HARDWARE\_RESET}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{VK\_DISP\_MIPI\_LCD\_SUPPORT\_HARDWARE\_RESET}{VK\_DISP\_MIPI\_LCD\_SUPPORT\_HARDWARE\_RESET}}
+{\footnotesize\ttfamily \#define VK\+\_\+\+DISP\+\_\+\+MIPI\+\_\+\+LCD\+\_\+\+SUPPORT\+\_\+\+HARDWARE\+\_\+\+RESET~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173}\label{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_EVT\_REFRESH@{VSF\_EVT\_REFRESH}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!VSF\_EVT\_REFRESH@{VSF\_EVT\_REFRESH}}}\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173a90039d7260262f128331e96d176368bd}\label{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173a90039d7260262f128331e96d176368bd}} 
+VSF\+\_\+\+EVT\+\_\+\+REFRESH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_EVT\_WAIT\_TE\_LINE@{VSF\_EVT\_WAIT\_TE\_LINE}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!VSF\_EVT\_WAIT\_TE\_LINE@{VSF\_EVT\_WAIT\_TE\_LINE}}}\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173af7f0218dad9a7490977bb05bd715ef79}\label{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173af7f0218dad9a7490977bb05bd715ef79}} 
+VSF\+\_\+\+EVT\+\_\+\+WAIT\+\_\+\+TE\+\_\+\+LINE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_EVT\_REFRESHING@{VSF\_EVT\_REFRESHING}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!VSF\_EVT\_REFRESHING@{VSF\_EVT\_REFRESHING}}}\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173ade7344efb160f25413fe733af3ad9751}\label{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173ade7344efb160f25413fe733af3ad9751}} 
+VSF\+\_\+\+EVT\+\_\+\+REFRESHING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_EVT\_CMD\_NEXT@{VSF\_EVT\_CMD\_NEXT}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!VSF\_EVT\_CMD\_NEXT@{VSF\_EVT\_CMD\_NEXT}}}\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173a8f2d51416addaa0ef55c876cf8408ab9}\label{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173a8f2d51416addaa0ef55c876cf8408ab9}} 
+VSF\+\_\+\+EVT\+\_\+\+CMD\+\_\+\+NEXT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_EVT\_SPI\_CPL@{VSF\_EVT\_SPI\_CPL}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!VSF\_EVT\_SPI\_CPL@{VSF\_EVT\_SPI\_CPL}}}\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173ae810080c8e990c573a178d506d3ad510}\label{vsf__disp__mipi__lcd_8c_a56a0f36da7f9eaaf54bd05cc2bf49173ae810080c8e990c573a178d506d3ad510}} 
+VSF\+\_\+\+EVT\+\_\+\+SPI\+\_\+\+CPL&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_aa362276d0ee85c36234d6999ebc85628}\label{vsf__disp__mipi__lcd_8c_aa362276d0ee85c36234d6999ebc85628}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!vk\_disp\_mipi\_lcd\_hw\_reset@{vk\_disp\_mipi\_lcd\_hw\_reset}}
+\index{vk\_disp\_mipi\_lcd\_hw\_reset@{vk\_disp\_mipi\_lcd\_hw\_reset}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{vk\_disp\_mipi\_lcd\_hw\_reset()}{vk\_disp\_mipi\_lcd\_hw\_reset()}}
+{\footnotesize\ttfamily void vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+hw\+\_\+reset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__disp__mipi__lcd__t}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+t}} $\ast$}]{disp\+\_\+mipi\+\_\+lcd,  }\item[{\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}}]{level }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_a26c684dc853304ae3f2e80560a89b248}\label{vsf__disp__mipi__lcd_8c_a26c684dc853304ae3f2e80560a89b248}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!vk\_disp\_mipi\_lcd\_io\_init@{vk\_disp\_mipi\_lcd\_io\_init}}
+\index{vk\_disp\_mipi\_lcd\_io\_init@{vk\_disp\_mipi\_lcd\_io\_init}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{vk\_disp\_mipi\_lcd\_io\_init()}{vk\_disp\_mipi\_lcd\_io\_init()}}
+{\footnotesize\ttfamily void vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+io\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__disp__mipi__lcd__t}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+t}} $\ast$}]{disp\+\_\+mipi\+\_\+lcd }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_aebfc5d2027ac12562c2f3f4292a156a7}\label{vsf__disp__mipi__lcd_8c_aebfc5d2027ac12562c2f3f4292a156a7}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!vk\_disp\_mipi\_te\_line\_interrupt\_enable\_once@{vk\_disp\_mipi\_te\_line\_interrupt\_enable\_once}}
+\index{vk\_disp\_mipi\_te\_line\_interrupt\_enable\_once@{vk\_disp\_mipi\_te\_line\_interrupt\_enable\_once}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{vk\_disp\_mipi\_te\_line\_interrupt\_enable\_once()}{vk\_disp\_mipi\_te\_line\_interrupt\_enable\_once()}}
+{\footnotesize\ttfamily void vk\+\_\+disp\+\_\+mipi\+\_\+te\+\_\+line\+\_\+interrupt\+\_\+enable\+\_\+once (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__disp__mipi__lcd__t}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+t}} $\ast$}]{disp\+\_\+mipi\+\_\+lcd }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_ac55cbfe51dc7d5e0c99701ff45c4aa5e}\label{vsf__disp__mipi__lcd_8c_ac55cbfe51dc7d5e0c99701ff45c4aa5e}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!vk\_disp\_mipi\_tearing\_effect\_line\_ready@{vk\_disp\_mipi\_tearing\_effect\_line\_ready}}
+\index{vk\_disp\_mipi\_tearing\_effect\_line\_ready@{vk\_disp\_mipi\_tearing\_effect\_line\_ready}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{vk\_disp\_mipi\_tearing\_effect\_line\_ready()}{vk\_disp\_mipi\_tearing\_effect\_line\_ready()}}
+{\footnotesize\ttfamily void vk\+\_\+disp\+\_\+mipi\+\_\+tearing\+\_\+effect\+\_\+line\+\_\+ready (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__disp__mipi__lcd__t}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+t}} $\ast$}]{disp\+\_\+mipi\+\_\+lcd }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_a4367b9be55f0314fcc718026f37e2631}\label{vsf__disp__mipi__lcd_8c_a4367b9be55f0314fcc718026f37e2631}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!vk\_disp\_mipi\_te\_line\_isr\_enable\_once@{vk\_disp\_mipi\_te\_line\_isr\_enable\_once}}
+\index{vk\_disp\_mipi\_te\_line\_isr\_enable\_once@{vk\_disp\_mipi\_te\_line\_isr\_enable\_once}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{vk\_disp\_mipi\_te\_line\_isr\_enable\_once()}{vk\_disp\_mipi\_te\_line\_isr\_enable\_once()}}
+{\footnotesize\ttfamily void vk\+\_\+disp\+\_\+mipi\+\_\+te\+\_\+line\+\_\+isr\+\_\+enable\+\_\+once (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__disp__mipi__lcd__t}{vk\+\_\+disp\+\_\+mipi\+\_\+lcd\+\_\+t}} $\ast$}]{disp\+\_\+mipi\+\_\+lcd }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__disp__mipi__lcd_8c_ac5b73c39753ac8b86c2f4a9415ee713b}\label{vsf__disp__mipi__lcd_8c_ac5b73c39753ac8b86c2f4a9415ee713b}} 
+\index{vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}!vk\_disp\_drv\_mipi\_lcd@{vk\_disp\_drv\_mipi\_lcd}}
+\index{vk\_disp\_drv\_mipi\_lcd@{vk\_disp\_drv\_mipi\_lcd}!vsf\_disp\_mipi\_lcd.c@{vsf\_disp\_mipi\_lcd.c}}
+\doxysubsubsection{\texorpdfstring{vk\_disp\_drv\_mipi\_lcd}{vk\_disp\_drv\_mipi\_lcd}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} vk\+\_\+disp\+\_\+drv\+\_\+mipi\+\_\+lcd}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    .init           = \_\_vk\_disp\_mipi\_lcd\_init,}
+\DoxyCodeLine{    .refresh        = \_\_vk\_disp\_mipi\_lcd\_refresh,}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

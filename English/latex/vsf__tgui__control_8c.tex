@@ -1,0 +1,403 @@
+\hypertarget{vsf__tgui__control_8c}{}\doxysection{source/component/ui/tgui/controls/vsf\+\_\+tgui\+\_\+control.c File Reference}
+\label{vsf__tgui__control_8c}\index{source/component/ui/tgui/controls/vsf\_tgui\_control.c@{source/component/ui/tgui/controls/vsf\_tgui\_control.c}}
+{\ttfamily \#include \char`\"{}../vsf\+\_\+tgui\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+tgui\+\_\+control.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../view/vsf\+\_\+tgui\+\_\+v.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../vsf\+\_\+tgui.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__control_8c_a8b01eb9cc21bd3278ad7be89a9f9217f}{\+\_\+\+\_\+\+VSF\+\_\+\+TGUI\+\_\+\+CONTROLS\+\_\+\+CONTROL\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__control_8c_ab5cdfcb60b1f378fefe71ce309d125f1}{THIS\+\_\+\+FSM\+\_\+\+STATE}}~control\+\_\+ptr-\/$>$t\+MSGMap.\+ch\+State
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__control_8c_aa8d44396009ec6a7683f68cd9ec312bf}{RESET\+\_\+\+TGUI\+\_\+\+USER\+\_\+\+MSG\+\_\+\+HANDLING\+\_\+\+FSM}}()~        do \{ \mbox{\hyperlink{vsf__msg__tree_8c_ab5cdfcb60b1f378fefe71ce309d125f1}{THIS\+\_\+\+FSM\+\_\+\+STATE}} = 0; \} while(0)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__tgui__control_8c_aa36a30479829d470c73a06ae4ccf50dc}{declare\+\_\+class}} (vsf\+\_\+tgui\+\_\+t)
+\item 
+void \mbox{\hyperlink{vsf__tgui__control_8c_a4e215cae14fac3c244ceb954f3421b1f}{vsf\+\_\+tgui\+\_\+timer\+\_\+init}} (vsf\+\_\+tgui\+\_\+timer\+\_\+t $\ast$pt\+Timer, const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+void \mbox{\hyperlink{vsf__tgui__control_8c_ab4575145376858e935d8cd87ebab5e1a}{vsf\+\_\+tgui\+\_\+timer\+\_\+enable}} (vsf\+\_\+tgui\+\_\+timer\+\_\+t $\ast$pt\+Timer)
+\item 
+void \mbox{\hyperlink{vsf__tgui__control_8c_a7ad18b45dc68cfdc53968490c53fb79c}{vsf\+\_\+tgui\+\_\+timer\+\_\+disable}} (vsf\+\_\+tgui\+\_\+timer\+\_\+t $\ast$pt\+Timer)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__control_8c_a1feab43b4f9a49d7495430ff11c98c11}{vsf\+\_\+tgui\+\_\+timer\+\_\+is\+\_\+working}} (vsf\+\_\+tgui\+\_\+timer\+\_\+t $\ast$pt\+Timer)
+\item 
+\mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__control_8c_a67e36d47cab03d5a5a9d82ccf8bd30d8}{\+\_\+\+\_\+vk\+\_\+tgui\+\_\+calculate\+\_\+absolute\+\_\+location\+\_\+from\+\_\+control\+\_\+location}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} $\ast$pt\+Location)
+\begin{DoxyCompactList}\small\item\em get the absolute location information base on the location information ! of or derived from target control. ! \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__control_8c_a4a9656e90ed7879dd0e3c694f5d0bb8b}{vsf\+\_\+tgui\+\_\+control\+\_\+get\+\_\+location}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+\mbox{\hyperlink{structvsf__tgui__size__t}{vsf\+\_\+tgui\+\_\+size\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__control_8c_ab750a7a74e97b808f547ced7fc6654bc}{vsf\+\_\+tgui\+\_\+control\+\_\+get\+\_\+size}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+\mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__control_8c_a644366a2caf4e8441346e1cdb45c9718}{vsf\+\_\+tgui\+\_\+control\+\_\+calculate\+\_\+absolute\+\_\+location}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} $\ast$pt\+Offset)
+\item 
+\mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__control_8c_a851124f20e7a1c539e4fc5126c291679}{vsf\+\_\+tgui\+\_\+control\+\_\+calculate\+\_\+absolute\+\_\+region}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$region\+\_\+ptr)
+\begin{DoxyCompactList}\small\item\em If you get a relative region inside a control, this function can calculate ! the absolute location and store the result in the region you specified. ! ! \textbackslash{}\+NOTE As the location info of the region you passed to this ! function will be changed, please do {\bfseries{NOT}} pass the control\textquotesingle{}s own region ! to this function. ! Due to this reason aforementioned, you should creat a copy of the target ! region and use it with this function. ! ! \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__control_8c_a767d9ac89e100b9a04d20c5635ceb812}{vsf\+\_\+tgui\+\_\+get\+\_\+absolute\+\_\+control\+\_\+region}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$pt\+Region\+Buffer)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__control_8c_a016733b745e4c7a970345f3afa5c567e}{vsf\+\_\+tgui\+\_\+control\+\_\+is\+\_\+in\+\_\+range}} (const \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$region\+\_\+ptr, const \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} $\ast$pt\+Location)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__control_8c_a524095cc32de7df3424fc7c157b561c4}{vsf\+\_\+tgui\+\_\+control\+\_\+get\+\_\+visible\+\_\+region}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$pt\+Region\+Buffer)
+\begin{DoxyCompactList}\small\item\em get the visible region (with absolute location) ! \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__control_8c_a63ace7fd50ebcc07ffa74d6378ce7219}{vsf\+\_\+tgui\+\_\+control\+\_\+get\+\_\+relative\+\_\+region}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$pt\+Absolute\+Region)
+\item 
+\mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__control_8c_a950abda296762368fed6285f1a6742db}{vsf\+\_\+tgui\+\_\+control\+\_\+generate\+\_\+dirty\+\_\+region\+\_\+from\+\_\+parent\+\_\+dirty\+\_\+region}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ae4af2652f0f973baf4cb8ab8a1cf004c}{parent\+\_\+ptr}}, const \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$pt\+Parent\+Dirty\+Region, const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$pt\+Private, \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$pt\+New\+Dirty\+Region\+Buffer)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__control_8c_aa0bb6c015da7b7b01f7c4f1248965d85}{vsf\+\_\+tgui\+\_\+control\+\_\+shoot}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, const \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} $\ast$pt\+Location)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__control_8c_a79ec37f406fb4cdb7223030bd535e6e2}{vsf\+\_\+tgui\+\_\+control\+\_\+set\+\_\+is\+\_\+transparent\+\_\+bit}} (\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} is\+\_\+control\+\_\+transparent)
+\begin{DoxyCompactList}\small\item\em update is\+\_\+control\+\_\+transparent bit in control status ! \textbackslash{}parame control\+\_\+ptr target control address ! \end{DoxyCompactList}\item 
+\mbox{\hyperlink{unionvsf__tgui__status__t}{vsf\+\_\+tgui\+\_\+status\+\_\+t}} \mbox{\hyperlink{vsf__tgui__control_8c_a511dec097b8ff9a99701f638663b48bf}{vsf\+\_\+tgui\+\_\+control\+\_\+status\+\_\+get}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+void \mbox{\hyperlink{vsf__tgui__control_8c_ab65abadfe949aa84e7817b478a2f0a1d}{vsf\+\_\+tgui\+\_\+control\+\_\+status\+\_\+set}} (\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, \mbox{\hyperlink{unionvsf__tgui__status__t}{vsf\+\_\+tgui\+\_\+status\+\_\+t}} \mbox{\hyperlink{vsf__msg__tree_8h_ab6585ccd43020ceabc0df2ce5858002b}{Status}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__control_8c_a3c84b9ec3748bb9a7b1dd36fe37434cd}{vsf\+\_\+tgui\+\_\+control\+\_\+is\+\_\+container}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__control_8c_a244e59e4d1a642085a438f23816de22c}{vsf\+\_\+tgui\+\_\+control\+\_\+get\+\_\+parent}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} \mbox{\hyperlink{vsf__tgui__control_8c_a8e386a50ae7f101421ef7ffb89ea8dd9}{vk\+\_\+tgui\+\_\+container\+\_\+visible\+\_\+item\+\_\+get}} (const vsf\+\_\+tgui\+\_\+container\+\_\+t $\ast$container\+\_\+ptr)
+\item 
+const \mbox{\hyperlink{vsf__tgui__common_8h_ae4b34ea80250bc4d45b379ae68c8f2c4}{vsf\+\_\+tgui\+\_\+root\+\_\+container\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__control_8c_a66cbc1572fa26253c48b468f63416cea}{vk\+\_\+tgui\+\_\+control\+\_\+get\+\_\+top}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__control_8c_a6e0b676475e49866a697b89bf6b76c50}{vsf\+\_\+tgui\+\_\+control\+\_\+send\+\_\+message}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, \mbox{\hyperlink{unionvsf__tgui__evt__t}{vsf\+\_\+tgui\+\_\+evt\+\_\+t}} event)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__control_8c_a6b504009fadfc2a56dbdc0de9beef1b0}{vsf\+\_\+tgui\+\_\+control\+\_\+update}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__control_8c_af6dc53a360180642177538a71449a0de}{vsf\+\_\+tgui\+\_\+control\+\_\+update\+\_\+tree}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__control_8c_aa558382ea73bb6cb6adff3288a711eea}{vsf\+\_\+tgui\+\_\+control\+\_\+refresh}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, const \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$region\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__control_8c_a4a6ec4c275e69e47328f4dda315c3de2}{vsf\+\_\+tgui\+\_\+control\+\_\+set\+\_\+active}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__control_8c_a8b275ea9d5e9759ad4a3d918033f9472}{\+\_\+\+\_\+vk\+\_\+tgui\+\_\+control\+\_\+user\+\_\+message\+\_\+handling}} (\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, const \mbox{\hyperlink{unionvsf__tgui__evt__t}{vsf\+\_\+tgui\+\_\+evt\+\_\+t}} $\ast$event\+\_\+ptr)
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__control_8c_ab197499dd84dd69c65cc426c3278fe5f}{\+\_\+\+\_\+vsf\+\_\+tgui\+\_\+control\+\_\+msg\+\_\+handler}} (\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, \mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__tgui__label_8h_ad43a895bdb04cb4a659fa8f939e91b9e}{pt\+MSG}}, const \mbox{\hyperlink{vsf__tgui__control_8h_a24862861a5856c013ba25f735a0503d3}{i\+\_\+tgui\+\_\+control\+\_\+methods\+\_\+t}} $\ast$pt\+Methods)
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__control_8c_ae605a958ced102a83beefed3c17d4456}{vsf\+\_\+tgui\+\_\+control\+\_\+msg\+\_\+handler}} (\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr, \mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__tgui__label_8h_ad43a895bdb04cb4a659fa8f939e91b9e}{pt\+MSG}})
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__control_8c_a2ad06b599e7926b1d7aff7074e8fac5c}{vsf\+\_\+tgui\+\_\+container\+\_\+msg\+\_\+handler}} (vsf\+\_\+tgui\+\_\+container\+\_\+t $\ast$control\+\_\+ptr, \mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__tgui__label_8h_ad43a895bdb04cb4a659fa8f939e91b9e}{pt\+MSG}})
+\item 
+const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__control_8c_a32e9e2186250d77b5f60f09320889056}{\+\_\+\+\_\+vk\+\_\+tgui\+\_\+control\+\_\+get\+\_\+next\+\_\+visible\+\_\+one\+\_\+within\+\_\+container}} (const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__pool_8h_ad7a735cfac48ab27243856f743f816ac}{item\+\_\+ptr}})
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__control_8c_aa79c7444ee73017a1ec5f92d26e68f0f}{vk\+\_\+tgui\+\_\+control\+\_\+update}} (\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__control_8c_a457cef536751491fd0a81c4be0584c1e}{vk\+\_\+tgui\+\_\+container\+\_\+update}} (vsf\+\_\+tgui\+\_\+container\+\_\+t $\ast$container\+\_\+ptr)
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__control_8c_aa9b6cd01b809e996dc8fae3506326828}{vk\+\_\+tgui\+\_\+control\+\_\+init}} (\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$control\+\_\+ptr)
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__control_8c_abe900962b32850540bf0ac54a5c2d480}{vk\+\_\+tgui\+\_\+container\+\_\+init}} (vsf\+\_\+tgui\+\_\+container\+\_\+t $\ast$container\+\_\+ptr)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__tgui__control_8c_a8b01eb9cc21bd3278ad7be89a9f9217f}\label{vsf__tgui__control_8c_a8b01eb9cc21bd3278ad7be89a9f9217f}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!\_\_VSF\_TGUI\_CONTROLS\_CONTROL\_CLASS\_IMPLEMENT@{\_\_VSF\_TGUI\_CONTROLS\_CONTROL\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_TGUI\_CONTROLS\_CONTROL\_CLASS\_IMPLEMENT@{\_\_VSF\_TGUI\_CONTROLS\_CONTROL\_CLASS\_IMPLEMENT}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_TGUI\_CONTROLS\_CONTROL\_CLASS\_IMPLEMENT}{\_\_VSF\_TGUI\_CONTROLS\_CONTROL\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+TGUI\+\_\+\+CONTROLS\+\_\+\+CONTROL\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_ab5cdfcb60b1f378fefe71ce309d125f1}\label{vsf__tgui__control_8c_ab5cdfcb60b1f378fefe71ce309d125f1}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!THIS\_FSM\_STATE@{THIS\_FSM\_STATE}}
+\index{THIS\_FSM\_STATE@{THIS\_FSM\_STATE}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{THIS\_FSM\_STATE}{THIS\_FSM\_STATE}}
+{\footnotesize\ttfamily \#define THIS\+\_\+\+FSM\+\_\+\+STATE~control\+\_\+ptr-\/$>$t\+MSGMap.\+ch\+State}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_aa8d44396009ec6a7683f68cd9ec312bf}\label{vsf__tgui__control_8c_aa8d44396009ec6a7683f68cd9ec312bf}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!RESET\_TGUI\_USER\_MSG\_HANDLING\_FSM@{RESET\_TGUI\_USER\_MSG\_HANDLING\_FSM}}
+\index{RESET\_TGUI\_USER\_MSG\_HANDLING\_FSM@{RESET\_TGUI\_USER\_MSG\_HANDLING\_FSM}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{RESET\_TGUI\_USER\_MSG\_HANDLING\_FSM}{RESET\_TGUI\_USER\_MSG\_HANDLING\_FSM}}
+{\footnotesize\ttfamily \#define RESET\+\_\+\+TGUI\+\_\+\+USER\+\_\+\+MSG\+\_\+\+HANDLING\+\_\+\+FSM(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~        do \{ \mbox{\hyperlink{vsf__msg__tree_8c_ab5cdfcb60b1f378fefe71ce309d125f1}{THIS\+\_\+\+FSM\+\_\+\+STATE}} = 0; \} while(0)}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__tgui__control_8c_aa36a30479829d470c73a06ae4ccf50dc}\label{vsf__tgui__control_8c_aa36a30479829d470c73a06ae4ccf50dc}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!declare\_class@{declare\_class}}
+\index{declare\_class@{declare\_class}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{declare\_class()}{declare\_class()}}
+{\footnotesize\ttfamily declare\+\_\+class (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a4e215cae14fac3c244ceb954f3421b1f}\label{vsf__tgui__control_8c_a4e215cae14fac3c244ceb954f3421b1f}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_timer\_init@{vsf\_tgui\_timer\_init}}
+\index{vsf\_tgui\_timer\_init@{vsf\_tgui\_timer\_init}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_timer\_init()}{vsf\_tgui\_timer\_init()}}
+{\footnotesize\ttfamily void vsf\+\_\+tgui\+\_\+timer\+\_\+init (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+timer\+\_\+t $\ast$}]{pt\+Timer,  }\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_ab4575145376858e935d8cd87ebab5e1a}\label{vsf__tgui__control_8c_ab4575145376858e935d8cd87ebab5e1a}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_timer\_enable@{vsf\_tgui\_timer\_enable}}
+\index{vsf\_tgui\_timer\_enable@{vsf\_tgui\_timer\_enable}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_timer\_enable()}{vsf\_tgui\_timer\_enable()}}
+{\footnotesize\ttfamily void vsf\+\_\+tgui\+\_\+timer\+\_\+enable (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+timer\+\_\+t $\ast$}]{pt\+Timer }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a7ad18b45dc68cfdc53968490c53fb79c}\label{vsf__tgui__control_8c_a7ad18b45dc68cfdc53968490c53fb79c}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_timer\_disable@{vsf\_tgui\_timer\_disable}}
+\index{vsf\_tgui\_timer\_disable@{vsf\_tgui\_timer\_disable}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_timer\_disable()}{vsf\_tgui\_timer\_disable()}}
+{\footnotesize\ttfamily void vsf\+\_\+tgui\+\_\+timer\+\_\+disable (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+timer\+\_\+t $\ast$}]{pt\+Timer }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a1feab43b4f9a49d7495430ff11c98c11}\label{vsf__tgui__control_8c_a1feab43b4f9a49d7495430ff11c98c11}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_timer\_is\_working@{vsf\_tgui\_timer\_is\_working}}
+\index{vsf\_tgui\_timer\_is\_working@{vsf\_tgui\_timer\_is\_working}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_timer\_is\_working()}{vsf\_tgui\_timer\_is\_working()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+timer\+\_\+is\+\_\+working (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+timer\+\_\+t $\ast$}]{pt\+Timer }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a67e36d47cab03d5a5a9d82ccf8bd30d8}\label{vsf__tgui__control_8c_a67e36d47cab03d5a5a9d82ccf8bd30d8}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!\_\_vk\_tgui\_calculate\_absolute\_location\_from\_control\_location@{\_\_vk\_tgui\_calculate\_absolute\_location\_from\_control\_location}}
+\index{\_\_vk\_tgui\_calculate\_absolute\_location\_from\_control\_location@{\_\_vk\_tgui\_calculate\_absolute\_location\_from\_control\_location}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_tgui\_calculate\_absolute\_location\_from\_control\_location()}{\_\_vk\_tgui\_calculate\_absolute\_location\_from\_control\_location()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}}$\ast$ \+\_\+\+\_\+vk\+\_\+tgui\+\_\+calculate\+\_\+absolute\+\_\+location\+\_\+from\+\_\+control\+\_\+location (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} $\ast$}]{pt\+Location }\end{DoxyParamCaption})}
+
+
+
+get the absolute location information base on the location information ! of or derived from target control. ! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em control\+\_\+ptr} & the Target Control Address !\\
+\hline
+{\em pt\+Location} & the Location buffer which has already stored the location ! information of or derived from the target control ! \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the location buffer address passed with pt\+Location 
+\end{DoxyReturn}
+\mbox{\Hypertarget{vsf__tgui__control_8c_a4a9656e90ed7879dd0e3c694f5d0bb8b}\label{vsf__tgui__control_8c_a4a9656e90ed7879dd0e3c694f5d0bb8b}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_get\_location@{vsf\_tgui\_control\_get\_location}}
+\index{vsf\_tgui\_control\_get\_location@{vsf\_tgui\_control\_get\_location}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_get\_location()}{vsf\_tgui\_control\_get\_location()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}}$\ast$ vsf\+\_\+tgui\+\_\+control\+\_\+get\+\_\+location (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_ab750a7a74e97b808f547ced7fc6654bc}\label{vsf__tgui__control_8c_ab750a7a74e97b808f547ced7fc6654bc}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_get\_size@{vsf\_tgui\_control\_get\_size}}
+\index{vsf\_tgui\_control\_get\_size@{vsf\_tgui\_control\_get\_size}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_get\_size()}{vsf\_tgui\_control\_get\_size()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__tgui__size__t}{vsf\+\_\+tgui\+\_\+size\+\_\+t}}$\ast$ vsf\+\_\+tgui\+\_\+control\+\_\+get\+\_\+size (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a644366a2caf4e8441346e1cdb45c9718}\label{vsf__tgui__control_8c_a644366a2caf4e8441346e1cdb45c9718}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_calculate\_absolute\_location@{vsf\_tgui\_control\_calculate\_absolute\_location}}
+\index{vsf\_tgui\_control\_calculate\_absolute\_location@{vsf\_tgui\_control\_calculate\_absolute\_location}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_calculate\_absolute\_location()}{vsf\_tgui\_control\_calculate\_absolute\_location()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}}$\ast$ vsf\+\_\+tgui\+\_\+control\+\_\+calculate\+\_\+absolute\+\_\+location (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} $\ast$}]{pt\+Offset }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a851124f20e7a1c539e4fc5126c291679}\label{vsf__tgui__control_8c_a851124f20e7a1c539e4fc5126c291679}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_calculate\_absolute\_region@{vsf\_tgui\_control\_calculate\_absolute\_region}}
+\index{vsf\_tgui\_control\_calculate\_absolute\_region@{vsf\_tgui\_control\_calculate\_absolute\_region}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_calculate\_absolute\_region()}{vsf\_tgui\_control\_calculate\_absolute\_region()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}}$\ast$ vsf\+\_\+tgui\+\_\+control\+\_\+calculate\+\_\+absolute\+\_\+region (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$}]{region\+\_\+ptr }\end{DoxyParamCaption})}
+
+
+
+If you get a relative region inside a control, this function can calculate ! the absolute location and store the result in the region you specified. ! ! \textbackslash{}\+NOTE As the location info of the region you passed to this ! function will be changed, please do {\bfseries{NOT}} pass the control\textquotesingle{}s own region ! to this function. ! Due to this reason aforementioned, you should creat a copy of the target ! region and use it with this function. ! ! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em control\+\_\+ptr} & the address of the target control !\\
+\hline
+{\em region\+\_\+ptr} & the address of the region which you want to calculate ! \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the same region address you passed to the function ! 
+\end{DoxyReturn}
+\mbox{\Hypertarget{vsf__tgui__control_8c_a767d9ac89e100b9a04d20c5635ceb812}\label{vsf__tgui__control_8c_a767d9ac89e100b9a04d20c5635ceb812}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_get\_absolute\_control\_region@{vsf\_tgui\_get\_absolute\_control\_region}}
+\index{vsf\_tgui\_get\_absolute\_control\_region@{vsf\_tgui\_get\_absolute\_control\_region}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_get\_absolute\_control\_region()}{vsf\_tgui\_get\_absolute\_control\_region()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}}$\ast$ vsf\+\_\+tgui\+\_\+get\+\_\+absolute\+\_\+control\+\_\+region (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$}]{pt\+Region\+Buffer }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a016733b745e4c7a970345f3afa5c567e}\label{vsf__tgui__control_8c_a016733b745e4c7a970345f3afa5c567e}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_is\_in\_range@{vsf\_tgui\_control\_is\_in\_range}}
+\index{vsf\_tgui\_control\_is\_in\_range@{vsf\_tgui\_control\_is\_in\_range}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_is\_in\_range()}{vsf\_tgui\_control\_is\_in\_range()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+control\+\_\+is\+\_\+in\+\_\+range (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$}]{region\+\_\+ptr,  }\item[{const \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} $\ast$}]{pt\+Location }\end{DoxyParamCaption})}
+
+to mitigate C89/90 warning\mbox{\Hypertarget{vsf__tgui__control_8c_a524095cc32de7df3424fc7c157b561c4}\label{vsf__tgui__control_8c_a524095cc32de7df3424fc7c157b561c4}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_get\_visible\_region@{vsf\_tgui\_control\_get\_visible\_region}}
+\index{vsf\_tgui\_control\_get\_visible\_region@{vsf\_tgui\_control\_get\_visible\_region}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_get\_visible\_region()}{vsf\_tgui\_control\_get\_visible\_region()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+control\+\_\+get\+\_\+visible\+\_\+region (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$}]{pt\+Region\+Buffer }\end{DoxyParamCaption})}
+
+
+
+get the visible region (with absolute location) ! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em control\+\_\+ptr} & the target control !\\
+\hline
+{\em region\+\_\+ptr} & the region buffer !\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & visible !\\
+\hline
+{\em false} & invisible \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{vsf__tgui__control_8c_a63ace7fd50ebcc07ffa74d6378ce7219}\label{vsf__tgui__control_8c_a63ace7fd50ebcc07ffa74d6378ce7219}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_get\_relative\_region@{vsf\_tgui\_control\_get\_relative\_region}}
+\index{vsf\_tgui\_control\_get\_relative\_region@{vsf\_tgui\_control\_get\_relative\_region}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_get\_relative\_region()}{vsf\_tgui\_control\_get\_relative\_region()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}}$\ast$ vsf\+\_\+tgui\+\_\+control\+\_\+get\+\_\+relative\+\_\+region (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$}]{pt\+Absolute\+Region }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a950abda296762368fed6285f1a6742db}\label{vsf__tgui__control_8c_a950abda296762368fed6285f1a6742db}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_generate\_dirty\_region\_from\_parent\_dirty\_region@{vsf\_tgui\_control\_generate\_dirty\_region\_from\_parent\_dirty\_region}}
+\index{vsf\_tgui\_control\_generate\_dirty\_region\_from\_parent\_dirty\_region@{vsf\_tgui\_control\_generate\_dirty\_region\_from\_parent\_dirty\_region}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_generate\_dirty\_region\_from\_parent\_dirty\_region()}{vsf\_tgui\_control\_generate\_dirty\_region\_from\_parent\_dirty\_region()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}}$\ast$ vsf\+\_\+tgui\+\_\+control\+\_\+generate\+\_\+dirty\+\_\+region\+\_\+from\+\_\+parent\+\_\+dirty\+\_\+region (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{parent\+\_\+ptr,  }\item[{const \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$}]{pt\+Parent\+Dirty\+Region,  }\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{pt\+Private,  }\item[{\mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$}]{pt\+New\+Dirty\+Region\+Buffer }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_aa0bb6c015da7b7b01f7c4f1248965d85}\label{vsf__tgui__control_8c_aa0bb6c015da7b7b01f7c4f1248965d85}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_shoot@{vsf\_tgui\_control\_shoot}}
+\index{vsf\_tgui\_control\_shoot@{vsf\_tgui\_control\_shoot}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_shoot()}{vsf\_tgui\_control\_shoot()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+control\+\_\+shoot (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{const \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} $\ast$}]{pt\+Location }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a79ec37f406fb4cdb7223030bd535e6e2}\label{vsf__tgui__control_8c_a79ec37f406fb4cdb7223030bd535e6e2}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_set\_is\_transparent\_bit@{vsf\_tgui\_control\_set\_is\_transparent\_bit}}
+\index{vsf\_tgui\_control\_set\_is\_transparent\_bit@{vsf\_tgui\_control\_set\_is\_transparent\_bit}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_set\_is\_transparent\_bit()}{vsf\_tgui\_control\_set\_is\_transparent\_bit()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+control\+\_\+set\+\_\+is\+\_\+transparent\+\_\+bit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}}]{is\+\_\+control\+\_\+transparent }\end{DoxyParamCaption})}
+
+
+
+update is\+\_\+control\+\_\+transparent bit in control status ! \textbackslash{}parame control\+\_\+ptr target control address ! 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em true} & the original value of is\+\_\+control\+\_\+transparent is changed !\\
+\hline
+{\em false} & the set value is the same as the original value, no change is ! made. \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{vsf__tgui__control_8c_a511dec097b8ff9a99701f638663b48bf}\label{vsf__tgui__control_8c_a511dec097b8ff9a99701f638663b48bf}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_status\_get@{vsf\_tgui\_control\_status\_get}}
+\index{vsf\_tgui\_control\_status\_get@{vsf\_tgui\_control\_status\_get}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_status\_get()}{vsf\_tgui\_control\_status\_get()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionvsf__tgui__status__t}{vsf\+\_\+tgui\+\_\+status\+\_\+t}} vsf\+\_\+tgui\+\_\+control\+\_\+status\+\_\+get (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_ab65abadfe949aa84e7817b478a2f0a1d}\label{vsf__tgui__control_8c_ab65abadfe949aa84e7817b478a2f0a1d}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_status\_set@{vsf\_tgui\_control\_status\_set}}
+\index{vsf\_tgui\_control\_status\_set@{vsf\_tgui\_control\_status\_set}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_status\_set()}{vsf\_tgui\_control\_status\_set()}}
+{\footnotesize\ttfamily void vsf\+\_\+tgui\+\_\+control\+\_\+status\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{unionvsf__tgui__status__t}{vsf\+\_\+tgui\+\_\+status\+\_\+t}}}]{Status }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a3c84b9ec3748bb9a7b1dd36fe37434cd}\label{vsf__tgui__control_8c_a3c84b9ec3748bb9a7b1dd36fe37434cd}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_is\_container@{vsf\_tgui\_control\_is\_container}}
+\index{vsf\_tgui\_control\_is\_container@{vsf\_tgui\_control\_is\_container}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_is\_container()}{vsf\_tgui\_control\_is\_container()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+control\+\_\+is\+\_\+container (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a244e59e4d1a642085a438f23816de22c}\label{vsf__tgui__control_8c_a244e59e4d1a642085a438f23816de22c}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_get\_parent@{vsf\_tgui\_control\_get\_parent}}
+\index{vsf\_tgui\_control\_get\_parent@{vsf\_tgui\_control\_get\_parent}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_get\_parent()}{vsf\_tgui\_control\_get\_parent()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}}$\ast$ vsf\+\_\+tgui\+\_\+control\+\_\+get\+\_\+parent (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a8e386a50ae7f101421ef7ffb89ea8dd9}\label{vsf__tgui__control_8c_a8e386a50ae7f101421ef7ffb89ea8dd9}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vk\_tgui\_container\_visible\_item\_get@{vk\_tgui\_container\_visible\_item\_get}}
+\index{vk\_tgui\_container\_visible\_item\_get@{vk\_tgui\_container\_visible\_item\_get}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vk\_tgui\_container\_visible\_item\_get()}{vk\_tgui\_container\_visible\_item\_get()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} vk\+\_\+tgui\+\_\+container\+\_\+visible\+\_\+item\+\_\+get (\begin{DoxyParamCaption}\item[{const vsf\+\_\+tgui\+\_\+container\+\_\+t $\ast$}]{container\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a66cbc1572fa26253c48b468f63416cea}\label{vsf__tgui__control_8c_a66cbc1572fa26253c48b468f63416cea}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vk\_tgui\_control\_get\_top@{vk\_tgui\_control\_get\_top}}
+\index{vk\_tgui\_control\_get\_top@{vk\_tgui\_control\_get\_top}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vk\_tgui\_control\_get\_top()}{vk\_tgui\_control\_get\_top()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{vsf__tgui__common_8h_ae4b34ea80250bc4d45b379ae68c8f2c4}{vsf\+\_\+tgui\+\_\+root\+\_\+container\+\_\+t}}$\ast$ vk\+\_\+tgui\+\_\+control\+\_\+get\+\_\+top (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a6e0b676475e49866a697b89bf6b76c50}\label{vsf__tgui__control_8c_a6e0b676475e49866a697b89bf6b76c50}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_send\_message@{vsf\_tgui\_control\_send\_message}}
+\index{vsf\_tgui\_control\_send\_message@{vsf\_tgui\_control\_send\_message}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_send\_message()}{vsf\_tgui\_control\_send\_message()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+control\+\_\+send\+\_\+message (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{unionvsf__tgui__evt__t}{vsf\+\_\+tgui\+\_\+evt\+\_\+t}}}]{event }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a6b504009fadfc2a56dbdc0de9beef1b0}\label{vsf__tgui__control_8c_a6b504009fadfc2a56dbdc0de9beef1b0}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_update@{vsf\_tgui\_control\_update}}
+\index{vsf\_tgui\_control\_update@{vsf\_tgui\_control\_update}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_update()}{vsf\_tgui\_control\_update()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+control\+\_\+update (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_af6dc53a360180642177538a71449a0de}\label{vsf__tgui__control_8c_af6dc53a360180642177538a71449a0de}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_update\_tree@{vsf\_tgui\_control\_update\_tree}}
+\index{vsf\_tgui\_control\_update\_tree@{vsf\_tgui\_control\_update\_tree}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_update\_tree()}{vsf\_tgui\_control\_update\_tree()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+control\+\_\+update\+\_\+tree (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_aa558382ea73bb6cb6adff3288a711eea}\label{vsf__tgui__control_8c_aa558382ea73bb6cb6adff3288a711eea}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_refresh@{vsf\_tgui\_control\_refresh}}
+\index{vsf\_tgui\_control\_refresh@{vsf\_tgui\_control\_refresh}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_refresh()}{vsf\_tgui\_control\_refresh()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+control\+\_\+refresh (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{const \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$}]{region\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a4a6ec4c275e69e47328f4dda315c3de2}\label{vsf__tgui__control_8c_a4a6ec4c275e69e47328f4dda315c3de2}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_set\_active@{vsf\_tgui\_control\_set\_active}}
+\index{vsf\_tgui\_control\_set\_active@{vsf\_tgui\_control\_set\_active}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_set\_active()}{vsf\_tgui\_control\_set\_active()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+control\+\_\+set\+\_\+active (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a8b275ea9d5e9759ad4a3d918033f9472}\label{vsf__tgui__control_8c_a8b275ea9d5e9759ad4a3d918033f9472}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!\_\_vk\_tgui\_control\_user\_message\_handling@{\_\_vk\_tgui\_control\_user\_message\_handling}}
+\index{\_\_vk\_tgui\_control\_user\_message\_handling@{\_\_vk\_tgui\_control\_user\_message\_handling}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_tgui\_control\_user\_message\_handling()}{\_\_vk\_tgui\_control\_user\_message\_handling()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \+\_\+\+\_\+vk\+\_\+tgui\+\_\+control\+\_\+user\+\_\+message\+\_\+handling (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{const \mbox{\hyperlink{unionvsf__tgui__evt__t}{vsf\+\_\+tgui\+\_\+evt\+\_\+t}} $\ast$}]{event\+\_\+ptr }\end{DoxyParamCaption})}
+
+get mask
+
+check message
+
+haven\textquotesingle{}t support yet
+
+message has been handled
+
+message is not handled\mbox{\Hypertarget{vsf__tgui__control_8c_ab197499dd84dd69c65cc426c3278fe5f}\label{vsf__tgui__control_8c_ab197499dd84dd69c65cc426c3278fe5f}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!\_\_vsf\_tgui\_control\_msg\_handler@{\_\_vsf\_tgui\_control\_msg\_handler}}
+\index{\_\_vsf\_tgui\_control\_msg\_handler@{\_\_vsf\_tgui\_control\_msg\_handler}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_tgui\_control\_msg\_handler()}{\_\_vsf\_tgui\_control\_msg\_handler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+tgui\+\_\+control\+\_\+msg\+\_\+handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}} $\ast$}]{pt\+MSG,  }\item[{const \mbox{\hyperlink{vsf__tgui__control_8h_a24862861a5856c013ba25f735a0503d3}{i\+\_\+tgui\+\_\+control\+\_\+methods\+\_\+t}} $\ast$}]{pt\+Methods }\end{DoxyParamCaption})}
+
+message contains data\mbox{\Hypertarget{vsf__tgui__control_8c_ae605a958ced102a83beefed3c17d4456}\label{vsf__tgui__control_8c_ae605a958ced102a83beefed3c17d4456}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_control\_msg\_handler@{vsf\_tgui\_control\_msg\_handler}}
+\index{vsf\_tgui\_control\_msg\_handler@{vsf\_tgui\_control\_msg\_handler}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_msg\_handler()}{vsf\_tgui\_control\_msg\_handler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vsf\+\_\+tgui\+\_\+control\+\_\+msg\+\_\+handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}} $\ast$}]{pt\+MSG }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a2ad06b599e7926b1d7aff7074e8fac5c}\label{vsf__tgui__control_8c_a2ad06b599e7926b1d7aff7074e8fac5c}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vsf\_tgui\_container\_msg\_handler@{vsf\_tgui\_container\_msg\_handler}}
+\index{vsf\_tgui\_container\_msg\_handler@{vsf\_tgui\_container\_msg\_handler}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_container\_msg\_handler()}{vsf\_tgui\_container\_msg\_handler()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vsf\+\_\+tgui\+\_\+container\+\_\+msg\+\_\+handler (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+container\+\_\+t $\ast$}]{control\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}} $\ast$}]{pt\+MSG }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a32e9e2186250d77b5f60f09320889056}\label{vsf__tgui__control_8c_a32e9e2186250d77b5f60f09320889056}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!\_\_vk\_tgui\_control\_get\_next\_visible\_one\_within\_container@{\_\_vk\_tgui\_control\_get\_next\_visible\_one\_within\_container}}
+\index{\_\_vk\_tgui\_control\_get\_next\_visible\_one\_within\_container@{\_\_vk\_tgui\_control\_get\_next\_visible\_one\_within\_container}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_tgui\_control\_get\_next\_visible\_one\_within\_container()}{\_\_vk\_tgui\_control\_get\_next\_visible\_one\_within\_container()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}}$\ast$ \+\_\+\+\_\+vk\+\_\+tgui\+\_\+control\+\_\+get\+\_\+next\+\_\+visible\+\_\+one\+\_\+within\+\_\+container (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{item\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_aa79c7444ee73017a1ec5f92d26e68f0f}\label{vsf__tgui__control_8c_aa79c7444ee73017a1ec5f92d26e68f0f}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vk\_tgui\_control\_update@{vk\_tgui\_control\_update}}
+\index{vk\_tgui\_control\_update@{vk\_tgui\_control\_update}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vk\_tgui\_control\_update()}{vk\_tgui\_control\_update()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vk\+\_\+tgui\+\_\+control\+\_\+update (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_a457cef536751491fd0a81c4be0584c1e}\label{vsf__tgui__control_8c_a457cef536751491fd0a81c4be0584c1e}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vk\_tgui\_container\_update@{vk\_tgui\_container\_update}}
+\index{vk\_tgui\_container\_update@{vk\_tgui\_container\_update}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vk\_tgui\_container\_update()}{vk\_tgui\_container\_update()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vk\+\_\+tgui\+\_\+container\+\_\+update (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+container\+\_\+t $\ast$}]{container\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_aa9b6cd01b809e996dc8fae3506326828}\label{vsf__tgui__control_8c_aa9b6cd01b809e996dc8fae3506326828}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vk\_tgui\_control\_init@{vk\_tgui\_control\_init}}
+\index{vk\_tgui\_control\_init@{vk\_tgui\_control\_init}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vk\_tgui\_control\_init()}{vk\_tgui\_control\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vk\+\_\+tgui\+\_\+control\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} $\ast$}]{control\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__control_8c_abe900962b32850540bf0ac54a5c2d480}\label{vsf__tgui__control_8c_abe900962b32850540bf0ac54a5c2d480}} 
+\index{vsf\_tgui\_control.c@{vsf\_tgui\_control.c}!vk\_tgui\_container\_init@{vk\_tgui\_container\_init}}
+\index{vk\_tgui\_container\_init@{vk\_tgui\_container\_init}!vsf\_tgui\_control.c@{vsf\_tgui\_control.c}}
+\doxysubsubsection{\texorpdfstring{vk\_tgui\_container\_init()}{vk\_tgui\_container\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vk\+\_\+tgui\+\_\+container\+\_\+init (\begin{DoxyParamCaption}\item[{vsf\+\_\+tgui\+\_\+container\+\_\+t $\ast$}]{container\+\_\+ptr }\end{DoxyParamCaption})}
+

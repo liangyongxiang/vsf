@@ -1,0 +1,110 @@
+\hypertarget{vsf__usbh__dfu_8c}{}\doxysection{source/component/usb/host/class/\+DFU/vsf\+\_\+usbh\+\_\+dfu.c File Reference}
+\label{vsf__usbh__dfu_8c}\index{source/component/usb/host/class/DFU/vsf\_usbh\_dfu.c@{source/component/usb/host/class/DFU/vsf\_usbh\_dfu.c}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+usbh.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+usbh\+\_\+dfu.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/usb/common/class/\+DFU/vsf\+\_\+usb\+\_\+dfu.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvk__usbh__dfu__t}{vk\+\_\+usbh\+\_\+dfu\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usbh__dfu_8c_ae68af52b29d55a0d7474c656fd71d931}{\+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__usbh__dfu_8c_a07f274e4add38aa9d2422e98ddcd91fc}{\+\_\+\+\_\+\+VSF\+\_\+\+USBH\+\_\+\+CLASS\+\_\+\+IMPLEMENT\+\_\+\+CLASS\+\_\+\+\_\+}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvk__usbh__dfu__t}{vk\+\_\+usbh\+\_\+dfu\+\_\+t}} \mbox{\hyperlink{vsf__usbh__dfu_8c_af669d5b06f680b8dfd19d124d86654b2}{vk\+\_\+usbh\+\_\+dfu\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__usbh__dfu_8c_a4d3f06971353e2d93bc4f12ad0c186ae}{vsf\+\_\+usbh\+\_\+dfu\+\_\+on\+\_\+new}} (void $\ast$dfu)
+\item 
+void \mbox{\hyperlink{vsf__usbh__dfu_8c_a460ea25bd4f953ce7f1ae12755692f29}{vsf\+\_\+usbh\+\_\+dfu\+\_\+on\+\_\+free}} (void $\ast$dfu)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__usbh__dfu_8c_a61b308f916c18b9c0113402aed25b09b}{vk\+\_\+usbh\+\_\+dfu\+\_\+get\+\_\+result}} (void $\ast$dfu\+\_\+ptr)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__usbh__dfu_8c_a117ba8d38151ca906e51d83c62b2f5f5}{\+\_\+\+\_\+vk\+\_\+usbh\+\_\+dfu\+\_\+operate}} (void $\ast$dfu\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} request)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvk__usbh__class__drv__t}{vk\+\_\+usbh\+\_\+class\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__usbh__dfu_8c_af64da1f57ebda168a033aeb9a4036b57}{vk\+\_\+usbh\+\_\+dfu\+\_\+drv}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__usbh__dfu_8c_ae68af52b29d55a0d7474c656fd71d931}\label{vsf__usbh__dfu_8c_ae68af52b29d55a0d7474c656fd71d931}} 
+\index{vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}!\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}!vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__usbh__dfu_8c_a07f274e4add38aa9d2422e98ddcd91fc}\label{vsf__usbh__dfu_8c_a07f274e4add38aa9d2422e98ddcd91fc}} 
+\index{vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}!\_\_VSF\_USBH\_CLASS\_IMPLEMENT\_CLASS\_\_@{\_\_VSF\_USBH\_CLASS\_IMPLEMENT\_CLASS\_\_}}
+\index{\_\_VSF\_USBH\_CLASS\_IMPLEMENT\_CLASS\_\_@{\_\_VSF\_USBH\_CLASS\_IMPLEMENT\_CLASS\_\_}!vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_USBH\_CLASS\_IMPLEMENT\_CLASS\_\_}{\_\_VSF\_USBH\_CLASS\_IMPLEMENT\_CLASS\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+USBH\+\_\+\+CLASS\+\_\+\+IMPLEMENT\+\_\+\+CLASS\+\_\+\+\_\+}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__usbh__dfu_8c_af669d5b06f680b8dfd19d124d86654b2}\label{vsf__usbh__dfu_8c_af669d5b06f680b8dfd19d124d86654b2}} 
+\index{vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}!vk\_usbh\_dfu\_t@{vk\_usbh\_dfu\_t}}
+\index{vk\_usbh\_dfu\_t@{vk\_usbh\_dfu\_t}!vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_dfu\_t}{vk\_usbh\_dfu\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__usbh__dfu__t}{vk\+\_\+usbh\+\_\+dfu\+\_\+t}} \mbox{\hyperlink{structvk__usbh__dfu__t}{vk\+\_\+usbh\+\_\+dfu\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__usbh__dfu_8c_a4d3f06971353e2d93bc4f12ad0c186ae}\label{vsf__usbh__dfu_8c_a4d3f06971353e2d93bc4f12ad0c186ae}} 
+\index{vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}!vsf\_usbh\_dfu\_on\_new@{vsf\_usbh\_dfu\_on\_new}}
+\index{vsf\_usbh\_dfu\_on\_new@{vsf\_usbh\_dfu\_on\_new}!vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_usbh\_dfu\_on\_new()}{vsf\_usbh\_dfu\_on\_new()}}
+{\footnotesize\ttfamily void vsf\+\_\+usbh\+\_\+dfu\+\_\+on\+\_\+new (\begin{DoxyParamCaption}\item[{void $\ast$}]{dfu }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbh__dfu_8c_a460ea25bd4f953ce7f1ae12755692f29}\label{vsf__usbh__dfu_8c_a460ea25bd4f953ce7f1ae12755692f29}} 
+\index{vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}!vsf\_usbh\_dfu\_on\_free@{vsf\_usbh\_dfu\_on\_free}}
+\index{vsf\_usbh\_dfu\_on\_free@{vsf\_usbh\_dfu\_on\_free}!vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_usbh\_dfu\_on\_free()}{vsf\_usbh\_dfu\_on\_free()}}
+{\footnotesize\ttfamily void vsf\+\_\+usbh\+\_\+dfu\+\_\+on\+\_\+free (\begin{DoxyParamCaption}\item[{void $\ast$}]{dfu }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbh__dfu_8c_a61b308f916c18b9c0113402aed25b09b}\label{vsf__usbh__dfu_8c_a61b308f916c18b9c0113402aed25b09b}} 
+\index{vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}!vk\_usbh\_dfu\_get\_result@{vk\_usbh\_dfu\_get\_result}}
+\index{vk\_usbh\_dfu\_get\_result@{vk\_usbh\_dfu\_get\_result}!vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_dfu\_get\_result()}{vk\_usbh\_dfu\_get\_result()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+usbh\+\_\+dfu\+\_\+get\+\_\+result (\begin{DoxyParamCaption}\item[{void $\ast$}]{dfu\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbh__dfu_8c_a117ba8d38151ca906e51d83c62b2f5f5}\label{vsf__usbh__dfu_8c_a117ba8d38151ca906e51d83c62b2f5f5}} 
+\index{vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}!\_\_vk\_usbh\_dfu\_operate@{\_\_vk\_usbh\_dfu\_operate}}
+\index{\_\_vk\_usbh\_dfu\_operate@{\_\_vk\_usbh\_dfu\_operate}!vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_usbh\_dfu\_operate()}{\_\_vk\_usbh\_dfu\_operate()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \+\_\+\+\_\+vk\+\_\+usbh\+\_\+dfu\+\_\+operate (\begin{DoxyParamCaption}\item[{void $\ast$}]{dfu\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buffer,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}]{request }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__usbh__dfu_8c_af64da1f57ebda168a033aeb9a4036b57}\label{vsf__usbh__dfu_8c_af64da1f57ebda168a033aeb9a4036b57}} 
+\index{vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}!vk\_usbh\_dfu\_drv@{vk\_usbh\_dfu\_drv}}
+\index{vk\_usbh\_dfu\_drv@{vk\_usbh\_dfu\_drv}!vsf\_usbh\_dfu.c@{vsf\_usbh\_dfu.c}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_dfu\_drv}{vk\_usbh\_dfu\_drv}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__usbh__class__drv__t}{vk\+\_\+usbh\+\_\+class\+\_\+drv\+\_\+t}} vk\+\_\+usbh\+\_\+dfu\+\_\+drv}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    .name       = \textcolor{stringliteral}{"{}dfu"{}},}
+\DoxyCodeLine{    .dev\_id\_num = \mbox{\hyperlink{____type_8h_a4ca0c9bf0cc1872043d7912499bfa3a2}{dimof}}(\_\_vk\_usbh\_dfu\_dev\_id),}
+\DoxyCodeLine{    .dev\_ids    = \_\_vk\_usbh\_dfu\_dev\_id,}
+\DoxyCodeLine{    .probe      = \_\_vk\_usbh\_dfu\_probe,}
+\DoxyCodeLine{    .disconnect = \_\_vk\_usbh\_dfu\_disconnect,}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

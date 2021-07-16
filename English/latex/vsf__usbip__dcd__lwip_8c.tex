@@ -1,0 +1,108 @@
+\hypertarget{vsf__usbip__dcd__lwip_8c}{}\doxysection{source/component/usb/driver/dcd/usbip\+\_\+dcd/backend/vsf\+\_\+usbip\+\_\+dcd\+\_\+lwip.c File Reference}
+\label{vsf__usbip__dcd__lwip_8c}\index{source/component/usb/driver/dcd/usbip\_dcd/backend/vsf\_usbip\_dcd\_lwip.c@{source/component/usb/driver/dcd/usbip\_dcd/backend/vsf\_usbip\_dcd\_lwip.c}}
+{\ttfamily \#include \char`\"{}../vsf\+\_\+usbip\+\_\+dcd.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lwip/tcpip.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}lwip/tcp.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvk__usbip__server__lwip__t}{vk\+\_\+usbip\+\_\+server\+\_\+lwip\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usbip__dcd__lwip_8c_ae68af52b29d55a0d7474c656fd71d931}{\+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__usbip__dcd__lwip_8c_a3ee3cbf62050470f46b067ec224940df}{\+\_\+\+\_\+\+VSF\+\_\+\+USBIP\+\_\+\+DCD\+\_\+\+CLASS\+\_\+\+IMPLEMENT\+\_\+\+BACKEND\+\_\+\+\_\+}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvk__usbip__server__lwip__t}{vk\+\_\+usbip\+\_\+server\+\_\+lwip\+\_\+t}} \mbox{\hyperlink{vsf__usbip__dcd__lwip_8c_a36c8436dd7e7258cbd39c2bd9f83b431}{vk\+\_\+usbip\+\_\+server\+\_\+lwip\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__usbip__dcd__lwip_8c_aac5d3cfefcb9aab2f3c04f92b460348e}{\+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+done\+\_\+urb}} (vk\+\_\+usbip\+\_\+server\+\_\+t $\ast$server, vk\+\_\+usbip\+\_\+urb\+\_\+t $\ast$urb)
+\item 
+struct pbuf $\ast$ \mbox{\hyperlink{vsf__usbip__dcd__lwip_8c_a25a3b8edc783896b03819a966d00845e}{pbuf\+\_\+free\+\_\+header}} (struct pbuf $\ast$q, \mbox{\hyperlink{xboot_2include_2types_8h_afc6499c1f28697aa3bfc2804d496fd11}{u16\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+void \mbox{\hyperlink{vsf__usbip__dcd__lwip_8c_ab8f59549362bb7c52061d6127e1a154d}{\+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+backend\+\_\+init}} (vk\+\_\+usbip\+\_\+server\+\_\+t $\ast$server)
+\item 
+void \mbox{\hyperlink{vsf__usbip__dcd__lwip_8c_a2e840f70236f6d6380135626b9a4df49}{\+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+backend\+\_\+close}} (void)
+\item 
+void \mbox{\hyperlink{vsf__usbip__dcd__lwip_8c_ab769b017351f550059c47d68b9c28bb5}{\+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+backend\+\_\+recv}} (\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__memfs_8h_a8b212742c92a124f2eb4a244acc19f7c}{buff}}, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+void \mbox{\hyperlink{vsf__usbip__dcd__lwip_8c_a92129dfcd5022defc2e822de0987ee24}{\+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+backend\+\_\+send}} (\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__memfs_8h_a8b212742c92a124f2eb4a244acc19f7c}{buff}}, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+void \mbox{\hyperlink{vsf__usbip__dcd__lwip_8c_ab38e1ec6f92ba9744ed8adc7df4da79f}{\+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+backend\+\_\+send\+\_\+urb}} (vk\+\_\+usbip\+\_\+urb\+\_\+t $\ast$urb)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__usbip__dcd__lwip_8c_ae68af52b29d55a0d7474c656fd71d931}\label{vsf__usbip__dcd__lwip_8c_ae68af52b29d55a0d7474c656fd71d931}} 
+\index{vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}!\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}!vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__usbip__dcd__lwip_8c_a3ee3cbf62050470f46b067ec224940df}\label{vsf__usbip__dcd__lwip_8c_a3ee3cbf62050470f46b067ec224940df}} 
+\index{vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}!\_\_VSF\_USBIP\_DCD\_CLASS\_IMPLEMENT\_BACKEND\_\_@{\_\_VSF\_USBIP\_DCD\_CLASS\_IMPLEMENT\_BACKEND\_\_}}
+\index{\_\_VSF\_USBIP\_DCD\_CLASS\_IMPLEMENT\_BACKEND\_\_@{\_\_VSF\_USBIP\_DCD\_CLASS\_IMPLEMENT\_BACKEND\_\_}!vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_USBIP\_DCD\_CLASS\_IMPLEMENT\_BACKEND\_\_}{\_\_VSF\_USBIP\_DCD\_CLASS\_IMPLEMENT\_BACKEND\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+USBIP\+\_\+\+DCD\+\_\+\+CLASS\+\_\+\+IMPLEMENT\+\_\+\+BACKEND\+\_\+\+\_\+}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__usbip__dcd__lwip_8c_a36c8436dd7e7258cbd39c2bd9f83b431}\label{vsf__usbip__dcd__lwip_8c_a36c8436dd7e7258cbd39c2bd9f83b431}} 
+\index{vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}!vk\_usbip\_server\_lwip\_t@{vk\_usbip\_server\_lwip\_t}}
+\index{vk\_usbip\_server\_lwip\_t@{vk\_usbip\_server\_lwip\_t}!vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}}
+\doxysubsubsection{\texorpdfstring{vk\_usbip\_server\_lwip\_t}{vk\_usbip\_server\_lwip\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__usbip__server__lwip__t}{vk\+\_\+usbip\+\_\+server\+\_\+lwip\+\_\+t}} \mbox{\hyperlink{structvk__usbip__server__lwip__t}{vk\+\_\+usbip\+\_\+server\+\_\+lwip\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__usbip__dcd__lwip_8c_aac5d3cfefcb9aab2f3c04f92b460348e}\label{vsf__usbip__dcd__lwip_8c_aac5d3cfefcb9aab2f3c04f92b460348e}} 
+\index{vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}!\_\_vk\_usbip\_server\_done\_urb@{\_\_vk\_usbip\_server\_done\_urb}}
+\index{\_\_vk\_usbip\_server\_done\_urb@{\_\_vk\_usbip\_server\_done\_urb}!vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_usbip\_server\_done\_urb()}{\_\_vk\_usbip\_server\_done\_urb()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+done\+\_\+urb (\begin{DoxyParamCaption}\item[{vk\+\_\+usbip\+\_\+server\+\_\+t $\ast$}]{server,  }\item[{vk\+\_\+usbip\+\_\+urb\+\_\+t $\ast$}]{urb }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbip__dcd__lwip_8c_a25a3b8edc783896b03819a966d00845e}\label{vsf__usbip__dcd__lwip_8c_a25a3b8edc783896b03819a966d00845e}} 
+\index{vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}!pbuf\_free\_header@{pbuf\_free\_header}}
+\index{pbuf\_free\_header@{pbuf\_free\_header}!vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}}
+\doxysubsubsection{\texorpdfstring{pbuf\_free\_header()}{pbuf\_free\_header()}}
+{\footnotesize\ttfamily struct pbuf$\ast$ pbuf\+\_\+free\+\_\+header (\begin{DoxyParamCaption}\item[{struct pbuf $\ast$}]{q,  }\item[{\mbox{\hyperlink{xboot_2include_2types_8h_afc6499c1f28697aa3bfc2804d496fd11}{u16\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbip__dcd__lwip_8c_ab8f59549362bb7c52061d6127e1a154d}\label{vsf__usbip__dcd__lwip_8c_ab8f59549362bb7c52061d6127e1a154d}} 
+\index{vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}!\_\_vk\_usbip\_server\_backend\_init@{\_\_vk\_usbip\_server\_backend\_init}}
+\index{\_\_vk\_usbip\_server\_backend\_init@{\_\_vk\_usbip\_server\_backend\_init}!vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_usbip\_server\_backend\_init()}{\_\_vk\_usbip\_server\_backend\_init()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+backend\+\_\+init (\begin{DoxyParamCaption}\item[{vk\+\_\+usbip\+\_\+server\+\_\+t $\ast$}]{server }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbip__dcd__lwip_8c_a2e840f70236f6d6380135626b9a4df49}\label{vsf__usbip__dcd__lwip_8c_a2e840f70236f6d6380135626b9a4df49}} 
+\index{vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}!\_\_vk\_usbip\_server\_backend\_close@{\_\_vk\_usbip\_server\_backend\_close}}
+\index{\_\_vk\_usbip\_server\_backend\_close@{\_\_vk\_usbip\_server\_backend\_close}!vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_usbip\_server\_backend\_close()}{\_\_vk\_usbip\_server\_backend\_close()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+backend\+\_\+close (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbip__dcd__lwip_8c_ab769b017351f550059c47d68b9c28bb5}\label{vsf__usbip__dcd__lwip_8c_ab769b017351f550059c47d68b9c28bb5}} 
+\index{vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}!\_\_vk\_usbip\_server\_backend\_recv@{\_\_vk\_usbip\_server\_backend\_recv}}
+\index{\_\_vk\_usbip\_server\_backend\_recv@{\_\_vk\_usbip\_server\_backend\_recv}!vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_usbip\_server\_backend\_recv()}{\_\_vk\_usbip\_server\_backend\_recv()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+backend\+\_\+recv (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buff,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbip__dcd__lwip_8c_a92129dfcd5022defc2e822de0987ee24}\label{vsf__usbip__dcd__lwip_8c_a92129dfcd5022defc2e822de0987ee24}} 
+\index{vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}!\_\_vk\_usbip\_server\_backend\_send@{\_\_vk\_usbip\_server\_backend\_send}}
+\index{\_\_vk\_usbip\_server\_backend\_send@{\_\_vk\_usbip\_server\_backend\_send}!vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_usbip\_server\_backend\_send()}{\_\_vk\_usbip\_server\_backend\_send()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+backend\+\_\+send (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buff,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbip__dcd__lwip_8c_ab38e1ec6f92ba9744ed8adc7df4da79f}\label{vsf__usbip__dcd__lwip_8c_ab38e1ec6f92ba9744ed8adc7df4da79f}} 
+\index{vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}!\_\_vk\_usbip\_server\_backend\_send\_urb@{\_\_vk\_usbip\_server\_backend\_send\_urb}}
+\index{\_\_vk\_usbip\_server\_backend\_send\_urb@{\_\_vk\_usbip\_server\_backend\_send\_urb}!vsf\_usbip\_dcd\_lwip.c@{vsf\_usbip\_dcd\_lwip.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_usbip\_server\_backend\_send\_urb()}{\_\_vk\_usbip\_server\_backend\_send\_urb()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vk\+\_\+usbip\+\_\+server\+\_\+backend\+\_\+send\+\_\+urb (\begin{DoxyParamCaption}\item[{vk\+\_\+usbip\+\_\+urb\+\_\+t $\ast$}]{urb }\end{DoxyParamCaption})}
+

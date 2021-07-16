@@ -1,0 +1,294 @@
+\hypertarget{vsf__usb___h_u_b_8h}{}\doxysection{source/component/usb/common/class/\+HUB/vsf\+\_\+usb\+\_\+\+HUB.h File Reference}
+\label{vsf__usb___h_u_b_8h}\index{source/component/usb/common/class/HUB/vsf\_usb\_HUB.h@{source/component/usb/common/class/HUB/vsf\_usb\_HUB.h}}
+{\ttfamily \#include \char`\"{}utilities/vsf\+\_\+utilities.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structusb__hub__desc__t}{usb\+\_\+hub\+\_\+desc\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structusb__port__status__t}{usb\+\_\+port\+\_\+status\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usb___h_u_b_8h_a7c9ce6328443edf15648f578c7c5f00d}{USB\+\_\+\+MAXCHILDREN}}~31
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structusb__hub__desc__t}{usb\+\_\+hub\+\_\+desc\+\_\+t}} \mbox{\hyperlink{vsf__usb___h_u_b_8h_a0bf4b1a062e1630baddfdbe95c1b5d1e}{usb\+\_\+hub\+\_\+desc\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structusb__port__status__t}{usb\+\_\+port\+\_\+status\+\_\+t}} \mbox{\hyperlink{vsf__usb___h_u_b_8h_ae7f2f133a1737f69c8409017a4c573f2}{usb\+\_\+port\+\_\+status\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fe}{usb\+\_\+port\+\_\+feature\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea3d6511f9354461385130ea040c966b49}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+CONNECTION}} = 0
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea85cc0d3287cd30661c960db03835809d}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+ENABLE}} = 1
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea20a0abb82e294e886fd3bfe409d6790c}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+SUSPEND}} = 2
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea1fa4f8cb7cc12b739b094e5f1e441fb7}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+OVER\+\_\+\+CURRENT}} = 3
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea871a9fab0aad066ed6b344624394f317}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+RESET}} = 4
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feadc68aacd4d33bdd6a0204c3a95f66006}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+L1}} = 5
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea0b4b6bbb486a67065190f2101ccc95eb}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+POWER}} = 8
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea60fd721a44d30077ac4f0b21e423790a}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+LOWSPEED}} = 9
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea3e7dfcad29d1a1a1568c0a7f8a09982d}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+CONNECTION}} = 16
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feac5390e34cb8c6d9f88e221ad2bef7925}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+ENABLE}} = 17
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea7fe19ca0fefb6f64038dfb6178fdc50d}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+SUSPEND}} = 18
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feacd03ecd80e2570cd7cb50a8a4f6e8ad7}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+OVER\+\_\+\+CURRENT}} = 19
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea2a86ac881c470abdaa34791ea76e0e2b}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+RESET}} = 20
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feacf6e76f11d6ca37ee72a6b0967b40509}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+TEST}} = 21
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feaff079c88ccea7dfbd877987a0cbc7b67}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+INDICATOR}} = 22
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea5499962f541778d32b350b53ab199e1c}{USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+PORT\+\_\+\+L1}} = 23
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49}{usb\+\_\+port\+\_\+state\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49ae60c5d14e9b8c17d023f572de4d7cf5c}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+CONNECTION}} = 0x0001
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a240d027c72fd79a6fa8ceea858712080}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+ENABLE}} = 0x0002
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49aa634ec56d94c1d473b2405f563c320e3}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+SUSPEND}} = 0x0004
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a26c026a287f899b0350dcc28aeb7966d}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+OVERCURRENT}} = 0x0008
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49ad23dc5650e37ad90e143af56becc1144}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+RESET}} = 0x0010
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a019bb24643f63c5f564908f38185f008}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+L1}} = 0x0020
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a7c851671a080eba0864ab5f5b8a23b45}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+POWER}} = 0x0100
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a75dfa001fedbac88868a0ad91a744967}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+LOW\+\_\+\+SPEED}} = 0x0200
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a4e1884f020b8be6d954d508841f1a5e2}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+HIGH\+\_\+\+SPEED}} = 0x0400
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a62dc1cde4d55424a0fb73cc1d9e9b628}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+TEST}} = 0x0800
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49aa4eb4bf315601d71f0542f96b9b7e748}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+INDICATOR}} = 0x1000
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1d}{usb\+\_\+port\+\_\+change\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1daa9bc632aa853da1556d5bfeac2fd3995}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+CONNECTION}} = 0x0001
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da010d4688157d313cfa3981b96fc3af83}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+ENABLE}} = 0x0002
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da6b69131acc06d937924260db19095702}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+SUSPEND}} = 0x0004
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da19faf2af276a8614946964ae133c3d7e}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+OVERCURRENT}} = 0x0008
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da656717ab4aecaee120ed81ccd99691c3}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+RESET}} = 0x0010
+, \newline
+\mbox{\hyperlink{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1dafd46005786682369c564e62969977ef3}{USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+L1}} = 0x0020
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structusb__hub__desc__t}{usb\+\_\+hub\+\_\+desc\+\_\+t}} \mbox{\hyperlink{vsf__usb___h_u_b_8h_a48f21e5e12f219a04b13ee0f338b6d94}{PACKED}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a7c9ce6328443edf15648f578c7c5f00d}\label{vsf__usb___h_u_b_8h_a7c9ce6328443edf15648f578c7c5f00d}} 
+\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_MAXCHILDREN@{USB\_MAXCHILDREN}}
+\index{USB\_MAXCHILDREN@{USB\_MAXCHILDREN}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}
+\doxysubsubsection{\texorpdfstring{USB\_MAXCHILDREN}{USB\_MAXCHILDREN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+MAXCHILDREN~31}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a0bf4b1a062e1630baddfdbe95c1b5d1e}\label{vsf__usb___h_u_b_8h_a0bf4b1a062e1630baddfdbe95c1b5d1e}} 
+\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!usb\_hub\_desc\_t@{usb\_hub\_desc\_t}}
+\index{usb\_hub\_desc\_t@{usb\_hub\_desc\_t}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}
+\doxysubsubsection{\texorpdfstring{usb\_hub\_desc\_t}{usb\_hub\_desc\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structusb__hub__desc__t}{usb\+\_\+hub\+\_\+desc\+\_\+t}} \mbox{\hyperlink{structusb__hub__desc__t}{usb\+\_\+hub\+\_\+desc\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ae7f2f133a1737f69c8409017a4c573f2}\label{vsf__usb___h_u_b_8h_ae7f2f133a1737f69c8409017a4c573f2}} 
+\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!usb\_port\_status\_t@{usb\_port\_status\_t}}
+\index{usb\_port\_status\_t@{usb\_port\_status\_t}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}
+\doxysubsubsection{\texorpdfstring{usb\_port\_status\_t}{usb\_port\_status\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structusb__port__status__t}{usb\+\_\+port\+\_\+status\+\_\+t}} \mbox{\hyperlink{structusb__port__status__t}{usb\+\_\+port\+\_\+status\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fe}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fe}} 
+\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!usb\_port\_feature\_t@{usb\_port\_feature\_t}}
+\index{usb\_port\_feature\_t@{usb\_port\_feature\_t}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}
+\doxysubsubsection{\texorpdfstring{usb\_port\_feature\_t}{usb\_port\_feature\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fe}{usb\+\_\+port\+\_\+feature\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_CONNECTION@{USB\_PORT\_FEAT\_CONNECTION}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_CONNECTION@{USB\_PORT\_FEAT\_CONNECTION}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea3d6511f9354461385130ea040c966b49}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea3d6511f9354461385130ea040c966b49}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+CONNECTION&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_ENABLE@{USB\_PORT\_FEAT\_ENABLE}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_ENABLE@{USB\_PORT\_FEAT\_ENABLE}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea85cc0d3287cd30661c960db03835809d}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea85cc0d3287cd30661c960db03835809d}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+ENABLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_SUSPEND@{USB\_PORT\_FEAT\_SUSPEND}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_SUSPEND@{USB\_PORT\_FEAT\_SUSPEND}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea20a0abb82e294e886fd3bfe409d6790c}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea20a0abb82e294e886fd3bfe409d6790c}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+SUSPEND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_OVER\_CURRENT@{USB\_PORT\_FEAT\_OVER\_CURRENT}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_OVER\_CURRENT@{USB\_PORT\_FEAT\_OVER\_CURRENT}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea1fa4f8cb7cc12b739b094e5f1e441fb7}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea1fa4f8cb7cc12b739b094e5f1e441fb7}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+OVER\+\_\+\+CURRENT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_RESET@{USB\_PORT\_FEAT\_RESET}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_RESET@{USB\_PORT\_FEAT\_RESET}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea871a9fab0aad066ed6b344624394f317}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea871a9fab0aad066ed6b344624394f317}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+RESET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_L1@{USB\_PORT\_FEAT\_L1}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_L1@{USB\_PORT\_FEAT\_L1}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feadc68aacd4d33bdd6a0204c3a95f66006}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feadc68aacd4d33bdd6a0204c3a95f66006}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+L1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_POWER@{USB\_PORT\_FEAT\_POWER}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_POWER@{USB\_PORT\_FEAT\_POWER}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea0b4b6bbb486a67065190f2101ccc95eb}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea0b4b6bbb486a67065190f2101ccc95eb}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+POWER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_LOWSPEED@{USB\_PORT\_FEAT\_LOWSPEED}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_LOWSPEED@{USB\_PORT\_FEAT\_LOWSPEED}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea60fd721a44d30077ac4f0b21e423790a}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea60fd721a44d30077ac4f0b21e423790a}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+LOWSPEED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_C\_CONNECTION@{USB\_PORT\_FEAT\_C\_CONNECTION}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_C\_CONNECTION@{USB\_PORT\_FEAT\_C\_CONNECTION}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea3e7dfcad29d1a1a1568c0a7f8a09982d}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea3e7dfcad29d1a1a1568c0a7f8a09982d}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+CONNECTION&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_C\_ENABLE@{USB\_PORT\_FEAT\_C\_ENABLE}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_C\_ENABLE@{USB\_PORT\_FEAT\_C\_ENABLE}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feac5390e34cb8c6d9f88e221ad2bef7925}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feac5390e34cb8c6d9f88e221ad2bef7925}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+ENABLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_C\_SUSPEND@{USB\_PORT\_FEAT\_C\_SUSPEND}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_C\_SUSPEND@{USB\_PORT\_FEAT\_C\_SUSPEND}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea7fe19ca0fefb6f64038dfb6178fdc50d}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea7fe19ca0fefb6f64038dfb6178fdc50d}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+SUSPEND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_C\_OVER\_CURRENT@{USB\_PORT\_FEAT\_C\_OVER\_CURRENT}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_C\_OVER\_CURRENT@{USB\_PORT\_FEAT\_C\_OVER\_CURRENT}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feacd03ecd80e2570cd7cb50a8a4f6e8ad7}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feacd03ecd80e2570cd7cb50a8a4f6e8ad7}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+OVER\+\_\+\+CURRENT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_C\_RESET@{USB\_PORT\_FEAT\_C\_RESET}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_C\_RESET@{USB\_PORT\_FEAT\_C\_RESET}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea2a86ac881c470abdaa34791ea76e0e2b}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea2a86ac881c470abdaa34791ea76e0e2b}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+RESET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_TEST@{USB\_PORT\_FEAT\_TEST}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_TEST@{USB\_PORT\_FEAT\_TEST}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feacf6e76f11d6ca37ee72a6b0967b40509}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feacf6e76f11d6ca37ee72a6b0967b40509}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+TEST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_INDICATOR@{USB\_PORT\_FEAT\_INDICATOR}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_INDICATOR@{USB\_PORT\_FEAT\_INDICATOR}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feaff079c88ccea7dfbd877987a0cbc7b67}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727feaff079c88ccea7dfbd877987a0cbc7b67}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+INDICATOR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_FEAT\_C\_PORT\_L1@{USB\_PORT\_FEAT\_C\_PORT\_L1}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_FEAT\_C\_PORT\_L1@{USB\_PORT\_FEAT\_C\_PORT\_L1}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea5499962f541778d32b350b53ab199e1c}\label{vsf__usb___h_u_b_8h_a1d4eb1986099f58630d96ef837e727fea5499962f541778d32b350b53ab199e1c}} 
+USB\+\_\+\+PORT\+\_\+\+FEAT\+\_\+\+C\+\_\+\+PORT\+\_\+\+L1&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49}} 
+\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!usb\_port\_state\_t@{usb\_port\_state\_t}}
+\index{usb\_port\_state\_t@{usb\_port\_state\_t}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}
+\doxysubsubsection{\texorpdfstring{usb\_port\_state\_t}{usb\_port\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49}{usb\+\_\+port\+\_\+state\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_CONNECTION@{USB\_PORT\_STAT\_CONNECTION}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_CONNECTION@{USB\_PORT\_STAT\_CONNECTION}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49ae60c5d14e9b8c17d023f572de4d7cf5c}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49ae60c5d14e9b8c17d023f572de4d7cf5c}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+CONNECTION&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_ENABLE@{USB\_PORT\_STAT\_ENABLE}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_ENABLE@{USB\_PORT\_STAT\_ENABLE}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a240d027c72fd79a6fa8ceea858712080}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a240d027c72fd79a6fa8ceea858712080}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+ENABLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_SUSPEND@{USB\_PORT\_STAT\_SUSPEND}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_SUSPEND@{USB\_PORT\_STAT\_SUSPEND}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49aa634ec56d94c1d473b2405f563c320e3}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49aa634ec56d94c1d473b2405f563c320e3}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+SUSPEND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_OVERCURRENT@{USB\_PORT\_STAT\_OVERCURRENT}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_OVERCURRENT@{USB\_PORT\_STAT\_OVERCURRENT}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a26c026a287f899b0350dcc28aeb7966d}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a26c026a287f899b0350dcc28aeb7966d}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+OVERCURRENT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_RESET@{USB\_PORT\_STAT\_RESET}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_RESET@{USB\_PORT\_STAT\_RESET}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49ad23dc5650e37ad90e143af56becc1144}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49ad23dc5650e37ad90e143af56becc1144}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+RESET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_L1@{USB\_PORT\_STAT\_L1}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_L1@{USB\_PORT\_STAT\_L1}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a019bb24643f63c5f564908f38185f008}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a019bb24643f63c5f564908f38185f008}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+L1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_POWER@{USB\_PORT\_STAT\_POWER}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_POWER@{USB\_PORT\_STAT\_POWER}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a7c851671a080eba0864ab5f5b8a23b45}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a7c851671a080eba0864ab5f5b8a23b45}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+POWER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_LOW\_SPEED@{USB\_PORT\_STAT\_LOW\_SPEED}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_LOW\_SPEED@{USB\_PORT\_STAT\_LOW\_SPEED}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a75dfa001fedbac88868a0ad91a744967}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a75dfa001fedbac88868a0ad91a744967}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+LOW\+\_\+\+SPEED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_HIGH\_SPEED@{USB\_PORT\_STAT\_HIGH\_SPEED}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_HIGH\_SPEED@{USB\_PORT\_STAT\_HIGH\_SPEED}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a4e1884f020b8be6d954d508841f1a5e2}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a4e1884f020b8be6d954d508841f1a5e2}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+HIGH\+\_\+\+SPEED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_TEST@{USB\_PORT\_STAT\_TEST}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_TEST@{USB\_PORT\_STAT\_TEST}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a62dc1cde4d55424a0fb73cc1d9e9b628}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49a62dc1cde4d55424a0fb73cc1d9e9b628}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+TEST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_INDICATOR@{USB\_PORT\_STAT\_INDICATOR}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_INDICATOR@{USB\_PORT\_STAT\_INDICATOR}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49aa4eb4bf315601d71f0542f96b9b7e748}\label{vsf__usb___h_u_b_8h_ab197ba40c440fd3a10ffded6a999ad49aa4eb4bf315601d71f0542f96b9b7e748}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+INDICATOR&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1d}\label{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1d}} 
+\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!usb\_port\_change\_t@{usb\_port\_change\_t}}
+\index{usb\_port\_change\_t@{usb\_port\_change\_t}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}
+\doxysubsubsection{\texorpdfstring{usb\_port\_change\_t}{usb\_port\_change\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1d}{usb\+\_\+port\+\_\+change\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_C\_CONNECTION@{USB\_PORT\_STAT\_C\_CONNECTION}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_C\_CONNECTION@{USB\_PORT\_STAT\_C\_CONNECTION}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1daa9bc632aa853da1556d5bfeac2fd3995}\label{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1daa9bc632aa853da1556d5bfeac2fd3995}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+CONNECTION&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_C\_ENABLE@{USB\_PORT\_STAT\_C\_ENABLE}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_C\_ENABLE@{USB\_PORT\_STAT\_C\_ENABLE}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da010d4688157d313cfa3981b96fc3af83}\label{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da010d4688157d313cfa3981b96fc3af83}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+ENABLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_C\_SUSPEND@{USB\_PORT\_STAT\_C\_SUSPEND}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_C\_SUSPEND@{USB\_PORT\_STAT\_C\_SUSPEND}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da6b69131acc06d937924260db19095702}\label{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da6b69131acc06d937924260db19095702}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+SUSPEND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_C\_OVERCURRENT@{USB\_PORT\_STAT\_C\_OVERCURRENT}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_C\_OVERCURRENT@{USB\_PORT\_STAT\_C\_OVERCURRENT}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da19faf2af276a8614946964ae133c3d7e}\label{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da19faf2af276a8614946964ae133c3d7e}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+OVERCURRENT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_C\_RESET@{USB\_PORT\_STAT\_C\_RESET}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_C\_RESET@{USB\_PORT\_STAT\_C\_RESET}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da656717ab4aecaee120ed81ccd99691c3}\label{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1da656717ab4aecaee120ed81ccd99691c3}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+RESET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{USB\_PORT\_STAT\_C\_L1@{USB\_PORT\_STAT\_C\_L1}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!USB\_PORT\_STAT\_C\_L1@{USB\_PORT\_STAT\_C\_L1}}}\mbox{\Hypertarget{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1dafd46005786682369c564e62969977ef3}\label{vsf__usb___h_u_b_8h_ad20fad59a2bc0d5bc10286a75c8d7f1dafd46005786682369c564e62969977ef3}} 
+USB\+\_\+\+PORT\+\_\+\+STAT\+\_\+\+C\+\_\+\+L1&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__usb___h_u_b_8h_a48f21e5e12f219a04b13ee0f338b6d94}\label{vsf__usb___h_u_b_8h_a48f21e5e12f219a04b13ee0f338b6d94}} 
+\index{vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}!PACKED@{PACKED}}
+\index{PACKED@{PACKED}!vsf\_usb\_HUB.h@{vsf\_usb\_HUB.h}}
+\doxysubsubsection{\texorpdfstring{PACKED}{PACKED}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structusb__port__status__t}{usb\+\_\+port\+\_\+status\+\_\+t}} PACKED}
+

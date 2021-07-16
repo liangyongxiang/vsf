@@ -1,0 +1,296 @@
+\hypertarget{vsf__disp__vga__m480_8c}{}\doxysection{source/component/ui/disp/driver/vga/m480/vsf\+\_\+disp\+\_\+vga\+\_\+m480.c File Reference}
+\label{vsf__disp__vga__m480_8c}\index{source/component/ui/disp/driver/vga/m480/vsf\_disp\_vga\_m480.c@{source/component/ui/disp/driver/vga/m480/vsf\_disp\_vga\_m480.c}}
+{\ttfamily \#include \char`\"{}component/ui/vsf\+\_\+ui\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../../vsf\+\_\+disp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+disp\+\_\+vga\+\_\+m480.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structm480__pdma__desc__t}{m480\+\_\+pdma\+\_\+desc\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvga__m480__t}{vga\+\_\+m480\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_ae68af52b29d55a0d7474c656fd71d931}{\+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_af99b8578fffc21cf409b8a2b4de350f5}{\+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_aa343b9ab074a4082d06eccb0143d49c9}{\+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+VGA\+\_\+\+M480\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV}}~4
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_adcb4c02a22a281dd50a9a8c0422213c0}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+Y\+\_\+\+DIV}}~4
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_ae4cb56574208924a41cff58e057a324e}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+PIXEL\+\_\+\+CLK}}~(36 $\ast$ 1000 $\ast$ 1000)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_af5a1d4dad759b49bc7d47aa434c52aa2}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+SYNC\+\_\+\+PIXELS}}~72
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a3f0ad5f97a857c7dfff301b07a74ac7e}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+FPORCH\+\_\+\+PIXELS}}~24
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_aa4ad562cf520d629974b1818b6ffbccf}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+ACTIVE\+\_\+\+PIXELS}}~800
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a15506bce31aa54ff1bc511437e594143}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+BPORCH\+\_\+\+PIXELS}}~128
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_aaf5fea2c2502a7d57434e4b688fb8577}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+SYNC\+\_\+\+LINES}}~2
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a1e09cd513c6a5d3cf5c0966356646e30}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+FPORCH\+\_\+\+LINES}}~1
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a03f64275d206fecc4e4ef77f8f559510}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+ACTIVE\+\_\+\+LINES}}~600
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_ab89c2e2669ce1e8c420c1f6392d9c032}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+BPORCH\+\_\+\+LINES}}~22
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a4c7da1e398055b6e3ff8a19ac936c340}{VGA\+\_\+\+M480\+\_\+\+PIXEL\+\_\+\+CLK}}~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_ae4cb56574208924a41cff58e057a324e}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+PIXEL\+\_\+\+CLK}} / \mbox{\hyperlink{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV}})
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a44015808d7d21e24acd35dffa8fdd0e3}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+SYNC\+\_\+\+PIXELS}}~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_af5a1d4dad759b49bc7d47aa434c52aa2}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+SYNC\+\_\+\+PIXELS}} / \mbox{\hyperlink{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV}})
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a1b3c0a4e6037aea7e369e7eb88bc846d}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+FPORCH\+\_\+\+PIXELS}}~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_a3f0ad5f97a857c7dfff301b07a74ac7e}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+FPORCH\+\_\+\+PIXELS}} / \mbox{\hyperlink{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV}})
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a70658fa4826695a911b74f6849176830}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+ACTIVE\+\_\+\+PIXELS}}~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_aa4ad562cf520d629974b1818b6ffbccf}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+ACTIVE\+\_\+\+PIXELS}} / \mbox{\hyperlink{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV}})
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a16b4dc61c36a4c4d573d03bc5a2f527f}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+BPORCH\+\_\+\+PIXELS}}~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_a15506bce31aa54ff1bc511437e594143}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+BPORCH\+\_\+\+PIXELS}} / \mbox{\hyperlink{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV}})
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a01d8e4a79de0a4306fad7169bf731a16}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+PIXELS}}~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_a44015808d7d21e24acd35dffa8fdd0e3}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+SYNC\+\_\+\+PIXELS}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a1b3c0a4e6037aea7e369e7eb88bc846d}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+FPORCH\+\_\+\+PIXELS}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a70658fa4826695a911b74f6849176830}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+ACTIVE\+\_\+\+PIXELS}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a16b4dc61c36a4c4d573d03bc5a2f527f}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+BPORCH\+\_\+\+PIXELS}})
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a930982c101972c9caa3637e50588771f}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+SYNC\+\_\+\+LINES}}~\mbox{\hyperlink{vsf__disp__vga__m480_8c_aaf5fea2c2502a7d57434e4b688fb8577}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+SYNC\+\_\+\+LINES}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a569d32be339a2f56b1560de277614dd4}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+FPORCH\+\_\+\+LINES}}~\mbox{\hyperlink{vsf__disp__vga__m480_8c_a1e09cd513c6a5d3cf5c0966356646e30}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+FPORCH\+\_\+\+LINES}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a33899394a1885046d5c7f2064c50d745}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+ACTIVE\+\_\+\+LINES}}~\mbox{\hyperlink{vsf__disp__vga__m480_8c_a03f64275d206fecc4e4ef77f8f559510}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+ACTIVE\+\_\+\+LINES}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_a31e7367e4ffa30e05d29883935666215}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+BPORCH\+\_\+\+LINES}}~\mbox{\hyperlink{vsf__disp__vga__m480_8c_ab89c2e2669ce1e8c420c1f6392d9c032}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+BPORCH\+\_\+\+LINES}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__vga__m480_8c_ad1b356a7fceb138158998780d0e37922}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+LINES}}~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_a930982c101972c9caa3637e50588771f}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+SYNC\+\_\+\+LINES}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a569d32be339a2f56b1560de277614dd4}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+FPORCH\+\_\+\+LINES}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a33899394a1885046d5c7f2064c50d745}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+ACTIVE\+\_\+\+LINES}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a31e7367e4ffa30e05d29883935666215}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+BPORCH\+\_\+\+LINES}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structm480__pdma__desc__t}{m480\+\_\+pdma\+\_\+desc\+\_\+t}} \mbox{\hyperlink{vsf__disp__vga__m480_8c_a55637ae18556c709536e5ee7bd4b2cc7}{m480\+\_\+pdma\+\_\+desc\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvga__m480__t}{vga\+\_\+m480\+\_\+t}} \mbox{\hyperlink{vsf__disp__vga__m480_8c_a13009687f736924bcf807f243c9da564}{vga\+\_\+m480\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{vsf__disp__vga__m480_8c_abe974f22edeef8189603ba75fd90ff3ca90039d7260262f128331e96d176368bd}{VSF\+\_\+\+EVT\+\_\+\+REFRESH}} = VSF\+\_\+\+EVT\+\_\+\+USER
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__disp__vga__m480_8c_a44bf1dff57326410f6074df47ef8423f}{PDMA\+\_\+\+IRQHandler}} (void)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__disp__vga__m480_8c_ad637e458d12fedbe20ab08ba6b164375}{vk\+\_\+disp\+\_\+drv\+\_\+vga\+\_\+m480}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_ae68af52b29d55a0d7474c656fd71d931}\label{vsf__disp__vga__m480_8c_ae68af52b29d55a0d7474c656fd71d931}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_af99b8578fffc21cf409b8a2b4de350f5}\label{vsf__disp__vga__m480_8c_af99b8578fffc21cf409b8a2b4de350f5}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!\_\_VSF\_DISP\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_aa343b9ab074a4082d06eccb0143d49c9}\label{vsf__disp__vga__m480_8c_aa343b9ab074a4082d06eccb0143d49c9}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!\_\_VSF\_DISP\_VGA\_M480\_CLASS\_IMPLEMENT@{\_\_VSF\_DISP\_VGA\_M480\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_DISP\_VGA\_M480\_CLASS\_IMPLEMENT@{\_\_VSF\_DISP\_VGA\_M480\_CLASS\_IMPLEMENT}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISP\_VGA\_M480\_CLASS\_IMPLEMENT}{\_\_VSF\_DISP\_VGA\_M480\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+VGA\+\_\+\+M480\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}\label{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_CFG\_X\_DIV@{VGA\_M480\_CFG\_X\_DIV}}
+\index{VGA\_M480\_CFG\_X\_DIV@{VGA\_M480\_CFG\_X\_DIV}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_CFG\_X\_DIV}{VGA\_M480\_CFG\_X\_DIV}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV~4}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_adcb4c02a22a281dd50a9a8c0422213c0}\label{vsf__disp__vga__m480_8c_adcb4c02a22a281dd50a9a8c0422213c0}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_CFG\_Y\_DIV@{VGA\_M480\_CFG\_Y\_DIV}}
+\index{VGA\_M480\_CFG\_Y\_DIV@{VGA\_M480\_CFG\_Y\_DIV}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_CFG\_Y\_DIV}{VGA\_M480\_CFG\_Y\_DIV}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+Y\+\_\+\+DIV~4}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_ae4cb56574208924a41cff58e057a324e}\label{vsf__disp__vga__m480_8c_ae4cb56574208924a41cff58e057a324e}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_CFG\_PIXEL\_CLK@{VGA\_M480\_CFG\_PIXEL\_CLK}}
+\index{VGA\_M480\_CFG\_PIXEL\_CLK@{VGA\_M480\_CFG\_PIXEL\_CLK}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_CFG\_PIXEL\_CLK}{VGA\_M480\_CFG\_PIXEL\_CLK}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+PIXEL\+\_\+\+CLK~(36 $\ast$ 1000 $\ast$ 1000)}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_af5a1d4dad759b49bc7d47aa434c52aa2}\label{vsf__disp__vga__m480_8c_af5a1d4dad759b49bc7d47aa434c52aa2}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_CFG\_H\_SYNC\_PIXELS@{VGA\_M480\_CFG\_H\_SYNC\_PIXELS}}
+\index{VGA\_M480\_CFG\_H\_SYNC\_PIXELS@{VGA\_M480\_CFG\_H\_SYNC\_PIXELS}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_CFG\_H\_SYNC\_PIXELS}{VGA\_M480\_CFG\_H\_SYNC\_PIXELS}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+SYNC\+\_\+\+PIXELS~72}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a3f0ad5f97a857c7dfff301b07a74ac7e}\label{vsf__disp__vga__m480_8c_a3f0ad5f97a857c7dfff301b07a74ac7e}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_CFG\_H\_FPORCH\_PIXELS@{VGA\_M480\_CFG\_H\_FPORCH\_PIXELS}}
+\index{VGA\_M480\_CFG\_H\_FPORCH\_PIXELS@{VGA\_M480\_CFG\_H\_FPORCH\_PIXELS}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_CFG\_H\_FPORCH\_PIXELS}{VGA\_M480\_CFG\_H\_FPORCH\_PIXELS}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+FPORCH\+\_\+\+PIXELS~24}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_aa4ad562cf520d629974b1818b6ffbccf}\label{vsf__disp__vga__m480_8c_aa4ad562cf520d629974b1818b6ffbccf}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_CFG\_H\_ACTIVE\_PIXELS@{VGA\_M480\_CFG\_H\_ACTIVE\_PIXELS}}
+\index{VGA\_M480\_CFG\_H\_ACTIVE\_PIXELS@{VGA\_M480\_CFG\_H\_ACTIVE\_PIXELS}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_CFG\_H\_ACTIVE\_PIXELS}{VGA\_M480\_CFG\_H\_ACTIVE\_PIXELS}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+ACTIVE\+\_\+\+PIXELS~800}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a15506bce31aa54ff1bc511437e594143}\label{vsf__disp__vga__m480_8c_a15506bce31aa54ff1bc511437e594143}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_CFG\_H\_BPORCH\_PIXELS@{VGA\_M480\_CFG\_H\_BPORCH\_PIXELS}}
+\index{VGA\_M480\_CFG\_H\_BPORCH\_PIXELS@{VGA\_M480\_CFG\_H\_BPORCH\_PIXELS}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_CFG\_H\_BPORCH\_PIXELS}{VGA\_M480\_CFG\_H\_BPORCH\_PIXELS}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+BPORCH\+\_\+\+PIXELS~128}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_aaf5fea2c2502a7d57434e4b688fb8577}\label{vsf__disp__vga__m480_8c_aaf5fea2c2502a7d57434e4b688fb8577}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_CFG\_V\_SYNC\_LINES@{VGA\_M480\_CFG\_V\_SYNC\_LINES}}
+\index{VGA\_M480\_CFG\_V\_SYNC\_LINES@{VGA\_M480\_CFG\_V\_SYNC\_LINES}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_CFG\_V\_SYNC\_LINES}{VGA\_M480\_CFG\_V\_SYNC\_LINES}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+SYNC\+\_\+\+LINES~2}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a1e09cd513c6a5d3cf5c0966356646e30}\label{vsf__disp__vga__m480_8c_a1e09cd513c6a5d3cf5c0966356646e30}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_CFG\_V\_FPORCH\_LINES@{VGA\_M480\_CFG\_V\_FPORCH\_LINES}}
+\index{VGA\_M480\_CFG\_V\_FPORCH\_LINES@{VGA\_M480\_CFG\_V\_FPORCH\_LINES}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_CFG\_V\_FPORCH\_LINES}{VGA\_M480\_CFG\_V\_FPORCH\_LINES}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+FPORCH\+\_\+\+LINES~1}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a03f64275d206fecc4e4ef77f8f559510}\label{vsf__disp__vga__m480_8c_a03f64275d206fecc4e4ef77f8f559510}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_CFG\_V\_ACTIVE\_LINES@{VGA\_M480\_CFG\_V\_ACTIVE\_LINES}}
+\index{VGA\_M480\_CFG\_V\_ACTIVE\_LINES@{VGA\_M480\_CFG\_V\_ACTIVE\_LINES}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_CFG\_V\_ACTIVE\_LINES}{VGA\_M480\_CFG\_V\_ACTIVE\_LINES}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+ACTIVE\+\_\+\+LINES~600}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_ab89c2e2669ce1e8c420c1f6392d9c032}\label{vsf__disp__vga__m480_8c_ab89c2e2669ce1e8c420c1f6392d9c032}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_CFG\_V\_BPORCH\_LINES@{VGA\_M480\_CFG\_V\_BPORCH\_LINES}}
+\index{VGA\_M480\_CFG\_V\_BPORCH\_LINES@{VGA\_M480\_CFG\_V\_BPORCH\_LINES}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_CFG\_V\_BPORCH\_LINES}{VGA\_M480\_CFG\_V\_BPORCH\_LINES}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+BPORCH\+\_\+\+LINES~22}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a4c7da1e398055b6e3ff8a19ac936c340}\label{vsf__disp__vga__m480_8c_a4c7da1e398055b6e3ff8a19ac936c340}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_PIXEL\_CLK@{VGA\_M480\_PIXEL\_CLK}}
+\index{VGA\_M480\_PIXEL\_CLK@{VGA\_M480\_PIXEL\_CLK}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_PIXEL\_CLK}{VGA\_M480\_PIXEL\_CLK}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+PIXEL\+\_\+\+CLK~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_ae4cb56574208924a41cff58e057a324e}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+PIXEL\+\_\+\+CLK}} / \mbox{\hyperlink{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV}})}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a44015808d7d21e24acd35dffa8fdd0e3}\label{vsf__disp__vga__m480_8c_a44015808d7d21e24acd35dffa8fdd0e3}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_H\_SYNC\_PIXELS@{VGA\_M480\_H\_SYNC\_PIXELS}}
+\index{VGA\_M480\_H\_SYNC\_PIXELS@{VGA\_M480\_H\_SYNC\_PIXELS}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_H\_SYNC\_PIXELS}{VGA\_M480\_H\_SYNC\_PIXELS}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+SYNC\+\_\+\+PIXELS~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_af5a1d4dad759b49bc7d47aa434c52aa2}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+SYNC\+\_\+\+PIXELS}} / \mbox{\hyperlink{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV}})}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a1b3c0a4e6037aea7e369e7eb88bc846d}\label{vsf__disp__vga__m480_8c_a1b3c0a4e6037aea7e369e7eb88bc846d}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_H\_FPORCH\_PIXELS@{VGA\_M480\_H\_FPORCH\_PIXELS}}
+\index{VGA\_M480\_H\_FPORCH\_PIXELS@{VGA\_M480\_H\_FPORCH\_PIXELS}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_H\_FPORCH\_PIXELS}{VGA\_M480\_H\_FPORCH\_PIXELS}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+FPORCH\+\_\+\+PIXELS~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_a3f0ad5f97a857c7dfff301b07a74ac7e}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+FPORCH\+\_\+\+PIXELS}} / \mbox{\hyperlink{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV}})}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a70658fa4826695a911b74f6849176830}\label{vsf__disp__vga__m480_8c_a70658fa4826695a911b74f6849176830}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_H\_ACTIVE\_PIXELS@{VGA\_M480\_H\_ACTIVE\_PIXELS}}
+\index{VGA\_M480\_H\_ACTIVE\_PIXELS@{VGA\_M480\_H\_ACTIVE\_PIXELS}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_H\_ACTIVE\_PIXELS}{VGA\_M480\_H\_ACTIVE\_PIXELS}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+ACTIVE\+\_\+\+PIXELS~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_aa4ad562cf520d629974b1818b6ffbccf}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+ACTIVE\+\_\+\+PIXELS}} / \mbox{\hyperlink{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV}})}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a16b4dc61c36a4c4d573d03bc5a2f527f}\label{vsf__disp__vga__m480_8c_a16b4dc61c36a4c4d573d03bc5a2f527f}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_H\_BPORCH\_PIXELS@{VGA\_M480\_H\_BPORCH\_PIXELS}}
+\index{VGA\_M480\_H\_BPORCH\_PIXELS@{VGA\_M480\_H\_BPORCH\_PIXELS}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_H\_BPORCH\_PIXELS}{VGA\_M480\_H\_BPORCH\_PIXELS}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+BPORCH\+\_\+\+PIXELS~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_a15506bce31aa54ff1bc511437e594143}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+H\+\_\+\+BPORCH\+\_\+\+PIXELS}} / \mbox{\hyperlink{vsf__disp__vga__m480_8c_a0f594e344088749fe409c07942478fcc}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+X\+\_\+\+DIV}})}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a01d8e4a79de0a4306fad7169bf731a16}\label{vsf__disp__vga__m480_8c_a01d8e4a79de0a4306fad7169bf731a16}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_H\_PIXELS@{VGA\_M480\_H\_PIXELS}}
+\index{VGA\_M480\_H\_PIXELS@{VGA\_M480\_H\_PIXELS}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_H\_PIXELS}{VGA\_M480\_H\_PIXELS}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+PIXELS~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_a44015808d7d21e24acd35dffa8fdd0e3}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+SYNC\+\_\+\+PIXELS}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a1b3c0a4e6037aea7e369e7eb88bc846d}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+FPORCH\+\_\+\+PIXELS}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a70658fa4826695a911b74f6849176830}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+ACTIVE\+\_\+\+PIXELS}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a16b4dc61c36a4c4d573d03bc5a2f527f}{VGA\+\_\+\+M480\+\_\+\+H\+\_\+\+BPORCH\+\_\+\+PIXELS}})}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a930982c101972c9caa3637e50588771f}\label{vsf__disp__vga__m480_8c_a930982c101972c9caa3637e50588771f}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_V\_SYNC\_LINES@{VGA\_M480\_V\_SYNC\_LINES}}
+\index{VGA\_M480\_V\_SYNC\_LINES@{VGA\_M480\_V\_SYNC\_LINES}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_V\_SYNC\_LINES}{VGA\_M480\_V\_SYNC\_LINES}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+SYNC\+\_\+\+LINES~\mbox{\hyperlink{vsf__disp__vga__m480_8c_aaf5fea2c2502a7d57434e4b688fb8577}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+SYNC\+\_\+\+LINES}}}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a569d32be339a2f56b1560de277614dd4}\label{vsf__disp__vga__m480_8c_a569d32be339a2f56b1560de277614dd4}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_V\_FPORCH\_LINES@{VGA\_M480\_V\_FPORCH\_LINES}}
+\index{VGA\_M480\_V\_FPORCH\_LINES@{VGA\_M480\_V\_FPORCH\_LINES}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_V\_FPORCH\_LINES}{VGA\_M480\_V\_FPORCH\_LINES}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+FPORCH\+\_\+\+LINES~\mbox{\hyperlink{vsf__disp__vga__m480_8c_a1e09cd513c6a5d3cf5c0966356646e30}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+FPORCH\+\_\+\+LINES}}}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a33899394a1885046d5c7f2064c50d745}\label{vsf__disp__vga__m480_8c_a33899394a1885046d5c7f2064c50d745}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_V\_ACTIVE\_LINES@{VGA\_M480\_V\_ACTIVE\_LINES}}
+\index{VGA\_M480\_V\_ACTIVE\_LINES@{VGA\_M480\_V\_ACTIVE\_LINES}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_V\_ACTIVE\_LINES}{VGA\_M480\_V\_ACTIVE\_LINES}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+ACTIVE\+\_\+\+LINES~\mbox{\hyperlink{vsf__disp__vga__m480_8c_a03f64275d206fecc4e4ef77f8f559510}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+ACTIVE\+\_\+\+LINES}}}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a31e7367e4ffa30e05d29883935666215}\label{vsf__disp__vga__m480_8c_a31e7367e4ffa30e05d29883935666215}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_V\_BPORCH\_LINES@{VGA\_M480\_V\_BPORCH\_LINES}}
+\index{VGA\_M480\_V\_BPORCH\_LINES@{VGA\_M480\_V\_BPORCH\_LINES}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_V\_BPORCH\_LINES}{VGA\_M480\_V\_BPORCH\_LINES}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+BPORCH\+\_\+\+LINES~\mbox{\hyperlink{vsf__disp__vga__m480_8c_ab89c2e2669ce1e8c420c1f6392d9c032}{VGA\+\_\+\+M480\+\_\+\+CFG\+\_\+\+V\+\_\+\+BPORCH\+\_\+\+LINES}}}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_ad1b356a7fceb138158998780d0e37922}\label{vsf__disp__vga__m480_8c_ad1b356a7fceb138158998780d0e37922}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VGA\_M480\_V\_LINES@{VGA\_M480\_V\_LINES}}
+\index{VGA\_M480\_V\_LINES@{VGA\_M480\_V\_LINES}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{VGA\_M480\_V\_LINES}{VGA\_M480\_V\_LINES}}
+{\footnotesize\ttfamily \#define VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+LINES~(\mbox{\hyperlink{vsf__disp__vga__m480_8c_a930982c101972c9caa3637e50588771f}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+SYNC\+\_\+\+LINES}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a569d32be339a2f56b1560de277614dd4}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+FPORCH\+\_\+\+LINES}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a33899394a1885046d5c7f2064c50d745}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+ACTIVE\+\_\+\+LINES}} + \mbox{\hyperlink{vsf__disp__vga__m480_8c_a31e7367e4ffa30e05d29883935666215}{VGA\+\_\+\+M480\+\_\+\+V\+\_\+\+BPORCH\+\_\+\+LINES}})}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a55637ae18556c709536e5ee7bd4b2cc7}\label{vsf__disp__vga__m480_8c_a55637ae18556c709536e5ee7bd4b2cc7}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!m480\_pdma\_desc\_t@{m480\_pdma\_desc\_t}}
+\index{m480\_pdma\_desc\_t@{m480\_pdma\_desc\_t}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{m480\_pdma\_desc\_t}{m480\_pdma\_desc\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structm480__pdma__desc__t}{m480\+\_\+pdma\+\_\+desc\+\_\+t}} \mbox{\hyperlink{structm480__pdma__desc__t}{m480\+\_\+pdma\+\_\+desc\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a13009687f736924bcf807f243c9da564}\label{vsf__disp__vga__m480_8c_a13009687f736924bcf807f243c9da564}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!vga\_m480\_t@{vga\_m480\_t}}
+\index{vga\_m480\_t@{vga\_m480\_t}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{vga\_m480\_t}{vga\_m480\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvga__m480__t}{vga\+\_\+m480\+\_\+t}} \mbox{\hyperlink{structvga__m480__t}{vga\+\_\+m480\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_abe974f22edeef8189603ba75fd90ff3c}\label{vsf__disp__vga__m480_8c_abe974f22edeef8189603ba75fd90ff3c}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_EVT\_REFRESH@{VSF\_EVT\_REFRESH}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!VSF\_EVT\_REFRESH@{VSF\_EVT\_REFRESH}}}\mbox{\Hypertarget{vsf__disp__vga__m480_8c_abe974f22edeef8189603ba75fd90ff3ca90039d7260262f128331e96d176368bd}\label{vsf__disp__vga__m480_8c_abe974f22edeef8189603ba75fd90ff3ca90039d7260262f128331e96d176368bd}} 
+VSF\+\_\+\+EVT\+\_\+\+REFRESH&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_a44bf1dff57326410f6074df47ef8423f}\label{vsf__disp__vga__m480_8c_a44bf1dff57326410f6074df47ef8423f}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!PDMA\_IRQHandler@{PDMA\_IRQHandler}}
+\index{PDMA\_IRQHandler@{PDMA\_IRQHandler}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{PDMA\_IRQHandler()}{PDMA\_IRQHandler()}}
+{\footnotesize\ttfamily void PDMA\+\_\+\+IRQHandler (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__disp__vga__m480_8c_ad637e458d12fedbe20ab08ba6b164375}\label{vsf__disp__vga__m480_8c_ad637e458d12fedbe20ab08ba6b164375}} 
+\index{vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}!vk\_disp\_drv\_vga\_m480@{vk\_disp\_drv\_vga\_m480}}
+\index{vk\_disp\_drv\_vga\_m480@{vk\_disp\_drv\_vga\_m480}!vsf\_disp\_vga\_m480.c@{vsf\_disp\_vga\_m480.c}}
+\doxysubsubsection{\texorpdfstring{vk\_disp\_drv\_vga\_m480}{vk\_disp\_drv\_vga\_m480}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} vk\+\_\+disp\+\_\+drv\+\_\+vga\+\_\+m480}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    .init           = \_\_vk\_disp\_vga\_m480\_init,}
+\DoxyCodeLine{    .refresh        = \_\_vk\_disp\_vga\_m480\_refresh,}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

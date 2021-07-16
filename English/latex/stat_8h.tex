@@ -1,0 +1,135 @@
+\hypertarget{stat_8h}{}\doxysection{source/shell/sys/linux/include/sys/stat.h File Reference}
+\label{stat_8h}\index{source/shell/sys/linux/include/sys/stat.h@{source/shell/sys/linux/include/sys/stat.h}}
+{\ttfamily \#include \char`\"{}shell/sys/linux/vsf\+\_\+linux\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../sys/types.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../simple\+\_\+libc/time.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/vsf\+\_\+component.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structstat}{stat}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{stat_8h_a149da0702b060478da4d59ffe807adac}{stat}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+stat
+\item 
+\#define \mbox{\hyperlink{stat_8h_aa84a9ac582a3b7d9a0dea52e851855ea}{fstat}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+fstat
+\item 
+\#define \mbox{\hyperlink{stat_8h_a11fb0652b963a735f3377eb1c9239f2d}{S\+\_\+\+IFDIR}}~\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda89ac0cb3c5a336f56fc56ed062c7a0fc}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+DIRECTORY}}
+\item 
+\#define \mbox{\hyperlink{stat_8h_a1aaa48b192a5dd3b6d7ee91fc98cd17d}{S\+\_\+\+IFREG}}~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 0)
+\item 
+\#define \mbox{\hyperlink{stat_8h_ab5bee51e9ee68b83ab11d4b340f7200b}{S\+\_\+\+IFMT}}~(\mbox{\hyperlink{stat_8h_a11fb0652b963a735f3377eb1c9239f2d}{S\+\_\+\+IFDIR}} $\vert$ \mbox{\hyperlink{stat_8h_a1aaa48b192a5dd3b6d7ee91fc98cd17d}{S\+\_\+\+IFREG}})
+\item 
+\#define \mbox{\hyperlink{stat_8h_a84c7dbf5cf2fdfb690f76348b60a8cb7}{S\+\_\+\+IRUSR}}~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 1)
+\item 
+\#define \mbox{\hyperlink{stat_8h_ad70001754261c15a1bdc8e876c6d09d7}{S\+\_\+\+IWUSR}}~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 2)
+\item 
+\#define \mbox{\hyperlink{stat_8h_af10a35e3950795d6ee4e07157d000131}{S\+\_\+\+IXUSR}}~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 3)
+\item 
+\#define \mbox{\hyperlink{stat_8h_a4f5f280b929768113739fb34d6f7be8a}{S\+\_\+\+IRGRP}}~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 4)
+\item 
+\#define \mbox{\hyperlink{stat_8h_ae6774871a90d9442f00abe18b87fee6e}{S\+\_\+\+IWGRP}}~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 5)
+\item 
+\#define \mbox{\hyperlink{stat_8h_a99f0663e2ee3d489d2a44046d5cee665}{S\+\_\+\+ISREG}}(\+\_\+\+\_\+\+MODE)~!((\+\_\+\+\_\+\+MODE) \& \mbox{\hyperlink{stat_8h_a11fb0652b963a735f3377eb1c9239f2d}{S\+\_\+\+IFDIR}})
+\item 
+\#define \mbox{\hyperlink{stat_8h_a79ab30b1fce916c1c2beca976b1d1ad2}{S\+\_\+\+ISDIR}}(\+\_\+\+\_\+\+MODE)~((\+\_\+\+\_\+\+MODE) \& \mbox{\hyperlink{stat_8h_a11fb0652b963a735f3377eb1c9239f2d}{S\+\_\+\+IFDIR}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{stat_8h_a1c967a7e0eb448fbfb13b88fc8e7937d}{stat}} (const char $\ast$pathname, struct \mbox{\hyperlink{structstat}{stat}} $\ast$buf)
+\item 
+int \mbox{\hyperlink{stat_8h_a198a57e185e8a036ad06345623b84521}{fstat}} (int fd, struct \mbox{\hyperlink{structstat}{stat}} $\ast$buf)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{stat_8h_a149da0702b060478da4d59ffe807adac}\label{stat_8h_a149da0702b060478da4d59ffe807adac}} 
+\index{stat.h@{stat.h}!stat@{stat}}
+\index{stat@{stat}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{stat}{stat}}
+{\footnotesize\ttfamily \#define \mbox{\hyperlink{structstat}{stat}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+stat}
+
+\mbox{\Hypertarget{stat_8h_aa84a9ac582a3b7d9a0dea52e851855ea}\label{stat_8h_aa84a9ac582a3b7d9a0dea52e851855ea}} 
+\index{stat.h@{stat.h}!fstat@{fstat}}
+\index{fstat@{fstat}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{fstat}{fstat}}
+{\footnotesize\ttfamily \#define fstat~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+fstat}
+
+\mbox{\Hypertarget{stat_8h_a11fb0652b963a735f3377eb1c9239f2d}\label{stat_8h_a11fb0652b963a735f3377eb1c9239f2d}} 
+\index{stat.h@{stat.h}!S\_IFDIR@{S\_IFDIR}}
+\index{S\_IFDIR@{S\_IFDIR}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{S\_IFDIR}{S\_IFDIR}}
+{\footnotesize\ttfamily \#define S\+\_\+\+IFDIR~\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda89ac0cb3c5a336f56fc56ed062c7a0fc}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+DIRECTORY}}}
+
+\mbox{\Hypertarget{stat_8h_a1aaa48b192a5dd3b6d7ee91fc98cd17d}\label{stat_8h_a1aaa48b192a5dd3b6d7ee91fc98cd17d}} 
+\index{stat.h@{stat.h}!S\_IFREG@{S\_IFREG}}
+\index{S\_IFREG@{S\_IFREG}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{S\_IFREG}{S\_IFREG}}
+{\footnotesize\ttfamily \#define S\+\_\+\+IFREG~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 0)}
+
+\mbox{\Hypertarget{stat_8h_ab5bee51e9ee68b83ab11d4b340f7200b}\label{stat_8h_ab5bee51e9ee68b83ab11d4b340f7200b}} 
+\index{stat.h@{stat.h}!S\_IFMT@{S\_IFMT}}
+\index{S\_IFMT@{S\_IFMT}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{S\_IFMT}{S\_IFMT}}
+{\footnotesize\ttfamily \#define S\+\_\+\+IFMT~(\mbox{\hyperlink{stat_8h_a11fb0652b963a735f3377eb1c9239f2d}{S\+\_\+\+IFDIR}} $\vert$ \mbox{\hyperlink{stat_8h_a1aaa48b192a5dd3b6d7ee91fc98cd17d}{S\+\_\+\+IFREG}})}
+
+\mbox{\Hypertarget{stat_8h_a84c7dbf5cf2fdfb690f76348b60a8cb7}\label{stat_8h_a84c7dbf5cf2fdfb690f76348b60a8cb7}} 
+\index{stat.h@{stat.h}!S\_IRUSR@{S\_IRUSR}}
+\index{S\_IRUSR@{S\_IRUSR}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{S\_IRUSR}{S\_IRUSR}}
+{\footnotesize\ttfamily \#define S\+\_\+\+IRUSR~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 1)}
+
+\mbox{\Hypertarget{stat_8h_ad70001754261c15a1bdc8e876c6d09d7}\label{stat_8h_ad70001754261c15a1bdc8e876c6d09d7}} 
+\index{stat.h@{stat.h}!S\_IWUSR@{S\_IWUSR}}
+\index{S\_IWUSR@{S\_IWUSR}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{S\_IWUSR}{S\_IWUSR}}
+{\footnotesize\ttfamily \#define S\+\_\+\+IWUSR~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 2)}
+
+\mbox{\Hypertarget{stat_8h_af10a35e3950795d6ee4e07157d000131}\label{stat_8h_af10a35e3950795d6ee4e07157d000131}} 
+\index{stat.h@{stat.h}!S\_IXUSR@{S\_IXUSR}}
+\index{S\_IXUSR@{S\_IXUSR}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{S\_IXUSR}{S\_IXUSR}}
+{\footnotesize\ttfamily \#define S\+\_\+\+IXUSR~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 3)}
+
+\mbox{\Hypertarget{stat_8h_a4f5f280b929768113739fb34d6f7be8a}\label{stat_8h_a4f5f280b929768113739fb34d6f7be8a}} 
+\index{stat.h@{stat.h}!S\_IRGRP@{S\_IRGRP}}
+\index{S\_IRGRP@{S\_IRGRP}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{S\_IRGRP}{S\_IRGRP}}
+{\footnotesize\ttfamily \#define S\+\_\+\+IRGRP~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 4)}
+
+\mbox{\Hypertarget{stat_8h_ae6774871a90d9442f00abe18b87fee6e}\label{stat_8h_ae6774871a90d9442f00abe18b87fee6e}} 
+\index{stat.h@{stat.h}!S\_IWGRP@{S\_IWGRP}}
+\index{S\_IWGRP@{S\_IWGRP}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{S\_IWGRP}{S\_IWGRP}}
+{\footnotesize\ttfamily \#define S\+\_\+\+IWGRP~(\mbox{\hyperlink{vsf__fs_8h_a1cf4e823354d8a8bcd5cd764421ec5eda918b446ea8d85321ecb9a05b8896f347}{VSF\+\_\+\+FILE\+\_\+\+ATTR\+\_\+\+USER}} $<$$<$ 5)}
+
+\mbox{\Hypertarget{stat_8h_a99f0663e2ee3d489d2a44046d5cee665}\label{stat_8h_a99f0663e2ee3d489d2a44046d5cee665}} 
+\index{stat.h@{stat.h}!S\_ISREG@{S\_ISREG}}
+\index{S\_ISREG@{S\_ISREG}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{S\_ISREG}{S\_ISREG}}
+{\footnotesize\ttfamily \#define S\+\_\+\+ISREG(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+MODE }\end{DoxyParamCaption})~!((\+\_\+\+\_\+\+MODE) \& \mbox{\hyperlink{stat_8h_a11fb0652b963a735f3377eb1c9239f2d}{S\+\_\+\+IFDIR}})}
+
+\mbox{\Hypertarget{stat_8h_a79ab30b1fce916c1c2beca976b1d1ad2}\label{stat_8h_a79ab30b1fce916c1c2beca976b1d1ad2}} 
+\index{stat.h@{stat.h}!S\_ISDIR@{S\_ISDIR}}
+\index{S\_ISDIR@{S\_ISDIR}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{S\_ISDIR}{S\_ISDIR}}
+{\footnotesize\ttfamily \#define S\+\_\+\+ISDIR(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+MODE }\end{DoxyParamCaption})~((\+\_\+\+\_\+\+MODE) \& \mbox{\hyperlink{stat_8h_a11fb0652b963a735f3377eb1c9239f2d}{S\+\_\+\+IFDIR}})}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{stat_8h_a1c967a7e0eb448fbfb13b88fc8e7937d}\label{stat_8h_a1c967a7e0eb448fbfb13b88fc8e7937d}} 
+\index{stat.h@{stat.h}!stat@{stat}}
+\index{stat@{stat}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{stat()}{stat()}}
+{\footnotesize\ttfamily int \mbox{\hyperlink{structstat}{stat}} (\begin{DoxyParamCaption}\item[{const char $\ast$}]{pathname,  }\item[{struct \mbox{\hyperlink{structstat}{stat}} $\ast$}]{buf }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{stat_8h_a198a57e185e8a036ad06345623b84521}\label{stat_8h_a198a57e185e8a036ad06345623b84521}} 
+\index{stat.h@{stat.h}!fstat@{fstat}}
+\index{fstat@{fstat}!stat.h@{stat.h}}
+\doxysubsubsection{\texorpdfstring{fstat()}{fstat()}}
+{\footnotesize\ttfamily int fstat (\begin{DoxyParamCaption}\item[{int}]{fd,  }\item[{struct \mbox{\hyperlink{structstat}{stat}} $\ast$}]{buf }\end{DoxyParamCaption})}
+

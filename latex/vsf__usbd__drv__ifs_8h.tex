@@ -1,0 +1,193 @@
+\hypertarget{vsf__usbd__drv__ifs_8h}{}\doxysection{source/component/usb/device/vsf\+\_\+usbd\+\_\+drv\+\_\+ifs.h File Reference}
+\label{vsf__usbd__drv__ifs_8h}\index{source/component/usb/device/vsf\_usbd\_drv\_ifs.h@{source/component/usb/device/vsf\_usbd\_drv\_ifs.h}}
+{\ttfamily \#include \char`\"{}hal/vsf\+\_\+hal.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_aa21b3275dfb2f62015b3195974420b5f}{VSF\+\_\+\+USBD\+\_\+\+DRV\+\_\+\+PREPARE}}(\+\_\+\+\_\+dev)~         const i\+\_\+usb\+\_\+dc\+\_\+t $\ast$\+\_\+\+\_\+drv = (\+\_\+\+\_\+dev)-\/$>$drv;
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a883da3906cdbf56083e4c863ca64483e}{vk\+\_\+usbd\+\_\+drv\+\_\+init}}(\+\_\+\+\_\+cfg)~\+\_\+\+\_\+drv-\/$>$Init((\+\_\+\+\_\+cfg))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_abf89b23cf5bf8b28c25b0c324bada617}{vk\+\_\+usbd\+\_\+drv\+\_\+fini}}()~\+\_\+\+\_\+drv-\/$>$Fini()
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_aa87ad393f5c690666672f5e471178cf5}{vk\+\_\+usbd\+\_\+drv\+\_\+reset}}(\+\_\+\+\_\+cfg)~\+\_\+\+\_\+drv-\/$>$\mbox{\hyperlink{vsf__pbuf_8h_a1b0e06d63c4d5fd2233ac757dbea1e6a}{Reset}}((\+\_\+\+\_\+cfg))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_acafc404e9be2216f95c96d36b4c43404}{vk\+\_\+usbd\+\_\+drv\+\_\+connect}}()~\+\_\+\+\_\+drv-\/$>$Connect()
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a6bfbc72a38140d3a517f5b03e7f66697}{vk\+\_\+usbd\+\_\+drv\+\_\+disconnect}}()~\+\_\+\+\_\+drv-\/$>$Disconnect()
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_af0baeefba40070ce07f1e5ab2e580a38}{vk\+\_\+usbd\+\_\+drv\+\_\+wakeup}}()~\+\_\+\+\_\+drv-\/$>$Wakeup()
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a7171ae9dd106191fff3eae75773e8888}{vk\+\_\+usbd\+\_\+drv\+\_\+set\+\_\+address}}(\+\_\+\+\_\+addr)~\+\_\+\+\_\+drv-\/$>$Set\+Address((\+\_\+\+\_\+addr))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_aa139974b33446bf1215a64745612fc4b}{vk\+\_\+usbd\+\_\+drv\+\_\+get\+\_\+setup}}(\+\_\+\+\_\+request)~\+\_\+\+\_\+drv-\/$>$Get\+Setup((\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$)(\+\_\+\+\_\+request))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a643fc193d600155c52da28375146a8be}{vk\+\_\+usbd\+\_\+drv\+\_\+status\+\_\+stage}}(\+\_\+\+\_\+is\+\_\+in)~\+\_\+\+\_\+drv-\/$>$Status\+Stage((\+\_\+\+\_\+is\+\_\+in))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a3355908ffc485c4b71879c9b4473955d}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+add}}(\+\_\+\+\_\+addr,  \+\_\+\+\_\+attr,  \+\_\+\+\_\+size)~\+\_\+\+\_\+drv-\/$>$\mbox{\hyperlink{vsf__pool_8h_a39ba62b0b3ebf8d559a7af48590d4057}{Ep.\+Add}}((\+\_\+\+\_\+addr), (usb\+\_\+ep\+\_\+type\+\_\+t)(\+\_\+\+\_\+attr), (\+\_\+\+\_\+size))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a002cde9d28d5490171d82b0be8ba01cf}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+get\+\_\+feature}}(\+\_\+\+\_\+ep,  \+\_\+\+\_\+feature)~\+\_\+\+\_\+drv-\/$>$Ep.\+Get\+Feature((\+\_\+\+\_\+ep), (\+\_\+\+\_\+feature))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_aa5ab76b2a49b1778673f59d6c49557bf}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+get\+\_\+size}}(\+\_\+\+\_\+ep)~\+\_\+\+\_\+drv-\/$>$Ep.\+Get\+Size((\+\_\+\+\_\+ep))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a8ae4ab4ea05177ae9fe3bc118fd051ba}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+is\+\_\+stalled}}(\+\_\+\+\_\+ep)~\+\_\+\+\_\+drv-\/$>$Ep.\+Is\+Stalled((\+\_\+\+\_\+ep))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a4ab0d9d3da79573100a3cc354cd52d67}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+set\+\_\+stall}}(\+\_\+\+\_\+ep)~\+\_\+\+\_\+drv-\/$>$Ep.\+Set\+Stall((\+\_\+\+\_\+ep))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_ab029f4226aab3cf7c4ae243480c92990}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+clear\+\_\+stall}}(\+\_\+\+\_\+ep)~\+\_\+\+\_\+drv-\/$>$Ep.\+Clear\+Stall((\+\_\+\+\_\+ep))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_ac714bfc4a3f227319e286e133ad3f1f5}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+get\+\_\+data\+\_\+size}}(\+\_\+\+\_\+ep)~\+\_\+\+\_\+drv-\/$>$Ep.\+Get\+Data\+Size((\+\_\+\+\_\+ep))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_ae5a33e05702859fa9af5fa4160ca703a}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transaction\+\_\+read\+\_\+buffer}}(\+\_\+\+\_\+ep,  \+\_\+\+\_\+buf,  \+\_\+\+\_\+size)~                \+\_\+\+\_\+drv-\/$>$Ep.\+Transaction.\+Read\+Buffer((\+\_\+\+\_\+ep), (\+\_\+\+\_\+buf), (\+\_\+\+\_\+size))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_af538d6d91627e3baf32b64eb039b49a9}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transaction\+\_\+write\+\_\+buffer}}(\+\_\+\+\_\+ep,  \+\_\+\+\_\+buf,  \+\_\+\+\_\+size)~                \+\_\+\+\_\+drv-\/$>$Ep.\+Transaction.\+Write\+Buffer((\+\_\+\+\_\+ep), (\+\_\+\+\_\+buf), (\+\_\+\+\_\+size))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a4b3dd52a44175d935ba620ee26be5e89}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transaction\+\_\+set\+\_\+data\+\_\+size}}(\+\_\+\+\_\+ep,  \+\_\+\+\_\+size)~                \+\_\+\+\_\+drv-\/$>$Ep.\+Transaction.\+Set\+Data\+Size((\+\_\+\+\_\+ep), (\+\_\+\+\_\+size))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a7fa40abfd660ae37a1307cff3a9e13fd}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transaction\+\_\+enable\+\_\+out}}(\+\_\+\+\_\+ep)~                \+\_\+\+\_\+drv-\/$>$Ep.\+Transaction.\+Enable\+Out((\+\_\+\+\_\+ep))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a265c0d17abfe940b86017b8ca9b07038}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transfer\+\_\+send}}(\+\_\+\+\_\+ep,  \+\_\+\+\_\+buf,  \+\_\+\+\_\+size,  \+\_\+\+\_\+zlp)~                \+\_\+\+\_\+drv-\/$>$\mbox{\hyperlink{vsf__stream__writer_8h_a92a1d083b8092327024dad57a18b656e}{Ep.\+Transfer.\+Send}}((\+\_\+\+\_\+ep), (\+\_\+\+\_\+buf), (\+\_\+\+\_\+size), (\+\_\+\+\_\+zlp))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__drv__ifs_8h_a1331c87cbcff6a89d845571095597836}{vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transfer\+\_\+recv}}(\+\_\+\+\_\+ep,  \+\_\+\+\_\+buf,  \+\_\+\+\_\+size)~                \+\_\+\+\_\+drv-\/$>$Ep.\+Transfer.\+Recv((\+\_\+\+\_\+ep), (\+\_\+\+\_\+buf), (\+\_\+\+\_\+size))
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_aa21b3275dfb2f62015b3195974420b5f}\label{vsf__usbd__drv__ifs_8h_aa21b3275dfb2f62015b3195974420b5f}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!VSF\_USBD\_DRV\_PREPARE@{VSF\_USBD\_DRV\_PREPARE}}
+\index{VSF\_USBD\_DRV\_PREPARE@{VSF\_USBD\_DRV\_PREPARE}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_USBD\_DRV\_PREPARE}{VSF\_USBD\_DRV\_PREPARE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+USBD\+\_\+\+DRV\+\_\+\+PREPARE(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+dev }\end{DoxyParamCaption})~         const i\+\_\+usb\+\_\+dc\+\_\+t $\ast$\+\_\+\+\_\+drv = (\+\_\+\+\_\+dev)-\/$>$drv;}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a883da3906cdbf56083e4c863ca64483e}\label{vsf__usbd__drv__ifs_8h_a883da3906cdbf56083e4c863ca64483e}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_init@{vk\_usbd\_drv\_init}}
+\index{vk\_usbd\_drv\_init@{vk\_usbd\_drv\_init}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_init}{vk\_usbd\_drv\_init}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+init(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+cfg }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Init((\+\_\+\+\_\+cfg))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_abf89b23cf5bf8b28c25b0c324bada617}\label{vsf__usbd__drv__ifs_8h_abf89b23cf5bf8b28c25b0c324bada617}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_fini@{vk\_usbd\_drv\_fini}}
+\index{vk\_usbd\_drv\_fini@{vk\_usbd\_drv\_fini}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_fini}{vk\_usbd\_drv\_fini}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+fini(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Fini()}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_aa87ad393f5c690666672f5e471178cf5}\label{vsf__usbd__drv__ifs_8h_aa87ad393f5c690666672f5e471178cf5}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_reset@{vk\_usbd\_drv\_reset}}
+\index{vk\_usbd\_drv\_reset@{vk\_usbd\_drv\_reset}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_reset}{vk\_usbd\_drv\_reset}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+reset(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+cfg }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$\mbox{\hyperlink{vsf__pbuf_8h_a1b0e06d63c4d5fd2233ac757dbea1e6a}{Reset}}((\+\_\+\+\_\+cfg))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_acafc404e9be2216f95c96d36b4c43404}\label{vsf__usbd__drv__ifs_8h_acafc404e9be2216f95c96d36b4c43404}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_connect@{vk\_usbd\_drv\_connect}}
+\index{vk\_usbd\_drv\_connect@{vk\_usbd\_drv\_connect}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_connect}{vk\_usbd\_drv\_connect}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+connect(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Connect()}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a6bfbc72a38140d3a517f5b03e7f66697}\label{vsf__usbd__drv__ifs_8h_a6bfbc72a38140d3a517f5b03e7f66697}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_disconnect@{vk\_usbd\_drv\_disconnect}}
+\index{vk\_usbd\_drv\_disconnect@{vk\_usbd\_drv\_disconnect}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_disconnect}{vk\_usbd\_drv\_disconnect}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+disconnect(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Disconnect()}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_af0baeefba40070ce07f1e5ab2e580a38}\label{vsf__usbd__drv__ifs_8h_af0baeefba40070ce07f1e5ab2e580a38}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_wakeup@{vk\_usbd\_drv\_wakeup}}
+\index{vk\_usbd\_drv\_wakeup@{vk\_usbd\_drv\_wakeup}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_wakeup}{vk\_usbd\_drv\_wakeup}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+wakeup(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Wakeup()}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a7171ae9dd106191fff3eae75773e8888}\label{vsf__usbd__drv__ifs_8h_a7171ae9dd106191fff3eae75773e8888}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_set\_address@{vk\_usbd\_drv\_set\_address}}
+\index{vk\_usbd\_drv\_set\_address@{vk\_usbd\_drv\_set\_address}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_set\_address}{vk\_usbd\_drv\_set\_address}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+set\+\_\+address(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+addr }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Set\+Address((\+\_\+\+\_\+addr))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_aa139974b33446bf1215a64745612fc4b}\label{vsf__usbd__drv__ifs_8h_aa139974b33446bf1215a64745612fc4b}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_get\_setup@{vk\_usbd\_drv\_get\_setup}}
+\index{vk\_usbd\_drv\_get\_setup@{vk\_usbd\_drv\_get\_setup}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_get\_setup}{vk\_usbd\_drv\_get\_setup}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+get\+\_\+setup(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+request }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Get\+Setup((\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$)(\+\_\+\+\_\+request))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a643fc193d600155c52da28375146a8be}\label{vsf__usbd__drv__ifs_8h_a643fc193d600155c52da28375146a8be}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_status\_stage@{vk\_usbd\_drv\_status\_stage}}
+\index{vk\_usbd\_drv\_status\_stage@{vk\_usbd\_drv\_status\_stage}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_status\_stage}{vk\_usbd\_drv\_status\_stage}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+status\+\_\+stage(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+is\+\_\+in }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Status\+Stage((\+\_\+\+\_\+is\+\_\+in))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a3355908ffc485c4b71879c9b4473955d}\label{vsf__usbd__drv__ifs_8h_a3355908ffc485c4b71879c9b4473955d}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_add@{vk\_usbd\_drv\_ep\_add}}
+\index{vk\_usbd\_drv\_ep\_add@{vk\_usbd\_drv\_ep\_add}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_add}{vk\_usbd\_drv\_ep\_add}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+add(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+addr,  }\item[{}]{\+\_\+\+\_\+attr,  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$\mbox{\hyperlink{vsf__pool_8h_a39ba62b0b3ebf8d559a7af48590d4057}{Ep.\+Add}}((\+\_\+\+\_\+addr), (usb\+\_\+ep\+\_\+type\+\_\+t)(\+\_\+\+\_\+attr), (\+\_\+\+\_\+size))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a002cde9d28d5490171d82b0be8ba01cf}\label{vsf__usbd__drv__ifs_8h_a002cde9d28d5490171d82b0be8ba01cf}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_get\_feature@{vk\_usbd\_drv\_ep\_get\_feature}}
+\index{vk\_usbd\_drv\_ep\_get\_feature@{vk\_usbd\_drv\_ep\_get\_feature}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_get\_feature}{vk\_usbd\_drv\_ep\_get\_feature}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+get\+\_\+feature(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+feature }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Ep.\+Get\+Feature((\+\_\+\+\_\+ep), (\+\_\+\+\_\+feature))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_aa5ab76b2a49b1778673f59d6c49557bf}\label{vsf__usbd__drv__ifs_8h_aa5ab76b2a49b1778673f59d6c49557bf}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_get\_size@{vk\_usbd\_drv\_ep\_get\_size}}
+\index{vk\_usbd\_drv\_ep\_get\_size@{vk\_usbd\_drv\_ep\_get\_size}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_get\_size}{vk\_usbd\_drv\_ep\_get\_size}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+get\+\_\+size(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Ep.\+Get\+Size((\+\_\+\+\_\+ep))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a8ae4ab4ea05177ae9fe3bc118fd051ba}\label{vsf__usbd__drv__ifs_8h_a8ae4ab4ea05177ae9fe3bc118fd051ba}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_is\_stalled@{vk\_usbd\_drv\_ep\_is\_stalled}}
+\index{vk\_usbd\_drv\_ep\_is\_stalled@{vk\_usbd\_drv\_ep\_is\_stalled}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_is\_stalled}{vk\_usbd\_drv\_ep\_is\_stalled}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+is\+\_\+stalled(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Ep.\+Is\+Stalled((\+\_\+\+\_\+ep))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a4ab0d9d3da79573100a3cc354cd52d67}\label{vsf__usbd__drv__ifs_8h_a4ab0d9d3da79573100a3cc354cd52d67}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_set\_stall@{vk\_usbd\_drv\_ep\_set\_stall}}
+\index{vk\_usbd\_drv\_ep\_set\_stall@{vk\_usbd\_drv\_ep\_set\_stall}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_set\_stall}{vk\_usbd\_drv\_ep\_set\_stall}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+set\+\_\+stall(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Ep.\+Set\+Stall((\+\_\+\+\_\+ep))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_ab029f4226aab3cf7c4ae243480c92990}\label{vsf__usbd__drv__ifs_8h_ab029f4226aab3cf7c4ae243480c92990}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_clear\_stall@{vk\_usbd\_drv\_ep\_clear\_stall}}
+\index{vk\_usbd\_drv\_ep\_clear\_stall@{vk\_usbd\_drv\_ep\_clear\_stall}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_clear\_stall}{vk\_usbd\_drv\_ep\_clear\_stall}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+clear\+\_\+stall(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Ep.\+Clear\+Stall((\+\_\+\+\_\+ep))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_ac714bfc4a3f227319e286e133ad3f1f5}\label{vsf__usbd__drv__ifs_8h_ac714bfc4a3f227319e286e133ad3f1f5}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_get\_data\_size@{vk\_usbd\_drv\_ep\_get\_data\_size}}
+\index{vk\_usbd\_drv\_ep\_get\_data\_size@{vk\_usbd\_drv\_ep\_get\_data\_size}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_get\_data\_size}{vk\_usbd\_drv\_ep\_get\_data\_size}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+get\+\_\+data\+\_\+size(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep }\end{DoxyParamCaption})~\+\_\+\+\_\+drv-\/$>$Ep.\+Get\+Data\+Size((\+\_\+\+\_\+ep))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_ae5a33e05702859fa9af5fa4160ca703a}\label{vsf__usbd__drv__ifs_8h_ae5a33e05702859fa9af5fa4160ca703a}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_transaction\_read\_buffer@{vk\_usbd\_drv\_ep\_transaction\_read\_buffer}}
+\index{vk\_usbd\_drv\_ep\_transaction\_read\_buffer@{vk\_usbd\_drv\_ep\_transaction\_read\_buffer}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_transaction\_read\_buffer}{vk\_usbd\_drv\_ep\_transaction\_read\_buffer}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transaction\+\_\+read\+\_\+buffer(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+buf,  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})~                \+\_\+\+\_\+drv-\/$>$Ep.\+Transaction.\+Read\+Buffer((\+\_\+\+\_\+ep), (\+\_\+\+\_\+buf), (\+\_\+\+\_\+size))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_af538d6d91627e3baf32b64eb039b49a9}\label{vsf__usbd__drv__ifs_8h_af538d6d91627e3baf32b64eb039b49a9}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_transaction\_write\_buffer@{vk\_usbd\_drv\_ep\_transaction\_write\_buffer}}
+\index{vk\_usbd\_drv\_ep\_transaction\_write\_buffer@{vk\_usbd\_drv\_ep\_transaction\_write\_buffer}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_transaction\_write\_buffer}{vk\_usbd\_drv\_ep\_transaction\_write\_buffer}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transaction\+\_\+write\+\_\+buffer(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+buf,  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})~                \+\_\+\+\_\+drv-\/$>$Ep.\+Transaction.\+Write\+Buffer((\+\_\+\+\_\+ep), (\+\_\+\+\_\+buf), (\+\_\+\+\_\+size))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a4b3dd52a44175d935ba620ee26be5e89}\label{vsf__usbd__drv__ifs_8h_a4b3dd52a44175d935ba620ee26be5e89}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_transaction\_set\_data\_size@{vk\_usbd\_drv\_ep\_transaction\_set\_data\_size}}
+\index{vk\_usbd\_drv\_ep\_transaction\_set\_data\_size@{vk\_usbd\_drv\_ep\_transaction\_set\_data\_size}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_transaction\_set\_data\_size}{vk\_usbd\_drv\_ep\_transaction\_set\_data\_size}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transaction\+\_\+set\+\_\+data\+\_\+size(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})~                \+\_\+\+\_\+drv-\/$>$Ep.\+Transaction.\+Set\+Data\+Size((\+\_\+\+\_\+ep), (\+\_\+\+\_\+size))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a7fa40abfd660ae37a1307cff3a9e13fd}\label{vsf__usbd__drv__ifs_8h_a7fa40abfd660ae37a1307cff3a9e13fd}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_transaction\_enable\_out@{vk\_usbd\_drv\_ep\_transaction\_enable\_out}}
+\index{vk\_usbd\_drv\_ep\_transaction\_enable\_out@{vk\_usbd\_drv\_ep\_transaction\_enable\_out}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_transaction\_enable\_out}{vk\_usbd\_drv\_ep\_transaction\_enable\_out}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transaction\+\_\+enable\+\_\+out(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep }\end{DoxyParamCaption})~                \+\_\+\+\_\+drv-\/$>$Ep.\+Transaction.\+Enable\+Out((\+\_\+\+\_\+ep))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a265c0d17abfe940b86017b8ca9b07038}\label{vsf__usbd__drv__ifs_8h_a265c0d17abfe940b86017b8ca9b07038}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_transfer\_send@{vk\_usbd\_drv\_ep\_transfer\_send}}
+\index{vk\_usbd\_drv\_ep\_transfer\_send@{vk\_usbd\_drv\_ep\_transfer\_send}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_transfer\_send}{vk\_usbd\_drv\_ep\_transfer\_send}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transfer\+\_\+send(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+buf,  }\item[{}]{\+\_\+\+\_\+size,  }\item[{}]{\+\_\+\+\_\+zlp }\end{DoxyParamCaption})~                \+\_\+\+\_\+drv-\/$>$\mbox{\hyperlink{vsf__stream__writer_8h_a92a1d083b8092327024dad57a18b656e}{Ep.\+Transfer.\+Send}}((\+\_\+\+\_\+ep), (\+\_\+\+\_\+buf), (\+\_\+\+\_\+size), (\+\_\+\+\_\+zlp))}
+
+\mbox{\Hypertarget{vsf__usbd__drv__ifs_8h_a1331c87cbcff6a89d845571095597836}\label{vsf__usbd__drv__ifs_8h_a1331c87cbcff6a89d845571095597836}} 
+\index{vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}!vk\_usbd\_drv\_ep\_transfer\_recv@{vk\_usbd\_drv\_ep\_transfer\_recv}}
+\index{vk\_usbd\_drv\_ep\_transfer\_recv@{vk\_usbd\_drv\_ep\_transfer\_recv}!vsf\_usbd\_drv\_ifs.h@{vsf\_usbd\_drv\_ifs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_drv\_ep\_transfer\_recv}{vk\_usbd\_drv\_ep\_transfer\_recv}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbd\+\_\+drv\+\_\+ep\+\_\+transfer\+\_\+recv(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+buf,  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})~                \+\_\+\+\_\+drv-\/$>$Ep.\+Transfer.\+Recv((\+\_\+\+\_\+ep), (\+\_\+\+\_\+buf), (\+\_\+\+\_\+size))}
+

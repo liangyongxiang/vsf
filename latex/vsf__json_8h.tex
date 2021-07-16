@@ -1,0 +1,276 @@
+\hypertarget{vsf__json_8h}{}\doxysection{source/service/json/vsf\+\_\+json.h File Reference}
+\label{vsf__json_8h}\index{source/service/json/vsf\_json.h@{source/service/json/vsf\_json.h}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/vsf\+\_\+utilities.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classvsf__json__enumerator__t}{vsf\+\_\+json\+\_\+enumerator\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__json_8h_a5d0fe49b31f32a5772053296e883cd44}{vsf\+\_\+json\+\_\+set\+\_\+object}}(\+\_\+\+\_\+c,  \+\_\+\+\_\+key, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__json_8h_ad4f0830a03b7621fc0f5df704a9e1883}{vsf\+\_\+json\+\_\+set\+\_\+array}}(\+\_\+\+\_\+c,  \+\_\+\+\_\+key, ...)
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52}{vsf\+\_\+json\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__json_8h_a1b88d833c3c68cb07ae6ab6358d48831}{vsf\+\_\+json\+\_\+type\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52}{vsf\+\_\+json\+\_\+type\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52aa1837b0a832889e17ce2b18b1f8982c2}{VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+INVALID}}
+, \newline
+\mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52acab606ed0d44cfb0c2cd88acd2b6a61c}{VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+OBJECT}}
+, \newline
+\mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a3ecd98f4ae93de004bba051043e21434}{VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+ARRAY}}
+, \newline
+\mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a1fc97c0feb6db00ed734042e0eb76880}{VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+STRING}}
+, \newline
+\mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52ac6fa5f3fc63033998eae6f76dacc5db3}{VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+NUMBER}}
+, \newline
+\mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a2ea372a765ebc2f7bcb10fcf14d040d8}{VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+BOOLEAN}}
+, \newline
+\mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a5f9bcdd2fb5e9d2011a84dbb9b206b2c}{VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+NULL}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52}{vsf\+\_\+json\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__json_8h_a683dc14366c4cfd2231493563ba9bfb8}{vsf\+\_\+json\+\_\+enumerate\+\_\+start}} (\mbox{\hyperlink{classvsf__json__enumerator__t}{vsf\+\_\+json\+\_\+enumerator\+\_\+t}} $\ast$e, const char $\ast$json)
+\item 
+char $\ast$ \mbox{\hyperlink{vsf__json_8h_a0a833cc45df6ea619f2b159e66ba136e}{vsf\+\_\+json\+\_\+enumerate\+\_\+next}} (\mbox{\hyperlink{classvsf__json__enumerator__t}{vsf\+\_\+json\+\_\+enumerator\+\_\+t}} $\ast$e)
+\item 
+char $\ast$ \mbox{\hyperlink{vsf__json_8h_ac2b8b9955ba1fb689fde1865524f547d}{vsf\+\_\+json\+\_\+get}} (const char $\ast$json, const char $\ast$key)
+\item 
+int \mbox{\hyperlink{vsf__json_8h_ab42bbd17f069eb84cda1edd32db557e7}{vsf\+\_\+json\+\_\+num\+\_\+of\+\_\+entry}} (const char $\ast$json)
+\item 
+\mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52}{vsf\+\_\+json\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__json_8h_afe945b3978dd3424e5600bfffc22075d}{vsf\+\_\+json\+\_\+get\+\_\+type}} (const char $\ast$json)
+\item 
+int \mbox{\hyperlink{vsf__json_8h_a9d085d6fdd67133668341ebf813d9157}{vsf\+\_\+json\+\_\+get\+\_\+string}} (const char $\ast$json, char $\ast$result, int len)
+\item 
+int \mbox{\hyperlink{vsf__json_8h_ace4b32644086cf19bcad93a96f760fbd}{vsf\+\_\+json\+\_\+get\+\_\+number}} (const char $\ast$json, double $\ast$result)
+\item 
+int \mbox{\hyperlink{vsf__json_8h_aa36b3b4daecc0d50ef4085aad4ab4c27}{vsf\+\_\+json\+\_\+get\+\_\+boolean}} (const char $\ast$json, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} $\ast$result)
+\item 
+void \mbox{\hyperlink{vsf__json_8h_acca812bbd6fb0b007d9681c84bd0df46}{vsf\+\_\+json\+\_\+constructor\+\_\+init}} (\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$c, void $\ast$param, int($\ast$write\+\_\+str)(void $\ast$, char $\ast$, int))
+\item 
+int \mbox{\hyperlink{vsf__json_8h_a92324b365995fe0a9001b004f763b35d}{vsf\+\_\+json\+\_\+constructor\+\_\+buffer\+\_\+write\+\_\+str}} (void $\ast$param, char $\ast$str, int len)
+\item 
+int \mbox{\hyperlink{vsf__json_8h_a4dca3fa595673dfb31e67796bbe4362d}{vsf\+\_\+json\+\_\+write\+\_\+str}} (\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$c, char $\ast$buf, int len)
+\item 
+int \mbox{\hyperlink{vsf__json_8h_ab6996e9a77bcd78a7721df047073d40a}{vsf\+\_\+json\+\_\+set\+\_\+key}} (\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$c, char $\ast$key)
+\item 
+int \mbox{\hyperlink{vsf__json_8h_ac2fb2dfd0c3894be00f46b16490ec93b}{vsf\+\_\+json\+\_\+set\+\_\+string}} (\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$c, char $\ast$key, char $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_a638e4503e0ae6ce655b7ad2e17e8f0ad}{value}})
+\item 
+int \mbox{\hyperlink{vsf__json_8h_ac090e74aca95126f6eab1f03e942d459}{vsf\+\_\+json\+\_\+set\+\_\+integer}} (\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$c, char $\ast$key, int \mbox{\hyperlink{vsf__msg__tree_8h_a638e4503e0ae6ce655b7ad2e17e8f0ad}{value}})
+\item 
+int \mbox{\hyperlink{vsf__json_8h_aa152d41736bcb0a6d6f90c55d0415f8e}{vsf\+\_\+json\+\_\+set\+\_\+double}} (\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$c, char $\ast$key, double \mbox{\hyperlink{vsf__msg__tree_8h_a638e4503e0ae6ce655b7ad2e17e8f0ad}{value}})
+\item 
+int \mbox{\hyperlink{vsf__json_8h_a5ad6558317fc3e9ebe274adadf53162f}{vsf\+\_\+json\+\_\+set\+\_\+boolean}} (\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$c, char $\ast$key, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__msg__tree_8h_a638e4503e0ae6ce655b7ad2e17e8f0ad}{value}})
+\item 
+int \mbox{\hyperlink{vsf__json_8h_a1095b23cb1f17a364ab0328038ceab72}{vsf\+\_\+json\+\_\+set\+\_\+null}} (\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$c, char $\ast$key)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__json_8h_a5d0fe49b31f32a5772053296e883cd44}\label{vsf__json_8h_a5d0fe49b31f32a5772053296e883cd44}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_set\_object@{vsf\_json\_set\_object}}
+\index{vsf\_json\_set\_object@{vsf\_json\_set\_object}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_set\_object}{vsf\_json\_set\_object}}
+{\footnotesize\ttfamily \#define vsf\+\_\+json\+\_\+set\+\_\+object(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+c,  }\item[{}]{\+\_\+\+\_\+key,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keywordflow}{do} \{                                                                    \(\backslash\)}
+\DoxyCodeLine{            int len = \mbox{\hyperlink{vsf__json_8h_ab6996e9a77bcd78a7721df047073d40a}{vsf\_json\_set\_key}}((\_\_c), (\_\_key));                         \(\backslash\)}
+\DoxyCodeLine{            if (len < 0) break;                                                 \(\backslash\)}
+\DoxyCodeLine{            (\_\_c)-\/>first = \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}{true}};                                                \(\backslash\)}
+\DoxyCodeLine{            len = \mbox{\hyperlink{vsf__json_8h_a4dca3fa595673dfb31e67796bbe4362d}{vsf\_json\_write\_str}}((\_\_c), "{}\{\textcolor{stringliteral}{"{}, 1);                            \(\backslash\)}}
+\DoxyCodeLine{\textcolor{stringliteral}{            if (len < 0) break;                                                 \(\backslash\)}}
+\DoxyCodeLine{\textcolor{stringliteral}{            \_\_VA\_ARGS\_\_;                                                        \(\backslash\)}}
+\DoxyCodeLine{\textcolor{stringliteral}{            len = vsf\_json\_write\_str((\_\_c), "{}}\}\textcolor{stringliteral}{"{}, 1);                            \(\backslash\)}}
+\DoxyCodeLine{\textcolor{stringliteral}{            if (len < 0) break;                                                 \(\backslash\)}}
+\DoxyCodeLine{\textcolor{stringliteral}{        \} while (0)}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__json_8h_ad4f0830a03b7621fc0f5df704a9e1883}\label{vsf__json_8h_ad4f0830a03b7621fc0f5df704a9e1883}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_set\_array@{vsf\_json\_set\_array}}
+\index{vsf\_json\_set\_array@{vsf\_json\_set\_array}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_set\_array}{vsf\_json\_set\_array}}
+{\footnotesize\ttfamily \#define vsf\+\_\+json\+\_\+set\+\_\+array(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+c,  }\item[{}]{\+\_\+\+\_\+key,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keywordflow}{do} \{                                                                    \(\backslash\)}
+\DoxyCodeLine{            int len = \mbox{\hyperlink{vsf__json_8h_ab6996e9a77bcd78a7721df047073d40a}{vsf\_json\_set\_key}}((\_\_c), (\_\_key));                         \(\backslash\)}
+\DoxyCodeLine{            if (len < 0) break;                                                 \(\backslash\)}
+\DoxyCodeLine{            (\_\_c)-\/>first = \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}{true}};                                                \(\backslash\)}
+\DoxyCodeLine{            len = \mbox{\hyperlink{vsf__json_8h_a4dca3fa595673dfb31e67796bbe4362d}{vsf\_json\_write\_str}}((\_\_c), "{}["{}, 1);                            \(\backslash\)}
+\DoxyCodeLine{            if (len < 0) break;                                                 \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_;                                                        \(\backslash\)}
+\DoxyCodeLine{            len = \mbox{\hyperlink{vsf__json_8h_a4dca3fa595673dfb31e67796bbe4362d}{vsf\_json\_write\_str}}((\_\_c), "{}]"{}, 1);                            \(\backslash\)}
+\DoxyCodeLine{            if (len < 0) break;                                                 \(\backslash\)}
+\DoxyCodeLine{        \} while (0)}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__json_8h_a1b88d833c3c68cb07ae6ab6358d48831}\label{vsf__json_8h_a1b88d833c3c68cb07ae6ab6358d48831}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_type\_t@{vsf\_json\_type\_t}}
+\index{vsf\_json\_type\_t@{vsf\_json\_type\_t}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_type\_t}{vsf\_json\_type\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52}{vsf\+\_\+json\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52}{vsf\+\_\+json\+\_\+type\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52}\label{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_type\_t@{vsf\_json\_type\_t}}
+\index{vsf\_json\_type\_t@{vsf\_json\_type\_t}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_type\_t}{vsf\_json\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52}{vsf\+\_\+json\+\_\+type\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_JSON\_TYPE\_INVALID@{VSF\_JSON\_TYPE\_INVALID}!vsf\_json.h@{vsf\_json.h}}\index{vsf\_json.h@{vsf\_json.h}!VSF\_JSON\_TYPE\_INVALID@{VSF\_JSON\_TYPE\_INVALID}}}\mbox{\Hypertarget{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52aa1837b0a832889e17ce2b18b1f8982c2}\label{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52aa1837b0a832889e17ce2b18b1f8982c2}} 
+VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+INVALID&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_JSON\_TYPE\_OBJECT@{VSF\_JSON\_TYPE\_OBJECT}!vsf\_json.h@{vsf\_json.h}}\index{vsf\_json.h@{vsf\_json.h}!VSF\_JSON\_TYPE\_OBJECT@{VSF\_JSON\_TYPE\_OBJECT}}}\mbox{\Hypertarget{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52acab606ed0d44cfb0c2cd88acd2b6a61c}\label{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52acab606ed0d44cfb0c2cd88acd2b6a61c}} 
+VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+OBJECT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_JSON\_TYPE\_ARRAY@{VSF\_JSON\_TYPE\_ARRAY}!vsf\_json.h@{vsf\_json.h}}\index{vsf\_json.h@{vsf\_json.h}!VSF\_JSON\_TYPE\_ARRAY@{VSF\_JSON\_TYPE\_ARRAY}}}\mbox{\Hypertarget{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a3ecd98f4ae93de004bba051043e21434}\label{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a3ecd98f4ae93de004bba051043e21434}} 
+VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+ARRAY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_JSON\_TYPE\_STRING@{VSF\_JSON\_TYPE\_STRING}!vsf\_json.h@{vsf\_json.h}}\index{vsf\_json.h@{vsf\_json.h}!VSF\_JSON\_TYPE\_STRING@{VSF\_JSON\_TYPE\_STRING}}}\mbox{\Hypertarget{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a1fc97c0feb6db00ed734042e0eb76880}\label{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a1fc97c0feb6db00ed734042e0eb76880}} 
+VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+STRING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_JSON\_TYPE\_NUMBER@{VSF\_JSON\_TYPE\_NUMBER}!vsf\_json.h@{vsf\_json.h}}\index{vsf\_json.h@{vsf\_json.h}!VSF\_JSON\_TYPE\_NUMBER@{VSF\_JSON\_TYPE\_NUMBER}}}\mbox{\Hypertarget{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52ac6fa5f3fc63033998eae6f76dacc5db3}\label{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52ac6fa5f3fc63033998eae6f76dacc5db3}} 
+VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+NUMBER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_JSON\_TYPE\_BOOLEAN@{VSF\_JSON\_TYPE\_BOOLEAN}!vsf\_json.h@{vsf\_json.h}}\index{vsf\_json.h@{vsf\_json.h}!VSF\_JSON\_TYPE\_BOOLEAN@{VSF\_JSON\_TYPE\_BOOLEAN}}}\mbox{\Hypertarget{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a2ea372a765ebc2f7bcb10fcf14d040d8}\label{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a2ea372a765ebc2f7bcb10fcf14d040d8}} 
+VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+BOOLEAN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_JSON\_TYPE\_NULL@{VSF\_JSON\_TYPE\_NULL}!vsf\_json.h@{vsf\_json.h}}\index{vsf\_json.h@{vsf\_json.h}!VSF\_JSON\_TYPE\_NULL@{VSF\_JSON\_TYPE\_NULL}}}\mbox{\Hypertarget{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a5f9bcdd2fb5e9d2011a84dbb9b206b2c}\label{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52a5f9bcdd2fb5e9d2011a84dbb9b206b2c}} 
+VSF\+\_\+\+JSON\+\_\+\+TYPE\+\_\+\+NULL&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__json_8h_a683dc14366c4cfd2231493563ba9bfb8}\label{vsf__json_8h_a683dc14366c4cfd2231493563ba9bfb8}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_enumerate\_start@{vsf\_json\_enumerate\_start}}
+\index{vsf\_json\_enumerate\_start@{vsf\_json\_enumerate\_start}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_enumerate\_start()}{vsf\_json\_enumerate\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52}{vsf\+\_\+json\+\_\+type\+\_\+t}} vsf\+\_\+json\+\_\+enumerate\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__json__enumerator__t}{vsf\+\_\+json\+\_\+enumerator\+\_\+t}} $\ast$}]{e,  }\item[{const char $\ast$}]{json }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_a0a833cc45df6ea619f2b159e66ba136e}\label{vsf__json_8h_a0a833cc45df6ea619f2b159e66ba136e}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_enumerate\_next@{vsf\_json\_enumerate\_next}}
+\index{vsf\_json\_enumerate\_next@{vsf\_json\_enumerate\_next}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_enumerate\_next()}{vsf\_json\_enumerate\_next()}}
+{\footnotesize\ttfamily char$\ast$ vsf\+\_\+json\+\_\+enumerate\+\_\+next (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__json__enumerator__t}{vsf\+\_\+json\+\_\+enumerator\+\_\+t}} $\ast$}]{e }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_ac2b8b9955ba1fb689fde1865524f547d}\label{vsf__json_8h_ac2b8b9955ba1fb689fde1865524f547d}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_get@{vsf\_json\_get}}
+\index{vsf\_json\_get@{vsf\_json\_get}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_get()}{vsf\_json\_get()}}
+{\footnotesize\ttfamily char$\ast$ vsf\+\_\+json\+\_\+get (\begin{DoxyParamCaption}\item[{const char $\ast$}]{json,  }\item[{const char $\ast$}]{key }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_ab42bbd17f069eb84cda1edd32db557e7}\label{vsf__json_8h_ab42bbd17f069eb84cda1edd32db557e7}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_num\_of\_entry@{vsf\_json\_num\_of\_entry}}
+\index{vsf\_json\_num\_of\_entry@{vsf\_json\_num\_of\_entry}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_num\_of\_entry()}{vsf\_json\_num\_of\_entry()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+num\+\_\+of\+\_\+entry (\begin{DoxyParamCaption}\item[{const char $\ast$}]{json }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_afe945b3978dd3424e5600bfffc22075d}\label{vsf__json_8h_afe945b3978dd3424e5600bfffc22075d}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_get\_type@{vsf\_json\_get\_type}}
+\index{vsf\_json\_get\_type@{vsf\_json\_get\_type}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_get\_type()}{vsf\_json\_get\_type()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__json_8h_ac44b08a561f65bfeb324c1a17aa86b52}{vsf\+\_\+json\+\_\+type\+\_\+t}} vsf\+\_\+json\+\_\+get\+\_\+type (\begin{DoxyParamCaption}\item[{const char $\ast$}]{json }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_a9d085d6fdd67133668341ebf813d9157}\label{vsf__json_8h_a9d085d6fdd67133668341ebf813d9157}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_get\_string@{vsf\_json\_get\_string}}
+\index{vsf\_json\_get\_string@{vsf\_json\_get\_string}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_get\_string()}{vsf\_json\_get\_string()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+get\+\_\+string (\begin{DoxyParamCaption}\item[{const char $\ast$}]{json,  }\item[{char $\ast$}]{result,  }\item[{int}]{len }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_ace4b32644086cf19bcad93a96f760fbd}\label{vsf__json_8h_ace4b32644086cf19bcad93a96f760fbd}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_get\_number@{vsf\_json\_get\_number}}
+\index{vsf\_json\_get\_number@{vsf\_json\_get\_number}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_get\_number()}{vsf\_json\_get\_number()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+get\+\_\+number (\begin{DoxyParamCaption}\item[{const char $\ast$}]{json,  }\item[{double $\ast$}]{result }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_aa36b3b4daecc0d50ef4085aad4ab4c27}\label{vsf__json_8h_aa36b3b4daecc0d50ef4085aad4ab4c27}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_get\_boolean@{vsf\_json\_get\_boolean}}
+\index{vsf\_json\_get\_boolean@{vsf\_json\_get\_boolean}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_get\_boolean()}{vsf\_json\_get\_boolean()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+get\+\_\+boolean (\begin{DoxyParamCaption}\item[{const char $\ast$}]{json,  }\item[{\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} $\ast$}]{result }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_acca812bbd6fb0b007d9681c84bd0df46}\label{vsf__json_8h_acca812bbd6fb0b007d9681c84bd0df46}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_constructor\_init@{vsf\_json\_constructor\_init}}
+\index{vsf\_json\_constructor\_init@{vsf\_json\_constructor\_init}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_constructor\_init()}{vsf\_json\_constructor\_init()}}
+{\footnotesize\ttfamily void vsf\+\_\+json\+\_\+constructor\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$}]{c,  }\item[{void $\ast$}]{param,  }\item[{int($\ast$)(void $\ast$, char $\ast$, int)}]{write\+\_\+str }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_a92324b365995fe0a9001b004f763b35d}\label{vsf__json_8h_a92324b365995fe0a9001b004f763b35d}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_constructor\_buffer\_write\_str@{vsf\_json\_constructor\_buffer\_write\_str}}
+\index{vsf\_json\_constructor\_buffer\_write\_str@{vsf\_json\_constructor\_buffer\_write\_str}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_constructor\_buffer\_write\_str()}{vsf\_json\_constructor\_buffer\_write\_str()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+constructor\+\_\+buffer\+\_\+write\+\_\+str (\begin{DoxyParamCaption}\item[{void $\ast$}]{param,  }\item[{char $\ast$}]{str,  }\item[{int}]{len }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_a4dca3fa595673dfb31e67796bbe4362d}\label{vsf__json_8h_a4dca3fa595673dfb31e67796bbe4362d}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_write\_str@{vsf\_json\_write\_str}}
+\index{vsf\_json\_write\_str@{vsf\_json\_write\_str}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_write\_str()}{vsf\_json\_write\_str()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+write\+\_\+str (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$}]{c,  }\item[{char $\ast$}]{buf,  }\item[{int}]{len }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_ab6996e9a77bcd78a7721df047073d40a}\label{vsf__json_8h_ab6996e9a77bcd78a7721df047073d40a}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_set\_key@{vsf\_json\_set\_key}}
+\index{vsf\_json\_set\_key@{vsf\_json\_set\_key}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_set\_key()}{vsf\_json\_set\_key()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+set\+\_\+key (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$}]{c,  }\item[{char $\ast$}]{key }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_ac2fb2dfd0c3894be00f46b16490ec93b}\label{vsf__json_8h_ac2fb2dfd0c3894be00f46b16490ec93b}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_set\_string@{vsf\_json\_set\_string}}
+\index{vsf\_json\_set\_string@{vsf\_json\_set\_string}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_set\_string()}{vsf\_json\_set\_string()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+set\+\_\+string (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$}]{c,  }\item[{char $\ast$}]{key,  }\item[{char $\ast$}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_ac090e74aca95126f6eab1f03e942d459}\label{vsf__json_8h_ac090e74aca95126f6eab1f03e942d459}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_set\_integer@{vsf\_json\_set\_integer}}
+\index{vsf\_json\_set\_integer@{vsf\_json\_set\_integer}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_set\_integer()}{vsf\_json\_set\_integer()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+set\+\_\+integer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$}]{c,  }\item[{char $\ast$}]{key,  }\item[{int}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_aa152d41736bcb0a6d6f90c55d0415f8e}\label{vsf__json_8h_aa152d41736bcb0a6d6f90c55d0415f8e}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_set\_double@{vsf\_json\_set\_double}}
+\index{vsf\_json\_set\_double@{vsf\_json\_set\_double}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_set\_double()}{vsf\_json\_set\_double()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+set\+\_\+double (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$}]{c,  }\item[{char $\ast$}]{key,  }\item[{double}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_a5ad6558317fc3e9ebe274adadf53162f}\label{vsf__json_8h_a5ad6558317fc3e9ebe274adadf53162f}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_set\_boolean@{vsf\_json\_set\_boolean}}
+\index{vsf\_json\_set\_boolean@{vsf\_json\_set\_boolean}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_set\_boolean()}{vsf\_json\_set\_boolean()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+set\+\_\+boolean (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$}]{c,  }\item[{char $\ast$}]{key,  }\item[{\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}}]{value }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__json_8h_a1095b23cb1f17a364ab0328038ceab72}\label{vsf__json_8h_a1095b23cb1f17a364ab0328038ceab72}} 
+\index{vsf\_json.h@{vsf\_json.h}!vsf\_json\_set\_null@{vsf\_json\_set\_null}}
+\index{vsf\_json\_set\_null@{vsf\_json\_set\_null}!vsf\_json.h@{vsf\_json.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_json\_set\_null()}{vsf\_json\_set\_null()}}
+{\footnotesize\ttfamily int vsf\+\_\+json\+\_\+set\+\_\+null (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__json__constructor__t}{vsf\+\_\+json\+\_\+constructor\+\_\+t}} $\ast$}]{c,  }\item[{char $\ast$}]{key }\end{DoxyParamCaption})}
+

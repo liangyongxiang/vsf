@@ -1,0 +1,331 @@
+\hypertarget{vsf__kernel__cfg_8h}{}\doxysection{source/kernel/vsf\+\_\+kernel\+\_\+cfg.h File Reference}
+\label{vsf__kernel__cfg_8h}\index{source/kernel/vsf\_kernel\_cfg.h@{source/kernel/vsf\_kernel\_cfg.h}}
+{\ttfamily \#include \char`\"{}vsf\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}hal/arch/vsf\+\_\+arch.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_ace00324f8a73a7e8ad883cb3843628f9}{VSF\+\_\+\+KERNEL\+\_\+\+ASSERT}}~\mbox{\hyperlink{____type_8h_acd64f6b5d5274ec879245d7e83d67219}{VSF\+\_\+\+ASSERT}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a0ead414dd7188eac01ae2c548674c7b8}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+SYNC}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a138b0f9bcd1c161f48213675c933688a}{VSF\+\_\+\+SYNC\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+ISR}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a51a8db426126669b8313d98182599259}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+BITMAP\+\_\+\+EVENT}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_ab3da8c3e09657615d1984c10e6399026}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+SLIST\+\_\+\+QUEUE}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_aa5f6e056fa3a2b598988ec256981c599}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+TIMER\+\_\+\+MODE\+\_\+\+TICK}}~0
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_aa439431ba45d0a15700c06a9bf08dc85}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+TIMER\+\_\+\+MODE\+\_\+\+TICKLESS}}~1
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a593e4d09957c516132d2d293571b17ae}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+TIMER}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a9c690e7333fd91ba768e18d34278332f}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+CALLBACK\+\_\+\+TIMER}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a1e9da716c09796a618f69cac9d9ca584}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+TIMER\+\_\+\+MODE}}~\mbox{\hyperlink{vsf__kernel__cfg_8h_aa439431ba45d0a15700c06a9bf08dc85}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+TIMER\+\_\+\+MODE\+\_\+\+TICKLESS}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a5da7ed024ba7866e93fd36de58479bdb}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+SUB\+\_\+\+CALL}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a66e7b1e5ccc1f879c70b7d609fdb7dc1}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUBCALL\+\_\+\+HAS\+\_\+\+RETURN\+\_\+\+VALUE}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a07f81c7bad005e5ae3d3f0d16da591af}{\+\_\+\+\_\+\+VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+FRAME\+\_\+\+POOL}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a2fee2d2c1a4a7322f063a08098a545ee}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+FAST\+\_\+\+SUB\+\_\+\+CALL}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a7e5957fa91a42dc7b70694208ac92570}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+ON\+\_\+\+TERMINATE}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a4cce1eb673807352e48b1dce5cfa9004}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+THREAD}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_ad48191c8c9ba8159df5e6c13e3257fd6}{VSF\+\_\+\+KERNEL\+\_\+\+USE\+\_\+\+SIMPLE\+\_\+\+SHELL}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a7d83f1a8d0f4ad03c6a80c2dd0c3e6ad}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+TASK}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a7ad6c6dd4532b4c616967fe25eeb6524}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+PT}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a47d14110b1f90de23386a4a168f23756}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+SIMPLE\+\_\+\+FSM}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a1f536f21093e839b149b02e0d9b75617}{VSF\+\_\+\+KERNEL\+\_\+\+OPT\+\_\+\+AVOID\+\_\+\+UNNECESSARY\+\_\+\+YIELD\+\_\+\+EVT}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a02938c48f2c85bb7e7c699dd7c88d19d}{VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+NONE}}~0
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_ab75563d16237b2f00f8055df574fc7a0}{VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+THREAD}}~1
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_ade076f2813332bdaa40c31c6df2f8b95}{VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+EDA}}~2
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a9c1f0939bf60a5c7c038180cdff7f4c6}{VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+IDLE}}~3
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a224aed5f46dceba0f5b8c4b6dc7dd063}{VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE}}~\mbox{\hyperlink{vsf__kernel__cfg_8h_ab75563d16237b2f00f8055df574fc7a0}{VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+THREAD}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_af16f61ed94f50f13909a216de4aadbfd}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+EDA\+\_\+\+QUEUE}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a0da97935cecafe6b41ae60cdf1a2ceb1}{VSF\+\_\+\+USR\+\_\+\+SWI\+\_\+\+NUM}}~0
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a6a73d568a22a20e9c3043dcc9f48a20b}{\+\_\+\+\_\+\+VSF\+\_\+\+OS\+\_\+\+SWI\+\_\+\+NUM}}~(VSF\+\_\+\+SWI\+\_\+\+NUM + \mbox{\hyperlink{vsf__cfg_8h_a0da97935cecafe6b41ae60cdf1a2ceb1}{VSF\+\_\+\+USR\+\_\+\+SWI\+\_\+\+NUM}})
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a0c26fa6ec9c02a3f733bae9795239348}{VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+PRIORITY\+\_\+\+NUM}}~(\mbox{\hyperlink{vsf__kernel__cfg_8h_a6a73d568a22a20e9c3043dcc9f48a20b}{\+\_\+\+\_\+\+VSF\+\_\+\+OS\+\_\+\+SWI\+\_\+\+NUM}} + 1)
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_ae94c3d64b8e107992f802a73bb0b665e}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+ALLOW\+\_\+\+KERNEL\+\_\+\+BEING\+\_\+\+PREEMPTED}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_ae9c84682c62c14eda0d8778f0fc76cf1}{VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+ADD\+\_\+\+EVTQ\+\_\+\+TO\+\_\+\+IDLE}}~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_adbbd71667cafb02e0018b6c444386e82}{\+\_\+\+\_\+\+VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EVTQ\+\_\+\+EN}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a316919f2ae0798f09310ec06decc07a8}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+DYNAMIC\+\_\+\+PRIOTIRY}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_aa26cb7310cca292281ad453cf80a98fe}{\+\_\+\+\_\+\+VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+EVTQ\+\_\+\+LIST}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a29227d87f67137808838b8b04a2ccaa1}{VSF\+\_\+\+CALLBACK\+\_\+\+TIMER\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+ISR}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_abd6cdc4a7e929c775abe60c58c8c0022}{VSF\+\_\+\+EDA\+\_\+\+QUEUE\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+ISR}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_acff49799098a01cbf46c9c1323abef6a}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+EVT\+\_\+\+MESSAGE}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__cfg_8h_a0c76885b69f10d8d93f06874fd3af761}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+THREAD\+\_\+\+STACK\+\_\+\+CHECK}}~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_ace00324f8a73a7e8ad883cb3843628f9}\label{vsf__kernel__cfg_8h_ace00324f8a73a7e8ad883cb3843628f9}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_ASSERT@{VSF\_KERNEL\_ASSERT}}
+\index{VSF\_KERNEL\_ASSERT@{VSF\_KERNEL\_ASSERT}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_ASSERT}{VSF\_KERNEL\_ASSERT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+ASSERT~\mbox{\hyperlink{____type_8h_acd64f6b5d5274ec879245d7e83d67219}{VSF\+\_\+\+ASSERT}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a0ead414dd7188eac01ae2c548674c7b8}\label{vsf__kernel__cfg_8h_a0ead414dd7188eac01ae2c548674c7b8}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_SUPPORT\_SYNC@{VSF\_KERNEL\_CFG\_SUPPORT\_SYNC}}
+\index{VSF\_KERNEL\_CFG\_SUPPORT\_SYNC@{VSF\_KERNEL\_CFG\_SUPPORT\_SYNC}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_SUPPORT\_SYNC}{VSF\_KERNEL\_CFG\_SUPPORT\_SYNC}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+SYNC~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a138b0f9bcd1c161f48213675c933688a}\label{vsf__kernel__cfg_8h_a138b0f9bcd1c161f48213675c933688a}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_SYNC\_CFG\_SUPPORT\_ISR@{VSF\_SYNC\_CFG\_SUPPORT\_ISR}}
+\index{VSF\_SYNC\_CFG\_SUPPORT\_ISR@{VSF\_SYNC\_CFG\_SUPPORT\_ISR}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_SYNC\_CFG\_SUPPORT\_ISR}{VSF\_SYNC\_CFG\_SUPPORT\_ISR}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+SYNC\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+ISR~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a51a8db426126669b8313d98182599259}\label{vsf__kernel__cfg_8h_a51a8db426126669b8313d98182599259}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_SUPPORT\_BITMAP\_EVENT@{VSF\_KERNEL\_CFG\_SUPPORT\_BITMAP\_EVENT}}
+\index{VSF\_KERNEL\_CFG\_SUPPORT\_BITMAP\_EVENT@{VSF\_KERNEL\_CFG\_SUPPORT\_BITMAP\_EVENT}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_SUPPORT\_BITMAP\_EVENT}{VSF\_KERNEL\_CFG\_SUPPORT\_BITMAP\_EVENT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+BITMAP\+\_\+\+EVENT~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_ab3da8c3e09657615d1984c10e6399026}\label{vsf__kernel__cfg_8h_ab3da8c3e09657615d1984c10e6399026}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_SUPPORT\_SLIST\_QUEUE@{VSF\_KERNEL\_CFG\_SUPPORT\_SLIST\_QUEUE}}
+\index{VSF\_KERNEL\_CFG\_SUPPORT\_SLIST\_QUEUE@{VSF\_KERNEL\_CFG\_SUPPORT\_SLIST\_QUEUE}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_SUPPORT\_SLIST\_QUEUE}{VSF\_KERNEL\_CFG\_SUPPORT\_SLIST\_QUEUE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+SLIST\+\_\+\+QUEUE~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_aa5f6e056fa3a2b598988ec256981c599}\label{vsf__kernel__cfg_8h_aa5f6e056fa3a2b598988ec256981c599}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICK@{VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICK}}
+\index{VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICK@{VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICK}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICK}{VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICK}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+TIMER\+\_\+\+MODE\+\_\+\+TICK~0}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_aa439431ba45d0a15700c06a9bf08dc85}\label{vsf__kernel__cfg_8h_aa439431ba45d0a15700c06a9bf08dc85}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICKLESS@{VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICKLESS}}
+\index{VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICKLESS@{VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICKLESS}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICKLESS}{VSF\_KERNEL\_CFG\_TIMER\_MODE\_TICKLESS}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+TIMER\+\_\+\+MODE\+\_\+\+TICKLESS~1}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a593e4d09957c516132d2d293571b17ae}\label{vsf__kernel__cfg_8h_a593e4d09957c516132d2d293571b17ae}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TIMER@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TIMER}}
+\index{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TIMER@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TIMER}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TIMER}{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TIMER}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+TIMER~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a9c690e7333fd91ba768e18d34278332f}\label{vsf__kernel__cfg_8h_a9c690e7333fd91ba768e18d34278332f}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_SUPPORT\_CALLBACK\_TIMER@{VSF\_KERNEL\_CFG\_SUPPORT\_CALLBACK\_TIMER}}
+\index{VSF\_KERNEL\_CFG\_SUPPORT\_CALLBACK\_TIMER@{VSF\_KERNEL\_CFG\_SUPPORT\_CALLBACK\_TIMER}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_SUPPORT\_CALLBACK\_TIMER}{VSF\_KERNEL\_CFG\_SUPPORT\_CALLBACK\_TIMER}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+CALLBACK\+\_\+\+TIMER~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a1e9da716c09796a618f69cac9d9ca584}\label{vsf__kernel__cfg_8h_a1e9da716c09796a618f69cac9d9ca584}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_TIMER\_MODE@{VSF\_KERNEL\_CFG\_TIMER\_MODE}}
+\index{VSF\_KERNEL\_CFG\_TIMER\_MODE@{VSF\_KERNEL\_CFG\_TIMER\_MODE}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_TIMER\_MODE}{VSF\_KERNEL\_CFG\_TIMER\_MODE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+TIMER\+\_\+\+MODE~\mbox{\hyperlink{vsf__kernel__cfg_8h_aa439431ba45d0a15700c06a9bf08dc85}{VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+TIMER\+\_\+\+MODE\+\_\+\+TICKLESS}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a5da7ed024ba7866e93fd36de58479bdb}\label{vsf__kernel__cfg_8h_a5da7ed024ba7866e93fd36de58479bdb}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SUB\_CALL@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SUB\_CALL}}
+\index{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SUB\_CALL@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SUB\_CALL}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SUB\_CALL}{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SUB\_CALL}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+SUB\+\_\+\+CALL~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a66e7b1e5ccc1f879c70b7d609fdb7dc1}\label{vsf__kernel__cfg_8h_a66e7b1e5ccc1f879c70b7d609fdb7dc1}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_EDA\_SUBCALL\_HAS\_RETURN\_VALUE@{VSF\_KERNEL\_CFG\_EDA\_SUBCALL\_HAS\_RETURN\_VALUE}}
+\index{VSF\_KERNEL\_CFG\_EDA\_SUBCALL\_HAS\_RETURN\_VALUE@{VSF\_KERNEL\_CFG\_EDA\_SUBCALL\_HAS\_RETURN\_VALUE}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_EDA\_SUBCALL\_HAS\_RETURN\_VALUE}{VSF\_KERNEL\_CFG\_EDA\_SUBCALL\_HAS\_RETURN\_VALUE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUBCALL\+\_\+\+HAS\+\_\+\+RETURN\+\_\+\+VALUE~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\begin{DoxyNote}{Note}
+VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+FSM is deprecated. It will be removed ! soon. Please do not use it. ! TODO\+: Remove VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+FSM in the future 
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a07f81c7bad005e5ae3d3f0d16da591af}\label{vsf__kernel__cfg_8h_a07f81c7bad005e5ae3d3f0d16da591af}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!\_\_VSF\_KERNEL\_CFG\_EDA\_FRAME\_POOL@{\_\_VSF\_KERNEL\_CFG\_EDA\_FRAME\_POOL}}
+\index{\_\_VSF\_KERNEL\_CFG\_EDA\_FRAME\_POOL@{\_\_VSF\_KERNEL\_CFG\_EDA\_FRAME\_POOL}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_KERNEL\_CFG\_EDA\_FRAME\_POOL}{\_\_VSF\_KERNEL\_CFG\_EDA\_FRAME\_POOL}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+FRAME\+\_\+\+POOL~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a2fee2d2c1a4a7322f063a08098a545ee}\label{vsf__kernel__cfg_8h_a2fee2d2c1a4a7322f063a08098a545ee}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_EDA\_FAST\_SUB\_CALL@{VSF\_KERNEL\_CFG\_EDA\_FAST\_SUB\_CALL}}
+\index{VSF\_KERNEL\_CFG\_EDA\_FAST\_SUB\_CALL@{VSF\_KERNEL\_CFG\_EDA\_FAST\_SUB\_CALL}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_EDA\_FAST\_SUB\_CALL}{VSF\_KERNEL\_CFG\_EDA\_FAST\_SUB\_CALL}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+FAST\+\_\+\+SUB\+\_\+\+CALL~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a7e5957fa91a42dc7b70694208ac92570}\label{vsf__kernel__cfg_8h_a7e5957fa91a42dc7b70694208ac92570}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_ON\_TERMINATE@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_ON\_TERMINATE}}
+\index{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_ON\_TERMINATE@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_ON\_TERMINATE}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_ON\_TERMINATE}{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_ON\_TERMINATE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+ON\+\_\+\+TERMINATE~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a4cce1eb673807352e48b1dce5cfa9004}\label{vsf__kernel__cfg_8h_a4cce1eb673807352e48b1dce5cfa9004}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_SUPPORT\_THREAD@{VSF\_KERNEL\_CFG\_SUPPORT\_THREAD}}
+\index{VSF\_KERNEL\_CFG\_SUPPORT\_THREAD@{VSF\_KERNEL\_CFG\_SUPPORT\_THREAD}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_SUPPORT\_THREAD}{VSF\_KERNEL\_CFG\_SUPPORT\_THREAD}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+THREAD~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_ad48191c8c9ba8159df5e6c13e3257fd6}\label{vsf__kernel__cfg_8h_ad48191c8c9ba8159df5e6c13e3257fd6}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_USE\_SIMPLE\_SHELL@{VSF\_KERNEL\_USE\_SIMPLE\_SHELL}}
+\index{VSF\_KERNEL\_USE\_SIMPLE\_SHELL@{VSF\_KERNEL\_USE\_SIMPLE\_SHELL}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_USE\_SIMPLE\_SHELL}{VSF\_KERNEL\_USE\_SIMPLE\_SHELL}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+USE\+\_\+\+SIMPLE\+\_\+\+SHELL~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a7d83f1a8d0f4ad03c6a80c2dd0c3e6ad}\label{vsf__kernel__cfg_8h_a7d83f1a8d0f4ad03c6a80c2dd0c3e6ad}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TASK@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TASK}}
+\index{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TASK@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TASK}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TASK}{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_TASK}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+TASK~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a7ad6c6dd4532b4c616967fe25eeb6524}\label{vsf__kernel__cfg_8h_a7ad6c6dd4532b4c616967fe25eeb6524}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_PT@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_PT}}
+\index{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_PT@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_PT}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_PT}{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_PT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+PT~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a47d14110b1f90de23386a4a168f23756}\label{vsf__kernel__cfg_8h_a47d14110b1f90de23386a4a168f23756}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM}}
+\index{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM@{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM}{VSF\_KERNEL\_CFG\_EDA\_SUPPORT\_SIMPLE\_FSM}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EDA\+\_\+\+SUPPORT\+\_\+\+SIMPLE\+\_\+\+FSM~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a1f536f21093e839b149b02e0d9b75617}\label{vsf__kernel__cfg_8h_a1f536f21093e839b149b02e0d9b75617}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_OPT\_AVOID\_UNNECESSARY\_YIELD\_EVT@{VSF\_KERNEL\_OPT\_AVOID\_UNNECESSARY\_YIELD\_EVT}}
+\index{VSF\_KERNEL\_OPT\_AVOID\_UNNECESSARY\_YIELD\_EVT@{VSF\_KERNEL\_OPT\_AVOID\_UNNECESSARY\_YIELD\_EVT}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_OPT\_AVOID\_UNNECESSARY\_YIELD\_EVT}{VSF\_KERNEL\_OPT\_AVOID\_UNNECESSARY\_YIELD\_EVT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+OPT\+\_\+\+AVOID\+\_\+\+UNNECESSARY\+\_\+\+YIELD\+\_\+\+EVT~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a02938c48f2c85bb7e7c699dd7c88d19d}\label{vsf__kernel__cfg_8h_a02938c48f2c85bb7e7c699dd7c88d19d}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_OS\_CFG\_MAIN\_MODE\_NONE@{VSF\_OS\_CFG\_MAIN\_MODE\_NONE}}
+\index{VSF\_OS\_CFG\_MAIN\_MODE\_NONE@{VSF\_OS\_CFG\_MAIN\_MODE\_NONE}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_OS\_CFG\_MAIN\_MODE\_NONE}{VSF\_OS\_CFG\_MAIN\_MODE\_NONE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+NONE~0}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_ab75563d16237b2f00f8055df574fc7a0}\label{vsf__kernel__cfg_8h_ab75563d16237b2f00f8055df574fc7a0}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_OS\_CFG\_MAIN\_MODE\_THREAD@{VSF\_OS\_CFG\_MAIN\_MODE\_THREAD}}
+\index{VSF\_OS\_CFG\_MAIN\_MODE\_THREAD@{VSF\_OS\_CFG\_MAIN\_MODE\_THREAD}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_OS\_CFG\_MAIN\_MODE\_THREAD}{VSF\_OS\_CFG\_MAIN\_MODE\_THREAD}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+THREAD~1}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_ade076f2813332bdaa40c31c6df2f8b95}\label{vsf__kernel__cfg_8h_ade076f2813332bdaa40c31c6df2f8b95}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_OS\_CFG\_MAIN\_MODE\_EDA@{VSF\_OS\_CFG\_MAIN\_MODE\_EDA}}
+\index{VSF\_OS\_CFG\_MAIN\_MODE\_EDA@{VSF\_OS\_CFG\_MAIN\_MODE\_EDA}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_OS\_CFG\_MAIN\_MODE\_EDA}{VSF\_OS\_CFG\_MAIN\_MODE\_EDA}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+EDA~2}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a9c1f0939bf60a5c7c038180cdff7f4c6}\label{vsf__kernel__cfg_8h_a9c1f0939bf60a5c7c038180cdff7f4c6}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_OS\_CFG\_MAIN\_MODE\_IDLE@{VSF\_OS\_CFG\_MAIN\_MODE\_IDLE}}
+\index{VSF\_OS\_CFG\_MAIN\_MODE\_IDLE@{VSF\_OS\_CFG\_MAIN\_MODE\_IDLE}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_OS\_CFG\_MAIN\_MODE\_IDLE}{VSF\_OS\_CFG\_MAIN\_MODE\_IDLE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+IDLE~3}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a224aed5f46dceba0f5b8c4b6dc7dd063}\label{vsf__kernel__cfg_8h_a224aed5f46dceba0f5b8c4b6dc7dd063}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_OS\_CFG\_MAIN\_MODE@{VSF\_OS\_CFG\_MAIN\_MODE}}
+\index{VSF\_OS\_CFG\_MAIN\_MODE@{VSF\_OS\_CFG\_MAIN\_MODE}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_OS\_CFG\_MAIN\_MODE}{VSF\_OS\_CFG\_MAIN\_MODE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE~\mbox{\hyperlink{vsf__kernel__cfg_8h_ab75563d16237b2f00f8055df574fc7a0}{VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+THREAD}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_af16f61ed94f50f13909a216de4aadbfd}\label{vsf__kernel__cfg_8h_af16f61ed94f50f13909a216de4aadbfd}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_SUPPORT\_EDA\_QUEUE@{VSF\_KERNEL\_CFG\_SUPPORT\_EDA\_QUEUE}}
+\index{VSF\_KERNEL\_CFG\_SUPPORT\_EDA\_QUEUE@{VSF\_KERNEL\_CFG\_SUPPORT\_EDA\_QUEUE}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_SUPPORT\_EDA\_QUEUE}{VSF\_KERNEL\_CFG\_SUPPORT\_EDA\_QUEUE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+EDA\+\_\+\+QUEUE~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a0da97935cecafe6b41ae60cdf1a2ceb1}\label{vsf__kernel__cfg_8h_a0da97935cecafe6b41ae60cdf1a2ceb1}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_USR\_SWI\_NUM@{VSF\_USR\_SWI\_NUM}}
+\index{VSF\_USR\_SWI\_NUM@{VSF\_USR\_SWI\_NUM}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_USR\_SWI\_NUM}{VSF\_USR\_SWI\_NUM}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+USR\+\_\+\+SWI\+\_\+\+NUM~0}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a6a73d568a22a20e9c3043dcc9f48a20b}\label{vsf__kernel__cfg_8h_a6a73d568a22a20e9c3043dcc9f48a20b}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!\_\_VSF\_OS\_SWI\_NUM@{\_\_VSF\_OS\_SWI\_NUM}}
+\index{\_\_VSF\_OS\_SWI\_NUM@{\_\_VSF\_OS\_SWI\_NUM}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_OS\_SWI\_NUM}{\_\_VSF\_OS\_SWI\_NUM}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+OS\+\_\+\+SWI\+\_\+\+NUM~(VSF\+\_\+\+SWI\+\_\+\+NUM + \mbox{\hyperlink{vsf__cfg_8h_a0da97935cecafe6b41ae60cdf1a2ceb1}{VSF\+\_\+\+USR\+\_\+\+SWI\+\_\+\+NUM}})}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a0c26fa6ec9c02a3f733bae9795239348}\label{vsf__kernel__cfg_8h_a0c26fa6ec9c02a3f733bae9795239348}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_OS\_CFG\_PRIORITY\_NUM@{VSF\_OS\_CFG\_PRIORITY\_NUM}}
+\index{VSF\_OS\_CFG\_PRIORITY\_NUM@{VSF\_OS\_CFG\_PRIORITY\_NUM}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_OS\_CFG\_PRIORITY\_NUM}{VSF\_OS\_CFG\_PRIORITY\_NUM}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+PRIORITY\+\_\+\+NUM~(\mbox{\hyperlink{vsf__kernel__cfg_8h_a6a73d568a22a20e9c3043dcc9f48a20b}{\+\_\+\+\_\+\+VSF\+\_\+\+OS\+\_\+\+SWI\+\_\+\+NUM}} + 1)}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_ae94c3d64b8e107992f802a73bb0b665e}\label{vsf__kernel__cfg_8h_ae94c3d64b8e107992f802a73bb0b665e}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_ALLOW\_KERNEL\_BEING\_PREEMPTED@{VSF\_KERNEL\_CFG\_ALLOW\_KERNEL\_BEING\_PREEMPTED}}
+\index{VSF\_KERNEL\_CFG\_ALLOW\_KERNEL\_BEING\_PREEMPTED@{VSF\_KERNEL\_CFG\_ALLOW\_KERNEL\_BEING\_PREEMPTED}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_ALLOW\_KERNEL\_BEING\_PREEMPTED}{VSF\_KERNEL\_CFG\_ALLOW\_KERNEL\_BEING\_PREEMPTED}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+ALLOW\+\_\+\+KERNEL\+\_\+\+BEING\+\_\+\+PREEMPTED~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_ae9c84682c62c14eda0d8778f0fc76cf1}\label{vsf__kernel__cfg_8h_ae9c84682c62c14eda0d8778f0fc76cf1}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_OS\_CFG\_ADD\_EVTQ\_TO\_IDLE@{VSF\_OS\_CFG\_ADD\_EVTQ\_TO\_IDLE}}
+\index{VSF\_OS\_CFG\_ADD\_EVTQ\_TO\_IDLE@{VSF\_OS\_CFG\_ADD\_EVTQ\_TO\_IDLE}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_OS\_CFG\_ADD\_EVTQ\_TO\_IDLE}{VSF\_OS\_CFG\_ADD\_EVTQ\_TO\_IDLE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+ADD\+\_\+\+EVTQ\+\_\+\+TO\+\_\+\+IDLE~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}}
+
+\begin{DoxyNote}{Note}
+VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+ADD\+\_\+\+EVTQ\+\_\+\+TO\+\_\+\+IDLE is disabled by default, because tasks in idle evtq does not support dynamic priority feature 
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_adbbd71667cafb02e0018b6c444386e82}\label{vsf__kernel__cfg_8h_adbbd71667cafb02e0018b6c444386e82}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!\_\_VSF\_KERNEL\_CFG\_EVTQ\_EN@{\_\_VSF\_KERNEL\_CFG\_EVTQ\_EN}}
+\index{\_\_VSF\_KERNEL\_CFG\_EVTQ\_EN@{\_\_VSF\_KERNEL\_CFG\_EVTQ\_EN}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_KERNEL\_CFG\_EVTQ\_EN}{\_\_VSF\_KERNEL\_CFG\_EVTQ\_EN}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+EVTQ\+\_\+\+EN~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\begin{DoxyNote}{Note}
+when VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+PRIORITY\+\_\+\+NUM equals 1, no SWI is required, hence the macro \+\_\+\+\_\+\+VSF\+\_\+\+OS\+\_\+\+SWI\+\_\+\+PRIORITY\+\_\+\+BEGIN should {\bfseries{NOT}} be defined. 
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a316919f2ae0798f09310ec06decc07a8}\label{vsf__kernel__cfg_8h_a316919f2ae0798f09310ec06decc07a8}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_SUPPORT\_DYNAMIC\_PRIOTIRY@{VSF\_KERNEL\_CFG\_SUPPORT\_DYNAMIC\_PRIOTIRY}}
+\index{VSF\_KERNEL\_CFG\_SUPPORT\_DYNAMIC\_PRIOTIRY@{VSF\_KERNEL\_CFG\_SUPPORT\_DYNAMIC\_PRIOTIRY}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_SUPPORT\_DYNAMIC\_PRIOTIRY}{VSF\_KERNEL\_CFG\_SUPPORT\_DYNAMIC\_PRIOTIRY}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+DYNAMIC\+\_\+\+PRIOTIRY~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_aa26cb7310cca292281ad453cf80a98fe}\label{vsf__kernel__cfg_8h_aa26cb7310cca292281ad453cf80a98fe}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!\_\_VSF\_OS\_CFG\_EVTQ\_LIST@{\_\_VSF\_OS\_CFG\_EVTQ\_LIST}}
+\index{\_\_VSF\_OS\_CFG\_EVTQ\_LIST@{\_\_VSF\_OS\_CFG\_EVTQ\_LIST}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_OS\_CFG\_EVTQ\_LIST}{\_\_VSF\_OS\_CFG\_EVTQ\_LIST}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+EVTQ\+\_\+\+LIST}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a29227d87f67137808838b8b04a2ccaa1}\label{vsf__kernel__cfg_8h_a29227d87f67137808838b8b04a2ccaa1}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_CALLBACK\_TIMER\_CFG\_SUPPORT\_ISR@{VSF\_CALLBACK\_TIMER\_CFG\_SUPPORT\_ISR}}
+\index{VSF\_CALLBACK\_TIMER\_CFG\_SUPPORT\_ISR@{VSF\_CALLBACK\_TIMER\_CFG\_SUPPORT\_ISR}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_CALLBACK\_TIMER\_CFG\_SUPPORT\_ISR}{VSF\_CALLBACK\_TIMER\_CFG\_SUPPORT\_ISR}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+CALLBACK\+\_\+\+TIMER\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+ISR~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_abd6cdc4a7e929c775abe60c58c8c0022}\label{vsf__kernel__cfg_8h_abd6cdc4a7e929c775abe60c58c8c0022}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_EDA\_QUEUE\_CFG\_SUPPORT\_ISR@{VSF\_EDA\_QUEUE\_CFG\_SUPPORT\_ISR}}
+\index{VSF\_EDA\_QUEUE\_CFG\_SUPPORT\_ISR@{VSF\_EDA\_QUEUE\_CFG\_SUPPORT\_ISR}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_EDA\_QUEUE\_CFG\_SUPPORT\_ISR}{VSF\_EDA\_QUEUE\_CFG\_SUPPORT\_ISR}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+EDA\+\_\+\+QUEUE\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+ISR~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_acff49799098a01cbf46c9c1323abef6a}\label{vsf__kernel__cfg_8h_acff49799098a01cbf46c9c1323abef6a}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_SUPPORT\_EVT\_MESSAGE@{VSF\_KERNEL\_CFG\_SUPPORT\_EVT\_MESSAGE}}
+\index{VSF\_KERNEL\_CFG\_SUPPORT\_EVT\_MESSAGE@{VSF\_KERNEL\_CFG\_SUPPORT\_EVT\_MESSAGE}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_SUPPORT\_EVT\_MESSAGE}{VSF\_KERNEL\_CFG\_SUPPORT\_EVT\_MESSAGE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+EVT\+\_\+\+MESSAGE~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+\mbox{\Hypertarget{vsf__kernel__cfg_8h_a0c76885b69f10d8d93f06874fd3af761}\label{vsf__kernel__cfg_8h_a0c76885b69f10d8d93f06874fd3af761}} 
+\index{vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}!VSF\_KERNEL\_CFG\_THREAD\_STACK\_CHECK@{VSF\_KERNEL\_CFG\_THREAD\_STACK\_CHECK}}
+\index{VSF\_KERNEL\_CFG\_THREAD\_STACK\_CHECK@{VSF\_KERNEL\_CFG\_THREAD\_STACK\_CHECK}!vsf\_kernel\_cfg.h@{vsf\_kernel\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_KERNEL\_CFG\_THREAD\_STACK\_CHECK}{VSF\_KERNEL\_CFG\_THREAD\_STACK\_CHECK}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+KERNEL\+\_\+\+CFG\+\_\+\+THREAD\+\_\+\+STACK\+\_\+\+CHECK~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}}
+

@@ -1,0 +1,165 @@
+\hypertarget{____vsf__task__common_8h}{}\doxysection{source/kernel/task/\+\_\+\+\_\+vsf\+\_\+task\+\_\+common.h File Reference}
+\label{____vsf__task__common_8h}\index{source/kernel/task/\_\_vsf\_task\_common.h@{source/kernel/task/\_\_vsf\_task\_common.h}}
+{\ttfamily \#include \char`\"{}./kernel/vsf\+\_\+kernel\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../vsf\+\_\+eda.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_a19f286826ce0d0278b501ec7b2e12945}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+begin\+\_\+common}}(\+\_\+\+\_\+state)
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_add63a969f39f3859ee651ab1e04cacde}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+raw\+\_\+next\+\_\+common}}(\+\_\+\+\_\+state)~            (\+\_\+\+\_\+state) = (\+\_\+\+\_\+\+COUNTER\+\_\+\+\_\+ -\/ count\+\_\+offset + 1) $>$$>$ 1
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_a6f34bb05d6336cadbdd2a4108c253ca9}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+raw\+\_\+entry\+\_\+common}}(\+\_\+\+\_\+state, ...)
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_a1c88a907f54aff122103993b19bc0edf}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+entry\+\_\+common}}(\+\_\+\+\_\+state, ...)
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_a9e1d2f7f4f7b1d5030e6a610efb99286}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+end\+\_\+common}}()~\} \mbox{\hyperlink{vsf__eda_8h_a2b5e64dfa6445ad2908763aad3118256}{vsf\+\_\+eda\+\_\+return}}();
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_a8ca3e3206d5e9d90b1c5f694ed5da9bb}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+wait\+\_\+cond\+\_\+common}}(\+\_\+\+\_\+state, ...)
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_a932749d28ca1f6489e31b0d0833dc248}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+wfe\+\_\+common}}(\+\_\+\+\_\+state,  \+\_\+\+\_\+evt)~    \mbox{\hyperlink{____vsf__task__common_8h_a8ca3e3206d5e9d90b1c5f694ed5da9bb}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+wait\+\_\+cond\+\_\+common}}(\+\_\+\+\_\+state, (evt == \+\_\+\+\_\+evt))
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_a82fb3b0399e022a1e658929998834483}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+func\+\_\+common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~vsf\+\_\+pt\+\_\+func\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_a3787d670815417613ae4382b961bf596}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~pt\+\_\+cb\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_a5b95b7f8e131ce16e539cbdbf0ca2a14}{\+\_\+\+\_\+def\+\_\+vsf\+\_\+pt\+\_\+common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, ...)
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_ae92cdd1f55b8f2d75661f536f995c17c}{\+\_\+\+\_\+declare\+\_\+vsf\+\_\+pt\+\_\+common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_a83263cc36fa6b1c2cbd335aac15b1d68}{\+\_\+\+\_\+implement\+\_\+vsf\+\_\+pt\+\_\+common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+arg0)~        void \mbox{\hyperlink{____vsf__task__common_8h_a82fb3b0399e022a1e658929998834483}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+func\+\_\+common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})(\+\_\+\+\_\+arg0, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}} evt)
+\item 
+\#define \mbox{\hyperlink{____vsf__task__common_8h_af94ff2a928c6300917f752fc241d40a7}{\+\_\+\+\_\+extern\+\_\+vsf\+\_\+pt\+\_\+common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+arg0)~        extern void \mbox{\hyperlink{____vsf__task__common_8h_a82fb3b0399e022a1e658929998834483}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+func\+\_\+common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})(\+\_\+\+\_\+arg0, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}} evt);
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{____vsf__task__common_8h_a19f286826ce0d0278b501ec7b2e12945}\label{____vsf__task__common_8h_a19f286826ce0d0278b501ec7b2e12945}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_vsf\_pt\_begin\_common@{\_\_vsf\_pt\_begin\_common}}
+\index{\_\_vsf\_pt\_begin\_common@{\_\_vsf\_pt\_begin\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_pt\_begin\_common}{\_\_vsf\_pt\_begin\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+pt\+\_\+begin\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{keyword}{enum} \{                                                              \(\backslash\)}
+\DoxyCodeLine{                count\_offset = \_\_COUNTER\_\_ + 1,                                 \(\backslash\)}
+\DoxyCodeLine{            \};                                                                  \(\backslash\)}
+\DoxyCodeLine{            switch ((\_\_state)) \{                                                \(\backslash\)}
+\DoxyCodeLine{                case \_\_COUNTER\_\_ -\/ count\_offset:}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{____vsf__task__common_8h_add63a969f39f3859ee651ab1e04cacde}\label{____vsf__task__common_8h_add63a969f39f3859ee651ab1e04cacde}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_vsf\_pt\_raw\_next\_common@{\_\_vsf\_pt\_raw\_next\_common}}
+\index{\_\_vsf\_pt\_raw\_next\_common@{\_\_vsf\_pt\_raw\_next\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_pt\_raw\_next\_common}{\_\_vsf\_pt\_raw\_next\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+pt\+\_\+raw\+\_\+next\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state }\end{DoxyParamCaption})~            (\+\_\+\+\_\+state) = (\+\_\+\+\_\+\+COUNTER\+\_\+\+\_\+ -\/ count\+\_\+offset + 1) $>$$>$ 1}
+
+\mbox{\Hypertarget{____vsf__task__common_8h_a6f34bb05d6336cadbdd2a4108c253ca9}\label{____vsf__task__common_8h_a6f34bb05d6336cadbdd2a4108c253ca9}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_vsf\_pt\_raw\_entry\_common@{\_\_vsf\_pt\_raw\_entry\_common}}
+\index{\_\_vsf\_pt\_raw\_entry\_common@{\_\_vsf\_pt\_raw\_entry\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_pt\_raw\_entry\_common}{\_\_vsf\_pt\_raw\_entry\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+pt\+\_\+raw\+\_\+entry\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_;                                                        \(\backslash\)}
+\DoxyCodeLine{            case (\_\_COUNTER\_\_ -\/ count\_offset) >> 1:}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{____vsf__task__common_8h_a1c88a907f54aff122103993b19bc0edf}\label{____vsf__task__common_8h_a1c88a907f54aff122103993b19bc0edf}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_vsf\_pt\_entry\_common@{\_\_vsf\_pt\_entry\_common}}
+\index{\_\_vsf\_pt\_entry\_common@{\_\_vsf\_pt\_entry\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_pt\_entry\_common}{\_\_vsf\_pt\_entry\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+pt\+\_\+entry\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{____vsf__task__common_8h_a6f34bb05d6336cadbdd2a4108c253ca9}{\_\_vsf\_pt\_raw\_entry\_common}}(\_\_state,                                  \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{____vsf__task__common_8h_add63a969f39f3859ee651ab1e04cacde}{\_\_vsf\_pt\_raw\_next\_common}}(\_\_state);                              \(\backslash\)}
+\DoxyCodeLine{                \_\_VA\_ARGS\_\_                                                     \(\backslash\)}
+\DoxyCodeLine{            )}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{____vsf__task__common_8h_a9e1d2f7f4f7b1d5030e6a610efb99286}\label{____vsf__task__common_8h_a9e1d2f7f4f7b1d5030e6a610efb99286}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_vsf\_pt\_end\_common@{\_\_vsf\_pt\_end\_common}}
+\index{\_\_vsf\_pt\_end\_common@{\_\_vsf\_pt\_end\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_pt\_end\_common}{\_\_vsf\_pt\_end\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+pt\+\_\+end\+\_\+common(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\} \mbox{\hyperlink{vsf__eda_8h_a2b5e64dfa6445ad2908763aad3118256}{vsf\+\_\+eda\+\_\+return}}();}
+
+\mbox{\Hypertarget{____vsf__task__common_8h_a8ca3e3206d5e9d90b1c5f694ed5da9bb}\label{____vsf__task__common_8h_a8ca3e3206d5e9d90b1c5f694ed5da9bb}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_vsf\_pt\_wait\_cond\_common@{\_\_vsf\_pt\_wait\_cond\_common}}
+\index{\_\_vsf\_pt\_wait\_cond\_common@{\_\_vsf\_pt\_wait\_cond\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_pt\_wait\_cond\_common}{\_\_vsf\_pt\_wait\_cond\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+pt\+\_\+wait\+\_\+cond\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        evt = \mbox{\hyperlink{vsf__eda_8h_a905301dc85f7361d62f56f9dea55cf2ca89b2cff47076f0fb88c3856c95ef38ef}{VSF\_EVT\_INVALID}};                                                  \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_pt\_entry\_common(\_\_state);                                         \(\backslash\)}
+\DoxyCodeLine{        if (!(\_\_VA\_ARGS\_\_)) \{                                                   \(\backslash\)}
+\DoxyCodeLine{            return ;                                                            \(\backslash\)}
+\DoxyCodeLine{        \}                                                                       \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{____vsf__task__common_8h_a932749d28ca1f6489e31b0d0833dc248}\label{____vsf__task__common_8h_a932749d28ca1f6489e31b0d0833dc248}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_vsf\_pt\_wfe\_common@{\_\_vsf\_pt\_wfe\_common}}
+\index{\_\_vsf\_pt\_wfe\_common@{\_\_vsf\_pt\_wfe\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_pt\_wfe\_common}{\_\_vsf\_pt\_wfe\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+pt\+\_\+wfe\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state,  }\item[{}]{\+\_\+\+\_\+evt }\end{DoxyParamCaption})~    \mbox{\hyperlink{____vsf__task__common_8h_a8ca3e3206d5e9d90b1c5f694ed5da9bb}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+wait\+\_\+cond\+\_\+common}}(\+\_\+\+\_\+state, (evt == \+\_\+\+\_\+evt))}
+
+\mbox{\Hypertarget{____vsf__task__common_8h_a82fb3b0399e022a1e658929998834483}\label{____vsf__task__common_8h_a82fb3b0399e022a1e658929998834483}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_vsf\_pt\_func\_common@{\_\_vsf\_pt\_func\_common}}
+\index{\_\_vsf\_pt\_func\_common@{\_\_vsf\_pt\_func\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_pt\_func\_common}{\_\_vsf\_pt\_func\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+pt\+\_\+func\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~vsf\+\_\+pt\+\_\+func\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}}
+
+\mbox{\Hypertarget{____vsf__task__common_8h_a3787d670815417613ae4382b961bf596}\label{____vsf__task__common_8h_a3787d670815417613ae4382b961bf596}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_vsf\_pt\_common@{\_\_vsf\_pt\_common}}
+\index{\_\_vsf\_pt\_common@{\_\_vsf\_pt\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_pt\_common}{\_\_vsf\_pt\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+pt\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~pt\+\_\+cb\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}}
+
+\mbox{\Hypertarget{____vsf__task__common_8h_a5b95b7f8e131ce16e539cbdbf0ca2a14}\label{____vsf__task__common_8h_a5b95b7f8e131ce16e539cbdbf0ca2a14}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_def\_vsf\_pt\_common@{\_\_def\_vsf\_pt\_common}}
+\index{\_\_def\_vsf\_pt\_common@{\_\_def\_vsf\_pt\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_def\_vsf\_pt\_common}{\_\_def\_vsf\_pt\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+def\+\_\+vsf\+\_\+pt\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keyword}{struct }\_\_vsf\_pt\_common(\_\_name) \{                                        \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_                                                         \(\backslash\)}
+\DoxyCodeLine{        \};                                                                      \(\backslash\)}
+\DoxyCodeLine{        struct \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}} \{                                                         \(\backslash\)}
+\DoxyCodeLine{            implement(\mbox{\hyperlink{classvsf__teda__t}{vsf\_pt\_t}})                                                 \(\backslash\)}
+\DoxyCodeLine{            implement\_ex(\mbox{\hyperlink{____vsf__task__common_8h_a3787d670815417613ae4382b961bf596}{\_\_vsf\_pt\_common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}), param)                        \(\backslash\)}
+\DoxyCodeLine{        \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{____vsf__task__common_8h_ae92cdd1f55b8f2d75661f536f995c17c}\label{____vsf__task__common_8h_ae92cdd1f55b8f2d75661f536f995c17c}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_declare\_vsf\_pt\_common@{\_\_declare\_vsf\_pt\_common}}
+\index{\_\_declare\_vsf\_pt\_common@{\_\_declare\_vsf\_pt\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_declare\_vsf\_pt\_common}{\_\_declare\_vsf\_pt\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+declare\+\_\+vsf\+\_\+pt\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{keyword}{typedef} \textcolor{keyword}{struct }\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}} \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}};                                       \(\backslash\)}
+\DoxyCodeLine{            typedef \textcolor{keyword}{struct }\_\_vsf\_pt\_common(\_\_name) \mbox{\hyperlink{____vsf__task__common_8h_a3787d670815417613ae4382b961bf596}{\_\_vsf\_pt\_common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}});}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{____vsf__task__common_8h_a83263cc36fa6b1c2cbd335aac15b1d68}\label{____vsf__task__common_8h_a83263cc36fa6b1c2cbd335aac15b1d68}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_implement\_vsf\_pt\_common@{\_\_implement\_vsf\_pt\_common}}
+\index{\_\_implement\_vsf\_pt\_common@{\_\_implement\_vsf\_pt\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_implement\_vsf\_pt\_common}{\_\_implement\_vsf\_pt\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+implement\+\_\+vsf\+\_\+pt\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+arg0 }\end{DoxyParamCaption})~        void \mbox{\hyperlink{____vsf__task__common_8h_a82fb3b0399e022a1e658929998834483}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+func\+\_\+common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})(\+\_\+\+\_\+arg0, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}} evt)}
+
+\mbox{\Hypertarget{____vsf__task__common_8h_af94ff2a928c6300917f752fc241d40a7}\label{____vsf__task__common_8h_af94ff2a928c6300917f752fc241d40a7}} 
+\index{\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}!\_\_extern\_vsf\_pt\_common@{\_\_extern\_vsf\_pt\_common}}
+\index{\_\_extern\_vsf\_pt\_common@{\_\_extern\_vsf\_pt\_common}!\_\_vsf\_task\_common.h@{\_\_vsf\_task\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_extern\_vsf\_pt\_common}{\_\_extern\_vsf\_pt\_common}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+extern\+\_\+vsf\+\_\+pt\+\_\+common(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+arg0 }\end{DoxyParamCaption})~        extern void \mbox{\hyperlink{____vsf__task__common_8h_a82fb3b0399e022a1e658929998834483}{\+\_\+\+\_\+vsf\+\_\+pt\+\_\+func\+\_\+common}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})(\+\_\+\+\_\+arg0, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}} evt);}
+

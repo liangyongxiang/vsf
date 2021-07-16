@@ -1,0 +1,230 @@
+\hypertarget{vsf__disp__ssd1306_8h}{}\doxysection{source/component/ui/disp/driver/solomon-\/systech/ssd1306/vsf\+\_\+disp\+\_\+ssd1306.h File Reference}
+\label{vsf__disp__ssd1306_8h}\index{source/component/ui/disp/driver/solomon-\/systech/ssd1306/vsf\_disp\_ssd1306.h@{source/component/ui/disp/driver/solomon-\/systech/ssd1306/vsf\_disp\_ssd1306.h}}
+{\ttfamily \#include \char`\"{}component/ui/vsf\+\_\+ui\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../common/vsf\+\_\+disp\+\_\+solomon\+\_\+systech\+\_\+common.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classvk__disp__ssd1306__t}{vk\+\_\+disp\+\_\+ssd1306\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_af59af0edd83eeaa33a3e6aeebcbbce95}{VSF\+\_\+\+SSD1306\+\_\+\+PORT\+\_\+\+IIC}}~0
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_af6ab482dc5b057d5b7ccc441cf166ac8}{VSF\+\_\+\+SSD1306\+\_\+\+PORT\+\_\+\+SPI}}~1
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a749fb022b6f5138f36d8e366f55c9405}{VSF\+\_\+\+SSD1306\+\_\+\+PORT\+\_\+\+EBI}}~2
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a200443727674b6bb0ecb6abefeea1e38}{VSF\+\_\+\+SSD1306\+\_\+\+CFG\+\_\+\+PORT}}~\mbox{\hyperlink{vsf__disp__ssd1306_8h_af59af0edd83eeaa33a3e6aeebcbbce95}{VSF\+\_\+\+SSD1306\+\_\+\+PORT\+\_\+\+IIC}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_af973f985785e68ab5923e15f47923a09}{SSD1306\+\_\+\+SET\+\_\+\+DISPLAY\+\_\+\+ON}}(\+\_\+\+\_\+\+ON)~(0x\+AE $\vert$ ((\+\_\+\+\_\+\+ON) ? 1 \+: 0))
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_ac5dc8dfbe6ee94f9539cd36b5f41bf74}{SSD1306\+\_\+\+SET\+\_\+\+DISPLAY\+\_\+\+START\+\_\+\+LINE}}(\+\_\+\+\_\+\+LINE)~(0x40 $\vert$ ((\+\_\+\+\_\+\+LINE) \& 0x3F))
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a6759e8dbd782bb37a9919797a0d52902}{SSD1306\+\_\+\+SET\+\_\+\+POAGE\+\_\+\+START\+\_\+\+ADDRESS}}(\+\_\+\+\_\+\+PAGE)~(0x\+B0 $\vert$ ((\+\_\+\+\_\+\+PAGE) \& 0x07))
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a3f9a71ec5a542a1540ea957740423068}{SSD1306\+\_\+\+SET\+\_\+\+COM\+\_\+\+OUTPUT\+\_\+\+SCAN\+\_\+\+DIRECTION}}(\+\_\+\+\_\+\+DIR)~(0x\+C0 $\vert$ ((\+\_\+\+\_\+\+DIR) ? 0x08 \+: 0x00))
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a705436723aa195e1bced6bd4d44c05e1}{SSD1306\+\_\+\+SET\+\_\+\+CONTRAST\+\_\+\+CONTROL}}~(0x81)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a79cdf0d2c2e912f6f6952e28cb622816}{SSD1306\+\_\+\+SET\+\_\+\+SEGMENT\+\_\+\+REMAP}}(\+\_\+\+\_\+\+REMAP)~(0x\+A0 $\vert$ ((\+\_\+\+\_\+\+REMAP) ? 1 \+: 0))
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_acaeab4df0219eb07c1c4563810cf35aa}{SSD1306\+\_\+\+SET\+\_\+\+INVERSE\+\_\+\+DISPLAY}}(\+\_\+\+\_\+\+INVERSE)~(0x\+A6 $\vert$ ((\+\_\+\+\_\+\+INVERSE) ? 1 \+: 0))
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a4e68ffa5f2f19f9b047e1cc48c1b7941}{SSD1306\+\_\+\+SET\+\_\+\+MULTIPLEX\+\_\+\+RATIO}}~(0x\+A8)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a00d1b0194d44f6022d4ddc92d72d75e8}{SSD1306\+\_\+\+SET\+\_\+\+DISPLAY\+\_\+\+OFFSET}}~(0x\+D3)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_acc554389e3ad9b1e22a953090f5e3ddf}{SSD1306\+\_\+\+SET\+\_\+\+OSC\+\_\+\+DIV}}~(0x\+D5)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a53f2b763a9320b83d52bee065fb51158}{SSD1306\+\_\+\+SET\+\_\+\+PRECHARGE\+\_\+\+PERIOD}}~(0x\+D9)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a99cbe0ca138a5154ffb404cc6ab34d80}{SSD1306\+\_\+\+SET\+\_\+\+COM\+\_\+\+PIN}}~(0x\+DA)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a1521993a668c3eb5aa25a34344c85382}{SSD1306\+\_\+\+SET\+\_\+\+VCOMH}}~(0x\+DB)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a614e028e5f6024c70a6e98c85fecd818}{SSD1306\+\_\+\+CHARGE\+\_\+\+PUMP}}~(0x8D)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_af2e93d8d381d4dcce5b7607d12f6b787}{SSD1306\+\_\+\+SET\+\_\+\+ADDRESS\+\_\+\+MODE}}~(0x20)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a8f4a20b1177cef6941031f39f4d9a37a}{SSD1306\+\_\+\+ADDRESS\+\_\+\+MODE\+\_\+\+HORIZONTAL}}~(0x00)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_ae2ff2cc41d81292a20593d9e6837efda}{SSD1306\+\_\+\+ADDRESS\+\_\+\+MODE\+\_\+\+VERTICAL}}~(0x01)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_af92e81cab9c3011e107c02cc13154186}{SSD1306\+\_\+\+ADDRESS\+\_\+\+MODE\+\_\+\+PAGE}}~(0x02)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a1130a0597e90703f244db4901687abc0}{SSD1306\+\_\+\+SET\+\_\+\+COLUMN\+\_\+\+ADDRESS}}~(0x21)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_a3ab1f4de1207bb14819690125ee79d0d}{SSD1306\+\_\+\+SET\+\_\+\+PAGE\+\_\+\+ADDRESS}}~(0x22)
+\item 
+\#define \mbox{\hyperlink{vsf__disp__ssd1306_8h_aff4add1595800f5e170e6addc1857198}{VSF\+\_\+\+DISP\+\_\+\+SSD1306\+\_\+\+IIC\+\_\+\+INIT\+\_\+\+SEQ}}(\+\_\+\+\_\+\+LINE,  \+\_\+\+\_\+\+CONTRAST,  \+\_\+\+\_\+\+INVERSE,  \+\_\+\+\_\+\+DIRECTION)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__disp__ssd1306_8h_a341734c0ef48406f674d010186ba0251}{vk\+\_\+disp\+\_\+drv\+\_\+ssd1306}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_af59af0edd83eeaa33a3e6aeebcbbce95}\label{vsf__disp__ssd1306_8h_af59af0edd83eeaa33a3e6aeebcbbce95}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!VSF\_SSD1306\_PORT\_IIC@{VSF\_SSD1306\_PORT\_IIC}}
+\index{VSF\_SSD1306\_PORT\_IIC@{VSF\_SSD1306\_PORT\_IIC}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_SSD1306\_PORT\_IIC}{VSF\_SSD1306\_PORT\_IIC}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+SSD1306\+\_\+\+PORT\+\_\+\+IIC~0}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_af6ab482dc5b057d5b7ccc441cf166ac8}\label{vsf__disp__ssd1306_8h_af6ab482dc5b057d5b7ccc441cf166ac8}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!VSF\_SSD1306\_PORT\_SPI@{VSF\_SSD1306\_PORT\_SPI}}
+\index{VSF\_SSD1306\_PORT\_SPI@{VSF\_SSD1306\_PORT\_SPI}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_SSD1306\_PORT\_SPI}{VSF\_SSD1306\_PORT\_SPI}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+SSD1306\+\_\+\+PORT\+\_\+\+SPI~1}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a749fb022b6f5138f36d8e366f55c9405}\label{vsf__disp__ssd1306_8h_a749fb022b6f5138f36d8e366f55c9405}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!VSF\_SSD1306\_PORT\_EBI@{VSF\_SSD1306\_PORT\_EBI}}
+\index{VSF\_SSD1306\_PORT\_EBI@{VSF\_SSD1306\_PORT\_EBI}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_SSD1306\_PORT\_EBI}{VSF\_SSD1306\_PORT\_EBI}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+SSD1306\+\_\+\+PORT\+\_\+\+EBI~2}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a200443727674b6bb0ecb6abefeea1e38}\label{vsf__disp__ssd1306_8h_a200443727674b6bb0ecb6abefeea1e38}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!VSF\_SSD1306\_CFG\_PORT@{VSF\_SSD1306\_CFG\_PORT}}
+\index{VSF\_SSD1306\_CFG\_PORT@{VSF\_SSD1306\_CFG\_PORT}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_SSD1306\_CFG\_PORT}{VSF\_SSD1306\_CFG\_PORT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+SSD1306\+\_\+\+CFG\+\_\+\+PORT~\mbox{\hyperlink{vsf__disp__ssd1306_8h_af59af0edd83eeaa33a3e6aeebcbbce95}{VSF\+\_\+\+SSD1306\+\_\+\+PORT\+\_\+\+IIC}}}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_af973f985785e68ab5923e15f47923a09}\label{vsf__disp__ssd1306_8h_af973f985785e68ab5923e15f47923a09}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_DISPLAY\_ON@{SSD1306\_SET\_DISPLAY\_ON}}
+\index{SSD1306\_SET\_DISPLAY\_ON@{SSD1306\_SET\_DISPLAY\_ON}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_DISPLAY\_ON}{SSD1306\_SET\_DISPLAY\_ON}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+DISPLAY\+\_\+\+ON(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+ON }\end{DoxyParamCaption})~(0x\+AE $\vert$ ((\+\_\+\+\_\+\+ON) ? 1 \+: 0))}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_ac5dc8dfbe6ee94f9539cd36b5f41bf74}\label{vsf__disp__ssd1306_8h_ac5dc8dfbe6ee94f9539cd36b5f41bf74}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_DISPLAY\_START\_LINE@{SSD1306\_SET\_DISPLAY\_START\_LINE}}
+\index{SSD1306\_SET\_DISPLAY\_START\_LINE@{SSD1306\_SET\_DISPLAY\_START\_LINE}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_DISPLAY\_START\_LINE}{SSD1306\_SET\_DISPLAY\_START\_LINE}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+DISPLAY\+\_\+\+START\+\_\+\+LINE(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+LINE }\end{DoxyParamCaption})~(0x40 $\vert$ ((\+\_\+\+\_\+\+LINE) \& 0x3F))}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a6759e8dbd782bb37a9919797a0d52902}\label{vsf__disp__ssd1306_8h_a6759e8dbd782bb37a9919797a0d52902}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_POAGE\_START\_ADDRESS@{SSD1306\_SET\_POAGE\_START\_ADDRESS}}
+\index{SSD1306\_SET\_POAGE\_START\_ADDRESS@{SSD1306\_SET\_POAGE\_START\_ADDRESS}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_POAGE\_START\_ADDRESS}{SSD1306\_SET\_POAGE\_START\_ADDRESS}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+POAGE\+\_\+\+START\+\_\+\+ADDRESS(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+PAGE }\end{DoxyParamCaption})~(0x\+B0 $\vert$ ((\+\_\+\+\_\+\+PAGE) \& 0x07))}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a3f9a71ec5a542a1540ea957740423068}\label{vsf__disp__ssd1306_8h_a3f9a71ec5a542a1540ea957740423068}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_COM\_OUTPUT\_SCAN\_DIRECTION@{SSD1306\_SET\_COM\_OUTPUT\_SCAN\_DIRECTION}}
+\index{SSD1306\_SET\_COM\_OUTPUT\_SCAN\_DIRECTION@{SSD1306\_SET\_COM\_OUTPUT\_SCAN\_DIRECTION}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_COM\_OUTPUT\_SCAN\_DIRECTION}{SSD1306\_SET\_COM\_OUTPUT\_SCAN\_DIRECTION}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+COM\+\_\+\+OUTPUT\+\_\+\+SCAN\+\_\+\+DIRECTION(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+DIR }\end{DoxyParamCaption})~(0x\+C0 $\vert$ ((\+\_\+\+\_\+\+DIR) ? 0x08 \+: 0x00))}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a705436723aa195e1bced6bd4d44c05e1}\label{vsf__disp__ssd1306_8h_a705436723aa195e1bced6bd4d44c05e1}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_CONTRAST\_CONTROL@{SSD1306\_SET\_CONTRAST\_CONTROL}}
+\index{SSD1306\_SET\_CONTRAST\_CONTROL@{SSD1306\_SET\_CONTRAST\_CONTROL}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_CONTRAST\_CONTROL}{SSD1306\_SET\_CONTRAST\_CONTROL}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+CONTRAST\+\_\+\+CONTROL~(0x81)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a79cdf0d2c2e912f6f6952e28cb622816}\label{vsf__disp__ssd1306_8h_a79cdf0d2c2e912f6f6952e28cb622816}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_SEGMENT\_REMAP@{SSD1306\_SET\_SEGMENT\_REMAP}}
+\index{SSD1306\_SET\_SEGMENT\_REMAP@{SSD1306\_SET\_SEGMENT\_REMAP}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_SEGMENT\_REMAP}{SSD1306\_SET\_SEGMENT\_REMAP}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+SEGMENT\+\_\+\+REMAP(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+REMAP }\end{DoxyParamCaption})~(0x\+A0 $\vert$ ((\+\_\+\+\_\+\+REMAP) ? 1 \+: 0))}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_acaeab4df0219eb07c1c4563810cf35aa}\label{vsf__disp__ssd1306_8h_acaeab4df0219eb07c1c4563810cf35aa}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_INVERSE\_DISPLAY@{SSD1306\_SET\_INVERSE\_DISPLAY}}
+\index{SSD1306\_SET\_INVERSE\_DISPLAY@{SSD1306\_SET\_INVERSE\_DISPLAY}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_INVERSE\_DISPLAY}{SSD1306\_SET\_INVERSE\_DISPLAY}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+INVERSE\+\_\+\+DISPLAY(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+INVERSE }\end{DoxyParamCaption})~(0x\+A6 $\vert$ ((\+\_\+\+\_\+\+INVERSE) ? 1 \+: 0))}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a4e68ffa5f2f19f9b047e1cc48c1b7941}\label{vsf__disp__ssd1306_8h_a4e68ffa5f2f19f9b047e1cc48c1b7941}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_MULTIPLEX\_RATIO@{SSD1306\_SET\_MULTIPLEX\_RATIO}}
+\index{SSD1306\_SET\_MULTIPLEX\_RATIO@{SSD1306\_SET\_MULTIPLEX\_RATIO}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_MULTIPLEX\_RATIO}{SSD1306\_SET\_MULTIPLEX\_RATIO}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+MULTIPLEX\+\_\+\+RATIO~(0x\+A8)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a00d1b0194d44f6022d4ddc92d72d75e8}\label{vsf__disp__ssd1306_8h_a00d1b0194d44f6022d4ddc92d72d75e8}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_DISPLAY\_OFFSET@{SSD1306\_SET\_DISPLAY\_OFFSET}}
+\index{SSD1306\_SET\_DISPLAY\_OFFSET@{SSD1306\_SET\_DISPLAY\_OFFSET}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_DISPLAY\_OFFSET}{SSD1306\_SET\_DISPLAY\_OFFSET}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+DISPLAY\+\_\+\+OFFSET~(0x\+D3)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_acc554389e3ad9b1e22a953090f5e3ddf}\label{vsf__disp__ssd1306_8h_acc554389e3ad9b1e22a953090f5e3ddf}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_OSC\_DIV@{SSD1306\_SET\_OSC\_DIV}}
+\index{SSD1306\_SET\_OSC\_DIV@{SSD1306\_SET\_OSC\_DIV}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_OSC\_DIV}{SSD1306\_SET\_OSC\_DIV}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+OSC\+\_\+\+DIV~(0x\+D5)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a53f2b763a9320b83d52bee065fb51158}\label{vsf__disp__ssd1306_8h_a53f2b763a9320b83d52bee065fb51158}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_PRECHARGE\_PERIOD@{SSD1306\_SET\_PRECHARGE\_PERIOD}}
+\index{SSD1306\_SET\_PRECHARGE\_PERIOD@{SSD1306\_SET\_PRECHARGE\_PERIOD}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_PRECHARGE\_PERIOD}{SSD1306\_SET\_PRECHARGE\_PERIOD}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+PRECHARGE\+\_\+\+PERIOD~(0x\+D9)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a99cbe0ca138a5154ffb404cc6ab34d80}\label{vsf__disp__ssd1306_8h_a99cbe0ca138a5154ffb404cc6ab34d80}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_COM\_PIN@{SSD1306\_SET\_COM\_PIN}}
+\index{SSD1306\_SET\_COM\_PIN@{SSD1306\_SET\_COM\_PIN}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_COM\_PIN}{SSD1306\_SET\_COM\_PIN}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+COM\+\_\+\+PIN~(0x\+DA)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a1521993a668c3eb5aa25a34344c85382}\label{vsf__disp__ssd1306_8h_a1521993a668c3eb5aa25a34344c85382}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_VCOMH@{SSD1306\_SET\_VCOMH}}
+\index{SSD1306\_SET\_VCOMH@{SSD1306\_SET\_VCOMH}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_VCOMH}{SSD1306\_SET\_VCOMH}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+VCOMH~(0x\+DB)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a614e028e5f6024c70a6e98c85fecd818}\label{vsf__disp__ssd1306_8h_a614e028e5f6024c70a6e98c85fecd818}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_CHARGE\_PUMP@{SSD1306\_CHARGE\_PUMP}}
+\index{SSD1306\_CHARGE\_PUMP@{SSD1306\_CHARGE\_PUMP}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_CHARGE\_PUMP}{SSD1306\_CHARGE\_PUMP}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+CHARGE\+\_\+\+PUMP~(0x8D)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_af2e93d8d381d4dcce5b7607d12f6b787}\label{vsf__disp__ssd1306_8h_af2e93d8d381d4dcce5b7607d12f6b787}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_ADDRESS\_MODE@{SSD1306\_SET\_ADDRESS\_MODE}}
+\index{SSD1306\_SET\_ADDRESS\_MODE@{SSD1306\_SET\_ADDRESS\_MODE}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_ADDRESS\_MODE}{SSD1306\_SET\_ADDRESS\_MODE}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+ADDRESS\+\_\+\+MODE~(0x20)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a8f4a20b1177cef6941031f39f4d9a37a}\label{vsf__disp__ssd1306_8h_a8f4a20b1177cef6941031f39f4d9a37a}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_ADDRESS\_MODE\_HORIZONTAL@{SSD1306\_ADDRESS\_MODE\_HORIZONTAL}}
+\index{SSD1306\_ADDRESS\_MODE\_HORIZONTAL@{SSD1306\_ADDRESS\_MODE\_HORIZONTAL}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_ADDRESS\_MODE\_HORIZONTAL}{SSD1306\_ADDRESS\_MODE\_HORIZONTAL}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+ADDRESS\+\_\+\+MODE\+\_\+\+HORIZONTAL~(0x00)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_ae2ff2cc41d81292a20593d9e6837efda}\label{vsf__disp__ssd1306_8h_ae2ff2cc41d81292a20593d9e6837efda}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_ADDRESS\_MODE\_VERTICAL@{SSD1306\_ADDRESS\_MODE\_VERTICAL}}
+\index{SSD1306\_ADDRESS\_MODE\_VERTICAL@{SSD1306\_ADDRESS\_MODE\_VERTICAL}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_ADDRESS\_MODE\_VERTICAL}{SSD1306\_ADDRESS\_MODE\_VERTICAL}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+ADDRESS\+\_\+\+MODE\+\_\+\+VERTICAL~(0x01)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_af92e81cab9c3011e107c02cc13154186}\label{vsf__disp__ssd1306_8h_af92e81cab9c3011e107c02cc13154186}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_ADDRESS\_MODE\_PAGE@{SSD1306\_ADDRESS\_MODE\_PAGE}}
+\index{SSD1306\_ADDRESS\_MODE\_PAGE@{SSD1306\_ADDRESS\_MODE\_PAGE}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_ADDRESS\_MODE\_PAGE}{SSD1306\_ADDRESS\_MODE\_PAGE}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+ADDRESS\+\_\+\+MODE\+\_\+\+PAGE~(0x02)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a1130a0597e90703f244db4901687abc0}\label{vsf__disp__ssd1306_8h_a1130a0597e90703f244db4901687abc0}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_COLUMN\_ADDRESS@{SSD1306\_SET\_COLUMN\_ADDRESS}}
+\index{SSD1306\_SET\_COLUMN\_ADDRESS@{SSD1306\_SET\_COLUMN\_ADDRESS}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_COLUMN\_ADDRESS}{SSD1306\_SET\_COLUMN\_ADDRESS}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+COLUMN\+\_\+\+ADDRESS~(0x21)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a3ab1f4de1207bb14819690125ee79d0d}\label{vsf__disp__ssd1306_8h_a3ab1f4de1207bb14819690125ee79d0d}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!SSD1306\_SET\_PAGE\_ADDRESS@{SSD1306\_SET\_PAGE\_ADDRESS}}
+\index{SSD1306\_SET\_PAGE\_ADDRESS@{SSD1306\_SET\_PAGE\_ADDRESS}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{SSD1306\_SET\_PAGE\_ADDRESS}{SSD1306\_SET\_PAGE\_ADDRESS}}
+{\footnotesize\ttfamily \#define SSD1306\+\_\+\+SET\+\_\+\+PAGE\+\_\+\+ADDRESS~(0x22)}
+
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_aff4add1595800f5e170e6addc1857198}\label{vsf__disp__ssd1306_8h_aff4add1595800f5e170e6addc1857198}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!VSF\_DISP\_SSD1306\_IIC\_INIT\_SEQ@{VSF\_DISP\_SSD1306\_IIC\_INIT\_SEQ}}
+\index{VSF\_DISP\_SSD1306\_IIC\_INIT\_SEQ@{VSF\_DISP\_SSD1306\_IIC\_INIT\_SEQ}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_DISP\_SSD1306\_IIC\_INIT\_SEQ}{VSF\_DISP\_SSD1306\_IIC\_INIT\_SEQ}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+DISP\+\_\+\+SSD1306\+\_\+\+IIC\+\_\+\+INIT\+\_\+\+SEQ(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+LINE,  }\item[{}]{\+\_\+\+\_\+\+CONTRAST,  }\item[{}]{\+\_\+\+\_\+\+INVERSE,  }\item[{}]{\+\_\+\+\_\+\+DIRECTION }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__disp__ssd1306_8h_a341734c0ef48406f674d010186ba0251}\label{vsf__disp__ssd1306_8h_a341734c0ef48406f674d010186ba0251}} 
+\index{vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}!vk\_disp\_drv\_ssd1306@{vk\_disp\_drv\_ssd1306}}
+\index{vk\_disp\_drv\_ssd1306@{vk\_disp\_drv\_ssd1306}!vsf\_disp\_ssd1306.h@{vsf\_disp\_ssd1306.h}}
+\doxysubsubsection{\texorpdfstring{vk\_disp\_drv\_ssd1306}{vk\_disp\_drv\_ssd1306}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} vk\+\_\+disp\+\_\+drv\+\_\+ssd1306\hspace{0.3cm}{\ttfamily [extern]}}
+

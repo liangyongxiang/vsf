@@ -1,0 +1,195 @@
+\hypertarget{vsf__input__sensor_8h}{}\doxysection{source/component/input/protocol/vsf\+\_\+input\+\_\+sensor.h File Reference}
+\label{vsf__input__sensor_8h}\index{source/component/input/protocol/vsf\_input\_sensor.h@{source/component/input/protocol/vsf\_input\_sensor.h}}
+{\ttfamily \#include \char`\"{}../vsf\+\_\+input\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../vsf\+\_\+input\+\_\+get\+\_\+type.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvk__sensor__info__t}{vk\+\_\+sensor\+\_\+info\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__sensor__evt__t}{vk\+\_\+sensor\+\_\+evt\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__input__sensor_8h_a0c903aea1e0f98178574c084d8d7eecc}{vsf\+\_\+input\+\_\+sensor\+\_\+set}}(\+\_\+\+\_\+event,  \mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}},  \+\_\+\+\_\+subtype,  \+\_\+\+\_\+min,  \+\_\+\+\_\+max,  \+\_\+\+\_\+res,  \+\_\+\+\_\+value)
+\item 
+\#define \mbox{\hyperlink{vsf__input__sensor_8h_a601c164c980d164597633760fda2f1ec}{vsf\+\_\+input\+\_\+sensor\+\_\+get\+\_\+type}}(\+\_\+\+\_\+event)~            ((\mbox{\hyperlink{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905}{vk\+\_\+sensor\+\_\+type\+\_\+t}})(((\+\_\+\+\_\+event)-\/$>$id $>$$>$ 0) \& 0x\+FFFFFFFF))
+\item 
+\#define \mbox{\hyperlink{vsf__input__sensor_8h_a10bae7473ff6b9ed4787d58f7ca5b53f}{vsf\+\_\+input\+\_\+sensor\+\_\+get\+\_\+subtype}}(\+\_\+\+\_\+event)~            ((\mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5}{vk\+\_\+sensor\+\_\+subtype\+\_\+t}})(((\+\_\+\+\_\+event)-\/$>$id $>$$>$ 32) \& 0x\+FFFFFFFF))
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905}{vk\+\_\+sensor\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__input__sensor_8h_aa83fcafd9ae12f9992289f8870a4e547}{vk\+\_\+sensor\+\_\+type\+\_\+t}}
+\item 
+typedef enum \mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5}{vk\+\_\+sensor\+\_\+subtype\+\_\+t}} \mbox{\hyperlink{vsf__input__sensor_8h_a59d22defb32e5c4b7c23ef0749c0e4af}{vk\+\_\+sensor\+\_\+subtype\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__sensor__info__t}{vk\+\_\+sensor\+\_\+info\+\_\+t}} \mbox{\hyperlink{vsf__input__sensor_8h_adc52d99c1edebc3f02a95076c3ba9215}{vk\+\_\+sensor\+\_\+info\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__sensor__evt__t}{vk\+\_\+sensor\+\_\+evt\+\_\+t}} \mbox{\hyperlink{vsf__input__sensor_8h_abb309954de79266df70e584d1641b8c5}{vk\+\_\+sensor\+\_\+evt\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{vsf__input__sensor_8h_a96a58e29e8dbf2b5bdeb775cba46556ea7fa947c80c59e71f4bdab0bc10c13d6c}{VSF\+\_\+\+INPUT\+\_\+\+TYPE\+\_\+\+SENSOR}} = VSF\+\_\+\+INPUT\+\_\+\+USER\+\_\+\+TYPE
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905}{vk\+\_\+sensor\+\_\+type\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905a18e1f5300d76677e1e24375f19274ad7}{SENSOR\+\_\+\+TYPE\+\_\+\+ACC}}
+, \newline
+\mbox{\hyperlink{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905a9bf230bc6ae7efceb813a2d0a1b2bbc9}{SENSOR\+\_\+\+TYPE\+\_\+\+GYRO}}
+, \newline
+\mbox{\hyperlink{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905acb3a5d4d5f228da5569267ba1131c895}{SENSOR\+\_\+\+TYPE\+\_\+\+MAG}}
+, \newline
+\mbox{\hyperlink{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905aac49810f887357e8a1460e2e3472d4dd}{SENSOR\+\_\+\+TYPE\+\_\+\+USER}}
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5}{vk\+\_\+sensor\+\_\+subtype\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a8d8ebd6177fbf90d6cfbac237d179afb}{SENSOR\+\_\+\+SUBTYPE\+\_\+X}}
+, \newline
+\mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5afeeed7b0813657cfbc411a6778544de5}{SENSOR\+\_\+\+SUBTYPE\+\_\+Y}}
+, \newline
+\mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5af65ebc2c05b6cdd668fa91dc006bfdaf}{SENSOR\+\_\+\+SUBTYPE\+\_\+Z}}
+, \newline
+\mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a68f8c97e5b0ed651e64b00b0717be967}{SENSOR\+\_\+\+SUBTYPE\+\_\+\+PITCH}} = SENSOR\+\_\+\+SUBTYPE\+\_\+X
+, \newline
+\mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a88d1055a702e21706d75881431860620}{SENSOR\+\_\+\+SUBTYPE\+\_\+\+YAW}} = SENSOR\+\_\+\+SUBTYPE\+\_\+Y
+, \newline
+\mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a40b72ee140af55a96d568a80cce70c2f}{SENSOR\+\_\+\+SUBTYPE\+\_\+\+ROLL}} = SENSOR\+\_\+\+SUBTYPE\+\_\+Z
+, \newline
+\mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5aaeab925bc66ac64c306bbb4567fbc422}{SENSOR\+\_\+\+SUBTYPE\+\_\+\+USER}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__input__sensor_8h_a0c903aea1e0f98178574c084d8d7eecc}\label{vsf__input__sensor_8h_a0c903aea1e0f98178574c084d8d7eecc}} 
+\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!vsf\_input\_sensor\_set@{vsf\_input\_sensor\_set}}
+\index{vsf\_input\_sensor\_set@{vsf\_input\_sensor\_set}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_sensor\_set}{vsf\_input\_sensor\_set}}
+{\footnotesize\ttfamily \#define vsf\+\_\+input\+\_\+sensor\+\_\+set(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+event,  }\item[{}]{\mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\+\_\+\+\_\+type}},  }\item[{}]{\+\_\+\+\_\+subtype,  }\item[{}]{\+\_\+\+\_\+min,  }\item[{}]{\+\_\+\+\_\+max,  }\item[{}]{\+\_\+\+\_\+res,  }\item[{}]{\+\_\+\+\_\+value }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{keywordflow}{do} \{                                                                \(\backslash\)}
+\DoxyCodeLine{                (\_\_event)-\/>\textcolor{keywordtype}{id} = ((\mbox{\hyperlink{arm_2type_8h_aaa5d1cd013383c889537491c3cfd9aad}{uint64\_t}})(\mbox{\hyperlink{vsf__os_8c_a3f7d95c0f307a99513fed3e50368d4aa}{\_\_type}}) << 0) | ((\mbox{\hyperlink{arm_2type_8h_aaa5d1cd013383c889537491c3cfd9aad}{uint64\_t}})(\_\_subtype) << 32);\(\backslash\)}
+\DoxyCodeLine{                (\_\_event)-\/>info.minimum = (\_\_min);                              \(\backslash\)}
+\DoxyCodeLine{                (\_\_event)-\/>info.maximum = (\_\_max);                              \(\backslash\)}
+\DoxyCodeLine{                (\_\_event)-\/>info.resolution = (\_\_res);                           \(\backslash\)}
+\DoxyCodeLine{                (\_\_event)-\/>cur.val64 = (\_\_value);                               \(\backslash\)}
+\DoxyCodeLine{            \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__input__sensor_8h_a601c164c980d164597633760fda2f1ec}\label{vsf__input__sensor_8h_a601c164c980d164597633760fda2f1ec}} 
+\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!vsf\_input\_sensor\_get\_type@{vsf\_input\_sensor\_get\_type}}
+\index{vsf\_input\_sensor\_get\_type@{vsf\_input\_sensor\_get\_type}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_sensor\_get\_type}{vsf\_input\_sensor\_get\_type}}
+{\footnotesize\ttfamily \#define vsf\+\_\+input\+\_\+sensor\+\_\+get\+\_\+type(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+event }\end{DoxyParamCaption})~            ((\mbox{\hyperlink{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905}{vk\+\_\+sensor\+\_\+type\+\_\+t}})(((\+\_\+\+\_\+event)-\/$>$id $>$$>$ 0) \& 0x\+FFFFFFFF))}
+
+\mbox{\Hypertarget{vsf__input__sensor_8h_a10bae7473ff6b9ed4787d58f7ca5b53f}\label{vsf__input__sensor_8h_a10bae7473ff6b9ed4787d58f7ca5b53f}} 
+\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!vsf\_input\_sensor\_get\_subtype@{vsf\_input\_sensor\_get\_subtype}}
+\index{vsf\_input\_sensor\_get\_subtype@{vsf\_input\_sensor\_get\_subtype}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_sensor\_get\_subtype}{vsf\_input\_sensor\_get\_subtype}}
+{\footnotesize\ttfamily \#define vsf\+\_\+input\+\_\+sensor\+\_\+get\+\_\+subtype(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+event }\end{DoxyParamCaption})~            ((\mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5}{vk\+\_\+sensor\+\_\+subtype\+\_\+t}})(((\+\_\+\+\_\+event)-\/$>$id $>$$>$ 32) \& 0x\+FFFFFFFF))}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__input__sensor_8h_aa83fcafd9ae12f9992289f8870a4e547}\label{vsf__input__sensor_8h_aa83fcafd9ae12f9992289f8870a4e547}} 
+\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!vk\_sensor\_type\_t@{vk\_sensor\_type\_t}}
+\index{vk\_sensor\_type\_t@{vk\_sensor\_type\_t}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}
+\doxysubsubsection{\texorpdfstring{vk\_sensor\_type\_t}{vk\_sensor\_type\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905}{vk\+\_\+sensor\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905}{vk\+\_\+sensor\+\_\+type\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__input__sensor_8h_a59d22defb32e5c4b7c23ef0749c0e4af}\label{vsf__input__sensor_8h_a59d22defb32e5c4b7c23ef0749c0e4af}} 
+\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!vk\_sensor\_subtype\_t@{vk\_sensor\_subtype\_t}}
+\index{vk\_sensor\_subtype\_t@{vk\_sensor\_subtype\_t}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}
+\doxysubsubsection{\texorpdfstring{vk\_sensor\_subtype\_t}{vk\_sensor\_subtype\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5}{vk\+\_\+sensor\+\_\+subtype\+\_\+t}} \mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5}{vk\+\_\+sensor\+\_\+subtype\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__input__sensor_8h_adc52d99c1edebc3f02a95076c3ba9215}\label{vsf__input__sensor_8h_adc52d99c1edebc3f02a95076c3ba9215}} 
+\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!vk\_sensor\_info\_t@{vk\_sensor\_info\_t}}
+\index{vk\_sensor\_info\_t@{vk\_sensor\_info\_t}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}
+\doxysubsubsection{\texorpdfstring{vk\_sensor\_info\_t}{vk\_sensor\_info\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__sensor__info__t}{vk\+\_\+sensor\+\_\+info\+\_\+t}} \mbox{\hyperlink{structvk__sensor__info__t}{vk\+\_\+sensor\+\_\+info\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__input__sensor_8h_abb309954de79266df70e584d1641b8c5}\label{vsf__input__sensor_8h_abb309954de79266df70e584d1641b8c5}} 
+\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!vk\_sensor\_evt\_t@{vk\_sensor\_evt\_t}}
+\index{vk\_sensor\_evt\_t@{vk\_sensor\_evt\_t}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}
+\doxysubsubsection{\texorpdfstring{vk\_sensor\_evt\_t}{vk\_sensor\_evt\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__sensor__evt__t}{vk\+\_\+sensor\+\_\+evt\+\_\+t}} \mbox{\hyperlink{structvk__sensor__evt__t}{vk\+\_\+sensor\+\_\+evt\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__input__sensor_8h_a96a58e29e8dbf2b5bdeb775cba46556e}\label{vsf__input__sensor_8h_a96a58e29e8dbf2b5bdeb775cba46556e}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_INPUT\_TYPE\_SENSOR@{VSF\_INPUT\_TYPE\_SENSOR}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!VSF\_INPUT\_TYPE\_SENSOR@{VSF\_INPUT\_TYPE\_SENSOR}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a96a58e29e8dbf2b5bdeb775cba46556ea7fa947c80c59e71f4bdab0bc10c13d6c}\label{vsf__input__sensor_8h_a96a58e29e8dbf2b5bdeb775cba46556ea7fa947c80c59e71f4bdab0bc10c13d6c}} 
+VSF\+\_\+\+INPUT\+\_\+\+TYPE\+\_\+\+SENSOR&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905}\label{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905}} 
+\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!vk\_sensor\_type\_t@{vk\_sensor\_type\_t}}
+\index{vk\_sensor\_type\_t@{vk\_sensor\_type\_t}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}
+\doxysubsubsection{\texorpdfstring{vk\_sensor\_type\_t}{vk\_sensor\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905}{vk\+\_\+sensor\+\_\+type\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SENSOR\_TYPE\_ACC@{SENSOR\_TYPE\_ACC}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!SENSOR\_TYPE\_ACC@{SENSOR\_TYPE\_ACC}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905a18e1f5300d76677e1e24375f19274ad7}\label{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905a18e1f5300d76677e1e24375f19274ad7}} 
+SENSOR\+\_\+\+TYPE\+\_\+\+ACC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SENSOR\_TYPE\_GYRO@{SENSOR\_TYPE\_GYRO}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!SENSOR\_TYPE\_GYRO@{SENSOR\_TYPE\_GYRO}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905a9bf230bc6ae7efceb813a2d0a1b2bbc9}\label{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905a9bf230bc6ae7efceb813a2d0a1b2bbc9}} 
+SENSOR\+\_\+\+TYPE\+\_\+\+GYRO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SENSOR\_TYPE\_MAG@{SENSOR\_TYPE\_MAG}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!SENSOR\_TYPE\_MAG@{SENSOR\_TYPE\_MAG}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905acb3a5d4d5f228da5569267ba1131c895}\label{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905acb3a5d4d5f228da5569267ba1131c895}} 
+SENSOR\+\_\+\+TYPE\+\_\+\+MAG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SENSOR\_TYPE\_USER@{SENSOR\_TYPE\_USER}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!SENSOR\_TYPE\_USER@{SENSOR\_TYPE\_USER}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905aac49810f887357e8a1460e2e3472d4dd}\label{vsf__input__sensor_8h_a1a18c17970007d7aa598e82f8d468905aac49810f887357e8a1460e2e3472d4dd}} 
+SENSOR\+\_\+\+TYPE\+\_\+\+USER&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5}\label{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5}} 
+\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!vk\_sensor\_subtype\_t@{vk\_sensor\_subtype\_t}}
+\index{vk\_sensor\_subtype\_t@{vk\_sensor\_subtype\_t}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}
+\doxysubsubsection{\texorpdfstring{vk\_sensor\_subtype\_t}{vk\_sensor\_subtype\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5}{vk\+\_\+sensor\+\_\+subtype\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SENSOR\_SUBTYPE\_X@{SENSOR\_SUBTYPE\_X}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!SENSOR\_SUBTYPE\_X@{SENSOR\_SUBTYPE\_X}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a8d8ebd6177fbf90d6cfbac237d179afb}\label{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a8d8ebd6177fbf90d6cfbac237d179afb}} 
+SENSOR\+\_\+\+SUBTYPE\+\_\+X&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SENSOR\_SUBTYPE\_Y@{SENSOR\_SUBTYPE\_Y}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!SENSOR\_SUBTYPE\_Y@{SENSOR\_SUBTYPE\_Y}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5afeeed7b0813657cfbc411a6778544de5}\label{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5afeeed7b0813657cfbc411a6778544de5}} 
+SENSOR\+\_\+\+SUBTYPE\+\_\+Y&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SENSOR\_SUBTYPE\_Z@{SENSOR\_SUBTYPE\_Z}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!SENSOR\_SUBTYPE\_Z@{SENSOR\_SUBTYPE\_Z}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5af65ebc2c05b6cdd668fa91dc006bfdaf}\label{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5af65ebc2c05b6cdd668fa91dc006bfdaf}} 
+SENSOR\+\_\+\+SUBTYPE\+\_\+Z&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SENSOR\_SUBTYPE\_PITCH@{SENSOR\_SUBTYPE\_PITCH}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!SENSOR\_SUBTYPE\_PITCH@{SENSOR\_SUBTYPE\_PITCH}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a68f8c97e5b0ed651e64b00b0717be967}\label{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a68f8c97e5b0ed651e64b00b0717be967}} 
+SENSOR\+\_\+\+SUBTYPE\+\_\+\+PITCH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SENSOR\_SUBTYPE\_YAW@{SENSOR\_SUBTYPE\_YAW}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!SENSOR\_SUBTYPE\_YAW@{SENSOR\_SUBTYPE\_YAW}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a88d1055a702e21706d75881431860620}\label{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a88d1055a702e21706d75881431860620}} 
+SENSOR\+\_\+\+SUBTYPE\+\_\+\+YAW&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SENSOR\_SUBTYPE\_ROLL@{SENSOR\_SUBTYPE\_ROLL}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!SENSOR\_SUBTYPE\_ROLL@{SENSOR\_SUBTYPE\_ROLL}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a40b72ee140af55a96d568a80cce70c2f}\label{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5a40b72ee140af55a96d568a80cce70c2f}} 
+SENSOR\+\_\+\+SUBTYPE\+\_\+\+ROLL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SENSOR\_SUBTYPE\_USER@{SENSOR\_SUBTYPE\_USER}!vsf\_input\_sensor.h@{vsf\_input\_sensor.h}}\index{vsf\_input\_sensor.h@{vsf\_input\_sensor.h}!SENSOR\_SUBTYPE\_USER@{SENSOR\_SUBTYPE\_USER}}}\mbox{\Hypertarget{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5aaeab925bc66ac64c306bbb4567fbc422}\label{vsf__input__sensor_8h_a183ae87cb582388ec26e2ca69936c2c5aaeab925bc66ac64c306bbb4567fbc422}} 
+SENSOR\+\_\+\+SUBTYPE\+\_\+\+USER&\\
+\hline
+
+\end{DoxyEnumFields}

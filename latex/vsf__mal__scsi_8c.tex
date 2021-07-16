@@ -1,0 +1,73 @@
+\hypertarget{vsf__mal__scsi_8c}{}\doxysection{source/component/scsi/driver/mal\+\_\+scsi/vsf\+\_\+mal\+\_\+scsi.c File Reference}
+\label{vsf__mal__scsi_8c}\index{source/component/scsi/driver/mal\_scsi/vsf\_mal\_scsi.c@{source/component/scsi/driver/mal\_scsi/vsf\_mal\_scsi.c}}
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+scsi\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+scsi.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+mal\+\_\+scsi.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__mal__scsi_8c_a5213c3fb23e1975bb97f3c3b5e9f3bd0}{\+\_\+\+\_\+\+VSF\+\_\+\+SCSI\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__mal__scsi_8c_a82cff7471622a3330140c5c81920735a}{\+\_\+\+\_\+\+VSF\+\_\+\+VIRTUAL\+\_\+\+SCSI\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__mal__scsi_8c_acf490afdd3a1920722e31ce13479beec}{\+\_\+\+\_\+\+VSF\+\_\+\+MAL\+\_\+\+SCSI\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__mal__scsi_8c_a2b79716d4525d2fb38f1206cac29d293}{dcl\+\_\+vsf\+\_\+peda\+\_\+methods}} (dcl\+\_\+vsf\+\_\+peda\+\_\+methods(static, \+\_\+\+\_\+vk\+\_\+mal\+\_\+scsi\+\_\+init)
+\item 
+\mbox{\hyperlink{vsf__mal__scsi_8c_a4efd5dfd91d48b81b0f90ca7cf2f6496}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}} (\+\_\+\+\_\+vk\+\_\+mal\+\_\+scsi\+\_\+init, vk\+\_\+virtual\+\_\+scsi\+\_\+init)
+\item 
+\mbox{\hyperlink{vsf__mal__scsi_8c_a11a348baa5460972bb683561eed01546}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}} (\+\_\+\+\_\+vk\+\_\+mal\+\_\+scsi\+\_\+read, vk\+\_\+virtual\+\_\+scsi\+\_\+read)
+\item 
+\mbox{\hyperlink{vsf__mal__scsi_8c_a7f041467fd0e80bcea7ad22d5842d959}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}} (\+\_\+\+\_\+vk\+\_\+mal\+\_\+scsi\+\_\+write, vk\+\_\+virtual\+\_\+scsi\+\_\+write)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__mal__scsi_8c_a5213c3fb23e1975bb97f3c3b5e9f3bd0}\label{vsf__mal__scsi_8c_a5213c3fb23e1975bb97f3c3b5e9f3bd0}} 
+\index{vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}!\_\_VSF\_SCSI\_CLASS\_INHERIT\_\_@{\_\_VSF\_SCSI\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_SCSI\_CLASS\_INHERIT\_\_@{\_\_VSF\_SCSI\_CLASS\_INHERIT\_\_}!vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_SCSI\_CLASS\_INHERIT\_\_}{\_\_VSF\_SCSI\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+SCSI\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__mal__scsi_8c_a82cff7471622a3330140c5c81920735a}\label{vsf__mal__scsi_8c_a82cff7471622a3330140c5c81920735a}} 
+\index{vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}!\_\_VSF\_VIRTUAL\_SCSI\_CLASS\_INHERIT\_\_@{\_\_VSF\_VIRTUAL\_SCSI\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_VIRTUAL\_SCSI\_CLASS\_INHERIT\_\_@{\_\_VSF\_VIRTUAL\_SCSI\_CLASS\_INHERIT\_\_}!vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_VIRTUAL\_SCSI\_CLASS\_INHERIT\_\_}{\_\_VSF\_VIRTUAL\_SCSI\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+VIRTUAL\+\_\+\+SCSI\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__mal__scsi_8c_acf490afdd3a1920722e31ce13479beec}\label{vsf__mal__scsi_8c_acf490afdd3a1920722e31ce13479beec}} 
+\index{vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}!\_\_VSF\_MAL\_SCSI\_CLASS\_IMPLEMENT@{\_\_VSF\_MAL\_SCSI\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_MAL\_SCSI\_CLASS\_IMPLEMENT@{\_\_VSF\_MAL\_SCSI\_CLASS\_IMPLEMENT}!vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_MAL\_SCSI\_CLASS\_IMPLEMENT}{\_\_VSF\_MAL\_SCSI\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+MAL\+\_\+\+SCSI\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__mal__scsi_8c_a2b79716d4525d2fb38f1206cac29d293}\label{vsf__mal__scsi_8c_a2b79716d4525d2fb38f1206cac29d293}} 
+\index{vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}!dcl\_vsf\_peda\_methods@{dcl\_vsf\_peda\_methods}}
+\index{dcl\_vsf\_peda\_methods@{dcl\_vsf\_peda\_methods}!vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}}
+\doxysubsubsection{\texorpdfstring{dcl\_vsf\_peda\_methods()}{dcl\_vsf\_peda\_methods()}}
+{\footnotesize\ttfamily dcl\+\_\+vsf\+\_\+peda\+\_\+methods (\begin{DoxyParamCaption}\item[{dcl\+\_\+vsf\+\_\+peda\+\_\+methods(}]{static,  }\item[{\+\_\+\+\_\+vk\+\_\+mal\+\_\+scsi\+\_\+init}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__mal__scsi_8c_a4efd5dfd91d48b81b0f90ca7cf2f6496}\label{vsf__mal__scsi_8c_a4efd5dfd91d48b81b0f90ca7cf2f6496}} 
+\index{vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}!\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}}
+\index{\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}!vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs\_entry()}{\_\_vsf\_component\_peda\_ifs\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+vk\+\_\+mal\+\_\+scsi\+\_\+init}]{,  }\item[{vk\+\_\+virtual\+\_\+scsi\+\_\+init}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__mal__scsi_8c_a11a348baa5460972bb683561eed01546}\label{vsf__mal__scsi_8c_a11a348baa5460972bb683561eed01546}} 
+\index{vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}!\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}}
+\index{\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}!vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs\_entry()}{\_\_vsf\_component\_peda\_ifs\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+vk\+\_\+mal\+\_\+scsi\+\_\+read}]{,  }\item[{vk\+\_\+virtual\+\_\+scsi\+\_\+read}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__mal__scsi_8c_a7f041467fd0e80bcea7ad22d5842d959}\label{vsf__mal__scsi_8c_a7f041467fd0e80bcea7ad22d5842d959}} 
+\index{vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}!\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}}
+\index{\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}!vsf\_mal\_scsi.c@{vsf\_mal\_scsi.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs\_entry()}{\_\_vsf\_component\_peda\_ifs\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+vk\+\_\+mal\+\_\+scsi\+\_\+write}]{,  }\item[{vk\+\_\+virtual\+\_\+scsi\+\_\+write}]{ }\end{DoxyParamCaption})}
+

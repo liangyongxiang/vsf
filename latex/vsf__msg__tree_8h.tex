@@ -1,0 +1,491 @@
+\hypertarget{vsf__msg__tree_8h}{}\doxysection{source/osa\+\_\+service/msg\+\_\+tree/vsf\+\_\+msg\+\_\+tree.h File Reference}
+\label{vsf__msg__tree_8h}\index{source/osa\_service/msg\_tree/vsf\_msg\_tree.h@{source/osa\_service/msg\_tree/vsf\_msg\_tree.h}}
+{\ttfamily \#include \char`\"{}osa\+\_\+service/vsf\+\_\+osa\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvsf__msgt__subcall__t}{vsf\+\_\+msgt\+\_\+subcall\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__msgt__handler__t}{vsf\+\_\+msgt\+\_\+handler\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__msg__tree_8h_ab03dcdedfdc9861a978626b67957afb9}{\+\_\+\+\_\+\+PLOOC\+\_\+\+CLASS\+\_\+\+USE\+\_\+\+STRICT\+\_\+\+TEMPLATE\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__msg__tree_8h_a8574495375c488fd6127f1dfe49af23e}{VSF\+\_\+\+MSG\+\_\+\+TREE\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+NAME\+\_\+\+STRING}}~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}
+\item 
+\#define \mbox{\hyperlink{vsf__msg__tree_8h_aeaa7edc95602cb08c9bb6e774d85d7d0}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+OFFSET\+\_\+\+TYPE}}~\mbox{\hyperlink{arm_2type_8h_a269259c924dce846340ddbb810db2e3c}{int16\+\_\+t}}
+\item 
+\#define \mbox{\hyperlink{vsf__msg__tree_8h_a751efb343098fd8a5792a840745017ba}{VSF\+\_\+\+MSG\+\_\+\+TREE\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+DUAL\+\_\+\+LIST}}~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{vsf__msg__tree_8h_aeaa7edc95602cb08c9bb6e774d85d7d0}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+OFFSET\+\_\+\+TYPE}} \mbox{\hyperlink{vsf__msg__tree_8h_ae531f2d2c2e7105e93334ba80eda4b67}{vsf\+\_\+msgt\+\_\+node\+\_\+offset\+\_\+t}}
+\item 
+typedef enum \mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3}{vsf\+\_\+msgt\+\_\+node\+\_\+status\+\_\+t}} \mbox{\hyperlink{vsf__msg__tree_8h_a41c11016f33cafe1aaf229f0801adab3}{vsf\+\_\+msgt\+\_\+node\+\_\+status\+\_\+t}}
+\item 
+typedef enum \mbox{\hyperlink{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01}{vsf\+\_\+msgt\+\_\+handler\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__msg__tree_8h_af8e00336941dc127beac98ae9812d87c}{vsf\+\_\+msgt\+\_\+handler\+\_\+type\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__msg__tree_8h_af33123ff90bf26262412e7ec9f7417db}{vsf\+\_\+msgt\+\_\+method\+\_\+shoot\+\_\+t}}(const vsf\+\_\+msgt\+\_\+node\+\_\+t $\ast$, \mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}})
+\item 
+typedef \mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3}{vsf\+\_\+msgt\+\_\+node\+\_\+status\+\_\+t}} \mbox{\hyperlink{vsf__msg__tree_8h_ac9e6ad90eda4f9dc51ce0d4be66b208a}{vsf\+\_\+msgt\+\_\+method\+\_\+status\+\_\+t}}(vsf\+\_\+msgt\+\_\+node\+\_\+t $\ast$)
+\item 
+typedef \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__msg__tree_8h_abfaa33ca4d3fadc435c10db2198fc824}{vsf\+\_\+msgt\+\_\+method\+\_\+fsm\+\_\+t}}(vsf\+\_\+msgt\+\_\+node\+\_\+t $\ast$node\+\_\+ptr, \mbox{\hyperlink{vsf__msg__tree_8h_a641a7b893313e267d97b60ac5a4830cc}{vsf\+\_\+msgt\+\_\+msg\+\_\+t}} $\ast$msg\+\_\+ptr)
+\item 
+typedef struct \mbox{\hyperlink{structvsf__msgt__subcall__t}{vsf\+\_\+msgt\+\_\+subcall\+\_\+t}} \mbox{\hyperlink{vsf__msg__tree_8h_a59c98d26a171621108b93aa34a51ef0e}{vsf\+\_\+msgt\+\_\+subcall\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__msgt__handler__t}{vsf\+\_\+msgt\+\_\+handler\+\_\+t}} \mbox{\hyperlink{vsf__msg__tree_8h_a43f67a954672cf0eafe845642bdf2fa5}{vsf\+\_\+msgt\+\_\+handler\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3}{vsf\+\_\+msgt\+\_\+node\+\_\+status\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a943595291f961655e428bf03201c2a31}{\+\_\+\+\_\+\+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+STATUS\+\_\+\+LEAST\+\_\+\+MAX}} = INT16\+\_\+\+MAX
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a5baf94a22535e56aa01e969b9f872223}{\+\_\+\+\_\+\+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+STATUS\+\_\+\+LEAST\+\_\+\+MIN}} = INT16\+\_\+\+MIN
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a41cd93339f7f6241558128f19fe6a0bb}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+VALID}} = BIT(0)
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3ad541dd2c64621fcae306c0e935812200}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+ENABLED}} = BIT(1)
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3ab00778be091fede1fdb6378e2175b0ef}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+VISIBLE}} = BIT(2)
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a0da4d55be6375e2242503a22cbb0c96f}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+ACTIVE}} = BIT(3)
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3aec77ab24c297c8288bf84987d3b33275}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+HIDE\+\_\+\+CONTENT}} = BIT(4)
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01}{vsf\+\_\+msgt\+\_\+handler\+\_\+type\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01aaae8a7f97d1ba4a7e52a20325b044e81}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+HANDLER\+\_\+\+TYPE\+\_\+\+CALLBACK}} = 0
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01a5863d255a6026dafe144ce193c0ee8c3}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+HANDLER\+\_\+\+TYPE\+\_\+\+FSM}} = 0
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01adc7dce22fdf723a9e8759ac672151373}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+HANDLER\+\_\+\+TYPE\+\_\+\+SUBCALL}}
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01a7a3098afb1e385794ffee95918bf5949}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+HANDLER\+\_\+\+TYPE\+\_\+\+EDA}}
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93df}{vsf\+\_\+msgt\+\_\+err\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfaf0c0b1df8ab67bae5d652a2e47260f30}{VSF\+\_\+\+MSGT\+\_\+\+ERR\+\_\+\+REUQEST\+\_\+\+VISIT\+\_\+\+AGAIN}} = fsm\+\_\+rt\+\_\+user
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfa0ab6c42348d44c82e0958bdff03caaea}{VSF\+\_\+\+MSGT\+\_\+\+ERR\+\_\+\+REQUEST\+\_\+\+VISIT\+\_\+\+PARENT}}
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfa03da644d591334cb7ecd70b9f473ff0f}{VSF\+\_\+\+MSGT\+\_\+\+ERR\+\_\+\+NONE}} = 0
+, \newline
+\mbox{\hyperlink{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfa0f87cf5b062c0fb7d24d9c82d834f385}{VSF\+\_\+\+MSGT\+\_\+\+ERR\+\_\+\+MSG\+\_\+\+NOT\+\_\+\+HANDLED}} = -\/1
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__msg__tree_8h_a25592e13065ae4d8e1b07a3c097343d7}{declare\+\_\+vsf\+\_\+rng\+\_\+buf}} (\+\_\+\+\_\+bfs\+\_\+node\+\_\+fifo\+\_\+t) \mbox{\hyperlink{vsf__queue_8h_af89eecfd231c5468d2f40eb51772e6f3}{def\+\_\+vsf\+\_\+rng\+\_\+buf}}(\+\_\+\+\_\+bfs\+\_\+node\+\_\+fifo\+\_\+t
+\item 
+\mbox{\hyperlink{vsf__msg__tree_8h_adff86804bc48dc2341c6e3f1f964d337}{def\+\_\+structure}} (vsf\+\_\+msgt\+\_\+cfg\+\_\+t) const i\+\_\+msg\+\_\+tree\+\_\+node\+\_\+t $\ast$interface\+\_\+ptr
+\item 
+\mbox{\hyperlink{vsf__msg__tree_8h_a105e344309fac69f6b6363b0c18c758b}{end\+\_\+def\+\_\+structure}} (vsf\+\_\+msgt\+\_\+cfg\+\_\+t) \mbox{\hyperlink{vsf__queue_8h_ab83697fea00d4c7a9d08d81f65c37385}{declare\+\_\+class}}(vsf\+\_\+msgt\+\_\+t) \mbox{\hyperlink{vsf__stream__writer_8h_a493cae98b1ca44e796e12d92030f7484}{def\+\_\+class}}(vsf\+\_\+msgt\+\_\+t
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__msg__tree_8h_a6cb4479255eacbcbe58795e8eb5e08b9}{\+\_\+\+\_\+vsf\+\_\+msgt\+\_\+msg\+\_\+handling\+\_\+fsm\+\_\+t}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{vsf__msg__tree_8h_a8f9c8c153ae567d644e9965c97d3f496}{type\+\_\+num}}
+\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ the base class for all other tree messages}\par
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__msg__tree_8h_a641a7b893313e267d97b60ac5a4830cc}{vsf\+\_\+msgt\+\_\+msg\+\_\+t}}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ abstract class for message tree node}\par
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>struct \{\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{vsf__msg__tree_8h_a5ec09c683f8dfc2020abb3a08c29df2b}{is\_visited}}: 1\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{vsf__msg__tree_8h_a8b4eebe79ded0459acec2f4950102ba3}{\_\_pad0\_\_}}: 4\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{vsf__msg__tree_8h_a670ad2da7860042a24212a66474e235c}{is\_top}}: 1\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{vsf__msg__tree_8h_a475d1832a4a8fde8f1ad7be05c66e4b5}{is\_transparent}}: 1\\
+\>\>\>{\em used together with is\_container }\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{vsf__msg__tree_8h_a526bc6cde1ac3d500ab9ae4a857f9fb7}{is\_container}}: 1\\
+\>\>\>{\em whether it is a container or not }\\
+\>\} \mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}}\\
+\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{vsf__msg__tree_8h_a638e4503e0ae6ce655b7ad2e17e8f0ad}{value}}\\
+\} \mbox{\hyperlink{vsf__msg__tree_8h_ae4742b97b6b58dcca85ee96e2ee4c225}{Attribute}}\\
+
+\end{tabbing}\item 
+vsf\+\_\+msgt\+\_\+container\+\_\+t $\ast$ \mbox{\hyperlink{vsf__msg__tree_8h_ae4af2652f0f973baf4cb8ab8a1cf004c}{parent\+\_\+ptr}}
+\begin{DoxyCompactList}\small\item\em parent node \end{DoxyCompactList}\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>\mbox{\hyperlink{vsf__msg__tree_8h_ae531f2d2c2e7105e93334ba80eda4b67}{vsf\_msgt\_node\_offset\_t}} \mbox{\hyperlink{vsf__msg__tree_8h_ab3866cbaacd1c584be83417fa078a9ce}{previous}}\\
+\>\mbox{\hyperlink{vsf__msg__tree_8h_ae531f2d2c2e7105e93334ba80eda4b67}{vsf\_msgt\_node\_offset\_t}} \mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}}\\
+\} \mbox{\hyperlink{vsf__msg__tree_8h_a92fd0223caa89790f12757753d4a2866}{Offset}}\\
+
+\end{tabbing}\item 
+const char $\ast$ \mbox{\hyperlink{vsf__msg__tree_8h_a65a1f414e96489945d7188b8fb20fe22}{node\+\_\+name\+\_\+ptr}}
+\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{v-\/table for tree message node}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__msg__tree_8h_ac9e6ad90eda4f9dc51ce0d4be66b208a}{vsf\+\_\+msgt\+\_\+method\+\_\+status\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__msg__tree_8h_ab6585ccd43020ceabc0df2ce5858002b}{Status}}
+\begin{DoxyCompactList}\small\item\em get status of target node \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vsf__msg__tree_8h_af33123ff90bf26262412e7ec9f7417db}{vsf\+\_\+msgt\+\_\+method\+\_\+shoot\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__msg__tree_8h_a705cba2991aec19a05c6f84e78eece43}{Shoot}}
+\begin{DoxyCompactList}\small\item\em range check \end{DoxyCompactList}\item 
+\mbox{\hyperlink{vsf__msg__tree_8h_ab45513751d232ade4a5a9dd33b58d984}{declare\+\_\+interface}} (i\+\_\+msg\+\_\+tree\+\_\+node\+\_\+t) \mbox{\hyperlink{vsf__stream__reader_8h_aebd2b84bb53996382b2fbf5cdbb2fe75}{def\+\_\+interface}}(i\+\_\+msg\+\_\+tree\+\_\+node\+\_\+t) \mbox{\hyperlink{structvsf__msgt__handler__t}{vsf\+\_\+msgt\+\_\+handler\+\_\+t}} msg\+\_\+handler
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__msg__tree_8h_ab03dcdedfdc9861a978626b67957afb9}\label{vsf__msg__tree_8h_ab03dcdedfdc9861a978626b67957afb9}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_@{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}}
+\index{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_@{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+PLOOC\+\_\+\+CLASS\+\_\+\+USE\+\_\+\+STRICT\+\_\+\+TEMPLATE\+\_\+\+\_\+}
+
+\textbackslash{}\+NOTE\+: Make sure \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{} is close to the class ! definition and there is NO ANY OTHER module-\/interface-\/header file ! included in this file \mbox{\Hypertarget{vsf__msg__tree_8h_a8574495375c488fd6127f1dfe49af23e}\label{vsf__msg__tree_8h_a8574495375c488fd6127f1dfe49af23e}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSG\_TREE\_CFG\_SUPPORT\_NAME\_STRING@{VSF\_MSG\_TREE\_CFG\_SUPPORT\_NAME\_STRING}}
+\index{VSF\_MSG\_TREE\_CFG\_SUPPORT\_NAME\_STRING@{VSF\_MSG\_TREE\_CFG\_SUPPORT\_NAME\_STRING}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_MSG\_TREE\_CFG\_SUPPORT\_NAME\_STRING}{VSF\_MSG\_TREE\_CFG\_SUPPORT\_NAME\_STRING}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+MSG\+\_\+\+TREE\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+NAME\+\_\+\+STRING~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_aeaa7edc95602cb08c9bb6e774d85d7d0}\label{vsf__msg__tree_8h_aeaa7edc95602cb08c9bb6e774d85d7d0}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_NODE\_OFFSET\_TYPE@{VSF\_MSGT\_NODE\_OFFSET\_TYPE}}
+\index{VSF\_MSGT\_NODE\_OFFSET\_TYPE@{VSF\_MSGT\_NODE\_OFFSET\_TYPE}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_MSGT\_NODE\_OFFSET\_TYPE}{VSF\_MSGT\_NODE\_OFFSET\_TYPE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+OFFSET\+\_\+\+TYPE~\mbox{\hyperlink{arm_2type_8h_a269259c924dce846340ddbb810db2e3c}{int16\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a751efb343098fd8a5792a840745017ba}\label{vsf__msg__tree_8h_a751efb343098fd8a5792a840745017ba}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSG\_TREE\_CFG\_SUPPORT\_DUAL\_LIST@{VSF\_MSG\_TREE\_CFG\_SUPPORT\_DUAL\_LIST}}
+\index{VSF\_MSG\_TREE\_CFG\_SUPPORT\_DUAL\_LIST@{VSF\_MSG\_TREE\_CFG\_SUPPORT\_DUAL\_LIST}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_MSG\_TREE\_CFG\_SUPPORT\_DUAL\_LIST}{VSF\_MSG\_TREE\_CFG\_SUPPORT\_DUAL\_LIST}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+MSG\+\_\+\+TREE\+\_\+\+CFG\+\_\+\+SUPPORT\+\_\+\+DUAL\+\_\+\+LIST~\mbox{\hyperlink{vsf__cfg_8h_abd5c8ab57c190a6522ccdbf0ed7577da}{DISABLED}}}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__msg__tree_8h_ae531f2d2c2e7105e93334ba80eda4b67}\label{vsf__msg__tree_8h_ae531f2d2c2e7105e93334ba80eda4b67}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_node\_offset\_t@{vsf\_msgt\_node\_offset\_t}}
+\index{vsf\_msgt\_node\_offset\_t@{vsf\_msgt\_node\_offset\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_node\_offset\_t}{vsf\_msgt\_node\_offset\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{vsf__msg__tree_8h_aeaa7edc95602cb08c9bb6e774d85d7d0}{VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+OFFSET\+\_\+\+TYPE}} \mbox{\hyperlink{vsf__msg__tree_8h_ae531f2d2c2e7105e93334ba80eda4b67}{vsf\+\_\+msgt\+\_\+node\+\_\+offset\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a41c11016f33cafe1aaf229f0801adab3}\label{vsf__msg__tree_8h_a41c11016f33cafe1aaf229f0801adab3}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_node\_status\_t@{vsf\_msgt\_node\_status\_t}}
+\index{vsf\_msgt\_node\_status\_t@{vsf\_msgt\_node\_status\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_node\_status\_t}{vsf\_msgt\_node\_status\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3}{vsf\+\_\+msgt\+\_\+node\+\_\+status\+\_\+t}} \mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3}{vsf\+\_\+msgt\+\_\+node\+\_\+status\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_af8e00336941dc127beac98ae9812d87c}\label{vsf__msg__tree_8h_af8e00336941dc127beac98ae9812d87c}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_handler\_type\_t@{vsf\_msgt\_handler\_type\_t}}
+\index{vsf\_msgt\_handler\_type\_t@{vsf\_msgt\_handler\_type\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_handler\_type\_t}{vsf\_msgt\_handler\_type\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01}{vsf\+\_\+msgt\+\_\+handler\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01}{vsf\+\_\+msgt\+\_\+handler\+\_\+type\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_af33123ff90bf26262412e7ec9f7417db}\label{vsf__msg__tree_8h_af33123ff90bf26262412e7ec9f7417db}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_method\_shoot\_t@{vsf\_msgt\_method\_shoot\_t}}
+\index{vsf\_msgt\_method\_shoot\_t@{vsf\_msgt\_method\_shoot\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_method\_shoot\_t}{vsf\_msgt\_method\_shoot\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+msgt\+\_\+method\+\_\+shoot\+\_\+t(const vsf\+\_\+msgt\+\_\+node\+\_\+t $\ast$, \mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}})}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_ac9e6ad90eda4f9dc51ce0d4be66b208a}\label{vsf__msg__tree_8h_ac9e6ad90eda4f9dc51ce0d4be66b208a}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_method\_status\_t@{vsf\_msgt\_method\_status\_t}}
+\index{vsf\_msgt\_method\_status\_t@{vsf\_msgt\_method\_status\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_method\_status\_t}{vsf\_msgt\_method\_status\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3}{vsf\+\_\+msgt\+\_\+node\+\_\+status\+\_\+t}} vsf\+\_\+msgt\+\_\+method\+\_\+status\+\_\+t(vsf\+\_\+msgt\+\_\+node\+\_\+t $\ast$)}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_abfaa33ca4d3fadc435c10db2198fc824}\label{vsf__msg__tree_8h_abfaa33ca4d3fadc435c10db2198fc824}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_method\_fsm\_t@{vsf\_msgt\_method\_fsm\_t}}
+\index{vsf\_msgt\_method\_fsm\_t@{vsf\_msgt\_method\_fsm\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_method\_fsm\_t}{vsf\_msgt\_method\_fsm\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vsf\+\_\+msgt\+\_\+method\+\_\+fsm\+\_\+t(vsf\+\_\+msgt\+\_\+node\+\_\+t $\ast$node\+\_\+ptr, \mbox{\hyperlink{vsf__msg__tree_8h_a641a7b893313e267d97b60ac5a4830cc}{vsf\+\_\+msgt\+\_\+msg\+\_\+t}} $\ast$msg\+\_\+ptr)}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a59c98d26a171621108b93aa34a51ef0e}\label{vsf__msg__tree_8h_a59c98d26a171621108b93aa34a51ef0e}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_subcall\_t@{vsf\_msgt\_subcall\_t}}
+\index{vsf\_msgt\_subcall\_t@{vsf\_msgt\_subcall\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_subcall\_t}{vsf\_msgt\_subcall\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__msgt__subcall__t}{vsf\+\_\+msgt\+\_\+subcall\+\_\+t}} \mbox{\hyperlink{structvsf__msgt__subcall__t}{vsf\+\_\+msgt\+\_\+subcall\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a43f67a954672cf0eafe845642bdf2fa5}\label{vsf__msg__tree_8h_a43f67a954672cf0eafe845642bdf2fa5}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_handler\_t@{vsf\_msgt\_handler\_t}}
+\index{vsf\_msgt\_handler\_t@{vsf\_msgt\_handler\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_handler\_t}{vsf\_msgt\_handler\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__msgt__handler__t}{vsf\+\_\+msgt\+\_\+handler\+\_\+t}} \mbox{\hyperlink{structvsf__msgt__handler__t}{vsf\+\_\+msgt\+\_\+handler\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3}\label{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_node\_status\_t@{vsf\_msgt\_node\_status\_t}}
+\index{vsf\_msgt\_node\_status\_t@{vsf\_msgt\_node\_status\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_node\_status\_t}{vsf\_msgt\_node\_status\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3}{vsf\+\_\+msgt\+\_\+node\+\_\+status\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{\_\_VSF\_MSGT\_NODE\_STATUS\_LEAST\_MAX@{\_\_VSF\_MSGT\_NODE\_STATUS\_LEAST\_MAX}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!\_\_VSF\_MSGT\_NODE\_STATUS\_LEAST\_MAX@{\_\_VSF\_MSGT\_NODE\_STATUS\_LEAST\_MAX}}}\mbox{\Hypertarget{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a943595291f961655e428bf03201c2a31}\label{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a943595291f961655e428bf03201c2a31}} 
+\+\_\+\+\_\+\+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+STATUS\+\_\+\+LEAST\+\_\+\+MAX&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{\_\_VSF\_MSGT\_NODE\_STATUS\_LEAST\_MIN@{\_\_VSF\_MSGT\_NODE\_STATUS\_LEAST\_MIN}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!\_\_VSF\_MSGT\_NODE\_STATUS\_LEAST\_MIN@{\_\_VSF\_MSGT\_NODE\_STATUS\_LEAST\_MIN}}}\mbox{\Hypertarget{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a5baf94a22535e56aa01e969b9f872223}\label{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a5baf94a22535e56aa01e969b9f872223}} 
+\+\_\+\+\_\+\+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+STATUS\+\_\+\+LEAST\+\_\+\+MIN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_NODE\_VALID@{VSF\_MSGT\_NODE\_VALID}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_NODE\_VALID@{VSF\_MSGT\_NODE\_VALID}}}\mbox{\Hypertarget{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a41cd93339f7f6241558128f19fe6a0bb}\label{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a41cd93339f7f6241558128f19fe6a0bb}} 
+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+VALID&whether the node is valid/initialised or not \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_NODE\_ENABLED@{VSF\_MSGT\_NODE\_ENABLED}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_NODE\_ENABLED@{VSF\_MSGT\_NODE\_ENABLED}}}\mbox{\Hypertarget{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3ad541dd2c64621fcae306c0e935812200}\label{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3ad541dd2c64621fcae306c0e935812200}} 
+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+ENABLED&whether the node is enabled or not \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_NODE\_VISIBLE@{VSF\_MSGT\_NODE\_VISIBLE}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_NODE\_VISIBLE@{VSF\_MSGT\_NODE\_VISIBLE}}}\mbox{\Hypertarget{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3ab00778be091fede1fdb6378e2175b0ef}\label{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3ab00778be091fede1fdb6378e2175b0ef}} 
+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+VISIBLE&whether the node is visible \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_NODE\_ACTIVE@{VSF\_MSGT\_NODE\_ACTIVE}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_NODE\_ACTIVE@{VSF\_MSGT\_NODE\_ACTIVE}}}\mbox{\Hypertarget{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a0da4d55be6375e2242503a22cbb0c96f}\label{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3a0da4d55be6375e2242503a22cbb0c96f}} 
+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+ACTIVE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_NODE\_HIDE\_CONTENT@{VSF\_MSGT\_NODE\_HIDE\_CONTENT}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_NODE\_HIDE\_CONTENT@{VSF\_MSGT\_NODE\_HIDE\_CONTENT}}}\mbox{\Hypertarget{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3aec77ab24c297c8288bf84987d3b33275}\label{vsf__msg__tree_8h_a13037946683673672661ff0b100c6fd3aec77ab24c297c8288bf84987d3b33275}} 
+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+HIDE\+\_\+\+CONTENT&whether hide the content inside container \\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01}\label{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_handler\_type\_t@{vsf\_msgt\_handler\_type\_t}}
+\index{vsf\_msgt\_handler\_type\_t@{vsf\_msgt\_handler\_type\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_handler\_type\_t}{vsf\_msgt\_handler\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01}{vsf\+\_\+msgt\+\_\+handler\+\_\+type\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_CALLBACK@{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_CALLBACK}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_NODE\_HANDLER\_TYPE\_CALLBACK@{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_CALLBACK}}}\mbox{\Hypertarget{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01aaae8a7f97d1ba4a7e52a20325b044e81}\label{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01aaae8a7f97d1ba4a7e52a20325b044e81}} 
+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+HANDLER\+\_\+\+TYPE\+\_\+\+CALLBACK&use normal callback \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_FSM@{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_FSM}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_NODE\_HANDLER\_TYPE\_FSM@{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_FSM}}}\mbox{\Hypertarget{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01a5863d255a6026dafe144ce193c0ee8c3}\label{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01a5863d255a6026dafe144ce193c0ee8c3}} 
+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+HANDLER\+\_\+\+TYPE\+\_\+\+FSM&use fsm (same as normal callback) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_SUBCALL@{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_SUBCALL}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_NODE\_HANDLER\_TYPE\_SUBCALL@{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_SUBCALL}}}\mbox{\Hypertarget{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01adc7dce22fdf723a9e8759ac672151373}\label{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01adc7dce22fdf723a9e8759ac672151373}} 
+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+HANDLER\+\_\+\+TYPE\+\_\+\+SUBCALL&eda sub call (pt subcall) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_EDA@{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_EDA}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_NODE\_HANDLER\_TYPE\_EDA@{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_EDA}}}\mbox{\Hypertarget{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01a7a3098afb1e385794ffee95918bf5949}\label{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01a7a3098afb1e385794ffee95918bf5949}} 
+VSF\+\_\+\+MSGT\+\_\+\+NODE\+\_\+\+HANDLER\+\_\+\+TYPE\+\_\+\+EDA&pass msg to eda \\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93df}\label{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93df}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_err\_t@{vsf\_msgt\_err\_t}}
+\index{vsf\_msgt\_err\_t@{vsf\_msgt\_err\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_err\_t}{vsf\_msgt\_err\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93df}{vsf\+\_\+msgt\+\_\+err\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_ERR\_REUQEST\_VISIT\_AGAIN@{VSF\_MSGT\_ERR\_REUQEST\_VISIT\_AGAIN}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_ERR\_REUQEST\_VISIT\_AGAIN@{VSF\_MSGT\_ERR\_REUQEST\_VISIT\_AGAIN}}}\mbox{\Hypertarget{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfaf0c0b1df8ab67bae5d652a2e47260f30}\label{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfaf0c0b1df8ab67bae5d652a2e47260f30}} 
+VSF\+\_\+\+MSGT\+\_\+\+ERR\+\_\+\+REUQEST\+\_\+\+VISIT\+\_\+\+AGAIN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_ERR\_REQUEST\_VISIT\_PARENT@{VSF\_MSGT\_ERR\_REQUEST\_VISIT\_PARENT}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_ERR\_REQUEST\_VISIT\_PARENT@{VSF\_MSGT\_ERR\_REQUEST\_VISIT\_PARENT}}}\mbox{\Hypertarget{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfa0ab6c42348d44c82e0958bdff03caaea}\label{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfa0ab6c42348d44c82e0958bdff03caaea}} 
+VSF\+\_\+\+MSGT\+\_\+\+ERR\+\_\+\+REQUEST\+\_\+\+VISIT\+\_\+\+PARENT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_ERR\_NONE@{VSF\_MSGT\_ERR\_NONE}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_ERR\_NONE@{VSF\_MSGT\_ERR\_NONE}}}\mbox{\Hypertarget{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfa03da644d591334cb7ecd70b9f473ff0f}\label{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfa03da644d591334cb7ecd70b9f473ff0f}} 
+VSF\+\_\+\+MSGT\+\_\+\+ERR\+\_\+\+NONE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MSGT\_ERR\_MSG\_NOT\_HANDLED@{VSF\_MSGT\_ERR\_MSG\_NOT\_HANDLED}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!VSF\_MSGT\_ERR\_MSG\_NOT\_HANDLED@{VSF\_MSGT\_ERR\_MSG\_NOT\_HANDLED}}}\mbox{\Hypertarget{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfa0f87cf5b062c0fb7d24d9c82d834f385}\label{vsf__msg__tree_8h_ac758e1e5e14e626d85b371cf65bf93dfa0f87cf5b062c0fb7d24d9c82d834f385}} 
+VSF\+\_\+\+MSGT\+\_\+\+ERR\+\_\+\+MSG\+\_\+\+NOT\+\_\+\+HANDLED&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__msg__tree_8h_a25592e13065ae4d8e1b07a3c097343d7}\label{vsf__msg__tree_8h_a25592e13065ae4d8e1b07a3c097343d7}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!declare\_vsf\_rng\_buf@{declare\_vsf\_rng\_buf}}
+\index{declare\_vsf\_rng\_buf@{declare\_vsf\_rng\_buf}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{declare\_vsf\_rng\_buf()}{declare\_vsf\_rng\_buf()}}
+{\footnotesize\ttfamily declare\+\_\+vsf\+\_\+rng\+\_\+buf (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+bfs\+\_\+node\+\_\+fifo\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_ab45513751d232ade4a5a9dd33b58d984}\label{vsf__msg__tree_8h_ab45513751d232ade4a5a9dd33b58d984}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!declare\_interface@{declare\_interface}}
+\index{declare\_interface@{declare\_interface}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{declare\_interface()}{declare\_interface()}}
+{\footnotesize\ttfamily declare\+\_\+interface (\begin{DoxyParamCaption}\item[{i\+\_\+msg\+\_\+tree\+\_\+node\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_adff86804bc48dc2341c6e3f1f964d337}\label{vsf__msg__tree_8h_adff86804bc48dc2341c6e3f1f964d337}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!def\_structure@{def\_structure}}
+\index{def\_structure@{def\_structure}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{def\_structure()}{def\_structure()}}
+{\footnotesize\ttfamily def\+\_\+structure (\begin{DoxyParamCaption}\item[{vsf\+\_\+msgt\+\_\+cfg\+\_\+t}]{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a105e344309fac69f6b6363b0c18c758b}\label{vsf__msg__tree_8h_a105e344309fac69f6b6363b0c18c758b}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!end\_def\_structure@{end\_def\_structure}}
+\index{end\_def\_structure@{end\_def\_structure}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{end\_def\_structure()}{end\_def\_structure()}}
+{\footnotesize\ttfamily end\+\_\+def\+\_\+structure (\begin{DoxyParamCaption}\item[{vsf\+\_\+msgt\+\_\+cfg\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__msg__tree_8h_a641a7b893313e267d97b60ac5a4830cc}\label{vsf__msg__tree_8h_a641a7b893313e267d97b60ac5a4830cc}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!vsf\_msgt\_msg\_t@{vsf\_msgt\_msg\_t}}
+\index{vsf\_msgt\_msg\_t@{vsf\_msgt\_msg\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msgt\_msg\_t}{vsf\_msgt\_msg\_t}}
+{\footnotesize\ttfamily typedef struct vsf\+\_\+msgt\+\_\+msg\+\_\+t}
+
+$<$ the tree message which should larger than VSF\+\_\+\+EVT\+\_\+\+USER\mbox{\Hypertarget{vsf__msg__tree_8h_ab6585ccd43020ceabc0df2ce5858002b}\label{vsf__msg__tree_8h_ab6585ccd43020ceabc0df2ce5858002b}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!Status@{Status}}
+\index{Status@{Status}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{Status}{Status}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__msg__tree_8h_ac9e6ad90eda4f9dc51ce0d4be66b208a}{vsf\+\_\+msgt\+\_\+method\+\_\+status\+\_\+t}}$\ast$ Status}
+
+
+
+get status of target node 
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a705cba2991aec19a05c6f84e78eece43}\label{vsf__msg__tree_8h_a705cba2991aec19a05c6f84e78eece43}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!Shoot@{Shoot}}
+\index{Shoot@{Shoot}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{Shoot}{Shoot}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__msg__tree_8h_af33123ff90bf26262412e7ec9f7417db}{vsf\+\_\+msgt\+\_\+method\+\_\+shoot\+\_\+t}}$\ast$ Shoot}
+
+
+
+range check 
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a5ec09c683f8dfc2020abb3a08c29df2b}\label{vsf__msg__tree_8h_a5ec09c683f8dfc2020abb3a08c29df2b}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!is\_visited@{is\_visited}}
+\index{is\_visited@{is\_visited}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{is\_visited}{is\_visited}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} is\+\_\+visited}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a8b4eebe79ded0459acec2f4950102ba3}\label{vsf__msg__tree_8h_a8b4eebe79ded0459acec2f4950102ba3}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!\_\_pad0\_\_@{\_\_pad0\_\_}}
+\index{\_\_pad0\_\_@{\_\_pad0\_\_}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{\_\_pad0\_\_}{\_\_pad0\_\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \+\_\+\+\_\+pad0\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a670ad2da7860042a24212a66474e235c}\label{vsf__msg__tree_8h_a670ad2da7860042a24212a66474e235c}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!is\_top@{is\_top}}
+\index{is\_top@{is\_top}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{is\_top}{is\_top}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} is\+\_\+top}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a475d1832a4a8fde8f1ad7be05c66e4b5}\label{vsf__msg__tree_8h_a475d1832a4a8fde8f1ad7be05c66e4b5}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!is\_transparent@{is\_transparent}}
+\index{is\_transparent@{is\_transparent}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{is\_transparent}{is\_transparent}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} is\+\_\+transparent}
+
+
+
+used together with is\+\_\+container 
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a526bc6cde1ac3d500ab9ae4a857f9fb7}\label{vsf__msg__tree_8h_a526bc6cde1ac3d500ab9ae4a857f9fb7}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!is\_container@{is\_container}}
+\index{is\_container@{is\_container}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{is\_container}{is\_container}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} is\+\_\+container}
+
+
+
+whether it is a container or not 
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}\label{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!\_@{\_}}
+\index{\_@{\_}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  \+\_\+}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a638e4503e0ae6ce655b7ad2e17e8f0ad}\label{vsf__msg__tree_8h_a638e4503e0ae6ce655b7ad2e17e8f0ad}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!value@{value}}
+\index{value@{value}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} value}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_ae4742b97b6b58dcca85ee96e2ee4c225}\label{vsf__msg__tree_8h_ae4742b97b6b58dcca85ee96e2ee4c225}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!Attribute@{Attribute}}
+\index{Attribute@{Attribute}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily union \{ ... \}  Attribute}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_ae4af2652f0f973baf4cb8ab8a1cf004c}\label{vsf__msg__tree_8h_ae4af2652f0f973baf4cb8ab8a1cf004c}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!parent\_ptr@{parent\_ptr}}
+\index{parent\_ptr@{parent\_ptr}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{parent\_ptr}{parent\_ptr}}
+{\footnotesize\ttfamily vsf\+\_\+msgt\+\_\+container\+\_\+t$\ast$ parent\+\_\+ptr}
+
+
+
+parent node 
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_ab3866cbaacd1c584be83417fa078a9ce}\label{vsf__msg__tree_8h_ab3866cbaacd1c584be83417fa078a9ce}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!previous@{previous}}
+\index{previous@{previous}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{previous}{previous}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__msg__tree_8h_ae531f2d2c2e7105e93334ba80eda4b67}{vsf\+\_\+msgt\+\_\+node\+\_\+offset\+\_\+t}} previous}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}\label{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!next@{next}}
+\index{next@{next}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{next}{next}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__msg__tree_8h_ae531f2d2c2e7105e93334ba80eda4b67}{vsf\+\_\+msgt\+\_\+node\+\_\+offset\+\_\+t}} next}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a92fd0223caa89790f12757753d4a2866}\label{vsf__msg__tree_8h_a92fd0223caa89790f12757753d4a2866}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!Offset@{Offset}}
+\index{Offset@{Offset}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  Offset}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a65a1f414e96489945d7188b8fb20fe22}\label{vsf__msg__tree_8h_a65a1f414e96489945d7188b8fb20fe22}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!node\_name\_ptr@{node\_name\_ptr}}
+\index{node\_name\_ptr@{node\_name\_ptr}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{node\_name\_ptr}{node\_name\_ptr}}
+{\footnotesize\ttfamily const char$\ast$ node\+\_\+name\+\_\+ptr}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a6cb4479255eacbcbe58795e8eb5e08b9}\label{vsf__msg__tree_8h_a6cb4479255eacbcbe58795e8eb5e08b9}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!\_\_vsf\_msgt\_msg\_handling\_fsm\_t@{\_\_vsf\_msgt\_msg\_handling\_fsm\_t}}
+\index{\_\_vsf\_msgt\_msg\_handling\_fsm\_t@{\_\_vsf\_msgt\_msg\_handling\_fsm\_t}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_msgt\_msg\_handling\_fsm\_t}{\_\_vsf\_msgt\_msg\_handling\_fsm\_t}}
+{\footnotesize\ttfamily typedef struct \+\_\+\+\_\+vsf\+\_\+msgt\+\_\+msg\+\_\+handling\+\_\+fsm\+\_\+t}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a8f9c8c153ae567d644e9965c97d3f496}\label{vsf__msg__tree_8h_a8f9c8c153ae567d644e9965c97d3f496}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!type\_num@{type\_num}}
+\index{type\_num@{type\_num}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{type\_num}{type\_num}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} type\+\_\+num}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a0b57aa10271a66f3dc936bba1d2f3830}\label{vsf__msg__tree_8h_a0b57aa10271a66f3dc936bba1d2f3830}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!state@{state}}
+\index{state@{state}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} state}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a0b10cbe9e0979fbbde5a756808ad8528}\label{vsf__msg__tree_8h_a0b10cbe9e0979fbbde5a756808ad8528}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!msg\_handling@{msg\_handling}}
+\index{msg\_handling@{msg\_handling}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{msg\_handling}{msg\_handling}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__msg__tree_8h_a6cb4479255eacbcbe58795e8eb5e08b9}{\+\_\+\+\_\+vsf\+\_\+msgt\+\_\+msg\+\_\+handling\+\_\+fsm\+\_\+t}} msg\+\_\+handling}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_a2b12bb88cecc9235411234749a5a4ee2}\label{vsf__msg__tree_8h_a2b12bb88cecc9235411234749a5a4ee2}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!is\_support\_container\_post\_handling@{is\_support\_container\_post\_handling}}
+\index{is\_support\_container\_post\_handling@{is\_support\_container\_post\_handling}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{is\_support\_container\_post\_handling}{is\_support\_container\_post\_handling}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} is\+\_\+support\+\_\+container\+\_\+post\+\_\+handling}
+
+\mbox{\Hypertarget{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}\label{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}} 
+\index{vsf\_msg\_tree.h@{vsf\_msg\_tree.h}!fifo@{fifo}}
+\index{fifo@{fifo}!vsf\_msg\_tree.h@{vsf\_msg\_tree.h}}
+\doxysubsubsection{\texorpdfstring{fifo}{fifo}}
+{\footnotesize\ttfamily \+\_\+\+\_\+bfs\+\_\+node\+\_\+fifo\+\_\+t fifo}
+

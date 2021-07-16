@@ -1,0 +1,266 @@
+\hypertarget{vsf__input__gamepad_8h}{}\doxysection{source/component/input/protocol/vsf\+\_\+input\+\_\+gamepad.h File Reference}
+\label{vsf__input__gamepad_8h}\index{source/component/input/protocol/vsf\_input\_gamepad.h@{source/component/input/protocol/vsf\_input\_gamepad.h}}
+{\ttfamily \#include \char`\"{}../vsf\+\_\+input\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../vsf\+\_\+input\+\_\+get\+\_\+type.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvk__gamepad__evt__t}{vk\+\_\+gamepad\+\_\+evt\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__input__gamepad_8h_a0d939c00d4f6bdb10a4c1ecc169b906f}{VSF\+\_\+\+GAMEPAD\+\_\+\+DEF\+\_\+\+ITEM\+\_\+\+INFO\+\_\+\+LINEAR}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+BITOFFSET,  \+\_\+\+\_\+\+BITLEN,  \+\_\+\+\_\+\+IS\+\_\+\+SIGNED,  \+\_\+\+\_\+\+CONFIG)
+\item 
+\#define \mbox{\hyperlink{vsf__input__gamepad_8h_a3d92616a53b371126f3302c7e40a7200}{VSF\+\_\+\+GAMEPAD\+\_\+\+DEF\+\_\+\+ITEM\+\_\+\+INFO}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+BITOFFSET,  \+\_\+\+\_\+\+BITLEN,  \+\_\+\+\_\+\+IS\+\_\+\+SIGNED)
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6}{vsf\+\_\+gamepad\+\_\+id\+\_\+t}} \mbox{\hyperlink{vsf__input__gamepad_8h_a8f115ecb772d816580139880e577f244}{vsf\+\_\+gamepad\+\_\+id\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__gamepad__evt__t}{vk\+\_\+gamepad\+\_\+evt\+\_\+t}} \mbox{\hyperlink{vsf__input__gamepad_8h_a18667952e05f8580a37767ad14340bec}{vk\+\_\+gamepad\+\_\+evt\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{vsf__input__gamepad_8h_aabfcbcb5ac86a1edac4035264bc7d2b8a01841fa8488c5b4f15716a4ff2336e58}{VSF\+\_\+\+INPUT\+\_\+\+TYPE\+\_\+\+GAMEPAD}} = VSF\+\_\+\+INPUT\+\_\+\+USER\+\_\+\+TYPE
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6}{vsf\+\_\+gamepad\+\_\+id\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a861bb230b120d07bc8bb8e565041ede8}{GAMEPAD\+\_\+\+ID\+\_\+\+DUMMY}} = 0
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6abc37ed9eb925322aceabc178037e7b27}{GAMEPAD\+\_\+\+ID\+\_\+\+L\+\_\+\+UP}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a09dc024f11f749385c9e09eb79b16a0d}{GAMEPAD\+\_\+\+ID\+\_\+\+L\+\_\+\+DOWN}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a6796d479b4f984b6e1aa5b3cad670e18}{GAMEPAD\+\_\+\+ID\+\_\+\+L\+\_\+\+LEFT}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a913724777a38d7b903edb4d6b4bf2fd4}{GAMEPAD\+\_\+\+ID\+\_\+\+L\+\_\+\+RIGHT}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ab3fb5b0cd9f39cbc80a482366a6a0570}{GAMEPAD\+\_\+\+ID\+\_\+\+R\+\_\+\+UP}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6acf266741fb0f33b9944bf7cad956dbae}{GAMEPAD\+\_\+\+ID\+\_\+\+R\+\_\+\+DOWN}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a579a2812b1458a366150313862745753}{GAMEPAD\+\_\+\+ID\+\_\+\+R\+\_\+\+LEFT}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a2a64d8b9ebef6163d1a7caf2b19678a5}{GAMEPAD\+\_\+\+ID\+\_\+\+R\+\_\+\+RIGHT}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6af82ceb02d97596d53c16931adf63b1dc}{GAMEPAD\+\_\+\+ID\+\_\+\+LB}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a02f1e500cf881b19964bb0d6a07449df}{GAMEPAD\+\_\+\+ID\+\_\+\+RB}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ae7183c2c198ed05d08b5450b05932a8e}{GAMEPAD\+\_\+\+ID\+\_\+\+LS}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ab2b3d432eddb13ff86f231fcf6291c16}{GAMEPAD\+\_\+\+ID\+\_\+\+RS}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ad0d040c5ebc8a8de0be070aa883e2566}{GAMEPAD\+\_\+\+ID\+\_\+\+MENU\+\_\+\+LEFT}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ae23e9a78e7a831253294ac4a7a724ffc}{GAMEPAD\+\_\+\+ID\+\_\+\+MENU\+\_\+\+RIGHT}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a0e47a07f74c8f3470fc998f5260feb0a}{GAMEPAD\+\_\+\+ID\+\_\+\+MENU\+\_\+\+MAIN}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ada46a6174d06fe307c5739bf2ebffa30}{GAMEPAD\+\_\+\+ID\+\_\+\+SPECIAL}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6abf6d28de7c1f3c99350f2b4da911c5f2}{GAMEPAD\+\_\+\+ID\+\_\+\+LX}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a09330a9aa169e9c478920d4cf0b8dfe7}{GAMEPAD\+\_\+\+ID\+\_\+\+LY}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a24d34376b8a5ccea8e9f24d5fe751f23}{GAMEPAD\+\_\+\+ID\+\_\+\+RX}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a6eba82847416654b78b980d7127c8de6}{GAMEPAD\+\_\+\+ID\+\_\+\+RY}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a00a1a5cd9145609e46d110c747b8aa0a}{GAMEPAD\+\_\+\+ID\+\_\+\+LT}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a76787bf1aef0965f157f7da4a9d164fe}{GAMEPAD\+\_\+\+ID\+\_\+\+RT}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6adbd453ee2e7c1f95296a5e4e7bf3b6f1}{GAMEPAD\+\_\+\+ID\+\_\+\+DPAD}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6aeba830453fb983dd5d543368e8d50cdc}{GAMEPAD\+\_\+\+ID\+\_\+\+NUM}}
+, \newline
+\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a2918d9750639404afae750930ad21635}{GAMEPAD\+\_\+\+ID\+\_\+\+USER}} = GAMEPAD\+\_\+\+ID\+\_\+\+NUM
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__input__gamepad_8h_a2730655ad0059947eb9e33bcd0a62715}{vk\+\_\+gamepad\+\_\+input\+\_\+parse}} (void $\ast$dev, \mbox{\hyperlink{structvk__input__item__info__t}{vk\+\_\+input\+\_\+item\+\_\+info\+\_\+t}} $\ast$item\+\_\+info, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$pre, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$cur)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__input__gamepad_8h_a0d939c00d4f6bdb10a4c1ecc169b906f}\label{vsf__input__gamepad_8h_a0d939c00d4f6bdb10a4c1ecc169b906f}} 
+\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!VSF\_GAMEPAD\_DEF\_ITEM\_INFO\_LINEAR@{VSF\_GAMEPAD\_DEF\_ITEM\_INFO\_LINEAR}}
+\index{VSF\_GAMEPAD\_DEF\_ITEM\_INFO\_LINEAR@{VSF\_GAMEPAD\_DEF\_ITEM\_INFO\_LINEAR}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_GAMEPAD\_DEF\_ITEM\_INFO\_LINEAR}{VSF\_GAMEPAD\_DEF\_ITEM\_INFO\_LINEAR}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+GAMEPAD\+\_\+\+DEF\+\_\+\+ITEM\+\_\+\+INFO\+\_\+\+LINEAR(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+BITOFFSET,  }\item[{}]{\+\_\+\+\_\+\+BITLEN,  }\item[{}]{\+\_\+\+\_\+\+IS\+\_\+\+SIGNED,  }\item[{}]{\+\_\+\+\_\+\+CONFIG }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            [\mbox{\hyperlink{vsf__connect__macro_8h_abf7f27bd9326ce9f85a40c371e32c91b}{VSF\_MCONNECT2}}(GAMEPAD\_ID\_, \_\_NAME)] = \mbox{\hyperlink{vsf__input_8h_ac7891113eb067d456b7285f0761b9b25}{VSF\_INPUT\_ITEM\_EX}}(           \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__connect__macro_8h_abf7f27bd9326ce9f85a40c371e32c91b}{VSF\_MCONNECT2}}(GAMEPAD\_ID\_, \_\_NAME),                             \(\backslash\)}
+\DoxyCodeLine{                (\_\_BITOFFSET), (\_\_BITLEN), (\_\_IS\_SIGNED), (\_\_CONFIG))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__input__gamepad_8h_a3d92616a53b371126f3302c7e40a7200}\label{vsf__input__gamepad_8h_a3d92616a53b371126f3302c7e40a7200}} 
+\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!VSF\_GAMEPAD\_DEF\_ITEM\_INFO@{VSF\_GAMEPAD\_DEF\_ITEM\_INFO}}
+\index{VSF\_GAMEPAD\_DEF\_ITEM\_INFO@{VSF\_GAMEPAD\_DEF\_ITEM\_INFO}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_GAMEPAD\_DEF\_ITEM\_INFO}{VSF\_GAMEPAD\_DEF\_ITEM\_INFO}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+GAMEPAD\+\_\+\+DEF\+\_\+\+ITEM\+\_\+\+INFO(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+BITOFFSET,  }\item[{}]{\+\_\+\+\_\+\+BITLEN,  }\item[{}]{\+\_\+\+\_\+\+IS\+\_\+\+SIGNED }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            [\mbox{\hyperlink{vsf__connect__macro_8h_abf7f27bd9326ce9f85a40c371e32c91b}{VSF\_MCONNECT2}}(GAMEPAD\_ID\_, \_\_NAME)] = \mbox{\hyperlink{vsf__input_8h_a0a33db78c88dddfa1b84496103d98f3f}{VSF\_INPUT\_ITEM}}(              \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__connect__macro_8h_abf7f27bd9326ce9f85a40c371e32c91b}{VSF\_MCONNECT2}}(GAMEPAD\_ID\_, \_\_NAME),                             \(\backslash\)}
+\DoxyCodeLine{                (\_\_BITOFFSET), (\_\_BITLEN), (\_\_IS\_SIGNED))}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__input__gamepad_8h_a8f115ecb772d816580139880e577f244}\label{vsf__input__gamepad_8h_a8f115ecb772d816580139880e577f244}} 
+\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!vsf\_gamepad\_id\_t@{vsf\_gamepad\_id\_t}}
+\index{vsf\_gamepad\_id\_t@{vsf\_gamepad\_id\_t}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_gamepad\_id\_t}{vsf\_gamepad\_id\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6}{vsf\+\_\+gamepad\+\_\+id\+\_\+t}} \mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6}{vsf\+\_\+gamepad\+\_\+id\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__input__gamepad_8h_a18667952e05f8580a37767ad14340bec}\label{vsf__input__gamepad_8h_a18667952e05f8580a37767ad14340bec}} 
+\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!vk\_gamepad\_evt\_t@{vk\_gamepad\_evt\_t}}
+\index{vk\_gamepad\_evt\_t@{vk\_gamepad\_evt\_t}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}
+\doxysubsubsection{\texorpdfstring{vk\_gamepad\_evt\_t}{vk\_gamepad\_evt\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__gamepad__evt__t}{vk\+\_\+gamepad\+\_\+evt\+\_\+t}} \mbox{\hyperlink{structvk__gamepad__evt__t}{vk\+\_\+gamepad\+\_\+evt\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__input__gamepad_8h_aabfcbcb5ac86a1edac4035264bc7d2b8}\label{vsf__input__gamepad_8h_aabfcbcb5ac86a1edac4035264bc7d2b8}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_INPUT\_TYPE\_GAMEPAD@{VSF\_INPUT\_TYPE\_GAMEPAD}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!VSF\_INPUT\_TYPE\_GAMEPAD@{VSF\_INPUT\_TYPE\_GAMEPAD}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aabfcbcb5ac86a1edac4035264bc7d2b8a01841fa8488c5b4f15716a4ff2336e58}\label{vsf__input__gamepad_8h_aabfcbcb5ac86a1edac4035264bc7d2b8a01841fa8488c5b4f15716a4ff2336e58}} 
+VSF\+\_\+\+INPUT\+\_\+\+TYPE\+\_\+\+GAMEPAD&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6}} 
+\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!vsf\_gamepad\_id\_t@{vsf\_gamepad\_id\_t}}
+\index{vsf\_gamepad\_id\_t@{vsf\_gamepad\_id\_t}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_gamepad\_id\_t}{vsf\_gamepad\_id\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6}{vsf\+\_\+gamepad\+\_\+id\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_DUMMY@{GAMEPAD\_ID\_DUMMY}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_DUMMY@{GAMEPAD\_ID\_DUMMY}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a861bb230b120d07bc8bb8e565041ede8}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a861bb230b120d07bc8bb8e565041ede8}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+DUMMY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_L\_UP@{GAMEPAD\_ID\_L\_UP}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_L\_UP@{GAMEPAD\_ID\_L\_UP}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6abc37ed9eb925322aceabc178037e7b27}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6abc37ed9eb925322aceabc178037e7b27}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+L\+\_\+\+UP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_L\_DOWN@{GAMEPAD\_ID\_L\_DOWN}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_L\_DOWN@{GAMEPAD\_ID\_L\_DOWN}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a09dc024f11f749385c9e09eb79b16a0d}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a09dc024f11f749385c9e09eb79b16a0d}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+L\+\_\+\+DOWN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_L\_LEFT@{GAMEPAD\_ID\_L\_LEFT}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_L\_LEFT@{GAMEPAD\_ID\_L\_LEFT}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a6796d479b4f984b6e1aa5b3cad670e18}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a6796d479b4f984b6e1aa5b3cad670e18}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+L\+\_\+\+LEFT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_L\_RIGHT@{GAMEPAD\_ID\_L\_RIGHT}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_L\_RIGHT@{GAMEPAD\_ID\_L\_RIGHT}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a913724777a38d7b903edb4d6b4bf2fd4}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a913724777a38d7b903edb4d6b4bf2fd4}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+L\+\_\+\+RIGHT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_R\_UP@{GAMEPAD\_ID\_R\_UP}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_R\_UP@{GAMEPAD\_ID\_R\_UP}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ab3fb5b0cd9f39cbc80a482366a6a0570}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ab3fb5b0cd9f39cbc80a482366a6a0570}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+R\+\_\+\+UP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_R\_DOWN@{GAMEPAD\_ID\_R\_DOWN}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_R\_DOWN@{GAMEPAD\_ID\_R\_DOWN}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6acf266741fb0f33b9944bf7cad956dbae}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6acf266741fb0f33b9944bf7cad956dbae}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+R\+\_\+\+DOWN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_R\_LEFT@{GAMEPAD\_ID\_R\_LEFT}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_R\_LEFT@{GAMEPAD\_ID\_R\_LEFT}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a579a2812b1458a366150313862745753}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a579a2812b1458a366150313862745753}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+R\+\_\+\+LEFT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_R\_RIGHT@{GAMEPAD\_ID\_R\_RIGHT}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_R\_RIGHT@{GAMEPAD\_ID\_R\_RIGHT}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a2a64d8b9ebef6163d1a7caf2b19678a5}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a2a64d8b9ebef6163d1a7caf2b19678a5}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+R\+\_\+\+RIGHT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_LB@{GAMEPAD\_ID\_LB}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_LB@{GAMEPAD\_ID\_LB}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6af82ceb02d97596d53c16931adf63b1dc}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6af82ceb02d97596d53c16931adf63b1dc}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+LB&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_RB@{GAMEPAD\_ID\_RB}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_RB@{GAMEPAD\_ID\_RB}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a02f1e500cf881b19964bb0d6a07449df}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a02f1e500cf881b19964bb0d6a07449df}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+RB&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_LS@{GAMEPAD\_ID\_LS}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_LS@{GAMEPAD\_ID\_LS}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ae7183c2c198ed05d08b5450b05932a8e}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ae7183c2c198ed05d08b5450b05932a8e}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+LS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_RS@{GAMEPAD\_ID\_RS}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_RS@{GAMEPAD\_ID\_RS}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ab2b3d432eddb13ff86f231fcf6291c16}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ab2b3d432eddb13ff86f231fcf6291c16}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+RS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_MENU\_LEFT@{GAMEPAD\_ID\_MENU\_LEFT}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_MENU\_LEFT@{GAMEPAD\_ID\_MENU\_LEFT}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ad0d040c5ebc8a8de0be070aa883e2566}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ad0d040c5ebc8a8de0be070aa883e2566}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+MENU\+\_\+\+LEFT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_MENU\_RIGHT@{GAMEPAD\_ID\_MENU\_RIGHT}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_MENU\_RIGHT@{GAMEPAD\_ID\_MENU\_RIGHT}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ae23e9a78e7a831253294ac4a7a724ffc}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ae23e9a78e7a831253294ac4a7a724ffc}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+MENU\+\_\+\+RIGHT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_MENU\_MAIN@{GAMEPAD\_ID\_MENU\_MAIN}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_MENU\_MAIN@{GAMEPAD\_ID\_MENU\_MAIN}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a0e47a07f74c8f3470fc998f5260feb0a}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a0e47a07f74c8f3470fc998f5260feb0a}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+MENU\+\_\+\+MAIN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_SPECIAL@{GAMEPAD\_ID\_SPECIAL}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_SPECIAL@{GAMEPAD\_ID\_SPECIAL}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ada46a6174d06fe307c5739bf2ebffa30}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6ada46a6174d06fe307c5739bf2ebffa30}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+SPECIAL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_LX@{GAMEPAD\_ID\_LX}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_LX@{GAMEPAD\_ID\_LX}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6abf6d28de7c1f3c99350f2b4da911c5f2}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6abf6d28de7c1f3c99350f2b4da911c5f2}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+LX&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_LY@{GAMEPAD\_ID\_LY}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_LY@{GAMEPAD\_ID\_LY}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a09330a9aa169e9c478920d4cf0b8dfe7}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a09330a9aa169e9c478920d4cf0b8dfe7}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+LY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_RX@{GAMEPAD\_ID\_RX}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_RX@{GAMEPAD\_ID\_RX}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a24d34376b8a5ccea8e9f24d5fe751f23}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a24d34376b8a5ccea8e9f24d5fe751f23}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+RX&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_RY@{GAMEPAD\_ID\_RY}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_RY@{GAMEPAD\_ID\_RY}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a6eba82847416654b78b980d7127c8de6}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a6eba82847416654b78b980d7127c8de6}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+RY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_LT@{GAMEPAD\_ID\_LT}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_LT@{GAMEPAD\_ID\_LT}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a00a1a5cd9145609e46d110c747b8aa0a}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a00a1a5cd9145609e46d110c747b8aa0a}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+LT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_RT@{GAMEPAD\_ID\_RT}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_RT@{GAMEPAD\_ID\_RT}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a76787bf1aef0965f157f7da4a9d164fe}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a76787bf1aef0965f157f7da4a9d164fe}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+RT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_DPAD@{GAMEPAD\_ID\_DPAD}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_DPAD@{GAMEPAD\_ID\_DPAD}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6adbd453ee2e7c1f95296a5e4e7bf3b6f1}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6adbd453ee2e7c1f95296a5e4e7bf3b6f1}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+DPAD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_NUM@{GAMEPAD\_ID\_NUM}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_NUM@{GAMEPAD\_ID\_NUM}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6aeba830453fb983dd5d543368e8d50cdc}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6aeba830453fb983dd5d543368e8d50cdc}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+NUM&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GAMEPAD\_ID\_USER@{GAMEPAD\_ID\_USER}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!GAMEPAD\_ID\_USER@{GAMEPAD\_ID\_USER}}}\mbox{\Hypertarget{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a2918d9750639404afae750930ad21635}\label{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6a2918d9750639404afae750930ad21635}} 
+GAMEPAD\+\_\+\+ID\+\_\+\+USER&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__input__gamepad_8h_a2730655ad0059947eb9e33bcd0a62715}\label{vsf__input__gamepad_8h_a2730655ad0059947eb9e33bcd0a62715}} 
+\index{vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}!vk\_gamepad\_input\_parse@{vk\_gamepad\_input\_parse}}
+\index{vk\_gamepad\_input\_parse@{vk\_gamepad\_input\_parse}!vsf\_input\_gamepad.h@{vsf\_input\_gamepad.h}}
+\doxysubsubsection{\texorpdfstring{vk\_gamepad\_input\_parse()}{vk\_gamepad\_input\_parse()}}
+{\footnotesize\ttfamily void vk\+\_\+gamepad\+\_\+input\+\_\+parse (\begin{DoxyParamCaption}\item[{void $\ast$}]{dev,  }\item[{\mbox{\hyperlink{structvk__input__item__info__t}{vk\+\_\+input\+\_\+item\+\_\+info\+\_\+t}} $\ast$}]{item\+\_\+info,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{pre,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{cur }\end{DoxyParamCaption})}
+

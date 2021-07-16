@@ -1,0 +1,305 @@
+\hypertarget{vsf__stream__base_8h}{}\doxysection{source/service/stream/vsf\+\_\+stream\+\_\+base.h File Reference}
+\label{vsf__stream__base_8h}\index{source/service/stream/vsf\_stream\_base.h@{source/service/stream/vsf\_stream\_base.h}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./pbuf/vsf\+\_\+pbuf.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./pbuf/vsf\+\_\+pbuf\+\_\+pool.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./interface.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../pool/vsf\+\_\+pool.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./pbuf\+\_\+queue/vsf\+\_\+pbuf\+\_\+queue.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+stream\+\_\+writer.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+stream\+\_\+reader.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__stream__base_8h_ab03dcdedfdc9861a978626b67957afb9}{\+\_\+\+\_\+\+PLOOC\+\_\+\+CLASS\+\_\+\+USE\+\_\+\+STRICT\+\_\+\+TEMPLATE\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__stream__base_8h_a48cdd8f1558ee69649d0399077150256}{GENERAL\+\_\+\+PBUF\+\_\+\+POOL\+\_\+\+BLOCK\+\_\+\+SIZE}}~64
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} \mbox{\hyperlink{vsf__stream__base_8h_a06a29947aa7a3435dffdf286d7341990}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__stream__base_8h_a666584cf3e9e22aed53ee0b47acddb44}{declare\+\_\+pbuf\+\_\+pool}} (general\+\_\+pbuf\+\_\+pool\+\_\+t) \mbox{\hyperlink{vsf__pbuf__pool_8h_a8e17be8328922179b17838c1963dc096}{def\+\_\+pbuf\+\_\+pool}}(general\+\_\+pbuf\+\_\+pool\+\_\+t
+\item 
+\mbox{\hyperlink{vsf__stream__base_8h_a48cdd8f1558ee69649d0399077150256}{GENERAL\+\_\+\+PBUF\+\_\+\+POOL\+\_\+\+BLOCK\+\_\+\+SIZE}} \mbox{\hyperlink{vsf__stream__base_8h_a4e554da4c0724535fa34e5779928ffda}{declare\+\_\+class}} (vsf\+\_\+stream\+\_\+src\+\_\+t)
+\item 
+\mbox{\hyperlink{vsf__stream__base_8h_ace8060d2a7c1a399a439a1081c980782}{def\+\_\+class}} (vsf\+\_\+stream\+\_\+src\+\_\+t,, public\+:vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t ;) \mbox{\hyperlink{vsf__queue_8h_a817d298db719db9ea152846aa732b10d}{end\+\_\+def\+\_\+class}}(vsf\+\_\+stream\+\_\+src\+\_\+t) \mbox{\hyperlink{vsf__stream__reader_8h_aebd2b84bb53996382b2fbf5cdbb2fe75}{def\+\_\+interface}}(i\+\_\+stream\+\_\+src\+\_\+t) \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}}($\ast$Init)(vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr
+\item 
+\mbox{\hyperlink{vsf__stream__base_8h_a42b00fa5f01f11954d6a7b3097710b74}{end\+\_\+def\+\_\+interface}} (i\+\_\+stream\+\_\+src\+\_\+t) \mbox{\hyperlink{vsf__queue_8h_ab83697fea00d4c7a9d08d81f65c37385}{declare\+\_\+class}}(vsf\+\_\+stream\+\_\+usr\+\_\+t)
+\item 
+\mbox{\hyperlink{vsf__stream__base_8h_abeb8f42705adf7bcd806d9bcf739f846}{def\+\_\+class}} (vsf\+\_\+stream\+\_\+usr\+\_\+t,, public\+:vsf\+\_\+stream\+\_\+rx\+\_\+t $\ast$pt\+RX;) \mbox{\hyperlink{vsf__queue_8h_a817d298db719db9ea152846aa732b10d}{end\+\_\+def\+\_\+class}}(vsf\+\_\+stream\+\_\+usr\+\_\+t) typedef struct \mbox{\hyperlink{vsf__stream__base_8h_aba0cf81ae0c522ae14ce91db0a68a06d}{vsf\+\_\+stream\+\_\+usr\+\_\+cfg\+\_\+t}}
+\item 
+\mbox{\hyperlink{vsf__stream__base_8h_a959f8beea7e912b9f20d0db203a42f3b}{def\+\_\+interface}} (i\+\_\+stream\+\_\+usr\+\_\+t) \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}}($\ast$Init)(vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr
+\item 
+\mbox{\hyperlink{vsf__stream__base_8h_a8c80e62725fae7a2fbc2718dda990cd6}{end\+\_\+def\+\_\+interface}} (i\+\_\+stream\+\_\+usr\+\_\+t) extern \mbox{\hyperlink{vsf__stream__base_8c_a094922c44b7c72664ea8780016b49c3f}{vsf\+\_\+pool}}(general\+\_\+pbuf\+\_\+pool\+\_\+t) g\+\_\+t\+General\+PBUFPool
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__base_8h_a60d21254557472b3afe97e0cbe4989f4}{vsf\+\_\+stream\+\_\+src\+\_\+init}} (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr, const \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__stream__writer_8h_a4867ae13f79e7bd89b5442224cdd20bd}{cfg\+\_\+ptr}})
+\item 
+vsf\+\_\+pbuf\+\_\+t $\ast$ \mbox{\hyperlink{vsf__stream__base_8h_ab21471abe00dd13fcadfdf367d0fc1b6}{vsf\+\_\+stream\+\_\+src\+\_\+new\+\_\+pbuf}} (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__pbuf_8h_aeba9bd476cd1ffb394fbece1ced3b334}{n\+No\+Less\+Than}}, \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__pbuf_8h_abef06d546b0e264503ffb0fb936221bb}{n\+Best\+Size}})
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__base_8h_a555ba8c6e939b26e4f881b6a5a7e4339}{vsf\+\_\+stream\+\_\+src\+\_\+send\+\_\+pbuf}} (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr, vsf\+\_\+pbuf\+\_\+t $\ast$pt\+Old\+Block)
+\item 
+\mbox{\hyperlink{interface_8h_a9b969da23063dbeba929bd965b6e3688}{vsf\+\_\+stream\+\_\+tx\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__stream__base_8h_a3cb33ade39035eac85e73ab1544a00b7}{vsf\+\_\+stream\+\_\+src\+\_\+get\+\_\+tx}} (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__base_8h_ab20a551adc655df3cc0299a837fa3930}{vsf\+\_\+stream\+\_\+src\+\_\+set\+\_\+limitation}} (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} hwpbuf\+Count\+Up\+Limit, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} hwpbuf\+Pool\+Reserve)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__base_8h_a334f15c62b6873c7ccb1939c0f08586d}{vsf\+\_\+stream\+\_\+usr\+\_\+init}} (vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr, const \mbox{\hyperlink{vsf__stream__base_8h_aba0cf81ae0c522ae14ce91db0a68a06d}{vsf\+\_\+stream\+\_\+usr\+\_\+cfg\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__stream__writer_8h_a4867ae13f79e7bd89b5442224cdd20bd}{cfg\+\_\+ptr}})
+\item 
+vsf\+\_\+pbuf\+\_\+t $\ast$ \mbox{\hyperlink{vsf__stream__base_8h_af95ed6e26098031af855df518088ed51}{vsf\+\_\+stream\+\_\+usr\+\_\+fetch\+\_\+pbuf}} (vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+void \mbox{\hyperlink{vsf__stream__base_8h_a30b2975c770456ec19b1e3f663f9f60f}{vsf\+\_\+stream\+\_\+usr\+\_\+open}} (vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+void \mbox{\hyperlink{vsf__stream__base_8h_a12abce6fa37aee2d10871612351e4f6e}{vsf\+\_\+stream\+\_\+usr\+\_\+close}} (vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__stream__base_8h_a9f0e0b3afe1d61af210a38c16f0dcd9f}{cfg\+\_\+ptr}}
+\item 
+\mbox{\hyperlink{interface_8h_a9b969da23063dbeba929bd965b6e3688}{vsf\+\_\+stream\+\_\+tx\+\_\+t}} $\ast$($\ast$ \mbox{\hyperlink{vsf__stream__base_8h_a051afbc20099a96ba5465c751fea881e}{Get\+TX}} )(vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>vsf\_pbuf\_t $\ast$($\ast$ \mbox{\hyperlink{vsf__stream__base_8h_a66abe76d3a68c9a935e45c625c5b0974}{New}} )(vsf\_stream\_src\_t $\ast$obj\_ptr, \\
+\>\>\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\_fast32\_t}} \mbox{\hyperlink{vsf__pbuf_8h_aeba9bd476cd1ffb394fbece1ced3b334}{nNoLessThan}}, \\
+\>\>\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\_fast32\_t}} \mbox{\hyperlink{vsf__pbuf_8h_abef06d546b0e264503ffb0fb936221bb}{nBestSize}})\\
+\>\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\_err\_t}}($\ast$ \mbox{\hyperlink{vsf__stream__base_8h_a31463ba29a8b25e9a818161219446893}{Send}} )(vsf\_stream\_src\_t $\ast$obj\_ptr, \\
+\>\>vsf\_pbuf\_t $\ast$ptOldBlock)\\
+\} \mbox{\hyperlink{vsf__stream__base_8h_ab0f78c3eda5f773538956f35ec75dbf1}{Block}}\\
+
+\end{tabbing}\item 
+\mbox{\hyperlink{vsf__stream__base_8h_aba0cf81ae0c522ae14ce91db0a68a06d}{vsf\+\_\+stream\+\_\+usr\+\_\+cfg\+\_\+t}}
+\item 
+void($\ast$ \mbox{\hyperlink{vsf__stream__base_8h_ab096a916d0a7f6328df346a608f5c309}{Open}} )(vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+void($\ast$ \mbox{\hyperlink{vsf__stream__base_8h_a9ff0b6db5ec3d12f6db554c84ea8a03c}{Close}} )(vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+const i\+\_\+stream\+\_\+src\+\_\+t \mbox{\hyperlink{vsf__stream__base_8h_a154a6349c215ba30a73a5e0d01ed2ebd}{VSF\+\_\+\+STREAM\+\_\+\+SRC}}
+\item 
+const i\+\_\+stream\+\_\+usr\+\_\+t \mbox{\hyperlink{vsf__stream__base_8h_aa082b0ddb009eb677153f49ebf203f74}{VSF\+\_\+\+STREAM\+\_\+\+USR}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__stream__base_8h_ab03dcdedfdc9861a978626b67957afb9}\label{vsf__stream__base_8h_ab03dcdedfdc9861a978626b67957afb9}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_@{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}}
+\index{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_@{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}{\_\_PLOOC\_CLASS\_USE\_STRICT\_TEMPLATE\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+PLOOC\+\_\+\+CLASS\+\_\+\+USE\+\_\+\+STRICT\+\_\+\+TEMPLATE\+\_\+\+\_\+}
+
+\textbackslash{}\+NOTE\+: Make sure \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{} is close to the class ! definition and there is NO ANY OTHER module-\/interface-\/header file ! included in this file \mbox{\Hypertarget{vsf__stream__base_8h_a48cdd8f1558ee69649d0399077150256}\label{vsf__stream__base_8h_a48cdd8f1558ee69649d0399077150256}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!GENERAL\_PBUF\_POOL\_BLOCK\_SIZE@{GENERAL\_PBUF\_POOL\_BLOCK\_SIZE}}
+\index{GENERAL\_PBUF\_POOL\_BLOCK\_SIZE@{GENERAL\_PBUF\_POOL\_BLOCK\_SIZE}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{GENERAL\_PBUF\_POOL\_BLOCK\_SIZE}{GENERAL\_PBUF\_POOL\_BLOCK\_SIZE}}
+{\footnotesize\ttfamily \#define GENERAL\+\_\+\+PBUF\+\_\+\+POOL\+\_\+\+BLOCK\+\_\+\+SIZE~64}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__stream__base_8h_a06a29947aa7a3435dffdf286d7341990}\label{vsf__stream__base_8h_a06a29947aa7a3435dffdf286d7341990}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!vsf\_stream\_src\_cfg\_t@{vsf\_stream\_src\_cfg\_t}}
+\index{vsf\_stream\_src\_cfg\_t@{vsf\_stream\_src\_cfg\_t}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_src\_cfg\_t}{vsf\_stream\_src\_cfg\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__stream__base_8h_a666584cf3e9e22aed53ee0b47acddb44}\label{vsf__stream__base_8h_a666584cf3e9e22aed53ee0b47acddb44}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!declare\_pbuf\_pool@{declare\_pbuf\_pool}}
+\index{declare\_pbuf\_pool@{declare\_pbuf\_pool}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{declare\_pbuf\_pool()}{declare\_pbuf\_pool()}}
+{\footnotesize\ttfamily declare\+\_\+pbuf\+\_\+pool (\begin{DoxyParamCaption}\item[{general\+\_\+pbuf\+\_\+pool\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a4e554da4c0724535fa34e5779928ffda}\label{vsf__stream__base_8h_a4e554da4c0724535fa34e5779928ffda}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!declare\_class@{declare\_class}}
+\index{declare\_class@{declare\_class}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{declare\_class()}{declare\_class()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__stream__base_8h_a48cdd8f1558ee69649d0399077150256}{GENERAL\+\_\+\+PBUF\+\_\+\+POOL\+\_\+\+BLOCK\+\_\+\+SIZE}} declare\+\_\+class (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_ace8060d2a7c1a399a439a1081c980782}\label{vsf__stream__base_8h_ace8060d2a7c1a399a439a1081c980782}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!def\_class@{def\_class}}
+\index{def\_class@{def\_class}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{def\_class()}{def\_class()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily def\+\_\+class (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t}]{,  }\item[{public\+:vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t ;}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a42b00fa5f01f11954d6a7b3097710b74}\label{vsf__stream__base_8h_a42b00fa5f01f11954d6a7b3097710b74}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!end\_def\_interface@{end\_def\_interface}}
+\index{end\_def\_interface@{end\_def\_interface}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{end\_def\_interface()}{end\_def\_interface()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily end\+\_\+def\+\_\+interface (\begin{DoxyParamCaption}\item[{i\+\_\+stream\+\_\+src\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_abeb8f42705adf7bcd806d9bcf739f846}\label{vsf__stream__base_8h_abeb8f42705adf7bcd806d9bcf739f846}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!def\_class@{def\_class}}
+\index{def\_class@{def\_class}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{def\_class()}{def\_class()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily def\+\_\+class (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t}]{,  }\item[{public\+:vsf\+\_\+stream\+\_\+rx\+\_\+t $\ast$pt\+RX;}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a959f8beea7e912b9f20d0db203a42f3b}\label{vsf__stream__base_8h_a959f8beea7e912b9f20d0db203a42f3b}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!def\_interface@{def\_interface}}
+\index{def\_interface@{def\_interface}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{def\_interface()}{def\_interface()}}
+{\footnotesize\ttfamily def\+\_\+interface (\begin{DoxyParamCaption}\item[{i\+\_\+stream\+\_\+usr\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a8c80e62725fae7a2fbc2718dda990cd6}\label{vsf__stream__base_8h_a8c80e62725fae7a2fbc2718dda990cd6}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!end\_def\_interface@{end\_def\_interface}}
+\index{end\_def\_interface@{end\_def\_interface}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{end\_def\_interface()}{end\_def\_interface()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily end\+\_\+def\+\_\+interface (\begin{DoxyParamCaption}\item[{i\+\_\+stream\+\_\+usr\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a60d21254557472b3afe97e0cbe4989f4}\label{vsf__stream__base_8h_a60d21254557472b3afe97e0cbe4989f4}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!vsf\_stream\_src\_init@{vsf\_stream\_src\_init}}
+\index{vsf\_stream\_src\_init@{vsf\_stream\_src\_init}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_src\_init()}{vsf\_stream\_src\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+src\+\_\+init (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{const \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} $\ast$}]{cfg\+\_\+ptr }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{Note}
+check them seperately to avoid busfault, in order to give the right diagnosis info
+\end{DoxyNote}
+using general pbuf pool
+
+\begin{DoxyNote}{Note}
+non-\/privileged user of general pbuf pool will reserve specific count of pbuf for priviliged (0x\+FF) users by default (hwpbuf\+Pool\+Reserve equals 0x00)
+
+privileged users(0x\+FF) should set hwpbuf\+Pool\+Reserve to 0x\+FF when using general pbuf pool
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__stream__base_8h_ab21471abe00dd13fcadfdf367d0fc1b6}\label{vsf__stream__base_8h_ab21471abe00dd13fcadfdf367d0fc1b6}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!vsf\_stream\_src\_new\_pbuf@{vsf\_stream\_src\_new\_pbuf}}
+\index{vsf\_stream\_src\_new\_pbuf@{vsf\_stream\_src\_new\_pbuf}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_src\_new\_pbuf()}{vsf\_stream\_src\_new\_pbuf()}}
+{\footnotesize\ttfamily vsf\+\_\+pbuf\+\_\+t$\ast$ vsf\+\_\+stream\+\_\+src\+\_\+new\+\_\+pbuf (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}}]{n\+No\+Less\+Than,  }\item[{\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}}]{n\+Best\+Size }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{Note}
+check them seperately to avoid busfault, in order to give the right diagnosis info
+\end{DoxyNote}
+check uplimit\mbox{\Hypertarget{vsf__stream__base_8h_a555ba8c6e939b26e4f881b6a5a7e4339}\label{vsf__stream__base_8h_a555ba8c6e939b26e4f881b6a5a7e4339}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!vsf\_stream\_src\_send\_pbuf@{vsf\_stream\_src\_send\_pbuf}}
+\index{vsf\_stream\_src\_send\_pbuf@{vsf\_stream\_src\_send\_pbuf}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_src\_send\_pbuf()}{vsf\_stream\_src\_send\_pbuf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+src\+\_\+send\+\_\+pbuf (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{vsf\+\_\+pbuf\+\_\+t $\ast$}]{pt\+Old\+Block }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{Note}
+check them seperately to avoid busfault, in order to give the right diagnosis info
+\end{DoxyNote}
+write stream\mbox{\Hypertarget{vsf__stream__base_8h_a3cb33ade39035eac85e73ab1544a00b7}\label{vsf__stream__base_8h_a3cb33ade39035eac85e73ab1544a00b7}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!vsf\_stream\_src\_get\_tx@{vsf\_stream\_src\_get\_tx}}
+\index{vsf\_stream\_src\_get\_tx@{vsf\_stream\_src\_get\_tx}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_src\_get\_tx()}{vsf\_stream\_src\_get\_tx()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{interface_8h_a9b969da23063dbeba929bd965b6e3688}{vsf\+\_\+stream\+\_\+tx\+\_\+t}}$\ast$ vsf\+\_\+stream\+\_\+src\+\_\+get\+\_\+tx (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_ab20a551adc655df3cc0299a837fa3930}\label{vsf__stream__base_8h_ab20a551adc655df3cc0299a837fa3930}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!vsf\_stream\_src\_set\_limitation@{vsf\_stream\_src\_set\_limitation}}
+\index{vsf\_stream\_src\_set\_limitation@{vsf\_stream\_src\_set\_limitation}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_src\_set\_limitation()}{vsf\_stream\_src\_set\_limitation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+src\+\_\+set\+\_\+limitation (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{hwpbuf\+Count\+Up\+Limit,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{hwpbuf\+Pool\+Reserve }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a334f15c62b6873c7ccb1939c0f08586d}\label{vsf__stream__base_8h_a334f15c62b6873c7ccb1939c0f08586d}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!vsf\_stream\_usr\_init@{vsf\_stream\_usr\_init}}
+\index{vsf\_stream\_usr\_init@{vsf\_stream\_usr\_init}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_usr\_init()}{vsf\_stream\_usr\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+usr\+\_\+init (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{const \mbox{\hyperlink{vsf__stream__base_8h_aba0cf81ae0c522ae14ce91db0a68a06d}{vsf\+\_\+stream\+\_\+usr\+\_\+cfg\+\_\+t}} $\ast$}]{cfg\+\_\+ptr }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{Note}
+check them seperately to avoid busfault, in order to give the right diagnosis info
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__stream__base_8h_af95ed6e26098031af855df518088ed51}\label{vsf__stream__base_8h_af95ed6e26098031af855df518088ed51}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!vsf\_stream\_usr\_fetch\_pbuf@{vsf\_stream\_usr\_fetch\_pbuf}}
+\index{vsf\_stream\_usr\_fetch\_pbuf@{vsf\_stream\_usr\_fetch\_pbuf}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_usr\_fetch\_pbuf()}{vsf\_stream\_usr\_fetch\_pbuf()}}
+{\footnotesize\ttfamily vsf\+\_\+pbuf\+\_\+t$\ast$ vsf\+\_\+stream\+\_\+usr\+\_\+fetch\+\_\+pbuf (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{Note}
+check them seperately to avoid busfault, in order to give the right diagnosis info
+\end{DoxyNote}
+read stream\mbox{\Hypertarget{vsf__stream__base_8h_a30b2975c770456ec19b1e3f663f9f60f}\label{vsf__stream__base_8h_a30b2975c770456ec19b1e3f663f9f60f}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!vsf\_stream\_usr\_open@{vsf\_stream\_usr\_open}}
+\index{vsf\_stream\_usr\_open@{vsf\_stream\_usr\_open}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_usr\_open()}{vsf\_stream\_usr\_open()}}
+{\footnotesize\ttfamily void vsf\+\_\+stream\+\_\+usr\+\_\+open (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a12abce6fa37aee2d10871612351e4f6e}\label{vsf__stream__base_8h_a12abce6fa37aee2d10871612351e4f6e}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!vsf\_stream\_usr\_close@{vsf\_stream\_usr\_close}}
+\index{vsf\_stream\_usr\_close@{vsf\_stream\_usr\_close}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_usr\_close()}{vsf\_stream\_usr\_close()}}
+{\footnotesize\ttfamily void vsf\+\_\+stream\+\_\+usr\+\_\+close (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__stream__base_8h_a9f0e0b3afe1d61af210a38c16f0dcd9f}\label{vsf__stream__base_8h_a9f0e0b3afe1d61af210a38c16f0dcd9f}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!cfg\_ptr@{cfg\_ptr}}
+\index{cfg\_ptr@{cfg\_ptr}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{cfg\_ptr}{cfg\_ptr}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{vsf__stream__base_8h_aba0cf81ae0c522ae14ce91db0a68a06d}{vsf\+\_\+stream\+\_\+usr\+\_\+cfg\+\_\+t}}$\ast$ cfg\+\_\+ptr}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a051afbc20099a96ba5465c751fea881e}\label{vsf__stream__base_8h_a051afbc20099a96ba5465c751fea881e}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!GetTX@{GetTX}}
+\index{GetTX@{GetTX}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{GetTX}{GetTX}}
+{\footnotesize\ttfamily \mbox{\hyperlink{interface_8h_a9b969da23063dbeba929bd965b6e3688}{vsf\+\_\+stream\+\_\+tx\+\_\+t}}$\ast$($\ast$ Get\+TX) (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a66abe76d3a68c9a935e45c625c5b0974}\label{vsf__stream__base_8h_a66abe76d3a68c9a935e45c625c5b0974}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!New@{New}}
+\index{New@{New}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{New}{New}}
+{\footnotesize\ttfamily vsf\+\_\+pbuf\+\_\+t$\ast$($\ast$ New) (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__pbuf_8h_aeba9bd476cd1ffb394fbece1ced3b334}{n\+No\+Less\+Than}}, \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__pbuf_8h_abef06d546b0e264503ffb0fb936221bb}{n\+Best\+Size}}) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}}]{n\+No\+Less\+Than,  }\item[{\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}}]{n\+Best\+Size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a31463ba29a8b25e9a818161219446893}\label{vsf__stream__base_8h_a31463ba29a8b25e9a818161219446893}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!Send@{Send}}
+\index{Send@{Send}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{Send}{Send}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}}($\ast$ Send) (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr, vsf\+\_\+pbuf\+\_\+t $\ast$pt\+Old\+Block) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{vsf\+\_\+pbuf\+\_\+t $\ast$}]{pt\+Old\+Block }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_ab0f78c3eda5f773538956f35ec75dbf1}\label{vsf__stream__base_8h_ab0f78c3eda5f773538956f35ec75dbf1}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!Block@{Block}}
+\index{Block@{Block}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  Block}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_aba0cf81ae0c522ae14ce91db0a68a06d}\label{vsf__stream__base_8h_aba0cf81ae0c522ae14ce91db0a68a06d}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!vsf\_stream\_usr\_cfg\_t@{vsf\_stream\_usr\_cfg\_t}}
+\index{vsf\_stream\_usr\_cfg\_t@{vsf\_stream\_usr\_cfg\_t}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_usr\_cfg\_t}{vsf\_stream\_usr\_cfg\_t}}
+{\footnotesize\ttfamily vsf\+\_\+stream\+\_\+usr\+\_\+cfg\+\_\+t}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_ab096a916d0a7f6328df346a608f5c309}\label{vsf__stream__base_8h_ab096a916d0a7f6328df346a608f5c309}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!Open@{Open}}
+\index{Open@{Open}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{Open}{Open}}
+{\footnotesize\ttfamily void($\ast$ Open) (vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a9ff0b6db5ec3d12f6db554c84ea8a03c}\label{vsf__stream__base_8h_a9ff0b6db5ec3d12f6db554c84ea8a03c}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!Close@{Close}}
+\index{Close@{Close}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{Close}{Close}}
+{\footnotesize\ttfamily void($\ast$ Close) (vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a62a1dfe7a493018dc1ae4879d63e33b5}\label{vsf__stream__base_8h_a62a1dfe7a493018dc1ae4879d63e33b5}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!Fetch@{Fetch}}
+\index{Fetch@{Fetch}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{Fetch}{Fetch}}
+{\footnotesize\ttfamily vsf\+\_\+pbuf\+\_\+t$\ast$($\ast$ Fetch) (vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr) (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_a154a6349c215ba30a73a5e0d01ed2ebd}\label{vsf__stream__base_8h_a154a6349c215ba30a73a5e0d01ed2ebd}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!VSF\_STREAM\_SRC@{VSF\_STREAM\_SRC}}
+\index{VSF\_STREAM\_SRC@{VSF\_STREAM\_SRC}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_STREAM\_SRC}{VSF\_STREAM\_SRC}}
+{\footnotesize\ttfamily const i\+\_\+stream\+\_\+src\+\_\+t VSF\+\_\+\+STREAM\+\_\+\+SRC\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{vsf__stream__base_8h_aa082b0ddb009eb677153f49ebf203f74}\label{vsf__stream__base_8h_aa082b0ddb009eb677153f49ebf203f74}} 
+\index{vsf\_stream\_base.h@{vsf\_stream\_base.h}!VSF\_STREAM\_USR@{VSF\_STREAM\_USR}}
+\index{VSF\_STREAM\_USR@{VSF\_STREAM\_USR}!vsf\_stream\_base.h@{vsf\_stream\_base.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_STREAM\_USR}{VSF\_STREAM\_USR}}
+{\footnotesize\ttfamily const i\+\_\+stream\+\_\+usr\+\_\+t VSF\+\_\+\+STREAM\+\_\+\+USR\hspace{0.3cm}{\ttfamily [extern]}}
+

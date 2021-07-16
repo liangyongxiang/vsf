@@ -1,0 +1,175 @@
+\hypertarget{vsf__sdl2__event_8c}{}\doxysection{source/shell/media/sdl2/vsf\+\_\+sdl2\+\_\+event.c File Reference}
+\label{vsf__sdl2__event_8c}\index{source/shell/media/sdl2/vsf\_sdl2\_event.c@{source/shell/media/sdl2/vsf\_sdl2\_event.c}}
+{\ttfamily \#include \char`\"{}./vsf\+\_\+sdl2\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./include/\+SDL2/\+SDL.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvsf__sdl2__event__node__t}{vsf\+\_\+sdl2\+\_\+event\+\_\+node\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__sdl2__event__t}{vsf\+\_\+sdl2\+\_\+event\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__sdl2__event__node__t}{vsf\+\_\+sdl2\+\_\+event\+\_\+node\+\_\+t}} \mbox{\hyperlink{vsf__sdl2__event_8c_a0f5cdb3e8d8210aa104ad49fea189835}{vsf\+\_\+sdl2\+\_\+event\+\_\+node\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__sdl2__event__t}{vsf\+\_\+sdl2\+\_\+event\+\_\+t}} \mbox{\hyperlink{vsf__sdl2__event_8c_a2397f1021971b2648dc7f35d31e180bf}{vsf\+\_\+sdl2\+\_\+event\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__sdl2__event_8c_a03a8704a1a152c4bfc5fc84a7e95943f}{\+\_\+\+\_\+\+SDL\+\_\+\+Init\+Event}} (\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} flags)
+\item 
+void \mbox{\hyperlink{vsf__sdl2__event_8c_a50a97354044ae8dcd10d4aed47fbe131}{\+\_\+\+\_\+\+SDL\+\_\+\+Fini\+Event}} (void)
+\item 
+int \mbox{\hyperlink{vsf__sdl2__event_8c_a4706da3e3f54813946c1990eebed418e}{SDL\+\_\+\+Num\+Joysticks}} (void)
+\item 
+\mbox{\hyperlink{_s_d_l__events_8h_a7a773505fbae8a268a51e0bf24c2023d}{SDL\+\_\+\+Joystick}} $\ast$ \mbox{\hyperlink{vsf__sdl2__event_8c_aabad170df7d57317412a4182593be43e}{SDL\+\_\+\+Joystick\+Open}} (int device\+\_\+index)
+\item 
+int \mbox{\hyperlink{vsf__sdl2__event_8c_acea1d9abb6717bc29c5e96e316df785b}{SDL\+\_\+\+Joystick\+Event\+State}} (int \mbox{\hyperlink{vsf__msg__tree_8h_a0b57aa10271a66f3dc936bba1d2f3830}{state}})
+\item 
+int \mbox{\hyperlink{vsf__sdl2__event_8c_af5627d7dfddfbc5123d0d149df7e7c19}{SDL\+\_\+\+Joystick\+Num\+Buttons}} (\mbox{\hyperlink{_s_d_l__events_8h_a7a773505fbae8a268a51e0bf24c2023d}{SDL\+\_\+\+Joystick}} $\ast$joystick)
+\item 
+int \mbox{\hyperlink{vsf__sdl2__event_8c_ada8bcb252942ab9b6aba270750f86d5e}{SDL\+\_\+\+Joystick\+Num\+Axes}} (\mbox{\hyperlink{_s_d_l__events_8h_a7a773505fbae8a268a51e0bf24c2023d}{SDL\+\_\+\+Joystick}} $\ast$joystick)
+\item 
+int \mbox{\hyperlink{vsf__sdl2__event_8c_a5b8000d04dd22682e383152d204cf702}{SDL\+\_\+\+Joystick\+Num\+Balls}} (\mbox{\hyperlink{_s_d_l__events_8h_a7a773505fbae8a268a51e0bf24c2023d}{SDL\+\_\+\+Joystick}} $\ast$joystick)
+\item 
+int \mbox{\hyperlink{vsf__sdl2__event_8c_a5ef6f13557df6e67490e356aac72901f}{SDL\+\_\+\+Joystick\+Num\+Hats}} (\mbox{\hyperlink{_s_d_l__events_8h_a7a773505fbae8a268a51e0bf24c2023d}{SDL\+\_\+\+Joystick}} $\ast$joystick)
+\item 
+int \mbox{\hyperlink{vsf__sdl2__event_8c_aae1fb6b209fee8b27117d9b496f6d64a}{SDL\+\_\+\+Capture\+Mouse}} (\mbox{\hyperlink{_s_d_l__stdinc_8h_a8fca68df0f976765230fe589a7c7733b}{SDL\+\_\+bool}} enabled)
+\item 
+\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{vsf__sdl2__event_8c_aef1c913bd71e982c42387dc967d91d07}{SDL\+\_\+\+Get\+Global\+Mouse\+State}} (int $\ast$x, int $\ast$y)
+\item 
+int \mbox{\hyperlink{vsf__sdl2__event_8c_a319c0205e2f4a7292ebd8db651717cc9}{SDL\+\_\+\+Poll\+Event}} (\mbox{\hyperlink{union_s_d_l___event}{SDL\+\_\+\+Event}} $\ast$event)
+\item 
+int \mbox{\hyperlink{vsf__sdl2__event_8c_a8d910ce5ec67769ac8336c4108e400d5}{SDL\+\_\+\+Wait\+Event\+Timeout}} (\mbox{\hyperlink{union_s_d_l___event}{SDL\+\_\+\+Event}} $\ast$event, int \mbox{\hyperlink{select_8h_aff126839915cf06976792d265ce29a48}{timeout}})
+\item 
+int \mbox{\hyperlink{vsf__sdl2__event_8c_aba192707cdbb9853b11fa997b0974eb4}{SDL\+\_\+\+Wait\+Event}} (\mbox{\hyperlink{union_s_d_l___event}{SDL\+\_\+\+Event}} $\ast$event)
+\item 
+void \mbox{\hyperlink{vsf__sdl2__event_8c_abef0826348f413a2244ca1abdca0ce19}{SDL\+\_\+\+Flush\+Event}} (\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_ad64e18f867699b8e854388de816016af}{type}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{vsf__sdl2__event_8c_aa29e476532d173bbbc6308639a4caa0b}{SDL\+\_\+\+Event\+State}} (\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{vsf__audio_8h_ad64e18f867699b8e854388de816016af}{type}}, int \mbox{\hyperlink{vsf__msg__tree_8h_a0b57aa10271a66f3dc936bba1d2f3830}{state}})
+\item 
+const char $\ast$ \mbox{\hyperlink{vsf__sdl2__event_8c_ae92de57379d799b2ce1ee5b8ea5ff6c7}{SDL\+\_\+\+Get\+Key\+Name}} (\mbox{\hyperlink{_s_d_l__keycode_8h_aee1e837fad0ecb1de3909ce3654870cb}{SDL\+\_\+\+Keycode}} key)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__sdl2__event_8c_a0f5cdb3e8d8210aa104ad49fea189835}\label{vsf__sdl2__event_8c_a0f5cdb3e8d8210aa104ad49fea189835}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!vsf\_sdl2\_event\_node\_t@{vsf\_sdl2\_event\_node\_t}}
+\index{vsf\_sdl2\_event\_node\_t@{vsf\_sdl2\_event\_node\_t}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_sdl2\_event\_node\_t}{vsf\_sdl2\_event\_node\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__sdl2__event__node__t}{vsf\+\_\+sdl2\+\_\+event\+\_\+node\+\_\+t}} \mbox{\hyperlink{structvsf__sdl2__event__node__t}{vsf\+\_\+sdl2\+\_\+event\+\_\+node\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_a2397f1021971b2648dc7f35d31e180bf}\label{vsf__sdl2__event_8c_a2397f1021971b2648dc7f35d31e180bf}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!vsf\_sdl2\_event\_t@{vsf\_sdl2\_event\_t}}
+\index{vsf\_sdl2\_event\_t@{vsf\_sdl2\_event\_t}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_sdl2\_event\_t}{vsf\_sdl2\_event\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__sdl2__event__t}{vsf\+\_\+sdl2\+\_\+event\+\_\+t}} \mbox{\hyperlink{structvsf__sdl2__event__t}{vsf\+\_\+sdl2\+\_\+event\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__sdl2__event_8c_a03a8704a1a152c4bfc5fc84a7e95943f}\label{vsf__sdl2__event_8c_a03a8704a1a152c4bfc5fc84a7e95943f}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!\_\_SDL\_InitEvent@{\_\_SDL\_InitEvent}}
+\index{\_\_SDL\_InitEvent@{\_\_SDL\_InitEvent}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{\_\_SDL\_InitEvent()}{\_\_SDL\_InitEvent()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+\+SDL\+\_\+\+Init\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{flags }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_a50a97354044ae8dcd10d4aed47fbe131}\label{vsf__sdl2__event_8c_a50a97354044ae8dcd10d4aed47fbe131}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!\_\_SDL\_FiniEvent@{\_\_SDL\_FiniEvent}}
+\index{\_\_SDL\_FiniEvent@{\_\_SDL\_FiniEvent}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{\_\_SDL\_FiniEvent()}{\_\_SDL\_FiniEvent()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+\+SDL\+\_\+\+Fini\+Event (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_a4706da3e3f54813946c1990eebed418e}\label{vsf__sdl2__event_8c_a4706da3e3f54813946c1990eebed418e}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_NumJoysticks@{SDL\_NumJoysticks}}
+\index{SDL\_NumJoysticks@{SDL\_NumJoysticks}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_NumJoysticks()}{SDL\_NumJoysticks()}}
+{\footnotesize\ttfamily int SDL\+\_\+\+Num\+Joysticks (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_aabad170df7d57317412a4182593be43e}\label{vsf__sdl2__event_8c_aabad170df7d57317412a4182593be43e}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_JoystickOpen@{SDL\_JoystickOpen}}
+\index{SDL\_JoystickOpen@{SDL\_JoystickOpen}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_JoystickOpen()}{SDL\_JoystickOpen()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_s_d_l__events_8h_a7a773505fbae8a268a51e0bf24c2023d}{SDL\+\_\+\+Joystick}}$\ast$ SDL\+\_\+\+Joystick\+Open (\begin{DoxyParamCaption}\item[{int}]{device\+\_\+index }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_acea1d9abb6717bc29c5e96e316df785b}\label{vsf__sdl2__event_8c_acea1d9abb6717bc29c5e96e316df785b}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_JoystickEventState@{SDL\_JoystickEventState}}
+\index{SDL\_JoystickEventState@{SDL\_JoystickEventState}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_JoystickEventState()}{SDL\_JoystickEventState()}}
+{\footnotesize\ttfamily int SDL\+\_\+\+Joystick\+Event\+State (\begin{DoxyParamCaption}\item[{int}]{state }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_af5627d7dfddfbc5123d0d149df7e7c19}\label{vsf__sdl2__event_8c_af5627d7dfddfbc5123d0d149df7e7c19}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_JoystickNumButtons@{SDL\_JoystickNumButtons}}
+\index{SDL\_JoystickNumButtons@{SDL\_JoystickNumButtons}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_JoystickNumButtons()}{SDL\_JoystickNumButtons()}}
+{\footnotesize\ttfamily int SDL\+\_\+\+Joystick\+Num\+Buttons (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_s_d_l__events_8h_a7a773505fbae8a268a51e0bf24c2023d}{SDL\+\_\+\+Joystick}} $\ast$}]{joystick }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_ada8bcb252942ab9b6aba270750f86d5e}\label{vsf__sdl2__event_8c_ada8bcb252942ab9b6aba270750f86d5e}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_JoystickNumAxes@{SDL\_JoystickNumAxes}}
+\index{SDL\_JoystickNumAxes@{SDL\_JoystickNumAxes}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_JoystickNumAxes()}{SDL\_JoystickNumAxes()}}
+{\footnotesize\ttfamily int SDL\+\_\+\+Joystick\+Num\+Axes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_s_d_l__events_8h_a7a773505fbae8a268a51e0bf24c2023d}{SDL\+\_\+\+Joystick}} $\ast$}]{joystick }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_a5b8000d04dd22682e383152d204cf702}\label{vsf__sdl2__event_8c_a5b8000d04dd22682e383152d204cf702}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_JoystickNumBalls@{SDL\_JoystickNumBalls}}
+\index{SDL\_JoystickNumBalls@{SDL\_JoystickNumBalls}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_JoystickNumBalls()}{SDL\_JoystickNumBalls()}}
+{\footnotesize\ttfamily int SDL\+\_\+\+Joystick\+Num\+Balls (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_s_d_l__events_8h_a7a773505fbae8a268a51e0bf24c2023d}{SDL\+\_\+\+Joystick}} $\ast$}]{joystick }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_a5ef6f13557df6e67490e356aac72901f}\label{vsf__sdl2__event_8c_a5ef6f13557df6e67490e356aac72901f}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_JoystickNumHats@{SDL\_JoystickNumHats}}
+\index{SDL\_JoystickNumHats@{SDL\_JoystickNumHats}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_JoystickNumHats()}{SDL\_JoystickNumHats()}}
+{\footnotesize\ttfamily int SDL\+\_\+\+Joystick\+Num\+Hats (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_s_d_l__events_8h_a7a773505fbae8a268a51e0bf24c2023d}{SDL\+\_\+\+Joystick}} $\ast$}]{joystick }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_aae1fb6b209fee8b27117d9b496f6d64a}\label{vsf__sdl2__event_8c_aae1fb6b209fee8b27117d9b496f6d64a}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_CaptureMouse@{SDL\_CaptureMouse}}
+\index{SDL\_CaptureMouse@{SDL\_CaptureMouse}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_CaptureMouse()}{SDL\_CaptureMouse()}}
+{\footnotesize\ttfamily int SDL\+\_\+\+Capture\+Mouse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_s_d_l__stdinc_8h_a8fca68df0f976765230fe589a7c7733b}{SDL\+\_\+bool}}}]{enabled }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_aef1c913bd71e982c42387dc967d91d07}\label{vsf__sdl2__event_8c_aef1c913bd71e982c42387dc967d91d07}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_GetGlobalMouseState@{SDL\_GetGlobalMouseState}}
+\index{SDL\_GetGlobalMouseState@{SDL\_GetGlobalMouseState}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_GetGlobalMouseState()}{SDL\_GetGlobalMouseState()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} SDL\+\_\+\+Get\+Global\+Mouse\+State (\begin{DoxyParamCaption}\item[{int $\ast$}]{x,  }\item[{int $\ast$}]{y }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_a319c0205e2f4a7292ebd8db651717cc9}\label{vsf__sdl2__event_8c_a319c0205e2f4a7292ebd8db651717cc9}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_PollEvent@{SDL\_PollEvent}}
+\index{SDL\_PollEvent@{SDL\_PollEvent}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_PollEvent()}{SDL\_PollEvent()}}
+{\footnotesize\ttfamily int SDL\+\_\+\+Poll\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{union_s_d_l___event}{SDL\+\_\+\+Event}} $\ast$}]{event }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_a8d910ce5ec67769ac8336c4108e400d5}\label{vsf__sdl2__event_8c_a8d910ce5ec67769ac8336c4108e400d5}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_WaitEventTimeout@{SDL\_WaitEventTimeout}}
+\index{SDL\_WaitEventTimeout@{SDL\_WaitEventTimeout}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_WaitEventTimeout()}{SDL\_WaitEventTimeout()}}
+{\footnotesize\ttfamily int SDL\+\_\+\+Wait\+Event\+Timeout (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{union_s_d_l___event}{SDL\+\_\+\+Event}} $\ast$}]{event,  }\item[{int}]{timeout }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_aba192707cdbb9853b11fa997b0974eb4}\label{vsf__sdl2__event_8c_aba192707cdbb9853b11fa997b0974eb4}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_WaitEvent@{SDL\_WaitEvent}}
+\index{SDL\_WaitEvent@{SDL\_WaitEvent}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_WaitEvent()}{SDL\_WaitEvent()}}
+{\footnotesize\ttfamily int SDL\+\_\+\+Wait\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{union_s_d_l___event}{SDL\+\_\+\+Event}} $\ast$}]{event }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_abef0826348f413a2244ca1abdca0ce19}\label{vsf__sdl2__event_8c_abef0826348f413a2244ca1abdca0ce19}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_FlushEvent@{SDL\_FlushEvent}}
+\index{SDL\_FlushEvent@{SDL\_FlushEvent}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_FlushEvent()}{SDL\_FlushEvent()}}
+{\footnotesize\ttfamily void SDL\+\_\+\+Flush\+Event (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{type }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_aa29e476532d173bbbc6308639a4caa0b}\label{vsf__sdl2__event_8c_aa29e476532d173bbbc6308639a4caa0b}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_EventState@{SDL\_EventState}}
+\index{SDL\_EventState@{SDL\_EventState}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_EventState()}{SDL\_EventState()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} SDL\+\_\+\+Event\+State (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}]{type,  }\item[{int}]{state }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__sdl2__event_8c_ae92de57379d799b2ce1ee5b8ea5ff6c7}\label{vsf__sdl2__event_8c_ae92de57379d799b2ce1ee5b8ea5ff6c7}} 
+\index{vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}!SDL\_GetKeyName@{SDL\_GetKeyName}}
+\index{SDL\_GetKeyName@{SDL\_GetKeyName}!vsf\_sdl2\_event.c@{vsf\_sdl2\_event.c}}
+\doxysubsubsection{\texorpdfstring{SDL\_GetKeyName()}{SDL\_GetKeyName()}}
+{\footnotesize\ttfamily const char$\ast$ SDL\+\_\+\+Get\+Key\+Name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_s_d_l__keycode_8h_aee1e837fad0ecb1de3909ce3654870cb}{SDL\+\_\+\+Keycode}}}]{key }\end{DoxyParamCaption})}
+

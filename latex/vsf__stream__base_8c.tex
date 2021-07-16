@@ -1,0 +1,171 @@
+\hypertarget{vsf__stream__base_8c}{}\doxysection{source/service/stream/vsf\+\_\+stream\+\_\+base.c File Reference}
+\label{vsf__stream__base_8c}\index{source/service/stream/vsf\_stream\_base.c@{source/service/stream/vsf\_stream\_base.c}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+stream.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./pbuf/vsf\+\_\+pbuf.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__stream__base_8c_ab1cd85761bdaa8e7dbff9a5533a39ac7}{\+\_\+\+\_\+\+VSF\+\_\+\+STREAM\+\_\+\+BASE\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__stream__base_8c_a50383951d2a9d4f1a855b2cec5e03274}{this}}~($\ast$this\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__stream__base_8c_a314ea4291489510787b8e61b96339d45}{GENERAL\+\_\+\+PBUF\+\_\+\+POLL\+\_\+\+PRIV\+\_\+\+USER\+\_\+\+COUNT}}~0
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+NO\+\_\+\+INIT \mbox{\hyperlink{vsf__stream__base_8c_a094922c44b7c72664ea8780016b49c3f}{vsf\+\_\+pool}} (general\+\_\+pbuf\+\_\+pool\+\_\+t)
+\item 
+\mbox{\hyperlink{vsf__stream__base_8c_a51773e26e73721b19b2a0948504bc4c2}{implement\+\_\+pbuf\+\_\+pool}} (general\+\_\+pbuf\+\_\+pool\+\_\+t)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__base_8c_a60d21254557472b3afe97e0cbe4989f4}{vsf\+\_\+stream\+\_\+src\+\_\+init}} (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr, const \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__stream__writer_8h_a4867ae13f79e7bd89b5442224cdd20bd}{cfg\+\_\+ptr}})
+\item 
+vsf\+\_\+pbuf\+\_\+t $\ast$ \mbox{\hyperlink{vsf__stream__base_8c_ab21471abe00dd13fcadfdf367d0fc1b6}{vsf\+\_\+stream\+\_\+src\+\_\+new\+\_\+pbuf}} (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__pbuf_8h_aeba9bd476cd1ffb394fbece1ced3b334}{n\+No\+Less\+Than}}, \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__pbuf_8h_abef06d546b0e264503ffb0fb936221bb}{n\+Best\+Size}})
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__base_8c_ab20a551adc655df3cc0299a837fa3930}{vsf\+\_\+stream\+\_\+src\+\_\+set\+\_\+limitation}} (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} hwpbuf\+Count\+Up\+Limit, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} hwpbuf\+Pool\+Reserve)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__base_8c_a555ba8c6e939b26e4f881b6a5a7e4339}{vsf\+\_\+stream\+\_\+src\+\_\+send\+\_\+pbuf}} (vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$obj\+\_\+ptr, vsf\+\_\+pbuf\+\_\+t $\ast$pt\+Old\+Block)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__base_8c_a334f15c62b6873c7ccb1939c0f08586d}{vsf\+\_\+stream\+\_\+usr\+\_\+init}} (vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr, const \mbox{\hyperlink{vsf__stream__base_8h_aba0cf81ae0c522ae14ce91db0a68a06d}{vsf\+\_\+stream\+\_\+usr\+\_\+cfg\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__stream__writer_8h_a4867ae13f79e7bd89b5442224cdd20bd}{cfg\+\_\+ptr}})
+\item 
+vsf\+\_\+pbuf\+\_\+t $\ast$ \mbox{\hyperlink{vsf__stream__base_8c_af95ed6e26098031af855df518088ed51}{vsf\+\_\+stream\+\_\+usr\+\_\+fetch\+\_\+pbuf}} (vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+void \mbox{\hyperlink{vsf__stream__base_8c_a30b2975c770456ec19b1e3f663f9f60f}{vsf\+\_\+stream\+\_\+usr\+\_\+open}} (vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+void \mbox{\hyperlink{vsf__stream__base_8c_a12abce6fa37aee2d10871612351e4f6e}{vsf\+\_\+stream\+\_\+usr\+\_\+close}} (vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$obj\+\_\+ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const i\+\_\+stream\+\_\+usr\+\_\+t \mbox{\hyperlink{vsf__stream__base_8c_aa082b0ddb009eb677153f49ebf203f74}{VSF\+\_\+\+STREAM\+\_\+\+USR}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__stream__base_8c_ab1cd85761bdaa8e7dbff9a5533a39ac7}\label{vsf__stream__base_8c_ab1cd85761bdaa8e7dbff9a5533a39ac7}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!\_\_VSF\_STREAM\_BASE\_CLASS\_IMPLEMENT@{\_\_VSF\_STREAM\_BASE\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_STREAM\_BASE\_CLASS\_IMPLEMENT@{\_\_VSF\_STREAM\_BASE\_CLASS\_IMPLEMENT}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_STREAM\_BASE\_CLASS\_IMPLEMENT}{\_\_VSF\_STREAM\_BASE\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+STREAM\+\_\+\+BASE\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__stream__base_8c_a50383951d2a9d4f1a855b2cec5e03274}\label{vsf__stream__base_8c_a50383951d2a9d4f1a855b2cec5e03274}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!this@{this}}
+\index{this@{this}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{this}{this}}
+{\footnotesize\ttfamily \#define this~($\ast$this\+\_\+ptr)}
+
+\mbox{\Hypertarget{vsf__stream__base_8c_a314ea4291489510787b8e61b96339d45}\label{vsf__stream__base_8c_a314ea4291489510787b8e61b96339d45}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!GENERAL\_PBUF\_POLL\_PRIV\_USER\_COUNT@{GENERAL\_PBUF\_POLL\_PRIV\_USER\_COUNT}}
+\index{GENERAL\_PBUF\_POLL\_PRIV\_USER\_COUNT@{GENERAL\_PBUF\_POLL\_PRIV\_USER\_COUNT}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{GENERAL\_PBUF\_POLL\_PRIV\_USER\_COUNT}{GENERAL\_PBUF\_POLL\_PRIV\_USER\_COUNT}}
+{\footnotesize\ttfamily \#define GENERAL\+\_\+\+PBUF\+\_\+\+POLL\+\_\+\+PRIV\+\_\+\+USER\+\_\+\+COUNT~0}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__stream__base_8c_a094922c44b7c72664ea8780016b49c3f}\label{vsf__stream__base_8c_a094922c44b7c72664ea8780016b49c3f}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!vsf\_pool@{vsf\_pool}}
+\index{vsf\_pool@{vsf\_pool}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_pool()}{vsf\_pool()}}
+{\footnotesize\ttfamily NO\+\_\+\+INIT vsf\+\_\+pool (\begin{DoxyParamCaption}\item[{general\+\_\+pbuf\+\_\+pool\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8c_a51773e26e73721b19b2a0948504bc4c2}\label{vsf__stream__base_8c_a51773e26e73721b19b2a0948504bc4c2}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!implement\_pbuf\_pool@{implement\_pbuf\_pool}}
+\index{implement\_pbuf\_pool@{implement\_pbuf\_pool}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{implement\_pbuf\_pool()}{implement\_pbuf\_pool()}}
+{\footnotesize\ttfamily implement\+\_\+pbuf\+\_\+pool (\begin{DoxyParamCaption}\item[{general\+\_\+pbuf\+\_\+pool\+\_\+t}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8c_a60d21254557472b3afe97e0cbe4989f4}\label{vsf__stream__base_8c_a60d21254557472b3afe97e0cbe4989f4}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!vsf\_stream\_src\_init@{vsf\_stream\_src\_init}}
+\index{vsf\_stream\_src\_init@{vsf\_stream\_src\_init}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_src\_init()}{vsf\_stream\_src\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+src\+\_\+init (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{const \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} $\ast$}]{cfg\+\_\+ptr }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{Note}
+check them seperately to avoid busfault, in order to give the right diagnosis info
+\end{DoxyNote}
+using general pbuf pool
+
+\begin{DoxyNote}{Note}
+non-\/privileged user of general pbuf pool will reserve specific count of pbuf for priviliged (0x\+FF) users by default (hwpbuf\+Pool\+Reserve equals 0x00)
+
+privileged users(0x\+FF) should set hwpbuf\+Pool\+Reserve to 0x\+FF when using general pbuf pool
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__stream__base_8c_ab21471abe00dd13fcadfdf367d0fc1b6}\label{vsf__stream__base_8c_ab21471abe00dd13fcadfdf367d0fc1b6}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!vsf\_stream\_src\_new\_pbuf@{vsf\_stream\_src\_new\_pbuf}}
+\index{vsf\_stream\_src\_new\_pbuf@{vsf\_stream\_src\_new\_pbuf}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_src\_new\_pbuf()}{vsf\_stream\_src\_new\_pbuf()}}
+{\footnotesize\ttfamily vsf\+\_\+pbuf\+\_\+t$\ast$ vsf\+\_\+stream\+\_\+src\+\_\+new\+\_\+pbuf (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}}]{n\+No\+Less\+Than,  }\item[{\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}}]{n\+Best\+Size }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{Note}
+check them seperately to avoid busfault, in order to give the right diagnosis info
+\end{DoxyNote}
+check uplimit\mbox{\Hypertarget{vsf__stream__base_8c_ab20a551adc655df3cc0299a837fa3930}\label{vsf__stream__base_8c_ab20a551adc655df3cc0299a837fa3930}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!vsf\_stream\_src\_set\_limitation@{vsf\_stream\_src\_set\_limitation}}
+\index{vsf\_stream\_src\_set\_limitation@{vsf\_stream\_src\_set\_limitation}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_src\_set\_limitation()}{vsf\_stream\_src\_set\_limitation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+src\+\_\+set\+\_\+limitation (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{hwpbuf\+Count\+Up\+Limit,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{hwpbuf\+Pool\+Reserve }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8c_a555ba8c6e939b26e4f881b6a5a7e4339}\label{vsf__stream__base_8c_a555ba8c6e939b26e4f881b6a5a7e4339}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!vsf\_stream\_src\_send\_pbuf@{vsf\_stream\_src\_send\_pbuf}}
+\index{vsf\_stream\_src\_send\_pbuf@{vsf\_stream\_src\_send\_pbuf}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_src\_send\_pbuf()}{vsf\_stream\_src\_send\_pbuf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+src\+\_\+send\+\_\+pbuf (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+src\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{vsf\+\_\+pbuf\+\_\+t $\ast$}]{pt\+Old\+Block }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{Note}
+check them seperately to avoid busfault, in order to give the right diagnosis info
+\end{DoxyNote}
+write stream\mbox{\Hypertarget{vsf__stream__base_8c_a334f15c62b6873c7ccb1939c0f08586d}\label{vsf__stream__base_8c_a334f15c62b6873c7ccb1939c0f08586d}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!vsf\_stream\_usr\_init@{vsf\_stream\_usr\_init}}
+\index{vsf\_stream\_usr\_init@{vsf\_stream\_usr\_init}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_usr\_init()}{vsf\_stream\_usr\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+usr\+\_\+init (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{const \mbox{\hyperlink{vsf__stream__base_8h_aba0cf81ae0c522ae14ce91db0a68a06d}{vsf\+\_\+stream\+\_\+usr\+\_\+cfg\+\_\+t}} $\ast$}]{cfg\+\_\+ptr }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{Note}
+check them seperately to avoid busfault, in order to give the right diagnosis info
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__stream__base_8c_af95ed6e26098031af855df518088ed51}\label{vsf__stream__base_8c_af95ed6e26098031af855df518088ed51}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!vsf\_stream\_usr\_fetch\_pbuf@{vsf\_stream\_usr\_fetch\_pbuf}}
+\index{vsf\_stream\_usr\_fetch\_pbuf@{vsf\_stream\_usr\_fetch\_pbuf}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_usr\_fetch\_pbuf()}{vsf\_stream\_usr\_fetch\_pbuf()}}
+{\footnotesize\ttfamily vsf\+\_\+pbuf\+\_\+t$\ast$ vsf\+\_\+stream\+\_\+usr\+\_\+fetch\+\_\+pbuf (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{Note}
+check them seperately to avoid busfault, in order to give the right diagnosis info
+\end{DoxyNote}
+read stream\mbox{\Hypertarget{vsf__stream__base_8c_a30b2975c770456ec19b1e3f663f9f60f}\label{vsf__stream__base_8c_a30b2975c770456ec19b1e3f663f9f60f}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!vsf\_stream\_usr\_open@{vsf\_stream\_usr\_open}}
+\index{vsf\_stream\_usr\_open@{vsf\_stream\_usr\_open}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_usr\_open()}{vsf\_stream\_usr\_open()}}
+{\footnotesize\ttfamily void vsf\+\_\+stream\+\_\+usr\+\_\+open (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__base_8c_a12abce6fa37aee2d10871612351e4f6e}\label{vsf__stream__base_8c_a12abce6fa37aee2d10871612351e4f6e}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!vsf\_stream\_usr\_close@{vsf\_stream\_usr\_close}}
+\index{vsf\_stream\_usr\_close@{vsf\_stream\_usr\_close}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_usr\_close()}{vsf\_stream\_usr\_close()}}
+{\footnotesize\ttfamily void vsf\+\_\+stream\+\_\+usr\+\_\+close (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+usr\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__stream__base_8c_aa082b0ddb009eb677153f49ebf203f74}\label{vsf__stream__base_8c_aa082b0ddb009eb677153f49ebf203f74}} 
+\index{vsf\_stream\_base.c@{vsf\_stream\_base.c}!VSF\_STREAM\_USR@{VSF\_STREAM\_USR}}
+\index{VSF\_STREAM\_USR@{VSF\_STREAM\_USR}!vsf\_stream\_base.c@{vsf\_stream\_base.c}}
+\doxysubsubsection{\texorpdfstring{VSF\_STREAM\_USR}{VSF\_STREAM\_USR}}
+{\footnotesize\ttfamily const i\+\_\+stream\+\_\+usr\+\_\+t VSF\+\_\+\+STREAM\+\_\+\+USR}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{  }
+\DoxyCodeLine{    .Init =             \&\mbox{\hyperlink{vsf__stream__base_8c_a334f15c62b6873c7ccb1939c0f08586d}{vsf\_stream\_usr\_init}},}
+\DoxyCodeLine{}
+\DoxyCodeLine{    .Open =             \&\mbox{\hyperlink{vsf__stream__base_8c_a30b2975c770456ec19b1e3f663f9f60f}{vsf\_stream\_usr\_open}},}
+\DoxyCodeLine{    .Close =            \&\mbox{\hyperlink{vsf__stream__base_8c_a12abce6fa37aee2d10871612351e4f6e}{vsf\_stream\_usr\_close}},}
+\DoxyCodeLine{}
+\DoxyCodeLine{    .Block = \{}
+\DoxyCodeLine{        .Fetch =        \&\mbox{\hyperlink{vsf__stream__base_8c_af95ed6e26098031af855df518088ed51}{vsf\_stream\_usr\_fetch\_pbuf}},}
+\DoxyCodeLine{    \},}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

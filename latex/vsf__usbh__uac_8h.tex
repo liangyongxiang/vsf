@@ -1,0 +1,84 @@
+\hypertarget{vsf__usbh__uac_8h}{}\doxysection{source/component/usb/host/class/\+UAC/vsf\+\_\+usbh\+\_\+uac.h File Reference}
+\label{vsf__usbh__uac_8h}\index{source/component/usb/host/class/UAC/vsf\_usbh\_uac.h@{source/component/usb/host/class/UAC/vsf\_usbh\_uac.h}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/usb/common/class/\+UAC/vsf\+\_\+usb\+\_\+\+UAC.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classvk__usbh__uac__stream__t}{vk\+\_\+usbh\+\_\+uac\+\_\+stream\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usbh__uac_8h_acc7f0d8dc063cf3524fdf9707913eec6}{PUBLIC\+\_\+\+CONST}}~const
+\item 
+\#define \mbox{\hyperlink{vsf__usbh__uac_8h_a85277fd590fda9fdacb3fdbf4471e06f}{VSF\+\_\+\+USBH\+\_\+\+UAC\+\_\+\+CFG\+\_\+\+URB\+\_\+\+NUM\+\_\+\+PER\+\_\+\+STREAM}}~1
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classvk__usbh__uac__stream__t}{vk\+\_\+usbh\+\_\+uac\+\_\+stream\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__usbh__uac_8h_aabc280384ee8d39a260fe8f00115bfa0}{vsf\+\_\+usbh\+\_\+uac\+\_\+get\+\_\+stream\+\_\+info}} (void $\ast$param, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} stream\+\_\+idx)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__usbh__uac_8h_ae41313ec967ae36278d72b36cba89f95}{vsf\+\_\+usbh\+\_\+uac\+\_\+connect\+\_\+stream}} (void $\ast$param, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} stream\+\_\+idx, \mbox{\hyperlink{classvsf__stream__t}{vsf\+\_\+stream\+\_\+t}} $\ast$stream)
+\item 
+void \mbox{\hyperlink{vsf__usbh__uac_8h_a2c77210efd12fad4359e78f091d180c4}{vsf\+\_\+usbh\+\_\+uac\+\_\+disconnect\+\_\+stream}} (void $\ast$param, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} stream\+\_\+idx)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__usbh__uac_8h_a44631d7f3c7979d1ab352ba349dfcd3f}{\+\_\+\+\_\+vsf\+\_\+usbh\+\_\+uac\+\_\+submit\+\_\+req}} (void $\ast$uac\+\_\+ptr, void $\ast$data, struct \mbox{\hyperlink{structusb__ctrlrequest__t}{usb\+\_\+ctrlrequest\+\_\+t}} $\ast$req)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvk__usbh__class__drv__t}{vk\+\_\+usbh\+\_\+class\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__usbh__uac_8h_a57afec6c6278856ada01aa51872f0f81}{vk\+\_\+usbh\+\_\+uac\+\_\+drv}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__usbh__uac_8h_acc7f0d8dc063cf3524fdf9707913eec6}\label{vsf__usbh__uac_8h_acc7f0d8dc063cf3524fdf9707913eec6}} 
+\index{vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}!PUBLIC\_CONST@{PUBLIC\_CONST}}
+\index{PUBLIC\_CONST@{PUBLIC\_CONST}!vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}}
+\doxysubsubsection{\texorpdfstring{PUBLIC\_CONST}{PUBLIC\_CONST}}
+{\footnotesize\ttfamily \#define PUBLIC\+\_\+\+CONST~const}
+
+\mbox{\Hypertarget{vsf__usbh__uac_8h_a85277fd590fda9fdacb3fdbf4471e06f}\label{vsf__usbh__uac_8h_a85277fd590fda9fdacb3fdbf4471e06f}} 
+\index{vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}!VSF\_USBH\_UAC\_CFG\_URB\_NUM\_PER\_STREAM@{VSF\_USBH\_UAC\_CFG\_URB\_NUM\_PER\_STREAM}}
+\index{VSF\_USBH\_UAC\_CFG\_URB\_NUM\_PER\_STREAM@{VSF\_USBH\_UAC\_CFG\_URB\_NUM\_PER\_STREAM}!vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_USBH\_UAC\_CFG\_URB\_NUM\_PER\_STREAM}{VSF\_USBH\_UAC\_CFG\_URB\_NUM\_PER\_STREAM}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+USBH\+\_\+\+UAC\+\_\+\+CFG\+\_\+\+URB\+\_\+\+NUM\+\_\+\+PER\+\_\+\+STREAM~1}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__usbh__uac_8h_aabc280384ee8d39a260fe8f00115bfa0}\label{vsf__usbh__uac_8h_aabc280384ee8d39a260fe8f00115bfa0}} 
+\index{vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}!vsf\_usbh\_uac\_get\_stream\_info@{vsf\_usbh\_uac\_get\_stream\_info}}
+\index{vsf\_usbh\_uac\_get\_stream\_info@{vsf\_usbh\_uac\_get\_stream\_info}!vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_usbh\_uac\_get\_stream\_info()}{vsf\_usbh\_uac\_get\_stream\_info()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classvk__usbh__uac__stream__t}{vk\+\_\+usbh\+\_\+uac\+\_\+stream\+\_\+t}}$\ast$ vsf\+\_\+usbh\+\_\+uac\+\_\+get\+\_\+stream\+\_\+info (\begin{DoxyParamCaption}\item[{void $\ast$}]{param,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{stream\+\_\+idx }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbh__uac_8h_ae41313ec967ae36278d72b36cba89f95}\label{vsf__usbh__uac_8h_ae41313ec967ae36278d72b36cba89f95}} 
+\index{vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}!vsf\_usbh\_uac\_connect\_stream@{vsf\_usbh\_uac\_connect\_stream}}
+\index{vsf\_usbh\_uac\_connect\_stream@{vsf\_usbh\_uac\_connect\_stream}!vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_usbh\_uac\_connect\_stream()}{vsf\_usbh\_uac\_connect\_stream()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+usbh\+\_\+uac\+\_\+connect\+\_\+stream (\begin{DoxyParamCaption}\item[{void $\ast$}]{param,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{stream\+\_\+idx,  }\item[{\mbox{\hyperlink{classvsf__stream__t}{vsf\+\_\+stream\+\_\+t}} $\ast$}]{stream }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbh__uac_8h_a2c77210efd12fad4359e78f091d180c4}\label{vsf__usbh__uac_8h_a2c77210efd12fad4359e78f091d180c4}} 
+\index{vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}!vsf\_usbh\_uac\_disconnect\_stream@{vsf\_usbh\_uac\_disconnect\_stream}}
+\index{vsf\_usbh\_uac\_disconnect\_stream@{vsf\_usbh\_uac\_disconnect\_stream}!vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_usbh\_uac\_disconnect\_stream()}{vsf\_usbh\_uac\_disconnect\_stream()}}
+{\footnotesize\ttfamily void vsf\+\_\+usbh\+\_\+uac\+\_\+disconnect\+\_\+stream (\begin{DoxyParamCaption}\item[{void $\ast$}]{param,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{stream\+\_\+idx }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbh__uac_8h_a44631d7f3c7979d1ab352ba349dfcd3f}\label{vsf__usbh__uac_8h_a44631d7f3c7979d1ab352ba349dfcd3f}} 
+\index{vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}!\_\_vsf\_usbh\_uac\_submit\_req@{\_\_vsf\_usbh\_uac\_submit\_req}}
+\index{\_\_vsf\_usbh\_uac\_submit\_req@{\_\_vsf\_usbh\_uac\_submit\_req}!vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_usbh\_uac\_submit\_req()}{\_\_vsf\_usbh\_uac\_submit\_req()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+usbh\+\_\+uac\+\_\+submit\+\_\+req (\begin{DoxyParamCaption}\item[{void $\ast$}]{uac\+\_\+ptr,  }\item[{void $\ast$}]{data,  }\item[{struct \mbox{\hyperlink{structusb__ctrlrequest__t}{usb\+\_\+ctrlrequest\+\_\+t}} $\ast$}]{req }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__usbh__uac_8h_a57afec6c6278856ada01aa51872f0f81}\label{vsf__usbh__uac_8h_a57afec6c6278856ada01aa51872f0f81}} 
+\index{vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}!vk\_usbh\_uac\_drv@{vk\_usbh\_uac\_drv}}
+\index{vk\_usbh\_uac\_drv@{vk\_usbh\_uac\_drv}!vsf\_usbh\_uac.h@{vsf\_usbh\_uac.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_uac\_drv}{vk\_usbh\_uac\_drv}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__usbh__class__drv__t}{vk\+\_\+usbh\+\_\+class\+\_\+drv\+\_\+t}} vk\+\_\+usbh\+\_\+uac\+\_\+drv\hspace{0.3cm}{\ttfamily [extern]}}
+

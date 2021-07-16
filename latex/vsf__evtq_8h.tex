@@ -1,0 +1,129 @@
+\hypertarget{vsf__evtq_8h}{}\doxysection{source/kernel/vsf\+\_\+evtq.h File Reference}
+\label{vsf__evtq_8h}\index{source/kernel/vsf\_evtq.h@{source/kernel/vsf\_evtq.h}}
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+eda.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvsf__evtq__ctx__t}{vsf\+\_\+evtq\+\_\+ctx\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__evtq__t}{vsf\+\_\+evtq\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__evt__node__t}{vsf\+\_\+evt\+\_\+node\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__evtq__ctx__t}{vsf\+\_\+evtq\+\_\+ctx\+\_\+t}} \mbox{\hyperlink{vsf__evtq_8h_affb0f20e3e9a6d70ce541b438b90f618}{vsf\+\_\+evtq\+\_\+ctx\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__evt__node__t}{vsf\+\_\+evt\+\_\+node\+\_\+t}} \mbox{\hyperlink{vsf__evtq_8h_a24475e33b8159378ec4983111e156d2a}{vsf\+\_\+evt\+\_\+node\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__evtq__t}{vsf\+\_\+evtq\+\_\+t}} \mbox{\hyperlink{vsf__evtq_8h_a7a9bf9fb9a6fddd1d39c346d7e4346e2}{vsf\+\_\+evtq\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__evtq_8h_a27a829f3ad01d914f011f0dfb5f7e349}{vsf\+\_\+evtq\+\_\+on\+\_\+eda\+\_\+init}} (\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$eda)
+\item 
+void \mbox{\hyperlink{vsf__evtq_8h_a272c79cdc61e9ec69d151ae92f8761d6}{vsf\+\_\+evtq\+\_\+on\+\_\+eda\+\_\+fini}} (\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$eda)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__evtq_8h_a5ee45aacc81f57c45fd7aa3d59766742}{vsf\+\_\+evtq\+\_\+init}} (\mbox{\hyperlink{structvsf__evtq__t}{vsf\+\_\+evtq\+\_\+t}} $\ast$this\+\_\+ptr)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__evtq_8h_aea09ee35f41ebcd7a40537f0a77dac67}{vsf\+\_\+evtq\+\_\+post\+\_\+evt\+\_\+msg}} (\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$eda, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}} evt, void $\ast$msg)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__evtq_8h_a150e15525a0a2eb17f2aff037c6e8d9d}{vsf\+\_\+evtq\+\_\+post\+\_\+evt\+\_\+ex}} (\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$eda, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}} evt, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} force)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__evtq_8h_ad4506946fbb25a59fa0d603ae3986be9}{vsf\+\_\+evtq\+\_\+post\+\_\+evt}} (\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$eda, \mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}} evt)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__evtq_8h_ab139405c95b61089239969454fb886e2}{vsf\+\_\+evtq\+\_\+post\+\_\+msg}} (\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$eda, void $\ast$msg)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__evtq_8h_a30d0dbc36448b2ac3551d0df32bd21f4}{vsf\+\_\+evtq\+\_\+is\+\_\+empty}} (\mbox{\hyperlink{structvsf__evtq__t}{vsf\+\_\+evtq\+\_\+t}} $\ast$this\+\_\+ptr)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__evtq_8h_a41f4e429d3e55cc678f7b971f2985c61}{vsf\+\_\+evtq\+\_\+poll}} (\mbox{\hyperlink{structvsf__evtq__t}{vsf\+\_\+evtq\+\_\+t}} $\ast$this\+\_\+ptr)
+\item 
+void \mbox{\hyperlink{vsf__evtq_8h_aae2b42edaa7e48a85463f279f9855952}{vsf\+\_\+evtq\+\_\+clean\+\_\+evt}} (\mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}} evt)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__evtq_8h_affb0f20e3e9a6d70ce541b438b90f618}\label{vsf__evtq_8h_affb0f20e3e9a6d70ce541b438b90f618}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_ctx\_t@{vsf\_evtq\_ctx\_t}}
+\index{vsf\_evtq\_ctx\_t@{vsf\_evtq\_ctx\_t}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_ctx\_t}{vsf\_evtq\_ctx\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__evtq__ctx__t}{vsf\+\_\+evtq\+\_\+ctx\+\_\+t}} \mbox{\hyperlink{structvsf__evtq__ctx__t}{vsf\+\_\+evtq\+\_\+ctx\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__evtq_8h_a24475e33b8159378ec4983111e156d2a}\label{vsf__evtq_8h_a24475e33b8159378ec4983111e156d2a}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evt\_node\_t@{vsf\_evt\_node\_t}}
+\index{vsf\_evt\_node\_t@{vsf\_evt\_node\_t}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evt\_node\_t}{vsf\_evt\_node\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__evt__node__t}{vsf\+\_\+evt\+\_\+node\+\_\+t}} \mbox{\hyperlink{structvsf__evt__node__t}{vsf\+\_\+evt\+\_\+node\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__evtq_8h_a7a9bf9fb9a6fddd1d39c346d7e4346e2}\label{vsf__evtq_8h_a7a9bf9fb9a6fddd1d39c346d7e4346e2}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_t@{vsf\_evtq\_t}}
+\index{vsf\_evtq\_t@{vsf\_evtq\_t}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_t}{vsf\_evtq\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__evtq__t}{vsf\+\_\+evtq\+\_\+t}} \mbox{\hyperlink{structvsf__evtq__t}{vsf\+\_\+evtq\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__evtq_8h_a27a829f3ad01d914f011f0dfb5f7e349}\label{vsf__evtq_8h_a27a829f3ad01d914f011f0dfb5f7e349}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_on\_eda\_init@{vsf\_evtq\_on\_eda\_init}}
+\index{vsf\_evtq\_on\_eda\_init@{vsf\_evtq\_on\_eda\_init}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_on\_eda\_init()}{vsf\_evtq\_on\_eda\_init()}}
+{\footnotesize\ttfamily void vsf\+\_\+evtq\+\_\+on\+\_\+eda\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$}]{eda }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__evtq_8h_a272c79cdc61e9ec69d151ae92f8761d6}\label{vsf__evtq_8h_a272c79cdc61e9ec69d151ae92f8761d6}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_on\_eda\_fini@{vsf\_evtq\_on\_eda\_fini}}
+\index{vsf\_evtq\_on\_eda\_fini@{vsf\_evtq\_on\_eda\_fini}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_on\_eda\_fini()}{vsf\_evtq\_on\_eda\_fini()}}
+{\footnotesize\ttfamily void vsf\+\_\+evtq\+\_\+on\+\_\+eda\+\_\+fini (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$}]{eda }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__evtq_8h_a5ee45aacc81f57c45fd7aa3d59766742}\label{vsf__evtq_8h_a5ee45aacc81f57c45fd7aa3d59766742}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_init@{vsf\_evtq\_init}}
+\index{vsf\_evtq\_init@{vsf\_evtq\_init}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_init()}{vsf\_evtq\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+evtq\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__evtq__t}{vsf\+\_\+evtq\+\_\+t}} $\ast$}]{this\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__evtq_8h_aea09ee35f41ebcd7a40537f0a77dac67}\label{vsf__evtq_8h_aea09ee35f41ebcd7a40537f0a77dac67}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_post\_evt\_msg@{vsf\_evtq\_post\_evt\_msg}}
+\index{vsf\_evtq\_post\_evt\_msg@{vsf\_evtq\_post\_evt\_msg}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_post\_evt\_msg()}{vsf\_evtq\_post\_evt\_msg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+evtq\+\_\+post\+\_\+evt\+\_\+msg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$}]{eda,  }\item[{\mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}}}]{evt,  }\item[{void $\ast$}]{msg }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__evtq_8h_a150e15525a0a2eb17f2aff037c6e8d9d}\label{vsf__evtq_8h_a150e15525a0a2eb17f2aff037c6e8d9d}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_post\_evt\_ex@{vsf\_evtq\_post\_evt\_ex}}
+\index{vsf\_evtq\_post\_evt\_ex@{vsf\_evtq\_post\_evt\_ex}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_post\_evt\_ex()}{vsf\_evtq\_post\_evt\_ex()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+evtq\+\_\+post\+\_\+evt\+\_\+ex (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$}]{eda,  }\item[{\mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}}}]{evt,  }\item[{\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}}]{force }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__evtq_8h_ad4506946fbb25a59fa0d603ae3986be9}\label{vsf__evtq_8h_ad4506946fbb25a59fa0d603ae3986be9}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_post\_evt@{vsf\_evtq\_post\_evt}}
+\index{vsf\_evtq\_post\_evt@{vsf\_evtq\_post\_evt}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_post\_evt()}{vsf\_evtq\_post\_evt()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+evtq\+\_\+post\+\_\+evt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$}]{eda,  }\item[{\mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}}}]{evt }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__evtq_8h_ab139405c95b61089239969454fb886e2}\label{vsf__evtq_8h_ab139405c95b61089239969454fb886e2}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_post\_msg@{vsf\_evtq\_post\_msg}}
+\index{vsf\_evtq\_post\_msg@{vsf\_evtq\_post\_msg}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_post\_msg()}{vsf\_evtq\_post\_msg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+evtq\+\_\+post\+\_\+msg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__eda__t}{vsf\+\_\+eda\+\_\+t}} $\ast$}]{eda,  }\item[{void $\ast$}]{msg }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__evtq_8h_a30d0dbc36448b2ac3551d0df32bd21f4}\label{vsf__evtq_8h_a30d0dbc36448b2ac3551d0df32bd21f4}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_is\_empty@{vsf\_evtq\_is\_empty}}
+\index{vsf\_evtq\_is\_empty@{vsf\_evtq\_is\_empty}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_is\_empty()}{vsf\_evtq\_is\_empty()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+evtq\+\_\+is\+\_\+empty (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__evtq__t}{vsf\+\_\+evtq\+\_\+t}} $\ast$}]{this\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__evtq_8h_a41f4e429d3e55cc678f7b971f2985c61}\label{vsf__evtq_8h_a41f4e429d3e55cc678f7b971f2985c61}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_poll@{vsf\_evtq\_poll}}
+\index{vsf\_evtq\_poll@{vsf\_evtq\_poll}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_poll()}{vsf\_evtq\_poll()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+evtq\+\_\+poll (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__evtq__t}{vsf\+\_\+evtq\+\_\+t}} $\ast$}]{this\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__evtq_8h_aae2b42edaa7e48a85463f279f9855952}\label{vsf__evtq_8h_aae2b42edaa7e48a85463f279f9855952}} 
+\index{vsf\_evtq.h@{vsf\_evtq.h}!vsf\_evtq\_clean\_evt@{vsf\_evtq\_clean\_evt}}
+\index{vsf\_evtq\_clean\_evt@{vsf\_evtq\_clean\_evt}!vsf\_evtq.h@{vsf\_evtq.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_evtq\_clean\_evt()}{vsf\_evtq\_clean\_evt()}}
+{\footnotesize\ttfamily void vsf\+\_\+evtq\+\_\+clean\+\_\+evt (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__eda_8h_a0095e13b0285f6d680edab1e0f9bd2f3}{vsf\+\_\+evt\+\_\+t}}}]{evt }\end{DoxyParamCaption})}
+

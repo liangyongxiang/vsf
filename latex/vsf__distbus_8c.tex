@@ -1,0 +1,99 @@
+\hypertarget{vsf__distbus_8c}{}\doxysection{source/service/distbus/vsf\+\_\+distbus.c File Reference}
+\label{vsf__distbus_8c}\index{source/service/distbus/vsf\_distbus.c@{source/service/distbus/vsf\_distbus.c}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}hal/arch/vsf\+\_\+arch.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+distbus.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}service/trace/vsf\+\_\+trace.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__distbus_8c_ae34c6b7e53ad6ad07fcf0fb331ad159d}{\+\_\+\+\_\+\+VSF\+\_\+\+DISTBUS\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__distbus_8c_af59230583f1a7b7cd278f9d997e94d87}{\+\_\+\+\_\+vsf\+\_\+distbus\+\_\+trace\+\_\+msg}}(\+\_\+\+\_\+msg,  \+\_\+\+\_\+dir)
+\item 
+\#define \mbox{\hyperlink{vsf__distbus_8c_a4b01e0115e76a5d26cbdf130c3171c0f}{\+\_\+\+\_\+vsf\+\_\+distbus\+\_\+trace\+\_\+msg\+\_\+rx}}(\+\_\+\+\_\+msg)~\mbox{\hyperlink{vsf__distbus_8c_af59230583f1a7b7cd278f9d997e94d87}{\+\_\+\+\_\+vsf\+\_\+distbus\+\_\+trace\+\_\+msg}}((\+\_\+\+\_\+msg), \char`\"{}rx\char`\"{})
+\item 
+\#define \mbox{\hyperlink{vsf__distbus_8c_a4db9b334fdb8f47cc50ddafe93ba45d7}{\+\_\+\+\_\+vsf\+\_\+distbus\+\_\+trace\+\_\+msg\+\_\+tx}}(\+\_\+\+\_\+msg)~\mbox{\hyperlink{vsf__distbus_8c_af59230583f1a7b7cd278f9d997e94d87}{\+\_\+\+\_\+vsf\+\_\+distbus\+\_\+trace\+\_\+msg}}((\+\_\+\+\_\+msg), \char`\"{}tx\char`\"{})
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classvsf__distbus__msg__t}{vsf\+\_\+distbus\+\_\+msg\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__distbus_8c_aa744f328923cc11e56c40548f94865aa}{vsf\+\_\+distbus\+\_\+alloc\+\_\+msg}} (\mbox{\hyperlink{classvsf__distbus__t}{vsf\+\_\+distbus\+\_\+t}} $\ast$distbus, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$$\ast$buf)
+\item 
+void \mbox{\hyperlink{vsf__distbus_8c_a5071f3cf52b0140a5570707d090782f5}{vsf\+\_\+distbus\+\_\+free\+\_\+msg}} (\mbox{\hyperlink{classvsf__distbus__t}{vsf\+\_\+distbus\+\_\+t}} $\ast$distbus, \mbox{\hyperlink{classvsf__distbus__msg__t}{vsf\+\_\+distbus\+\_\+msg\+\_\+t}} $\ast$msg)
+\item 
+void \mbox{\hyperlink{vsf__distbus_8c_a66e4308629d6d91b8b0ad44983a7a5b3}{vsf\+\_\+distbus\+\_\+send\+\_\+msg}} (\mbox{\hyperlink{classvsf__distbus__t}{vsf\+\_\+distbus\+\_\+t}} $\ast$distbus, \mbox{\hyperlink{classvsf__distbus__service__t}{vsf\+\_\+distbus\+\_\+service\+\_\+t}} $\ast$service, \mbox{\hyperlink{classvsf__distbus__msg__t}{vsf\+\_\+distbus\+\_\+msg\+\_\+t}} $\ast$msg)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__distbus_8c_a106af24b308a5aa99e7b6a1d5009ef8e}{vsf\+\_\+distbus\+\_\+init}} (\mbox{\hyperlink{classvsf__distbus__t}{vsf\+\_\+distbus\+\_\+t}} $\ast$distbus)
+\item 
+void \mbox{\hyperlink{vsf__distbus_8c_addbeacd538bbfbcc8e0ddfc75a785a56}{vsf\+\_\+distbus\+\_\+register\+\_\+service}} (\mbox{\hyperlink{classvsf__distbus__t}{vsf\+\_\+distbus\+\_\+t}} $\ast$distbus, \mbox{\hyperlink{classvsf__distbus__service__t}{vsf\+\_\+distbus\+\_\+service\+\_\+t}} $\ast$service)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__distbus_8c_ae34c6b7e53ad6ad07fcf0fb331ad159d}\label{vsf__distbus_8c_ae34c6b7e53ad6ad07fcf0fb331ad159d}} 
+\index{vsf\_distbus.c@{vsf\_distbus.c}!\_\_VSF\_DISTBUS\_CLASS\_IMPLEMENT@{\_\_VSF\_DISTBUS\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_DISTBUS\_CLASS\_IMPLEMENT@{\_\_VSF\_DISTBUS\_CLASS\_IMPLEMENT}!vsf\_distbus.c@{vsf\_distbus.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISTBUS\_CLASS\_IMPLEMENT}{\_\_VSF\_DISTBUS\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISTBUS\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__distbus_8c_af59230583f1a7b7cd278f9d997e94d87}\label{vsf__distbus_8c_af59230583f1a7b7cd278f9d997e94d87}} 
+\index{vsf\_distbus.c@{vsf\_distbus.c}!\_\_vsf\_distbus\_trace\_msg@{\_\_vsf\_distbus\_trace\_msg}}
+\index{\_\_vsf\_distbus\_trace\_msg@{\_\_vsf\_distbus\_trace\_msg}!vsf\_distbus.c@{vsf\_distbus.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_distbus\_trace\_msg}{\_\_vsf\_distbus\_trace\_msg}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+distbus\+\_\+trace\+\_\+msg(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+msg,  }\item[{}]{\+\_\+\+\_\+dir }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keywordflow}{do} \{                                                                    \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_distbus\_trace(\textcolor{stringliteral}{"{}distbus\_msg\_\%s: addr = \%d, payload = \%d"{}} \mbox{\hyperlink{vsf__trace_8h_a2d4ff51789ad484c6a3bb465687810f0}{VSF\_TRACE\_CFG\_LINEEND}},\(\backslash\)}
+\DoxyCodeLine{                                (\_\_dir), (\_\_msg)-\/>header.addr, (\_\_msg)-\/>header.datalen);\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_distbus\_trace\_buffer((\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} *)(\_\_msg) + \textcolor{keyword}{sizeof}(\mbox{\hyperlink{classvsf__distbus__msg__t}{vsf\_distbus\_msg\_t}}), (\_\_msg)-\/>header.datalen);\(\backslash\)}
+\DoxyCodeLine{        \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__distbus_8c_a4b01e0115e76a5d26cbdf130c3171c0f}\label{vsf__distbus_8c_a4b01e0115e76a5d26cbdf130c3171c0f}} 
+\index{vsf\_distbus.c@{vsf\_distbus.c}!\_\_vsf\_distbus\_trace\_msg\_rx@{\_\_vsf\_distbus\_trace\_msg\_rx}}
+\index{\_\_vsf\_distbus\_trace\_msg\_rx@{\_\_vsf\_distbus\_trace\_msg\_rx}!vsf\_distbus.c@{vsf\_distbus.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_distbus\_trace\_msg\_rx}{\_\_vsf\_distbus\_trace\_msg\_rx}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+distbus\+\_\+trace\+\_\+msg\+\_\+rx(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+msg }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__distbus_8c_af59230583f1a7b7cd278f9d997e94d87}{\+\_\+\+\_\+vsf\+\_\+distbus\+\_\+trace\+\_\+msg}}((\+\_\+\+\_\+msg), \char`\"{}rx\char`\"{})}
+
+\mbox{\Hypertarget{vsf__distbus_8c_a4db9b334fdb8f47cc50ddafe93ba45d7}\label{vsf__distbus_8c_a4db9b334fdb8f47cc50ddafe93ba45d7}} 
+\index{vsf\_distbus.c@{vsf\_distbus.c}!\_\_vsf\_distbus\_trace\_msg\_tx@{\_\_vsf\_distbus\_trace\_msg\_tx}}
+\index{\_\_vsf\_distbus\_trace\_msg\_tx@{\_\_vsf\_distbus\_trace\_msg\_tx}!vsf\_distbus.c@{vsf\_distbus.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_distbus\_trace\_msg\_tx}{\_\_vsf\_distbus\_trace\_msg\_tx}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+distbus\+\_\+trace\+\_\+msg\+\_\+tx(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+msg }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__distbus_8c_af59230583f1a7b7cd278f9d997e94d87}{\+\_\+\+\_\+vsf\+\_\+distbus\+\_\+trace\+\_\+msg}}((\+\_\+\+\_\+msg), \char`\"{}tx\char`\"{})}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__distbus_8c_aa744f328923cc11e56c40548f94865aa}\label{vsf__distbus_8c_aa744f328923cc11e56c40548f94865aa}} 
+\index{vsf\_distbus.c@{vsf\_distbus.c}!vsf\_distbus\_alloc\_msg@{vsf\_distbus\_alloc\_msg}}
+\index{vsf\_distbus\_alloc\_msg@{vsf\_distbus\_alloc\_msg}!vsf\_distbus.c@{vsf\_distbus.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_distbus\_alloc\_msg()}{vsf\_distbus\_alloc\_msg()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classvsf__distbus__msg__t}{vsf\+\_\+distbus\+\_\+msg\+\_\+t}}$\ast$ vsf\+\_\+distbus\+\_\+alloc\+\_\+msg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__distbus__t}{vsf\+\_\+distbus\+\_\+t}} $\ast$}]{distbus,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$$\ast$}]{buf }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__distbus_8c_a5071f3cf52b0140a5570707d090782f5}\label{vsf__distbus_8c_a5071f3cf52b0140a5570707d090782f5}} 
+\index{vsf\_distbus.c@{vsf\_distbus.c}!vsf\_distbus\_free\_msg@{vsf\_distbus\_free\_msg}}
+\index{vsf\_distbus\_free\_msg@{vsf\_distbus\_free\_msg}!vsf\_distbus.c@{vsf\_distbus.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_distbus\_free\_msg()}{vsf\_distbus\_free\_msg()}}
+{\footnotesize\ttfamily void vsf\+\_\+distbus\+\_\+free\+\_\+msg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__distbus__t}{vsf\+\_\+distbus\+\_\+t}} $\ast$}]{distbus,  }\item[{\mbox{\hyperlink{classvsf__distbus__msg__t}{vsf\+\_\+distbus\+\_\+msg\+\_\+t}} $\ast$}]{msg }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__distbus_8c_a66e4308629d6d91b8b0ad44983a7a5b3}\label{vsf__distbus_8c_a66e4308629d6d91b8b0ad44983a7a5b3}} 
+\index{vsf\_distbus.c@{vsf\_distbus.c}!vsf\_distbus\_send\_msg@{vsf\_distbus\_send\_msg}}
+\index{vsf\_distbus\_send\_msg@{vsf\_distbus\_send\_msg}!vsf\_distbus.c@{vsf\_distbus.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_distbus\_send\_msg()}{vsf\_distbus\_send\_msg()}}
+{\footnotesize\ttfamily void vsf\+\_\+distbus\+\_\+send\+\_\+msg (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__distbus__t}{vsf\+\_\+distbus\+\_\+t}} $\ast$}]{distbus,  }\item[{\mbox{\hyperlink{classvsf__distbus__service__t}{vsf\+\_\+distbus\+\_\+service\+\_\+t}} $\ast$}]{service,  }\item[{\mbox{\hyperlink{classvsf__distbus__msg__t}{vsf\+\_\+distbus\+\_\+msg\+\_\+t}} $\ast$}]{msg }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__distbus_8c_a106af24b308a5aa99e7b6a1d5009ef8e}\label{vsf__distbus_8c_a106af24b308a5aa99e7b6a1d5009ef8e}} 
+\index{vsf\_distbus.c@{vsf\_distbus.c}!vsf\_distbus\_init@{vsf\_distbus\_init}}
+\index{vsf\_distbus\_init@{vsf\_distbus\_init}!vsf\_distbus.c@{vsf\_distbus.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_distbus\_init()}{vsf\_distbus\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+distbus\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__distbus__t}{vsf\+\_\+distbus\+\_\+t}} $\ast$}]{distbus }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__distbus_8c_addbeacd538bbfbcc8e0ddfc75a785a56}\label{vsf__distbus_8c_addbeacd538bbfbcc8e0ddfc75a785a56}} 
+\index{vsf\_distbus.c@{vsf\_distbus.c}!vsf\_distbus\_register\_service@{vsf\_distbus\_register\_service}}
+\index{vsf\_distbus\_register\_service@{vsf\_distbus\_register\_service}!vsf\_distbus.c@{vsf\_distbus.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_distbus\_register\_service()}{vsf\_distbus\_register\_service()}}
+{\footnotesize\ttfamily void vsf\+\_\+distbus\+\_\+register\+\_\+service (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__distbus__t}{vsf\+\_\+distbus\+\_\+t}} $\ast$}]{distbus,  }\item[{\mbox{\hyperlink{classvsf__distbus__service__t}{vsf\+\_\+distbus\+\_\+service\+\_\+t}} $\ast$}]{service }\end{DoxyParamCaption})}
+

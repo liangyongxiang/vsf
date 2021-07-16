@@ -1,0 +1,552 @@
+\hypertarget{mcs51_2type_8h}{}\doxysection{source/utilities/compiler/mcs51/type.h File Reference}
+\label{mcs51_2type_8h}\index{source/utilities/compiler/mcs51/type.h@{source/utilities/compiler/mcs51/type.h}}
+{\ttfamily \#include $<$uchar.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}../\+\_\+\+\_\+common/\+\_\+\+\_\+type.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_aadcf2a81af243df333b31efa6461ab8e}{INT8\+\_\+\+MIN}}~(-\/127i8 -\/ 1)
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_ad4e9955955b27624963643eac448118a}{INT16\+\_\+\+MIN}}~(-\/32767i16 -\/ 1)
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}{INT32\+\_\+\+MIN}}~(-\/2147483647i32 -\/ 1)
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_aaf7f29f45f1a513b4748a4e5014ddf6a}{INT8\+\_\+\+MAX}}~127i8
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_ac58f2c111cc9989c86db2a7dc4fd84ca}{INT16\+\_\+\+MAX}}~32767i16
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}{INT32\+\_\+\+MAX}}~2147483647i32
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_aeb4e270a084ee26fe73e799861bd0252}{UINT8\+\_\+\+MAX}}~0xffui8
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a3ea490c9b3617d4479bd80ef93cd5602}{UINT16\+\_\+\+MAX}}~0xffffui16
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_ab5eb23180f7cc12b7d6c04a8ec067fdd}{UINT32\+\_\+\+MAX}}~0xffffffffui32
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a3e986cad833f63f420962ff60eda87e5}{INT\+\_\+\+LEAST8\+\_\+\+MIN}}~\mbox{\hyperlink{mcs51_2type_8h_aadcf2a81af243df333b31efa6461ab8e}{INT8\+\_\+\+MIN}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a1f91bfd5820c2f27af3d260fc75813e1}{INT\+\_\+\+LEAST16\+\_\+\+MIN}}~\mbox{\hyperlink{mcs51_2type_8h_ad4e9955955b27624963643eac448118a}{INT16\+\_\+\+MIN}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a2360a536116dd734820a6b5b3d560ce7}{INT\+\_\+\+LEAST32\+\_\+\+MIN}}~\mbox{\hyperlink{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}{INT32\+\_\+\+MIN}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_aa05109908fb2770f632d2b646b9f85bf}{INT\+\_\+\+LEAST8\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_aaf7f29f45f1a513b4748a4e5014ddf6a}{INT8\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a7eb2a8e2a1c65d6c9ad0f86154890baa}{INT\+\_\+\+LEAST16\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_ac58f2c111cc9989c86db2a7dc4fd84ca}{INT16\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a5618711a0a54f722190a3a1219e278c2}{INT\+\_\+\+LEAST32\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}{INT32\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a2a80bde77ee1698d0f42f334adad4f2b}{UINT\+\_\+\+LEAST8\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_aeb4e270a084ee26fe73e799861bd0252}{UINT8\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a6ef6a1a518bbf516ca8b0180b11c358f}{UINT\+\_\+\+LEAST16\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_a3ea490c9b3617d4479bd80ef93cd5602}{UINT16\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a70cad8bacc9a6db301e1cdc86cc8d571}{UINT\+\_\+\+LEAST32\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_ab5eb23180f7cc12b7d6c04a8ec067fdd}{UINT32\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_aad8fb982cb19143efd5ee9a1a7a89390}{INT\+\_\+\+FAST8\+\_\+\+MIN}}~\mbox{\hyperlink{mcs51_2type_8h_aadcf2a81af243df333b31efa6461ab8e}{INT8\+\_\+\+MIN}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a169460a4e2a79138723d68d99372d958}{INT\+\_\+\+FAST16\+\_\+\+MIN}}~\mbox{\hyperlink{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}{INT32\+\_\+\+MIN}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_ad93df1652ed0635513d5efe4f1219926}{INT\+\_\+\+FAST32\+\_\+\+MIN}}~\mbox{\hyperlink{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}{INT32\+\_\+\+MIN}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_acbcdb3bee0f5f904da5df8de69a80ca3}{INT\+\_\+\+FAST8\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_aaf7f29f45f1a513b4748a4e5014ddf6a}{INT8\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a2fd35d0ea091e04caec504ff0042cf00}{INT\+\_\+\+FAST16\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}{INT32\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_ac96fa0f41b19e89f109e4f9913ca6635}{INT\+\_\+\+FAST32\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}{INT32\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a2c6f97ea2d76d0cf6260c84046cdb44e}{UINT\+\_\+\+FAST8\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_aeb4e270a084ee26fe73e799861bd0252}{UINT8\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_aed28ca63d9b222f6f1377358fe73a183}{UINT\+\_\+\+FAST16\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_ab5eb23180f7cc12b7d6c04a8ec067fdd}{UINT32\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_ad51246a178143208b2db3315efd21c45}{UINT\+\_\+\+FAST32\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_ab5eb23180f7cc12b7d6c04a8ec067fdd}{UINT32\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a2aaa6d3aa1d7d1e0e326955aa24db752}{INTPTR\+\_\+\+MIN}}~\mbox{\hyperlink{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}{INT32\+\_\+\+MIN}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a9e5742f2bae4a5283431a3c03499e3a9}{INTPTR\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}{INT32\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a2b0a3edfc672154f606dc3ad26277b61}{INTMAX\+\_\+\+MIN}}~\mbox{\hyperlink{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}{INT32\+\_\+\+MIN}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a022b9b0a3564d786244a4631847c37a3}{INTMAX\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}{INT32\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_aa54fd5210434219e9027bfa0f0e325c8}{UINTMAX\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_ab5eb23180f7cc12b7d6c04a8ec067fdd}{UINT32\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_ad9b88ba2fb858f98b50b38e49875d90e}{PTRDIFF\+\_\+\+MIN}}~\mbox{\hyperlink{mcs51_2type_8h_a2aaa6d3aa1d7d1e0e326955aa24db752}{INTPTR\+\_\+\+MIN}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_add2ef7bffac19cfdd1f4b5495409672f}{PTRDIFF\+\_\+\+MAX}}~\mbox{\hyperlink{mcs51_2type_8h_a9e5742f2bae4a5283431a3c03499e3a9}{INTPTR\+\_\+\+MAX}}
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a051084d5ebcabf282d9ca9bb2b891a78}{WCHAR\+\_\+\+MIN}}~0x0000
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a2a823f3ccf2306cfbaa34d8addf66010}{WCHAR\+\_\+\+MAX}}~0xffff
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a3c75bb398badb69c7577b21486f9963f}{SIZE\+\_\+\+MAX}}~UINTPTR\+\_\+\+MAX
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a90150f9e4f3a4fc1694835f526a274cb}{\+\_\+\+\_\+optimal\+\_\+bit\+\_\+sz}}~(sizeof(\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}}) $\ast$ 8)
+\item 
+\#define \mbox{\hyperlink{mcs51_2type_8h_a29200aa6e099b5b480d5afb0911a2571}{\+\_\+\+\_\+optimal\+\_\+bit\+\_\+msk}}~(\mbox{\hyperlink{x86_2type_8h_a90150f9e4f3a4fc1694835f526a274cb}{\+\_\+\+\_\+optimal\+\_\+bit\+\_\+sz}} -\/ 1)
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned char \mbox{\hyperlink{mcs51_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}
+\item 
+typedef signed char \mbox{\hyperlink{mcs51_2type_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}}
+\item 
+typedef unsigned char \mbox{\hyperlink{mcs51_2type_8h_a2d31063fef649c85396fb28130ef9795}{uint\+\_\+fast8\+\_\+t}}
+\item 
+typedef signed char \mbox{\hyperlink{mcs51_2type_8h_afa981e0352f65c207364c9cb82246b53}{int\+\_\+fast8\+\_\+t}}
+\item 
+typedef unsigned short \mbox{\hyperlink{mcs51_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}
+\item 
+typedef signed short \mbox{\hyperlink{mcs51_2type_8h_a269259c924dce846340ddbb810db2e3c}{int16\+\_\+t}}
+\item 
+typedef unsigned short \mbox{\hyperlink{mcs51_2type_8h_aaf1a25f7e1013b1bb5dfb59a77c17975}{uint\+\_\+fast16\+\_\+t}}
+\item 
+typedef signed short \mbox{\hyperlink{mcs51_2type_8h_a80df92a27dfeb9d8b543e4ae8cc2224c}{int\+\_\+fast16\+\_\+t}}
+\item 
+typedef unsigned long int \mbox{\hyperlink{mcs51_2type_8h_a33594304e786b158f3fb30289278f5af}{uint32\+\_\+t}}
+\item 
+typedef signed long int \mbox{\hyperlink{mcs51_2type_8h_adb828ef50c2dbb783109824e94cf6c47}{int32\+\_\+t}}
+\item 
+typedef unsigned long int \mbox{\hyperlink{mcs51_2type_8h_a8a5d6c5353ff297fd0797e654772361b}{uint\+\_\+fast32\+\_\+t}}
+\item 
+typedef signed long int \mbox{\hyperlink{mcs51_2type_8h_ae785c58dac36959b504b39358ccc644e}{int\+\_\+fast32\+\_\+t}}
+\item 
+typedef unsigned short \mbox{\hyperlink{mcs51_2type_8h_ad35c16792d2d094c16ced72bcf2cf5f6}{uint\+\_\+least16\+\_\+t}}
+\item 
+typedef signed short int\+\_\+least16\+\_\+t typedef unsigned long int \mbox{\hyperlink{mcs51_2type_8h_a475110e08af0818c68cc541beb706d51}{uint\+\_\+least32\+\_\+t}}
+\item 
+typedef signed long int int\+\_\+least32\+\_\+t typedef \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{mcs51_2type_8h_a2165453c3c3ea56fa51e03a7b8ca80f0}{uintptr\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \mbox{\hyperlink{mcs51_2type_8h_a4d5c0dfafd19860570fb6cb1639da74f}{intptr\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{mcs51_2type_8h_a7643e68e022fde0d947e8dc252f716d6}{uintmax\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \mbox{\hyperlink{mcs51_2type_8h_a1a3f3321a0166a004bde0a1e72553f2b}{intmax\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} \mbox{\hyperlink{mcs51_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{arm_2type_8h_a3ea64e25c86718ee706162b247d8c424}{int\+\_\+fast8\+\_\+t}} \mbox{\hyperlink{mcs51_2type_8h_a178b15977cf63cd767751d1d0e177d62}{intalu\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \{ \newline
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}{false}} = 0
+, \newline
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}{true}} = !false
+, \newline
+\mbox{\hyperlink{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}{false}} = 0
+, \newline
+\mbox{\hyperlink{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}{true}} = !false
+, \newline
+\mbox{\hyperlink{rv_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}{false}} = 0
+, \newline
+\mbox{\hyperlink{rv_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}{true}} = !false
+, \newline
+\mbox{\hyperlink{x86_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}{false}} = 0
+, \newline
+\mbox{\hyperlink{x86_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}{true}} = !false
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{mcs51_2type_8h_aadcf2a81af243df333b31efa6461ab8e}\label{mcs51_2type_8h_aadcf2a81af243df333b31efa6461ab8e}} 
+\index{type.h@{type.h}!INT8\_MIN@{INT8\_MIN}}
+\index{INT8\_MIN@{INT8\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT8\_MIN}{INT8\_MIN}}
+{\footnotesize\ttfamily \#define INT8\+\_\+\+MIN~(-\/127i8 -\/ 1)}
+
+\mbox{\Hypertarget{mcs51_2type_8h_ad4e9955955b27624963643eac448118a}\label{mcs51_2type_8h_ad4e9955955b27624963643eac448118a}} 
+\index{type.h@{type.h}!INT16\_MIN@{INT16\_MIN}}
+\index{INT16\_MIN@{INT16\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT16\_MIN}{INT16\_MIN}}
+{\footnotesize\ttfamily \#define INT16\+\_\+\+MIN~(-\/32767i16 -\/ 1)}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}\label{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}} 
+\index{type.h@{type.h}!INT32\_MIN@{INT32\_MIN}}
+\index{INT32\_MIN@{INT32\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT32\_MIN}{INT32\_MIN}}
+{\footnotesize\ttfamily \#define INT32\+\_\+\+MIN~(-\/2147483647i32 -\/ 1)}
+
+\mbox{\Hypertarget{mcs51_2type_8h_aaf7f29f45f1a513b4748a4e5014ddf6a}\label{mcs51_2type_8h_aaf7f29f45f1a513b4748a4e5014ddf6a}} 
+\index{type.h@{type.h}!INT8\_MAX@{INT8\_MAX}}
+\index{INT8\_MAX@{INT8\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT8\_MAX}{INT8\_MAX}}
+{\footnotesize\ttfamily \#define INT8\+\_\+\+MAX~127i8}
+
+\mbox{\Hypertarget{mcs51_2type_8h_ac58f2c111cc9989c86db2a7dc4fd84ca}\label{mcs51_2type_8h_ac58f2c111cc9989c86db2a7dc4fd84ca}} 
+\index{type.h@{type.h}!INT16\_MAX@{INT16\_MAX}}
+\index{INT16\_MAX@{INT16\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT16\_MAX}{INT16\_MAX}}
+{\footnotesize\ttfamily \#define INT16\+\_\+\+MAX~32767i16}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}\label{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}} 
+\index{type.h@{type.h}!INT32\_MAX@{INT32\_MAX}}
+\index{INT32\_MAX@{INT32\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT32\_MAX}{INT32\_MAX}}
+{\footnotesize\ttfamily \#define INT32\+\_\+\+MAX~2147483647i32}
+
+\mbox{\Hypertarget{mcs51_2type_8h_aeb4e270a084ee26fe73e799861bd0252}\label{mcs51_2type_8h_aeb4e270a084ee26fe73e799861bd0252}} 
+\index{type.h@{type.h}!UINT8\_MAX@{UINT8\_MAX}}
+\index{UINT8\_MAX@{UINT8\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{UINT8\_MAX}{UINT8\_MAX}}
+{\footnotesize\ttfamily \#define UINT8\+\_\+\+MAX~0xffui8}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a3ea490c9b3617d4479bd80ef93cd5602}\label{mcs51_2type_8h_a3ea490c9b3617d4479bd80ef93cd5602}} 
+\index{type.h@{type.h}!UINT16\_MAX@{UINT16\_MAX}}
+\index{UINT16\_MAX@{UINT16\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{UINT16\_MAX}{UINT16\_MAX}}
+{\footnotesize\ttfamily \#define UINT16\+\_\+\+MAX~0xffffui16}
+
+\mbox{\Hypertarget{mcs51_2type_8h_ab5eb23180f7cc12b7d6c04a8ec067fdd}\label{mcs51_2type_8h_ab5eb23180f7cc12b7d6c04a8ec067fdd}} 
+\index{type.h@{type.h}!UINT32\_MAX@{UINT32\_MAX}}
+\index{UINT32\_MAX@{UINT32\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{UINT32\_MAX}{UINT32\_MAX}}
+{\footnotesize\ttfamily \#define UINT32\+\_\+\+MAX~0xffffffffui32}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a3e986cad833f63f420962ff60eda87e5}\label{mcs51_2type_8h_a3e986cad833f63f420962ff60eda87e5}} 
+\index{type.h@{type.h}!INT\_LEAST8\_MIN@{INT\_LEAST8\_MIN}}
+\index{INT\_LEAST8\_MIN@{INT\_LEAST8\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_LEAST8\_MIN}{INT\_LEAST8\_MIN}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+LEAST8\+\_\+\+MIN~\mbox{\hyperlink{mcs51_2type_8h_aadcf2a81af243df333b31efa6461ab8e}{INT8\+\_\+\+MIN}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a1f91bfd5820c2f27af3d260fc75813e1}\label{mcs51_2type_8h_a1f91bfd5820c2f27af3d260fc75813e1}} 
+\index{type.h@{type.h}!INT\_LEAST16\_MIN@{INT\_LEAST16\_MIN}}
+\index{INT\_LEAST16\_MIN@{INT\_LEAST16\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_LEAST16\_MIN}{INT\_LEAST16\_MIN}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+LEAST16\+\_\+\+MIN~\mbox{\hyperlink{mcs51_2type_8h_ad4e9955955b27624963643eac448118a}{INT16\+\_\+\+MIN}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a2360a536116dd734820a6b5b3d560ce7}\label{mcs51_2type_8h_a2360a536116dd734820a6b5b3d560ce7}} 
+\index{type.h@{type.h}!INT\_LEAST32\_MIN@{INT\_LEAST32\_MIN}}
+\index{INT\_LEAST32\_MIN@{INT\_LEAST32\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_LEAST32\_MIN}{INT\_LEAST32\_MIN}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+LEAST32\+\_\+\+MIN~\mbox{\hyperlink{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}{INT32\+\_\+\+MIN}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_aa05109908fb2770f632d2b646b9f85bf}\label{mcs51_2type_8h_aa05109908fb2770f632d2b646b9f85bf}} 
+\index{type.h@{type.h}!INT\_LEAST8\_MAX@{INT\_LEAST8\_MAX}}
+\index{INT\_LEAST8\_MAX@{INT\_LEAST8\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_LEAST8\_MAX}{INT\_LEAST8\_MAX}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+LEAST8\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_aaf7f29f45f1a513b4748a4e5014ddf6a}{INT8\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a7eb2a8e2a1c65d6c9ad0f86154890baa}\label{mcs51_2type_8h_a7eb2a8e2a1c65d6c9ad0f86154890baa}} 
+\index{type.h@{type.h}!INT\_LEAST16\_MAX@{INT\_LEAST16\_MAX}}
+\index{INT\_LEAST16\_MAX@{INT\_LEAST16\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_LEAST16\_MAX}{INT\_LEAST16\_MAX}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+LEAST16\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_ac58f2c111cc9989c86db2a7dc4fd84ca}{INT16\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a5618711a0a54f722190a3a1219e278c2}\label{mcs51_2type_8h_a5618711a0a54f722190a3a1219e278c2}} 
+\index{type.h@{type.h}!INT\_LEAST32\_MAX@{INT\_LEAST32\_MAX}}
+\index{INT\_LEAST32\_MAX@{INT\_LEAST32\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_LEAST32\_MAX}{INT\_LEAST32\_MAX}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+LEAST32\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}{INT32\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a2a80bde77ee1698d0f42f334adad4f2b}\label{mcs51_2type_8h_a2a80bde77ee1698d0f42f334adad4f2b}} 
+\index{type.h@{type.h}!UINT\_LEAST8\_MAX@{UINT\_LEAST8\_MAX}}
+\index{UINT\_LEAST8\_MAX@{UINT\_LEAST8\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{UINT\_LEAST8\_MAX}{UINT\_LEAST8\_MAX}}
+{\footnotesize\ttfamily \#define UINT\+\_\+\+LEAST8\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_aeb4e270a084ee26fe73e799861bd0252}{UINT8\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a6ef6a1a518bbf516ca8b0180b11c358f}\label{mcs51_2type_8h_a6ef6a1a518bbf516ca8b0180b11c358f}} 
+\index{type.h@{type.h}!UINT\_LEAST16\_MAX@{UINT\_LEAST16\_MAX}}
+\index{UINT\_LEAST16\_MAX@{UINT\_LEAST16\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{UINT\_LEAST16\_MAX}{UINT\_LEAST16\_MAX}}
+{\footnotesize\ttfamily \#define UINT\+\_\+\+LEAST16\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_a3ea490c9b3617d4479bd80ef93cd5602}{UINT16\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a70cad8bacc9a6db301e1cdc86cc8d571}\label{mcs51_2type_8h_a70cad8bacc9a6db301e1cdc86cc8d571}} 
+\index{type.h@{type.h}!UINT\_LEAST32\_MAX@{UINT\_LEAST32\_MAX}}
+\index{UINT\_LEAST32\_MAX@{UINT\_LEAST32\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{UINT\_LEAST32\_MAX}{UINT\_LEAST32\_MAX}}
+{\footnotesize\ttfamily \#define UINT\+\_\+\+LEAST32\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_ab5eb23180f7cc12b7d6c04a8ec067fdd}{UINT32\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_aad8fb982cb19143efd5ee9a1a7a89390}\label{mcs51_2type_8h_aad8fb982cb19143efd5ee9a1a7a89390}} 
+\index{type.h@{type.h}!INT\_FAST8\_MIN@{INT\_FAST8\_MIN}}
+\index{INT\_FAST8\_MIN@{INT\_FAST8\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_FAST8\_MIN}{INT\_FAST8\_MIN}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+FAST8\+\_\+\+MIN~\mbox{\hyperlink{mcs51_2type_8h_aadcf2a81af243df333b31efa6461ab8e}{INT8\+\_\+\+MIN}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a169460a4e2a79138723d68d99372d958}\label{mcs51_2type_8h_a169460a4e2a79138723d68d99372d958}} 
+\index{type.h@{type.h}!INT\_FAST16\_MIN@{INT\_FAST16\_MIN}}
+\index{INT\_FAST16\_MIN@{INT\_FAST16\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_FAST16\_MIN}{INT\_FAST16\_MIN}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+FAST16\+\_\+\+MIN~\mbox{\hyperlink{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}{INT32\+\_\+\+MIN}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_ad93df1652ed0635513d5efe4f1219926}\label{mcs51_2type_8h_ad93df1652ed0635513d5efe4f1219926}} 
+\index{type.h@{type.h}!INT\_FAST32\_MIN@{INT\_FAST32\_MIN}}
+\index{INT\_FAST32\_MIN@{INT\_FAST32\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_FAST32\_MIN}{INT\_FAST32\_MIN}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+FAST32\+\_\+\+MIN~\mbox{\hyperlink{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}{INT32\+\_\+\+MIN}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_acbcdb3bee0f5f904da5df8de69a80ca3}\label{mcs51_2type_8h_acbcdb3bee0f5f904da5df8de69a80ca3}} 
+\index{type.h@{type.h}!INT\_FAST8\_MAX@{INT\_FAST8\_MAX}}
+\index{INT\_FAST8\_MAX@{INT\_FAST8\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_FAST8\_MAX}{INT\_FAST8\_MAX}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+FAST8\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_aaf7f29f45f1a513b4748a4e5014ddf6a}{INT8\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a2fd35d0ea091e04caec504ff0042cf00}\label{mcs51_2type_8h_a2fd35d0ea091e04caec504ff0042cf00}} 
+\index{type.h@{type.h}!INT\_FAST16\_MAX@{INT\_FAST16\_MAX}}
+\index{INT\_FAST16\_MAX@{INT\_FAST16\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_FAST16\_MAX}{INT\_FAST16\_MAX}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+FAST16\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}{INT32\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_ac96fa0f41b19e89f109e4f9913ca6635}\label{mcs51_2type_8h_ac96fa0f41b19e89f109e4f9913ca6635}} 
+\index{type.h@{type.h}!INT\_FAST32\_MAX@{INT\_FAST32\_MAX}}
+\index{INT\_FAST32\_MAX@{INT\_FAST32\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INT\_FAST32\_MAX}{INT\_FAST32\_MAX}}
+{\footnotesize\ttfamily \#define INT\+\_\+\+FAST32\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}{INT32\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a2c6f97ea2d76d0cf6260c84046cdb44e}\label{mcs51_2type_8h_a2c6f97ea2d76d0cf6260c84046cdb44e}} 
+\index{type.h@{type.h}!UINT\_FAST8\_MAX@{UINT\_FAST8\_MAX}}
+\index{UINT\_FAST8\_MAX@{UINT\_FAST8\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{UINT\_FAST8\_MAX}{UINT\_FAST8\_MAX}}
+{\footnotesize\ttfamily \#define UINT\+\_\+\+FAST8\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_aeb4e270a084ee26fe73e799861bd0252}{UINT8\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_aed28ca63d9b222f6f1377358fe73a183}\label{mcs51_2type_8h_aed28ca63d9b222f6f1377358fe73a183}} 
+\index{type.h@{type.h}!UINT\_FAST16\_MAX@{UINT\_FAST16\_MAX}}
+\index{UINT\_FAST16\_MAX@{UINT\_FAST16\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{UINT\_FAST16\_MAX}{UINT\_FAST16\_MAX}}
+{\footnotesize\ttfamily \#define UINT\+\_\+\+FAST16\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_ab5eb23180f7cc12b7d6c04a8ec067fdd}{UINT32\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_ad51246a178143208b2db3315efd21c45}\label{mcs51_2type_8h_ad51246a178143208b2db3315efd21c45}} 
+\index{type.h@{type.h}!UINT\_FAST32\_MAX@{UINT\_FAST32\_MAX}}
+\index{UINT\_FAST32\_MAX@{UINT\_FAST32\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{UINT\_FAST32\_MAX}{UINT\_FAST32\_MAX}}
+{\footnotesize\ttfamily \#define UINT\+\_\+\+FAST32\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_ab5eb23180f7cc12b7d6c04a8ec067fdd}{UINT32\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a2aaa6d3aa1d7d1e0e326955aa24db752}\label{mcs51_2type_8h_a2aaa6d3aa1d7d1e0e326955aa24db752}} 
+\index{type.h@{type.h}!INTPTR\_MIN@{INTPTR\_MIN}}
+\index{INTPTR\_MIN@{INTPTR\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INTPTR\_MIN}{INTPTR\_MIN}}
+{\footnotesize\ttfamily \#define INTPTR\+\_\+\+MIN~\mbox{\hyperlink{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}{INT32\+\_\+\+MIN}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a9e5742f2bae4a5283431a3c03499e3a9}\label{mcs51_2type_8h_a9e5742f2bae4a5283431a3c03499e3a9}} 
+\index{type.h@{type.h}!INTPTR\_MAX@{INTPTR\_MAX}}
+\index{INTPTR\_MAX@{INTPTR\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INTPTR\_MAX}{INTPTR\_MAX}}
+{\footnotesize\ttfamily \#define INTPTR\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}{INT32\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a2b0a3edfc672154f606dc3ad26277b61}\label{mcs51_2type_8h_a2b0a3edfc672154f606dc3ad26277b61}} 
+\index{type.h@{type.h}!INTMAX\_MIN@{INTMAX\_MIN}}
+\index{INTMAX\_MIN@{INTMAX\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INTMAX\_MIN}{INTMAX\_MIN}}
+{\footnotesize\ttfamily \#define INTMAX\+\_\+\+MIN~\mbox{\hyperlink{mcs51_2type_8h_a688eb21a22db27c2b2bd5836943cdcbe}{INT32\+\_\+\+MIN}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a022b9b0a3564d786244a4631847c37a3}\label{mcs51_2type_8h_a022b9b0a3564d786244a4631847c37a3}} 
+\index{type.h@{type.h}!INTMAX\_MAX@{INTMAX\_MAX}}
+\index{INTMAX\_MAX@{INTMAX\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{INTMAX\_MAX}{INTMAX\_MAX}}
+{\footnotesize\ttfamily \#define INTMAX\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_a181807730d4a375f848ba139813ce04f}{INT32\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_aa54fd5210434219e9027bfa0f0e325c8}\label{mcs51_2type_8h_aa54fd5210434219e9027bfa0f0e325c8}} 
+\index{type.h@{type.h}!UINTMAX\_MAX@{UINTMAX\_MAX}}
+\index{UINTMAX\_MAX@{UINTMAX\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{UINTMAX\_MAX}{UINTMAX\_MAX}}
+{\footnotesize\ttfamily \#define UINTMAX\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_ab5eb23180f7cc12b7d6c04a8ec067fdd}{UINT32\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_ad9b88ba2fb858f98b50b38e49875d90e}\label{mcs51_2type_8h_ad9b88ba2fb858f98b50b38e49875d90e}} 
+\index{type.h@{type.h}!PTRDIFF\_MIN@{PTRDIFF\_MIN}}
+\index{PTRDIFF\_MIN@{PTRDIFF\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{PTRDIFF\_MIN}{PTRDIFF\_MIN}}
+{\footnotesize\ttfamily \#define PTRDIFF\+\_\+\+MIN~\mbox{\hyperlink{mcs51_2type_8h_a2aaa6d3aa1d7d1e0e326955aa24db752}{INTPTR\+\_\+\+MIN}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_add2ef7bffac19cfdd1f4b5495409672f}\label{mcs51_2type_8h_add2ef7bffac19cfdd1f4b5495409672f}} 
+\index{type.h@{type.h}!PTRDIFF\_MAX@{PTRDIFF\_MAX}}
+\index{PTRDIFF\_MAX@{PTRDIFF\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{PTRDIFF\_MAX}{PTRDIFF\_MAX}}
+{\footnotesize\ttfamily \#define PTRDIFF\+\_\+\+MAX~\mbox{\hyperlink{mcs51_2type_8h_a9e5742f2bae4a5283431a3c03499e3a9}{INTPTR\+\_\+\+MAX}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a051084d5ebcabf282d9ca9bb2b891a78}\label{mcs51_2type_8h_a051084d5ebcabf282d9ca9bb2b891a78}} 
+\index{type.h@{type.h}!WCHAR\_MIN@{WCHAR\_MIN}}
+\index{WCHAR\_MIN@{WCHAR\_MIN}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{WCHAR\_MIN}{WCHAR\_MIN}}
+{\footnotesize\ttfamily \#define WCHAR\+\_\+\+MIN~0x0000}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a2a823f3ccf2306cfbaa34d8addf66010}\label{mcs51_2type_8h_a2a823f3ccf2306cfbaa34d8addf66010}} 
+\index{type.h@{type.h}!WCHAR\_MAX@{WCHAR\_MAX}}
+\index{WCHAR\_MAX@{WCHAR\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{WCHAR\_MAX}{WCHAR\_MAX}}
+{\footnotesize\ttfamily \#define WCHAR\+\_\+\+MAX~0xffff}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a3c75bb398badb69c7577b21486f9963f}\label{mcs51_2type_8h_a3c75bb398badb69c7577b21486f9963f}} 
+\index{type.h@{type.h}!SIZE\_MAX@{SIZE\_MAX}}
+\index{SIZE\_MAX@{SIZE\_MAX}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{SIZE\_MAX}{SIZE\_MAX}}
+{\footnotesize\ttfamily \#define SIZE\+\_\+\+MAX~UINTPTR\+\_\+\+MAX}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a90150f9e4f3a4fc1694835f526a274cb}\label{mcs51_2type_8h_a90150f9e4f3a4fc1694835f526a274cb}} 
+\index{type.h@{type.h}!\_\_optimal\_bit\_sz@{\_\_optimal\_bit\_sz}}
+\index{\_\_optimal\_bit\_sz@{\_\_optimal\_bit\_sz}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{\_\_optimal\_bit\_sz}{\_\_optimal\_bit\_sz}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+optimal\+\_\+bit\+\_\+sz~(sizeof(\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}}) $\ast$ 8)}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a29200aa6e099b5b480d5afb0911a2571}\label{mcs51_2type_8h_a29200aa6e099b5b480d5afb0911a2571}} 
+\index{type.h@{type.h}!\_\_optimal\_bit\_msk@{\_\_optimal\_bit\_msk}}
+\index{\_\_optimal\_bit\_msk@{\_\_optimal\_bit\_msk}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{\_\_optimal\_bit\_msk}{\_\_optimal\_bit\_msk}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+optimal\+\_\+bit\+\_\+msk~(\mbox{\hyperlink{x86_2type_8h_a90150f9e4f3a4fc1694835f526a274cb}{\+\_\+\+\_\+optimal\+\_\+bit\+\_\+sz}} -\/ 1)}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{mcs51_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}\label{mcs51_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}} 
+\index{type.h@{type.h}!uint8\_t@{uint8\_t}}
+\index{uint8\_t@{uint8\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{uint8\_t}{uint8\_t}}
+{\footnotesize\ttfamily typedef unsigned char \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_aef44329758059c91c76d334e8fc09700}\label{mcs51_2type_8h_aef44329758059c91c76d334e8fc09700}} 
+\index{type.h@{type.h}!int8\_t@{int8\_t}}
+\index{int8\_t@{int8\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{int8\_t}{int8\_t}}
+{\footnotesize\ttfamily typedef signed char \mbox{\hyperlink{arm_2type_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a2d31063fef649c85396fb28130ef9795}\label{mcs51_2type_8h_a2d31063fef649c85396fb28130ef9795}} 
+\index{type.h@{type.h}!uint\_fast8\_t@{uint\_fast8\_t}}
+\index{uint\_fast8\_t@{uint\_fast8\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{uint\_fast8\_t}{uint\_fast8\_t}}
+{\footnotesize\ttfamily typedef unsigned char \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_afa981e0352f65c207364c9cb82246b53}\label{mcs51_2type_8h_afa981e0352f65c207364c9cb82246b53}} 
+\index{type.h@{type.h}!int\_fast8\_t@{int\_fast8\_t}}
+\index{int\_fast8\_t@{int\_fast8\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{int\_fast8\_t}{int\_fast8\_t}}
+{\footnotesize\ttfamily typedef signed char \mbox{\hyperlink{arm_2type_8h_a3ea64e25c86718ee706162b247d8c424}{int\+\_\+fast8\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a273cf69d639a59973b6019625df33e30}\label{mcs51_2type_8h_a273cf69d639a59973b6019625df33e30}} 
+\index{type.h@{type.h}!uint16\_t@{uint16\_t}}
+\index{uint16\_t@{uint16\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{uint16\_t}{uint16\_t}}
+{\footnotesize\ttfamily typedef unsigned short \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a269259c924dce846340ddbb810db2e3c}\label{mcs51_2type_8h_a269259c924dce846340ddbb810db2e3c}} 
+\index{type.h@{type.h}!int16\_t@{int16\_t}}
+\index{int16\_t@{int16\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{int16\_t}{int16\_t}}
+{\footnotesize\ttfamily typedef signed short \mbox{\hyperlink{arm_2type_8h_a269259c924dce846340ddbb810db2e3c}{int16\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_aaf1a25f7e1013b1bb5dfb59a77c17975}\label{mcs51_2type_8h_aaf1a25f7e1013b1bb5dfb59a77c17975}} 
+\index{type.h@{type.h}!uint\_fast16\_t@{uint\_fast16\_t}}
+\index{uint\_fast16\_t@{uint\_fast16\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{uint\_fast16\_t}{uint\_fast16\_t}}
+{\footnotesize\ttfamily typedef unsigned short \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a80df92a27dfeb9d8b543e4ae8cc2224c}\label{mcs51_2type_8h_a80df92a27dfeb9d8b543e4ae8cc2224c}} 
+\index{type.h@{type.h}!int\_fast16\_t@{int\_fast16\_t}}
+\index{int\_fast16\_t@{int\_fast16\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{int\_fast16\_t}{int\_fast16\_t}}
+{\footnotesize\ttfamily typedef signed short \mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a33594304e786b158f3fb30289278f5af}\label{mcs51_2type_8h_a33594304e786b158f3fb30289278f5af}} 
+\index{type.h@{type.h}!uint32\_t@{uint32\_t}}
+\index{uint32\_t@{uint32\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{uint32\_t}{uint32\_t}}
+{\footnotesize\ttfamily typedef unsigned long int \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_adb828ef50c2dbb783109824e94cf6c47}\label{mcs51_2type_8h_adb828ef50c2dbb783109824e94cf6c47}} 
+\index{type.h@{type.h}!int32\_t@{int32\_t}}
+\index{int32\_t@{int32\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{int32\_t}{int32\_t}}
+{\footnotesize\ttfamily typedef signed long int \mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a8a5d6c5353ff297fd0797e654772361b}\label{mcs51_2type_8h_a8a5d6c5353ff297fd0797e654772361b}} 
+\index{type.h@{type.h}!uint\_fast32\_t@{uint\_fast32\_t}}
+\index{uint\_fast32\_t@{uint\_fast32\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{uint\_fast32\_t}{uint\_fast32\_t}}
+{\footnotesize\ttfamily typedef unsigned long int \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_ae785c58dac36959b504b39358ccc644e}\label{mcs51_2type_8h_ae785c58dac36959b504b39358ccc644e}} 
+\index{type.h@{type.h}!int\_fast32\_t@{int\_fast32\_t}}
+\index{int\_fast32\_t@{int\_fast32\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{int\_fast32\_t}{int\_fast32\_t}}
+{\footnotesize\ttfamily typedef signed long int \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_ad35c16792d2d094c16ced72bcf2cf5f6}\label{mcs51_2type_8h_ad35c16792d2d094c16ced72bcf2cf5f6}} 
+\index{type.h@{type.h}!uint\_least16\_t@{uint\_least16\_t}}
+\index{uint\_least16\_t@{uint\_least16\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{uint\_least16\_t}{uint\_least16\_t}}
+{\footnotesize\ttfamily typedef unsigned short \mbox{\hyperlink{mcs51_2type_8h_ad35c16792d2d094c16ced72bcf2cf5f6}{uint\+\_\+least16\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a475110e08af0818c68cc541beb706d51}\label{mcs51_2type_8h_a475110e08af0818c68cc541beb706d51}} 
+\index{type.h@{type.h}!uint\_least32\_t@{uint\_least32\_t}}
+\index{uint\_least32\_t@{uint\_least32\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{uint\_least32\_t}{uint\_least32\_t}}
+{\footnotesize\ttfamily typedef signed short int\+\_\+least16\+\_\+t typedef unsigned long int \mbox{\hyperlink{mcs51_2type_8h_a475110e08af0818c68cc541beb706d51}{uint\+\_\+least32\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a2165453c3c3ea56fa51e03a7b8ca80f0}\label{mcs51_2type_8h_a2165453c3c3ea56fa51e03a7b8ca80f0}} 
+\index{type.h@{type.h}!uintptr\_t@{uintptr\_t}}
+\index{uintptr\_t@{uintptr\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{uintptr\_t}{uintptr\_t}}
+{\footnotesize\ttfamily typedef signed long int int\+\_\+least32\+\_\+t typedef \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a4d5c0dfafd19860570fb6cb1639da74f}\label{mcs51_2type_8h_a4d5c0dfafd19860570fb6cb1639da74f}} 
+\index{type.h@{type.h}!intptr\_t@{intptr\_t}}
+\index{intptr\_t@{intptr\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{intptr\_t}{intptr\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \mbox{\hyperlink{arm_2type_8h_a4d5c0dfafd19860570fb6cb1639da74f}{intptr\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a7643e68e022fde0d947e8dc252f716d6}\label{mcs51_2type_8h_a7643e68e022fde0d947e8dc252f716d6}} 
+\index{type.h@{type.h}!uintmax\_t@{uintmax\_t}}
+\index{uintmax\_t@{uintmax\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{uintmax\_t}{uintmax\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{arm_2type_8h_a2ba5f6c0633401558d277b2c0e4f758d}{uintmax\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a1a3f3321a0166a004bde0a1e72553f2b}\label{mcs51_2type_8h_a1a3f3321a0166a004bde0a1e72553f2b}} 
+\index{type.h@{type.h}!intmax\_t@{intmax\_t}}
+\index{intmax\_t@{intmax\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{intmax\_t}{intmax\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \mbox{\hyperlink{arm_2type_8h_a036cd61bb4b30bb510b9538af4cebd1d}{intmax\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}\label{mcs51_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}} 
+\index{type.h@{type.h}!uintalu\_t@{uintalu\_t}}
+\index{uintalu\_t@{uintalu\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{uintalu\_t}{uintalu\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} \mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}}}
+
+\mbox{\Hypertarget{mcs51_2type_8h_a178b15977cf63cd767751d1d0e177d62}\label{mcs51_2type_8h_a178b15977cf63cd767751d1d0e177d62}} 
+\index{type.h@{type.h}!intalu\_t@{intalu\_t}}
+\index{intalu\_t@{intalu\_t}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{intalu\_t}{intalu\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{arm_2type_8h_a3ea64e25c86718ee706162b247d8c424}{int\+\_\+fast8\+\_\+t}} \mbox{\hyperlink{arm_2type_8h_a178b15977cf63cd767751d1d0e177d62}{intalu\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1}\label{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1}} 
+\index{type.h@{type.h}!bool@{bool}}
+\index{bool@{bool}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{bool}{bool}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{false@{false}!type.h@{type.h}}\index{type.h@{type.h}!false@{false}}}\mbox{\Hypertarget{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}\label{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}} 
+false&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{true@{true}!type.h@{type.h}}\index{type.h@{type.h}!true@{true}}}\mbox{\Hypertarget{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}\label{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}} 
+true&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{false@{false}!type.h@{type.h}}\index{type.h@{type.h}!false@{false}}}\mbox{\Hypertarget{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}\label{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}} 
+false&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{true@{true}!type.h@{type.h}}\index{type.h@{type.h}!true@{true}}}\mbox{\Hypertarget{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}\label{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}} 
+true&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{false@{false}!type.h@{type.h}}\index{type.h@{type.h}!false@{false}}}\mbox{\Hypertarget{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}\label{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}} 
+false&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{true@{true}!type.h@{type.h}}\index{type.h@{type.h}!true@{true}}}\mbox{\Hypertarget{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}\label{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}} 
+true&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{false@{false}!type.h@{type.h}}\index{type.h@{type.h}!false@{false}}}\mbox{\Hypertarget{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}\label{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}} 
+false&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{true@{true}!type.h@{type.h}}\index{type.h@{type.h}!true@{true}}}\mbox{\Hypertarget{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}\label{mcs51_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}} 
+true&\\
+\hline
+
+\end{DoxyEnumFields}

@@ -1,0 +1,129 @@
+\hypertarget{classvsf__io__spi__t}{}\doxysection{vsf\+\_\+io\+\_\+spi\+\_\+t Class Reference}
+\label{classvsf__io__spi__t}\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+
+
+{\ttfamily \#include $<$vsf\+\_\+io\+\_\+spi.\+h$>$}
+
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>vsf\_gpio\_t $\ast$ \mbox{\hyperlink{classvsf__io__spi__t_a70e88b7661be8d5dacedb719868c9d16}{port}}\\
+\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{classvsf__io__spi__t_a6da5f5426995240f35fa0ffc141bb694}{sck\_pin}}\\
+\>\mbox{\hyperlink{arm_2type_8h_aef44329758059c91c76d334e8fc09700}{int8\_t}} \mbox{\hyperlink{classvsf__io__spi__t_a5ada9460d2e70304381c6ad3b9e837f0}{miso\_pin}}\\
+\>\mbox{\hyperlink{arm_2type_8h_aef44329758059c91c76d334e8fc09700}{int8\_t}} \mbox{\hyperlink{classvsf__io__spi__t_aec56f29e17f30dea1ab763ba4f6015c1}{mosi\_pin}}\\
+\>\mbox{\hyperlink{arm_2type_8h_aef44329758059c91c76d334e8fc09700}{int8\_t}} \mbox{\hyperlink{classvsf__io__spi__t_aa2680c8e988eb16d03629ad00da0d6b9}{ss\_pin}}\\
+\} \mbox{\hyperlink{classvsf__io__spi__t_a26cbb6aa7ff809bd4fa5988fa3ef623c}{io}}\\
+
+\end{tabbing}\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>void($\ast$ \mbox{\hyperlink{classvsf__io__spi__t_a1fd0bae7f478103f3a83e34c193b9829}{handler}} )(\mbox{\hyperlink{classvsf__io__spi__t}{vsf\_io\_spi\_t}} $\ast$io\_spi)\\
+\} \mbox{\hyperlink{classvsf__io__spi__t_a9d1458bf4258b3ef9e430a433174a67e}{callback}}\\
+
+\end{tabbing}\item 
+\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{classvsf__io__spi__t_a74533e2b99d2be266c05667df8bd036b}{freq\+\_\+khz}}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>struct \{\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{classvsf__io__spi__t_ad3e321df749e7f26ea147705559a0c69}{chpa}}: 1\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{classvsf__io__spi__t_a98f51e5ced39520c79b4d5f9584b9161}{chol}}: 1\\
+\>\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{classvsf__io__spi__t_ab3c4bb7d6a1e4c4b6f15fff362c7179a}{msbf}}: 1\\
+\>\} \\
+\>\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \mbox{\hyperlink{classvsf__io__spi__t_adf24aa4b5224115989ffc75b1fe810d8}{mode}}\\
+\}; \\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\textbackslash{}\+NOTE\+: Make sure \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{} is close to the class ! definition and there is NO ANY OTHER module-\/interface-\/header file ! included in this file 
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{classvsf__io__spi__t_a70e88b7661be8d5dacedb719868c9d16}\label{classvsf__io__spi__t_a70e88b7661be8d5dacedb719868c9d16}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!port@{port}}
+\index{port@{port}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{port}{port}}
+{\footnotesize\ttfamily vsf\+\_\+gpio\+\_\+t$\ast$ vsf\+\_\+io\+\_\+spi\+\_\+t\+::port}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_a6da5f5426995240f35fa0ffc141bb694}\label{classvsf__io__spi__t_a6da5f5426995240f35fa0ffc141bb694}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!sck\_pin@{sck\_pin}}
+\index{sck\_pin@{sck\_pin}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{sck\_pin}{sck\_pin}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vsf\+\_\+io\+\_\+spi\+\_\+t\+::sck\+\_\+pin}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_a5ada9460d2e70304381c6ad3b9e837f0}\label{classvsf__io__spi__t_a5ada9460d2e70304381c6ad3b9e837f0}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!miso\_pin@{miso\_pin}}
+\index{miso\_pin@{miso\_pin}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{miso\_pin}{miso\_pin}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} vsf\+\_\+io\+\_\+spi\+\_\+t\+::miso\+\_\+pin}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_aec56f29e17f30dea1ab763ba4f6015c1}\label{classvsf__io__spi__t_aec56f29e17f30dea1ab763ba4f6015c1}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!mosi\_pin@{mosi\_pin}}
+\index{mosi\_pin@{mosi\_pin}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{mosi\_pin}{mosi\_pin}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} vsf\+\_\+io\+\_\+spi\+\_\+t\+::mosi\+\_\+pin}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_aa2680c8e988eb16d03629ad00da0d6b9}\label{classvsf__io__spi__t_aa2680c8e988eb16d03629ad00da0d6b9}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!ss\_pin@{ss\_pin}}
+\index{ss\_pin@{ss\_pin}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{ss\_pin}{ss\_pin}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aef44329758059c91c76d334e8fc09700}{int8\+\_\+t}} vsf\+\_\+io\+\_\+spi\+\_\+t\+::ss\+\_\+pin}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_a26cbb6aa7ff809bd4fa5988fa3ef623c}\label{classvsf__io__spi__t_a26cbb6aa7ff809bd4fa5988fa3ef623c}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!io@{io}}
+\index{io@{io}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vsf\+\_\+io\+\_\+spi\+\_\+t\+::io}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_a1fd0bae7f478103f3a83e34c193b9829}\label{classvsf__io__spi__t_a1fd0bae7f478103f3a83e34c193b9829}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!handler@{handler}}
+\index{handler@{handler}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{handler}{handler}}
+{\footnotesize\ttfamily void($\ast$ vsf\+\_\+io\+\_\+spi\+\_\+t\+::handler) (\mbox{\hyperlink{classvsf__io__spi__t}{vsf\+\_\+io\+\_\+spi\+\_\+t}} $\ast$io\+\_\+spi)}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_a9d1458bf4258b3ef9e430a433174a67e}\label{classvsf__io__spi__t_a9d1458bf4258b3ef9e430a433174a67e}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!callback@{callback}}
+\index{callback@{callback}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vsf\+\_\+io\+\_\+spi\+\_\+t\+::callback}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_a74533e2b99d2be266c05667df8bd036b}\label{classvsf__io__spi__t_a74533e2b99d2be266c05667df8bd036b}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!freq\_khz@{freq\_khz}}
+\index{freq\_khz@{freq\_khz}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{freq\_khz}{freq\_khz}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} vsf\+\_\+io\+\_\+spi\+\_\+t\+::freq\+\_\+khz}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_ad3e321df749e7f26ea147705559a0c69}\label{classvsf__io__spi__t_ad3e321df749e7f26ea147705559a0c69}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!chpa@{chpa}}
+\index{chpa@{chpa}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{chpa}{chpa}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vsf\+\_\+io\+\_\+spi\+\_\+t\+::chpa}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_a98f51e5ced39520c79b4d5f9584b9161}\label{classvsf__io__spi__t_a98f51e5ced39520c79b4d5f9584b9161}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!chol@{chol}}
+\index{chol@{chol}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{chol}{chol}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vsf\+\_\+io\+\_\+spi\+\_\+t\+::chol}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_ab3c4bb7d6a1e4c4b6f15fff362c7179a}\label{classvsf__io__spi__t_ab3c4bb7d6a1e4c4b6f15fff362c7179a}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!msbf@{msbf}}
+\index{msbf@{msbf}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{msbf}{msbf}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vsf\+\_\+io\+\_\+spi\+\_\+t\+::msbf}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_adf24aa4b5224115989ffc75b1fe810d8}\label{classvsf__io__spi__t_adf24aa4b5224115989ffc75b1fe810d8}} 
+\index{vsf\_io\_spi\_t@{vsf\_io\_spi\_t}!mode@{mode}}
+\index{mode@{mode}!vsf\_io\_spi\_t@{vsf\_io\_spi\_t}}
+\doxysubsubsection{\texorpdfstring{mode}{mode}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vsf\+\_\+io\+\_\+spi\+\_\+t\+::mode}
+
+\mbox{\Hypertarget{classvsf__io__spi__t_ac7c92a4ad87aaebe6413b0144c9d67a4}\label{classvsf__io__spi__t_ac7c92a4ad87aaebe6413b0144c9d67a4}} 
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily union \{ ... \} }
+

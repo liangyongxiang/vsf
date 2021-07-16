@@ -1,0 +1,117 @@
+\hypertarget{vsf__usbh__nspro_8h}{}\doxysection{source/component/usb/host/class/\+HID/vsf\+\_\+usbh\+\_\+nspro.h File Reference}
+\label{vsf__usbh__nspro_8h}\index{source/component/usb/host/class/HID/vsf\_usbh\_nspro.h@{source/component/usb/host/class/HID/vsf\_usbh\_nspro.h}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/usb/common/class/\+HID/vsf\+\_\+usb\+\_\+nspro.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/input/vsf\+\_\+input.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classvk__usbh__nspro__t}{vk\+\_\+usbh\+\_\+nspro\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665}{vk\+\_\+usbh\+\_\+nspro\+\_\+state\+\_\+t}} \mbox{\hyperlink{vsf__usbh__nspro_8h_a2bff1983ae64bdab8a1c734db4451b9f}{vk\+\_\+usbh\+\_\+nspro\+\_\+state\+\_\+t}}
+\item 
+typedef enum \mbox{\hyperlink{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5}{vk\+\_\+usbh\+\_\+nspro\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__usbh__nspro_8h_a6787b3f23c263ad69c06fc4d7a723af7}{vk\+\_\+usbh\+\_\+nspro\+\_\+type\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665}{vk\+\_\+usbh\+\_\+nspro\+\_\+state\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665acb840cdf0a7dfd474e8e5d942190e99a}{VSF\+\_\+\+USBH\+\_\+\+NSPRO\+\_\+\+GET\+\_\+\+INFO}}
+, \newline
+\mbox{\hyperlink{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665af6c6fdb1c7f1ff2d3c2bcc5299736d69}{VSF\+\_\+\+USBH\+\_\+\+NSPRO\+\_\+\+HANDSHAKE}}
+, \newline
+\mbox{\hyperlink{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665ad53f86c8e165f65a1c3f604c25a53111}{VSF\+\_\+\+USBH\+\_\+\+NSPRO\+\_\+\+RUNNING}}
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5}{vk\+\_\+usbh\+\_\+nspro\+\_\+type\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5a7059d0ffd811a765ad2613295d1910a1}{NSPRO\+\_\+\+LEFT}} = 0x01
+, \newline
+\mbox{\hyperlink{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5a381b3ffd1dd9ac499b26d39a17bb6bbc}{NSPRO\+\_\+\+RIGHT}} = 0x02
+, \newline
+\mbox{\hyperlink{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5afcbd6f743c1c5128232c239be0ea6123}{NSPRO\+\_\+\+BOTH}} = 0x03
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{structvk__input__item__info__t}{vk\+\_\+input\+\_\+item\+\_\+info\+\_\+t}} \mbox{\hyperlink{vsf__usbh__nspro_8h_a4ae1ca16eca3d530ec8fe0bce1dba7c7}{vk\+\_\+nspro\+\_\+usb\+\_\+gamepad\+\_\+item\+\_\+info}} \mbox{[}\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6aeba830453fb983dd5d543368e8d50cdc}{GAMEPAD\+\_\+\+ID\+\_\+\+NUM}}\mbox{]}
+\item 
+const \mbox{\hyperlink{classvk__usbh__class__drv__t}{vk\+\_\+usbh\+\_\+class\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__usbh__nspro_8h_a3133a0243eec6e8019ac9a350d685881}{vk\+\_\+usbh\+\_\+nspro\+\_\+drv}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__usbh__nspro_8h_a2bff1983ae64bdab8a1c734db4451b9f}\label{vsf__usbh__nspro_8h_a2bff1983ae64bdab8a1c734db4451b9f}} 
+\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!vk\_usbh\_nspro\_state\_t@{vk\_usbh\_nspro\_state\_t}}
+\index{vk\_usbh\_nspro\_state\_t@{vk\_usbh\_nspro\_state\_t}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_nspro\_state\_t}{vk\_usbh\_nspro\_state\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665}{vk\+\_\+usbh\+\_\+nspro\+\_\+state\+\_\+t}} \mbox{\hyperlink{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665}{vk\+\_\+usbh\+\_\+nspro\+\_\+state\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__usbh__nspro_8h_a6787b3f23c263ad69c06fc4d7a723af7}\label{vsf__usbh__nspro_8h_a6787b3f23c263ad69c06fc4d7a723af7}} 
+\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!vk\_usbh\_nspro\_type\_t@{vk\_usbh\_nspro\_type\_t}}
+\index{vk\_usbh\_nspro\_type\_t@{vk\_usbh\_nspro\_type\_t}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_nspro\_type\_t}{vk\_usbh\_nspro\_type\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5}{vk\+\_\+usbh\+\_\+nspro\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5}{vk\+\_\+usbh\+\_\+nspro\+\_\+type\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665}\label{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665}} 
+\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!vk\_usbh\_nspro\_state\_t@{vk\_usbh\_nspro\_state\_t}}
+\index{vk\_usbh\_nspro\_state\_t@{vk\_usbh\_nspro\_state\_t}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_nspro\_state\_t}{vk\_usbh\_nspro\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665}{vk\+\_\+usbh\+\_\+nspro\+\_\+state\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_USBH\_NSPRO\_GET\_INFO@{VSF\_USBH\_NSPRO\_GET\_INFO}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!VSF\_USBH\_NSPRO\_GET\_INFO@{VSF\_USBH\_NSPRO\_GET\_INFO}}}\mbox{\Hypertarget{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665acb840cdf0a7dfd474e8e5d942190e99a}\label{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665acb840cdf0a7dfd474e8e5d942190e99a}} 
+VSF\+\_\+\+USBH\+\_\+\+NSPRO\+\_\+\+GET\+\_\+\+INFO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_USBH\_NSPRO\_HANDSHAKE@{VSF\_USBH\_NSPRO\_HANDSHAKE}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!VSF\_USBH\_NSPRO\_HANDSHAKE@{VSF\_USBH\_NSPRO\_HANDSHAKE}}}\mbox{\Hypertarget{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665af6c6fdb1c7f1ff2d3c2bcc5299736d69}\label{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665af6c6fdb1c7f1ff2d3c2bcc5299736d69}} 
+VSF\+\_\+\+USBH\+\_\+\+NSPRO\+\_\+\+HANDSHAKE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_USBH\_NSPRO\_RUNNING@{VSF\_USBH\_NSPRO\_RUNNING}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!VSF\_USBH\_NSPRO\_RUNNING@{VSF\_USBH\_NSPRO\_RUNNING}}}\mbox{\Hypertarget{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665ad53f86c8e165f65a1c3f604c25a53111}\label{vsf__usbh__nspro_8h_a39feb431fcdff915f191a413136bc665ad53f86c8e165f65a1c3f604c25a53111}} 
+VSF\+\_\+\+USBH\+\_\+\+NSPRO\+\_\+\+RUNNING&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5}\label{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5}} 
+\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!vk\_usbh\_nspro\_type\_t@{vk\_usbh\_nspro\_type\_t}}
+\index{vk\_usbh\_nspro\_type\_t@{vk\_usbh\_nspro\_type\_t}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_nspro\_type\_t}{vk\_usbh\_nspro\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5}{vk\+\_\+usbh\+\_\+nspro\+\_\+type\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NSPRO\_LEFT@{NSPRO\_LEFT}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!NSPRO\_LEFT@{NSPRO\_LEFT}}}\mbox{\Hypertarget{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5a7059d0ffd811a765ad2613295d1910a1}\label{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5a7059d0ffd811a765ad2613295d1910a1}} 
+NSPRO\+\_\+\+LEFT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NSPRO\_RIGHT@{NSPRO\_RIGHT}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!NSPRO\_RIGHT@{NSPRO\_RIGHT}}}\mbox{\Hypertarget{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5a381b3ffd1dd9ac499b26d39a17bb6bbc}\label{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5a381b3ffd1dd9ac499b26d39a17bb6bbc}} 
+NSPRO\+\_\+\+RIGHT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NSPRO\_BOTH@{NSPRO\_BOTH}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!NSPRO\_BOTH@{NSPRO\_BOTH}}}\mbox{\Hypertarget{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5afcbd6f743c1c5128232c239be0ea6123}\label{vsf__usbh__nspro_8h_a3ad704dd98cf59788a5cb7c45bdb94f5afcbd6f743c1c5128232c239be0ea6123}} 
+NSPRO\+\_\+\+BOTH&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__usbh__nspro_8h_a4ae1ca16eca3d530ec8fe0bce1dba7c7}\label{vsf__usbh__nspro_8h_a4ae1ca16eca3d530ec8fe0bce1dba7c7}} 
+\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!vk\_nspro\_usb\_gamepad\_item\_info@{vk\_nspro\_usb\_gamepad\_item\_info}}
+\index{vk\_nspro\_usb\_gamepad\_item\_info@{vk\_nspro\_usb\_gamepad\_item\_info}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}
+\doxysubsubsection{\texorpdfstring{vk\_nspro\_usb\_gamepad\_item\_info}{vk\_nspro\_usb\_gamepad\_item\_info}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structvk__input__item__info__t}{vk\+\_\+input\+\_\+item\+\_\+info\+\_\+t}} vk\+\_\+nspro\+\_\+usb\+\_\+gamepad\+\_\+item\+\_\+info\mbox{[}\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6aeba830453fb983dd5d543368e8d50cdc}{GAMEPAD\+\_\+\+ID\+\_\+\+NUM}}\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{vsf__usbh__nspro_8h_a3133a0243eec6e8019ac9a350d685881}\label{vsf__usbh__nspro_8h_a3133a0243eec6e8019ac9a350d685881}} 
+\index{vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}!vk\_usbh\_nspro\_drv@{vk\_usbh\_nspro\_drv}}
+\index{vk\_usbh\_nspro\_drv@{vk\_usbh\_nspro\_drv}!vsf\_usbh\_nspro.h@{vsf\_usbh\_nspro.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_nspro\_drv}{vk\_usbh\_nspro\_drv}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__usbh__class__drv__t}{vk\+\_\+usbh\+\_\+class\+\_\+drv\+\_\+t}} vk\+\_\+usbh\+\_\+nspro\+\_\+drv\hspace{0.3cm}{\ttfamily [extern]}}
+

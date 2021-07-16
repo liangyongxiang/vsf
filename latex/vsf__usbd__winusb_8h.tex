@@ -1,0 +1,403 @@
+\hypertarget{vsf__usbd__winusb_8h}{}\doxysection{source/component/usb/device/extension/winusb/vsf\+\_\+usbd\+\_\+winusb.h File Reference}
+\label{vsf__usbd__winusb_8h}\index{source/component/usb/device/extension/winusb/vsf\_usbd\_winusb.h@{source/component/usb/device/extension/winusb/vsf\_usbd\_winusb.h}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_aef559340de70d8e1232fe7f81beb10d4}{USB\+\_\+\+BOS\+\_\+\+CAP\+\_\+\+WINUSB\+\_\+\+LEN}}~            \mbox{\hyperlink{vsf__usbd__bos_8h_ae28229c188551b1c578ae34736b07cb8}{USB\+\_\+\+DESC\+\_\+\+BOS\+\_\+\+CAPABILITY\+\_\+\+LEN}}(8)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_ae279a2b21750c69ff876c8c13433ecc7}{MSOS20\+\_\+\+FEATURE\+\_\+\+WINUSB\+\_\+\+SIZE}}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a294092e7fed839d8f96a32d0cf8e7f15}{MSOS20\+\_\+\+REQ\+\_\+\+DISCRIPTOR\+\_\+\+INDEX}}~7
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a600d203030f824cce2e4204d4e59e9e5}{MSOS20\+\_\+\+REQ\+\_\+\+SET\+\_\+\+ALT\+\_\+\+ENUMERATION}}~8
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_ad36bff7b14e33e1112a96ff6be77cc4c}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+SET\+\_\+\+HEADER\+\_\+\+SIZE}}~10
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a6299dc2855bdd3a051d7b15197eb8aa4}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+SUBSET\+\_\+\+HEADER\+\_\+\+CONFIGURATION\+\_\+\+SIZE}}~8
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_ab785020257f595cb2408d39970866705}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+COMPATIBLE\+\_\+\+ID\+\_\+\+SIZE}}~20
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_aa89652714a167c04ceda9151909b1eaf}{MSOS20\+\_\+\+REG\+\_\+\+PROPERTY\+\_\+\+NAME\+\_\+\+LEN\+\_\+\+\_\+\+\_\+\+DEVICE\+\_\+\+INTERFACE\+\_\+\+GUIDS\+\_\+\+\_\+\+\_\+}}~42
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a8640fad4baa9931cc534a4bf270077a4}{MSOS20\+\_\+\+REG\+\_\+\+PROPERTY\+\_\+\+DATA\+\_\+\+LEN\+\_\+\+\_\+\+\_\+\+DEVICE\+\_\+\+INTERFACE\+\_\+\+GUIDS\+\_\+\+\_\+\+\_\+}}~80
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a1763ec7c0ae7d38043cf9c2c7d5ad15e}{MSOS20\+\_\+\+REG\+\_\+\+PROPERTY\+\_\+\+NAME\+\_\+\+\_\+\+\_\+\+DEVICE\+\_\+\+INTERFACE\+\_\+\+GUIDS\+\_\+\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_ae55221a0ea4d552c273adca4de89b030}{MSOS20\+\_\+\+REG\+\_\+\+PROPERTY\+\_\+\+TYPE\+\_\+\+REG\+\_\+\+MULTI\+\_\+\+SZ}}~7
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a6082aba24966171a5c35747ecfe57bf8}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+SET\+\_\+\+HEADER}}~0x00
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a180d9dd27977135ea791f06d15634f60}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+SUBSET\+\_\+\+HEADER\+\_\+\+CONFIGURATION}}~0x01
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a6d578b7e2a18ff60de37719b56cf3ddb}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+SUBSET\+\_\+\+HEADER\+\_\+\+FUNCTION}}~0x02
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a18804831618d809d5a881f91d3ef2b77}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+COMPATIBLE\+\_\+\+ID}}~0x03
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a688d6fe38424abe1c5dbc39afcf9ca69}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+REG\+\_\+\+PROPERTY}}~0x04
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_ac07993e8d438dc09ac146669449797b6}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+MIN\+\_\+\+RESUME\+\_\+\+TIME}}~0x05
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_aa0ea4c8ec6391b39ba2b6a1fc4ea6fe2}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+MODEL\+\_\+\+ID}}~0x06
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_ade9f257bb053decb8964e070d68f3667}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+CCGP\+\_\+\+DEVICE}}~0x07
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_ae8df0ac394130f52e7965e451959d62d}{USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+VENDOR\+\_\+\+REVISION}}~0x08
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_aafdfae8ddfb633d1094861255c1cd6bf}{USB\+\_\+\+DESC\+\_\+\+MSOS20\+\_\+\+SET\+\_\+\+HEADER}}(\+\_\+\+\_\+\+TOTAL\+\_\+\+LEN)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a3371397aa56fdb92009bee49a90fa245}{USB\+\_\+\+DESC\+\_\+\+MSOS20\+\_\+\+SUBSET\+\_\+\+FUNCTION}}(\+\_\+\+\_\+\+FIRST\+\_\+\+IFS,  \+\_\+\+\_\+\+LEN, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a4384f99493a22d49cc67ad7889e0503c}{USB\+\_\+\+DESC\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+COMPATIBLE\+\_\+\+ID}}(...)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_aa9c79b67ecb4fcba0dbedefccdeac1dc}{USB\+\_\+\+DESC\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+REG\+\_\+\+PROPERTY\+\_\+\+LEN}}(\+\_\+\+\_\+\+NAME\+\_\+\+LEN,  \+\_\+\+\_\+\+DATA\+\_\+\+LEN)~            (10 + (\+\_\+\+\_\+\+NAME\+\_\+\+LEN) + (\+\_\+\+\_\+\+DATA\+\_\+\+LEN))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a6a5dfb28b3d2dd72aafd9c3c9bcf3259}{USB\+\_\+\+DESC\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+REG\+\_\+\+PROPERTY}}(\+\_\+\+\_\+\+NAME\+\_\+\+LEN,  \+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+DATA\+\_\+\+LEN, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_ab4c4bc34fe9c3153f7cf987bfae8e9cd}{USB\+\_\+\+DESC\+\_\+\+BOS\+\_\+\+CAPABILITY\+\_\+\+MSOS20}}(\+\_\+\+\_\+len)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a61ce2e469ca9f420685f871437d208aa}{\+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+desc\+\_\+size, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_abbc932d6890c474cf157c38b45aa4c07}{usbd\+\_\+msos20\+\_\+desc}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+desc\+\_\+size, ...)~        \mbox{\hyperlink{vsf__usbd__winusb_8h_a61ce2e469ca9f420685f871437d208aa}{\+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+desc\+\_\+size, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_afad04a9b576c39b6bf16de2334bb1e3b}{\+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc\+\_\+buffer}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\+\_\+\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+msos20\+\_\+desc
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a7b0921300b5dde2e4953c4de2029aedb}{\+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc\+\_\+len}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\+\_\+\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+msos20\+\_\+desc\+\_\+len
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a67c019a4189f019e1a63f5660c2626b6}{usbd\+\_\+msos20\+\_\+desc\+\_\+buffer}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\mbox{\hyperlink{vsf__usbd__winusb_8h_afad04a9b576c39b6bf16de2334bb1e3b}{\+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc\+\_\+buffer}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a79c1a5f854a3b0810f1982c4ef56bdd1}{usbd\+\_\+msos20\+\_\+desc\+\_\+len}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\mbox{\hyperlink{vsf__usbd__winusb_8h_a7b0921300b5dde2e4953c4de2029aedb}{\+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc\+\_\+len}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a2ac8a93e4aff9a122fbf543561cbf459}{\+\_\+\+\_\+msos20\+\_\+feature\+\_\+winusb}}(\+\_\+\+\_\+first\+\_\+ifs, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_aeff02212b1c4848f4b43c881cb160dd3}{msos20\+\_\+feature\+\_\+winusb}}(\+\_\+\+\_\+first\+\_\+ifs, ...)~        \mbox{\hyperlink{vsf__usbd__winusb_8h_a2ac8a93e4aff9a122fbf543561cbf459}{\+\_\+\+\_\+msos20\+\_\+feature\+\_\+winusb}}((\+\_\+\+\_\+first\+\_\+ifs), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a3308549294426bf8ada01a3ebb6fc664}{\+\_\+\+\_\+bos\+\_\+desc\+\_\+winusb}}(\+\_\+\+\_\+vendor\+\_\+code,  \+\_\+\+\_\+alt\+\_\+enum\+\_\+code,  \+\_\+\+\_\+desc\+\_\+len)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__winusb_8h_a47a8853e8cb925070c4e2c5494f000b2}{bos\+\_\+desc\+\_\+winusb}}(\+\_\+\+\_\+vendor\+\_\+code,  \+\_\+\+\_\+alt\+\_\+enum\+\_\+code,  \+\_\+\+\_\+desc\+\_\+len)~        \mbox{\hyperlink{vsf__usbd__winusb_8h_a3308549294426bf8ada01a3ebb6fc664}{\+\_\+\+\_\+bos\+\_\+desc\+\_\+winusb}}((\+\_\+\+\_\+vendor\+\_\+code), (\+\_\+\+\_\+alt\+\_\+enum\+\_\+code), (\+\_\+\+\_\+desc\+\_\+len))
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_aef559340de70d8e1232fe7f81beb10d4}\label{vsf__usbd__winusb_8h_aef559340de70d8e1232fe7f81beb10d4}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_BOS\_CAP\_WINUSB\_LEN@{USB\_BOS\_CAP\_WINUSB\_LEN}}
+\index{USB\_BOS\_CAP\_WINUSB\_LEN@{USB\_BOS\_CAP\_WINUSB\_LEN}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_BOS\_CAP\_WINUSB\_LEN}{USB\_BOS\_CAP\_WINUSB\_LEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+BOS\+\_\+\+CAP\+\_\+\+WINUSB\+\_\+\+LEN~            \mbox{\hyperlink{vsf__usbd__bos_8h_ae28229c188551b1c578ae34736b07cb8}{USB\+\_\+\+DESC\+\_\+\+BOS\+\_\+\+CAPABILITY\+\_\+\+LEN}}(8)}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_ae279a2b21750c69ff876c8c13433ecc7}\label{vsf__usbd__winusb_8h_ae279a2b21750c69ff876c8c13433ecc7}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!MSOS20\_FEATURE\_WINUSB\_SIZE@{MSOS20\_FEATURE\_WINUSB\_SIZE}}
+\index{MSOS20\_FEATURE\_WINUSB\_SIZE@{MSOS20\_FEATURE\_WINUSB\_SIZE}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{MSOS20\_FEATURE\_WINUSB\_SIZE}{MSOS20\_FEATURE\_WINUSB\_SIZE}}
+{\footnotesize\ttfamily \#define MSOS20\+\_\+\+FEATURE\+\_\+\+WINUSB\+\_\+\+SIZE}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            (   \mbox{\hyperlink{vsf__usbd__winusb_8h_a6299dc2855bdd3a051d7b15197eb8aa4}{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION\_SIZE}} +                \(\backslash\)}
+\DoxyCodeLine{                USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID\_SIZE +                      \(\backslash\)}
+\DoxyCodeLine{                USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY\_LEN(                       \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__usbd__winusb_8h_aa89652714a167c04ceda9151909b1eaf}{MSOS20\_REG\_PROPERTY\_NAME\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}},   \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__usbd__winusb_8h_a8640fad4baa9931cc534a4bf270077a4}{MSOS20\_REG\_PROPERTY\_DATA\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}}    \(\backslash\)}
+\DoxyCodeLine{                )                                                               \(\backslash\)}
+\DoxyCodeLine{            )}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a294092e7fed839d8f96a32d0cf8e7f15}\label{vsf__usbd__winusb_8h_a294092e7fed839d8f96a32d0cf8e7f15}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!MSOS20\_REQ\_DISCRIPTOR\_INDEX@{MSOS20\_REQ\_DISCRIPTOR\_INDEX}}
+\index{MSOS20\_REQ\_DISCRIPTOR\_INDEX@{MSOS20\_REQ\_DISCRIPTOR\_INDEX}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{MSOS20\_REQ\_DISCRIPTOR\_INDEX}{MSOS20\_REQ\_DISCRIPTOR\_INDEX}}
+{\footnotesize\ttfamily \#define MSOS20\+\_\+\+REQ\+\_\+\+DISCRIPTOR\+\_\+\+INDEX~7}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a600d203030f824cce2e4204d4e59e9e5}\label{vsf__usbd__winusb_8h_a600d203030f824cce2e4204d4e59e9e5}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!MSOS20\_REQ\_SET\_ALT\_ENUMERATION@{MSOS20\_REQ\_SET\_ALT\_ENUMERATION}}
+\index{MSOS20\_REQ\_SET\_ALT\_ENUMERATION@{MSOS20\_REQ\_SET\_ALT\_ENUMERATION}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{MSOS20\_REQ\_SET\_ALT\_ENUMERATION}{MSOS20\_REQ\_SET\_ALT\_ENUMERATION}}
+{\footnotesize\ttfamily \#define MSOS20\+\_\+\+REQ\+\_\+\+SET\+\_\+\+ALT\+\_\+\+ENUMERATION~8}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_ad36bff7b14e33e1112a96ff6be77cc4c}\label{vsf__usbd__winusb_8h_ad36bff7b14e33e1112a96ff6be77cc4c}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_SET\_HEADER\_SIZE@{USB\_DT\_MSOS20\_SET\_HEADER\_SIZE}}
+\index{USB\_DT\_MSOS20\_SET\_HEADER\_SIZE@{USB\_DT\_MSOS20\_SET\_HEADER\_SIZE}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_SET\_HEADER\_SIZE}{USB\_DT\_MSOS20\_SET\_HEADER\_SIZE}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+SET\+\_\+\+HEADER\+\_\+\+SIZE~10}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a6299dc2855bdd3a051d7b15197eb8aa4}\label{vsf__usbd__winusb_8h_a6299dc2855bdd3a051d7b15197eb8aa4}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION\_SIZE@{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION\_SIZE}}
+\index{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION\_SIZE@{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION\_SIZE}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION\_SIZE}{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION\_SIZE}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+SUBSET\+\_\+\+HEADER\+\_\+\+CONFIGURATION\+\_\+\+SIZE~8}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_ab785020257f595cb2408d39970866705}\label{vsf__usbd__winusb_8h_ab785020257f595cb2408d39970866705}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID\_SIZE@{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID\_SIZE}}
+\index{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID\_SIZE@{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID\_SIZE}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID\_SIZE}{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID\_SIZE}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+COMPATIBLE\+\_\+\+ID\+\_\+\+SIZE~20}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_aa89652714a167c04ceda9151909b1eaf}\label{vsf__usbd__winusb_8h_aa89652714a167c04ceda9151909b1eaf}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!MSOS20\_REG\_PROPERTY\_NAME\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_@{MSOS20\_REG\_PROPERTY\_NAME\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}}
+\index{MSOS20\_REG\_PROPERTY\_NAME\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_@{MSOS20\_REG\_PROPERTY\_NAME\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{MSOS20\_REG\_PROPERTY\_NAME\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}{MSOS20\_REG\_PROPERTY\_NAME\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}}
+{\footnotesize\ttfamily \#define MSOS20\+\_\+\+REG\+\_\+\+PROPERTY\+\_\+\+NAME\+\_\+\+LEN\+\_\+\+\_\+\+\_\+\+DEVICE\+\_\+\+INTERFACE\+\_\+\+GUIDS\+\_\+\+\_\+\+\_\+~42}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a8640fad4baa9931cc534a4bf270077a4}\label{vsf__usbd__winusb_8h_a8640fad4baa9931cc534a4bf270077a4}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!MSOS20\_REG\_PROPERTY\_DATA\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_@{MSOS20\_REG\_PROPERTY\_DATA\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}}
+\index{MSOS20\_REG\_PROPERTY\_DATA\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_@{MSOS20\_REG\_PROPERTY\_DATA\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{MSOS20\_REG\_PROPERTY\_DATA\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}{MSOS20\_REG\_PROPERTY\_DATA\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}}
+{\footnotesize\ttfamily \#define MSOS20\+\_\+\+REG\+\_\+\+PROPERTY\+\_\+\+DATA\+\_\+\+LEN\+\_\+\+\_\+\+\_\+\+DEVICE\+\_\+\+INTERFACE\+\_\+\+GUIDS\+\_\+\+\_\+\+\_\+~80}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a1763ec7c0ae7d38043cf9c2c7d5ad15e}\label{vsf__usbd__winusb_8h_a1763ec7c0ae7d38043cf9c2c7d5ad15e}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!MSOS20\_REG\_PROPERTY\_NAME\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_@{MSOS20\_REG\_PROPERTY\_NAME\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}}
+\index{MSOS20\_REG\_PROPERTY\_NAME\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_@{MSOS20\_REG\_PROPERTY\_NAME\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{MSOS20\_REG\_PROPERTY\_NAME\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}{MSOS20\_REG\_PROPERTY\_NAME\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}}
+{\footnotesize\ttfamily \#define MSOS20\+\_\+\+REG\+\_\+\+PROPERTY\+\_\+\+NAME\+\_\+\+\_\+\+\_\+\+DEVICE\+\_\+\+INTERFACE\+\_\+\+GUIDS\+\_\+\+\_\+\+\_\+}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{charliteral}{'D'},0,\textcolor{charliteral}{'e'},0,\textcolor{charliteral}{'v'},0,\textcolor{charliteral}{'i'},0,\textcolor{charliteral}{'c'},0,\textcolor{charliteral}{'e'},0,                                \(\backslash\)}
+\DoxyCodeLine{            \textcolor{charliteral}{'I'},0,\textcolor{charliteral}{'n'},0,\textcolor{charliteral}{'t'},0,\textcolor{charliteral}{'e'},0,\textcolor{charliteral}{'r'},0,\textcolor{charliteral}{'f'},0,\textcolor{charliteral}{'a'},0,\textcolor{charliteral}{'c'},0,\textcolor{charliteral}{'e'},0,              \(\backslash\)}
+\DoxyCodeLine{            \textcolor{charliteral}{'G'},0,\textcolor{charliteral}{'U'},0,\textcolor{charliteral}{'I'},0,\textcolor{charliteral}{'D'},0,\textcolor{charliteral}{'s'},0,0,0,}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_ae55221a0ea4d552c273adca4de89b030}\label{vsf__usbd__winusb_8h_ae55221a0ea4d552c273adca4de89b030}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!MSOS20\_REG\_PROPERTY\_TYPE\_REG\_MULTI\_SZ@{MSOS20\_REG\_PROPERTY\_TYPE\_REG\_MULTI\_SZ}}
+\index{MSOS20\_REG\_PROPERTY\_TYPE\_REG\_MULTI\_SZ@{MSOS20\_REG\_PROPERTY\_TYPE\_REG\_MULTI\_SZ}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{MSOS20\_REG\_PROPERTY\_TYPE\_REG\_MULTI\_SZ}{MSOS20\_REG\_PROPERTY\_TYPE\_REG\_MULTI\_SZ}}
+{\footnotesize\ttfamily \#define MSOS20\+\_\+\+REG\+\_\+\+PROPERTY\+\_\+\+TYPE\+\_\+\+REG\+\_\+\+MULTI\+\_\+\+SZ~7}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a6082aba24966171a5c35747ecfe57bf8}\label{vsf__usbd__winusb_8h_a6082aba24966171a5c35747ecfe57bf8}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_SET\_HEADER@{USB\_DT\_MSOS20\_SET\_HEADER}}
+\index{USB\_DT\_MSOS20\_SET\_HEADER@{USB\_DT\_MSOS20\_SET\_HEADER}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_SET\_HEADER}{USB\_DT\_MSOS20\_SET\_HEADER}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+SET\+\_\+\+HEADER~0x00}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a180d9dd27977135ea791f06d15634f60}\label{vsf__usbd__winusb_8h_a180d9dd27977135ea791f06d15634f60}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION@{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION}}
+\index{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION@{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION}{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+SUBSET\+\_\+\+HEADER\+\_\+\+CONFIGURATION~0x01}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a6d578b7e2a18ff60de37719b56cf3ddb}\label{vsf__usbd__winusb_8h_a6d578b7e2a18ff60de37719b56cf3ddb}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_SUBSET\_HEADER\_FUNCTION@{USB\_DT\_MSOS20\_SUBSET\_HEADER\_FUNCTION}}
+\index{USB\_DT\_MSOS20\_SUBSET\_HEADER\_FUNCTION@{USB\_DT\_MSOS20\_SUBSET\_HEADER\_FUNCTION}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_SUBSET\_HEADER\_FUNCTION}{USB\_DT\_MSOS20\_SUBSET\_HEADER\_FUNCTION}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+SUBSET\+\_\+\+HEADER\+\_\+\+FUNCTION~0x02}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a18804831618d809d5a881f91d3ef2b77}\label{vsf__usbd__winusb_8h_a18804831618d809d5a881f91d3ef2b77}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID@{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID}}
+\index{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID@{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID}{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+COMPATIBLE\+\_\+\+ID~0x03}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a688d6fe38424abe1c5dbc39afcf9ca69}\label{vsf__usbd__winusb_8h_a688d6fe38424abe1c5dbc39afcf9ca69}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_FEATURE\_REG\_PROPERTY@{USB\_DT\_MSOS20\_FEATURE\_REG\_PROPERTY}}
+\index{USB\_DT\_MSOS20\_FEATURE\_REG\_PROPERTY@{USB\_DT\_MSOS20\_FEATURE\_REG\_PROPERTY}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_FEATURE\_REG\_PROPERTY}{USB\_DT\_MSOS20\_FEATURE\_REG\_PROPERTY}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+REG\+\_\+\+PROPERTY~0x04}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_ac07993e8d438dc09ac146669449797b6}\label{vsf__usbd__winusb_8h_ac07993e8d438dc09ac146669449797b6}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_FEATURE\_MIN\_RESUME\_TIME@{USB\_DT\_MSOS20\_FEATURE\_MIN\_RESUME\_TIME}}
+\index{USB\_DT\_MSOS20\_FEATURE\_MIN\_RESUME\_TIME@{USB\_DT\_MSOS20\_FEATURE\_MIN\_RESUME\_TIME}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_FEATURE\_MIN\_RESUME\_TIME}{USB\_DT\_MSOS20\_FEATURE\_MIN\_RESUME\_TIME}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+MIN\+\_\+\+RESUME\+\_\+\+TIME~0x05}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_aa0ea4c8ec6391b39ba2b6a1fc4ea6fe2}\label{vsf__usbd__winusb_8h_aa0ea4c8ec6391b39ba2b6a1fc4ea6fe2}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_FEATURE\_MODEL\_ID@{USB\_DT\_MSOS20\_FEATURE\_MODEL\_ID}}
+\index{USB\_DT\_MSOS20\_FEATURE\_MODEL\_ID@{USB\_DT\_MSOS20\_FEATURE\_MODEL\_ID}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_FEATURE\_MODEL\_ID}{USB\_DT\_MSOS20\_FEATURE\_MODEL\_ID}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+MODEL\+\_\+\+ID~0x06}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_ade9f257bb053decb8964e070d68f3667}\label{vsf__usbd__winusb_8h_ade9f257bb053decb8964e070d68f3667}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_FEATURE\_CCGP\_DEVICE@{USB\_DT\_MSOS20\_FEATURE\_CCGP\_DEVICE}}
+\index{USB\_DT\_MSOS20\_FEATURE\_CCGP\_DEVICE@{USB\_DT\_MSOS20\_FEATURE\_CCGP\_DEVICE}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_FEATURE\_CCGP\_DEVICE}{USB\_DT\_MSOS20\_FEATURE\_CCGP\_DEVICE}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+CCGP\+\_\+\+DEVICE~0x07}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_ae8df0ac394130f52e7965e451959d62d}\label{vsf__usbd__winusb_8h_ae8df0ac394130f52e7965e451959d62d}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DT\_MSOS20\_FEATURE\_VENDOR\_REVISION@{USB\_DT\_MSOS20\_FEATURE\_VENDOR\_REVISION}}
+\index{USB\_DT\_MSOS20\_FEATURE\_VENDOR\_REVISION@{USB\_DT\_MSOS20\_FEATURE\_VENDOR\_REVISION}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_MSOS20\_FEATURE\_VENDOR\_REVISION}{USB\_DT\_MSOS20\_FEATURE\_VENDOR\_REVISION}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+VENDOR\+\_\+\+REVISION~0x08}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_aafdfae8ddfb633d1094861255c1cd6bf}\label{vsf__usbd__winusb_8h_aafdfae8ddfb633d1094861255c1cd6bf}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DESC\_MSOS20\_SET\_HEADER@{USB\_DESC\_MSOS20\_SET\_HEADER}}
+\index{USB\_DESC\_MSOS20\_SET\_HEADER@{USB\_DESC\_MSOS20\_SET\_HEADER}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_MSOS20\_SET\_HEADER}{USB\_DESC\_MSOS20\_SET\_HEADER}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+MSOS20\+\_\+\+SET\+\_\+\+HEADER(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+TOTAL\+\_\+\+LEN }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_ae4d9539a73189ebe3e50a4adc60d4391}{USB\_DESC\_WORD}}(\mbox{\hyperlink{vsf__usbd__winusb_8h_ad36bff7b14e33e1112a96ff6be77cc4c}{USB\_DT\_MSOS20\_SET\_HEADER\_SIZE}}),                       \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\mbox{\hyperlink{vsf__usbd__winusb_8h_a6082aba24966171a5c35747ecfe57bf8}{USB\_DT\_MSOS20\_SET\_HEADER}}),                            \(\backslash\)}
+\DoxyCodeLine{            0x00, 0x00, 0x03, 0x06,         \textcolor{comment}{/* dwWindowsVersion: Win8.1+ */}     \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\_\_TOTAL\_LEN),}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a3371397aa56fdb92009bee49a90fa245}\label{vsf__usbd__winusb_8h_a3371397aa56fdb92009bee49a90fa245}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DESC\_MSOS20\_SUBSET\_FUNCTION@{USB\_DESC\_MSOS20\_SUBSET\_FUNCTION}}
+\index{USB\_DESC\_MSOS20\_SUBSET\_FUNCTION@{USB\_DESC\_MSOS20\_SUBSET\_FUNCTION}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_MSOS20\_SUBSET\_FUNCTION}{USB\_DESC\_MSOS20\_SUBSET\_FUNCTION}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+MSOS20\+\_\+\+SUBSET\+\_\+\+FUNCTION(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+FIRST\+\_\+\+IFS,  }\item[{}]{\+\_\+\+\_\+\+LEN,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_ae4d9539a73189ebe3e50a4adc60d4391}{USB\_DESC\_WORD}}(\mbox{\hyperlink{vsf__usbd__winusb_8h_a6299dc2855bdd3a051d7b15197eb8aa4}{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION\_SIZE}}),      \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\mbox{\hyperlink{vsf__usbd__winusb_8h_a6d578b7e2a18ff60de37719b56cf3ddb}{USB\_DT\_MSOS20\_SUBSET\_HEADER\_FUNCTION}}),                \(\backslash\)}
+\DoxyCodeLine{            (\_\_FIRST\_IFS),                                                      \(\backslash\)}
+\DoxyCodeLine{            0,                                                                  \(\backslash\)}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_ae4d9539a73189ebe3e50a4adc60d4391}{USB\_DESC\_WORD}}(\mbox{\hyperlink{vsf__usbd__winusb_8h_a6299dc2855bdd3a051d7b15197eb8aa4}{USB\_DT\_MSOS20\_SUBSET\_HEADER\_CONFIGURATION\_SIZE}} + (\_\_LEN)),\(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a4384f99493a22d49cc67ad7889e0503c}\label{vsf__usbd__winusb_8h_a4384f99493a22d49cc67ad7889e0503c}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DESC\_MSOS20\_FEATURE\_COMPATIBLE\_ID@{USB\_DESC\_MSOS20\_FEATURE\_COMPATIBLE\_ID}}
+\index{USB\_DESC\_MSOS20\_FEATURE\_COMPATIBLE\_ID@{USB\_DESC\_MSOS20\_FEATURE\_COMPATIBLE\_ID}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_MSOS20\_FEATURE\_COMPATIBLE\_ID}{USB\_DESC\_MSOS20\_FEATURE\_COMPATIBLE\_ID}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+COMPATIBLE\+\_\+\+ID(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_ae4d9539a73189ebe3e50a4adc60d4391}{USB\_DESC\_WORD}}(\mbox{\hyperlink{vsf__usbd__winusb_8h_ab785020257f595cb2408d39970866705}{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID\_SIZE}}),            \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\mbox{\hyperlink{vsf__usbd__winusb_8h_a18804831618d809d5a881f91d3ef2b77}{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID}}),                 \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_aa9c79b67ecb4fcba0dbedefccdeac1dc}\label{vsf__usbd__winusb_8h_aa9c79b67ecb4fcba0dbedefccdeac1dc}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY\_LEN@{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY\_LEN}}
+\index{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY\_LEN@{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY\_LEN}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY\_LEN}{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY\_LEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+REG\+\_\+\+PROPERTY\+\_\+\+LEN(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME\+\_\+\+LEN,  }\item[{}]{\+\_\+\+\_\+\+DATA\+\_\+\+LEN }\end{DoxyParamCaption})~            (10 + (\+\_\+\+\_\+\+NAME\+\_\+\+LEN) + (\+\_\+\+\_\+\+DATA\+\_\+\+LEN))}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a6a5dfb28b3d2dd72aafd9c3c9bcf3259}\label{vsf__usbd__winusb_8h_a6a5dfb28b3d2dd72aafd9c3c9bcf3259}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY@{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY}}
+\index{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY@{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY}{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+MSOS20\+\_\+\+FEATURE\+\_\+\+REG\+\_\+\+PROPERTY(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME\+\_\+\+LEN,  }\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+DATA\+\_\+\+LEN,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_ae4d9539a73189ebe3e50a4adc60d4391}{USB\_DESC\_WORD}}(\mbox{\hyperlink{vsf__usbd__winusb_8h_aa9c79b67ecb4fcba0dbedefccdeac1dc}{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY\_LEN}}((\_\_NAME\_LEN), (\_\_DATA\_LEN))),\(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\mbox{\hyperlink{vsf__usbd__winusb_8h_a688d6fe38424abe1c5dbc39afcf9ca69}{USB\_DT\_MSOS20\_FEATURE\_REG\_PROPERTY}}),                  \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\mbox{\hyperlink{vsf__usbd__winusb_8h_ae55221a0ea4d552c273adca4de89b030}{MSOS20\_REG\_PROPERTY\_TYPE\_REG\_MULTI\_SZ}}),               \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\_\_NAME\_LEN),                                          \mbox{\hyperlink{usb__desc_8h_ae4d9539a73189ebe3e50a4adc60d4391}{\(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{usb__desc_8h_ae4d9539a73189ebe3e50a4adc60d4391}{            \_\_NAME                                                              \(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{usb__desc_8h_ae4d9539a73189ebe3e50a4adc60d4391}{            USB\_DESC\_WORD}}(\_\_DATA\_LEN),                                          \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_ab4c4bc34fe9c3153f7cf987bfae8e9cd}\label{vsf__usbd__winusb_8h_ab4c4bc34fe9c3153f7cf987bfae8e9cd}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!USB\_DESC\_BOS\_CAPABILITY\_MSOS20@{USB\_DESC\_BOS\_CAPABILITY\_MSOS20}}
+\index{USB\_DESC\_BOS\_CAPABILITY\_MSOS20@{USB\_DESC\_BOS\_CAPABILITY\_MSOS20}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_BOS\_CAPABILITY\_MSOS20}{USB\_DESC\_BOS\_CAPABILITY\_MSOS20}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+BOS\+\_\+\+CAPABILITY\+\_\+\+MSOS20(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+len }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__usbd__bos_8h_a155e88314764adec857bb00b4ecd637b}{USB\_DESC\_BOS\_CAPABILITY\_HEADER}}(4 + (\_\_len), 5,                      \(\backslash\)}
+\DoxyCodeLine{                0xDF, 0x60, 0xDD, 0xD8,     \textcolor{comment}{/* uuid */}                          \(\backslash\)}
+\DoxyCodeLine{                0x89, 0x45, 0xC7, 0x4C,                                         \(\backslash\)}
+\DoxyCodeLine{                0x9C, 0xD2, 0x65, 0x9D,                                         \(\backslash\)}
+\DoxyCodeLine{                0x9E, 0x64, 0x8A, 0x9F,                                         \(\backslash\)}
+\DoxyCodeLine{            )                                                                   \(\backslash\)}
+\DoxyCodeLine{            0x00, 0x00, 0x03, 0x06,         \textcolor{comment}{/* dwWindowsVersion: Win8.1+ */}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a61ce2e469ca9f420685f871437d208aa}\label{vsf__usbd__winusb_8h_a61ce2e469ca9f420685f871437d208aa}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!\_\_usbd\_msos20\_desc@{\_\_usbd\_msos20\_desc}}
+\index{\_\_usbd\_msos20\_desc@{\_\_usbd\_msos20\_desc}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{\_\_usbd\_msos20\_desc}{\_\_usbd\_msos20\_desc}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+desc\+\_\+size,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keyword}{enum} \{                                                                  \(\backslash\)}
+\DoxyCodeLine{            \_\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_msos20\_desc\_len = \mbox{\hyperlink{vsf__usbd__winusb_8h_ad36bff7b14e33e1112a96ff6be77cc4c}{USB\_DT\_MSOS20\_SET\_HEADER\_SIZE}} + (\_\_desc\_size),\(\backslash\)}
+\DoxyCodeLine{        \};                                                                      \(\backslash\)}
+\DoxyCodeLine{        const \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \_\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_msos20\_desc[\_\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_msos20\_desc\_len] = \{\(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_MSOS20\_SET\_HEADER(\_\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_msos20\_desc\_len)            \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_                                                         \(\backslash\)}
+\DoxyCodeLine{        \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_abbc932d6890c474cf157c38b45aa4c07}\label{vsf__usbd__winusb_8h_abbc932d6890c474cf157c38b45aa4c07}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!usbd\_msos20\_desc@{usbd\_msos20\_desc}}
+\index{usbd\_msos20\_desc@{usbd\_msos20\_desc}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{usbd\_msos20\_desc}{usbd\_msos20\_desc}}
+{\footnotesize\ttfamily \#define usbd\+\_\+msos20\+\_\+desc(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+desc\+\_\+size,  }\item[{}]{... }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__usbd__winusb_8h_a61ce2e469ca9f420685f871437d208aa}{\+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+desc\+\_\+size, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_afad04a9b576c39b6bf16de2334bb1e3b}\label{vsf__usbd__winusb_8h_afad04a9b576c39b6bf16de2334bb1e3b}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!\_\_usbd\_msos20\_desc\_buffer@{\_\_usbd\_msos20\_desc\_buffer}}
+\index{\_\_usbd\_msos20\_desc\_buffer@{\_\_usbd\_msos20\_desc\_buffer}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{\_\_usbd\_msos20\_desc\_buffer}{\_\_usbd\_msos20\_desc\_buffer}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc\+\_\+buffer(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\+\_\+\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+msos20\+\_\+desc}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a7b0921300b5dde2e4953c4de2029aedb}\label{vsf__usbd__winusb_8h_a7b0921300b5dde2e4953c4de2029aedb}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!\_\_usbd\_msos20\_desc\_len@{\_\_usbd\_msos20\_desc\_len}}
+\index{\_\_usbd\_msos20\_desc\_len@{\_\_usbd\_msos20\_desc\_len}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{\_\_usbd\_msos20\_desc\_len}{\_\_usbd\_msos20\_desc\_len}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc\+\_\+len(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\+\_\+\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+msos20\+\_\+desc\+\_\+len}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a67c019a4189f019e1a63f5660c2626b6}\label{vsf__usbd__winusb_8h_a67c019a4189f019e1a63f5660c2626b6}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!usbd\_msos20\_desc\_buffer@{usbd\_msos20\_desc\_buffer}}
+\index{usbd\_msos20\_desc\_buffer@{usbd\_msos20\_desc\_buffer}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{usbd\_msos20\_desc\_buffer}{usbd\_msos20\_desc\_buffer}}
+{\footnotesize\ttfamily \#define usbd\+\_\+msos20\+\_\+desc\+\_\+buffer(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__usbd__winusb_8h_afad04a9b576c39b6bf16de2334bb1e3b}{\+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc\+\_\+buffer}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a79c1a5f854a3b0810f1982c4ef56bdd1}\label{vsf__usbd__winusb_8h_a79c1a5f854a3b0810f1982c4ef56bdd1}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!usbd\_msos20\_desc\_len@{usbd\_msos20\_desc\_len}}
+\index{usbd\_msos20\_desc\_len@{usbd\_msos20\_desc\_len}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{usbd\_msos20\_desc\_len}{usbd\_msos20\_desc\_len}}
+{\footnotesize\ttfamily \#define usbd\+\_\+msos20\+\_\+desc\+\_\+len(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__usbd__winusb_8h_a7b0921300b5dde2e4953c4de2029aedb}{\+\_\+\+\_\+usbd\+\_\+msos20\+\_\+desc\+\_\+len}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a2ac8a93e4aff9a122fbf543561cbf459}\label{vsf__usbd__winusb_8h_a2ac8a93e4aff9a122fbf543561cbf459}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!\_\_msos20\_feature\_winusb@{\_\_msos20\_feature\_winusb}}
+\index{\_\_msos20\_feature\_winusb@{\_\_msos20\_feature\_winusb}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{\_\_msos20\_feature\_winusb}{\_\_msos20\_feature\_winusb}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+msos20\+\_\+feature\+\_\+winusb(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+first\+\_\+ifs,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__usbd__winusb_8h_a3371397aa56fdb92009bee49a90fa245}{USB\_DESC\_MSOS20\_SUBSET\_FUNCTION}}(\_\_first\_ifs,                        \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__usbd__winusb_8h_ab785020257f595cb2408d39970866705}{USB\_DT\_MSOS20\_FEATURE\_COMPATIBLE\_ID\_SIZE}} +                      \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__usbd__winusb_8h_aa9c79b67ecb4fcba0dbedefccdeac1dc}{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY\_LEN}}(                   \(\backslash\)}
+\DoxyCodeLine{                        \mbox{\hyperlink{vsf__usbd__winusb_8h_aa89652714a167c04ceda9151909b1eaf}{MSOS20\_REG\_PROPERTY\_NAME\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}},\(\backslash\)}
+\DoxyCodeLine{                        \mbox{\hyperlink{vsf__usbd__winusb_8h_a8640fad4baa9931cc534a4bf270077a4}{MSOS20\_REG\_PROPERTY\_DATA\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}}\(\backslash\)}
+\DoxyCodeLine{                    ),                                                          \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__usbd__winusb_8h_a4384f99493a22d49cc67ad7889e0503c}{USB\_DESC\_MSOS20\_FEATURE\_COMPATIBLE\_ID}}(                          \(\backslash\)}
+\DoxyCodeLine{                    \textcolor{charliteral}{'W'}, \textcolor{charliteral}{'I'}, \textcolor{charliteral}{'N'}, \textcolor{charliteral}{'U'}, \textcolor{charliteral}{'S'}, \textcolor{charliteral}{'B'}, 0, 0,                         \(\backslash\)}
+\DoxyCodeLine{                    0, 0, 0, 0, 0, 0, 0, 0,                                     \(\backslash\)}
+\DoxyCodeLine{                )                                                               \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__usbd__winusb_8h_a6a5dfb28b3d2dd72aafd9c3c9bcf3259}{USB\_DESC\_MSOS20\_FEATURE\_REG\_PROPERTY}}(                           \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__usbd__winusb_8h_aa89652714a167c04ceda9151909b1eaf}{MSOS20\_REG\_PROPERTY\_NAME\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}},   \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__usbd__winusb_8h_a1763ec7c0ae7d38043cf9c2c7d5ad15e}{MSOS20\_REG\_PROPERTY\_NAME\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}},       \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__usbd__winusb_8h_a8640fad4baa9931cc534a4bf270077a4}{MSOS20\_REG\_PROPERTY\_DATA\_LEN\_\_\_DEVICE\_INTERFACE\_GUIDS\_\_\_}},   \(\backslash\)}
+\DoxyCodeLine{                    \_\_VA\_ARGS\_\_                                                 \(\backslash\)}
+\DoxyCodeLine{                )                                                               \(\backslash\)}
+\DoxyCodeLine{                0,0,0,0,                                                        \(\backslash\)}
+\DoxyCodeLine{            )}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_aeff02212b1c4848f4b43c881cb160dd3}\label{vsf__usbd__winusb_8h_aeff02212b1c4848f4b43c881cb160dd3}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!msos20\_feature\_winusb@{msos20\_feature\_winusb}}
+\index{msos20\_feature\_winusb@{msos20\_feature\_winusb}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{msos20\_feature\_winusb}{msos20\_feature\_winusb}}
+{\footnotesize\ttfamily \#define msos20\+\_\+feature\+\_\+winusb(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+first\+\_\+ifs,  }\item[{}]{... }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__usbd__winusb_8h_a2ac8a93e4aff9a122fbf543561cbf459}{\+\_\+\+\_\+msos20\+\_\+feature\+\_\+winusb}}((\+\_\+\+\_\+first\+\_\+ifs), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a3308549294426bf8ada01a3ebb6fc664}\label{vsf__usbd__winusb_8h_a3308549294426bf8ada01a3ebb6fc664}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!\_\_bos\_desc\_winusb@{\_\_bos\_desc\_winusb}}
+\index{\_\_bos\_desc\_winusb@{\_\_bos\_desc\_winusb}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{\_\_bos\_desc\_winusb}{\_\_bos\_desc\_winusb}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+bos\+\_\+desc\+\_\+winusb(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+vendor\+\_\+code,  }\item[{}]{\+\_\+\+\_\+alt\+\_\+enum\+\_\+code,  }\item[{}]{\+\_\+\+\_\+desc\+\_\+len }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__usbd__winusb_8h_ab4c4bc34fe9c3153f7cf987bfae8e9cd}{USB\_DESC\_BOS\_CAPABILITY\_MSOS20}}(4)                                   \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\_\_desc\_len),      \textcolor{comment}{/* wMSOSDescriptorSetTotalLength */} \(\backslash\)}
+\DoxyCodeLine{            (\_\_vendor\_code),                \textcolor{comment}{/* bMS\_VendorCode */}                \(\backslash\)}
+\DoxyCodeLine{            (\_\_alt\_enum\_code),              \textcolor{comment}{/* bAltEnumCode */}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__winusb_8h_a47a8853e8cb925070c4e2c5494f000b2}\label{vsf__usbd__winusb_8h_a47a8853e8cb925070c4e2c5494f000b2}} 
+\index{vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}!bos\_desc\_winusb@{bos\_desc\_winusb}}
+\index{bos\_desc\_winusb@{bos\_desc\_winusb}!vsf\_usbd\_winusb.h@{vsf\_usbd\_winusb.h}}
+\doxysubsubsection{\texorpdfstring{bos\_desc\_winusb}{bos\_desc\_winusb}}
+{\footnotesize\ttfamily \#define bos\+\_\+desc\+\_\+winusb(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+vendor\+\_\+code,  }\item[{}]{\+\_\+\+\_\+alt\+\_\+enum\+\_\+code,  }\item[{}]{\+\_\+\+\_\+desc\+\_\+len }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__usbd__winusb_8h_a3308549294426bf8ada01a3ebb6fc664}{\+\_\+\+\_\+bos\+\_\+desc\+\_\+winusb}}((\+\_\+\+\_\+vendor\+\_\+code), (\+\_\+\+\_\+alt\+\_\+enum\+\_\+code), (\+\_\+\+\_\+desc\+\_\+len))}
+

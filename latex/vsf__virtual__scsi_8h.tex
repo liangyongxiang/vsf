@@ -1,0 +1,107 @@
+\hypertarget{vsf__virtual__scsi_8h}{}\doxysection{source/component/scsi/driver/virtual\+\_\+scsi/vsf\+\_\+virtual\+\_\+scsi.h File Reference}
+\label{vsf__virtual__scsi_8h}\index{source/component/scsi/driver/virtual\_scsi/vsf\_virtual\_scsi.h@{source/component/scsi/driver/virtual\_scsi/vsf\_virtual\_scsi.h}}
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+scsi\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classvk__virtual__scsi__drv__t}{vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__virtual__scsi__param__t}{vk\+\_\+virtual\+\_\+scsi\+\_\+param\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvk__virtual__scsi__t}{vk\+\_\+virtual\+\_\+scsi\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1}{vsf\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__virtual__scsi_8h_aa2c63005c9503284a26d1b7053265667}{vsf\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+type\+\_\+t}}
+\item 
+typedef enum \mbox{\hyperlink{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60c}{scsi\+\_\+pdt\+\_\+t}} \mbox{\hyperlink{vsf__virtual__scsi_8h_a37e196feffbf8e5fe14b206729de99bb}{scsi\+\_\+pdt\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__virtual__scsi__param__t}{vk\+\_\+virtual\+\_\+scsi\+\_\+param\+\_\+t}} \mbox{\hyperlink{vsf__virtual__scsi_8h_a71275711a923f265b5a601b5ed01fd7b}{vk\+\_\+virtual\+\_\+scsi\+\_\+param\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1}{vsf\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+type\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1a9bf54743512efe3a63ba51a8d4933fbc}{VSF\+\_\+\+VIRTUAL\+\_\+\+SCSI\+\_\+\+DRV\+\_\+\+NORMAL}}
+, \newline
+\mbox{\hyperlink{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1a9f10a25a6dc6c78f497f15cd330e3ed2}{VSF\+\_\+\+VIRTUAL\+\_\+\+SCSI\+\_\+\+DRV\+\_\+\+PARAM\+\_\+\+SUBCALL}}
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60c}{scsi\+\_\+pdt\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60ca9c62167c1024dcae39f15720f2492e97}{SCSI\+\_\+\+PDT\+\_\+\+DIRECT\+\_\+\+ACCESS\+\_\+\+BLOCK}} = 0x00
+, \newline
+\mbox{\hyperlink{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60ca7ca4a9742f3eb8e8a5b8684779228ecc}{SCSI\+\_\+\+PDT\+\_\+\+CD\+\_\+\+DVD}} = 0x05
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvk__scsi__drv__t}{vk\+\_\+scsi\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__virtual__scsi_8h_a8c20a979c3674994472c46befcbe9232}{vk\+\_\+virtual\+\_\+scsi\+\_\+drv}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__virtual__scsi_8h_aa2c63005c9503284a26d1b7053265667}\label{vsf__virtual__scsi_8h_aa2c63005c9503284a26d1b7053265667}} 
+\index{vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}!vsf\_virtual\_scsi\_drv\_type\_t@{vsf\_virtual\_scsi\_drv\_type\_t}}
+\index{vsf\_virtual\_scsi\_drv\_type\_t@{vsf\_virtual\_scsi\_drv\_type\_t}!vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_virtual\_scsi\_drv\_type\_t}{vsf\_virtual\_scsi\_drv\_type\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1}{vsf\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1}{vsf\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+type\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__virtual__scsi_8h_a37e196feffbf8e5fe14b206729de99bb}\label{vsf__virtual__scsi_8h_a37e196feffbf8e5fe14b206729de99bb}} 
+\index{vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}!scsi\_pdt\_t@{scsi\_pdt\_t}}
+\index{scsi\_pdt\_t@{scsi\_pdt\_t}!vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{scsi\_pdt\_t}{scsi\_pdt\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60c}{scsi\+\_\+pdt\+\_\+t}} \mbox{\hyperlink{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60c}{scsi\+\_\+pdt\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__virtual__scsi_8h_a71275711a923f265b5a601b5ed01fd7b}\label{vsf__virtual__scsi_8h_a71275711a923f265b5a601b5ed01fd7b}} 
+\index{vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}!vk\_virtual\_scsi\_param\_t@{vk\_virtual\_scsi\_param\_t}}
+\index{vk\_virtual\_scsi\_param\_t@{vk\_virtual\_scsi\_param\_t}!vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{vk\_virtual\_scsi\_param\_t}{vk\_virtual\_scsi\_param\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__virtual__scsi__param__t}{vk\+\_\+virtual\+\_\+scsi\+\_\+param\+\_\+t}} \mbox{\hyperlink{structvk__virtual__scsi__param__t}{vk\+\_\+virtual\+\_\+scsi\+\_\+param\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1}\label{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1}} 
+\index{vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}!vsf\_virtual\_scsi\_drv\_type\_t@{vsf\_virtual\_scsi\_drv\_type\_t}}
+\index{vsf\_virtual\_scsi\_drv\_type\_t@{vsf\_virtual\_scsi\_drv\_type\_t}!vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_virtual\_scsi\_drv\_type\_t}{vsf\_virtual\_scsi\_drv\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1}{vsf\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+type\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_VIRTUAL\_SCSI\_DRV\_NORMAL@{VSF\_VIRTUAL\_SCSI\_DRV\_NORMAL}!vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}}\index{vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}!VSF\_VIRTUAL\_SCSI\_DRV\_NORMAL@{VSF\_VIRTUAL\_SCSI\_DRV\_NORMAL}}}\mbox{\Hypertarget{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1a9bf54743512efe3a63ba51a8d4933fbc}\label{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1a9bf54743512efe3a63ba51a8d4933fbc}} 
+VSF\+\_\+\+VIRTUAL\+\_\+\+SCSI\+\_\+\+DRV\+\_\+\+NORMAL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_VIRTUAL\_SCSI\_DRV\_PARAM\_SUBCALL@{VSF\_VIRTUAL\_SCSI\_DRV\_PARAM\_SUBCALL}!vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}}\index{vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}!VSF\_VIRTUAL\_SCSI\_DRV\_PARAM\_SUBCALL@{VSF\_VIRTUAL\_SCSI\_DRV\_PARAM\_SUBCALL}}}\mbox{\Hypertarget{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1a9f10a25a6dc6c78f497f15cd330e3ed2}\label{vsf__virtual__scsi_8h_a68d16f17e1304b19c70e53a2508354e1a9f10a25a6dc6c78f497f15cd330e3ed2}} 
+VSF\+\_\+\+VIRTUAL\+\_\+\+SCSI\+\_\+\+DRV\+\_\+\+PARAM\+\_\+\+SUBCALL&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60c}\label{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60c}} 
+\index{vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}!scsi\_pdt\_t@{scsi\_pdt\_t}}
+\index{scsi\_pdt\_t@{scsi\_pdt\_t}!vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{scsi\_pdt\_t}{scsi\_pdt\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60c}{scsi\+\_\+pdt\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_PDT\_DIRECT\_ACCESS\_BLOCK@{SCSI\_PDT\_DIRECT\_ACCESS\_BLOCK}!vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}}\index{vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}!SCSI\_PDT\_DIRECT\_ACCESS\_BLOCK@{SCSI\_PDT\_DIRECT\_ACCESS\_BLOCK}}}\mbox{\Hypertarget{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60ca9c62167c1024dcae39f15720f2492e97}\label{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60ca9c62167c1024dcae39f15720f2492e97}} 
+SCSI\+\_\+\+PDT\+\_\+\+DIRECT\+\_\+\+ACCESS\+\_\+\+BLOCK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_PDT\_CD\_DVD@{SCSI\_PDT\_CD\_DVD}!vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}}\index{vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}!SCSI\_PDT\_CD\_DVD@{SCSI\_PDT\_CD\_DVD}}}\mbox{\Hypertarget{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60ca7ca4a9742f3eb8e8a5b8684779228ecc}\label{vsf__virtual__scsi_8h_a3caa13ceb16775cd5303ac5d1923d60ca7ca4a9742f3eb8e8a5b8684779228ecc}} 
+SCSI\+\_\+\+PDT\+\_\+\+CD\+\_\+\+DVD&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__virtual__scsi_8h_a8c20a979c3674994472c46befcbe9232}\label{vsf__virtual__scsi_8h_a8c20a979c3674994472c46befcbe9232}} 
+\index{vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}!vk\_virtual\_scsi\_drv@{vk\_virtual\_scsi\_drv}}
+\index{vk\_virtual\_scsi\_drv@{vk\_virtual\_scsi\_drv}!vsf\_virtual\_scsi.h@{vsf\_virtual\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{vk\_virtual\_scsi\_drv}{vk\_virtual\_scsi\_drv}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__scsi__drv__t}{vk\+\_\+scsi\+\_\+drv\+\_\+t}} vk\+\_\+virtual\+\_\+scsi\+\_\+drv\hspace{0.3cm}{\ttfamily [extern]}}
+

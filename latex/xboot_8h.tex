@@ -1,0 +1,287 @@
+\hypertarget{xboot_8h}{}\doxysection{source/shell/sys/xboot/include/xboot.h File Reference}
+\label{xboot_8h}\index{source/shell/sys/xboot/include/xboot.h@{source/shell/sys/xboot/include/xboot.h}}
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$types.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$spinlock.\+h$>$}\newline
+{\ttfamily \#include $<$shash.\+h$>$}\newline
+{\ttfamily \#include $<$xfs/xfs.\+h$>$}\newline
+{\ttfamily \#include $<$xboot/ktime.\+h$>$}\newline
+{\ttfamily \#include $<$xui/xui.\+h$>$}\newline
+{\ttfamily \#include $<$xui/window.\+h$>$}\newline
+{\ttfamily \#include $<$xui/popup.\+h$>$}\newline
+{\ttfamily \#include $<$xui/panel.\+h$>$}\newline
+{\ttfamily \#include $<$xui/button.\+h$>$}\newline
+{\ttfamily \#include $<$xui/checkbox.\+h$>$}\newline
+{\ttfamily \#include $<$xui/radio.\+h$>$}\newline
+{\ttfamily \#include $<$xui/toggle.\+h$>$}\newline
+{\ttfamily \#include $<$xui/badge.\+h$>$}\newline
+{\ttfamily \#include $<$xui/progress.\+h$>$}\newline
+{\ttfamily \#include $<$xui/split.\+h$>$}\newline
+{\ttfamily \#include $<$xui/label.\+h$>$}\newline
+{\ttfamily \#include $<$xui/text.\+h$>$}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structscheduler__t}{scheduler\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structtask__t}{task\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{xboot_8h_a796047b418dea3d1cab0692daeb9c5f5}{clamp}}(v,  a,  b)~\mbox{\hyperlink{____type_8h_aca5d4f5ea58689f79289ab622ac5b080}{min}}(\mbox{\hyperlink{____type_8h_ae42bec3c4d0b81a63743e838ea600373}{max}}(a, v), b)
+\item 
+\#define \mbox{\hyperlink{xboot_8h_a1be991509df34528238678a3917f8d9e}{idiv255}}(x)~((((int)(x) + 1) $\ast$ 257) $>$$>$ 16)
+\item 
+\#define \mbox{\hyperlink{xboot_8h_a9bf5d952c5c93c70f9e66c9794d406c9}{M\+\_\+E}}~2.\+7182818284590452354   /$\ast$ e $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_ac5c747ee5bcbe892875672a0b9d8171c}{M\+\_\+\+LOG2E}}~1.\+4426950408889634074   /$\ast$ log\+\_\+2 e $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_a9ed2b5582226f3896424ff6d2a3ebb14}{M\+\_\+\+LOG10E}}~0.\+43429448190325182765  /$\ast$ log\+\_\+10 e $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_a92428112a5d24721208748774a4f23e6}{M\+\_\+\+LN2}}~0.\+69314718055994530942  /$\ast$ log\+\_\+e 2 $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_a0a53871497a155afe91424c28a8ec3c4}{M\+\_\+\+LN10}}~2.\+30258509299404568402  /$\ast$ log\+\_\+e 10 $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_ae71449b1cc6e6250b91f539153a7a0d3}{M\+\_\+\+PI}}~3.\+14159265358979323846  /$\ast$ pi $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_a958e4508ed28ee5cc04249144312c15f}{M\+\_\+\+PI\+\_\+2}}~1.\+57079632679489661923  /$\ast$ pi/2 $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_aeb24420b096a677f3a2dc5a72b36bf22}{M\+\_\+\+PI\+\_\+4}}~0.\+78539816339744830962  /$\ast$ pi/4 $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_a08dfac3cca9601a02fc88356cc078e1d}{M\+\_\+1\+\_\+\+PI}}~0.\+31830988618379067154  /$\ast$ 1/pi $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_a97f6d6514d3d3dd50c3a2a6d622673db}{M\+\_\+2\+\_\+\+PI}}~0.\+63661977236758134308  /$\ast$ 2/pi $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_a631ff334c4a1a6db2e8a7ff4acbe48a5}{M\+\_\+2\+\_\+\+SQRTPI}}~1.\+12837916709551257390  /$\ast$ 2/sqrt(pi) $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_a66b3ab30f1332874326ed93969e496e0}{M\+\_\+\+SQRT2}}~1.\+41421356237309504880  /$\ast$ sqrt(2) $\ast$/
+\item 
+\#define \mbox{\hyperlink{xboot_8h_acdbb2c2f9429f08916f03c8786d2d2d7}{M\+\_\+\+SQRT1\+\_\+2}}~0.\+70710678118654752440  /$\ast$ 1/sqrt(2) $\ast$/
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void($\ast$ \mbox{\hyperlink{xboot_8h_a4f3cbeb9dfbdf5df8dbe7e522683ba4c}{task\+\_\+func\+\_\+t}}) (struct \mbox{\hyperlink{structtask__t}{task\+\_\+t}} $\ast$task, void $\ast$data)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} \mbox{\hyperlink{xboot_8h_acee9691164f481ba669f8656b1a47e49}{strlcpy}} (char $\ast$dest, const char $\ast$src, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+char $\ast$ \mbox{\hyperlink{xboot_8h_a93c766c6e86f4f79e7507c21f1794e15}{strsep}} (char $\ast$$\ast$stringp, const char $\ast$delim)
+\item 
+struct \mbox{\hyperlink{structtask__t}{task\+\_\+t}} $\ast$ \mbox{\hyperlink{xboot_8h_a98ad9c4c9b6fc3ab72297068aab368ea}{task\+\_\+create}} (struct \mbox{\hyperlink{structscheduler__t}{scheduler\+\_\+t}} $\ast$sched, const char $\ast$name, \mbox{\hyperlink{xboot_8h_a4f3cbeb9dfbdf5df8dbe7e522683ba4c}{task\+\_\+func\+\_\+t}} func, void $\ast$data, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} stksz, int nice)
+\item 
+void \mbox{\hyperlink{xboot_8h_afb380cfe3e7e94a855590b680a13106c}{task\+\_\+destroy}} (struct \mbox{\hyperlink{structtask__t}{task\+\_\+t}} $\ast$task)
+\item 
+void \mbox{\hyperlink{xboot_8h_ad2ca1323fa0d4504376c26fece640f30}{task\+\_\+suspend}} (struct \mbox{\hyperlink{structtask__t}{task\+\_\+t}} $\ast$task)
+\item 
+void \mbox{\hyperlink{xboot_8h_aa793bd1021bffd14bd7e522dd36f912c}{task\+\_\+resume}} (struct \mbox{\hyperlink{structtask__t}{task\+\_\+t}} $\ast$task)
+\item 
+void \mbox{\hyperlink{xboot_8h_ae92fe09f7ab93ec88821515714fb0926}{task\+\_\+yield}} (void)
+\item 
+int \mbox{\hyperlink{xboot_8h_af8b9148745669cd0b3fa092dedc9545f}{vfs\+\_\+open}} (const char $\ast$pathname, int flags,...)
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_af83497edef361523a95b06deda0b4c2d}{off\+\_\+t}} \mbox{\hyperlink{xboot_8h_ac734703b5dd4785768fd6af394f97925}{vfs\+\_\+lseek}} (int fd, \mbox{\hyperlink{linux_2include_2sys_2types_8h_af83497edef361523a95b06deda0b4c2d}{off\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_a612bb2807d848cca89ea1437cceea886}{offset}}, int whence)
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} \mbox{\hyperlink{xboot_8h_a122998c7fb01085eefed5a58090c9a47}{vfs\+\_\+read}} (int fd, void $\ast$buf, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} count)
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} \mbox{\hyperlink{xboot_8h_a47e9ccd870f6da3eb77478eebce4b984}{vfs\+\_\+write}} (int fd, void $\ast$buf, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} count)
+\item 
+int \mbox{\hyperlink{xboot_8h_a60d1dba40888b0dadfbb4f0a30e1cb89}{vfs\+\_\+close}} (int fd)
+\item 
+void \mbox{\hyperlink{xboot_8h_a11139f65fc5facee4ea4cef21128ff2b}{vsf\+\_\+xboot\+\_\+bind}} (\mbox{\hyperlink{classvk__disp__t}{vk\+\_\+disp\+\_\+t}} $\ast$disp)
+\item 
+ktime\+\_\+t \mbox{\hyperlink{xboot_8h_afa07468a720b815b0f781972c4188912}{ktime\+\_\+get}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{xboot_8h_a796047b418dea3d1cab0692daeb9c5f5}\label{xboot_8h_a796047b418dea3d1cab0692daeb9c5f5}} 
+\index{xboot.h@{xboot.h}!clamp@{clamp}}
+\index{clamp@{clamp}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{clamp}{clamp}}
+{\footnotesize\ttfamily \#define clamp(\begin{DoxyParamCaption}\item[{}]{v,  }\item[{}]{a,  }\item[{}]{b }\end{DoxyParamCaption})~\mbox{\hyperlink{____type_8h_aca5d4f5ea58689f79289ab622ac5b080}{min}}(\mbox{\hyperlink{____type_8h_ae42bec3c4d0b81a63743e838ea600373}{max}}(a, v), b)}
+
+\mbox{\Hypertarget{xboot_8h_a1be991509df34528238678a3917f8d9e}\label{xboot_8h_a1be991509df34528238678a3917f8d9e}} 
+\index{xboot.h@{xboot.h}!idiv255@{idiv255}}
+\index{idiv255@{idiv255}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{idiv255}{idiv255}}
+{\footnotesize\ttfamily \#define idiv255(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~((((int)(x) + 1) $\ast$ 257) $>$$>$ 16)}
+
+\mbox{\Hypertarget{xboot_8h_a9bf5d952c5c93c70f9e66c9794d406c9}\label{xboot_8h_a9bf5d952c5c93c70f9e66c9794d406c9}} 
+\index{xboot.h@{xboot.h}!M\_E@{M\_E}}
+\index{M\_E@{M\_E}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_E}{M\_E}}
+{\footnotesize\ttfamily \#define M\+\_\+E~2.\+7182818284590452354   /$\ast$ e $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_ac5c747ee5bcbe892875672a0b9d8171c}\label{xboot_8h_ac5c747ee5bcbe892875672a0b9d8171c}} 
+\index{xboot.h@{xboot.h}!M\_LOG2E@{M\_LOG2E}}
+\index{M\_LOG2E@{M\_LOG2E}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_LOG2E}{M\_LOG2E}}
+{\footnotesize\ttfamily \#define M\+\_\+\+LOG2E~1.\+4426950408889634074   /$\ast$ log\+\_\+2 e $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_a9ed2b5582226f3896424ff6d2a3ebb14}\label{xboot_8h_a9ed2b5582226f3896424ff6d2a3ebb14}} 
+\index{xboot.h@{xboot.h}!M\_LOG10E@{M\_LOG10E}}
+\index{M\_LOG10E@{M\_LOG10E}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_LOG10E}{M\_LOG10E}}
+{\footnotesize\ttfamily \#define M\+\_\+\+LOG10E~0.\+43429448190325182765  /$\ast$ log\+\_\+10 e $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_a92428112a5d24721208748774a4f23e6}\label{xboot_8h_a92428112a5d24721208748774a4f23e6}} 
+\index{xboot.h@{xboot.h}!M\_LN2@{M\_LN2}}
+\index{M\_LN2@{M\_LN2}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_LN2}{M\_LN2}}
+{\footnotesize\ttfamily \#define M\+\_\+\+LN2~0.\+69314718055994530942  /$\ast$ log\+\_\+e 2 $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_a0a53871497a155afe91424c28a8ec3c4}\label{xboot_8h_a0a53871497a155afe91424c28a8ec3c4}} 
+\index{xboot.h@{xboot.h}!M\_LN10@{M\_LN10}}
+\index{M\_LN10@{M\_LN10}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_LN10}{M\_LN10}}
+{\footnotesize\ttfamily \#define M\+\_\+\+LN10~2.\+30258509299404568402  /$\ast$ log\+\_\+e 10 $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_ae71449b1cc6e6250b91f539153a7a0d3}\label{xboot_8h_ae71449b1cc6e6250b91f539153a7a0d3}} 
+\index{xboot.h@{xboot.h}!M\_PI@{M\_PI}}
+\index{M\_PI@{M\_PI}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_PI}{M\_PI}}
+{\footnotesize\ttfamily \#define M\+\_\+\+PI~3.\+14159265358979323846  /$\ast$ pi $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_a958e4508ed28ee5cc04249144312c15f}\label{xboot_8h_a958e4508ed28ee5cc04249144312c15f}} 
+\index{xboot.h@{xboot.h}!M\_PI\_2@{M\_PI\_2}}
+\index{M\_PI\_2@{M\_PI\_2}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_PI\_2}{M\_PI\_2}}
+{\footnotesize\ttfamily \#define M\+\_\+\+PI\+\_\+2~1.\+57079632679489661923  /$\ast$ pi/2 $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_aeb24420b096a677f3a2dc5a72b36bf22}\label{xboot_8h_aeb24420b096a677f3a2dc5a72b36bf22}} 
+\index{xboot.h@{xboot.h}!M\_PI\_4@{M\_PI\_4}}
+\index{M\_PI\_4@{M\_PI\_4}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_PI\_4}{M\_PI\_4}}
+{\footnotesize\ttfamily \#define M\+\_\+\+PI\+\_\+4~0.\+78539816339744830962  /$\ast$ pi/4 $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_a08dfac3cca9601a02fc88356cc078e1d}\label{xboot_8h_a08dfac3cca9601a02fc88356cc078e1d}} 
+\index{xboot.h@{xboot.h}!M\_1\_PI@{M\_1\_PI}}
+\index{M\_1\_PI@{M\_1\_PI}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_1\_PI}{M\_1\_PI}}
+{\footnotesize\ttfamily \#define M\+\_\+1\+\_\+\+PI~0.\+31830988618379067154  /$\ast$ 1/pi $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_a97f6d6514d3d3dd50c3a2a6d622673db}\label{xboot_8h_a97f6d6514d3d3dd50c3a2a6d622673db}} 
+\index{xboot.h@{xboot.h}!M\_2\_PI@{M\_2\_PI}}
+\index{M\_2\_PI@{M\_2\_PI}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_2\_PI}{M\_2\_PI}}
+{\footnotesize\ttfamily \#define M\+\_\+2\+\_\+\+PI~0.\+63661977236758134308  /$\ast$ 2/pi $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_a631ff334c4a1a6db2e8a7ff4acbe48a5}\label{xboot_8h_a631ff334c4a1a6db2e8a7ff4acbe48a5}} 
+\index{xboot.h@{xboot.h}!M\_2\_SQRTPI@{M\_2\_SQRTPI}}
+\index{M\_2\_SQRTPI@{M\_2\_SQRTPI}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_2\_SQRTPI}{M\_2\_SQRTPI}}
+{\footnotesize\ttfamily \#define M\+\_\+2\+\_\+\+SQRTPI~1.\+12837916709551257390  /$\ast$ 2/sqrt(pi) $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_a66b3ab30f1332874326ed93969e496e0}\label{xboot_8h_a66b3ab30f1332874326ed93969e496e0}} 
+\index{xboot.h@{xboot.h}!M\_SQRT2@{M\_SQRT2}}
+\index{M\_SQRT2@{M\_SQRT2}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_SQRT2}{M\_SQRT2}}
+{\footnotesize\ttfamily \#define M\+\_\+\+SQRT2~1.\+41421356237309504880  /$\ast$ sqrt(2) $\ast$/}
+
+\mbox{\Hypertarget{xboot_8h_acdbb2c2f9429f08916f03c8786d2d2d7}\label{xboot_8h_acdbb2c2f9429f08916f03c8786d2d2d7}} 
+\index{xboot.h@{xboot.h}!M\_SQRT1\_2@{M\_SQRT1\_2}}
+\index{M\_SQRT1\_2@{M\_SQRT1\_2}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{M\_SQRT1\_2}{M\_SQRT1\_2}}
+{\footnotesize\ttfamily \#define M\+\_\+\+SQRT1\+\_\+2~0.\+70710678118654752440  /$\ast$ 1/sqrt(2) $\ast$/}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{xboot_8h_a4f3cbeb9dfbdf5df8dbe7e522683ba4c}\label{xboot_8h_a4f3cbeb9dfbdf5df8dbe7e522683ba4c}} 
+\index{xboot.h@{xboot.h}!task\_func\_t@{task\_func\_t}}
+\index{task\_func\_t@{task\_func\_t}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{task\_func\_t}{task\_func\_t}}
+{\footnotesize\ttfamily typedef void($\ast$ task\+\_\+func\+\_\+t) (struct \mbox{\hyperlink{structtask__t}{task\+\_\+t}} $\ast$task, void $\ast$data)}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{xboot_8h_acee9691164f481ba669f8656b1a47e49}\label{xboot_8h_acee9691164f481ba669f8656b1a47e49}} 
+\index{xboot.h@{xboot.h}!strlcpy@{strlcpy}}
+\index{strlcpy@{strlcpy}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{strlcpy()}{strlcpy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} strlcpy (\begin{DoxyParamCaption}\item[{char $\ast$}]{dest,  }\item[{const char $\ast$}]{src,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_a93c766c6e86f4f79e7507c21f1794e15}\label{xboot_8h_a93c766c6e86f4f79e7507c21f1794e15}} 
+\index{xboot.h@{xboot.h}!strsep@{strsep}}
+\index{strsep@{strsep}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{strsep()}{strsep()}}
+{\footnotesize\ttfamily char$\ast$ strsep (\begin{DoxyParamCaption}\item[{char $\ast$$\ast$}]{stringp,  }\item[{const char $\ast$}]{delim }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_a98ad9c4c9b6fc3ab72297068aab368ea}\label{xboot_8h_a98ad9c4c9b6fc3ab72297068aab368ea}} 
+\index{xboot.h@{xboot.h}!task\_create@{task\_create}}
+\index{task\_create@{task\_create}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{task\_create()}{task\_create()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structtask__t}{task\+\_\+t}}$\ast$ task\+\_\+create (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structscheduler__t}{scheduler\+\_\+t}} $\ast$}]{sched,  }\item[{const char $\ast$}]{name,  }\item[{\mbox{\hyperlink{xboot_8h_a4f3cbeb9dfbdf5df8dbe7e522683ba4c}{task\+\_\+func\+\_\+t}}}]{func,  }\item[{void $\ast$}]{data,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{stksz,  }\item[{int}]{nice }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_afb380cfe3e7e94a855590b680a13106c}\label{xboot_8h_afb380cfe3e7e94a855590b680a13106c}} 
+\index{xboot.h@{xboot.h}!task\_destroy@{task\_destroy}}
+\index{task\_destroy@{task\_destroy}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{task\_destroy()}{task\_destroy()}}
+{\footnotesize\ttfamily void task\+\_\+destroy (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structtask__t}{task\+\_\+t}} $\ast$}]{task }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_ad2ca1323fa0d4504376c26fece640f30}\label{xboot_8h_ad2ca1323fa0d4504376c26fece640f30}} 
+\index{xboot.h@{xboot.h}!task\_suspend@{task\_suspend}}
+\index{task\_suspend@{task\_suspend}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{task\_suspend()}{task\_suspend()}}
+{\footnotesize\ttfamily void task\+\_\+suspend (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structtask__t}{task\+\_\+t}} $\ast$}]{task }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_aa793bd1021bffd14bd7e522dd36f912c}\label{xboot_8h_aa793bd1021bffd14bd7e522dd36f912c}} 
+\index{xboot.h@{xboot.h}!task\_resume@{task\_resume}}
+\index{task\_resume@{task\_resume}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{task\_resume()}{task\_resume()}}
+{\footnotesize\ttfamily void task\+\_\+resume (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structtask__t}{task\+\_\+t}} $\ast$}]{task }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_ae92fe09f7ab93ec88821515714fb0926}\label{xboot_8h_ae92fe09f7ab93ec88821515714fb0926}} 
+\index{xboot.h@{xboot.h}!task\_yield@{task\_yield}}
+\index{task\_yield@{task\_yield}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{task\_yield()}{task\_yield()}}
+{\footnotesize\ttfamily void task\+\_\+yield (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_af8b9148745669cd0b3fa092dedc9545f}\label{xboot_8h_af8b9148745669cd0b3fa092dedc9545f}} 
+\index{xboot.h@{xboot.h}!vfs\_open@{vfs\_open}}
+\index{vfs\_open@{vfs\_open}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{vfs\_open()}{vfs\_open()}}
+{\footnotesize\ttfamily int vfs\+\_\+open (\begin{DoxyParamCaption}\item[{const char $\ast$}]{pathname,  }\item[{int}]{flags,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_ac734703b5dd4785768fd6af394f97925}\label{xboot_8h_ac734703b5dd4785768fd6af394f97925}} 
+\index{xboot.h@{xboot.h}!vfs\_lseek@{vfs\_lseek}}
+\index{vfs\_lseek@{vfs\_lseek}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{vfs\_lseek()}{vfs\_lseek()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_af83497edef361523a95b06deda0b4c2d}{off\+\_\+t}} vfs\+\_\+lseek (\begin{DoxyParamCaption}\item[{int}]{fd,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_af83497edef361523a95b06deda0b4c2d}{off\+\_\+t}}}]{offset,  }\item[{int}]{whence }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_a122998c7fb01085eefed5a58090c9a47}\label{xboot_8h_a122998c7fb01085eefed5a58090c9a47}} 
+\index{xboot.h@{xboot.h}!vfs\_read@{vfs\_read}}
+\index{vfs\_read@{vfs\_read}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{vfs\_read()}{vfs\_read()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} vfs\+\_\+read (\begin{DoxyParamCaption}\item[{int}]{fd,  }\item[{void $\ast$}]{buf,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{count }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_a47e9ccd870f6da3eb77478eebce4b984}\label{xboot_8h_a47e9ccd870f6da3eb77478eebce4b984}} 
+\index{xboot.h@{xboot.h}!vfs\_write@{vfs\_write}}
+\index{vfs\_write@{vfs\_write}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{vfs\_write()}{vfs\_write()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}} vfs\+\_\+write (\begin{DoxyParamCaption}\item[{int}]{fd,  }\item[{void $\ast$}]{buf,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{count }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_a60d1dba40888b0dadfbb4f0a30e1cb89}\label{xboot_8h_a60d1dba40888b0dadfbb4f0a30e1cb89}} 
+\index{xboot.h@{xboot.h}!vfs\_close@{vfs\_close}}
+\index{vfs\_close@{vfs\_close}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{vfs\_close()}{vfs\_close()}}
+{\footnotesize\ttfamily int vfs\+\_\+close (\begin{DoxyParamCaption}\item[{int}]{fd }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_a11139f65fc5facee4ea4cef21128ff2b}\label{xboot_8h_a11139f65fc5facee4ea4cef21128ff2b}} 
+\index{xboot.h@{xboot.h}!vsf\_xboot\_bind@{vsf\_xboot\_bind}}
+\index{vsf\_xboot\_bind@{vsf\_xboot\_bind}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_xboot\_bind()}{vsf\_xboot\_bind()}}
+{\footnotesize\ttfamily void vsf\+\_\+xboot\+\_\+bind (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__disp__t}{vk\+\_\+disp\+\_\+t}} $\ast$}]{disp }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{xboot_8h_afa07468a720b815b0f781972c4188912}\label{xboot_8h_afa07468a720b815b0f781972c4188912}} 
+\index{xboot.h@{xboot.h}!ktime\_get@{ktime\_get}}
+\index{ktime\_get@{ktime\_get}!xboot.h@{xboot.h}}
+\doxysubsubsection{\texorpdfstring{ktime\_get()}{ktime\_get()}}
+{\footnotesize\ttfamily ktime\+\_\+t ktime\+\_\+get (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+

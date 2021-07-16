@@ -1,0 +1,116 @@
+\hypertarget{vsf__disp__sdl2_8c}{}\doxysection{source/component/ui/disp/driver/sdl2/vsf\+\_\+disp\+\_\+sdl2.c File Reference}
+\label{vsf__disp__sdl2_8c}\index{source/component/ui/disp/driver/sdl2/vsf\_disp\_sdl2.c@{source/component/ui/disp/driver/sdl2/vsf\_disp\_sdl2.c}}
+{\ttfamily \#include \char`\"{}component/ui/vsf\+\_\+ui\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+disp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+disp\+\_\+sdl2.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/input/vsf\+\_\+input.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}SDL.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvsf__disp__sdl2__t}{vsf\+\_\+disp\+\_\+sdl2\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__sdl2_8c_af99b8578fffc21cf409b8a2b4de350f5}{\+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__sdl2_8c_a6927ba01fbd07f1356fade15fd763fb3}{\+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+SDL2\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__sdl2_8c_ad19577bb4f476e5fdfd02edab9f57550}{VSF\+\_\+\+DISP\+\_\+\+SDL2\+\_\+\+CFG\+\_\+\+HW\+\_\+\+PRIORITY}}~vsf\+\_\+arch\+\_\+prio\+\_\+0
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__disp__sdl2__t}{vsf\+\_\+disp\+\_\+sdl2\+\_\+t}} \mbox{\hyperlink{vsf__disp__sdl2_8c_a376d582eedf2162f88e3c5d82e0e5e5a}{vsf\+\_\+disp\+\_\+sdl2\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__disp__sdl2_8c_a6702cb9d9477f64233140b10f476c7b0}{vsf\+\_\+input\+\_\+on\+\_\+mouse}} (\mbox{\hyperlink{structvk__mouse__evt__t}{vk\+\_\+mouse\+\_\+evt\+\_\+t}} $\ast$mouse\+\_\+evt)
+\item 
+void \mbox{\hyperlink{vsf__disp__sdl2_8c_a70b45c0ff20e841bdd0511b27ef1124a}{vsf\+\_\+input\+\_\+on\+\_\+touchscreen}} (\mbox{\hyperlink{structvk__touchscreen__evt__t}{vk\+\_\+touchscreen\+\_\+evt\+\_\+t}} $\ast$ts\+\_\+evt)
+\item 
+void \mbox{\hyperlink{vsf__disp__sdl2_8c_aa573d867b7a53b9a9d0f7cc3893a11f9}{vsf\+\_\+input\+\_\+on\+\_\+gamepad}} (\mbox{\hyperlink{structvk__gamepad__evt__t}{vk\+\_\+gamepad\+\_\+evt\+\_\+t}} $\ast$gamepad\+\_\+evt)
+\item 
+void \mbox{\hyperlink{vsf__disp__sdl2_8c_a80a7d038328b94a2cc8a6bbcff178114}{vsf\+\_\+input\+\_\+on\+\_\+keyboard}} (\mbox{\hyperlink{structvk__keyboard__evt__t}{vk\+\_\+keyboard\+\_\+evt\+\_\+t}} $\ast$keyboard\+\_\+evt)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__disp__sdl2_8c_a4e48096e5661eedf1bbdc98a5abc9c3f}{vk\+\_\+disp\+\_\+drv\+\_\+sdl2}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__disp__sdl2_8c_af99b8578fffc21cf409b8a2b4de350f5}\label{vsf__disp__sdl2_8c_af99b8578fffc21cf409b8a2b4de350f5}} 
+\index{vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}!\_\_VSF\_DISP\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}!vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__disp__sdl2_8c_a6927ba01fbd07f1356fade15fd763fb3}\label{vsf__disp__sdl2_8c_a6927ba01fbd07f1356fade15fd763fb3}} 
+\index{vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}!\_\_VSF\_DISP\_SDL2\_CLASS\_IMPLEMENT@{\_\_VSF\_DISP\_SDL2\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_DISP\_SDL2\_CLASS\_IMPLEMENT@{\_\_VSF\_DISP\_SDL2\_CLASS\_IMPLEMENT}!vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISP\_SDL2\_CLASS\_IMPLEMENT}{\_\_VSF\_DISP\_SDL2\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+SDL2\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__disp__sdl2_8c_ad19577bb4f476e5fdfd02edab9f57550}\label{vsf__disp__sdl2_8c_ad19577bb4f476e5fdfd02edab9f57550}} 
+\index{vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}!VSF\_DISP\_SDL2\_CFG\_HW\_PRIORITY@{VSF\_DISP\_SDL2\_CFG\_HW\_PRIORITY}}
+\index{VSF\_DISP\_SDL2\_CFG\_HW\_PRIORITY@{VSF\_DISP\_SDL2\_CFG\_HW\_PRIORITY}!vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}}
+\doxysubsubsection{\texorpdfstring{VSF\_DISP\_SDL2\_CFG\_HW\_PRIORITY}{VSF\_DISP\_SDL2\_CFG\_HW\_PRIORITY}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+DISP\+\_\+\+SDL2\+\_\+\+CFG\+\_\+\+HW\+\_\+\+PRIORITY~vsf\+\_\+arch\+\_\+prio\+\_\+0}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__disp__sdl2_8c_a376d582eedf2162f88e3c5d82e0e5e5a}\label{vsf__disp__sdl2_8c_a376d582eedf2162f88e3c5d82e0e5e5a}} 
+\index{vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}!vsf\_disp\_sdl2\_t@{vsf\_disp\_sdl2\_t}}
+\index{vsf\_disp\_sdl2\_t@{vsf\_disp\_sdl2\_t}!vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_disp\_sdl2\_t}{vsf\_disp\_sdl2\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__disp__sdl2__t}{vsf\+\_\+disp\+\_\+sdl2\+\_\+t}} \mbox{\hyperlink{structvsf__disp__sdl2__t}{vsf\+\_\+disp\+\_\+sdl2\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__disp__sdl2_8c_a6702cb9d9477f64233140b10f476c7b0}\label{vsf__disp__sdl2_8c_a6702cb9d9477f64233140b10f476c7b0}} 
+\index{vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}!vsf\_input\_on\_mouse@{vsf\_input\_on\_mouse}}
+\index{vsf\_input\_on\_mouse@{vsf\_input\_on\_mouse}!vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_on\_mouse()}{vsf\_input\_on\_mouse()}}
+{\footnotesize\ttfamily void vsf\+\_\+input\+\_\+on\+\_\+mouse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__mouse__evt__t}{vk\+\_\+mouse\+\_\+evt\+\_\+t}} $\ast$}]{mouse\+\_\+evt }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__disp__sdl2_8c_a70b45c0ff20e841bdd0511b27ef1124a}\label{vsf__disp__sdl2_8c_a70b45c0ff20e841bdd0511b27ef1124a}} 
+\index{vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}!vsf\_input\_on\_touchscreen@{vsf\_input\_on\_touchscreen}}
+\index{vsf\_input\_on\_touchscreen@{vsf\_input\_on\_touchscreen}!vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_on\_touchscreen()}{vsf\_input\_on\_touchscreen()}}
+{\footnotesize\ttfamily void vsf\+\_\+input\+\_\+on\+\_\+touchscreen (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__touchscreen__evt__t}{vk\+\_\+touchscreen\+\_\+evt\+\_\+t}} $\ast$}]{ts\+\_\+evt }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__disp__sdl2_8c_aa573d867b7a53b9a9d0f7cc3893a11f9}\label{vsf__disp__sdl2_8c_aa573d867b7a53b9a9d0f7cc3893a11f9}} 
+\index{vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}!vsf\_input\_on\_gamepad@{vsf\_input\_on\_gamepad}}
+\index{vsf\_input\_on\_gamepad@{vsf\_input\_on\_gamepad}!vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_on\_gamepad()}{vsf\_input\_on\_gamepad()}}
+{\footnotesize\ttfamily void vsf\+\_\+input\+\_\+on\+\_\+gamepad (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__gamepad__evt__t}{vk\+\_\+gamepad\+\_\+evt\+\_\+t}} $\ast$}]{gamepad\+\_\+evt }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__disp__sdl2_8c_a80a7d038328b94a2cc8a6bbcff178114}\label{vsf__disp__sdl2_8c_a80a7d038328b94a2cc8a6bbcff178114}} 
+\index{vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}!vsf\_input\_on\_keyboard@{vsf\_input\_on\_keyboard}}
+\index{vsf\_input\_on\_keyboard@{vsf\_input\_on\_keyboard}!vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_input\_on\_keyboard()}{vsf\_input\_on\_keyboard()}}
+{\footnotesize\ttfamily void vsf\+\_\+input\+\_\+on\+\_\+keyboard (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__keyboard__evt__t}{vk\+\_\+keyboard\+\_\+evt\+\_\+t}} $\ast$}]{keyboard\+\_\+evt }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__disp__sdl2_8c_a4e48096e5661eedf1bbdc98a5abc9c3f}\label{vsf__disp__sdl2_8c_a4e48096e5661eedf1bbdc98a5abc9c3f}} 
+\index{vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}!vk\_disp\_drv\_sdl2@{vk\_disp\_drv\_sdl2}}
+\index{vk\_disp\_drv\_sdl2@{vk\_disp\_drv\_sdl2}!vsf\_disp\_sdl2.c@{vsf\_disp\_sdl2.c}}
+\doxysubsubsection{\texorpdfstring{vk\_disp\_drv\_sdl2}{vk\_disp\_drv\_sdl2}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} vk\+\_\+disp\+\_\+drv\+\_\+sdl2}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    .init       = \_\_vk\_disp\_sdl2\_init,}
+\DoxyCodeLine{    .refresh    = \_\_vk\_disp\_sdl2\_refresh,}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

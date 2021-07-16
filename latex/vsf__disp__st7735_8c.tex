@@ -1,0 +1,85 @@
+\hypertarget{vsf__disp__st7735_8c}{}\doxysection{source/component/ui/disp/driver/sitronix/st7735/vsf\+\_\+disp\+\_\+st7735.c File Reference}
+\label{vsf__disp__st7735_8c}\index{source/component/ui/disp/driver/sitronix/st7735/vsf\_disp\_st7735.c@{source/component/ui/disp/driver/sitronix/st7735/vsf\_disp\_st7735.c}}
+{\ttfamily \#include \char`\"{}component/ui/vsf\+\_\+ui\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+disp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+disp\+\_\+st7735.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__st7735_8c_ae68af52b29d55a0d7474c656fd71d931}{\+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__st7735_8c_af99b8578fffc21cf409b8a2b4de350f5}{\+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__st7735_8c_af47d6fe21459e673e41a487bfb42a213}{\+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+SITRONIX\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__st7735_8c_abe54660c252a1cb283f0ae3cf225c9eb}{\+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+ST7735\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{vsf__disp__st7735_8c_a8628933cde20921c453a6d2607bdad62a90039d7260262f128331e96d176368bd}{VSF\+\_\+\+EVT\+\_\+\+REFRESH}} = VSF\+\_\+\+EVT\+\_\+\+USER
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__disp__st7735_8c_a7dc69dfc11b151ee222cc8d3d4fbf1c2}{vk\+\_\+disp\+\_\+drv\+\_\+st7735}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__disp__st7735_8c_ae68af52b29d55a0d7474c656fd71d931}\label{vsf__disp__st7735_8c_ae68af52b29d55a0d7474c656fd71d931}} 
+\index{vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}!\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}!vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__disp__st7735_8c_af99b8578fffc21cf409b8a2b4de350f5}\label{vsf__disp__st7735_8c_af99b8578fffc21cf409b8a2b4de350f5}} 
+\index{vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}!\_\_VSF\_DISP\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}!vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__disp__st7735_8c_af47d6fe21459e673e41a487bfb42a213}\label{vsf__disp__st7735_8c_af47d6fe21459e673e41a487bfb42a213}} 
+\index{vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}!\_\_VSF\_DISP\_SITRONIX\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_SITRONIX\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_DISP\_SITRONIX\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_SITRONIX\_CLASS\_INHERIT\_\_}!vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISP\_SITRONIX\_CLASS\_INHERIT\_\_}{\_\_VSF\_DISP\_SITRONIX\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+SITRONIX\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__disp__st7735_8c_abe54660c252a1cb283f0ae3cf225c9eb}\label{vsf__disp__st7735_8c_abe54660c252a1cb283f0ae3cf225c9eb}} 
+\index{vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}!\_\_VSF\_DISP\_ST7735\_CLASS\_IMPLEMENT@{\_\_VSF\_DISP\_ST7735\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_DISP\_ST7735\_CLASS\_IMPLEMENT@{\_\_VSF\_DISP\_ST7735\_CLASS\_IMPLEMENT}!vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISP\_ST7735\_CLASS\_IMPLEMENT}{\_\_VSF\_DISP\_ST7735\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+ST7735\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__disp__st7735_8c_a8628933cde20921c453a6d2607bdad62}\label{vsf__disp__st7735_8c_a8628933cde20921c453a6d2607bdad62}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_EVT\_REFRESH@{VSF\_EVT\_REFRESH}!vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}}\index{vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}!VSF\_EVT\_REFRESH@{VSF\_EVT\_REFRESH}}}\mbox{\Hypertarget{vsf__disp__st7735_8c_a8628933cde20921c453a6d2607bdad62a90039d7260262f128331e96d176368bd}\label{vsf__disp__st7735_8c_a8628933cde20921c453a6d2607bdad62a90039d7260262f128331e96d176368bd}} 
+VSF\+\_\+\+EVT\+\_\+\+REFRESH&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__disp__st7735_8c_a7dc69dfc11b151ee222cc8d3d4fbf1c2}\label{vsf__disp__st7735_8c_a7dc69dfc11b151ee222cc8d3d4fbf1c2}} 
+\index{vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}!vk\_disp\_drv\_st7735@{vk\_disp\_drv\_st7735}}
+\index{vk\_disp\_drv\_st7735@{vk\_disp\_drv\_st7735}!vsf\_disp\_st7735.c@{vsf\_disp\_st7735.c}}
+\doxysubsubsection{\texorpdfstring{vk\_disp\_drv\_st7735}{vk\_disp\_drv\_st7735}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} vk\+\_\+disp\+\_\+drv\+\_\+st7735}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    .init           = \_\_vk\_disp\_st7735\_init,}
+\DoxyCodeLine{    .refresh        = \_\_vk\_disp\_st7735\_refresh,}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

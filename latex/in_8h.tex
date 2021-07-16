@@ -1,0 +1,221 @@
+\hypertarget{in_8h}{}\doxysection{source/shell/sys/linux/include/netinet/in.h File Reference}
+\label{in_8h}\index{source/shell/sys/linux/include/netinet/in.h@{source/shell/sys/linux/include/netinet/in.h}}
+{\ttfamily \#include \char`\"{}shell/sys/linux/vsf\+\_\+linux\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../sys/types.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../sys/socket.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../arpa/inet.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structin__addr}{in\+\_\+addr}}
+\item 
+struct \mbox{\hyperlink{structsockaddr__in}{sockaddr\+\_\+in}}
+\item 
+struct \mbox{\hyperlink{structin6__addr}{in6\+\_\+addr}}
+\item 
+struct \mbox{\hyperlink{structsockaddr__in6}{sockaddr\+\_\+in6}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{in_8h_a5d1940045dc2e7de552f3d4ff13a74ab}{INADDR\+\_\+\+ANY}}~(\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}})0x00000000
+\item 
+\#define \mbox{\hyperlink{in_8h_a3d2472d6cf31b73eeb829110dd0fffea}{INADDR\+\_\+\+NONE}}~(\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}})0x\+FFFFFFFF
+\item 
+\#define \mbox{\hyperlink{in_8h_a4a725f61ded23ce8a7dff8e82ed51986}{INADDR\+\_\+\+BROADCAST}}~(\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}})0x\+FFFFFFFF
+\item 
+\#define \mbox{\hyperlink{in_8h_a1e47e367a806b409613e165212c3e019}{IN\+\_\+\+CLASSA}}(a)~((((long int) (a)) \& 0x80000000) == 0)
+\item 
+\#define \mbox{\hyperlink{in_8h_a615c805e78c867afb51fa883d6b8301c}{IN\+\_\+\+CLASSA\+\_\+\+NET}}~0xff000000
+\item 
+\#define \mbox{\hyperlink{in_8h_a7517815cda63a519a06841d67ee2326b}{IN\+\_\+\+CLASSA\+\_\+\+NSHIFT}}~24
+\item 
+\#define \mbox{\hyperlink{in_8h_a211ecfc0b171c80b7cb7aadc81f6f4bc}{IN\+\_\+\+CLASSA\+\_\+\+HOST}}~(0xffffffff \& $\sim$\mbox{\hyperlink{in_8h_a615c805e78c867afb51fa883d6b8301c}{IN\+\_\+\+CLASSA\+\_\+\+NET}})
+\item 
+\#define \mbox{\hyperlink{in_8h_a2b2f20dceae36aa9fd14bae05cdaf2fc}{IN\+\_\+\+CLASSA\+\_\+\+MAX}}~128
+\item 
+\#define \mbox{\hyperlink{in_8h_aae62bce7dd5dfdaf9cbdd602a11575dd}{IN\+\_\+\+CLASSB}}(a)~((((long int) (a)) \& 0xc0000000) == 0x80000000)
+\item 
+\#define \mbox{\hyperlink{in_8h_af54b89d40773f4ee7067f7ae294959fe}{IN\+\_\+\+CLASSB\+\_\+\+NET}}~0xffff0000
+\item 
+\#define \mbox{\hyperlink{in_8h_a20ccbb620e8382e6806931c88bd83105}{IN\+\_\+\+CLASSB\+\_\+\+NSHIFT}}~16
+\item 
+\#define \mbox{\hyperlink{in_8h_a95f8fdfa0a54362c3e9371f98b98f05a}{IN\+\_\+\+CLASSB\+\_\+\+HOST}}~(0xffffffff \& $\sim$\mbox{\hyperlink{in_8h_af54b89d40773f4ee7067f7ae294959fe}{IN\+\_\+\+CLASSB\+\_\+\+NET}})
+\item 
+\#define \mbox{\hyperlink{in_8h_ae51e84d158fa4b02e60179b4b77aaf45}{IN\+\_\+\+CLASSB\+\_\+\+MAX}}~65536
+\item 
+\#define \mbox{\hyperlink{in_8h_a164f0d455b18705a7abd085d3807b286}{IN\+\_\+\+CLASSC}}(a)~((((long int) (a)) \& 0xe0000000) == 0xc0000000)
+\item 
+\#define \mbox{\hyperlink{in_8h_a912fdaf0cebcbc2210348ec94a006d53}{IN\+\_\+\+CLASSC\+\_\+\+NET}}~0xffffff00
+\item 
+\#define \mbox{\hyperlink{in_8h_a4ec512a20fd799440b84734dd672c34b}{IN\+\_\+\+CLASSC\+\_\+\+NSHIFT}}~8
+\item 
+\#define \mbox{\hyperlink{in_8h_a847a8a659ae0d3a4f600486b8c32cb3e}{IN\+\_\+\+CLASSC\+\_\+\+HOST}}~(0xffffffff \& $\sim$\mbox{\hyperlink{in_8h_a912fdaf0cebcbc2210348ec94a006d53}{IN\+\_\+\+CLASSC\+\_\+\+NET}})
+\item 
+\#define \mbox{\hyperlink{in_8h_ae8b55c9d4c7955c96ec94dfbdccb5bf2}{IN\+\_\+\+CLASSD}}(a)~((((long int) (a)) \& 0xf0000000) == 0xe0000000)
+\item 
+\#define \mbox{\hyperlink{in_8h_abcddcc195249a64bb13b5fc8b438548d}{IN\+\_\+\+MULTICAST}}(a)~\mbox{\hyperlink{in_8h_ae8b55c9d4c7955c96ec94dfbdccb5bf2}{IN\+\_\+\+CLASSD}}(a)
+\item 
+\#define \mbox{\hyperlink{in_8h_a2076f68d6fb105089f1657b257060735}{IN\+\_\+\+MULTICAST\+\_\+\+NET}}~0xe0000000
+\item 
+\#define \mbox{\hyperlink{in_8h_a7af38dcb3ebcb68441b387ce1bdba363}{SIN\+\_\+\+ZERO\+\_\+\+LEN}}~8
+\item 
+\#define \mbox{\hyperlink{in_8h_a1de876a356ee05a2e9427b741f99f49c}{IN6\+ADDR\+\_\+\+ANY\+\_\+\+INIT}}~\{ 0 \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{in_8h_a979d51fa99f7145221b3ed1afff5b827}{in\+\_\+port\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{in_8h_a98b38134a62f24554da0ffcabde8062c}{in\+\_\+addr\+\_\+t}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{in_8h_a5d1940045dc2e7de552f3d4ff13a74ab}\label{in_8h_a5d1940045dc2e7de552f3d4ff13a74ab}} 
+\index{in.h@{in.h}!INADDR\_ANY@{INADDR\_ANY}}
+\index{INADDR\_ANY@{INADDR\_ANY}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{INADDR\_ANY}{INADDR\_ANY}}
+{\footnotesize\ttfamily \#define INADDR\+\_\+\+ANY~(\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}})0x00000000}
+
+\mbox{\Hypertarget{in_8h_a3d2472d6cf31b73eeb829110dd0fffea}\label{in_8h_a3d2472d6cf31b73eeb829110dd0fffea}} 
+\index{in.h@{in.h}!INADDR\_NONE@{INADDR\_NONE}}
+\index{INADDR\_NONE@{INADDR\_NONE}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{INADDR\_NONE}{INADDR\_NONE}}
+{\footnotesize\ttfamily \#define INADDR\+\_\+\+NONE~(\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}})0x\+FFFFFFFF}
+
+\mbox{\Hypertarget{in_8h_a4a725f61ded23ce8a7dff8e82ed51986}\label{in_8h_a4a725f61ded23ce8a7dff8e82ed51986}} 
+\index{in.h@{in.h}!INADDR\_BROADCAST@{INADDR\_BROADCAST}}
+\index{INADDR\_BROADCAST@{INADDR\_BROADCAST}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{INADDR\_BROADCAST}{INADDR\_BROADCAST}}
+{\footnotesize\ttfamily \#define INADDR\+\_\+\+BROADCAST~(\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}})0x\+FFFFFFFF}
+
+\mbox{\Hypertarget{in_8h_a1e47e367a806b409613e165212c3e019}\label{in_8h_a1e47e367a806b409613e165212c3e019}} 
+\index{in.h@{in.h}!IN\_CLASSA@{IN\_CLASSA}}
+\index{IN\_CLASSA@{IN\_CLASSA}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSA}{IN\_CLASSA}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSA(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})~((((long int) (a)) \& 0x80000000) == 0)}
+
+\mbox{\Hypertarget{in_8h_a615c805e78c867afb51fa883d6b8301c}\label{in_8h_a615c805e78c867afb51fa883d6b8301c}} 
+\index{in.h@{in.h}!IN\_CLASSA\_NET@{IN\_CLASSA\_NET}}
+\index{IN\_CLASSA\_NET@{IN\_CLASSA\_NET}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSA\_NET}{IN\_CLASSA\_NET}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSA\+\_\+\+NET~0xff000000}
+
+\mbox{\Hypertarget{in_8h_a7517815cda63a519a06841d67ee2326b}\label{in_8h_a7517815cda63a519a06841d67ee2326b}} 
+\index{in.h@{in.h}!IN\_CLASSA\_NSHIFT@{IN\_CLASSA\_NSHIFT}}
+\index{IN\_CLASSA\_NSHIFT@{IN\_CLASSA\_NSHIFT}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSA\_NSHIFT}{IN\_CLASSA\_NSHIFT}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSA\+\_\+\+NSHIFT~24}
+
+\mbox{\Hypertarget{in_8h_a211ecfc0b171c80b7cb7aadc81f6f4bc}\label{in_8h_a211ecfc0b171c80b7cb7aadc81f6f4bc}} 
+\index{in.h@{in.h}!IN\_CLASSA\_HOST@{IN\_CLASSA\_HOST}}
+\index{IN\_CLASSA\_HOST@{IN\_CLASSA\_HOST}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSA\_HOST}{IN\_CLASSA\_HOST}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSA\+\_\+\+HOST~(0xffffffff \& $\sim$\mbox{\hyperlink{in_8h_a615c805e78c867afb51fa883d6b8301c}{IN\+\_\+\+CLASSA\+\_\+\+NET}})}
+
+\mbox{\Hypertarget{in_8h_a2b2f20dceae36aa9fd14bae05cdaf2fc}\label{in_8h_a2b2f20dceae36aa9fd14bae05cdaf2fc}} 
+\index{in.h@{in.h}!IN\_CLASSA\_MAX@{IN\_CLASSA\_MAX}}
+\index{IN\_CLASSA\_MAX@{IN\_CLASSA\_MAX}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSA\_MAX}{IN\_CLASSA\_MAX}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSA\+\_\+\+MAX~128}
+
+\mbox{\Hypertarget{in_8h_aae62bce7dd5dfdaf9cbdd602a11575dd}\label{in_8h_aae62bce7dd5dfdaf9cbdd602a11575dd}} 
+\index{in.h@{in.h}!IN\_CLASSB@{IN\_CLASSB}}
+\index{IN\_CLASSB@{IN\_CLASSB}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSB}{IN\_CLASSB}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSB(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})~((((long int) (a)) \& 0xc0000000) == 0x80000000)}
+
+\mbox{\Hypertarget{in_8h_af54b89d40773f4ee7067f7ae294959fe}\label{in_8h_af54b89d40773f4ee7067f7ae294959fe}} 
+\index{in.h@{in.h}!IN\_CLASSB\_NET@{IN\_CLASSB\_NET}}
+\index{IN\_CLASSB\_NET@{IN\_CLASSB\_NET}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSB\_NET}{IN\_CLASSB\_NET}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSB\+\_\+\+NET~0xffff0000}
+
+\mbox{\Hypertarget{in_8h_a20ccbb620e8382e6806931c88bd83105}\label{in_8h_a20ccbb620e8382e6806931c88bd83105}} 
+\index{in.h@{in.h}!IN\_CLASSB\_NSHIFT@{IN\_CLASSB\_NSHIFT}}
+\index{IN\_CLASSB\_NSHIFT@{IN\_CLASSB\_NSHIFT}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSB\_NSHIFT}{IN\_CLASSB\_NSHIFT}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSB\+\_\+\+NSHIFT~16}
+
+\mbox{\Hypertarget{in_8h_a95f8fdfa0a54362c3e9371f98b98f05a}\label{in_8h_a95f8fdfa0a54362c3e9371f98b98f05a}} 
+\index{in.h@{in.h}!IN\_CLASSB\_HOST@{IN\_CLASSB\_HOST}}
+\index{IN\_CLASSB\_HOST@{IN\_CLASSB\_HOST}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSB\_HOST}{IN\_CLASSB\_HOST}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSB\+\_\+\+HOST~(0xffffffff \& $\sim$\mbox{\hyperlink{in_8h_af54b89d40773f4ee7067f7ae294959fe}{IN\+\_\+\+CLASSB\+\_\+\+NET}})}
+
+\mbox{\Hypertarget{in_8h_ae51e84d158fa4b02e60179b4b77aaf45}\label{in_8h_ae51e84d158fa4b02e60179b4b77aaf45}} 
+\index{in.h@{in.h}!IN\_CLASSB\_MAX@{IN\_CLASSB\_MAX}}
+\index{IN\_CLASSB\_MAX@{IN\_CLASSB\_MAX}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSB\_MAX}{IN\_CLASSB\_MAX}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSB\+\_\+\+MAX~65536}
+
+\mbox{\Hypertarget{in_8h_a164f0d455b18705a7abd085d3807b286}\label{in_8h_a164f0d455b18705a7abd085d3807b286}} 
+\index{in.h@{in.h}!IN\_CLASSC@{IN\_CLASSC}}
+\index{IN\_CLASSC@{IN\_CLASSC}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSC}{IN\_CLASSC}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSC(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})~((((long int) (a)) \& 0xe0000000) == 0xc0000000)}
+
+\mbox{\Hypertarget{in_8h_a912fdaf0cebcbc2210348ec94a006d53}\label{in_8h_a912fdaf0cebcbc2210348ec94a006d53}} 
+\index{in.h@{in.h}!IN\_CLASSC\_NET@{IN\_CLASSC\_NET}}
+\index{IN\_CLASSC\_NET@{IN\_CLASSC\_NET}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSC\_NET}{IN\_CLASSC\_NET}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSC\+\_\+\+NET~0xffffff00}
+
+\mbox{\Hypertarget{in_8h_a4ec512a20fd799440b84734dd672c34b}\label{in_8h_a4ec512a20fd799440b84734dd672c34b}} 
+\index{in.h@{in.h}!IN\_CLASSC\_NSHIFT@{IN\_CLASSC\_NSHIFT}}
+\index{IN\_CLASSC\_NSHIFT@{IN\_CLASSC\_NSHIFT}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSC\_NSHIFT}{IN\_CLASSC\_NSHIFT}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSC\+\_\+\+NSHIFT~8}
+
+\mbox{\Hypertarget{in_8h_a847a8a659ae0d3a4f600486b8c32cb3e}\label{in_8h_a847a8a659ae0d3a4f600486b8c32cb3e}} 
+\index{in.h@{in.h}!IN\_CLASSC\_HOST@{IN\_CLASSC\_HOST}}
+\index{IN\_CLASSC\_HOST@{IN\_CLASSC\_HOST}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSC\_HOST}{IN\_CLASSC\_HOST}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSC\+\_\+\+HOST~(0xffffffff \& $\sim$\mbox{\hyperlink{in_8h_a912fdaf0cebcbc2210348ec94a006d53}{IN\+\_\+\+CLASSC\+\_\+\+NET}})}
+
+\mbox{\Hypertarget{in_8h_ae8b55c9d4c7955c96ec94dfbdccb5bf2}\label{in_8h_ae8b55c9d4c7955c96ec94dfbdccb5bf2}} 
+\index{in.h@{in.h}!IN\_CLASSD@{IN\_CLASSD}}
+\index{IN\_CLASSD@{IN\_CLASSD}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_CLASSD}{IN\_CLASSD}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+CLASSD(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})~((((long int) (a)) \& 0xf0000000) == 0xe0000000)}
+
+\mbox{\Hypertarget{in_8h_abcddcc195249a64bb13b5fc8b438548d}\label{in_8h_abcddcc195249a64bb13b5fc8b438548d}} 
+\index{in.h@{in.h}!IN\_MULTICAST@{IN\_MULTICAST}}
+\index{IN\_MULTICAST@{IN\_MULTICAST}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_MULTICAST}{IN\_MULTICAST}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+MULTICAST(\begin{DoxyParamCaption}\item[{}]{a }\end{DoxyParamCaption})~\mbox{\hyperlink{in_8h_ae8b55c9d4c7955c96ec94dfbdccb5bf2}{IN\+\_\+\+CLASSD}}(a)}
+
+\mbox{\Hypertarget{in_8h_a2076f68d6fb105089f1657b257060735}\label{in_8h_a2076f68d6fb105089f1657b257060735}} 
+\index{in.h@{in.h}!IN\_MULTICAST\_NET@{IN\_MULTICAST\_NET}}
+\index{IN\_MULTICAST\_NET@{IN\_MULTICAST\_NET}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN\_MULTICAST\_NET}{IN\_MULTICAST\_NET}}
+{\footnotesize\ttfamily \#define IN\+\_\+\+MULTICAST\+\_\+\+NET~0xe0000000}
+
+\mbox{\Hypertarget{in_8h_a7af38dcb3ebcb68441b387ce1bdba363}\label{in_8h_a7af38dcb3ebcb68441b387ce1bdba363}} 
+\index{in.h@{in.h}!SIN\_ZERO\_LEN@{SIN\_ZERO\_LEN}}
+\index{SIN\_ZERO\_LEN@{SIN\_ZERO\_LEN}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{SIN\_ZERO\_LEN}{SIN\_ZERO\_LEN}}
+{\footnotesize\ttfamily \#define SIN\+\_\+\+ZERO\+\_\+\+LEN~8}
+
+\mbox{\Hypertarget{in_8h_a1de876a356ee05a2e9427b741f99f49c}\label{in_8h_a1de876a356ee05a2e9427b741f99f49c}} 
+\index{in.h@{in.h}!IN6ADDR\_ANY\_INIT@{IN6ADDR\_ANY\_INIT}}
+\index{IN6ADDR\_ANY\_INIT@{IN6ADDR\_ANY\_INIT}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{IN6ADDR\_ANY\_INIT}{IN6ADDR\_ANY\_INIT}}
+{\footnotesize\ttfamily \#define IN6\+ADDR\+\_\+\+ANY\+\_\+\+INIT~\{ 0 \}}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{in_8h_a979d51fa99f7145221b3ed1afff5b827}\label{in_8h_a979d51fa99f7145221b3ed1afff5b827}} 
+\index{in.h@{in.h}!in\_port\_t@{in\_port\_t}}
+\index{in\_port\_t@{in\_port\_t}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{in\_port\_t}{in\_port\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{in_8h_a979d51fa99f7145221b3ed1afff5b827}{in\+\_\+port\+\_\+t}}}
+
+\mbox{\Hypertarget{in_8h_a98b38134a62f24554da0ffcabde8062c}\label{in_8h_a98b38134a62f24554da0ffcabde8062c}} 
+\index{in.h@{in.h}!in\_addr\_t@{in\_addr\_t}}
+\index{in\_addr\_t@{in\_addr\_t}!in.h@{in.h}}
+\doxysubsubsection{\texorpdfstring{in\_addr\_t}{in\_addr\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{in_8h_a98b38134a62f24554da0ffcabde8062c}{in\+\_\+addr\+\_\+t}}}
+

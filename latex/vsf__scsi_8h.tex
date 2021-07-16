@@ -1,0 +1,412 @@
+\hypertarget{vsf__scsi_8h}{}\doxysection{source/component/scsi/vsf\+\_\+scsi.h File Reference}
+\label{vsf__scsi_8h}\index{source/component/scsi/vsf\_scsi.h@{source/component/scsi/vsf\_scsi.h}}
+{\ttfamily \#include \char`\"{}./vsf\+\_\+scsi\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./driver/virtual\+\_\+scsi/vsf\+\_\+virtual\+\_\+scsi.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./driver/mal\+\_\+scsi/vsf\+\_\+mal\+\_\+scsi.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structscsi__inquiry__t}{scsi\+\_\+inquiry\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvk__scsi__drv__t}{vk\+\_\+scsi\+\_\+drv\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856}{scsi\+\_\+sensekey\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_af62021480a61eb87a994149eb8f90b56}{scsi\+\_\+sensekey\+\_\+t}}
+\item 
+typedef enum \mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003}{scsi\+\_\+asc\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_a8a5d99571f9f938979258a17e1227673}{scsi\+\_\+asc\+\_\+t}}
+\item 
+typedef enum \mbox{\hyperlink{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2ef}{scsi\+\_\+group\+\_\+code\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_a0e1fece42d8846e8f7fb43d09a7015a0}{scsi\+\_\+group\+\_\+code\+\_\+t}}
+\item 
+typedef enum \mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109f}{scsi\+\_\+cmd\+\_\+code\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_a94525ae769420fa15ebf26c77f7d6374}{scsi\+\_\+cmd\+\_\+code\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structscsi__inquiry__t}{scsi\+\_\+inquiry\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_a25a238e407f150ec24662dbe3812251e}{scsi\+\_\+inquiry\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856}{scsi\+\_\+sensekey\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a1ea7973dae08ab5f2cd67933bbd65f85}{SCSI\+\_\+\+SENSEKEY\+\_\+\+NO\+\_\+\+SENSE}} = 0
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a9f4f8e06049d66cf654782d6b1c409df}{SCSI\+\_\+\+SENSEKEY\+\_\+\+RECOVERED\+\_\+\+ERROR}} = 1
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a871335871fc3b91b8fb839d42d87c4ef}{SCSI\+\_\+\+SENSEKEY\+\_\+\+NOT\+\_\+\+READY}} = 2
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a142c683f77b745f263f0f9ea2a3600f3}{SCSI\+\_\+\+SENSEKEY\+\_\+\+MEDIUM\+\_\+\+ERROR}} = 3
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856aeeae70550e0ca645d6700750aea16c77}{SCSI\+\_\+\+SENSEKEY\+\_\+\+HARDWARE\+\_\+\+ERROR}} = 4
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a99e87280fe5af3e3b52af21473623237}{SCSI\+\_\+\+SENSEKEY\+\_\+\+ILLEGAL\+\_\+\+REQUEST}} = 5
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a7509d4d844a79f2efb1391a91429a4a1}{SCSI\+\_\+\+SENSEKEY\+\_\+\+UNIT\+\_\+\+ATTENTION}} = 6
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a107c8068339a7ada2c48bde04164451a}{SCSI\+\_\+\+SENSEKEY\+\_\+\+DATA\+\_\+\+PROTECT}} = 7
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a00e935876b7ade3dc6dad83a58b61537}{SCSI\+\_\+\+SENSEKEY\+\_\+\+BLANK\+\_\+\+CHECK}} = 8
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856af129d0d92a4ee8106e72e6558d5276a7}{SCSI\+\_\+\+SENSEKEY\+\_\+\+VENDOR\+\_\+\+SPECIFIC}} = 9
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a9da755da409fff553f8ed98b3f22b523}{SCSI\+\_\+\+SENSEKEY\+\_\+\+COPY\+\_\+\+ABORTED}} = 10
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a39f74b15b7cd42748c1252efebd2b4b5}{SCSI\+\_\+\+SENSEKEY\+\_\+\+ABORTED\+\_\+\+COMMAND}} = 11
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a46b245f6ce9f248b10fd5ef3f85c0132}{SCSI\+\_\+\+SENSEKEY\+\_\+\+VOLUME\+\_\+\+OVERFLOW}} = 13
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856aaec06e9dfbda537fe7d922e13e2f3022}{SCSI\+\_\+\+SENSEKEY\+\_\+\+MISCOMPARE}} = 14
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003}{scsi\+\_\+asc\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a3a93777409b0ddefbae86b21389d3947}{SCSI\+\_\+\+ASC\+\_\+\+NONE}} = 0x00
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003ad19ddc8a7dd476df4242786730774c6f}{SCSI\+\_\+\+ASC\+\_\+\+PARAMETER\+\_\+\+LIST\+\_\+\+LENGTH\+\_\+\+ERROR}} = 0x1A
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a01f6b3ef4c9d2900aeab0b17a6eb15fc}{SCSI\+\_\+\+ASC\+\_\+\+INVALID\+\_\+\+COMMAND}} = 0x20
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a6a96558c8d22b423ee4325530db0032c}{SCSI\+\_\+\+ASC\+\_\+\+INVALID\+\_\+\+FIELD\+\_\+\+IN\+\_\+\+COMMAND}} = 0x24
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a7436b2c7937301c092d4018d9d5c5f63}{SCSI\+\_\+\+ASC\+\_\+\+INVALID\+\_\+\+FIELD\+\_\+\+IN\+\_\+\+PARAMETER\+\_\+\+LIST}} = 0x26
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a77330c35b685c00e1dfa096dd5b3f7cf}{SCSI\+\_\+\+ASC\+\_\+\+MEDIUM\+\_\+\+HAVE\+\_\+\+CHANGED}} = 0x28
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a2c18554c7e210c4e7db6a782c010d745}{SCSI\+\_\+\+ASC\+\_\+\+ADDRESS\+\_\+\+OUT\+\_\+\+OF\+\_\+\+RANGE}} = 0x21
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003afaf1018fe135a644f2c3fb18f6c8c8c3}{SCSI\+\_\+\+ASC\+\_\+\+MEDIUM\+\_\+\+NOT\+\_\+\+PRESENT}} = 0x3A
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2ef}{scsi\+\_\+group\+\_\+code\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efa1d4aaf7e5c3a8d580971ab638f1c377c}{SCSI\+\_\+\+GROUPCODE6}} = 0x00
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efabcfff8ef9cacb9a1a4b70569440230b5}{SCSI\+\_\+\+GROUPCODE10\+\_\+1}} = 0x20
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efa47890572c52c45ed745c69608ba81775}{SCSI\+\_\+\+GROUPCODE10\+\_\+2}} = 0x40
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efae0f2b8b90212760ad3ebb875ec3e50b9}{SCSI\+\_\+\+GROUPCODE16}} = 0x80
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efa1e8888cd87fb92b9a78427903d37d719}{SCSI\+\_\+\+GROUPCODE12}} = 0x\+A0
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109f}{scsi\+\_\+cmd\+\_\+code\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa44969bb3c40f89ee3d50813388bf39fa}{SCSI\+\_\+\+CMDCODE\+\_\+\+TEST\+\_\+\+UNIT\+\_\+\+READY}} = 0x00
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa561ee08e287b34570cec059b4aad9c97}{SCSI\+\_\+\+CMDCODE\+\_\+\+REQUEST\+\_\+\+SENSE}} = 0x03
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109faafbe606585be745ecca66ec9a4906064}{SCSI\+\_\+\+CMDCODE\+\_\+\+READ\+\_\+\+FORMAT\+\_\+\+CAPACITIES}} = 0x03
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa55a544cd4fb6d460176261866f37fa15}{SCSI\+\_\+\+CMDCODE\+\_\+\+READ\+\_\+\+TOC}} = 0x03
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fac111da7b7497ad63f275df0fda84f5eb}{SCSI\+\_\+\+CMDCODE\+\_\+\+FORMAT\+\_\+\+UNIT}} = 0x04
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109faca3cadc9f024eaba0143333afbbf8cca}{SCSI\+\_\+\+CMDCODE\+\_\+\+READ\+\_\+\+CAPACITY}} = 0x05
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa332cfb7609cb660e1917ee3f0ee78b82}{SCSI\+\_\+\+CMDCODE\+\_\+\+READ}} = 0x08
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109faee99942e9896f889e5c4eead1c992d43}{SCSI\+\_\+\+CMDCODE\+\_\+\+WRITE}} = 0x0A
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa9608abfa22c01aa83503a9c73ce0b890}{SCSI\+\_\+\+CMDCODE\+\_\+\+GET\+\_\+\+EVENT\+\_\+\+STATUS\+\_\+\+NOTIFY}} = 0x0A
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa1693edf1e11f2ca03c0d41e56770e3b6}{SCSI\+\_\+\+CMDCODE\+\_\+\+VERIFY}} = 0x0F
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fabfac2ad975c937f749f5746f22927f23}{SCSI\+\_\+\+CMDCODE\+\_\+\+INQUIRY}} = 0x12
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa05cf7b621c82e783b299092c7b9e1a49}{SCSI\+\_\+\+CMDCODE\+\_\+\+MODE\+\_\+\+SELECT}} = 0x15
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa498b9d5782e22507b6f4da2a24aa917d}{SCSI\+\_\+\+CMDCODE\+\_\+\+MODE\+\_\+\+SENSE}} = 0x1A
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa6333a73020aa2d159919af536f5d9aef}{SCSI\+\_\+\+CMDCODE\+\_\+\+START\+\_\+\+STOP\+\_\+\+UNIT}} = 0x1B
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa13a939ae31f517bffc4dd4c1770df1c7}{SCSI\+\_\+\+CMDCODE\+\_\+\+SEND\+\_\+\+DIAGNOSTIC}} = 0x1D
+, \newline
+\mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fac5b4775bf441e3a13841dee8616f6fac}{SCSI\+\_\+\+CMDCODE\+\_\+\+ALLOW\+\_\+\+MEDIUM\+\_\+\+REMOVAL}} = 0x1E
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_af9c6f0f5fc7a00268858a7b497753532}{vk\+\_\+scsi\+\_\+init}} (\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$pthis)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_a7670bc79786e47381346e1f31c390a8d}{vk\+\_\+scsi\+\_\+fini}} (\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$pthis)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__scsi_8h_a4b341902f34a4803a741b976acd76f80}{vk\+\_\+scsi\+\_\+prepare\+\_\+buffer}} (\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$pthis, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$cbd, \mbox{\hyperlink{structvsf__mem__t}{vsf\+\_\+mem\+\_\+t}} $\ast$mem)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_ae0e5f942d2e7f8b3a7c97f75946f1e21}{vk\+\_\+scsi\+\_\+execute}} (\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$pthis, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$cbd, \mbox{\hyperlink{structvsf__mem__t}{vsf\+\_\+mem\+\_\+t}} $\ast$mem)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_a3b1b2be60016c06cebc54e2d05d58fcb}{vk\+\_\+scsi\+\_\+execute\+\_\+stream}} (\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$pthis, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$cbd, \mbox{\hyperlink{classvsf__stream__t}{vsf\+\_\+stream\+\_\+t}} $\ast$stream)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__scsi_8h_af62021480a61eb87a994149eb8f90b56}\label{vsf__scsi_8h_af62021480a61eb87a994149eb8f90b56}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!scsi\_sensekey\_t@{scsi\_sensekey\_t}}
+\index{scsi\_sensekey\_t@{scsi\_sensekey\_t}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{scsi\_sensekey\_t}{scsi\_sensekey\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856}{scsi\+\_\+sensekey\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856}{scsi\+\_\+sensekey\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__scsi_8h_a8a5d99571f9f938979258a17e1227673}\label{vsf__scsi_8h_a8a5d99571f9f938979258a17e1227673}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!scsi\_asc\_t@{scsi\_asc\_t}}
+\index{scsi\_asc\_t@{scsi\_asc\_t}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{scsi\_asc\_t}{scsi\_asc\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003}{scsi\+\_\+asc\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003}{scsi\+\_\+asc\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__scsi_8h_a0e1fece42d8846e8f7fb43d09a7015a0}\label{vsf__scsi_8h_a0e1fece42d8846e8f7fb43d09a7015a0}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!scsi\_group\_code\_t@{scsi\_group\_code\_t}}
+\index{scsi\_group\_code\_t@{scsi\_group\_code\_t}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{scsi\_group\_code\_t}{scsi\_group\_code\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2ef}{scsi\+\_\+group\+\_\+code\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2ef}{scsi\+\_\+group\+\_\+code\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__scsi_8h_a94525ae769420fa15ebf26c77f7d6374}\label{vsf__scsi_8h_a94525ae769420fa15ebf26c77f7d6374}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!scsi\_cmd\_code\_t@{scsi\_cmd\_code\_t}}
+\index{scsi\_cmd\_code\_t@{scsi\_cmd\_code\_t}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{scsi\_cmd\_code\_t}{scsi\_cmd\_code\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109f}{scsi\+\_\+cmd\+\_\+code\+\_\+t}} \mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109f}{scsi\+\_\+cmd\+\_\+code\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__scsi_8h_a25a238e407f150ec24662dbe3812251e}\label{vsf__scsi_8h_a25a238e407f150ec24662dbe3812251e}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!scsi\_inquiry\_t@{scsi\_inquiry\_t}}
+\index{scsi\_inquiry\_t@{scsi\_inquiry\_t}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{scsi\_inquiry\_t}{scsi\_inquiry\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structscsi__inquiry__t}{scsi\+\_\+inquiry\+\_\+t}} \mbox{\hyperlink{structscsi__inquiry__t}{scsi\+\_\+inquiry\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!scsi\_sensekey\_t@{scsi\_sensekey\_t}}
+\index{scsi\_sensekey\_t@{scsi\_sensekey\_t}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{scsi\_sensekey\_t}{scsi\_sensekey\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856}{scsi\+\_\+sensekey\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_NO\_SENSE@{SCSI\_SENSEKEY\_NO\_SENSE}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_NO\_SENSE@{SCSI\_SENSEKEY\_NO\_SENSE}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a1ea7973dae08ab5f2cd67933bbd65f85}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a1ea7973dae08ab5f2cd67933bbd65f85}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+NO\+\_\+\+SENSE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_RECOVERED\_ERROR@{SCSI\_SENSEKEY\_RECOVERED\_ERROR}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_RECOVERED\_ERROR@{SCSI\_SENSEKEY\_RECOVERED\_ERROR}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a9f4f8e06049d66cf654782d6b1c409df}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a9f4f8e06049d66cf654782d6b1c409df}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+RECOVERED\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_NOT\_READY@{SCSI\_SENSEKEY\_NOT\_READY}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_NOT\_READY@{SCSI\_SENSEKEY\_NOT\_READY}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a871335871fc3b91b8fb839d42d87c4ef}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a871335871fc3b91b8fb839d42d87c4ef}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+NOT\+\_\+\+READY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_MEDIUM\_ERROR@{SCSI\_SENSEKEY\_MEDIUM\_ERROR}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_MEDIUM\_ERROR@{SCSI\_SENSEKEY\_MEDIUM\_ERROR}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a142c683f77b745f263f0f9ea2a3600f3}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a142c683f77b745f263f0f9ea2a3600f3}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+MEDIUM\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_HARDWARE\_ERROR@{SCSI\_SENSEKEY\_HARDWARE\_ERROR}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_HARDWARE\_ERROR@{SCSI\_SENSEKEY\_HARDWARE\_ERROR}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856aeeae70550e0ca645d6700750aea16c77}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856aeeae70550e0ca645d6700750aea16c77}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+HARDWARE\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_ILLEGAL\_REQUEST@{SCSI\_SENSEKEY\_ILLEGAL\_REQUEST}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_ILLEGAL\_REQUEST@{SCSI\_SENSEKEY\_ILLEGAL\_REQUEST}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a99e87280fe5af3e3b52af21473623237}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a99e87280fe5af3e3b52af21473623237}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+ILLEGAL\+\_\+\+REQUEST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_UNIT\_ATTENTION@{SCSI\_SENSEKEY\_UNIT\_ATTENTION}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_UNIT\_ATTENTION@{SCSI\_SENSEKEY\_UNIT\_ATTENTION}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a7509d4d844a79f2efb1391a91429a4a1}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a7509d4d844a79f2efb1391a91429a4a1}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+UNIT\+\_\+\+ATTENTION&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_DATA\_PROTECT@{SCSI\_SENSEKEY\_DATA\_PROTECT}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_DATA\_PROTECT@{SCSI\_SENSEKEY\_DATA\_PROTECT}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a107c8068339a7ada2c48bde04164451a}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a107c8068339a7ada2c48bde04164451a}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+DATA\+\_\+\+PROTECT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_BLANK\_CHECK@{SCSI\_SENSEKEY\_BLANK\_CHECK}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_BLANK\_CHECK@{SCSI\_SENSEKEY\_BLANK\_CHECK}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a00e935876b7ade3dc6dad83a58b61537}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a00e935876b7ade3dc6dad83a58b61537}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+BLANK\+\_\+\+CHECK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_VENDOR\_SPECIFIC@{SCSI\_SENSEKEY\_VENDOR\_SPECIFIC}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_VENDOR\_SPECIFIC@{SCSI\_SENSEKEY\_VENDOR\_SPECIFIC}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856af129d0d92a4ee8106e72e6558d5276a7}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856af129d0d92a4ee8106e72e6558d5276a7}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+VENDOR\+\_\+\+SPECIFIC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_COPY\_ABORTED@{SCSI\_SENSEKEY\_COPY\_ABORTED}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_COPY\_ABORTED@{SCSI\_SENSEKEY\_COPY\_ABORTED}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a9da755da409fff553f8ed98b3f22b523}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a9da755da409fff553f8ed98b3f22b523}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+COPY\+\_\+\+ABORTED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_ABORTED\_COMMAND@{SCSI\_SENSEKEY\_ABORTED\_COMMAND}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_ABORTED\_COMMAND@{SCSI\_SENSEKEY\_ABORTED\_COMMAND}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a39f74b15b7cd42748c1252efebd2b4b5}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a39f74b15b7cd42748c1252efebd2b4b5}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+ABORTED\+\_\+\+COMMAND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_VOLUME\_OVERFLOW@{SCSI\_SENSEKEY\_VOLUME\_OVERFLOW}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_VOLUME\_OVERFLOW@{SCSI\_SENSEKEY\_VOLUME\_OVERFLOW}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a46b245f6ce9f248b10fd5ef3f85c0132}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856a46b245f6ce9f248b10fd5ef3f85c0132}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+VOLUME\+\_\+\+OVERFLOW&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_SENSEKEY\_MISCOMPARE@{SCSI\_SENSEKEY\_MISCOMPARE}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_SENSEKEY\_MISCOMPARE@{SCSI\_SENSEKEY\_MISCOMPARE}}}\mbox{\Hypertarget{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856aaec06e9dfbda537fe7d922e13e2f3022}\label{vsf__scsi_8h_acd4082fd5216fd1daa4f07ca234de856aaec06e9dfbda537fe7d922e13e2f3022}} 
+SCSI\+\_\+\+SENSEKEY\+\_\+\+MISCOMPARE&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003}\label{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!scsi\_asc\_t@{scsi\_asc\_t}}
+\index{scsi\_asc\_t@{scsi\_asc\_t}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{scsi\_asc\_t}{scsi\_asc\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003}{scsi\+\_\+asc\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_ASC\_NONE@{SCSI\_ASC\_NONE}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_ASC\_NONE@{SCSI\_ASC\_NONE}}}\mbox{\Hypertarget{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a3a93777409b0ddefbae86b21389d3947}\label{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a3a93777409b0ddefbae86b21389d3947}} 
+SCSI\+\_\+\+ASC\+\_\+\+NONE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_ASC\_PARAMETER\_LIST\_LENGTH\_ERROR@{SCSI\_ASC\_PARAMETER\_LIST\_LENGTH\_ERROR}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_ASC\_PARAMETER\_LIST\_LENGTH\_ERROR@{SCSI\_ASC\_PARAMETER\_LIST\_LENGTH\_ERROR}}}\mbox{\Hypertarget{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003ad19ddc8a7dd476df4242786730774c6f}\label{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003ad19ddc8a7dd476df4242786730774c6f}} 
+SCSI\+\_\+\+ASC\+\_\+\+PARAMETER\+\_\+\+LIST\+\_\+\+LENGTH\+\_\+\+ERROR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_ASC\_INVALID\_COMMAND@{SCSI\_ASC\_INVALID\_COMMAND}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_ASC\_INVALID\_COMMAND@{SCSI\_ASC\_INVALID\_COMMAND}}}\mbox{\Hypertarget{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a01f6b3ef4c9d2900aeab0b17a6eb15fc}\label{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a01f6b3ef4c9d2900aeab0b17a6eb15fc}} 
+SCSI\+\_\+\+ASC\+\_\+\+INVALID\+\_\+\+COMMAND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_ASC\_INVALID\_FIELD\_IN\_COMMAND@{SCSI\_ASC\_INVALID\_FIELD\_IN\_COMMAND}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_ASC\_INVALID\_FIELD\_IN\_COMMAND@{SCSI\_ASC\_INVALID\_FIELD\_IN\_COMMAND}}}\mbox{\Hypertarget{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a6a96558c8d22b423ee4325530db0032c}\label{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a6a96558c8d22b423ee4325530db0032c}} 
+SCSI\+\_\+\+ASC\+\_\+\+INVALID\+\_\+\+FIELD\+\_\+\+IN\+\_\+\+COMMAND&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_ASC\_INVALID\_FIELD\_IN\_PARAMETER\_LIST@{SCSI\_ASC\_INVALID\_FIELD\_IN\_PARAMETER\_LIST}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_ASC\_INVALID\_FIELD\_IN\_PARAMETER\_LIST@{SCSI\_ASC\_INVALID\_FIELD\_IN\_PARAMETER\_LIST}}}\mbox{\Hypertarget{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a7436b2c7937301c092d4018d9d5c5f63}\label{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a7436b2c7937301c092d4018d9d5c5f63}} 
+SCSI\+\_\+\+ASC\+\_\+\+INVALID\+\_\+\+FIELD\+\_\+\+IN\+\_\+\+PARAMETER\+\_\+\+LIST&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_ASC\_MEDIUM\_HAVE\_CHANGED@{SCSI\_ASC\_MEDIUM\_HAVE\_CHANGED}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_ASC\_MEDIUM\_HAVE\_CHANGED@{SCSI\_ASC\_MEDIUM\_HAVE\_CHANGED}}}\mbox{\Hypertarget{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a77330c35b685c00e1dfa096dd5b3f7cf}\label{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a77330c35b685c00e1dfa096dd5b3f7cf}} 
+SCSI\+\_\+\+ASC\+\_\+\+MEDIUM\+\_\+\+HAVE\+\_\+\+CHANGED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_ASC\_ADDRESS\_OUT\_OF\_RANGE@{SCSI\_ASC\_ADDRESS\_OUT\_OF\_RANGE}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_ASC\_ADDRESS\_OUT\_OF\_RANGE@{SCSI\_ASC\_ADDRESS\_OUT\_OF\_RANGE}}}\mbox{\Hypertarget{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a2c18554c7e210c4e7db6a782c010d745}\label{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003a2c18554c7e210c4e7db6a782c010d745}} 
+SCSI\+\_\+\+ASC\+\_\+\+ADDRESS\+\_\+\+OUT\+\_\+\+OF\+\_\+\+RANGE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_ASC\_MEDIUM\_NOT\_PRESENT@{SCSI\_ASC\_MEDIUM\_NOT\_PRESENT}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_ASC\_MEDIUM\_NOT\_PRESENT@{SCSI\_ASC\_MEDIUM\_NOT\_PRESENT}}}\mbox{\Hypertarget{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003afaf1018fe135a644f2c3fb18f6c8c8c3}\label{vsf__scsi_8h_aa9c8bbdb2a8f8ed038b6e3aa2e93e003afaf1018fe135a644f2c3fb18f6c8c8c3}} 
+SCSI\+\_\+\+ASC\+\_\+\+MEDIUM\+\_\+\+NOT\+\_\+\+PRESENT&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2ef}\label{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2ef}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!scsi\_group\_code\_t@{scsi\_group\_code\_t}}
+\index{scsi\_group\_code\_t@{scsi\_group\_code\_t}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{scsi\_group\_code\_t}{scsi\_group\_code\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2ef}{scsi\+\_\+group\+\_\+code\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_GROUPCODE6@{SCSI\_GROUPCODE6}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_GROUPCODE6@{SCSI\_GROUPCODE6}}}\mbox{\Hypertarget{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efa1d4aaf7e5c3a8d580971ab638f1c377c}\label{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efa1d4aaf7e5c3a8d580971ab638f1c377c}} 
+SCSI\+\_\+\+GROUPCODE6&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_GROUPCODE10\_1@{SCSI\_GROUPCODE10\_1}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_GROUPCODE10\_1@{SCSI\_GROUPCODE10\_1}}}\mbox{\Hypertarget{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efabcfff8ef9cacb9a1a4b70569440230b5}\label{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efabcfff8ef9cacb9a1a4b70569440230b5}} 
+SCSI\+\_\+\+GROUPCODE10\+\_\+1&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_GROUPCODE10\_2@{SCSI\_GROUPCODE10\_2}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_GROUPCODE10\_2@{SCSI\_GROUPCODE10\_2}}}\mbox{\Hypertarget{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efa47890572c52c45ed745c69608ba81775}\label{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efa47890572c52c45ed745c69608ba81775}} 
+SCSI\+\_\+\+GROUPCODE10\+\_\+2&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_GROUPCODE16@{SCSI\_GROUPCODE16}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_GROUPCODE16@{SCSI\_GROUPCODE16}}}\mbox{\Hypertarget{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efae0f2b8b90212760ad3ebb875ec3e50b9}\label{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efae0f2b8b90212760ad3ebb875ec3e50b9}} 
+SCSI\+\_\+\+GROUPCODE16&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_GROUPCODE12@{SCSI\_GROUPCODE12}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_GROUPCODE12@{SCSI\_GROUPCODE12}}}\mbox{\Hypertarget{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efa1e8888cd87fb92b9a78427903d37d719}\label{vsf__scsi_8h_ae5e9fa92f753f62c8895cda1db53e2efa1e8888cd87fb92b9a78427903d37d719}} 
+SCSI\+\_\+\+GROUPCODE12&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109f}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109f}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!scsi\_cmd\_code\_t@{scsi\_cmd\_code\_t}}
+\index{scsi\_cmd\_code\_t@{scsi\_cmd\_code\_t}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{scsi\_cmd\_code\_t}{scsi\_cmd\_code\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109f}{scsi\+\_\+cmd\+\_\+code\+\_\+t}}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_TEST\_UNIT\_READY@{SCSI\_CMDCODE\_TEST\_UNIT\_READY}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_TEST\_UNIT\_READY@{SCSI\_CMDCODE\_TEST\_UNIT\_READY}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa44969bb3c40f89ee3d50813388bf39fa}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa44969bb3c40f89ee3d50813388bf39fa}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+TEST\+\_\+\+UNIT\+\_\+\+READY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_REQUEST\_SENSE@{SCSI\_CMDCODE\_REQUEST\_SENSE}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_REQUEST\_SENSE@{SCSI\_CMDCODE\_REQUEST\_SENSE}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa561ee08e287b34570cec059b4aad9c97}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa561ee08e287b34570cec059b4aad9c97}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+REQUEST\+\_\+\+SENSE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_READ\_FORMAT\_CAPACITIES@{SCSI\_CMDCODE\_READ\_FORMAT\_CAPACITIES}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_READ\_FORMAT\_CAPACITIES@{SCSI\_CMDCODE\_READ\_FORMAT\_CAPACITIES}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109faafbe606585be745ecca66ec9a4906064}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109faafbe606585be745ecca66ec9a4906064}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+READ\+\_\+\+FORMAT\+\_\+\+CAPACITIES&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_READ\_TOC@{SCSI\_CMDCODE\_READ\_TOC}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_READ\_TOC@{SCSI\_CMDCODE\_READ\_TOC}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa55a544cd4fb6d460176261866f37fa15}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa55a544cd4fb6d460176261866f37fa15}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+READ\+\_\+\+TOC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_FORMAT\_UNIT@{SCSI\_CMDCODE\_FORMAT\_UNIT}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_FORMAT\_UNIT@{SCSI\_CMDCODE\_FORMAT\_UNIT}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fac111da7b7497ad63f275df0fda84f5eb}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fac111da7b7497ad63f275df0fda84f5eb}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+FORMAT\+\_\+\+UNIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_READ\_CAPACITY@{SCSI\_CMDCODE\_READ\_CAPACITY}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_READ\_CAPACITY@{SCSI\_CMDCODE\_READ\_CAPACITY}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109faca3cadc9f024eaba0143333afbbf8cca}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109faca3cadc9f024eaba0143333afbbf8cca}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+READ\+\_\+\+CAPACITY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_READ@{SCSI\_CMDCODE\_READ}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_READ@{SCSI\_CMDCODE\_READ}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa332cfb7609cb660e1917ee3f0ee78b82}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa332cfb7609cb660e1917ee3f0ee78b82}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+READ&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_WRITE@{SCSI\_CMDCODE\_WRITE}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_WRITE@{SCSI\_CMDCODE\_WRITE}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109faee99942e9896f889e5c4eead1c992d43}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109faee99942e9896f889e5c4eead1c992d43}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+WRITE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_GET\_EVENT\_STATUS\_NOTIFY@{SCSI\_CMDCODE\_GET\_EVENT\_STATUS\_NOTIFY}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_GET\_EVENT\_STATUS\_NOTIFY@{SCSI\_CMDCODE\_GET\_EVENT\_STATUS\_NOTIFY}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa9608abfa22c01aa83503a9c73ce0b890}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa9608abfa22c01aa83503a9c73ce0b890}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+GET\+\_\+\+EVENT\+\_\+\+STATUS\+\_\+\+NOTIFY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_VERIFY@{SCSI\_CMDCODE\_VERIFY}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_VERIFY@{SCSI\_CMDCODE\_VERIFY}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa1693edf1e11f2ca03c0d41e56770e3b6}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa1693edf1e11f2ca03c0d41e56770e3b6}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+VERIFY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_INQUIRY@{SCSI\_CMDCODE\_INQUIRY}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_INQUIRY@{SCSI\_CMDCODE\_INQUIRY}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fabfac2ad975c937f749f5746f22927f23}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fabfac2ad975c937f749f5746f22927f23}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+INQUIRY&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_MODE\_SELECT@{SCSI\_CMDCODE\_MODE\_SELECT}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_MODE\_SELECT@{SCSI\_CMDCODE\_MODE\_SELECT}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa05cf7b621c82e783b299092c7b9e1a49}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa05cf7b621c82e783b299092c7b9e1a49}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+MODE\+\_\+\+SELECT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_MODE\_SENSE@{SCSI\_CMDCODE\_MODE\_SENSE}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_MODE\_SENSE@{SCSI\_CMDCODE\_MODE\_SENSE}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa498b9d5782e22507b6f4da2a24aa917d}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa498b9d5782e22507b6f4da2a24aa917d}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+MODE\+\_\+\+SENSE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_START\_STOP\_UNIT@{SCSI\_CMDCODE\_START\_STOP\_UNIT}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_START\_STOP\_UNIT@{SCSI\_CMDCODE\_START\_STOP\_UNIT}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa6333a73020aa2d159919af536f5d9aef}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa6333a73020aa2d159919af536f5d9aef}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+START\+\_\+\+STOP\+\_\+\+UNIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_SEND\_DIAGNOSTIC@{SCSI\_CMDCODE\_SEND\_DIAGNOSTIC}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_SEND\_DIAGNOSTIC@{SCSI\_CMDCODE\_SEND\_DIAGNOSTIC}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa13a939ae31f517bffc4dd4c1770df1c7}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fa13a939ae31f517bffc4dd4c1770df1c7}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+SEND\+\_\+\+DIAGNOSTIC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SCSI\_CMDCODE\_ALLOW\_MEDIUM\_REMOVAL@{SCSI\_CMDCODE\_ALLOW\_MEDIUM\_REMOVAL}!vsf\_scsi.h@{vsf\_scsi.h}}\index{vsf\_scsi.h@{vsf\_scsi.h}!SCSI\_CMDCODE\_ALLOW\_MEDIUM\_REMOVAL@{SCSI\_CMDCODE\_ALLOW\_MEDIUM\_REMOVAL}}}\mbox{\Hypertarget{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fac5b4775bf441e3a13841dee8616f6fac}\label{vsf__scsi_8h_a572b4109b2f54fd5281c0b304cfe109fac5b4775bf441e3a13841dee8616f6fac}} 
+SCSI\+\_\+\+CMDCODE\+\_\+\+ALLOW\+\_\+\+MEDIUM\+\_\+\+REMOVAL&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__scsi_8h_af9c6f0f5fc7a00268858a7b497753532}\label{vsf__scsi_8h_af9c6f0f5fc7a00268858a7b497753532}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!vk\_scsi\_init@{vk\_scsi\_init}}
+\index{vk\_scsi\_init@{vk\_scsi\_init}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{vk\_scsi\_init()}{vk\_scsi\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+scsi\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$}]{pthis }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__scsi_8h_a7670bc79786e47381346e1f31c390a8d}\label{vsf__scsi_8h_a7670bc79786e47381346e1f31c390a8d}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!vk\_scsi\_fini@{vk\_scsi\_fini}}
+\index{vk\_scsi\_fini@{vk\_scsi\_fini}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{vk\_scsi\_fini()}{vk\_scsi\_fini()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+scsi\+\_\+fini (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$}]{pthis }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__scsi_8h_a4b341902f34a4803a741b976acd76f80}\label{vsf__scsi_8h_a4b341902f34a4803a741b976acd76f80}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!vk\_scsi\_prepare\_buffer@{vk\_scsi\_prepare\_buffer}}
+\index{vk\_scsi\_prepare\_buffer@{vk\_scsi\_prepare\_buffer}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{vk\_scsi\_prepare\_buffer()}{vk\_scsi\_prepare\_buffer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vk\+\_\+scsi\+\_\+prepare\+\_\+buffer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$}]{pthis,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{cbd,  }\item[{\mbox{\hyperlink{structvsf__mem__t}{vsf\+\_\+mem\+\_\+t}} $\ast$}]{mem }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__scsi_8h_ae0e5f942d2e7f8b3a7c97f75946f1e21}\label{vsf__scsi_8h_ae0e5f942d2e7f8b3a7c97f75946f1e21}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!vk\_scsi\_execute@{vk\_scsi\_execute}}
+\index{vk\_scsi\_execute@{vk\_scsi\_execute}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{vk\_scsi\_execute()}{vk\_scsi\_execute()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+scsi\+\_\+execute (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$}]{pthis,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{cbd,  }\item[{\mbox{\hyperlink{structvsf__mem__t}{vsf\+\_\+mem\+\_\+t}} $\ast$}]{mem }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__scsi_8h_a3b1b2be60016c06cebc54e2d05d58fcb}\label{vsf__scsi_8h_a3b1b2be60016c06cebc54e2d05d58fcb}} 
+\index{vsf\_scsi.h@{vsf\_scsi.h}!vk\_scsi\_execute\_stream@{vk\_scsi\_execute\_stream}}
+\index{vk\_scsi\_execute\_stream@{vk\_scsi\_execute\_stream}!vsf\_scsi.h@{vsf\_scsi.h}}
+\doxysubsubsection{\texorpdfstring{vk\_scsi\_execute\_stream()}{vk\_scsi\_execute\_stream()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+scsi\+\_\+execute\+\_\+stream (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$}]{pthis,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{cbd,  }\item[{\mbox{\hyperlink{classvsf__stream__t}{vsf\+\_\+stream\+\_\+t}} $\ast$}]{stream }\end{DoxyParamCaption})}
+

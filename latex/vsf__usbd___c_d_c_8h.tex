@@ -1,0 +1,86 @@
+\hypertarget{vsf__usbd___c_d_c_8h}{}\doxysection{source/component/usb/device/class/\+CDC/vsf\+\_\+usbd\+\_\+\+CDC.h File Reference}
+\label{vsf__usbd___c_d_c_8h}\index{source/component/usb/device/class/CDC/vsf\_usbd\_CDC.h@{source/component/usb/device/class/CDC/vsf\_usbd\_CDC.h}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/usb/common/class/\+CDC/vsf\+\_\+usb\+\_\+\+CDC.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+union \mbox{\hyperlink{unionvk__usbd__cdc__ep__t}{vk\+\_\+usbd\+\_\+cdc\+\_\+ep\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__usbd__cdc__encapsulate__t}{vk\+\_\+usbd\+\_\+cdc\+\_\+encapsulate\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvk__usbd__cdc__t}{vk\+\_\+usbd\+\_\+cdc\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_8h_afe50b7aa170892cdeccaaebd1cbc6788}{USB\+\_\+\+CDC\+\_\+\+IFS\+\_\+\+NUM}}~2
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef union \mbox{\hyperlink{unionvk__usbd__cdc__ep__t}{vk\+\_\+usbd\+\_\+cdc\+\_\+ep\+\_\+t}} \mbox{\hyperlink{vsf__usbd___c_d_c_8h_a03c39cd518293391e7953d852ccde958}{vk\+\_\+usbd\+\_\+cdc\+\_\+ep\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__usbd__cdc__encapsulate__t}{vk\+\_\+usbd\+\_\+cdc\+\_\+encapsulate\+\_\+t}} \mbox{\hyperlink{vsf__usbd___c_d_c_8h_ab10a43956e9d3159296e241e65665d01}{vk\+\_\+usbd\+\_\+cdc\+\_\+encapsulate\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__usbd___c_d_c_8h_a1ffc1642c9de2bf14294b99e7e09a1e6}{vk\+\_\+usbd\+\_\+cdc\+\_\+data\+\_\+connect}} (\mbox{\hyperlink{classvk__usbd__cdc__t}{vk\+\_\+usbd\+\_\+cdc\+\_\+t}} $\ast$cdc)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const struct vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t \mbox{\hyperlink{vsf__usbd___c_d_c_8h_a517dca5bde80c2eec25e3055f73beccd}{vk\+\_\+usbd\+\_\+cdc\+\_\+control}}
+\item 
+const struct vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t \mbox{\hyperlink{vsf__usbd___c_d_c_8h_a52595aeb513e8ead5ca6f089c10a0d58}{vk\+\_\+usbd\+\_\+cdc\+\_\+data}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_8h_afe50b7aa170892cdeccaaebd1cbc6788}\label{vsf__usbd___c_d_c_8h_afe50b7aa170892cdeccaaebd1cbc6788}} 
+\index{vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}!USB\_CDC\_IFS\_NUM@{USB\_CDC\_IFS\_NUM}}
+\index{USB\_CDC\_IFS\_NUM@{USB\_CDC\_IFS\_NUM}!vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_IFS\_NUM}{USB\_CDC\_IFS\_NUM}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+IFS\+\_\+\+NUM~2}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_8h_a03c39cd518293391e7953d852ccde958}\label{vsf__usbd___c_d_c_8h_a03c39cd518293391e7953d852ccde958}} 
+\index{vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}!vk\_usbd\_cdc\_ep\_t@{vk\_usbd\_cdc\_ep\_t}}
+\index{vk\_usbd\_cdc\_ep\_t@{vk\_usbd\_cdc\_ep\_t}!vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_cdc\_ep\_t}{vk\_usbd\_cdc\_ep\_t}}
+{\footnotesize\ttfamily typedef union \mbox{\hyperlink{unionvk__usbd__cdc__ep__t}{vk\+\_\+usbd\+\_\+cdc\+\_\+ep\+\_\+t}} \mbox{\hyperlink{unionvk__usbd__cdc__ep__t}{vk\+\_\+usbd\+\_\+cdc\+\_\+ep\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_8h_ab10a43956e9d3159296e241e65665d01}\label{vsf__usbd___c_d_c_8h_ab10a43956e9d3159296e241e65665d01}} 
+\index{vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}!vk\_usbd\_cdc\_encapsulate\_t@{vk\_usbd\_cdc\_encapsulate\_t}}
+\index{vk\_usbd\_cdc\_encapsulate\_t@{vk\_usbd\_cdc\_encapsulate\_t}!vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_cdc\_encapsulate\_t}{vk\_usbd\_cdc\_encapsulate\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__usbd__cdc__encapsulate__t}{vk\+\_\+usbd\+\_\+cdc\+\_\+encapsulate\+\_\+t}} \mbox{\hyperlink{structvk__usbd__cdc__encapsulate__t}{vk\+\_\+usbd\+\_\+cdc\+\_\+encapsulate\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_8h_a1ffc1642c9de2bf14294b99e7e09a1e6}\label{vsf__usbd___c_d_c_8h_a1ffc1642c9de2bf14294b99e7e09a1e6}} 
+\index{vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}!vk\_usbd\_cdc\_data\_connect@{vk\_usbd\_cdc\_data\_connect}}
+\index{vk\_usbd\_cdc\_data\_connect@{vk\_usbd\_cdc\_data\_connect}!vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_cdc\_data\_connect()}{vk\_usbd\_cdc\_data\_connect()}}
+{\footnotesize\ttfamily void vk\+\_\+usbd\+\_\+cdc\+\_\+data\+\_\+connect (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__usbd__cdc__t}{vk\+\_\+usbd\+\_\+cdc\+\_\+t}} $\ast$}]{cdc }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_8h_a517dca5bde80c2eec25e3055f73beccd}\label{vsf__usbd___c_d_c_8h_a517dca5bde80c2eec25e3055f73beccd}} 
+\index{vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}!vk\_usbd\_cdc\_control@{vk\_usbd\_cdc\_control}}
+\index{vk\_usbd\_cdc\_control@{vk\_usbd\_cdc\_control}!vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_cdc\_control}{vk\_usbd\_cdc\_control}}
+{\footnotesize\ttfamily const struct vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t vk\+\_\+usbd\+\_\+cdc\+\_\+control\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_8h_a52595aeb513e8ead5ca6f089c10a0d58}\label{vsf__usbd___c_d_c_8h_a52595aeb513e8ead5ca6f089c10a0d58}} 
+\index{vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}!vk\_usbd\_cdc\_data@{vk\_usbd\_cdc\_data}}
+\index{vk\_usbd\_cdc\_data@{vk\_usbd\_cdc\_data}!vsf\_usbd\_CDC.h@{vsf\_usbd\_CDC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_cdc\_data}{vk\_usbd\_cdc\_data}}
+{\footnotesize\ttfamily const struct vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t vk\+\_\+usbd\+\_\+cdc\+\_\+data\hspace{0.3cm}{\ttfamily [extern]}}
+

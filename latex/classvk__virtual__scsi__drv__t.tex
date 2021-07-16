@@ -1,0 +1,141 @@
+\hypertarget{classvk__virtual__scsi__drv__t}{}\doxysection{vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t Class Reference}
+\label{classvk__virtual__scsi__drv__t}\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+
+
+{\ttfamily \#include $<$vsf\+\_\+virtual\+\_\+scsi.\+h$>$}
+
+\doxysubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{classvk__virtual__scsi__drv__t_a30213f13caa1354acc29d2bc6bddb88d}{drv\+\_\+type}}\+: 4
+\item 
+\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{classvk__virtual__scsi__drv__t_a5e6441554c55f167f0b909eb8799488d}{feature}}\+: 4
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>struct \{\\
+\>\>\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}($\ast$ \mbox{\hyperlink{classvk__virtual__scsi__drv__t_acbb2a3c437c89838c099af2208dfee19}{buffer}} )(\mbox{\hyperlink{classvk__scsi__t}{vk\_scsi\_t}} $\ast$scsi, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \\
+\>\>\>is\_read, \mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\_fast64\_t}} addr, \\
+\>\>\>\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\_fast32\_t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}}, \mbox{\hyperlink{structvsf__mem__t}{vsf\_mem\_t}} \\
+\>\>\>$\ast$mem)\\
+\>\>void($\ast$ \mbox{\hyperlink{classvk__virtual__scsi__drv__t_ab6f02a96ea7520bb0193ea1a14624933}{init}} )(void)\\
+\>\>void($\ast$ \mbox{\hyperlink{classvk__virtual__scsi__drv__t_a77ff013813fe7fb4e240a229aac45c27}{read}} )(void)\\
+\>\>void($\ast$ \mbox{\hyperlink{classvk__virtual__scsi__drv__t_a1f96fc8d2b3d4e155e62cd960ebc72d2}{write}} )(void)\\
+\>\} \\
+\>struct \{\\
+\>\>\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}($\ast$ \mbox{\hyperlink{classvk__virtual__scsi__drv__t_acbb2a3c437c89838c099af2208dfee19}{buffer}} )(\mbox{\hyperlink{classvk__scsi__t}{vk\_scsi\_t}} $\ast$scsi, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \\
+\>\>\>is\_read, \mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\_fast64\_t}} addr, \\
+\>\>\>\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\_fast32\_t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}}, \mbox{\hyperlink{structvsf__mem__t}{vsf\_mem\_t}} \\
+\>\>\>$\ast$mem)\\
+\>\>\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\_err\_t}}($\ast$ \mbox{\hyperlink{classvk__virtual__scsi__drv__t_a319e5aa2a1d0ae53cc9b0c36273a04ea}{init}} )(\mbox{\hyperlink{classvk__scsi__t}{vk\_scsi\_t}} $\ast$scsi)\\
+\>\>\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\_fast32\_t}}($\ast$ \mbox{\hyperlink{classvk__virtual__scsi__drv__t_adcd0521589748363fe4e51e66a9a7303}{read}} )(\mbox{\hyperlink{classvk__scsi__t}{vk\_scsi\_t}} $\ast$scsi, \\
+\>\>\>\mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\_fast64\_t}} addr, \\
+\>\>\>\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\_fast32\_t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})\\
+\>\>\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\_fast32\_t}}($\ast$ \mbox{\hyperlink{classvk__virtual__scsi__drv__t_ad8f7da2bcf9acd0b3ec47ba3fb9c958f}{write}} )(\mbox{\hyperlink{classvk__scsi__t}{vk\_scsi\_t}} $\ast$scsi, \\
+\>\>\>\mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\_fast64\_t}} addr, \\
+\>\>\>\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\_fast32\_t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})\\
+\>\} \mbox{\hyperlink{classvk__virtual__scsi__drv__t_abbf4a45609793f856dc30c1109773eaf}{normal}}\\
+\>struct \{\\
+\>\>\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}($\ast$ \mbox{\hyperlink{classvk__virtual__scsi__drv__t_acbb2a3c437c89838c099af2208dfee19}{buffer}} )(\mbox{\hyperlink{classvk__scsi__t}{vk\_scsi\_t}} $\ast$scsi, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \\
+\>\>\>is\_read, \mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\_fast64\_t}} addr, \\
+\>\>\>\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\_fast32\_t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}}, \mbox{\hyperlink{structvsf__mem__t}{vsf\_mem\_t}} \\
+\>\>\>$\ast$mem)\\
+\>\>\mbox{\hyperlink{vsf__component__cfg_8h_a9e64f7b80402f0ed4368d8012bac8ecb}{vsf\_peda\_evthandler\_t}} \mbox{\hyperlink{classvk__virtual__scsi__drv__t_a115b697ebdde823302132adfd1b2cac6}{init}}\\
+\>\>\mbox{\hyperlink{vsf__component__cfg_8h_a9e64f7b80402f0ed4368d8012bac8ecb}{vsf\_peda\_evthandler\_t}} \mbox{\hyperlink{classvk__virtual__scsi__drv__t_a9d812827cba07a18fd4368e62e6d54ad}{read}}\\
+\>\>\mbox{\hyperlink{vsf__component__cfg_8h_a9e64f7b80402f0ed4368d8012bac8ecb}{vsf\_peda\_evthandler\_t}} \mbox{\hyperlink{classvk__virtual__scsi__drv__t_a0f2c0e9b67ba3b7fe78aa086a9b834a6}{write}}\\
+\>\} \mbox{\hyperlink{classvk__virtual__scsi__drv__t_ac2bb95c7c44d0a9a651b62e9f2c5738e}{param\_subcall}}\\
+\}; \\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Field Documentation}
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_a30213f13caa1354acc29d2bc6bddb88d}\label{classvk__virtual__scsi__drv__t_a30213f13caa1354acc29d2bc6bddb88d}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!drv\_type@{drv\_type}}
+\index{drv\_type@{drv\_type}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{drv\_type}{drv\_type}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::drv\+\_\+type}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_a5e6441554c55f167f0b909eb8799488d}\label{classvk__virtual__scsi__drv__t_a5e6441554c55f167f0b909eb8799488d}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!feature@{feature}}
+\index{feature@{feature}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{feature}{feature}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::feature}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_acbb2a3c437c89838c099af2208dfee19}\label{classvk__virtual__scsi__drv__t_acbb2a3c437c89838c099af2208dfee19}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!buffer@{buffer}}
+\index{buffer@{buffer}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{buffer}{buffer}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}($\ast$ vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::buffer) (\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$scsi, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} is\+\_\+read, \mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\+\_\+fast64\+\_\+t}} addr, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}}, \mbox{\hyperlink{structvsf__mem__t}{vsf\+\_\+mem\+\_\+t}} $\ast$mem)}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_ab6f02a96ea7520bb0193ea1a14624933}\label{classvk__virtual__scsi__drv__t_ab6f02a96ea7520bb0193ea1a14624933}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!init@{init}}
+\index{init@{init}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{init}{init}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void($\ast$ vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::init) (void)}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_a77ff013813fe7fb4e240a229aac45c27}\label{classvk__virtual__scsi__drv__t_a77ff013813fe7fb4e240a229aac45c27}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!read@{read}}
+\index{read@{read}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{read}{read}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void($\ast$ vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::read) (void)}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_a1f96fc8d2b3d4e155e62cd960ebc72d2}\label{classvk__virtual__scsi__drv__t_a1f96fc8d2b3d4e155e62cd960ebc72d2}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!write@{write}}
+\index{write@{write}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{write}{write}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily void($\ast$ vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::write) (void)}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_a319e5aa2a1d0ae53cc9b0c36273a04ea}\label{classvk__virtual__scsi__drv__t_a319e5aa2a1d0ae53cc9b0c36273a04ea}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!init@{init}}
+\index{init@{init}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{init}{init}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}}($\ast$ vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::init) (\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$scsi)}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_adcd0521589748363fe4e51e66a9a7303}\label{classvk__virtual__scsi__drv__t_adcd0521589748363fe4e51e66a9a7303}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!read@{read}}
+\index{read@{read}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{read}{read}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}($\ast$ vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::read) (\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$scsi, \mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\+\_\+fast64\+\_\+t}} addr, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_ad8f7da2bcf9acd0b3ec47ba3fb9c958f}\label{classvk__virtual__scsi__drv__t_ad8f7da2bcf9acd0b3ec47ba3fb9c958f}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!write@{write}}
+\index{write@{write}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{write}{write}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}($\ast$ vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::write) (\mbox{\hyperlink{classvk__scsi__t}{vk\+\_\+scsi\+\_\+t}} $\ast$scsi, \mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\+\_\+fast64\+\_\+t}} addr, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_abbf4a45609793f856dc30c1109773eaf}\label{classvk__virtual__scsi__drv__t_abbf4a45609793f856dc30c1109773eaf}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!normal@{normal}}
+\index{normal@{normal}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::normal}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_a115b697ebdde823302132adfd1b2cac6}\label{classvk__virtual__scsi__drv__t_a115b697ebdde823302132adfd1b2cac6}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!init@{init}}
+\index{init@{init}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{init}{init}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__component__cfg_8h_a9e64f7b80402f0ed4368d8012bac8ecb}{vsf\+\_\+peda\+\_\+evthandler\+\_\+t}} vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::init}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_a9d812827cba07a18fd4368e62e6d54ad}\label{classvk__virtual__scsi__drv__t_a9d812827cba07a18fd4368e62e6d54ad}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!read@{read}}
+\index{read@{read}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{read}{read}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__component__cfg_8h_a9e64f7b80402f0ed4368d8012bac8ecb}{vsf\+\_\+peda\+\_\+evthandler\+\_\+t}} vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::read}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_a0f2c0e9b67ba3b7fe78aa086a9b834a6}\label{classvk__virtual__scsi__drv__t_a0f2c0e9b67ba3b7fe78aa086a9b834a6}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!write@{write}}
+\index{write@{write}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{write}{write}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__component__cfg_8h_a9e64f7b80402f0ed4368d8012bac8ecb}{vsf\+\_\+peda\+\_\+evthandler\+\_\+t}} vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::write}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_ac2bb95c7c44d0a9a651b62e9f2c5738e}\label{classvk__virtual__scsi__drv__t_ac2bb95c7c44d0a9a651b62e9f2c5738e}} 
+\index{vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}!param\_subcall@{param\_subcall}}
+\index{param\_subcall@{param\_subcall}!vk\_virtual\_scsi\_drv\_t@{vk\_virtual\_scsi\_drv\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vk\+\_\+virtual\+\_\+scsi\+\_\+drv\+\_\+t\+::param\+\_\+subcall}
+
+\mbox{\Hypertarget{classvk__virtual__scsi__drv__t_a992244d919bede7ac730e9f12fd7ead9}\label{classvk__virtual__scsi__drv__t_a992244d919bede7ac730e9f12fd7ead9}} 
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily union \{ ... \} }
+

@@ -1,0 +1,115 @@
+\hypertarget{vsf__wav_8c}{}\doxysection{source/component/av/audio/decoder/wav/vsf\+\_\+wav.c File Reference}
+\label{vsf__wav_8c}\index{source/component/av/audio/decoder/wav/vsf\_wav.c@{source/component/av/audio/decoder/wav/vsf\_wav.c}}
+{\ttfamily \#include \char`\"{}../../../vsf\+\_\+av\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/av/vsf\+\_\+av.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvk__wav__riff__t}{vk\+\_\+wav\+\_\+riff\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__wav__format__t}{vk\+\_\+wav\+\_\+format\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__wav__data__t}{vk\+\_\+wav\+\_\+data\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__wav_8c_a3795c90d93fba4016ca41b28849556a6}{\+\_\+\+\_\+\+VSF\+\_\+\+SIMPLE\+\_\+\+STREAM\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__wav_8c_aba1bc8631ffc1a9aae695116ffcda5b5}{\+\_\+\+\_\+\+VSF\+\_\+\+WAV\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__wav_8c_ae68af52b29d55a0d7474c656fd71d931}{\+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvk__wav__riff__t}{vk\+\_\+wav\+\_\+riff\+\_\+t}} \mbox{\hyperlink{vsf__wav_8c_ac316820763e664b22fb82336c99e88fe}{vk\+\_\+wav\+\_\+riff\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__wav__format__t}{vk\+\_\+wav\+\_\+format\+\_\+t}} \mbox{\hyperlink{vsf__wav_8c_ab43e20ddc66d326d3186e113db355995}{vk\+\_\+wav\+\_\+format\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__wav__data__t}{vk\+\_\+wav\+\_\+data\+\_\+t}} \mbox{\hyperlink{vsf__wav_8c_af6e7559873bfc05bf7f648a04256c4ac}{vk\+\_\+wav\+\_\+data\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{vsf__wav_8c_a06fc87d81c62e9abb8790b6e5713c55ba8b2b38660c990717177d4a118f9a173a}{VSF\+\_\+\+EVT\+\_\+\+PARSE\+\_\+\+DONE}} = VSF\+\_\+\+EVT\+\_\+\+USER + 0
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__wav_8c_a00e545cdf877876a47fa663c30fd6927}{vk\+\_\+wav\+\_\+playback\+\_\+start}} (\mbox{\hyperlink{classvk__wav__t}{vk\+\_\+wav\+\_\+t}} $\ast$wav)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__wav_8c_ae875a942c2447878ad3bc796555a49da}{vk\+\_\+wav\+\_\+playback\+\_\+stop}} (\mbox{\hyperlink{classvk__wav__t}{vk\+\_\+wav\+\_\+t}} $\ast$wav)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__wav_8c_a3795c90d93fba4016ca41b28849556a6}\label{vsf__wav_8c_a3795c90d93fba4016ca41b28849556a6}} 
+\index{vsf\_wav.c@{vsf\_wav.c}!\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_@{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_@{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}!vsf\_wav.c@{vsf\_wav.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+SIMPLE\+\_\+\+STREAM\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__wav_8c_aba1bc8631ffc1a9aae695116ffcda5b5}\label{vsf__wav_8c_aba1bc8631ffc1a9aae695116ffcda5b5}} 
+\index{vsf\_wav.c@{vsf\_wav.c}!\_\_VSF\_WAV\_CLASS\_IMPLEMENT@{\_\_VSF\_WAV\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_WAV\_CLASS\_IMPLEMENT@{\_\_VSF\_WAV\_CLASS\_IMPLEMENT}!vsf\_wav.c@{vsf\_wav.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_WAV\_CLASS\_IMPLEMENT}{\_\_VSF\_WAV\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+WAV\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__wav_8c_ae68af52b29d55a0d7474c656fd71d931}\label{vsf__wav_8c_ae68af52b29d55a0d7474c656fd71d931}} 
+\index{vsf\_wav.c@{vsf\_wav.c}!\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}!vsf\_wav.c@{vsf\_wav.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{vsf__wav_8c_ac316820763e664b22fb82336c99e88fe}\label{vsf__wav_8c_ac316820763e664b22fb82336c99e88fe}} 
+\index{vsf\_wav.c@{vsf\_wav.c}!vk\_wav\_riff\_t@{vk\_wav\_riff\_t}}
+\index{vk\_wav\_riff\_t@{vk\_wav\_riff\_t}!vsf\_wav.c@{vsf\_wav.c}}
+\doxysubsubsection{\texorpdfstring{vk\_wav\_riff\_t}{vk\_wav\_riff\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__wav__riff__t}{vk\+\_\+wav\+\_\+riff\+\_\+t}} \mbox{\hyperlink{structvk__wav__riff__t}{vk\+\_\+wav\+\_\+riff\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__wav_8c_ab43e20ddc66d326d3186e113db355995}\label{vsf__wav_8c_ab43e20ddc66d326d3186e113db355995}} 
+\index{vsf\_wav.c@{vsf\_wav.c}!vk\_wav\_format\_t@{vk\_wav\_format\_t}}
+\index{vk\_wav\_format\_t@{vk\_wav\_format\_t}!vsf\_wav.c@{vsf\_wav.c}}
+\doxysubsubsection{\texorpdfstring{vk\_wav\_format\_t}{vk\_wav\_format\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__wav__format__t}{vk\+\_\+wav\+\_\+format\+\_\+t}} \mbox{\hyperlink{structvk__wav__format__t}{vk\+\_\+wav\+\_\+format\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__wav_8c_af6e7559873bfc05bf7f648a04256c4ac}\label{vsf__wav_8c_af6e7559873bfc05bf7f648a04256c4ac}} 
+\index{vsf\_wav.c@{vsf\_wav.c}!vk\_wav\_data\_t@{vk\_wav\_data\_t}}
+\index{vk\_wav\_data\_t@{vk\_wav\_data\_t}!vsf\_wav.c@{vsf\_wav.c}}
+\doxysubsubsection{\texorpdfstring{vk\_wav\_data\_t}{vk\_wav\_data\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__wav__data__t}{vk\+\_\+wav\+\_\+data\+\_\+t}} \mbox{\hyperlink{structvk__wav__data__t}{vk\+\_\+wav\+\_\+data\+\_\+t}}}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{vsf__wav_8c_a06fc87d81c62e9abb8790b6e5713c55b}\label{vsf__wav_8c_a06fc87d81c62e9abb8790b6e5713c55b}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_EVT\_PARSE\_DONE@{VSF\_EVT\_PARSE\_DONE}!vsf\_wav.c@{vsf\_wav.c}}\index{vsf\_wav.c@{vsf\_wav.c}!VSF\_EVT\_PARSE\_DONE@{VSF\_EVT\_PARSE\_DONE}}}\mbox{\Hypertarget{vsf__wav_8c_a06fc87d81c62e9abb8790b6e5713c55ba8b2b38660c990717177d4a118f9a173a}\label{vsf__wav_8c_a06fc87d81c62e9abb8790b6e5713c55ba8b2b38660c990717177d4a118f9a173a}} 
+VSF\+\_\+\+EVT\+\_\+\+PARSE\+\_\+\+DONE&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__wav_8c_a00e545cdf877876a47fa663c30fd6927}\label{vsf__wav_8c_a00e545cdf877876a47fa663c30fd6927}} 
+\index{vsf\_wav.c@{vsf\_wav.c}!vk\_wav\_playback\_start@{vk\_wav\_playback\_start}}
+\index{vk\_wav\_playback\_start@{vk\_wav\_playback\_start}!vsf\_wav.c@{vsf\_wav.c}}
+\doxysubsubsection{\texorpdfstring{vk\_wav\_playback\_start()}{vk\_wav\_playback\_start()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+wav\+\_\+playback\+\_\+start (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__wav__t}{vk\+\_\+wav\+\_\+t}} $\ast$}]{wav }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__wav_8c_ae875a942c2447878ad3bc796555a49da}\label{vsf__wav_8c_ae875a942c2447878ad3bc796555a49da}} 
+\index{vsf\_wav.c@{vsf\_wav.c}!vk\_wav\_playback\_stop@{vk\_wav\_playback\_stop}}
+\index{vk\_wav\_playback\_stop@{vk\_wav\_playback\_stop}!vsf\_wav.c@{vsf\_wav.c}}
+\doxysubsubsection{\texorpdfstring{vk\_wav\_playback\_stop()}{vk\_wav\_playback\_stop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+wav\+\_\+playback\+\_\+stop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__wav__t}{vk\+\_\+wav\+\_\+t}} $\ast$}]{wav }\end{DoxyParamCaption})}
+

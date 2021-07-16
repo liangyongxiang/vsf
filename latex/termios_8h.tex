@@ -1,0 +1,402 @@
+\hypertarget{termios_8h}{}\doxysection{source/shell/sys/linux/include/termios.h File Reference}
+\label{termios_8h}\index{source/shell/sys/linux/include/termios.h@{source/shell/sys/linux/include/termios.h}}
+{\ttfamily \#include \char`\"{}shell/sys/linux/vsf\+\_\+linux\+\_\+cfg.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structtermios}{termios}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{termios_8h_a42687311254fa20089b81ed884a36c1a}{tcgetattr}}~\mbox{\hyperlink{vsf__linux__cfg_8h_a6925d1139da34a78dfcc437ed355d9fe}{VSF\+\_\+\+LINUX\+\_\+\+WRAPPER}}(tcgetattr)
+\item 
+\#define \mbox{\hyperlink{termios_8h_a901caf0dd1f3bb962b56fbc782bf84f7}{tcsetattr}}~\mbox{\hyperlink{vsf__linux__cfg_8h_a6925d1139da34a78dfcc437ed355d9fe}{VSF\+\_\+\+LINUX\+\_\+\+WRAPPER}}(tcsetattr)
+\item 
+\#define \mbox{\hyperlink{termios_8h_a2fa5de0b1c54040022ec2edbafe68db7}{IGNBRK}}~0000001
+\item 
+\#define \mbox{\hyperlink{termios_8h_a51f85744efb808bc7cdfc9bf689cb043}{BRKINT}}~0000002
+\item 
+\#define \mbox{\hyperlink{termios_8h_a4fed5823391b245f7024acc621e4131f}{IGNPAR}}~0000004
+\item 
+\#define \mbox{\hyperlink{termios_8h_a7696d3f5131e13fba7751bc568edb7a2}{PARMRK}}~0000010
+\item 
+\#define \mbox{\hyperlink{termios_8h_abd0c2389a768405ef39c86fe8cf5c7ec}{INPCK}}~0000020
+\item 
+\#define \mbox{\hyperlink{termios_8h_af9af65d3f6ca8f2ea3eecb1d06d5abd1}{ISTRIP}}~0000040
+\item 
+\#define \mbox{\hyperlink{termios_8h_acc6dc46be5104b67ffde1df93549472a}{INLCR}}~0000100
+\item 
+\#define \mbox{\hyperlink{termios_8h_ab114b7d41f2ff7562a85ec83b62544b0}{IGNCR}}~0000200
+\item 
+\#define \mbox{\hyperlink{termios_8h_ae0cbb5db9d8f8119864bb9537466c314}{ICRNL}}~0000400
+\item 
+\#define \mbox{\hyperlink{termios_8h_a60397fb1a881cadaa5e210dd5d347989}{IUCLC}}~0001000
+\item 
+\#define \mbox{\hyperlink{termios_8h_a788d2780deb67c58ba8a049981a8161c}{IXON}}~0002000
+\item 
+\#define \mbox{\hyperlink{termios_8h_ad426ef776a603872c6638f8775d63309}{IXANY}}~0004000
+\item 
+\#define \mbox{\hyperlink{termios_8h_afdda6cad5fc4a9b67ba6dbe620065d91}{IXOFF}}~0010000
+\item 
+\#define \mbox{\hyperlink{termios_8h_a9bd5f371bd87fe2f1629535f638d544d}{IMAXBEL}}~0020000
+\item 
+\#define \mbox{\hyperlink{termios_8h_a0f5c02276e931955bae940f6b650e921}{IUTF8}}~0040000
+\item 
+\#define \mbox{\hyperlink{termios_8h_a0aad4afe9e202fff8ced3485bc835bb1}{OPOST}}~0000001
+\item 
+\#define \mbox{\hyperlink{termios_8h_a2ed0011eaf721d107946bf06f1824b36}{OLCUC}}~0000002
+\item 
+\#define \mbox{\hyperlink{termios_8h_a957436bc6db0a0d49b081dc9b4c98ef2}{ONLCR}}~0000004
+\item 
+\#define \mbox{\hyperlink{termios_8h_adc345d36b46c6ccdd079c9ecc3fc1296}{OCRNL}}~0000010
+\item 
+\#define \mbox{\hyperlink{termios_8h_aab452deaf5d1b993c3b0ff2d3e408577}{ONOCR}}~0000020
+\item 
+\#define \mbox{\hyperlink{termios_8h_a8fd17e0aa25ab2abd07477442ba1928e}{ONLRET}}~0000040
+\item 
+\#define \mbox{\hyperlink{termios_8h_ae6ebfbba412b33b84de07c35f12b2d7f}{OFILL}}~0000100
+\item 
+\#define \mbox{\hyperlink{termios_8h_a671d46b6d4ea404575eb6316dcd48fd6}{OFDEL}}~0000200
+\item 
+\#define \mbox{\hyperlink{termios_8h_a52c605497d066b9ae7407124f84806a7}{ISIG}}~0000001
+\item 
+\#define \mbox{\hyperlink{termios_8h_a58265a371303d00a4a3b1f128d72c21e}{ICANON}}~0000002
+\item 
+\#define \mbox{\hyperlink{termios_8h_aad1dc60a04a1d8cfc8b3ded13601e361}{ECHO}}~0000010
+\item 
+\#define \mbox{\hyperlink{termios_8h_aac931d3ce0dfc4578f76879ed095ecd7}{ECHOE}}~0000020
+\item 
+\#define \mbox{\hyperlink{termios_8h_a6695c16777cf8a5211cfba9a23d45985}{ECHOK}}~0000040
+\item 
+\#define \mbox{\hyperlink{termios_8h_ad99516e614e3aa680dfc0052085de40a}{ECHONL}}~0000100
+\item 
+\#define \mbox{\hyperlink{termios_8h_a854ccd50bdc557d4898306555c491db3}{NOFLSH}}~0000200
+\item 
+\#define \mbox{\hyperlink{termios_8h_a79c826e2e8762135eda0b51352241bc6}{TOSTOP}}~0000400
+\item 
+\#define \mbox{\hyperlink{termios_8h_ab64d018931a30f42a2590c5d997a41f2}{IEXTEN}}~0100000
+\item 
+\#define \mbox{\hyperlink{termios_8h_a469b6bf3b2c9ee9866d1270dd640458b}{TCOOFF}}~0
+\item 
+\#define \mbox{\hyperlink{termios_8h_a8f04f6a470c30f41df591f14c21afb60}{TCOON}}~1
+\item 
+\#define \mbox{\hyperlink{termios_8h_a227fea9e0767c2a418967e87f2fc222d}{TCIOFF}}~2
+\item 
+\#define \mbox{\hyperlink{termios_8h_a9dea2092d0f68fc2a0a9ba2159523667}{TCION}}~3
+\item 
+\#define \mbox{\hyperlink{termios_8h_a058d97bfe9b14f76cf512b97504d7223}{TCIFLUSH}}~0
+\item 
+\#define \mbox{\hyperlink{termios_8h_a13190138439fcec2c985e2822df02b4c}{TCOFLUSH}}~1
+\item 
+\#define \mbox{\hyperlink{termios_8h_a101bfc62e2af02c05dde40905aa47c1b}{TCIOFLUSH}}~2
+\item 
+\#define \mbox{\hyperlink{termios_8h_a8147c7f8db262c162c187575e17eeb63}{TCSANOW}}~0
+\item 
+\#define \mbox{\hyperlink{termios_8h_ad147943bddb5fe0a4b5e8cebcdba1596}{TCSADRAIN}}~1
+\item 
+\#define \mbox{\hyperlink{termios_8h_abb207d1ce361e562262fd82e605e9cbc}{TCSAFLUSH}}~2
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned int \mbox{\hyperlink{termios_8h_ac9d3e47a1913b6665ee950e89ccb916b}{tcflag\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{termios_8h_a35cd41960ea49bd991ac7d3043ab2b1c}{tcgetattr}} (int fd, struct \mbox{\hyperlink{structtermios}{termios}} $\ast$\mbox{\hyperlink{structtermios}{termios}})
+\item 
+int \mbox{\hyperlink{termios_8h_ae3cd18402da2c2abd522497f0865e09d}{tcsetattr}} (int fd, int optional\+\_\+actions, const struct \mbox{\hyperlink{structtermios}{termios}} $\ast$\mbox{\hyperlink{structtermios}{termios}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{termios_8h_a42687311254fa20089b81ed884a36c1a}\label{termios_8h_a42687311254fa20089b81ed884a36c1a}} 
+\index{termios.h@{termios.h}!tcgetattr@{tcgetattr}}
+\index{tcgetattr@{tcgetattr}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{tcgetattr}{tcgetattr}}
+{\footnotesize\ttfamily \#define tcgetattr~\mbox{\hyperlink{vsf__linux__cfg_8h_a6925d1139da34a78dfcc437ed355d9fe}{VSF\+\_\+\+LINUX\+\_\+\+WRAPPER}}(tcgetattr)}
+
+\mbox{\Hypertarget{termios_8h_a901caf0dd1f3bb962b56fbc782bf84f7}\label{termios_8h_a901caf0dd1f3bb962b56fbc782bf84f7}} 
+\index{termios.h@{termios.h}!tcsetattr@{tcsetattr}}
+\index{tcsetattr@{tcsetattr}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{tcsetattr}{tcsetattr}}
+{\footnotesize\ttfamily \#define tcsetattr~\mbox{\hyperlink{vsf__linux__cfg_8h_a6925d1139da34a78dfcc437ed355d9fe}{VSF\+\_\+\+LINUX\+\_\+\+WRAPPER}}(tcsetattr)}
+
+\mbox{\Hypertarget{termios_8h_a2fa5de0b1c54040022ec2edbafe68db7}\label{termios_8h_a2fa5de0b1c54040022ec2edbafe68db7}} 
+\index{termios.h@{termios.h}!IGNBRK@{IGNBRK}}
+\index{IGNBRK@{IGNBRK}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{IGNBRK}{IGNBRK}}
+{\footnotesize\ttfamily \#define IGNBRK~0000001}
+
+\mbox{\Hypertarget{termios_8h_a51f85744efb808bc7cdfc9bf689cb043}\label{termios_8h_a51f85744efb808bc7cdfc9bf689cb043}} 
+\index{termios.h@{termios.h}!BRKINT@{BRKINT}}
+\index{BRKINT@{BRKINT}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{BRKINT}{BRKINT}}
+{\footnotesize\ttfamily \#define BRKINT~0000002}
+
+\mbox{\Hypertarget{termios_8h_a4fed5823391b245f7024acc621e4131f}\label{termios_8h_a4fed5823391b245f7024acc621e4131f}} 
+\index{termios.h@{termios.h}!IGNPAR@{IGNPAR}}
+\index{IGNPAR@{IGNPAR}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{IGNPAR}{IGNPAR}}
+{\footnotesize\ttfamily \#define IGNPAR~0000004}
+
+\mbox{\Hypertarget{termios_8h_a7696d3f5131e13fba7751bc568edb7a2}\label{termios_8h_a7696d3f5131e13fba7751bc568edb7a2}} 
+\index{termios.h@{termios.h}!PARMRK@{PARMRK}}
+\index{PARMRK@{PARMRK}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{PARMRK}{PARMRK}}
+{\footnotesize\ttfamily \#define PARMRK~0000010}
+
+\mbox{\Hypertarget{termios_8h_abd0c2389a768405ef39c86fe8cf5c7ec}\label{termios_8h_abd0c2389a768405ef39c86fe8cf5c7ec}} 
+\index{termios.h@{termios.h}!INPCK@{INPCK}}
+\index{INPCK@{INPCK}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{INPCK}{INPCK}}
+{\footnotesize\ttfamily \#define INPCK~0000020}
+
+\mbox{\Hypertarget{termios_8h_af9af65d3f6ca8f2ea3eecb1d06d5abd1}\label{termios_8h_af9af65d3f6ca8f2ea3eecb1d06d5abd1}} 
+\index{termios.h@{termios.h}!ISTRIP@{ISTRIP}}
+\index{ISTRIP@{ISTRIP}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{ISTRIP}{ISTRIP}}
+{\footnotesize\ttfamily \#define ISTRIP~0000040}
+
+\mbox{\Hypertarget{termios_8h_acc6dc46be5104b67ffde1df93549472a}\label{termios_8h_acc6dc46be5104b67ffde1df93549472a}} 
+\index{termios.h@{termios.h}!INLCR@{INLCR}}
+\index{INLCR@{INLCR}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{INLCR}{INLCR}}
+{\footnotesize\ttfamily \#define INLCR~0000100}
+
+\mbox{\Hypertarget{termios_8h_ab114b7d41f2ff7562a85ec83b62544b0}\label{termios_8h_ab114b7d41f2ff7562a85ec83b62544b0}} 
+\index{termios.h@{termios.h}!IGNCR@{IGNCR}}
+\index{IGNCR@{IGNCR}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{IGNCR}{IGNCR}}
+{\footnotesize\ttfamily \#define IGNCR~0000200}
+
+\mbox{\Hypertarget{termios_8h_ae0cbb5db9d8f8119864bb9537466c314}\label{termios_8h_ae0cbb5db9d8f8119864bb9537466c314}} 
+\index{termios.h@{termios.h}!ICRNL@{ICRNL}}
+\index{ICRNL@{ICRNL}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{ICRNL}{ICRNL}}
+{\footnotesize\ttfamily \#define ICRNL~0000400}
+
+\mbox{\Hypertarget{termios_8h_a60397fb1a881cadaa5e210dd5d347989}\label{termios_8h_a60397fb1a881cadaa5e210dd5d347989}} 
+\index{termios.h@{termios.h}!IUCLC@{IUCLC}}
+\index{IUCLC@{IUCLC}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{IUCLC}{IUCLC}}
+{\footnotesize\ttfamily \#define IUCLC~0001000}
+
+\mbox{\Hypertarget{termios_8h_a788d2780deb67c58ba8a049981a8161c}\label{termios_8h_a788d2780deb67c58ba8a049981a8161c}} 
+\index{termios.h@{termios.h}!IXON@{IXON}}
+\index{IXON@{IXON}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{IXON}{IXON}}
+{\footnotesize\ttfamily \#define IXON~0002000}
+
+\mbox{\Hypertarget{termios_8h_ad426ef776a603872c6638f8775d63309}\label{termios_8h_ad426ef776a603872c6638f8775d63309}} 
+\index{termios.h@{termios.h}!IXANY@{IXANY}}
+\index{IXANY@{IXANY}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{IXANY}{IXANY}}
+{\footnotesize\ttfamily \#define IXANY~0004000}
+
+\mbox{\Hypertarget{termios_8h_afdda6cad5fc4a9b67ba6dbe620065d91}\label{termios_8h_afdda6cad5fc4a9b67ba6dbe620065d91}} 
+\index{termios.h@{termios.h}!IXOFF@{IXOFF}}
+\index{IXOFF@{IXOFF}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{IXOFF}{IXOFF}}
+{\footnotesize\ttfamily \#define IXOFF~0010000}
+
+\mbox{\Hypertarget{termios_8h_a9bd5f371bd87fe2f1629535f638d544d}\label{termios_8h_a9bd5f371bd87fe2f1629535f638d544d}} 
+\index{termios.h@{termios.h}!IMAXBEL@{IMAXBEL}}
+\index{IMAXBEL@{IMAXBEL}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{IMAXBEL}{IMAXBEL}}
+{\footnotesize\ttfamily \#define IMAXBEL~0020000}
+
+\mbox{\Hypertarget{termios_8h_a0f5c02276e931955bae940f6b650e921}\label{termios_8h_a0f5c02276e931955bae940f6b650e921}} 
+\index{termios.h@{termios.h}!IUTF8@{IUTF8}}
+\index{IUTF8@{IUTF8}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{IUTF8}{IUTF8}}
+{\footnotesize\ttfamily \#define IUTF8~0040000}
+
+\mbox{\Hypertarget{termios_8h_a0aad4afe9e202fff8ced3485bc835bb1}\label{termios_8h_a0aad4afe9e202fff8ced3485bc835bb1}} 
+\index{termios.h@{termios.h}!OPOST@{OPOST}}
+\index{OPOST@{OPOST}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{OPOST}{OPOST}}
+{\footnotesize\ttfamily \#define OPOST~0000001}
+
+\mbox{\Hypertarget{termios_8h_a2ed0011eaf721d107946bf06f1824b36}\label{termios_8h_a2ed0011eaf721d107946bf06f1824b36}} 
+\index{termios.h@{termios.h}!OLCUC@{OLCUC}}
+\index{OLCUC@{OLCUC}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{OLCUC}{OLCUC}}
+{\footnotesize\ttfamily \#define OLCUC~0000002}
+
+\mbox{\Hypertarget{termios_8h_a957436bc6db0a0d49b081dc9b4c98ef2}\label{termios_8h_a957436bc6db0a0d49b081dc9b4c98ef2}} 
+\index{termios.h@{termios.h}!ONLCR@{ONLCR}}
+\index{ONLCR@{ONLCR}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{ONLCR}{ONLCR}}
+{\footnotesize\ttfamily \#define ONLCR~0000004}
+
+\mbox{\Hypertarget{termios_8h_adc345d36b46c6ccdd079c9ecc3fc1296}\label{termios_8h_adc345d36b46c6ccdd079c9ecc3fc1296}} 
+\index{termios.h@{termios.h}!OCRNL@{OCRNL}}
+\index{OCRNL@{OCRNL}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{OCRNL}{OCRNL}}
+{\footnotesize\ttfamily \#define OCRNL~0000010}
+
+\mbox{\Hypertarget{termios_8h_aab452deaf5d1b993c3b0ff2d3e408577}\label{termios_8h_aab452deaf5d1b993c3b0ff2d3e408577}} 
+\index{termios.h@{termios.h}!ONOCR@{ONOCR}}
+\index{ONOCR@{ONOCR}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{ONOCR}{ONOCR}}
+{\footnotesize\ttfamily \#define ONOCR~0000020}
+
+\mbox{\Hypertarget{termios_8h_a8fd17e0aa25ab2abd07477442ba1928e}\label{termios_8h_a8fd17e0aa25ab2abd07477442ba1928e}} 
+\index{termios.h@{termios.h}!ONLRET@{ONLRET}}
+\index{ONLRET@{ONLRET}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{ONLRET}{ONLRET}}
+{\footnotesize\ttfamily \#define ONLRET~0000040}
+
+\mbox{\Hypertarget{termios_8h_ae6ebfbba412b33b84de07c35f12b2d7f}\label{termios_8h_ae6ebfbba412b33b84de07c35f12b2d7f}} 
+\index{termios.h@{termios.h}!OFILL@{OFILL}}
+\index{OFILL@{OFILL}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{OFILL}{OFILL}}
+{\footnotesize\ttfamily \#define OFILL~0000100}
+
+\mbox{\Hypertarget{termios_8h_a671d46b6d4ea404575eb6316dcd48fd6}\label{termios_8h_a671d46b6d4ea404575eb6316dcd48fd6}} 
+\index{termios.h@{termios.h}!OFDEL@{OFDEL}}
+\index{OFDEL@{OFDEL}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{OFDEL}{OFDEL}}
+{\footnotesize\ttfamily \#define OFDEL~0000200}
+
+\mbox{\Hypertarget{termios_8h_a52c605497d066b9ae7407124f84806a7}\label{termios_8h_a52c605497d066b9ae7407124f84806a7}} 
+\index{termios.h@{termios.h}!ISIG@{ISIG}}
+\index{ISIG@{ISIG}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{ISIG}{ISIG}}
+{\footnotesize\ttfamily \#define ISIG~0000001}
+
+\mbox{\Hypertarget{termios_8h_a58265a371303d00a4a3b1f128d72c21e}\label{termios_8h_a58265a371303d00a4a3b1f128d72c21e}} 
+\index{termios.h@{termios.h}!ICANON@{ICANON}}
+\index{ICANON@{ICANON}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{ICANON}{ICANON}}
+{\footnotesize\ttfamily \#define ICANON~0000002}
+
+\mbox{\Hypertarget{termios_8h_aad1dc60a04a1d8cfc8b3ded13601e361}\label{termios_8h_aad1dc60a04a1d8cfc8b3ded13601e361}} 
+\index{termios.h@{termios.h}!ECHO@{ECHO}}
+\index{ECHO@{ECHO}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{ECHO}{ECHO}}
+{\footnotesize\ttfamily \#define ECHO~0000010}
+
+\mbox{\Hypertarget{termios_8h_aac931d3ce0dfc4578f76879ed095ecd7}\label{termios_8h_aac931d3ce0dfc4578f76879ed095ecd7}} 
+\index{termios.h@{termios.h}!ECHOE@{ECHOE}}
+\index{ECHOE@{ECHOE}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{ECHOE}{ECHOE}}
+{\footnotesize\ttfamily \#define ECHOE~0000020}
+
+\mbox{\Hypertarget{termios_8h_a6695c16777cf8a5211cfba9a23d45985}\label{termios_8h_a6695c16777cf8a5211cfba9a23d45985}} 
+\index{termios.h@{termios.h}!ECHOK@{ECHOK}}
+\index{ECHOK@{ECHOK}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{ECHOK}{ECHOK}}
+{\footnotesize\ttfamily \#define ECHOK~0000040}
+
+\mbox{\Hypertarget{termios_8h_ad99516e614e3aa680dfc0052085de40a}\label{termios_8h_ad99516e614e3aa680dfc0052085de40a}} 
+\index{termios.h@{termios.h}!ECHONL@{ECHONL}}
+\index{ECHONL@{ECHONL}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{ECHONL}{ECHONL}}
+{\footnotesize\ttfamily \#define ECHONL~0000100}
+
+\mbox{\Hypertarget{termios_8h_a854ccd50bdc557d4898306555c491db3}\label{termios_8h_a854ccd50bdc557d4898306555c491db3}} 
+\index{termios.h@{termios.h}!NOFLSH@{NOFLSH}}
+\index{NOFLSH@{NOFLSH}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{NOFLSH}{NOFLSH}}
+{\footnotesize\ttfamily \#define NOFLSH~0000200}
+
+\mbox{\Hypertarget{termios_8h_a79c826e2e8762135eda0b51352241bc6}\label{termios_8h_a79c826e2e8762135eda0b51352241bc6}} 
+\index{termios.h@{termios.h}!TOSTOP@{TOSTOP}}
+\index{TOSTOP@{TOSTOP}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{TOSTOP}{TOSTOP}}
+{\footnotesize\ttfamily \#define TOSTOP~0000400}
+
+\mbox{\Hypertarget{termios_8h_ab64d018931a30f42a2590c5d997a41f2}\label{termios_8h_ab64d018931a30f42a2590c5d997a41f2}} 
+\index{termios.h@{termios.h}!IEXTEN@{IEXTEN}}
+\index{IEXTEN@{IEXTEN}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{IEXTEN}{IEXTEN}}
+{\footnotesize\ttfamily \#define IEXTEN~0100000}
+
+\mbox{\Hypertarget{termios_8h_a469b6bf3b2c9ee9866d1270dd640458b}\label{termios_8h_a469b6bf3b2c9ee9866d1270dd640458b}} 
+\index{termios.h@{termios.h}!TCOOFF@{TCOOFF}}
+\index{TCOOFF@{TCOOFF}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{TCOOFF}{TCOOFF}}
+{\footnotesize\ttfamily \#define TCOOFF~0}
+
+\mbox{\Hypertarget{termios_8h_a8f04f6a470c30f41df591f14c21afb60}\label{termios_8h_a8f04f6a470c30f41df591f14c21afb60}} 
+\index{termios.h@{termios.h}!TCOON@{TCOON}}
+\index{TCOON@{TCOON}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{TCOON}{TCOON}}
+{\footnotesize\ttfamily \#define TCOON~1}
+
+\mbox{\Hypertarget{termios_8h_a227fea9e0767c2a418967e87f2fc222d}\label{termios_8h_a227fea9e0767c2a418967e87f2fc222d}} 
+\index{termios.h@{termios.h}!TCIOFF@{TCIOFF}}
+\index{TCIOFF@{TCIOFF}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{TCIOFF}{TCIOFF}}
+{\footnotesize\ttfamily \#define TCIOFF~2}
+
+\mbox{\Hypertarget{termios_8h_a9dea2092d0f68fc2a0a9ba2159523667}\label{termios_8h_a9dea2092d0f68fc2a0a9ba2159523667}} 
+\index{termios.h@{termios.h}!TCION@{TCION}}
+\index{TCION@{TCION}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{TCION}{TCION}}
+{\footnotesize\ttfamily \#define TCION~3}
+
+\mbox{\Hypertarget{termios_8h_a058d97bfe9b14f76cf512b97504d7223}\label{termios_8h_a058d97bfe9b14f76cf512b97504d7223}} 
+\index{termios.h@{termios.h}!TCIFLUSH@{TCIFLUSH}}
+\index{TCIFLUSH@{TCIFLUSH}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{TCIFLUSH}{TCIFLUSH}}
+{\footnotesize\ttfamily \#define TCIFLUSH~0}
+
+\mbox{\Hypertarget{termios_8h_a13190138439fcec2c985e2822df02b4c}\label{termios_8h_a13190138439fcec2c985e2822df02b4c}} 
+\index{termios.h@{termios.h}!TCOFLUSH@{TCOFLUSH}}
+\index{TCOFLUSH@{TCOFLUSH}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{TCOFLUSH}{TCOFLUSH}}
+{\footnotesize\ttfamily \#define TCOFLUSH~1}
+
+\mbox{\Hypertarget{termios_8h_a101bfc62e2af02c05dde40905aa47c1b}\label{termios_8h_a101bfc62e2af02c05dde40905aa47c1b}} 
+\index{termios.h@{termios.h}!TCIOFLUSH@{TCIOFLUSH}}
+\index{TCIOFLUSH@{TCIOFLUSH}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{TCIOFLUSH}{TCIOFLUSH}}
+{\footnotesize\ttfamily \#define TCIOFLUSH~2}
+
+\mbox{\Hypertarget{termios_8h_a8147c7f8db262c162c187575e17eeb63}\label{termios_8h_a8147c7f8db262c162c187575e17eeb63}} 
+\index{termios.h@{termios.h}!TCSANOW@{TCSANOW}}
+\index{TCSANOW@{TCSANOW}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{TCSANOW}{TCSANOW}}
+{\footnotesize\ttfamily \#define TCSANOW~0}
+
+\mbox{\Hypertarget{termios_8h_ad147943bddb5fe0a4b5e8cebcdba1596}\label{termios_8h_ad147943bddb5fe0a4b5e8cebcdba1596}} 
+\index{termios.h@{termios.h}!TCSADRAIN@{TCSADRAIN}}
+\index{TCSADRAIN@{TCSADRAIN}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{TCSADRAIN}{TCSADRAIN}}
+{\footnotesize\ttfamily \#define TCSADRAIN~1}
+
+\mbox{\Hypertarget{termios_8h_abb207d1ce361e562262fd82e605e9cbc}\label{termios_8h_abb207d1ce361e562262fd82e605e9cbc}} 
+\index{termios.h@{termios.h}!TCSAFLUSH@{TCSAFLUSH}}
+\index{TCSAFLUSH@{TCSAFLUSH}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{TCSAFLUSH}{TCSAFLUSH}}
+{\footnotesize\ttfamily \#define TCSAFLUSH~2}
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{termios_8h_ac9d3e47a1913b6665ee950e89ccb916b}\label{termios_8h_ac9d3e47a1913b6665ee950e89ccb916b}} 
+\index{termios.h@{termios.h}!tcflag\_t@{tcflag\_t}}
+\index{tcflag\_t@{tcflag\_t}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{tcflag\_t}{tcflag\_t}}
+{\footnotesize\ttfamily typedef unsigned int \mbox{\hyperlink{termios_8h_ac9d3e47a1913b6665ee950e89ccb916b}{tcflag\+\_\+t}}}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{termios_8h_a35cd41960ea49bd991ac7d3043ab2b1c}\label{termios_8h_a35cd41960ea49bd991ac7d3043ab2b1c}} 
+\index{termios.h@{termios.h}!tcgetattr@{tcgetattr}}
+\index{tcgetattr@{tcgetattr}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{tcgetattr()}{tcgetattr()}}
+{\footnotesize\ttfamily int tcgetattr (\begin{DoxyParamCaption}\item[{int}]{fd,  }\item[{struct \mbox{\hyperlink{structtermios}{termios}} $\ast$}]{termios }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{termios_8h_ae3cd18402da2c2abd522497f0865e09d}\label{termios_8h_ae3cd18402da2c2abd522497f0865e09d}} 
+\index{termios.h@{termios.h}!tcsetattr@{tcsetattr}}
+\index{tcsetattr@{tcsetattr}!termios.h@{termios.h}}
+\doxysubsubsection{\texorpdfstring{tcsetattr()}{tcsetattr()}}
+{\footnotesize\ttfamily int tcsetattr (\begin{DoxyParamCaption}\item[{int}]{fd,  }\item[{int}]{optional\+\_\+actions,  }\item[{const struct \mbox{\hyperlink{structtermios}{termios}} $\ast$}]{termios }\end{DoxyParamCaption})}
+

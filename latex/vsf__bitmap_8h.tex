@@ -1,0 +1,203 @@
+\hypertarget{vsf__bitmap_8h}{}\doxysection{source/utilities/template/vsf\+\_\+bitmap.h File Reference}
+\label{vsf__bitmap_8h}\index{source/utilities/template/vsf\_bitmap.h@{source/utilities/template/vsf\_bitmap.h}}
+{\ttfamily \#include \char`\"{}../compiler/compiler.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_a179d74fe0c21da14bd15a9b381d64d20}{\+\_\+\+\_\+vsf\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+bitmap\+\_\+t
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_aaff726ffa05c22e587176172d4958a58}{\+\_\+\+\_\+vsf\+\_\+declare\+\_\+bitmap\+\_\+ex}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+bit\+\_\+size)
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_ad8ce0950a2f8082039086a552e16d5c5}{\+\_\+\+\_\+vsf\+\_\+declare\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+bit\+\_\+size)~    \mbox{\hyperlink{select_8h_ac03422be43e6d58d6c47f8c6a530e3b9}{\+\_\+\+\_\+vsf\+\_\+declare\+\_\+bitmap\+\_\+ex}}(\mbox{\hyperlink{vsf__bitmap_8h_a179d74fe0c21da14bd15a9b381d64d20}{\+\_\+\+\_\+vsf\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}), \+\_\+\+\_\+bit\+\_\+size)
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_a950241c5d956aaf315ebb6dc4b3d5ba9}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+get0}}(\+\_\+\+\_\+bitmap\+\_\+ptr,  \+\_\+\+\_\+bit)~    (\+\_\+\+\_\+bitmap\+\_\+ptr\mbox{[}(\+\_\+\+\_\+bit) / \mbox{\hyperlink{x86_2type_8h_a90150f9e4f3a4fc1694835f526a274cb}{\+\_\+\+\_\+optimal\+\_\+bit\+\_\+sz}}\mbox{]} \& ((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}})1 $<$$<$ ((\+\_\+\+\_\+bit) \& \mbox{\hyperlink{x86_2type_8h_a29200aa6e099b5b480d5afb0911a2571}{\+\_\+\+\_\+optimal\+\_\+bit\+\_\+msk}})))
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_a5cc8aa116b734f30937b1d8964ad6684}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+get1}}(\+\_\+\+\_\+bitmap\+\_\+ptr,  \+\_\+\+\_\+bit,  \+\_\+\+\_\+pbit\+\_\+val)
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_afe2bf8e17be5e02d7105aeaa2220e08b}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+set}}(\+\_\+\+\_\+bitmap\+\_\+ptr,  \+\_\+\+\_\+bit)
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_a6df525083184ad5c207830b7af9d6628}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+clear}}(\+\_\+\+\_\+bitmap\+\_\+ptr,  \+\_\+\+\_\+bit)
+\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ bitmap normal access}\par
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_adb9dfcc2a4edc4cdf1dc76e34021e7cd}{vsf\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\mbox{\hyperlink{vsf__bitmap_8h_a179d74fe0c21da14bd15a9b381d64d20}{\+\_\+\+\_\+vsf\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_a2bb592a9ec211b743500496336b290d9}{vsf\+\_\+declare\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+bit\+\_\+size)~            \mbox{\hyperlink{vsf__bitmap_8h_ad8ce0950a2f8082039086a552e16d5c5}{\+\_\+\+\_\+vsf\+\_\+declare\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+bit\+\_\+size)
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_abca9e387fbb7906b1d8a94d206d92f07}{dcl\+\_\+vsf\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+bit\+\_\+size)~            \mbox{\hyperlink{vsf__usbh_8h_a556252912b7ceb3dd66115e8deea5895}{vsf\+\_\+declare\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+bit\+\_\+size)
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_a83d76130a1843b049f7820cee3308c48}{declare\+\_\+vsf\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+bit\+\_\+size)~            \mbox{\hyperlink{vsf__usbh_8h_a556252912b7ceb3dd66115e8deea5895}{vsf\+\_\+declare\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+bit\+\_\+size)
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_af9aaf7e939f0beaee6f24cf808b463cd}{vsf\+\_\+bitmap\+\_\+get}}(\+\_\+\+\_\+bitmap\+\_\+ptr,  \+\_\+\+\_\+bit, ...)~            \+\_\+\+\_\+\+PLOOC\+\_\+\+EVAL(\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+get, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)((\+\_\+\+\_\+bitmap\+\_\+ptr), (\+\_\+\+\_\+bit), \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_a20b59b7649d00f196c1376a3f140320a}{vsf\+\_\+bitmap\+\_\+set}}(\+\_\+\+\_\+bitmap\+\_\+ptr,  \+\_\+\+\_\+bit)~            \mbox{\hyperlink{vsf__bitmap_8h_afe2bf8e17be5e02d7105aeaa2220e08b}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+set}}((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$)(\+\_\+\+\_\+bitmap\+\_\+ptr), (\+\_\+\+\_\+bit))
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_a437f32ad9bccaf142fe8000a2f4b1008}{vsf\+\_\+bitmap\+\_\+clear}}(\+\_\+\+\_\+bitmap\+\_\+ptr,  \+\_\+\+\_\+bit)~            \mbox{\hyperlink{vsf__bitmap_8h_a6df525083184ad5c207830b7af9d6628}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+clear}}((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$)(\+\_\+\+\_\+bitmap\+\_\+ptr), (\+\_\+\+\_\+bit))
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_a4ee9743fefff404122caf7527007364f}{vsf\+\_\+bitmap\+\_\+reset}}(\+\_\+\+\_\+bitmap\+\_\+ptr,  \+\_\+\+\_\+bit\+\_\+size)~            \mbox{\hyperlink{vsf__bitmap_8h_a5fb2ff369716e5d53818a9e6a02f5f18}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+reset}}((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$)(\+\_\+\+\_\+bitmap\+\_\+ptr), (\+\_\+\+\_\+bit\+\_\+size))
+\item 
+\#define \mbox{\hyperlink{vsf__bitmap_8h_a6f8bc3786083cb6cd4876549a0dece39}{vsf\+\_\+bitmap\+\_\+ffz}}(\+\_\+\+\_\+bitmap\+\_\+ptr,  \+\_\+\+\_\+bit\+\_\+size)~            \mbox{\hyperlink{vsf__bitmap_8h_aa435535e97429d0079fbb17bcc495dad}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+ffz}}((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$)(\+\_\+\+\_\+bitmap\+\_\+ptr), (\+\_\+\+\_\+bit\+\_\+size))
+\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__bitmap_8h_a5fb2ff369716e5d53818a9e6a02f5f18}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+reset}} (\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}} bit\+\_\+size)
+\begin{DoxyCompactList}\small\item\em reset a bitmap ! \end{DoxyCompactList}\item 
+\mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}} \mbox{\hyperlink{vsf__bitmap_8h_aa435535e97429d0079fbb17bcc495dad}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+ffz}} (\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$bitmap\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}} bit\+\_\+size)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__bitmap_8h_a179d74fe0c21da14bd15a9b381d64d20}\label{vsf__bitmap_8h_a179d74fe0c21da14bd15a9b381d64d20}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!\_\_vsf\_bitmap@{\_\_vsf\_bitmap}}
+\index{\_\_vsf\_bitmap@{\_\_vsf\_bitmap}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_bitmap}{\_\_vsf\_bitmap}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+bitmap(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+bitmap\+\_\+t}
+
+\mbox{\Hypertarget{vsf__bitmap_8h_aaff726ffa05c22e587176172d4958a58}\label{vsf__bitmap_8h_aaff726ffa05c22e587176172d4958a58}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!\_\_vsf\_declare\_bitmap\_ex@{\_\_vsf\_declare\_bitmap\_ex}}
+\index{\_\_vsf\_declare\_bitmap\_ex@{\_\_vsf\_declare\_bitmap\_ex}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_declare\_bitmap\_ex}{\_\_vsf\_declare\_bitmap\_ex}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+declare\+\_\+bitmap\+\_\+ex(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+bit\+\_\+size }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keyword}{typedef} uintalu\_t                                                           \(\backslash\)}
+\DoxyCodeLine{                \_\_name[((\_\_bit\_size) + \mbox{\hyperlink{arm_2type_8h_a90150f9e4f3a4fc1694835f526a274cb}{\_\_optimal\_bit\_sz}} -\/ 1) / \mbox{\hyperlink{arm_2type_8h_a90150f9e4f3a4fc1694835f526a274cb}{\_\_optimal\_bit\_sz}}];}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__bitmap_8h_ad8ce0950a2f8082039086a552e16d5c5}\label{vsf__bitmap_8h_ad8ce0950a2f8082039086a552e16d5c5}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!\_\_vsf\_declare\_bitmap@{\_\_vsf\_declare\_bitmap}}
+\index{\_\_vsf\_declare\_bitmap@{\_\_vsf\_declare\_bitmap}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_declare\_bitmap}{\_\_vsf\_declare\_bitmap}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+declare\+\_\+bitmap(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+bit\+\_\+size }\end{DoxyParamCaption})~    \mbox{\hyperlink{select_8h_ac03422be43e6d58d6c47f8c6a530e3b9}{\+\_\+\+\_\+vsf\+\_\+declare\+\_\+bitmap\+\_\+ex}}(\mbox{\hyperlink{vsf__bitmap_8h_a179d74fe0c21da14bd15a9b381d64d20}{\+\_\+\+\_\+vsf\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}), \+\_\+\+\_\+bit\+\_\+size)}
+
+\mbox{\Hypertarget{vsf__bitmap_8h_a950241c5d956aaf315ebb6dc4b3d5ba9}\label{vsf__bitmap_8h_a950241c5d956aaf315ebb6dc4b3d5ba9}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!\_\_vsf\_bitmap\_get0@{\_\_vsf\_bitmap\_get0}}
+\index{\_\_vsf\_bitmap\_get0@{\_\_vsf\_bitmap\_get0}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_bitmap\_get0}{\_\_vsf\_bitmap\_get0}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+get0(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+bitmap\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+bit }\end{DoxyParamCaption})~    (\+\_\+\+\_\+bitmap\+\_\+ptr\mbox{[}(\+\_\+\+\_\+bit) / \mbox{\hyperlink{x86_2type_8h_a90150f9e4f3a4fc1694835f526a274cb}{\+\_\+\+\_\+optimal\+\_\+bit\+\_\+sz}}\mbox{]} \& ((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}})1 $<$$<$ ((\+\_\+\+\_\+bit) \& \mbox{\hyperlink{x86_2type_8h_a29200aa6e099b5b480d5afb0911a2571}{\+\_\+\+\_\+optimal\+\_\+bit\+\_\+msk}})))}
+
+\mbox{\Hypertarget{vsf__bitmap_8h_a5cc8aa116b734f30937b1d8964ad6684}\label{vsf__bitmap_8h_a5cc8aa116b734f30937b1d8964ad6684}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!\_\_vsf\_bitmap\_get1@{\_\_vsf\_bitmap\_get1}}
+\index{\_\_vsf\_bitmap\_get1@{\_\_vsf\_bitmap\_get1}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_bitmap\_get1}{\_\_vsf\_bitmap\_get1}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+get1(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+bitmap\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+bit,  }\item[{}]{\+\_\+\+\_\+pbit\+\_\+val }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        *(\&(\_\_bit\_val)) = \mbox{\hyperlink{vsf__bitmap_8h_a950241c5d956aaf315ebb6dc4b3d5ba9}{\_\_vsf\_bitmap\_get0}}(\_\_bitmap\_ptr, \_\_bit);               \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__bitmap_8h_afe2bf8e17be5e02d7105aeaa2220e08b}\label{vsf__bitmap_8h_afe2bf8e17be5e02d7105aeaa2220e08b}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!\_\_vsf\_bitmap\_set@{\_\_vsf\_bitmap\_set}}
+\index{\_\_vsf\_bitmap\_set@{\_\_vsf\_bitmap\_set}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_bitmap\_set}{\_\_vsf\_bitmap\_set}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+set(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+bitmap\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+bit }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        (\_\_bitmap\_ptr)[(\_\_bit) / \mbox{\hyperlink{arm_2type_8h_a90150f9e4f3a4fc1694835f526a274cb}{\_\_optimal\_bit\_sz}}] |=                           \(\backslash\)}
+\DoxyCodeLine{            ((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\_t}})1 << ((\_\_bit) \& \mbox{\hyperlink{arm_2type_8h_a29200aa6e099b5b480d5afb0911a2571}{\_\_optimal\_bit\_msk}}));                    \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__bitmap_8h_a6df525083184ad5c207830b7af9d6628}\label{vsf__bitmap_8h_a6df525083184ad5c207830b7af9d6628}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!\_\_vsf\_bitmap\_clear@{\_\_vsf\_bitmap\_clear}}
+\index{\_\_vsf\_bitmap\_clear@{\_\_vsf\_bitmap\_clear}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_bitmap\_clear}{\_\_vsf\_bitmap\_clear}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+clear(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+bitmap\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+bit }\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        (\_\_bitmap\_ptr)[(\_\_bit) / \mbox{\hyperlink{arm_2type_8h_a90150f9e4f3a4fc1694835f526a274cb}{\_\_optimal\_bit\_sz}}] \&=                           \(\backslash\)}
+\DoxyCodeLine{            \string~((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\_t}})1 << ((\_\_bit) \& \mbox{\hyperlink{arm_2type_8h_a29200aa6e099b5b480d5afb0911a2571}{\_\_optimal\_bit\_msk}}));                   \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__bitmap_8h_adb9dfcc2a4edc4cdf1dc76e34021e7cd}\label{vsf__bitmap_8h_adb9dfcc2a4edc4cdf1dc76e34021e7cd}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!vsf\_bitmap@{vsf\_bitmap}}
+\index{vsf\_bitmap@{vsf\_bitmap}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_bitmap}{vsf\_bitmap}}
+{\footnotesize\ttfamily \#define vsf\+\_\+bitmap(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__bitmap_8h_a179d74fe0c21da14bd15a9b381d64d20}{\+\_\+\+\_\+vsf\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__bitmap_8h_a2bb592a9ec211b743500496336b290d9}\label{vsf__bitmap_8h_a2bb592a9ec211b743500496336b290d9}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!vsf\_declare\_bitmap@{vsf\_declare\_bitmap}}
+\index{vsf\_declare\_bitmap@{vsf\_declare\_bitmap}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_declare\_bitmap}{vsf\_declare\_bitmap}}
+{\footnotesize\ttfamily \#define vsf\+\_\+declare\+\_\+bitmap(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+bit\+\_\+size }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__bitmap_8h_ad8ce0950a2f8082039086a552e16d5c5}{\+\_\+\+\_\+vsf\+\_\+declare\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+bit\+\_\+size)}
+
+\mbox{\Hypertarget{vsf__bitmap_8h_abca9e387fbb7906b1d8a94d206d92f07}\label{vsf__bitmap_8h_abca9e387fbb7906b1d8a94d206d92f07}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!dcl\_vsf\_bitmap@{dcl\_vsf\_bitmap}}
+\index{dcl\_vsf\_bitmap@{dcl\_vsf\_bitmap}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{dcl\_vsf\_bitmap}{dcl\_vsf\_bitmap}}
+{\footnotesize\ttfamily \#define dcl\+\_\+vsf\+\_\+bitmap(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+bit\+\_\+size }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__usbh_8h_a556252912b7ceb3dd66115e8deea5895}{vsf\+\_\+declare\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+bit\+\_\+size)}
+
+\mbox{\Hypertarget{vsf__bitmap_8h_a83d76130a1843b049f7820cee3308c48}\label{vsf__bitmap_8h_a83d76130a1843b049f7820cee3308c48}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!declare\_vsf\_bitmap@{declare\_vsf\_bitmap}}
+\index{declare\_vsf\_bitmap@{declare\_vsf\_bitmap}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{declare\_vsf\_bitmap}{declare\_vsf\_bitmap}}
+{\footnotesize\ttfamily \#define declare\+\_\+vsf\+\_\+bitmap(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+bit\+\_\+size }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__usbh_8h_a556252912b7ceb3dd66115e8deea5895}{vsf\+\_\+declare\+\_\+bitmap}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+bit\+\_\+size)}
+
+\mbox{\Hypertarget{vsf__bitmap_8h_af9aaf7e939f0beaee6f24cf808b463cd}\label{vsf__bitmap_8h_af9aaf7e939f0beaee6f24cf808b463cd}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!vsf\_bitmap\_get@{vsf\_bitmap\_get}}
+\index{vsf\_bitmap\_get@{vsf\_bitmap\_get}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_bitmap\_get}{vsf\_bitmap\_get}}
+{\footnotesize\ttfamily \#define vsf\+\_\+bitmap\+\_\+get(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+bitmap\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+bit,  }\item[{}]{... }\end{DoxyParamCaption})~            \+\_\+\+\_\+\+PLOOC\+\_\+\+EVAL(\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+get, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)((\+\_\+\+\_\+bitmap\+\_\+ptr), (\+\_\+\+\_\+bit), \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__bitmap_8h_a20b59b7649d00f196c1376a3f140320a}\label{vsf__bitmap_8h_a20b59b7649d00f196c1376a3f140320a}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!vsf\_bitmap\_set@{vsf\_bitmap\_set}}
+\index{vsf\_bitmap\_set@{vsf\_bitmap\_set}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_bitmap\_set}{vsf\_bitmap\_set}}
+{\footnotesize\ttfamily \#define vsf\+\_\+bitmap\+\_\+set(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+bitmap\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+bit }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__bitmap_8h_afe2bf8e17be5e02d7105aeaa2220e08b}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+set}}((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$)(\+\_\+\+\_\+bitmap\+\_\+ptr), (\+\_\+\+\_\+bit))}
+
+\mbox{\Hypertarget{vsf__bitmap_8h_a437f32ad9bccaf142fe8000a2f4b1008}\label{vsf__bitmap_8h_a437f32ad9bccaf142fe8000a2f4b1008}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!vsf\_bitmap\_clear@{vsf\_bitmap\_clear}}
+\index{vsf\_bitmap\_clear@{vsf\_bitmap\_clear}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_bitmap\_clear}{vsf\_bitmap\_clear}}
+{\footnotesize\ttfamily \#define vsf\+\_\+bitmap\+\_\+clear(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+bitmap\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+bit }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__bitmap_8h_a6df525083184ad5c207830b7af9d6628}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+clear}}((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$)(\+\_\+\+\_\+bitmap\+\_\+ptr), (\+\_\+\+\_\+bit))}
+
+\mbox{\Hypertarget{vsf__bitmap_8h_a4ee9743fefff404122caf7527007364f}\label{vsf__bitmap_8h_a4ee9743fefff404122caf7527007364f}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!vsf\_bitmap\_reset@{vsf\_bitmap\_reset}}
+\index{vsf\_bitmap\_reset@{vsf\_bitmap\_reset}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_bitmap\_reset}{vsf\_bitmap\_reset}}
+{\footnotesize\ttfamily \#define vsf\+\_\+bitmap\+\_\+reset(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+bitmap\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+bit\+\_\+size }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__bitmap_8h_a5fb2ff369716e5d53818a9e6a02f5f18}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+reset}}((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$)(\+\_\+\+\_\+bitmap\+\_\+ptr), (\+\_\+\+\_\+bit\+\_\+size))}
+
+\mbox{\Hypertarget{vsf__bitmap_8h_a6f8bc3786083cb6cd4876549a0dece39}\label{vsf__bitmap_8h_a6f8bc3786083cb6cd4876549a0dece39}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!vsf\_bitmap\_ffz@{vsf\_bitmap\_ffz}}
+\index{vsf\_bitmap\_ffz@{vsf\_bitmap\_ffz}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_bitmap\_ffz}{vsf\_bitmap\_ffz}}
+{\footnotesize\ttfamily \#define vsf\+\_\+bitmap\+\_\+ffz(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+bitmap\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+bit\+\_\+size }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__bitmap_8h_aa435535e97429d0079fbb17bcc495dad}{\+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+ffz}}((\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$)(\+\_\+\+\_\+bitmap\+\_\+ptr), (\+\_\+\+\_\+bit\+\_\+size))}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__bitmap_8h_a5fb2ff369716e5d53818a9e6a02f5f18}\label{vsf__bitmap_8h_a5fb2ff369716e5d53818a9e6a02f5f18}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!\_\_vsf\_bitmap\_reset@{\_\_vsf\_bitmap\_reset}}
+\index{\_\_vsf\_bitmap\_reset@{\_\_vsf\_bitmap\_reset}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_bitmap\_reset()}{\_\_vsf\_bitmap\_reset()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+reset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}}}]{bit\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+reset a bitmap ! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em this\+\_\+ptr} & address of the target bitmap !\\
+\hline
+{\em biesize} & the size of the bitmap in bits \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{vsf__bitmap_8h_aa435535e97429d0079fbb17bcc495dad}\label{vsf__bitmap_8h_aa435535e97429d0079fbb17bcc495dad}} 
+\index{vsf\_bitmap.h@{vsf\_bitmap.h}!\_\_vsf\_bitmap\_ffz@{\_\_vsf\_bitmap\_ffz}}
+\index{\_\_vsf\_bitmap\_ffz@{\_\_vsf\_bitmap\_ffz}!vsf\_bitmap.h@{vsf\_bitmap.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_bitmap\_ffz()}{\_\_vsf\_bitmap\_ffz()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+bitmap\+\_\+ffz (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}} $\ast$}]{bitmap\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}}}]{bit\+\_\+size }\end{DoxyParamCaption})}
+

@@ -1,0 +1,77 @@
+\hypertarget{vsf__eda__slist__queue_8h}{}\doxysection{source/kernel/vsf\+\_\+eda\+\_\+slist\+\_\+queue.h File Reference}
+\label{vsf__eda__slist__queue_8h}\index{source/kernel/vsf\_eda\_slist\_queue.h@{source/kernel/vsf\_eda\_slist\_queue.h}}
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classvsf__eda__slist__queue__t}{vsf\+\_\+eda\+\_\+slist\+\_\+queue\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__eda__slist__queue_8h_ace96bd728850901674e6b4ea2ed13290}{vsf\+\_\+msg\+\_\+queue\+\_\+t}}~\mbox{\hyperlink{classvsf__eda__slist__queue__t}{vsf\+\_\+eda\+\_\+slist\+\_\+queue\+\_\+t}}
+\item 
+\#define \mbox{\hyperlink{vsf__eda__slist__queue_8h_a45ecd8c0a146da569f794b052a18b71a}{vsf\+\_\+eda\+\_\+msg\+\_\+queue\+\_\+init}}(\+\_\+\+\_\+queue,  \+\_\+\+\_\+max)~                \mbox{\hyperlink{vsf__eda__slist__queue_8h_aa083b677b757c11b75beb752a273aaa5}{vsf\+\_\+eda\+\_\+slist\+\_\+queue\+\_\+init}}((\+\_\+\+\_\+queue), (\+\_\+\+\_\+max))
+\item 
+\#define \mbox{\hyperlink{vsf__eda__slist__queue_8h_abe802c1cf0ffecffa15d1856cacedabf}{vsf\+\_\+eda\+\_\+msg\+\_\+queue\+\_\+send}}(\+\_\+\+\_\+queue,  \+\_\+\+\_\+node,  \+\_\+\+\_\+timeout)~                \mbox{\hyperlink{vsf__eda_8h_aee1044c42ed634c5d1bd3790ceebe938}{vsf\+\_\+eda\+\_\+queue\+\_\+send}}((\mbox{\hyperlink{classvsf__eda__queue__t}{vsf\+\_\+eda\+\_\+queue\+\_\+t}} $\ast$)(\+\_\+\+\_\+queue), (\+\_\+\+\_\+node), (\+\_\+\+\_\+timeout))
+\item 
+\#define \mbox{\hyperlink{vsf__eda__slist__queue_8h_a49338cb8589c09b1cc93b614d0007012}{vsf\+\_\+eda\+\_\+msg\+\_\+queue\+\_\+send\+\_\+get\+\_\+reason}}(\+\_\+\+\_\+queue,  \+\_\+\+\_\+evt,  \+\_\+\+\_\+node)~                \mbox{\hyperlink{vsf__eda_8h_aafae371d015b6bddabb14bc7a1472535}{vsf\+\_\+eda\+\_\+queue\+\_\+send\+\_\+get\+\_\+reason}}((\mbox{\hyperlink{classvsf__eda__queue__t}{vsf\+\_\+eda\+\_\+queue\+\_\+t}} $\ast$)(\+\_\+\+\_\+queue), (\+\_\+\+\_\+evt), (\+\_\+\+\_\+node))
+\item 
+\#define \mbox{\hyperlink{vsf__eda__slist__queue_8h_a88196351a3f72d124980b13a540e4ede}{vsf\+\_\+eda\+\_\+msg\+\_\+queue\+\_\+recv}}(\+\_\+\+\_\+queue,  \+\_\+\+\_\+node,  \+\_\+\+\_\+timeout)~                \mbox{\hyperlink{vsf__eda_8h_a8058dd12dbcd7f0cd433cb30fd2766d0}{vsf\+\_\+eda\+\_\+queue\+\_\+recv}}((\mbox{\hyperlink{classvsf__eda__queue__t}{vsf\+\_\+eda\+\_\+queue\+\_\+t}} $\ast$)(\+\_\+\+\_\+queue), (void $\ast$$\ast$)(\+\_\+\+\_\+node), (\+\_\+\+\_\+timeout))
+\item 
+\#define \mbox{\hyperlink{vsf__eda__slist__queue_8h_a2be14689e121e8b9d69d7c3e3916ca20}{vsf\+\_\+eda\+\_\+msg\+\_\+queue\+\_\+recv\+\_\+get\+\_\+reason}}(\+\_\+\+\_\+queue,  \+\_\+\+\_\+evt,  \+\_\+\+\_\+node)~                \mbox{\hyperlink{vsf__eda_8h_ad96720830ef573276e09c5ed0c267450}{vsf\+\_\+eda\+\_\+queue\+\_\+recv\+\_\+get\+\_\+reason}}((\mbox{\hyperlink{classvsf__eda__queue__t}{vsf\+\_\+eda\+\_\+queue\+\_\+t}} $\ast$)(\+\_\+\+\_\+queue), (\+\_\+\+\_\+evt), (void $\ast$$\ast$)(\+\_\+\+\_\+node))
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__eda__slist__queue_8h_aa083b677b757c11b75beb752a273aaa5}{vsf\+\_\+eda\+\_\+slist\+\_\+queue\+\_\+init}} (\mbox{\hyperlink{classvsf__eda__slist__queue__t}{vsf\+\_\+eda\+\_\+slist\+\_\+queue\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} \mbox{\hyperlink{____type_8h_ae42bec3c4d0b81a63743e838ea600373}{max}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__eda__slist__queue_8h_ace96bd728850901674e6b4ea2ed13290}\label{vsf__eda__slist__queue_8h_ace96bd728850901674e6b4ea2ed13290}} 
+\index{vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}!vsf\_msg\_queue\_t@{vsf\_msg\_queue\_t}}
+\index{vsf\_msg\_queue\_t@{vsf\_msg\_queue\_t}!vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_msg\_queue\_t}{vsf\_msg\_queue\_t}}
+{\footnotesize\ttfamily \#define vsf\+\_\+msg\+\_\+queue\+\_\+t~\mbox{\hyperlink{classvsf__eda__slist__queue__t}{vsf\+\_\+eda\+\_\+slist\+\_\+queue\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__eda__slist__queue_8h_a45ecd8c0a146da569f794b052a18b71a}\label{vsf__eda__slist__queue_8h_a45ecd8c0a146da569f794b052a18b71a}} 
+\index{vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}!vsf\_eda\_msg\_queue\_init@{vsf\_eda\_msg\_queue\_init}}
+\index{vsf\_eda\_msg\_queue\_init@{vsf\_eda\_msg\_queue\_init}!vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_eda\_msg\_queue\_init}{vsf\_eda\_msg\_queue\_init}}
+{\footnotesize\ttfamily \#define vsf\+\_\+eda\+\_\+msg\+\_\+queue\+\_\+init(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+queue,  }\item[{}]{\+\_\+\+\_\+max }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__eda__slist__queue_8h_aa083b677b757c11b75beb752a273aaa5}{vsf\+\_\+eda\+\_\+slist\+\_\+queue\+\_\+init}}((\+\_\+\+\_\+queue), (\+\_\+\+\_\+max))}
+
+\mbox{\Hypertarget{vsf__eda__slist__queue_8h_abe802c1cf0ffecffa15d1856cacedabf}\label{vsf__eda__slist__queue_8h_abe802c1cf0ffecffa15d1856cacedabf}} 
+\index{vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}!vsf\_eda\_msg\_queue\_send@{vsf\_eda\_msg\_queue\_send}}
+\index{vsf\_eda\_msg\_queue\_send@{vsf\_eda\_msg\_queue\_send}!vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_eda\_msg\_queue\_send}{vsf\_eda\_msg\_queue\_send}}
+{\footnotesize\ttfamily \#define vsf\+\_\+eda\+\_\+msg\+\_\+queue\+\_\+send(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+queue,  }\item[{}]{\+\_\+\+\_\+node,  }\item[{}]{\+\_\+\+\_\+timeout }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__eda_8h_aee1044c42ed634c5d1bd3790ceebe938}{vsf\+\_\+eda\+\_\+queue\+\_\+send}}((\mbox{\hyperlink{classvsf__eda__queue__t}{vsf\+\_\+eda\+\_\+queue\+\_\+t}} $\ast$)(\+\_\+\+\_\+queue), (\+\_\+\+\_\+node), (\+\_\+\+\_\+timeout))}
+
+\mbox{\Hypertarget{vsf__eda__slist__queue_8h_a49338cb8589c09b1cc93b614d0007012}\label{vsf__eda__slist__queue_8h_a49338cb8589c09b1cc93b614d0007012}} 
+\index{vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}!vsf\_eda\_msg\_queue\_send\_get\_reason@{vsf\_eda\_msg\_queue\_send\_get\_reason}}
+\index{vsf\_eda\_msg\_queue\_send\_get\_reason@{vsf\_eda\_msg\_queue\_send\_get\_reason}!vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_eda\_msg\_queue\_send\_get\_reason}{vsf\_eda\_msg\_queue\_send\_get\_reason}}
+{\footnotesize\ttfamily \#define vsf\+\_\+eda\+\_\+msg\+\_\+queue\+\_\+send\+\_\+get\+\_\+reason(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+queue,  }\item[{}]{\+\_\+\+\_\+evt,  }\item[{}]{\+\_\+\+\_\+node }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__eda_8h_aafae371d015b6bddabb14bc7a1472535}{vsf\+\_\+eda\+\_\+queue\+\_\+send\+\_\+get\+\_\+reason}}((\mbox{\hyperlink{classvsf__eda__queue__t}{vsf\+\_\+eda\+\_\+queue\+\_\+t}} $\ast$)(\+\_\+\+\_\+queue), (\+\_\+\+\_\+evt), (\+\_\+\+\_\+node))}
+
+\mbox{\Hypertarget{vsf__eda__slist__queue_8h_a88196351a3f72d124980b13a540e4ede}\label{vsf__eda__slist__queue_8h_a88196351a3f72d124980b13a540e4ede}} 
+\index{vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}!vsf\_eda\_msg\_queue\_recv@{vsf\_eda\_msg\_queue\_recv}}
+\index{vsf\_eda\_msg\_queue\_recv@{vsf\_eda\_msg\_queue\_recv}!vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_eda\_msg\_queue\_recv}{vsf\_eda\_msg\_queue\_recv}}
+{\footnotesize\ttfamily \#define vsf\+\_\+eda\+\_\+msg\+\_\+queue\+\_\+recv(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+queue,  }\item[{}]{\+\_\+\+\_\+node,  }\item[{}]{\+\_\+\+\_\+timeout }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__eda_8h_a8058dd12dbcd7f0cd433cb30fd2766d0}{vsf\+\_\+eda\+\_\+queue\+\_\+recv}}((\mbox{\hyperlink{classvsf__eda__queue__t}{vsf\+\_\+eda\+\_\+queue\+\_\+t}} $\ast$)(\+\_\+\+\_\+queue), (void $\ast$$\ast$)(\+\_\+\+\_\+node), (\+\_\+\+\_\+timeout))}
+
+\mbox{\Hypertarget{vsf__eda__slist__queue_8h_a2be14689e121e8b9d69d7c3e3916ca20}\label{vsf__eda__slist__queue_8h_a2be14689e121e8b9d69d7c3e3916ca20}} 
+\index{vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}!vsf\_eda\_msg\_queue\_recv\_get\_reason@{vsf\_eda\_msg\_queue\_recv\_get\_reason}}
+\index{vsf\_eda\_msg\_queue\_recv\_get\_reason@{vsf\_eda\_msg\_queue\_recv\_get\_reason}!vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_eda\_msg\_queue\_recv\_get\_reason}{vsf\_eda\_msg\_queue\_recv\_get\_reason}}
+{\footnotesize\ttfamily \#define vsf\+\_\+eda\+\_\+msg\+\_\+queue\+\_\+recv\+\_\+get\+\_\+reason(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+queue,  }\item[{}]{\+\_\+\+\_\+evt,  }\item[{}]{\+\_\+\+\_\+node }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__eda_8h_ad96720830ef573276e09c5ed0c267450}{vsf\+\_\+eda\+\_\+queue\+\_\+recv\+\_\+get\+\_\+reason}}((\mbox{\hyperlink{classvsf__eda__queue__t}{vsf\+\_\+eda\+\_\+queue\+\_\+t}} $\ast$)(\+\_\+\+\_\+queue), (\+\_\+\+\_\+evt), (void $\ast$$\ast$)(\+\_\+\+\_\+node))}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__eda__slist__queue_8h_aa083b677b757c11b75beb752a273aaa5}\label{vsf__eda__slist__queue_8h_aa083b677b757c11b75beb752a273aaa5}} 
+\index{vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}!vsf\_eda\_slist\_queue\_init@{vsf\_eda\_slist\_queue\_init}}
+\index{vsf\_eda\_slist\_queue\_init@{vsf\_eda\_slist\_queue\_init}!vsf\_eda\_slist\_queue.h@{vsf\_eda\_slist\_queue.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_eda\_slist\_queue\_init()}{vsf\_eda\_slist\_queue\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+eda\+\_\+slist\+\_\+queue\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__eda__slist__queue__t}{vsf\+\_\+eda\+\_\+slist\+\_\+queue\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{max }\end{DoxyParamCaption})}
+

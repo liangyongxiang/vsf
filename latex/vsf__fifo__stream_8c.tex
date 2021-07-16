@@ -1,0 +1,134 @@
+\hypertarget{vsf__fifo__stream_8c}{}\doxysection{source/service/simple\+\_\+stream/fifo\+\_\+stream/vsf\+\_\+fifo\+\_\+stream.c File Reference}
+\label{vsf__fifo__stream_8c}\index{source/service/simple\_stream/fifo\_stream/vsf\_fifo\_stream.c@{source/service/simple\_stream/fifo\_stream/vsf\_fifo\_stream.c}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../vsf\+\_\+simple\+\_\+stream.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+fifo\+\_\+stream.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8c_a3795c90d93fba4016ca41b28849556a6}{\+\_\+\+\_\+\+VSF\+\_\+\+SIMPLE\+\_\+\+STREAM\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8c_a82a7820d79c9dd06f2643ff88a5f0c7a}{\+\_\+\+\_\+\+VSF\+\_\+\+FIFO\+\_\+\+STREAM\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8c_afabb431bc8b1e7cffcb9fa733981422b}{vsf\+\_\+byte\+\_\+fifo\+\_\+init}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8c_adfe88f57653df7087dce2914ff9f55fb}{vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+buff\+\_\+length}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8c_a7f75460cb7ec4f2e3537e8fbbde6b4f5}{vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+data\+\_\+length}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8c_adaa43888efa144fdffb5268423080f62}{vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+avail\+\_\+length}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8c_a238009cd5791d948d543ae3811b1d4c5}{vsf\+\_\+byte\+\_\+fifo\+\_\+write}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buf, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8c_a7ceb911ad7c8bd92ef3b29cb7abf42bb}{vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+rbuf}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$$\ast$buf)
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8c_afbd95b1d1ef395070f3410052ee37985}{vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+wbuf}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$$\ast$buf)
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8c_a120e272cdd1a7bf05e5740742192b380}{vsf\+\_\+byte\+\_\+fifo\+\_\+peek}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buf, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8c_a82227957bb7730664b9f0e6ef6e5ece9}{vsf\+\_\+byte\+\_\+fifo\+\_\+read}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buf, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvsf__stream__op__t}{vsf\+\_\+stream\+\_\+op\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8c_a102b19c2604437a0c26b665d73b33ce4}{vsf\+\_\+fifo\+\_\+stream\+\_\+op}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__fifo__stream_8c_a3795c90d93fba4016ca41b28849556a6}\label{vsf__fifo__stream_8c_a3795c90d93fba4016ca41b28849556a6}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_@{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_@{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+SIMPLE\+\_\+\+STREAM\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8c_a82a7820d79c9dd06f2643ff88a5f0c7a}\label{vsf__fifo__stream_8c_a82a7820d79c9dd06f2643ff88a5f0c7a}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!\_\_VSF\_FIFO\_STREAM\_CLASS\_IMPLEMENT@{\_\_VSF\_FIFO\_STREAM\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_FIFO\_STREAM\_CLASS\_IMPLEMENT@{\_\_VSF\_FIFO\_STREAM\_CLASS\_IMPLEMENT}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_FIFO\_STREAM\_CLASS\_IMPLEMENT}{\_\_VSF\_FIFO\_STREAM\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+FIFO\+\_\+\+STREAM\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__fifo__stream_8c_afabb431bc8b1e7cffcb9fa733981422b}\label{vsf__fifo__stream_8c_afabb431bc8b1e7cffcb9fa733981422b}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!vsf\_byte\_fifo\_init@{vsf\_byte\_fifo\_init}}
+\index{vsf\_byte\_fifo\_init@{vsf\_byte\_fifo\_init}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_init()}{vsf\_byte\_fifo\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8c_adfe88f57653df7087dce2914ff9f55fb}\label{vsf__fifo__stream_8c_adfe88f57653df7087dce2914ff9f55fb}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!vsf\_byte\_fifo\_get\_buff\_length@{vsf\_byte\_fifo\_get\_buff\_length}}
+\index{vsf\_byte\_fifo\_get\_buff\_length@{vsf\_byte\_fifo\_get\_buff\_length}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_get\_buff\_length()}{vsf\_byte\_fifo\_get\_buff\_length()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+buff\+\_\+length (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8c_a7f75460cb7ec4f2e3537e8fbbde6b4f5}\label{vsf__fifo__stream_8c_a7f75460cb7ec4f2e3537e8fbbde6b4f5}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!vsf\_byte\_fifo\_get\_data\_length@{vsf\_byte\_fifo\_get\_data\_length}}
+\index{vsf\_byte\_fifo\_get\_data\_length@{vsf\_byte\_fifo\_get\_data\_length}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_get\_data\_length()}{vsf\_byte\_fifo\_get\_data\_length()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+data\+\_\+length (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8c_adaa43888efa144fdffb5268423080f62}\label{vsf__fifo__stream_8c_adaa43888efa144fdffb5268423080f62}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!vsf\_byte\_fifo\_get\_avail\_length@{vsf\_byte\_fifo\_get\_avail\_length}}
+\index{vsf\_byte\_fifo\_get\_avail\_length@{vsf\_byte\_fifo\_get\_avail\_length}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_get\_avail\_length()}{vsf\_byte\_fifo\_get\_avail\_length()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+avail\+\_\+length (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8c_a238009cd5791d948d543ae3811b1d4c5}\label{vsf__fifo__stream_8c_a238009cd5791d948d543ae3811b1d4c5}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!vsf\_byte\_fifo\_write@{vsf\_byte\_fifo\_write}}
+\index{vsf\_byte\_fifo\_write@{vsf\_byte\_fifo\_write}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_write()}{vsf\_byte\_fifo\_write()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+write (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buf,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8c_a7ceb911ad7c8bd92ef3b29cb7abf42bb}\label{vsf__fifo__stream_8c_a7ceb911ad7c8bd92ef3b29cb7abf42bb}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!vsf\_byte\_fifo\_get\_rbuf@{vsf\_byte\_fifo\_get\_rbuf}}
+\index{vsf\_byte\_fifo\_get\_rbuf@{vsf\_byte\_fifo\_get\_rbuf}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_get\_rbuf()}{vsf\_byte\_fifo\_get\_rbuf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+rbuf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$$\ast$}]{buf }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8c_afbd95b1d1ef395070f3410052ee37985}\label{vsf__fifo__stream_8c_afbd95b1d1ef395070f3410052ee37985}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!vsf\_byte\_fifo\_get\_wbuf@{vsf\_byte\_fifo\_get\_wbuf}}
+\index{vsf\_byte\_fifo\_get\_wbuf@{vsf\_byte\_fifo\_get\_wbuf}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_get\_wbuf()}{vsf\_byte\_fifo\_get\_wbuf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+wbuf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$$\ast$}]{buf }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8c_a120e272cdd1a7bf05e5740742192b380}\label{vsf__fifo__stream_8c_a120e272cdd1a7bf05e5740742192b380}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!vsf\_byte\_fifo\_peek@{vsf\_byte\_fifo\_peek}}
+\index{vsf\_byte\_fifo\_peek@{vsf\_byte\_fifo\_peek}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_peek()}{vsf\_byte\_fifo\_peek()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+peek (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buf,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8c_a82227957bb7730664b9f0e6ef6e5ece9}\label{vsf__fifo__stream_8c_a82227957bb7730664b9f0e6ef6e5ece9}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!vsf\_byte\_fifo\_read@{vsf\_byte\_fifo\_read}}
+\index{vsf\_byte\_fifo\_read@{vsf\_byte\_fifo\_read}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_read()}{vsf\_byte\_fifo\_read()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+read (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buf,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__fifo__stream_8c_a102b19c2604437a0c26b665d73b33ce4}\label{vsf__fifo__stream_8c_a102b19c2604437a0c26b665d73b33ce4}} 
+\index{vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}!vsf\_fifo\_stream\_op@{vsf\_fifo\_stream\_op}}
+\index{vsf\_fifo\_stream\_op@{vsf\_fifo\_stream\_op}!vsf\_fifo\_stream.c@{vsf\_fifo\_stream.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_fifo\_stream\_op}{vsf\_fifo\_stream\_op}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvsf__stream__op__t}{vsf\+\_\+stream\+\_\+op\+\_\+t}} vsf\+\_\+fifo\+\_\+stream\+\_\+op}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    .init               = \_\_vsf\_fifo\_stream\_init,}
+\DoxyCodeLine{    .fini               = \_\_vsf\_fifo\_stream\_init,}
+\DoxyCodeLine{    .write              = \_\_vsf\_fifo\_stream\_write,}
+\DoxyCodeLine{    .read               = \_\_vsf\_fifo\_stream\_read,}
+\DoxyCodeLine{    .get\_buff\_length    = \_\_vsf\_fifo\_stream\_get\_buff\_length,}
+\DoxyCodeLine{    .get\_data\_length    = \_\_vsf\_fifo\_stream\_get\_data\_length,}
+\DoxyCodeLine{    .get\_avail\_length   = \_\_vsf\_fifo\_stream\_get\_avail\_length,}
+\DoxyCodeLine{    .get\_wbuf           = \_\_vsf\_fifo\_stream\_get\_wbuf,}
+\DoxyCodeLine{    .get\_rbuf           = \_\_vsf\_fifo\_stream\_get\_rbuf,}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

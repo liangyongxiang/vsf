@@ -1,0 +1,107 @@
+\hypertarget{vsf__stream__writer_8c}{}\doxysection{source/service/stream/vsf\+\_\+stream\+\_\+writer.c File Reference}
+\label{vsf__stream__writer_8c}\index{source/service/stream/vsf\_stream\_writer.c@{source/service/stream/vsf\_stream\_writer.c}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+stream\+\_\+base.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+stream\+\_\+writer.\+h\char`\"{}}\newline
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__stream__writer_8c_a938af527934834784423fa1d2b2f0bc1}{\+\_\+\+\_\+\+VSF\+\_\+\+STREAM\+\_\+\+WRITER\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__stream__writer_8c_a50383951d2a9d4f1a855b2cec5e03274}{this}}~($\ast$this\+\_\+ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__writer_8c_a931c0fbca063b743df2f367a69fd869b}{vsf\+\_\+stream\+\_\+writer\+\_\+init}} (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, const \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__stream__writer_8h_a4867ae13f79e7bd89b5442224cdd20bd}{cfg\+\_\+ptr}})
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__stream__writer_8c_a7b02f1d28639e4f436c5e84269e77a0d}{vsf\+\_\+stream\+\_\+writer\+\_\+send\+\_\+pbuf}} (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, vsf\+\_\+pbuf\+\_\+t $\ast$pt\+Old\+Block)
+\item 
+\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__stream__writer_8c_ab31e4a8894b9959525ad09909e1d04b3}{vsf\+\_\+stream\+\_\+writer\+\_\+write}} (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} u16\+\_\+size)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__stream__writer_8c_a8e82cf8806f25b5ddbacd56413dc1aaf}{vsf\+\_\+stream\+\_\+writer\+\_\+write\+\_\+byte}} (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} ch\+Byte)
+\item 
+\mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} \mbox{\hyperlink{vsf__stream__writer_8c_aeca5fe8f51509037862af90c88d8f48d}{vsf\+\_\+stream\+\_\+writer\+\_\+flush}} (vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$obj\+\_\+ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const i\+\_\+stream\+\_\+writer\+\_\+t \mbox{\hyperlink{vsf__stream__writer_8c_a348d99ee9922c2c6c768fd80cc01b683}{VSF\+\_\+\+STREAM\+\_\+\+WRITER}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{vsf__stream__writer_8c_a938af527934834784423fa1d2b2f0bc1}\label{vsf__stream__writer_8c_a938af527934834784423fa1d2b2f0bc1}} 
+\index{vsf\_stream\_writer.c@{vsf\_stream\_writer.c}!\_\_VSF\_STREAM\_WRITER\_CLASS\_IMPLEMENT@{\_\_VSF\_STREAM\_WRITER\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_STREAM\_WRITER\_CLASS\_IMPLEMENT@{\_\_VSF\_STREAM\_WRITER\_CLASS\_IMPLEMENT}!vsf\_stream\_writer.c@{vsf\_stream\_writer.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_STREAM\_WRITER\_CLASS\_IMPLEMENT}{\_\_VSF\_STREAM\_WRITER\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+STREAM\+\_\+\+WRITER\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__stream__writer_8c_a50383951d2a9d4f1a855b2cec5e03274}\label{vsf__stream__writer_8c_a50383951d2a9d4f1a855b2cec5e03274}} 
+\index{vsf\_stream\_writer.c@{vsf\_stream\_writer.c}!this@{this}}
+\index{this@{this}!vsf\_stream\_writer.c@{vsf\_stream\_writer.c}}
+\doxysubsubsection{\texorpdfstring{this}{this}}
+{\footnotesize\ttfamily \#define this~($\ast$this\+\_\+ptr)}
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{vsf__stream__writer_8c_a931c0fbca063b743df2f367a69fd869b}\label{vsf__stream__writer_8c_a931c0fbca063b743df2f367a69fd869b}} 
+\index{vsf\_stream\_writer.c@{vsf\_stream\_writer.c}!vsf\_stream\_writer\_init@{vsf\_stream\_writer\_init}}
+\index{vsf\_stream\_writer\_init@{vsf\_stream\_writer\_init}!vsf\_stream\_writer.c@{vsf\_stream\_writer.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_writer\_init()}{vsf\_stream\_writer\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+writer\+\_\+init (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{const \mbox{\hyperlink{structvsf__stream__src__cfg__t}{vsf\+\_\+stream\+\_\+src\+\_\+cfg\+\_\+t}} $\ast$}]{cfg\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8c_a7b02f1d28639e4f436c5e84269e77a0d}\label{vsf__stream__writer_8c_a7b02f1d28639e4f436c5e84269e77a0d}} 
+\index{vsf\_stream\_writer.c@{vsf\_stream\_writer.c}!vsf\_stream\_writer\_send\_pbuf@{vsf\_stream\_writer\_send\_pbuf}}
+\index{vsf\_stream\_writer\_send\_pbuf@{vsf\_stream\_writer\_send\_pbuf}!vsf\_stream\_writer.c@{vsf\_stream\_writer.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_writer\_send\_pbuf()}{vsf\_stream\_writer\_send\_pbuf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+stream\+\_\+writer\+\_\+send\+\_\+pbuf (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{vsf\+\_\+pbuf\+\_\+t $\ast$}]{pt\+Old\+Block }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8c_ab31e4a8894b9959525ad09909e1d04b3}\label{vsf__stream__writer_8c_ab31e4a8894b9959525ad09909e1d04b3}} 
+\index{vsf\_stream\_writer.c@{vsf\_stream\_writer.c}!vsf\_stream\_writer\_write@{vsf\_stream\_writer\_write}}
+\index{vsf\_stream\_writer\_write@{vsf\_stream\_writer\_write}!vsf\_stream\_writer.c@{vsf\_stream\_writer.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_writer\_write()}{vsf\_stream\_writer\_write()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} vsf\+\_\+stream\+\_\+writer\+\_\+write (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buffer\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{u16\+\_\+size }\end{DoxyParamCaption})}
+
+current buffer is full\mbox{\Hypertarget{vsf__stream__writer_8c_a8e82cf8806f25b5ddbacd56413dc1aaf}\label{vsf__stream__writer_8c_a8e82cf8806f25b5ddbacd56413dc1aaf}} 
+\index{vsf\_stream\_writer.c@{vsf\_stream\_writer.c}!vsf\_stream\_writer\_write\_byte@{vsf\_stream\_writer\_write\_byte}}
+\index{vsf\_stream\_writer\_write\_byte@{vsf\_stream\_writer\_write\_byte}!vsf\_stream\_writer.c@{vsf\_stream\_writer.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_writer\_write\_byte()}{vsf\_stream\_writer\_write\_byte()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+stream\+\_\+writer\+\_\+write\+\_\+byte (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{ch\+Byte }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__stream__writer_8c_aeca5fe8f51509037862af90c88d8f48d}\label{vsf__stream__writer_8c_aeca5fe8f51509037862af90c88d8f48d}} 
+\index{vsf\_stream\_writer.c@{vsf\_stream\_writer.c}!vsf\_stream\_writer\_flush@{vsf\_stream\_writer\_flush}}
+\index{vsf\_stream\_writer\_flush@{vsf\_stream\_writer\_flush}!vsf\_stream\_writer.c@{vsf\_stream\_writer.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_stream\_writer\_flush()}{vsf\_stream\_writer\_flush()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fsm_8h_ae61ab5e1d66a489d89fa8786e6b5f64b}{fsm\+\_\+rt\+\_\+t}} vsf\+\_\+stream\+\_\+writer\+\_\+flush (\begin{DoxyParamCaption}\item[{vsf\+\_\+stream\+\_\+writer\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{vsf__stream__writer_8c_a348d99ee9922c2c6c768fd80cc01b683}\label{vsf__stream__writer_8c_a348d99ee9922c2c6c768fd80cc01b683}} 
+\index{vsf\_stream\_writer.c@{vsf\_stream\_writer.c}!VSF\_STREAM\_WRITER@{VSF\_STREAM\_WRITER}}
+\index{VSF\_STREAM\_WRITER@{VSF\_STREAM\_WRITER}!vsf\_stream\_writer.c@{vsf\_stream\_writer.c}}
+\doxysubsubsection{\texorpdfstring{VSF\_STREAM\_WRITER}{VSF\_STREAM\_WRITER}}
+{\footnotesize\ttfamily const i\+\_\+stream\+\_\+writer\+\_\+t VSF\+\_\+\+STREAM\+\_\+\+WRITER}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    .Init =         \&\mbox{\hyperlink{vsf__stream__writer_8c_a931c0fbca063b743df2f367a69fd869b}{vsf\_stream\_writer\_init}},}
+\DoxyCodeLine{    .GetTX =        (\mbox{\hyperlink{interface_8h_a9b969da23063dbeba929bd965b6e3688}{vsf\_stream\_tx\_t}} *(*) (vsf\_stream\_writer\_t *))   }
+\DoxyCodeLine{                        \&\mbox{\hyperlink{vsf__stream__base_8h_a3cb33ade39035eac85e73ab1544a00b7}{vsf\_stream\_src\_get\_tx}},}
+\DoxyCodeLine{    .\mbox{\hyperlink{vsf__stream__base_8h_ab0f78c3eda5f773538956f35ec75dbf1}{Block}} = \{}
+\DoxyCodeLine{        .New =      (vsf\_pbuf\_t *(*)(vsf\_stream\_writer\_t *,\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\_fast32\_t}},\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\_fast32\_t}}))}
+\DoxyCodeLine{                        \&\mbox{\hyperlink{vsf__stream__base_8c_ab21471abe00dd13fcadfdf367d0fc1b6}{vsf\_stream\_src\_new\_pbuf}},}
+\DoxyCodeLine{        .\mbox{\hyperlink{vsf__stream__base_8h_a31463ba29a8b25e9a818161219446893}{Send}} =         \&\mbox{\hyperlink{vsf__stream__writer_8c_a7b02f1d28639e4f436c5e84269e77a0d}{vsf\_stream\_writer\_send\_pbuf}},}
+\DoxyCodeLine{    \}, }
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{    .Write =            \&\mbox{\hyperlink{vsf__stream__writer_8c_ab31e4a8894b9959525ad09909e1d04b3}{vsf\_stream\_writer\_write}},}
+\DoxyCodeLine{    .WriteByte =        \&\mbox{\hyperlink{vsf__stream__writer_8c_a8e82cf8806f25b5ddbacd56413dc1aaf}{vsf\_stream\_writer\_write\_byte}},}
+\DoxyCodeLine{    .Flush =            \&\mbox{\hyperlink{vsf__stream__writer_8c_aeca5fe8f51509037862af90c88d8f48d}{vsf\_stream\_writer\_flush}},}
+\DoxyCodeLine{ }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

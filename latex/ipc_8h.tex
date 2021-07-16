@@ -1,0 +1,103 @@
+\hypertarget{ipc_8h}{}\doxysection{source/shell/sys/linux/include/sys/ipc.h File Reference}
+\label{ipc_8h}\index{source/shell/sys/linux/include/sys/ipc.h@{source/shell/sys/linux/include/sys/ipc.h}}
+{\ttfamily \#include \char`\"{}shell/sys/linux/vsf\+\_\+linux\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../sys/types.\+h\char`\"{}}\newline
+\doxysubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structipc__perm}{ipc\+\_\+perm}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ipc_8h_ae2b9b856a4a657c250b0b2e1cc0835d9}{IPC\+\_\+\+PRIVATE}}~((\mbox{\hyperlink{linux_2include_2sys_2types_8h_a99c5bd20241a4a2708237037a1857062}{key\+\_\+t}})0)
+\item 
+\#define \mbox{\hyperlink{ipc_8h_a23b3b1ad0d6b11795de29b76e854d051}{ftok}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+ftok
+\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{ipc_8h_a3b39f0c6258619f350327586d1c22cada60fd8339d048bcfeeb1742da6942ac52}{IPC\+\_\+\+CREAT}} = 1 $<$$<$ 12
+, \newline
+\mbox{\hyperlink{ipc_8h_a3b39f0c6258619f350327586d1c22cadaa7b446d53b6a672281c7c2682933c441}{IPC\+\_\+\+EXCL}} = 2 $<$$<$ 12
+, \newline
+\mbox{\hyperlink{ipc_8h_a3b39f0c6258619f350327586d1c22cada190174c0467ac48ef77028f2159c3a89}{IPC\+\_\+\+NOEAIT}} = 4 $<$$<$ 12
+ \}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{ipc_8h_a893dbd60c5ebe415600523fbae202880a1ecedf20a430fb91b2c7128edd4e4f76}{IPC\+\_\+\+RMID}}
+, \newline
+\mbox{\hyperlink{ipc_8h_a893dbd60c5ebe415600523fbae202880a287dda66af51343ce5134fee12470be1}{IPC\+\_\+\+SET}}
+, \newline
+\mbox{\hyperlink{ipc_8h_a893dbd60c5ebe415600523fbae202880a2d8926b6de847dbf9cea3427680772a6}{IPC\+\_\+\+STAT}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_a99c5bd20241a4a2708237037a1857062}{key\+\_\+t}} \mbox{\hyperlink{ipc_8h_af8e19b312ab5d4140b54f676814d3761}{ftok}} (const char $\ast$pathname, int id)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{ipc_8h_ae2b9b856a4a657c250b0b2e1cc0835d9}\label{ipc_8h_ae2b9b856a4a657c250b0b2e1cc0835d9}} 
+\index{ipc.h@{ipc.h}!IPC\_PRIVATE@{IPC\_PRIVATE}}
+\index{IPC\_PRIVATE@{IPC\_PRIVATE}!ipc.h@{ipc.h}}
+\doxysubsubsection{\texorpdfstring{IPC\_PRIVATE}{IPC\_PRIVATE}}
+{\footnotesize\ttfamily \#define IPC\+\_\+\+PRIVATE~((\mbox{\hyperlink{linux_2include_2sys_2types_8h_a99c5bd20241a4a2708237037a1857062}{key\+\_\+t}})0)}
+
+\mbox{\Hypertarget{ipc_8h_a23b3b1ad0d6b11795de29b76e854d051}\label{ipc_8h_a23b3b1ad0d6b11795de29b76e854d051}} 
+\index{ipc.h@{ipc.h}!ftok@{ftok}}
+\index{ftok@{ftok}!ipc.h@{ipc.h}}
+\doxysubsubsection{\texorpdfstring{ftok}{ftok}}
+{\footnotesize\ttfamily \#define ftok~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+ftok}
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{ipc_8h_a3b39f0c6258619f350327586d1c22cad}\label{ipc_8h_a3b39f0c6258619f350327586d1c22cad}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IPC\_CREAT@{IPC\_CREAT}!ipc.h@{ipc.h}}\index{ipc.h@{ipc.h}!IPC\_CREAT@{IPC\_CREAT}}}\mbox{\Hypertarget{ipc_8h_a3b39f0c6258619f350327586d1c22cada60fd8339d048bcfeeb1742da6942ac52}\label{ipc_8h_a3b39f0c6258619f350327586d1c22cada60fd8339d048bcfeeb1742da6942ac52}} 
+IPC\+\_\+\+CREAT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IPC\_EXCL@{IPC\_EXCL}!ipc.h@{ipc.h}}\index{ipc.h@{ipc.h}!IPC\_EXCL@{IPC\_EXCL}}}\mbox{\Hypertarget{ipc_8h_a3b39f0c6258619f350327586d1c22cadaa7b446d53b6a672281c7c2682933c441}\label{ipc_8h_a3b39f0c6258619f350327586d1c22cadaa7b446d53b6a672281c7c2682933c441}} 
+IPC\+\_\+\+EXCL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IPC\_NOEAIT@{IPC\_NOEAIT}!ipc.h@{ipc.h}}\index{ipc.h@{ipc.h}!IPC\_NOEAIT@{IPC\_NOEAIT}}}\mbox{\Hypertarget{ipc_8h_a3b39f0c6258619f350327586d1c22cada190174c0467ac48ef77028f2159c3a89}\label{ipc_8h_a3b39f0c6258619f350327586d1c22cada190174c0467ac48ef77028f2159c3a89}} 
+IPC\+\_\+\+NOEAIT&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{ipc_8h_a893dbd60c5ebe415600523fbae202880}\label{ipc_8h_a893dbd60c5ebe415600523fbae202880}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IPC\_RMID@{IPC\_RMID}!ipc.h@{ipc.h}}\index{ipc.h@{ipc.h}!IPC\_RMID@{IPC\_RMID}}}\mbox{\Hypertarget{ipc_8h_a893dbd60c5ebe415600523fbae202880a1ecedf20a430fb91b2c7128edd4e4f76}\label{ipc_8h_a893dbd60c5ebe415600523fbae202880a1ecedf20a430fb91b2c7128edd4e4f76}} 
+IPC\+\_\+\+RMID&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IPC\_SET@{IPC\_SET}!ipc.h@{ipc.h}}\index{ipc.h@{ipc.h}!IPC\_SET@{IPC\_SET}}}\mbox{\Hypertarget{ipc_8h_a893dbd60c5ebe415600523fbae202880a287dda66af51343ce5134fee12470be1}\label{ipc_8h_a893dbd60c5ebe415600523fbae202880a287dda66af51343ce5134fee12470be1}} 
+IPC\+\_\+\+SET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IPC\_STAT@{IPC\_STAT}!ipc.h@{ipc.h}}\index{ipc.h@{ipc.h}!IPC\_STAT@{IPC\_STAT}}}\mbox{\Hypertarget{ipc_8h_a893dbd60c5ebe415600523fbae202880a2d8926b6de847dbf9cea3427680772a6}\label{ipc_8h_a893dbd60c5ebe415600523fbae202880a2d8926b6de847dbf9cea3427680772a6}} 
+IPC\+\_\+\+STAT&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{ipc_8h_af8e19b312ab5d4140b54f676814d3761}\label{ipc_8h_af8e19b312ab5d4140b54f676814d3761}} 
+\index{ipc.h@{ipc.h}!ftok@{ftok}}
+\index{ftok@{ftok}!ipc.h@{ipc.h}}
+\doxysubsubsection{\texorpdfstring{ftok()}{ftok()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_a99c5bd20241a4a2708237037a1857062}{key\+\_\+t}} ftok (\begin{DoxyParamCaption}\item[{const char $\ast$}]{pathname,  }\item[{int}]{id }\end{DoxyParamCaption})}
+

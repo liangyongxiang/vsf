@@ -1,0 +1,107 @@
+\hypertarget{vsf__usbd___u_a_c_8h}{}\doxysection{source/component/usb/device/class/\+UAC/vsf\+\_\+usbd\+\_\+\+UAC.h 文件参考}
+\label{vsf__usbd___u_a_c_8h}\index{source/component/usb/device/class/UAC/vsf\_usbd\_UAC.h@{source/component/usb/device/class/UAC/vsf\_usbd\_UAC.h}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../../common/class/\+UAC/vsf\+\_\+usb\+\_\+\+UAC.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/av/vsf\+\_\+av.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvk__usbd__uac__control__info__t}{vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+info\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__usbd__uac__control__t}{vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__usbd__uac__entity__t}{vk\+\_\+usbd\+\_\+uac\+\_\+entity\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvk__usbd__uac__ac__t}{vk\+\_\+usbd\+\_\+uac\+\_\+ac\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvk__usbd__uac__as__t}{vk\+\_\+usbd\+\_\+uac\+\_\+as\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___u_a_c_8h_a381985d379d929d594f40287e458306b}{VSF\+\_\+\+USBD\+\_\+\+UAC\+\_\+\+WORKAROUND\+\_\+\+CONTROL\+\_\+\+OVERFLOW}}~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}
+\end{DoxyCompactItemize}
+\doxysubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvk__usbd__uac__control__t}{vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+t}} \mbox{\hyperlink{vsf__usbd___u_a_c_8h_adf2a1ba52393a2e6144c1208a688814e}{vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__usbd__uac__control__info__t}{vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+info\+\_\+t}} \mbox{\hyperlink{vsf__usbd___u_a_c_8h_a2469320f24a6bf265183f3dffd08ee98}{vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+info\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__usbd__uac__entity__t}{vk\+\_\+usbd\+\_\+uac\+\_\+entity\+\_\+t}} \mbox{\hyperlink{vsf__usbd___u_a_c_8h_a1ce51b6d5e83c7a8918cb6c07fb5fb3a}{vk\+\_\+usbd\+\_\+uac\+\_\+entity\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__usbd___u_a_c_8h_a6bf51d37eb7d63094ccbf1a12ca0b37b}{vk\+\_\+usbd\+\_\+uac\+\_\+connect\+\_\+stream}} (\mbox{\hyperlink{classvk__usbd__uac__as__t}{vk\+\_\+usbd\+\_\+uac\+\_\+as\+\_\+t}} $\ast$uac\+\_\+as, \mbox{\hyperlink{classvsf__stream__t}{vsf\+\_\+stream\+\_\+t}} $\ast$stream)
+\item 
+void \mbox{\hyperlink{vsf__usbd___u_a_c_8h_acdc5b39b3124d086c993387733f5eaf0}{vk\+\_\+usbd\+\_\+uac\+\_\+disconnect\+\_\+stream}} (\mbox{\hyperlink{classvk__usbd__uac__as__t}{vk\+\_\+usbd\+\_\+uac\+\_\+as\+\_\+t}} $\ast$uac\+\_\+as)
+\end{DoxyCompactItemize}
+\doxysubsection*{变量}
+\begin{DoxyCompactItemize}
+\item 
+const vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t \mbox{\hyperlink{vsf__usbd___u_a_c_8h_a5f7e505a32a3592b50c9034a0ed1da52}{vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+class}}
+\item 
+const vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t \mbox{\hyperlink{vsf__usbd___u_a_c_8h_a25e7873b6163640e0c84a95de065aa07}{vk\+\_\+usbd\+\_\+uac\+\_\+stream\+\_\+class}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__usbd___u_a_c_8h_a381985d379d929d594f40287e458306b}\label{vsf__usbd___u_a_c_8h_a381985d379d929d594f40287e458306b}} 
+\index{vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}!VSF\_USBD\_UAC\_WORKAROUND\_CONTROL\_OVERFLOW@{VSF\_USBD\_UAC\_WORKAROUND\_CONTROL\_OVERFLOW}}
+\index{VSF\_USBD\_UAC\_WORKAROUND\_CONTROL\_OVERFLOW@{VSF\_USBD\_UAC\_WORKAROUND\_CONTROL\_OVERFLOW}!vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_USBD\_UAC\_WORKAROUND\_CONTROL\_OVERFLOW}{VSF\_USBD\_UAC\_WORKAROUND\_CONTROL\_OVERFLOW}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+USBD\+\_\+\+UAC\+\_\+\+WORKAROUND\+\_\+\+CONTROL\+\_\+\+OVERFLOW~\mbox{\hyperlink{vsf__cfg_8h_a73c228f87e038e8295ee8ea8eceaa5ac}{ENABLED}}}
+
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{vsf__usbd___u_a_c_8h_adf2a1ba52393a2e6144c1208a688814e}\label{vsf__usbd___u_a_c_8h_adf2a1ba52393a2e6144c1208a688814e}} 
+\index{vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}!vk\_usbd\_uac\_control\_t@{vk\_usbd\_uac\_control\_t}}
+\index{vk\_usbd\_uac\_control\_t@{vk\_usbd\_uac\_control\_t}!vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_uac\_control\_t}{vk\_usbd\_uac\_control\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__usbd__uac__control__t}{vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+t}} \mbox{\hyperlink{structvk__usbd__uac__control__t}{vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__usbd___u_a_c_8h_a2469320f24a6bf265183f3dffd08ee98}\label{vsf__usbd___u_a_c_8h_a2469320f24a6bf265183f3dffd08ee98}} 
+\index{vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}!vk\_usbd\_uac\_control\_info\_t@{vk\_usbd\_uac\_control\_info\_t}}
+\index{vk\_usbd\_uac\_control\_info\_t@{vk\_usbd\_uac\_control\_info\_t}!vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_uac\_control\_info\_t}{vk\_usbd\_uac\_control\_info\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__usbd__uac__control__info__t}{vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+info\+\_\+t}} \mbox{\hyperlink{structvk__usbd__uac__control__info__t}{vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+info\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__usbd___u_a_c_8h_a1ce51b6d5e83c7a8918cb6c07fb5fb3a}\label{vsf__usbd___u_a_c_8h_a1ce51b6d5e83c7a8918cb6c07fb5fb3a}} 
+\index{vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}!vk\_usbd\_uac\_entity\_t@{vk\_usbd\_uac\_entity\_t}}
+\index{vk\_usbd\_uac\_entity\_t@{vk\_usbd\_uac\_entity\_t}!vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_uac\_entity\_t}{vk\_usbd\_uac\_entity\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__usbd__uac__entity__t}{vk\+\_\+usbd\+\_\+uac\+\_\+entity\+\_\+t}} \mbox{\hyperlink{structvk__usbd__uac__entity__t}{vk\+\_\+usbd\+\_\+uac\+\_\+entity\+\_\+t}}}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__usbd___u_a_c_8h_a6bf51d37eb7d63094ccbf1a12ca0b37b}\label{vsf__usbd___u_a_c_8h_a6bf51d37eb7d63094ccbf1a12ca0b37b}} 
+\index{vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}!vk\_usbd\_uac\_connect\_stream@{vk\_usbd\_uac\_connect\_stream}}
+\index{vk\_usbd\_uac\_connect\_stream@{vk\_usbd\_uac\_connect\_stream}!vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_uac\_connect\_stream()}{vk\_usbd\_uac\_connect\_stream()}}
+{\footnotesize\ttfamily void vk\+\_\+usbd\+\_\+uac\+\_\+connect\+\_\+stream (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__usbd__uac__as__t}{vk\+\_\+usbd\+\_\+uac\+\_\+as\+\_\+t}} $\ast$}]{uac\+\_\+as,  }\item[{\mbox{\hyperlink{classvsf__stream__t}{vsf\+\_\+stream\+\_\+t}} $\ast$}]{stream }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbd___u_a_c_8h_acdc5b39b3124d086c993387733f5eaf0}\label{vsf__usbd___u_a_c_8h_acdc5b39b3124d086c993387733f5eaf0}} 
+\index{vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}!vk\_usbd\_uac\_disconnect\_stream@{vk\_usbd\_uac\_disconnect\_stream}}
+\index{vk\_usbd\_uac\_disconnect\_stream@{vk\_usbd\_uac\_disconnect\_stream}!vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_uac\_disconnect\_stream()}{vk\_usbd\_uac\_disconnect\_stream()}}
+{\footnotesize\ttfamily void vk\+\_\+usbd\+\_\+uac\+\_\+disconnect\+\_\+stream (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__usbd__uac__as__t}{vk\+\_\+usbd\+\_\+uac\+\_\+as\+\_\+t}} $\ast$}]{uac\+\_\+as }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{变量说明}
+\mbox{\Hypertarget{vsf__usbd___u_a_c_8h_a5f7e505a32a3592b50c9034a0ed1da52}\label{vsf__usbd___u_a_c_8h_a5f7e505a32a3592b50c9034a0ed1da52}} 
+\index{vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}!vk\_usbd\_uac\_control\_class@{vk\_usbd\_uac\_control\_class}}
+\index{vk\_usbd\_uac\_control\_class@{vk\_usbd\_uac\_control\_class}!vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_uac\_control\_class}{vk\_usbd\_uac\_control\_class}}
+{\footnotesize\ttfamily const vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t vk\+\_\+usbd\+\_\+uac\+\_\+control\+\_\+class\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{vsf__usbd___u_a_c_8h_a25e7873b6163640e0c84a95de065aa07}\label{vsf__usbd___u_a_c_8h_a25e7873b6163640e0c84a95de065aa07}} 
+\index{vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}!vk\_usbd\_uac\_stream\_class@{vk\_usbd\_uac\_stream\_class}}
+\index{vk\_usbd\_uac\_stream\_class@{vk\_usbd\_uac\_stream\_class}!vsf\_usbd\_UAC.h@{vsf\_usbd\_UAC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_uac\_stream\_class}{vk\_usbd\_uac\_stream\_class}}
+{\footnotesize\ttfamily const vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t vk\+\_\+usbd\+\_\+uac\+\_\+stream\+\_\+class\hspace{0.3cm}{\ttfamily [extern]}}
+

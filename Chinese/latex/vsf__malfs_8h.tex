@@ -1,0 +1,172 @@
+\hypertarget{vsf__malfs_8h}{}\doxysection{source/component/fs/driver/malfs/vsf\+\_\+malfs.h 文件参考}
+\label{vsf__malfs_8h}\index{source/component/fs/driver/malfs/vsf\_malfs.h@{source/component/fs/driver/malfs/vsf\_malfs.h}}
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+fs\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/mal/vsf\+\_\+mal.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct____vk__malfs__cache__node__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+node\+\_\+t}}
+\item 
+class \mbox{\hyperlink{class____vk__malfs__cache__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+t}}
+\item 
+class \mbox{\hyperlink{class____vk__malfs__file__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+file\+\_\+t}}
+\item 
+class \mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__malfs__mount__partition__t}{vk\+\_\+malfs\+\_\+mount\+\_\+partition\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvk__malfs__mounter__t}{vk\+\_\+malfs\+\_\+mounter\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__malfs_8h_a613cd504dc78593e5a77eeb39833cf38}{\+\_\+\+\_\+implement\+\_\+malfs\+\_\+cache}}(\+\_\+\+\_\+size,  \+\_\+\+\_\+number)
+\end{DoxyCompactItemize}
+\doxysubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{struct____vk__malfs__cache__node__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+node\+\_\+t}} \mbox{\hyperlink{vsf__malfs_8h_aa6e828ce996f838fb73a19f4c4a4dfc8}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+node\+\_\+t}}
+\item 
+typedef enum \mbox{\hyperlink{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9f}{vk\+\_\+malfs\+\_\+mount\+\_\+state\+\_\+t}} \mbox{\hyperlink{vsf__malfs_8h_a954d5462c2d751da9ddad9c7348c5a7f}{vk\+\_\+malfs\+\_\+mount\+\_\+state\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvk__malfs__mount__partition__t}{vk\+\_\+malfs\+\_\+mount\+\_\+partition\+\_\+t}} \mbox{\hyperlink{vsf__malfs_8h_a0d2704aa415df3a1bdc7bc698c4f752f}{vk\+\_\+malfs\+\_\+mount\+\_\+partition\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{枚举}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9f}{vk\+\_\+malfs\+\_\+mount\+\_\+state\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fa0918baa7ec7544b7cc40f300e109777d}{VSF\+\_\+\+MOUNT\+\_\+\+STATE\+\_\+\+READ\+\_\+\+MBR}}
+, \newline
+\mbox{\hyperlink{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fad4542d17a726bb721fc7760f2d70f143}{VSF\+\_\+\+MOUNT\+\_\+\+STATE\+\_\+\+CREATE\+\_\+\+ROOT}}
+, \newline
+\mbox{\hyperlink{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fa4c0c018ab0d231e87e41b41d494009ea}{VSF\+\_\+\+MOUNT\+\_\+\+STATE\+\_\+\+OPEN\+\_\+\+ROOT}}
+, \newline
+\mbox{\hyperlink{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fa8e9fa273bed82f2a32bb3e4bbaae670d}{VSF\+\_\+\+MOUNT\+\_\+\+STATE\+\_\+\+MOUNT}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__malfs_8h_ac73c9969dda89b6c431a49c7d8264426}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+init}} (\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$info)
+\item 
+void \mbox{\hyperlink{vsf__malfs_8h_a0addc3f4be92c58f68e50e211f9cbad7}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+init}} (\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$info, \mbox{\hyperlink{class____vk__malfs__cache__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+t}} $\ast$cache)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__malfs_8h_a2de9e8a1c250c598701102c5f501be6d}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+alloc\+\_\+cache}} (\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$info, \mbox{\hyperlink{class____vk__malfs__cache__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+t}} $\ast$cache, \mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\+\_\+fast64\+\_\+t}} block\+\_\+addr)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__malfs_8h_a8a8b98780ad18aa60b53c3a498db07f7}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+read}} (\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$info, \mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\+\_\+fast64\+\_\+t}} block\+\_\+addr, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} block\+\_\+num, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__memfs_8h_a8b212742c92a124f2eb4a244acc19f7c}{buff}})
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__malfs_8h_ac519318d2117df5c17555e998fe6fd6b}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+write}} (\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$info, \mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\+\_\+fast64\+\_\+t}} block\+\_\+addr, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} block\+\_\+num, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__memfs_8h_a8b212742c92a124f2eb4a244acc19f7c}{buff}})
+\item 
+void \mbox{\hyperlink{vsf__malfs_8h_a571c855190e399f9f26d42b7ea97735d}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+unmount}} (\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$info)
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__malfs_8h_a4f69c875c71983fe76beeab1012b537e}{vk\+\_\+malfs\+\_\+mount\+\_\+mbr}} (\mbox{\hyperlink{classvk__malfs__mounter__t}{vk\+\_\+malfs\+\_\+mounter\+\_\+t}} $\ast$mounter)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__malfs_8h_a613cd504dc78593e5a77eeb39833cf38}\label{vsf__malfs_8h_a613cd504dc78593e5a77eeb39833cf38}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!\_\_implement\_malfs\_cache@{\_\_implement\_malfs\_cache}}
+\index{\_\_implement\_malfs\_cache@{\_\_implement\_malfs\_cache}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{\_\_implement\_malfs\_cache}{\_\_implement\_malfs\_cache}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+implement\+\_\+malfs\+\_\+cache(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+size,  }\item[{}]{\+\_\+\+\_\+number }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \mbox{\hyperlink{struct____vk__malfs__cache__node__t}{\_\_vk\_malfs\_cache\_node\_t}} \_\_cache\_nodes[\_\_number];                            \(\backslash\)}
+\DoxyCodeLine{    uint8\_t \_\_buffer[\_\_size * \_\_number];}
+
+\end{DoxyCode}
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{vsf__malfs_8h_aa6e828ce996f838fb73a19f4c4a4dfc8}\label{vsf__malfs_8h_aa6e828ce996f838fb73a19f4c4a4dfc8}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!\_\_vk\_malfs\_cache\_node\_t@{\_\_vk\_malfs\_cache\_node\_t}}
+\index{\_\_vk\_malfs\_cache\_node\_t@{\_\_vk\_malfs\_cache\_node\_t}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_malfs\_cache\_node\_t}{\_\_vk\_malfs\_cache\_node\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct____vk__malfs__cache__node__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+node\+\_\+t}} \mbox{\hyperlink{struct____vk__malfs__cache__node__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+node\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__malfs_8h_a954d5462c2d751da9ddad9c7348c5a7f}\label{vsf__malfs_8h_a954d5462c2d751da9ddad9c7348c5a7f}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!vk\_malfs\_mount\_state\_t@{vk\_malfs\_mount\_state\_t}}
+\index{vk\_malfs\_mount\_state\_t@{vk\_malfs\_mount\_state\_t}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_malfs\_mount\_state\_t}{vk\_malfs\_mount\_state\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9f}{vk\+\_\+malfs\+\_\+mount\+\_\+state\+\_\+t}} \mbox{\hyperlink{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9f}{vk\+\_\+malfs\+\_\+mount\+\_\+state\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__malfs_8h_a0d2704aa415df3a1bdc7bc698c4f752f}\label{vsf__malfs_8h_a0d2704aa415df3a1bdc7bc698c4f752f}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!vk\_malfs\_mount\_partition\_t@{vk\_malfs\_mount\_partition\_t}}
+\index{vk\_malfs\_mount\_partition\_t@{vk\_malfs\_mount\_partition\_t}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_malfs\_mount\_partition\_t}{vk\_malfs\_mount\_partition\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__malfs__mount__partition__t}{vk\+\_\+malfs\+\_\+mount\+\_\+partition\+\_\+t}} \mbox{\hyperlink{structvk__malfs__mount__partition__t}{vk\+\_\+malfs\+\_\+mount\+\_\+partition\+\_\+t}}}
+
+
+
+\doxysubsection{枚举类型说明}
+\mbox{\Hypertarget{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9f}\label{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9f}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!vk\_malfs\_mount\_state\_t@{vk\_malfs\_mount\_state\_t}}
+\index{vk\_malfs\_mount\_state\_t@{vk\_malfs\_mount\_state\_t}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_malfs\_mount\_state\_t}{vk\_malfs\_mount\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9f}{vk\+\_\+malfs\+\_\+mount\+\_\+state\+\_\+t}}}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MOUNT\_STATE\_READ\_MBR@{VSF\_MOUNT\_STATE\_READ\_MBR}!vsf\_malfs.h@{vsf\_malfs.h}}\index{vsf\_malfs.h@{vsf\_malfs.h}!VSF\_MOUNT\_STATE\_READ\_MBR@{VSF\_MOUNT\_STATE\_READ\_MBR}}}\mbox{\Hypertarget{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fa0918baa7ec7544b7cc40f300e109777d}\label{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fa0918baa7ec7544b7cc40f300e109777d}} 
+VSF\+\_\+\+MOUNT\+\_\+\+STATE\+\_\+\+READ\+\_\+\+MBR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MOUNT\_STATE\_CREATE\_ROOT@{VSF\_MOUNT\_STATE\_CREATE\_ROOT}!vsf\_malfs.h@{vsf\_malfs.h}}\index{vsf\_malfs.h@{vsf\_malfs.h}!VSF\_MOUNT\_STATE\_CREATE\_ROOT@{VSF\_MOUNT\_STATE\_CREATE\_ROOT}}}\mbox{\Hypertarget{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fad4542d17a726bb721fc7760f2d70f143}\label{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fad4542d17a726bb721fc7760f2d70f143}} 
+VSF\+\_\+\+MOUNT\+\_\+\+STATE\+\_\+\+CREATE\+\_\+\+ROOT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MOUNT\_STATE\_OPEN\_ROOT@{VSF\_MOUNT\_STATE\_OPEN\_ROOT}!vsf\_malfs.h@{vsf\_malfs.h}}\index{vsf\_malfs.h@{vsf\_malfs.h}!VSF\_MOUNT\_STATE\_OPEN\_ROOT@{VSF\_MOUNT\_STATE\_OPEN\_ROOT}}}\mbox{\Hypertarget{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fa4c0c018ab0d231e87e41b41d494009ea}\label{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fa4c0c018ab0d231e87e41b41d494009ea}} 
+VSF\+\_\+\+MOUNT\+\_\+\+STATE\+\_\+\+OPEN\+\_\+\+ROOT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_MOUNT\_STATE\_MOUNT@{VSF\_MOUNT\_STATE\_MOUNT}!vsf\_malfs.h@{vsf\_malfs.h}}\index{vsf\_malfs.h@{vsf\_malfs.h}!VSF\_MOUNT\_STATE\_MOUNT@{VSF\_MOUNT\_STATE\_MOUNT}}}\mbox{\Hypertarget{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fa8e9fa273bed82f2a32bb3e4bbaae670d}\label{vsf__malfs_8h_a231333e2d1c2bedfcf8938b5a5419c9fa8e9fa273bed82f2a32bb3e4bbaae670d}} 
+VSF\+\_\+\+MOUNT\+\_\+\+STATE\+\_\+\+MOUNT&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__malfs_8h_ac73c9969dda89b6c431a49c7d8264426}\label{vsf__malfs_8h_ac73c9969dda89b6c431a49c7d8264426}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!\_\_vk\_malfs\_init@{\_\_vk\_malfs\_init}}
+\index{\_\_vk\_malfs\_init@{\_\_vk\_malfs\_init}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_malfs\_init()}{\_\_vk\_malfs\_init()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vk\+\_\+malfs\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$}]{info }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__malfs_8h_a0addc3f4be92c58f68e50e211f9cbad7}\label{vsf__malfs_8h_a0addc3f4be92c58f68e50e211f9cbad7}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!\_\_vk\_malfs\_cache\_init@{\_\_vk\_malfs\_cache\_init}}
+\index{\_\_vk\_malfs\_cache\_init@{\_\_vk\_malfs\_cache\_init}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_malfs\_cache\_init()}{\_\_vk\_malfs\_cache\_init()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$}]{info,  }\item[{\mbox{\hyperlink{class____vk__malfs__cache__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+t}} $\ast$}]{cache }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__malfs_8h_a2de9e8a1c250c598701102c5f501be6d}\label{vsf__malfs_8h_a2de9e8a1c250c598701102c5f501be6d}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!\_\_vk\_malfs\_alloc\_cache@{\_\_vk\_malfs\_alloc\_cache}}
+\index{\_\_vk\_malfs\_alloc\_cache@{\_\_vk\_malfs\_alloc\_cache}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_malfs\_alloc\_cache()}{\_\_vk\_malfs\_alloc\_cache()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \+\_\+\+\_\+vk\+\_\+malfs\+\_\+alloc\+\_\+cache (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$}]{info,  }\item[{\mbox{\hyperlink{class____vk__malfs__cache__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+cache\+\_\+t}} $\ast$}]{cache,  }\item[{\mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\+\_\+fast64\+\_\+t}}}]{block\+\_\+addr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__malfs_8h_a8a8b98780ad18aa60b53c3a498db07f7}\label{vsf__malfs_8h_a8a8b98780ad18aa60b53c3a498db07f7}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!\_\_vk\_malfs\_read@{\_\_vk\_malfs\_read}}
+\index{\_\_vk\_malfs\_read@{\_\_vk\_malfs\_read}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_malfs\_read()}{\_\_vk\_malfs\_read()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \+\_\+\+\_\+vk\+\_\+malfs\+\_\+read (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$}]{info,  }\item[{\mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\+\_\+fast64\+\_\+t}}}]{block\+\_\+addr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{block\+\_\+num,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buff }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__malfs_8h_ac519318d2117df5c17555e998fe6fd6b}\label{vsf__malfs_8h_ac519318d2117df5c17555e998fe6fd6b}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!\_\_vk\_malfs\_write@{\_\_vk\_malfs\_write}}
+\index{\_\_vk\_malfs\_write@{\_\_vk\_malfs\_write}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_malfs\_write()}{\_\_vk\_malfs\_write()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \+\_\+\+\_\+vk\+\_\+malfs\+\_\+write (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$}]{info,  }\item[{\mbox{\hyperlink{arm_2type_8h_ab107742eefdd49f98cb8710e84e48dd2}{uint\+\_\+fast64\+\_\+t}}}]{block\+\_\+addr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{block\+\_\+num,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buff }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__malfs_8h_a571c855190e399f9f26d42b7ea97735d}\label{vsf__malfs_8h_a571c855190e399f9f26d42b7ea97735d}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!\_\_vk\_malfs\_unmount@{\_\_vk\_malfs\_unmount}}
+\index{\_\_vk\_malfs\_unmount@{\_\_vk\_malfs\_unmount}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_malfs\_unmount()}{\_\_vk\_malfs\_unmount()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vk\+\_\+malfs\+\_\+unmount (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class____vk__malfs__info__t}{\+\_\+\+\_\+vk\+\_\+malfs\+\_\+info\+\_\+t}} $\ast$}]{info }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__malfs_8h_a4f69c875c71983fe76beeab1012b537e}\label{vsf__malfs_8h_a4f69c875c71983fe76beeab1012b537e}} 
+\index{vsf\_malfs.h@{vsf\_malfs.h}!vk\_malfs\_mount\_mbr@{vk\_malfs\_mount\_mbr}}
+\index{vk\_malfs\_mount\_mbr@{vk\_malfs\_mount\_mbr}!vsf\_malfs.h@{vsf\_malfs.h}}
+\doxysubsubsection{\texorpdfstring{vk\_malfs\_mount\_mbr()}{vk\_malfs\_mount\_mbr()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+malfs\+\_\+mount\+\_\+mbr (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__malfs__mounter__t}{vk\+\_\+malfs\+\_\+mounter\+\_\+t}} $\ast$}]{mounter }\end{DoxyParamCaption})}
+

@@ -1,0 +1,86 @@
+\hypertarget{vsf__mem__stream_8c}{}\doxysection{source/service/simple\+\_\+stream/mem\+\_\+stream/vsf\+\_\+mem\+\_\+stream.c 文件参考}
+\label{vsf__mem__stream_8c}\index{source/service/simple\_stream/mem\_stream/vsf\_mem\_stream.c@{source/service/simple\_stream/mem\_stream/vsf\_mem\_stream.c}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../vsf\+\_\+simple\+\_\+stream.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+mem\+\_\+stream.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__mem__stream_8c_a3795c90d93fba4016ca41b28849556a6}{\+\_\+\+\_\+\+VSF\+\_\+\+SIMPLE\+\_\+\+STREAM\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__mem__stream_8c_a2cf9f66fc41db173adc892f03a617fff}{\+\_\+\+\_\+\+VSF\+\_\+\+MEM\+\_\+\+STREAM\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__mem__stream_8c_a35b123c1bed3ef8bb96db09ce84f7622}{VSF\+\_\+\+MEM\+\_\+\+STREAM\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}}~interrupt
+\item 
+\#define \mbox{\hyperlink{vsf__mem__stream_8c_ada1449bc2b52bcff7bd4101c9da851ec}{\+\_\+\+\_\+vsf\+\_\+mem\+\_\+stream\+\_\+protect}}~vsf\+\_\+protect(\mbox{\hyperlink{vsf__mem__stream_8c_a35b123c1bed3ef8bb96db09ce84f7622}{VSF\+\_\+\+MEM\+\_\+\+STREAM\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})
+\item 
+\#define \mbox{\hyperlink{vsf__mem__stream_8c_ab674e54b2590a193430a47e84101691e}{\+\_\+\+\_\+vsf\+\_\+mem\+\_\+stream\+\_\+unprotect}}~vsf\+\_\+unprotect(\mbox{\hyperlink{vsf__mem__stream_8c_a35b123c1bed3ef8bb96db09ce84f7622}{VSF\+\_\+\+MEM\+\_\+\+STREAM\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})
+\end{DoxyCompactItemize}
+\doxysubsection*{变量}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvsf__stream__op__t}{vsf\+\_\+stream\+\_\+op\+\_\+t}} \mbox{\hyperlink{vsf__mem__stream_8c_a99a1e930d338282afc8aa780dc14fb56}{vsf\+\_\+mem\+\_\+stream\+\_\+op}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__mem__stream_8c_a3795c90d93fba4016ca41b28849556a6}\label{vsf__mem__stream_8c_a3795c90d93fba4016ca41b28849556a6}} 
+\index{vsf\_mem\_stream.c@{vsf\_mem\_stream.c}!\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_@{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_@{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}!vsf\_mem\_stream.c@{vsf\_mem\_stream.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}{\_\_VSF\_SIMPLE\_STREAM\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+SIMPLE\+\_\+\+STREAM\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__mem__stream_8c_a2cf9f66fc41db173adc892f03a617fff}\label{vsf__mem__stream_8c_a2cf9f66fc41db173adc892f03a617fff}} 
+\index{vsf\_mem\_stream.c@{vsf\_mem\_stream.c}!\_\_VSF\_MEM\_STREAM\_CLASS\_IMPLEMENT@{\_\_VSF\_MEM\_STREAM\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_MEM\_STREAM\_CLASS\_IMPLEMENT@{\_\_VSF\_MEM\_STREAM\_CLASS\_IMPLEMENT}!vsf\_mem\_stream.c@{vsf\_mem\_stream.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_MEM\_STREAM\_CLASS\_IMPLEMENT}{\_\_VSF\_MEM\_STREAM\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+MEM\+\_\+\+STREAM\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__mem__stream_8c_a35b123c1bed3ef8bb96db09ce84f7622}\label{vsf__mem__stream_8c_a35b123c1bed3ef8bb96db09ce84f7622}} 
+\index{vsf\_mem\_stream.c@{vsf\_mem\_stream.c}!VSF\_MEM\_STREAM\_CFG\_PROTECT\_LEVEL@{VSF\_MEM\_STREAM\_CFG\_PROTECT\_LEVEL}}
+\index{VSF\_MEM\_STREAM\_CFG\_PROTECT\_LEVEL@{VSF\_MEM\_STREAM\_CFG\_PROTECT\_LEVEL}!vsf\_mem\_stream.c@{vsf\_mem\_stream.c}}
+\doxysubsubsection{\texorpdfstring{VSF\_MEM\_STREAM\_CFG\_PROTECT\_LEVEL}{VSF\_MEM\_STREAM\_CFG\_PROTECT\_LEVEL}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+MEM\+\_\+\+STREAM\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL~interrupt}
+
+\begin{DoxyNote}{注解}
+By default, the driver tries to make all APIs interrupt-\/safe, ! ! in the case when you want to disable it, ! please use following macro\+: ! \#define VSF\+\_\+\+MEM\+\_\+\+STREAM\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL none ! ~\newline
+ ! in the case when you want to use scheduler-\/safe, ! please use following macro\+: ! \#define VSF\+\_\+\+MEM\+\_\+\+STREAM\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL scheduler ! ~\newline
+ ! NOTE\+: This macro should be defined in vsf\+\_\+usr\+\_\+cfg.\+h 
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__mem__stream_8c_ada1449bc2b52bcff7bd4101c9da851ec}\label{vsf__mem__stream_8c_ada1449bc2b52bcff7bd4101c9da851ec}} 
+\index{vsf\_mem\_stream.c@{vsf\_mem\_stream.c}!\_\_vsf\_mem\_stream\_protect@{\_\_vsf\_mem\_stream\_protect}}
+\index{\_\_vsf\_mem\_stream\_protect@{\_\_vsf\_mem\_stream\_protect}!vsf\_mem\_stream.c@{vsf\_mem\_stream.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_mem\_stream\_protect}{\_\_vsf\_mem\_stream\_protect}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+mem\+\_\+stream\+\_\+protect~vsf\+\_\+protect(\mbox{\hyperlink{vsf__mem__stream_8c_a35b123c1bed3ef8bb96db09ce84f7622}{VSF\+\_\+\+MEM\+\_\+\+STREAM\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})}
+
+\mbox{\Hypertarget{vsf__mem__stream_8c_ab674e54b2590a193430a47e84101691e}\label{vsf__mem__stream_8c_ab674e54b2590a193430a47e84101691e}} 
+\index{vsf\_mem\_stream.c@{vsf\_mem\_stream.c}!\_\_vsf\_mem\_stream\_unprotect@{\_\_vsf\_mem\_stream\_unprotect}}
+\index{\_\_vsf\_mem\_stream\_unprotect@{\_\_vsf\_mem\_stream\_unprotect}!vsf\_mem\_stream.c@{vsf\_mem\_stream.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_mem\_stream\_unprotect}{\_\_vsf\_mem\_stream\_unprotect}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+mem\+\_\+stream\+\_\+unprotect~vsf\+\_\+unprotect(\mbox{\hyperlink{vsf__mem__stream_8c_a35b123c1bed3ef8bb96db09ce84f7622}{VSF\+\_\+\+MEM\+\_\+\+STREAM\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})}
+
+
+
+\doxysubsection{变量说明}
+\mbox{\Hypertarget{vsf__mem__stream_8c_a99a1e930d338282afc8aa780dc14fb56}\label{vsf__mem__stream_8c_a99a1e930d338282afc8aa780dc14fb56}} 
+\index{vsf\_mem\_stream.c@{vsf\_mem\_stream.c}!vsf\_mem\_stream\_op@{vsf\_mem\_stream\_op}}
+\index{vsf\_mem\_stream\_op@{vsf\_mem\_stream\_op}!vsf\_mem\_stream.c@{vsf\_mem\_stream.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_mem\_stream\_op}{vsf\_mem\_stream\_op}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvsf__stream__op__t}{vsf\+\_\+stream\+\_\+op\+\_\+t}} vsf\+\_\+mem\+\_\+stream\+\_\+op}
+
+{\bfseries 初始值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    .init               = \_\_vsf\_mem\_stream\_init,}
+\DoxyCodeLine{    .fini               = \_\_vsf\_mem\_stream\_init,}
+\DoxyCodeLine{    .write              = \_\_vsf\_mem\_stream\_write,}
+\DoxyCodeLine{    .read               = \_\_vsf\_mem\_stream\_read,}
+\DoxyCodeLine{    .get\_buff\_length    = \_\_vsf\_mem\_stream\_get\_buff\_length,}
+\DoxyCodeLine{    .get\_data\_length    = \_\_vsf\_mem\_stream\_get\_data\_length,}
+\DoxyCodeLine{    .get\_avail\_length   = \_\_vsf\_mem\_stream\_get\_avail\_length,}
+\DoxyCodeLine{    .get\_wbuf           = \_\_vsf\_mem\_stream\_get\_wbuf,}
+\DoxyCodeLine{    .get\_rbuf           = \_\_vsf\_mem\_stream\_get\_rbuf,}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

@@ -1,0 +1,79 @@
+\hypertarget{vsf__usbh___c_d_c_8h}{}\doxysection{source/component/usb/host/class/\+CDC/vsf\+\_\+usbh\+\_\+\+CDC.h 文件参考}
+\label{vsf__usbh___c_d_c_8h}\index{source/component/usb/host/class/CDC/vsf\_usbh\_CDC.h@{source/component/usb/host/class/CDC/vsf\_usbh\_CDC.h}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/usb/common/class/\+CDC/vsf\+\_\+usb\+\_\+\+CDC.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+usbh.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classvk__usbh__cdc__t}{vk\+\_\+usbh\+\_\+cdc\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669b}{vk\+\_\+usbh\+\_\+cdc\+\_\+evt\+\_\+t}} \mbox{\hyperlink{vsf__usbh___c_d_c_8h_a8b301e6ab1c1af7a103e7538ac0562c5}{vk\+\_\+usbh\+\_\+cdc\+\_\+evt\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}}($\ast$ \mbox{\hyperlink{vsf__usbh___c_d_c_8h_ad2ff454eb5be9d776c2ff622a659dfdc}{vk\+\_\+usbh\+\_\+cdc\+\_\+evthandler\+\_\+t}}) (\mbox{\hyperlink{classvk__usbh__cdc__t}{vk\+\_\+usbh\+\_\+cdc\+\_\+t}} $\ast$cdc, \mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669b}{vk\+\_\+usbh\+\_\+cdc\+\_\+evt\+\_\+t}} evt, void $\ast$param)
+\end{DoxyCompactItemize}
+\doxysubsection*{枚举}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669b}{vk\+\_\+usbh\+\_\+cdc\+\_\+evt\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba00f8ed49fb6285e100fb9344171048d8}{VSF\+\_\+\+USBH\+\_\+\+CDC\+\_\+\+ON\+\_\+\+INIT}}
+, \newline
+\mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba4b32d1aab2b4da55af22e10c69bf9efa}{VSF\+\_\+\+USBH\+\_\+\+CDC\+\_\+\+ON\+\_\+\+DESC}}
+, \newline
+\mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba56c2d7de7076b636b10cff6c9f1327a3}{VSF\+\_\+\+USBH\+\_\+\+CDC\+\_\+\+ON\+\_\+\+EVENT}}
+, \newline
+\mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba1a883d2ac4c881f79391a33d24c63c46}{VSF\+\_\+\+USBH\+\_\+\+CDC\+\_\+\+ON\+\_\+\+RX}}
+, \newline
+\mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba85cd61c41a608e0688d39cdc5c701a46}{VSF\+\_\+\+USBH\+\_\+\+CDC\+\_\+\+ON\+\_\+\+TX}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{vsf__usbh___c_d_c_8h_a8b301e6ab1c1af7a103e7538ac0562c5}\label{vsf__usbh___c_d_c_8h_a8b301e6ab1c1af7a103e7538ac0562c5}} 
+\index{vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}!vk\_usbh\_cdc\_evt\_t@{vk\_usbh\_cdc\_evt\_t}}
+\index{vk\_usbh\_cdc\_evt\_t@{vk\_usbh\_cdc\_evt\_t}!vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_cdc\_evt\_t}{vk\_usbh\_cdc\_evt\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669b}{vk\+\_\+usbh\+\_\+cdc\+\_\+evt\+\_\+t}} \mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669b}{vk\+\_\+usbh\+\_\+cdc\+\_\+evt\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__usbh___c_d_c_8h_ad2ff454eb5be9d776c2ff622a659dfdc}\label{vsf__usbh___c_d_c_8h_ad2ff454eb5be9d776c2ff622a659dfdc}} 
+\index{vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}!vk\_usbh\_cdc\_evthandler\_t@{vk\_usbh\_cdc\_evthandler\_t}}
+\index{vk\_usbh\_cdc\_evthandler\_t@{vk\_usbh\_cdc\_evthandler\_t}!vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_cdc\_evthandler\_t}{vk\_usbh\_cdc\_evthandler\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}}($\ast$ vk\+\_\+usbh\+\_\+cdc\+\_\+evthandler\+\_\+t) (\mbox{\hyperlink{classvk__usbh__cdc__t}{vk\+\_\+usbh\+\_\+cdc\+\_\+t}} $\ast$cdc, \mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669b}{vk\+\_\+usbh\+\_\+cdc\+\_\+evt\+\_\+t}} evt, void $\ast$param)}
+
+
+
+\doxysubsection{枚举类型说明}
+\mbox{\Hypertarget{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669b}\label{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669b}} 
+\index{vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}!vk\_usbh\_cdc\_evt\_t@{vk\_usbh\_cdc\_evt\_t}}
+\index{vk\_usbh\_cdc\_evt\_t@{vk\_usbh\_cdc\_evt\_t}!vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_cdc\_evt\_t}{vk\_usbh\_cdc\_evt\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669b}{vk\+\_\+usbh\+\_\+cdc\+\_\+evt\+\_\+t}}}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_USBH\_CDC\_ON\_INIT@{VSF\_USBH\_CDC\_ON\_INIT}!vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}}\index{vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}!VSF\_USBH\_CDC\_ON\_INIT@{VSF\_USBH\_CDC\_ON\_INIT}}}\mbox{\Hypertarget{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba00f8ed49fb6285e100fb9344171048d8}\label{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba00f8ed49fb6285e100fb9344171048d8}} 
+VSF\+\_\+\+USBH\+\_\+\+CDC\+\_\+\+ON\+\_\+\+INIT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_USBH\_CDC\_ON\_DESC@{VSF\_USBH\_CDC\_ON\_DESC}!vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}}\index{vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}!VSF\_USBH\_CDC\_ON\_DESC@{VSF\_USBH\_CDC\_ON\_DESC}}}\mbox{\Hypertarget{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba4b32d1aab2b4da55af22e10c69bf9efa}\label{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba4b32d1aab2b4da55af22e10c69bf9efa}} 
+VSF\+\_\+\+USBH\+\_\+\+CDC\+\_\+\+ON\+\_\+\+DESC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_USBH\_CDC\_ON\_EVENT@{VSF\_USBH\_CDC\_ON\_EVENT}!vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}}\index{vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}!VSF\_USBH\_CDC\_ON\_EVENT@{VSF\_USBH\_CDC\_ON\_EVENT}}}\mbox{\Hypertarget{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba56c2d7de7076b636b10cff6c9f1327a3}\label{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba56c2d7de7076b636b10cff6c9f1327a3}} 
+VSF\+\_\+\+USBH\+\_\+\+CDC\+\_\+\+ON\+\_\+\+EVENT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_USBH\_CDC\_ON\_RX@{VSF\_USBH\_CDC\_ON\_RX}!vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}}\index{vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}!VSF\_USBH\_CDC\_ON\_RX@{VSF\_USBH\_CDC\_ON\_RX}}}\mbox{\Hypertarget{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba1a883d2ac4c881f79391a33d24c63c46}\label{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba1a883d2ac4c881f79391a33d24c63c46}} 
+VSF\+\_\+\+USBH\+\_\+\+CDC\+\_\+\+ON\+\_\+\+RX&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_USBH\_CDC\_ON\_TX@{VSF\_USBH\_CDC\_ON\_TX}!vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}}\index{vsf\_usbh\_CDC.h@{vsf\_usbh\_CDC.h}!VSF\_USBH\_CDC\_ON\_TX@{VSF\_USBH\_CDC\_ON\_TX}}}\mbox{\Hypertarget{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba85cd61c41a608e0688d39cdc5c701a46}\label{vsf__usbh___c_d_c_8h_a00b0787a9e07cd99553a11a55096669ba85cd61c41a608e0688d39cdc5c701a46}} 
+VSF\+\_\+\+USBH\+\_\+\+CDC\+\_\+\+ON\+\_\+\+TX&\\
+\hline
+
+\end{DoxyEnumFields}

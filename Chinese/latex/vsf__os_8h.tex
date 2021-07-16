@@ -1,0 +1,196 @@
+\hypertarget{vsf__os_8h}{}\doxysection{source/kernel/vsf\+\_\+os.h 文件参考}
+\label{vsf__os_8h}\index{source/kernel/vsf\_os.h@{source/kernel/vsf\_os.h}}
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+evtq.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./task/vsf\+\_\+task.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}hal/arch/vsf\+\_\+arch.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvsf__kernel__resource__t}{vsf\+\_\+kernel\+\_\+resource\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_ac8426dc0ba458c16f84f0c1c8f7318f3}{VSF\+\_\+\+USER\+\_\+\+ENTRY}}~main
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_aa781ca2d9afea73c187309115d376259}{VSF\+\_\+\+SCHED\+\_\+\+SAFE\+\_\+\+CODE\+\_\+\+REGION}}~\mbox{\hyperlink{code__region_8h_a6464bd2cd1bf55dee92dcdbb745fe88e}{DEFAULT\+\_\+\+CODE\+\_\+\+REGION\+\_\+\+NONE}}
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_ad480bc7021eb6462ee36878b09396b05}{vsf\+\_\+sched\+\_\+lock}}()~0
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_aca308a56ac40038a0604bc88d25b179c}{vsf\+\_\+sched\+\_\+unlock}}(\+\_\+\+\_\+level)~\mbox{\hyperlink{____type_8h_ab23e43a000a8d4e91eaf5f01798091a0}{UNUSED\+\_\+\+PARAM}}(\+\_\+\+\_\+level)
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_a74c9dc69355989586b01180d0269bc70}{vsf\+\_\+sched\+\_\+safe}}()~if (1)
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_a36fc6b10aa327eb43b156f5d7256c9e9}{\+\_\+\+\_\+vsf\+\_\+sched\+\_\+safe}}(\+\_\+\+\_\+code)~\+\_\+\+\_\+code
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_aabfeeb8e025d736c2f88efc7bbffa540}{vsf\+\_\+sched\+\_\+safe\+\_\+exit}}()
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_ae63ed75d0fb3b0b3cb3f37aacaebad62}{vsf\+\_\+protect\+\_\+scheduler}}()~\mbox{\hyperlink{vsf__os_8h_ad480bc7021eb6462ee36878b09396b05}{vsf\+\_\+sched\+\_\+lock}}()
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_ae62f99de3b65be1a0ef1b9d08a68997a}{vsf\+\_\+unprotect\+\_\+scheduler}}(\+\_\+\+\_\+state)~\mbox{\hyperlink{vsf__os_8h_aca308a56ac40038a0604bc88d25b179c}{vsf\+\_\+sched\+\_\+unlock}}((\+\_\+\+\_\+state))
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_a6d6d9f1d096950ac42a9be5db92b0b2a}{vsf\+\_\+protect\+\_\+sched}}()~(vsf\+\_\+protect\+\_\+t)\mbox{\hyperlink{vsf__os_8h_ae63ed75d0fb3b0b3cb3f37aacaebad62}{vsf\+\_\+protect\+\_\+scheduler}}()
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_ae9a1ef1a05f21db937560b964cd9c49a}{vsf\+\_\+unprotect\+\_\+sched}}(\+\_\+\+\_\+prot)~\mbox{\hyperlink{vsf__os_8h_ae62f99de3b65be1a0ef1b9d08a68997a}{vsf\+\_\+unprotect\+\_\+scheduler}}(\+\_\+\+\_\+prot)
+\item 
+\#define \mbox{\hyperlink{vsf__os_8h_a2fa3b7d5628dd36b3e230594fdc93f1e}{vsf\+\_\+protect\+\_\+region\+\_\+sched}}~vsf\+\_\+protect\+\_\+region\+\_\+none
+\end{DoxyCompactItemize}
+\doxysubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+typedef vsf\+\_\+arch\+\_\+prio\+\_\+t \mbox{\hyperlink{vsf__os_8h_a716f48d52a10627b7f1c40acf5c8f69e}{vsf\+\_\+sched\+\_\+lock\+\_\+status\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{class____vsf__eda__frame__t}{\+\_\+\+\_\+vsf\+\_\+eda\+\_\+frame\+\_\+t}} struct \mbox{\hyperlink{structvsf__kernel__resource__t}{vsf\+\_\+kernel\+\_\+resource\+\_\+t}} \mbox{\hyperlink{vsf__os_8h_ae4d3d6385babc152a1ac0cf516dea949}{vsf\+\_\+kernel\+\_\+resource\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__os_8h_a7c59e56698474daaebd5df15070a161e}{declare\+\_\+vsf\+\_\+pool}} (vsf\+\_\+eda\+\_\+frame\+\_\+pool) \mbox{\hyperlink{vsf__pool_8h_afbbf74b4d90c64200523564f766f7b63}{def\+\_\+vsf\+\_\+pool}}(vsf\+\_\+eda\+\_\+frame\+\_\+pool
+\item 
+void \mbox{\hyperlink{vsf__os_8h_a08779d3071c1b1e724779f0e5539ff71}{\+\_\+\+\_\+vsf\+\_\+kernel\+\_\+os\+\_\+start}} (void)
+\begin{DoxyCompactList}\small\item\em \+\_\+\+\_\+vsf\+\_\+kernel\+\_\+os\+\_\+start and \+\_\+\+\_\+vsf\+\_\+kernel\+\_\+os\+\_\+run\+\_\+priority are ONLY used when \+\_\+\+\_\+vsf\+\_\+main\+\_\+entry is not used \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{vsf__os_8h_abda94b055eacd52223eb63931b10d950}{\+\_\+\+\_\+vsf\+\_\+kernel\+\_\+os\+\_\+run\+\_\+priority}} (\mbox{\hyperlink{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3}{vsf\+\_\+prio\+\_\+t}} priority)
+\item 
+void \mbox{\hyperlink{vsf__os_8h_ad6e3d266abd6e8aad81b91d0ed69e240}{vsf\+\_\+kernel\+\_\+err\+\_\+report}} (enum \mbox{\hyperlink{vsf__eda_8h_a3f224d5b6b7933b79f31f478ec313d96}{vsf\+\_\+kernel\+\_\+error\+\_\+t}} err)
+\item 
+void \mbox{\hyperlink{vsf__os_8h_af7b59dcecf4e7849fff43cac6aeefdda}{vsf\+\_\+sleep}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__os_8h_ac8426dc0ba458c16f84f0c1c8f7318f3}\label{vsf__os_8h_ac8426dc0ba458c16f84f0c1c8f7318f3}} 
+\index{vsf\_os.h@{vsf\_os.h}!VSF\_USER\_ENTRY@{VSF\_USER\_ENTRY}}
+\index{VSF\_USER\_ENTRY@{VSF\_USER\_ENTRY}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_USER\_ENTRY}{VSF\_USER\_ENTRY}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+USER\+\_\+\+ENTRY~main}
+
+\mbox{\Hypertarget{vsf__os_8h_aa781ca2d9afea73c187309115d376259}\label{vsf__os_8h_aa781ca2d9afea73c187309115d376259}} 
+\index{vsf\_os.h@{vsf\_os.h}!VSF\_SCHED\_SAFE\_CODE\_REGION@{VSF\_SCHED\_SAFE\_CODE\_REGION}}
+\index{VSF\_SCHED\_SAFE\_CODE\_REGION@{VSF\_SCHED\_SAFE\_CODE\_REGION}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_SCHED\_SAFE\_CODE\_REGION}{VSF\_SCHED\_SAFE\_CODE\_REGION}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+SCHED\+\_\+\+SAFE\+\_\+\+CODE\+\_\+\+REGION~\mbox{\hyperlink{code__region_8h_a6464bd2cd1bf55dee92dcdbb745fe88e}{DEFAULT\+\_\+\+CODE\+\_\+\+REGION\+\_\+\+NONE}}}
+
+\mbox{\Hypertarget{vsf__os_8h_ad480bc7021eb6462ee36878b09396b05}\label{vsf__os_8h_ad480bc7021eb6462ee36878b09396b05}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_sched\_lock@{vsf\_sched\_lock}}
+\index{vsf\_sched\_lock@{vsf\_sched\_lock}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_sched\_lock}{vsf\_sched\_lock}}
+{\footnotesize\ttfamily \#define vsf\+\_\+sched\+\_\+lock(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~0}
+
+\mbox{\Hypertarget{vsf__os_8h_aca308a56ac40038a0604bc88d25b179c}\label{vsf__os_8h_aca308a56ac40038a0604bc88d25b179c}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_sched\_unlock@{vsf\_sched\_unlock}}
+\index{vsf\_sched\_unlock@{vsf\_sched\_unlock}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_sched\_unlock}{vsf\_sched\_unlock}}
+{\footnotesize\ttfamily \#define vsf\+\_\+sched\+\_\+unlock(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+level }\end{DoxyParamCaption})~\mbox{\hyperlink{____type_8h_ab23e43a000a8d4e91eaf5f01798091a0}{UNUSED\+\_\+\+PARAM}}(\+\_\+\+\_\+level)}
+
+\mbox{\Hypertarget{vsf__os_8h_a74c9dc69355989586b01180d0269bc70}\label{vsf__os_8h_a74c9dc69355989586b01180d0269bc70}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_sched\_safe@{vsf\_sched\_safe}}
+\index{vsf\_sched\_safe@{vsf\_sched\_safe}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_sched\_safe}{vsf\_sched\_safe}}
+{\footnotesize\ttfamily \#define vsf\+\_\+sched\+\_\+safe(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~if (1)}
+
+\mbox{\Hypertarget{vsf__os_8h_a36fc6b10aa327eb43b156f5d7256c9e9}\label{vsf__os_8h_a36fc6b10aa327eb43b156f5d7256c9e9}} 
+\index{vsf\_os.h@{vsf\_os.h}!\_\_vsf\_sched\_safe@{\_\_vsf\_sched\_safe}}
+\index{\_\_vsf\_sched\_safe@{\_\_vsf\_sched\_safe}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_sched\_safe}{\_\_vsf\_sched\_safe}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+sched\+\_\+safe(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+code }\end{DoxyParamCaption})~\+\_\+\+\_\+code}
+
+\mbox{\Hypertarget{vsf__os_8h_aabfeeb8e025d736c2f88efc7bbffa540}\label{vsf__os_8h_aabfeeb8e025d736c2f88efc7bbffa540}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_sched\_safe\_exit@{vsf\_sched\_safe\_exit}}
+\index{vsf\_sched\_safe\_exit@{vsf\_sched\_safe\_exit}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_sched\_safe\_exit}{vsf\_sched\_safe\_exit}}
+{\footnotesize\ttfamily \#define vsf\+\_\+sched\+\_\+safe\+\_\+exit(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__os_8h_ae63ed75d0fb3b0b3cb3f37aacaebad62}\label{vsf__os_8h_ae63ed75d0fb3b0b3cb3f37aacaebad62}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_protect\_scheduler@{vsf\_protect\_scheduler}}
+\index{vsf\_protect\_scheduler@{vsf\_protect\_scheduler}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_protect\_scheduler}{vsf\_protect\_scheduler}}
+{\footnotesize\ttfamily \#define vsf\+\_\+protect\+\_\+scheduler(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__os_8h_ad480bc7021eb6462ee36878b09396b05}{vsf\+\_\+sched\+\_\+lock}}()}
+
+\mbox{\Hypertarget{vsf__os_8h_ae62f99de3b65be1a0ef1b9d08a68997a}\label{vsf__os_8h_ae62f99de3b65be1a0ef1b9d08a68997a}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_unprotect\_scheduler@{vsf\_unprotect\_scheduler}}
+\index{vsf\_unprotect\_scheduler@{vsf\_unprotect\_scheduler}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_unprotect\_scheduler}{vsf\_unprotect\_scheduler}}
+{\footnotesize\ttfamily \#define vsf\+\_\+unprotect\+\_\+scheduler(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+state }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__os_8h_aca308a56ac40038a0604bc88d25b179c}{vsf\+\_\+sched\+\_\+unlock}}((\+\_\+\+\_\+state))}
+
+\mbox{\Hypertarget{vsf__os_8h_a6d6d9f1d096950ac42a9be5db92b0b2a}\label{vsf__os_8h_a6d6d9f1d096950ac42a9be5db92b0b2a}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_protect\_sched@{vsf\_protect\_sched}}
+\index{vsf\_protect\_sched@{vsf\_protect\_sched}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_protect\_sched}{vsf\_protect\_sched}}
+{\footnotesize\ttfamily \#define vsf\+\_\+protect\+\_\+sched(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~(vsf\+\_\+protect\+\_\+t)\mbox{\hyperlink{vsf__os_8h_ae63ed75d0fb3b0b3cb3f37aacaebad62}{vsf\+\_\+protect\+\_\+scheduler}}()}
+
+\mbox{\Hypertarget{vsf__os_8h_ae9a1ef1a05f21db937560b964cd9c49a}\label{vsf__os_8h_ae9a1ef1a05f21db937560b964cd9c49a}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_unprotect\_sched@{vsf\_unprotect\_sched}}
+\index{vsf\_unprotect\_sched@{vsf\_unprotect\_sched}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_unprotect\_sched}{vsf\_unprotect\_sched}}
+{\footnotesize\ttfamily \#define vsf\+\_\+unprotect\+\_\+sched(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+prot }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__os_8h_ae62f99de3b65be1a0ef1b9d08a68997a}{vsf\+\_\+unprotect\+\_\+scheduler}}(\+\_\+\+\_\+prot)}
+
+\mbox{\Hypertarget{vsf__os_8h_a2fa3b7d5628dd36b3e230594fdc93f1e}\label{vsf__os_8h_a2fa3b7d5628dd36b3e230594fdc93f1e}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_protect\_region\_sched@{vsf\_protect\_region\_sched}}
+\index{vsf\_protect\_region\_sched@{vsf\_protect\_region\_sched}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_protect\_region\_sched}{vsf\_protect\_region\_sched}}
+{\footnotesize\ttfamily \#define vsf\+\_\+protect\+\_\+region\+\_\+sched~vsf\+\_\+protect\+\_\+region\+\_\+none}
+
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{vsf__os_8h_a716f48d52a10627b7f1c40acf5c8f69e}\label{vsf__os_8h_a716f48d52a10627b7f1c40acf5c8f69e}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_sched\_lock\_status\_t@{vsf\_sched\_lock\_status\_t}}
+\index{vsf\_sched\_lock\_status\_t@{vsf\_sched\_lock\_status\_t}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_sched\_lock\_status\_t}{vsf\_sched\_lock\_status\_t}}
+{\footnotesize\ttfamily typedef vsf\+\_\+arch\+\_\+prio\+\_\+t \mbox{\hyperlink{vsf__os_8h_a716f48d52a10627b7f1c40acf5c8f69e}{vsf\+\_\+sched\+\_\+lock\+\_\+status\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__os_8h_ae4d3d6385babc152a1ac0cf516dea949}\label{vsf__os_8h_ae4d3d6385babc152a1ac0cf516dea949}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}}
+\index{vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_kernel\_resource\_t}{vsf\_kernel\_resource\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{class____vsf__eda__frame__t}{\+\_\+\+\_\+vsf\+\_\+eda\+\_\+frame\+\_\+t}} struct \mbox{\hyperlink{structvsf__kernel__resource__t}{vsf\+\_\+kernel\+\_\+resource\+\_\+t}} \mbox{\hyperlink{structvsf__kernel__resource__t}{vsf\+\_\+kernel\+\_\+resource\+\_\+t}}}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__os_8h_a7c59e56698474daaebd5df15070a161e}\label{vsf__os_8h_a7c59e56698474daaebd5df15070a161e}} 
+\index{vsf\_os.h@{vsf\_os.h}!declare\_vsf\_pool@{declare\_vsf\_pool}}
+\index{declare\_vsf\_pool@{declare\_vsf\_pool}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{declare\_vsf\_pool()}{declare\_vsf\_pool()}}
+{\footnotesize\ttfamily declare\+\_\+vsf\+\_\+pool (\begin{DoxyParamCaption}\item[{vsf\+\_\+eda\+\_\+frame\+\_\+pool}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__os_8h_a08779d3071c1b1e724779f0e5539ff71}\label{vsf__os_8h_a08779d3071c1b1e724779f0e5539ff71}} 
+\index{vsf\_os.h@{vsf\_os.h}!\_\_vsf\_kernel\_os\_start@{\_\_vsf\_kernel\_os\_start}}
+\index{\_\_vsf\_kernel\_os\_start@{\_\_vsf\_kernel\_os\_start}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_kernel\_os\_start()}{\_\_vsf\_kernel\_os\_start()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+kernel\+\_\+os\+\_\+start (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+\+\_\+\+\_\+vsf\+\_\+kernel\+\_\+os\+\_\+start and \+\_\+\+\_\+vsf\+\_\+kernel\+\_\+os\+\_\+run\+\_\+priority are ONLY used when \+\_\+\+\_\+vsf\+\_\+main\+\_\+entry is not used 
+
+\mbox{\Hypertarget{vsf__os_8h_abda94b055eacd52223eb63931b10d950}\label{vsf__os_8h_abda94b055eacd52223eb63931b10d950}} 
+\index{vsf\_os.h@{vsf\_os.h}!\_\_vsf\_kernel\_os\_run\_priority@{\_\_vsf\_kernel\_os\_run\_priority}}
+\index{\_\_vsf\_kernel\_os\_run\_priority@{\_\_vsf\_kernel\_os\_run\_priority}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_kernel\_os\_run\_priority()}{\_\_vsf\_kernel\_os\_run\_priority()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+kernel\+\_\+os\+\_\+run\+\_\+priority (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3}{vsf\+\_\+prio\+\_\+t}}}]{priority }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__os_8h_ad6e3d266abd6e8aad81b91d0ed69e240}\label{vsf__os_8h_ad6e3d266abd6e8aad81b91d0ed69e240}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_kernel\_err\_report@{vsf\_kernel\_err\_report}}
+\index{vsf\_kernel\_err\_report@{vsf\_kernel\_err\_report}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_kernel\_err\_report()}{vsf\_kernel\_err\_report()}}
+{\footnotesize\ttfamily void vsf\+\_\+kernel\+\_\+err\+\_\+report (\begin{DoxyParamCaption}\item[{enum \mbox{\hyperlink{vsf__eda_8h_a3f224d5b6b7933b79f31f478ec313d96}{vsf\+\_\+kernel\+\_\+error\+\_\+t}}}]{err }\end{DoxyParamCaption})}
+
+\begin{DoxyNote}{注解}
+This should not happen. Two possible reasons could be\+:
+\begin{DoxyEnumerate}
+\item Forgeting to set VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE to VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+THREAD and using vsf kernel APIs, e.\+g. vsf\+\_\+delay\+\_\+ms, vsf\+\_\+sem\+\_\+pend and etc.
+\item When VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE is not VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+MAIN\+\_\+\+MODE\+\_\+\+THREAD, using any vsf\+\_\+eda\+\_\+xxxx APIs.
+\end{DoxyEnumerate}
+
+This should not happen. One possible reason is\+: \begin{quote}
+You start task, e.\+g. eda, vsf\+\_\+task, vsf\+\_\+pt or vsf\+\_\+thread in the idle \end{quote}
+task. Please use vsf\+\_\+prio\+\_\+0 when you do this in idle task.
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__os_8h_af7b59dcecf4e7849fff43cac6aeefdda}\label{vsf__os_8h_af7b59dcecf4e7849fff43cac6aeefdda}} 
+\index{vsf\_os.h@{vsf\_os.h}!vsf\_sleep@{vsf\_sleep}}
+\index{vsf\_sleep@{vsf\_sleep}!vsf\_os.h@{vsf\_os.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_sleep()}{vsf\_sleep()}}
+{\footnotesize\ttfamily void vsf\+\_\+sleep (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+

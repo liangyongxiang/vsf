@@ -1,0 +1,239 @@
+\hypertarget{vsf__fifo__stream_8h}{}\doxysection{source/service/simple\+\_\+stream/fifo\+\_\+stream/vsf\+\_\+fifo\+\_\+stream.h 文件参考}
+\label{vsf__fifo__stream_8h}\index{source/service/simple\_stream/fifo\_stream/vsf\_fifo\_stream.h@{source/service/simple\_stream/fifo\_stream/vsf\_fifo\_stream.h}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvsf__fifo__stream__t}{vsf\+\_\+fifo\+\_\+stream\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_ac804f6fc8a815197d400303eff918180}{vsf\+\_\+fifo\+\_\+stream\+\_\+size\+\_\+t}}~\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_aded62eed2d991da551f7da0cbcfc306e}{\+\_\+\+\_\+\+VSF\+\_\+\+FIFO\+\_\+\+STREAM\+\_\+\+INIT}}(\+\_\+\+\_\+\+BUFFER,  \+\_\+\+\_\+\+SIZE)
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_aa8988420ab33b48c534af3a6b43f9302}{VSF\+\_\+\+FIFO\+\_\+\+STREAM\+\_\+\+INIT}}(\+\_\+\+\_\+\+BUFFER,  \+\_\+\+\_\+\+SIZE)~            \mbox{\hyperlink{vsf__fifo__stream_8h_aded62eed2d991da551f7da0cbcfc306e}{\+\_\+\+\_\+\+VSF\+\_\+\+FIFO\+\_\+\+STREAM\+\_\+\+INIT}}((\+\_\+\+\_\+\+BUFFER), (\+\_\+\+\_\+\+SIZE))
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_ae8900e7e33cea3888b94a57c16839f48}{\+\_\+\+\_\+vsf\+\_\+fifo\+\_\+stream\+\_\+type}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+fifo\+\_\+stream\+\_\+t
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_ad928774e2168194b8ce56dce77816524}{vsf\+\_\+fifo\+\_\+stream\+\_\+type}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\mbox{\hyperlink{vsf__fifo__stream_8h_ae8900e7e33cea3888b94a57c16839f48}{\+\_\+\+\_\+vsf\+\_\+fifo\+\_\+stream\+\_\+type}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_a812803c9ef98a7528cc992be004da31d}{\+\_\+\+\_\+declare\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~            \mbox{\hyperlink{ooc__class_8h_a226f6a53efbee32ec33e32995b0ab6c9}{vsf\+\_\+dcl\+\_\+class}}(\mbox{\hyperlink{vsf__fifo__stream_8h_ad928774e2168194b8ce56dce77816524}{vsf\+\_\+fifo\+\_\+stream\+\_\+type}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}))
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_a3b94f53a6d9e6667b8a1756f81474a16}{\+\_\+\+\_\+define\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+size)
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_adc67b5ef6cad29c2eeaf55f48b5b53d8}{declare\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~            \mbox{\hyperlink{vsf__fifo__stream_8h_a812803c9ef98a7528cc992be004da31d}{\+\_\+\+\_\+declare\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_aaa916c0877fb7bec201cb8b1e81bc15c}{dcl\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~            \mbox{\hyperlink{vsf__fifo__stream_8h_adc67b5ef6cad29c2eeaf55f48b5b53d8}{declare\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_af8fbfa780d9dc19673a17cdfca054a5a}{define\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+size)~            \mbox{\hyperlink{vsf__fifo__stream_8h_a3b94f53a6d9e6667b8a1756f81474a16}{\+\_\+\+\_\+define\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+size))
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_a87880b2dfbce11923ff5b57d83610ff6}{def\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+size)~            \mbox{\hyperlink{vsf__fifo__stream_8h_af8fbfa780d9dc19673a17cdfca054a5a}{define\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+size))
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_ad329f6ec8ffa81197a9f09114ca23352}{\+\_\+\+\_\+describe\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+size)
+\item 
+\#define \mbox{\hyperlink{vsf__fifo__stream_8h_a08e67296e939bb7e856dcac7d958f51a}{describe\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+size)~            \mbox{\hyperlink{vsf__fifo__stream_8h_ad329f6ec8ffa81197a9f09114ca23352}{\+\_\+\+\_\+describe\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+size))
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8h_afabb431bc8b1e7cffcb9fa733981422b}{vsf\+\_\+byte\+\_\+fifo\+\_\+init}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8h_a6d665401ad5b447a5d4868500e1ef9d0}{vsf\+\_\+byte\+\_\+fifo\+\_\+write}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$data, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8h_aa66638dfab0076aeb34e0498d63d3769}{vsf\+\_\+byte\+\_\+fifo\+\_\+read}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$data, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8h_ae2c3f70af1aa095079837b265b12c107}{vsf\+\_\+byte\+\_\+fifo\+\_\+peek}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$data, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8h_a4305cb7050ad0209deba197084398696}{vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+wbuf}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$$\ast$data)
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8h_aece5f3f7ead50ea9edc1235562c1fb2f}{vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+rbuf}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$$\ast$data)
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8h_adfe88f57653df7087dce2914ff9f55fb}{vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+buff\+\_\+length}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8h_a7f75460cb7ec4f2e3537e8fbbde6b4f5}{vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+data\+\_\+length}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8h_adaa43888efa144fdffb5268423080f62}{vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+avail\+\_\+length}} (\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}})
+\end{DoxyCompactItemize}
+\doxysubsection*{变量}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvsf__stream__op__t}{vsf\+\_\+stream\+\_\+op\+\_\+t}} \mbox{\hyperlink{vsf__fifo__stream_8h_a102b19c2604437a0c26b665d73b33ce4}{vsf\+\_\+fifo\+\_\+stream\+\_\+op}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__fifo__stream_8h_ac804f6fc8a815197d400303eff918180}\label{vsf__fifo__stream_8h_ac804f6fc8a815197d400303eff918180}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_fifo\_stream\_size\_t@{vsf\_fifo\_stream\_size\_t}}
+\index{vsf\_fifo\_stream\_size\_t@{vsf\_fifo\_stream\_size\_t}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fifo\_stream\_size\_t}{vsf\_fifo\_stream\_size\_t}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fifo\+\_\+stream\+\_\+size\+\_\+t~\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_aded62eed2d991da551f7da0cbcfc306e}\label{vsf__fifo__stream_8h_aded62eed2d991da551f7da0cbcfc306e}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!\_\_VSF\_FIFO\_STREAM\_INIT@{\_\_VSF\_FIFO\_STREAM\_INIT}}
+\index{\_\_VSF\_FIFO\_STREAM\_INIT@{\_\_VSF\_FIFO\_STREAM\_INIT}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_FIFO\_STREAM\_INIT}{\_\_VSF\_FIFO\_STREAM\_INIT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+FIFO\+\_\+\+STREAM\+\_\+\+INIT(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+BUFFER,  }\item[{}]{\+\_\+\+\_\+\+SIZE }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            .op                 = \&\mbox{\hyperlink{vsf__fifo__stream_8h_a102b19c2604437a0c26b665d73b33ce4}{vsf\_fifo\_stream\_op}},                          \(\backslash\)}
+\DoxyCodeLine{            .buffer             = (\_\_BUFFER),                                   \(\backslash\)}
+\DoxyCodeLine{            .\mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}}               = (\_\_SIZE),}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fifo__stream_8h_aa8988420ab33b48c534af3a6b43f9302}\label{vsf__fifo__stream_8h_aa8988420ab33b48c534af3a6b43f9302}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!VSF\_FIFO\_STREAM\_INIT@{VSF\_FIFO\_STREAM\_INIT}}
+\index{VSF\_FIFO\_STREAM\_INIT@{VSF\_FIFO\_STREAM\_INIT}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_FIFO\_STREAM\_INIT}{VSF\_FIFO\_STREAM\_INIT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+FIFO\+\_\+\+STREAM\+\_\+\+INIT(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+BUFFER,  }\item[{}]{\+\_\+\+\_\+\+SIZE }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fifo__stream_8h_aded62eed2d991da551f7da0cbcfc306e}{\+\_\+\+\_\+\+VSF\+\_\+\+FIFO\+\_\+\+STREAM\+\_\+\+INIT}}((\+\_\+\+\_\+\+BUFFER), (\+\_\+\+\_\+\+SIZE))}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_ae8900e7e33cea3888b94a57c16839f48}\label{vsf__fifo__stream_8h_ae8900e7e33cea3888b94a57c16839f48}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!\_\_vsf\_fifo\_stream\_type@{\_\_vsf\_fifo\_stream\_type}}
+\index{\_\_vsf\_fifo\_stream\_type@{\_\_vsf\_fifo\_stream\_type}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_fifo\_stream\_type}{\_\_vsf\_fifo\_stream\_type}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+fifo\+\_\+stream\+\_\+type(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+fifo\+\_\+stream\+\_\+t}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_ad928774e2168194b8ce56dce77816524}\label{vsf__fifo__stream_8h_ad928774e2168194b8ce56dce77816524}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_fifo\_stream\_type@{vsf\_fifo\_stream\_type}}
+\index{vsf\_fifo\_stream\_type@{vsf\_fifo\_stream\_type}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fifo\_stream\_type}{vsf\_fifo\_stream\_type}}
+{\footnotesize\ttfamily \#define vsf\+\_\+fifo\+\_\+stream\+\_\+type(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__fifo__stream_8h_ae8900e7e33cea3888b94a57c16839f48}{\+\_\+\+\_\+vsf\+\_\+fifo\+\_\+stream\+\_\+type}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_a812803c9ef98a7528cc992be004da31d}\label{vsf__fifo__stream_8h_a812803c9ef98a7528cc992be004da31d}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!\_\_declare\_fifo\_stream@{\_\_declare\_fifo\_stream}}
+\index{\_\_declare\_fifo\_stream@{\_\_declare\_fifo\_stream}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{\_\_declare\_fifo\_stream}{\_\_declare\_fifo\_stream}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+declare\+\_\+fifo\+\_\+stream(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~            \mbox{\hyperlink{ooc__class_8h_a226f6a53efbee32ec33e32995b0ab6c9}{vsf\+\_\+dcl\+\_\+class}}(\mbox{\hyperlink{vsf__fifo__stream_8h_ad928774e2168194b8ce56dce77816524}{vsf\+\_\+fifo\+\_\+stream\+\_\+type}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}))}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_a3b94f53a6d9e6667b8a1756f81474a16}\label{vsf__fifo__stream_8h_a3b94f53a6d9e6667b8a1756f81474a16}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!\_\_define\_fifo\_stream@{\_\_define\_fifo\_stream}}
+\index{\_\_define\_fifo\_stream@{\_\_define\_fifo\_stream}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{\_\_define\_fifo\_stream}{\_\_define\_fifo\_stream}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+define\+\_\+fifo\+\_\+stream(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{ooc__class_8h_a62f3fe6fb9699483707f5352d777f2f0}{vsf\_class}}(\mbox{\hyperlink{vsf__fifo__stream_8h_ad928774e2168194b8ce56dce77816524}{vsf\_fifo\_stream\_type}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}})) \{                           \(\backslash\)}
+\DoxyCodeLine{                public\_member(                                                  \(\backslash\)}
+\DoxyCodeLine{                    implement(\mbox{\hyperlink{classvsf__fifo__stream__t}{vsf\_fifo\_stream\_t}})                                \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\_t}} \_\_buffer[\_\_size];                                   \(\backslash\)}
+\DoxyCodeLine{                )                                                               \(\backslash\)}
+\DoxyCodeLine{            \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fifo__stream_8h_adc67b5ef6cad29c2eeaf55f48b5b53d8}\label{vsf__fifo__stream_8h_adc67b5ef6cad29c2eeaf55f48b5b53d8}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!declare\_fifo\_stream@{declare\_fifo\_stream}}
+\index{declare\_fifo\_stream@{declare\_fifo\_stream}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{declare\_fifo\_stream}{declare\_fifo\_stream}}
+{\footnotesize\ttfamily \#define declare\+\_\+fifo\+\_\+stream(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fifo__stream_8h_a812803c9ef98a7528cc992be004da31d}{\+\_\+\+\_\+declare\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_aaa916c0877fb7bec201cb8b1e81bc15c}\label{vsf__fifo__stream_8h_aaa916c0877fb7bec201cb8b1e81bc15c}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!dcl\_fifo\_stream@{dcl\_fifo\_stream}}
+\index{dcl\_fifo\_stream@{dcl\_fifo\_stream}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{dcl\_fifo\_stream}{dcl\_fifo\_stream}}
+{\footnotesize\ttfamily \#define dcl\+\_\+fifo\+\_\+stream(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fifo__stream_8h_adc67b5ef6cad29c2eeaf55f48b5b53d8}{declare\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_af8fbfa780d9dc19673a17cdfca054a5a}\label{vsf__fifo__stream_8h_af8fbfa780d9dc19673a17cdfca054a5a}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!define\_fifo\_stream@{define\_fifo\_stream}}
+\index{define\_fifo\_stream@{define\_fifo\_stream}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{define\_fifo\_stream}{define\_fifo\_stream}}
+{\footnotesize\ttfamily \#define define\+\_\+fifo\+\_\+stream(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fifo__stream_8h_a3b94f53a6d9e6667b8a1756f81474a16}{\+\_\+\+\_\+define\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+size))}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_a87880b2dfbce11923ff5b57d83610ff6}\label{vsf__fifo__stream_8h_a87880b2dfbce11923ff5b57d83610ff6}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!def\_fifo\_stream@{def\_fifo\_stream}}
+\index{def\_fifo\_stream@{def\_fifo\_stream}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{def\_fifo\_stream}{def\_fifo\_stream}}
+{\footnotesize\ttfamily \#define def\+\_\+fifo\+\_\+stream(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fifo__stream_8h_af8fbfa780d9dc19673a17cdfca054a5a}{define\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+size))}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_ad329f6ec8ffa81197a9f09114ca23352}\label{vsf__fifo__stream_8h_ad329f6ec8ffa81197a9f09114ca23352}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!\_\_describe\_fifo\_stream@{\_\_describe\_fifo\_stream}}
+\index{\_\_describe\_fifo\_stream@{\_\_describe\_fifo\_stream}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{\_\_describe\_fifo\_stream}{\_\_describe\_fifo\_stream}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+describe\+\_\+fifo\+\_\+stream(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__fifo__stream_8h_adc67b5ef6cad29c2eeaf55f48b5b53d8}{declare\_fifo\_stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}})                                         \(\backslash\)}
+\DoxyCodeLine{            define\_fifo\_stream(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}, (\_\_size))                                \(\backslash\)}
+\DoxyCodeLine{            vsf\_fifo\_stream\_type(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}) \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}} = \{                             \(\backslash\)}
+\DoxyCodeLine{                VSF\_FIFO\_STREAM\_INIT(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}.\_\_buffer, (\_\_size))                 \(\backslash\)}
+\DoxyCodeLine{            \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__fifo__stream_8h_a08e67296e939bb7e856dcac7d958f51a}\label{vsf__fifo__stream_8h_a08e67296e939bb7e856dcac7d958f51a}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!describe\_fifo\_stream@{describe\_fifo\_stream}}
+\index{describe\_fifo\_stream@{describe\_fifo\_stream}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{describe\_fifo\_stream}{describe\_fifo\_stream}}
+{\footnotesize\ttfamily \#define describe\+\_\+fifo\+\_\+stream(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__fifo__stream_8h_ad329f6ec8ffa81197a9f09114ca23352}{\+\_\+\+\_\+describe\+\_\+fifo\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+size))}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__fifo__stream_8h_afabb431bc8b1e7cffcb9fa733981422b}\label{vsf__fifo__stream_8h_afabb431bc8b1e7cffcb9fa733981422b}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_byte\_fifo\_init@{vsf\_byte\_fifo\_init}}
+\index{vsf\_byte\_fifo\_init@{vsf\_byte\_fifo\_init}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_init()}{vsf\_byte\_fifo\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_a6d665401ad5b447a5d4868500e1ef9d0}\label{vsf__fifo__stream_8h_a6d665401ad5b447a5d4868500e1ef9d0}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_byte\_fifo\_write@{vsf\_byte\_fifo\_write}}
+\index{vsf\_byte\_fifo\_write@{vsf\_byte\_fifo\_write}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_write()}{vsf\_byte\_fifo\_write()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+write (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{data,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_aa66638dfab0076aeb34e0498d63d3769}\label{vsf__fifo__stream_8h_aa66638dfab0076aeb34e0498d63d3769}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_byte\_fifo\_read@{vsf\_byte\_fifo\_read}}
+\index{vsf\_byte\_fifo\_read@{vsf\_byte\_fifo\_read}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_read()}{vsf\_byte\_fifo\_read()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+read (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{data,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_ae2c3f70af1aa095079837b265b12c107}\label{vsf__fifo__stream_8h_ae2c3f70af1aa095079837b265b12c107}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_byte\_fifo\_peek@{vsf\_byte\_fifo\_peek}}
+\index{vsf\_byte\_fifo\_peek@{vsf\_byte\_fifo\_peek}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_peek()}{vsf\_byte\_fifo\_peek()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+peek (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{data,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_a4305cb7050ad0209deba197084398696}\label{vsf__fifo__stream_8h_a4305cb7050ad0209deba197084398696}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_byte\_fifo\_get\_wbuf@{vsf\_byte\_fifo\_get\_wbuf}}
+\index{vsf\_byte\_fifo\_get\_wbuf@{vsf\_byte\_fifo\_get\_wbuf}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_get\_wbuf()}{vsf\_byte\_fifo\_get\_wbuf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+wbuf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$$\ast$}]{data }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_aece5f3f7ead50ea9edc1235562c1fb2f}\label{vsf__fifo__stream_8h_aece5f3f7ead50ea9edc1235562c1fb2f}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_byte\_fifo\_get\_rbuf@{vsf\_byte\_fifo\_get\_rbuf}}
+\index{vsf\_byte\_fifo\_get\_rbuf@{vsf\_byte\_fifo\_get\_rbuf}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_get\_rbuf()}{vsf\_byte\_fifo\_get\_rbuf()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+rbuf (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$$\ast$}]{data }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_adfe88f57653df7087dce2914ff9f55fb}\label{vsf__fifo__stream_8h_adfe88f57653df7087dce2914ff9f55fb}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_byte\_fifo\_get\_buff\_length@{vsf\_byte\_fifo\_get\_buff\_length}}
+\index{vsf\_byte\_fifo\_get\_buff\_length@{vsf\_byte\_fifo\_get\_buff\_length}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_get\_buff\_length()}{vsf\_byte\_fifo\_get\_buff\_length()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+buff\+\_\+length (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_a7f75460cb7ec4f2e3537e8fbbde6b4f5}\label{vsf__fifo__stream_8h_a7f75460cb7ec4f2e3537e8fbbde6b4f5}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_byte\_fifo\_get\_data\_length@{vsf\_byte\_fifo\_get\_data\_length}}
+\index{vsf\_byte\_fifo\_get\_data\_length@{vsf\_byte\_fifo\_get\_data\_length}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_get\_data\_length()}{vsf\_byte\_fifo\_get\_data\_length()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+data\+\_\+length (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo__stream_8h_adaa43888efa144fdffb5268423080f62}\label{vsf__fifo__stream_8h_adaa43888efa144fdffb5268423080f62}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_byte\_fifo\_get\_avail\_length@{vsf\_byte\_fifo\_get\_avail\_length}}
+\index{vsf\_byte\_fifo\_get\_avail\_length@{vsf\_byte\_fifo\_get\_avail\_length}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_byte\_fifo\_get\_avail\_length()}{vsf\_byte\_fifo\_get\_avail\_length()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} vsf\+\_\+byte\+\_\+fifo\+\_\+get\+\_\+avail\+\_\+length (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__byte__fifo__t}{vsf\+\_\+byte\+\_\+fifo\+\_\+t}} $\ast$}]{fifo }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{变量说明}
+\mbox{\Hypertarget{vsf__fifo__stream_8h_a102b19c2604437a0c26b665d73b33ce4}\label{vsf__fifo__stream_8h_a102b19c2604437a0c26b665d73b33ce4}} 
+\index{vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}!vsf\_fifo\_stream\_op@{vsf\_fifo\_stream\_op}}
+\index{vsf\_fifo\_stream\_op@{vsf\_fifo\_stream\_op}!vsf\_fifo\_stream.h@{vsf\_fifo\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_fifo\_stream\_op}{vsf\_fifo\_stream\_op}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvsf__stream__op__t}{vsf\+\_\+stream\+\_\+op\+\_\+t}} vsf\+\_\+fifo\+\_\+stream\+\_\+op\hspace{0.3cm}{\ttfamily [extern]}}
+

@@ -1,0 +1,98 @@
+\hypertarget{vsf__usbh__xb360_8h}{}\doxysection{source/component/usb/host/class/\+HID/vsf\+\_\+usbh\+\_\+xb360.h 文件参考}
+\label{vsf__usbh__xb360_8h}\index{source/component/usb/host/class/HID/vsf\_usbh\_xb360.h@{source/component/usb/host/class/HID/vsf\_usbh\_xb360.h}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/usb/common/class/\+HID/vsf\+\_\+usb\+\_\+xb360.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/input/vsf\+\_\+input.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvk__input__xb360__t}{vk\+\_\+input\+\_\+xb360\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvk__usbh__xb360__t}{vk\+\_\+usbh\+\_\+xb360\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvk__input__xb360__t}{vk\+\_\+input\+\_\+xb360\+\_\+t}} \mbox{\hyperlink{vsf__usbh__xb360_8h_aec58f70d1e6a23cec3ec2ccd795443dc}{vk\+\_\+input\+\_\+xb360\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{枚举}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{vsf__usbh__xb360_8h_ad4a9934b75947f1fae21deee31688bb7a26ada1cbf0b2bebde105b5cc67a68aeb}{VSF\+\_\+\+INPUT\+\_\+\+TYPE\+\_\+\+XB360}} = VSF\+\_\+\+INPUT\+\_\+\+USER\+\_\+\+TYPE
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__usbh__xb360_8h_acd5486eb4a706a4893162f5c2c968564}{vk\+\_\+xb360\+\_\+process\+\_\+input}} (\mbox{\hyperlink{structvk__input__xb360__t}{vk\+\_\+input\+\_\+xb360\+\_\+t}} $\ast$dev, \mbox{\hyperlink{structvsf__usb__xb360__gamepad__in__report__t}{vsf\+\_\+usb\+\_\+xb360\+\_\+gamepad\+\_\+in\+\_\+report\+\_\+t}} $\ast$data)
+\item 
+void \mbox{\hyperlink{vsf__usbh__xb360_8h_a89a0765b0804ee63a24513082bac4195}{vk\+\_\+xb360\+\_\+new\+\_\+dev}} (\mbox{\hyperlink{structvk__input__xb360__t}{vk\+\_\+input\+\_\+xb360\+\_\+t}} $\ast$dev)
+\item 
+void \mbox{\hyperlink{vsf__usbh__xb360_8h_ad3bbdab374debd20e6b0034868babe11}{vk\+\_\+xb360\+\_\+free\+\_\+dev}} (\mbox{\hyperlink{structvk__input__xb360__t}{vk\+\_\+input\+\_\+xb360\+\_\+t}} $\ast$dev)
+\end{DoxyCompactItemize}
+\doxysubsection*{变量}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{structvk__input__item__info__t}{vk\+\_\+input\+\_\+item\+\_\+info\+\_\+t}} \mbox{\hyperlink{vsf__usbh__xb360_8h_a0224e307048383ce78f4c6166573496a}{vk\+\_\+xb360\+\_\+gamepad\+\_\+item\+\_\+info}} \mbox{[}\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6aeba830453fb983dd5d543368e8d50cdc}{GAMEPAD\+\_\+\+ID\+\_\+\+NUM}}\mbox{]}
+\item 
+const \mbox{\hyperlink{classvk__usbh__class__drv__t}{vk\+\_\+usbh\+\_\+class\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__usbh__xb360_8h_a4004335c7445e49ba0a0979d58cfb4b8}{vk\+\_\+usbh\+\_\+xb360\+\_\+drv}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{vsf__usbh__xb360_8h_aec58f70d1e6a23cec3ec2ccd795443dc}\label{vsf__usbh__xb360_8h_aec58f70d1e6a23cec3ec2ccd795443dc}} 
+\index{vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}!vk\_input\_xb360\_t@{vk\_input\_xb360\_t}}
+\index{vk\_input\_xb360\_t@{vk\_input\_xb360\_t}!vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}}
+\doxysubsubsection{\texorpdfstring{vk\_input\_xb360\_t}{vk\_input\_xb360\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__input__xb360__t}{vk\+\_\+input\+\_\+xb360\+\_\+t}} \mbox{\hyperlink{structvk__input__xb360__t}{vk\+\_\+input\+\_\+xb360\+\_\+t}}}
+
+
+
+\doxysubsection{枚举类型说明}
+\mbox{\Hypertarget{vsf__usbh__xb360_8h_ad4a9934b75947f1fae21deee31688bb7}\label{vsf__usbh__xb360_8h_ad4a9934b75947f1fae21deee31688bb7}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_INPUT\_TYPE\_XB360@{VSF\_INPUT\_TYPE\_XB360}!vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}}\index{vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}!VSF\_INPUT\_TYPE\_XB360@{VSF\_INPUT\_TYPE\_XB360}}}\mbox{\Hypertarget{vsf__usbh__xb360_8h_ad4a9934b75947f1fae21deee31688bb7a26ada1cbf0b2bebde105b5cc67a68aeb}\label{vsf__usbh__xb360_8h_ad4a9934b75947f1fae21deee31688bb7a26ada1cbf0b2bebde105b5cc67a68aeb}} 
+VSF\+\_\+\+INPUT\+\_\+\+TYPE\+\_\+\+XB360&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__usbh__xb360_8h_acd5486eb4a706a4893162f5c2c968564}\label{vsf__usbh__xb360_8h_acd5486eb4a706a4893162f5c2c968564}} 
+\index{vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}!vk\_xb360\_process\_input@{vk\_xb360\_process\_input}}
+\index{vk\_xb360\_process\_input@{vk\_xb360\_process\_input}!vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}}
+\doxysubsubsection{\texorpdfstring{vk\_xb360\_process\_input()}{vk\_xb360\_process\_input()}}
+{\footnotesize\ttfamily void vk\+\_\+xb360\+\_\+process\+\_\+input (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__input__xb360__t}{vk\+\_\+input\+\_\+xb360\+\_\+t}} $\ast$}]{dev,  }\item[{\mbox{\hyperlink{structvsf__usb__xb360__gamepad__in__report__t}{vsf\+\_\+usb\+\_\+xb360\+\_\+gamepad\+\_\+in\+\_\+report\+\_\+t}} $\ast$}]{data }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbh__xb360_8h_a89a0765b0804ee63a24513082bac4195}\label{vsf__usbh__xb360_8h_a89a0765b0804ee63a24513082bac4195}} 
+\index{vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}!vk\_xb360\_new\_dev@{vk\_xb360\_new\_dev}}
+\index{vk\_xb360\_new\_dev@{vk\_xb360\_new\_dev}!vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}}
+\doxysubsubsection{\texorpdfstring{vk\_xb360\_new\_dev()}{vk\_xb360\_new\_dev()}}
+{\footnotesize\ttfamily void vk\+\_\+xb360\+\_\+new\+\_\+dev (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__input__xb360__t}{vk\+\_\+input\+\_\+xb360\+\_\+t}} $\ast$}]{dev }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__usbh__xb360_8h_ad3bbdab374debd20e6b0034868babe11}\label{vsf__usbh__xb360_8h_ad3bbdab374debd20e6b0034868babe11}} 
+\index{vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}!vk\_xb360\_free\_dev@{vk\_xb360\_free\_dev}}
+\index{vk\_xb360\_free\_dev@{vk\_xb360\_free\_dev}!vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}}
+\doxysubsubsection{\texorpdfstring{vk\_xb360\_free\_dev()}{vk\_xb360\_free\_dev()}}
+{\footnotesize\ttfamily void vk\+\_\+xb360\+\_\+free\+\_\+dev (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvk__input__xb360__t}{vk\+\_\+input\+\_\+xb360\+\_\+t}} $\ast$}]{dev }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{变量说明}
+\mbox{\Hypertarget{vsf__usbh__xb360_8h_a0224e307048383ce78f4c6166573496a}\label{vsf__usbh__xb360_8h_a0224e307048383ce78f4c6166573496a}} 
+\index{vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}!vk\_xb360\_gamepad\_item\_info@{vk\_xb360\_gamepad\_item\_info}}
+\index{vk\_xb360\_gamepad\_item\_info@{vk\_xb360\_gamepad\_item\_info}!vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}}
+\doxysubsubsection{\texorpdfstring{vk\_xb360\_gamepad\_item\_info}{vk\_xb360\_gamepad\_item\_info}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structvk__input__item__info__t}{vk\+\_\+input\+\_\+item\+\_\+info\+\_\+t}} vk\+\_\+xb360\+\_\+gamepad\+\_\+item\+\_\+info\mbox{[}\mbox{\hyperlink{vsf__input__gamepad_8h_aaf6490e946d61ce5a406881fd6a63ed6aeba830453fb983dd5d543368e8d50cdc}{GAMEPAD\+\_\+\+ID\+\_\+\+NUM}}\mbox{]}\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{vsf__usbh__xb360_8h_a4004335c7445e49ba0a0979d58cfb4b8}\label{vsf__usbh__xb360_8h_a4004335c7445e49ba0a0979d58cfb4b8}} 
+\index{vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}!vk\_usbh\_xb360\_drv@{vk\_usbh\_xb360\_drv}}
+\index{vk\_usbh\_xb360\_drv@{vk\_usbh\_xb360\_drv}!vsf\_usbh\_xb360.h@{vsf\_usbh\_xb360.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_xb360\_drv}{vk\_usbh\_xb360\_drv}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__usbh__class__drv__t}{vk\+\_\+usbh\+\_\+class\+\_\+drv\+\_\+t}} vk\+\_\+usbh\+\_\+xb360\+\_\+drv\hspace{0.3cm}{\ttfamily [extern]}}
+

@@ -1,0 +1,165 @@
+\hypertarget{vsf__usbd__webusb_8h}{}\doxysection{source/component/usb/device/extension/webusb/vsf\+\_\+usbd\+\_\+webusb.h 文件参考}
+\label{vsf__usbd__webusb_8h}\index{source/component/usb/device/extension/webusb/vsf\_usbd\_webusb.h@{source/component/usb/device/extension/webusb/vsf\_usbd\_webusb.h}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_a5c0527bbbf817c769fddf9daf418d59a}{USB\+\_\+\+BOS\+\_\+\+CAP\+\_\+\+WEBUSB\+\_\+\+LEN}}~\mbox{\hyperlink{vsf__usbd__bos_8h_ae28229c188551b1c578ae34736b07cb8}{USB\+\_\+\+DESC\+\_\+\+BOS\+\_\+\+CAPABILITY\+\_\+\+LEN}}(4)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_aa35785f6a8701f596281fb675ef55651}{USB\+\_\+\+DT\+\_\+\+WEBUSB\+\_\+\+URL}}~0x03
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_a2b649716cc659d10680d1027822013e5}{USB\+\_\+\+REQ\+\_\+\+WEBUSB\+\_\+\+GET\+\_\+\+URL}}~0x02
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_a9f4c911b5656e1a38edf53f06c402c4a}{WEBUSB\+\_\+\+URL\+\_\+\+PREFIX\+\_\+\+HTTP}}~0x00
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_a175ddc398422753d0b585a0d9a4dff04}{WEBUSB\+\_\+\+URL\+\_\+\+PREFIX\+\_\+\+HTTPS}}~0x01
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_a0ca5945964d0a00f4f40e6e7bc600a18}{WEBUSB\+\_\+\+URL\+\_\+\+PREFIX\+\_\+\+NONE}}~0x\+FF
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_ad12409a03fcd3545146f45bced8a879a}{USB\+\_\+\+WEBUSB\+\_\+\+URL\+\_\+\+DESC}}(\+\_\+\+\_\+\+PREFIX,  \+\_\+\+\_\+\+URL\+\_\+\+LEN, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_a71d4ce1b5a4b9ef2aace02ecb89cde02}{\+\_\+\+\_\+bos\+\_\+desc\+\_\+webusb}}(\+\_\+\+\_\+vendor\+\_\+code,  \+\_\+\+\_\+landing\+\_\+page)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_a5e98fbfb468b5c3e4b320acb5cbc9d84}{bos\+\_\+desc\+\_\+webusb}}(\+\_\+\+\_\+vendor\+\_\+code,  \+\_\+\+\_\+landing\+\_\+page)~        \mbox{\hyperlink{vsf__usbd__webusb_8h_a71d4ce1b5a4b9ef2aace02ecb89cde02}{\+\_\+\+\_\+bos\+\_\+desc\+\_\+webusb}}((\+\_\+\+\_\+vendor\+\_\+code), (\+\_\+\+\_\+landing\+\_\+page))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_a45098d35c2a4cbb8be6db5a79e7560af}{\+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+landing\+\_\+page,  \+\_\+\+\_\+prefix,  \+\_\+\+\_\+url\+\_\+len,  \+\_\+\+\_\+url)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_a648c77b9a9f3eef2a97f86d9a532d38c}{usbd\+\_\+webusb\+\_\+url\+\_\+desc}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+landing\+\_\+page,  \+\_\+\+\_\+prefix,  \+\_\+\+\_\+url\+\_\+len,  \+\_\+\+\_\+url)~        \mbox{\hyperlink{vsf__usbd__webusb_8h_a45098d35c2a4cbb8be6db5a79e7560af}{\+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+landing\+\_\+page, (\+\_\+\+\_\+prefix), (\+\_\+\+\_\+url\+\_\+len), (\+\_\+\+\_\+url))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_ad9a2699157d554734c7b1e03bd7ee4ef}{\+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+buffer}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+index)~        \&\+\_\+\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+webusb\+\_\+url\#\#\+\_\+\+\_\+index\#\#\+\_\+desc
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_a0357e5ca9e7f03967d68052595acf479}{\+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+len}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+index)~        sizeof(\+\_\+\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+webusb\+\_\+url\#\#\+\_\+\+\_\+index\#\#\+\_\+desc)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_aa8917403026b2920357374fa563c6c79}{usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+buffer}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+index)~        \mbox{\hyperlink{vsf__usbd__webusb_8h_ad9a2699157d554734c7b1e03bd7ee4ef}{\+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+buffer}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+index)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd__webusb_8h_a1f4a66dff68f17fa6f42bc4e82cec845}{usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+len}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+index)~        \mbox{\hyperlink{vsf__usbd__webusb_8h_a0357e5ca9e7f03967d68052595acf479}{\+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+len}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+index)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_a5c0527bbbf817c769fddf9daf418d59a}\label{vsf__usbd__webusb_8h_a5c0527bbbf817c769fddf9daf418d59a}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!USB\_BOS\_CAP\_WEBUSB\_LEN@{USB\_BOS\_CAP\_WEBUSB\_LEN}}
+\index{USB\_BOS\_CAP\_WEBUSB\_LEN@{USB\_BOS\_CAP\_WEBUSB\_LEN}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_BOS\_CAP\_WEBUSB\_LEN}{USB\_BOS\_CAP\_WEBUSB\_LEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+BOS\+\_\+\+CAP\+\_\+\+WEBUSB\+\_\+\+LEN~\mbox{\hyperlink{vsf__usbd__bos_8h_ae28229c188551b1c578ae34736b07cb8}{USB\+\_\+\+DESC\+\_\+\+BOS\+\_\+\+CAPABILITY\+\_\+\+LEN}}(4)}
+
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_aa35785f6a8701f596281fb675ef55651}\label{vsf__usbd__webusb_8h_aa35785f6a8701f596281fb675ef55651}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!USB\_DT\_WEBUSB\_URL@{USB\_DT\_WEBUSB\_URL}}
+\index{USB\_DT\_WEBUSB\_URL@{USB\_DT\_WEBUSB\_URL}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DT\_WEBUSB\_URL}{USB\_DT\_WEBUSB\_URL}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DT\+\_\+\+WEBUSB\+\_\+\+URL~0x03}
+
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_a2b649716cc659d10680d1027822013e5}\label{vsf__usbd__webusb_8h_a2b649716cc659d10680d1027822013e5}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!USB\_REQ\_WEBUSB\_GET\_URL@{USB\_REQ\_WEBUSB\_GET\_URL}}
+\index{USB\_REQ\_WEBUSB\_GET\_URL@{USB\_REQ\_WEBUSB\_GET\_URL}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_REQ\_WEBUSB\_GET\_URL}{USB\_REQ\_WEBUSB\_GET\_URL}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+REQ\+\_\+\+WEBUSB\+\_\+\+GET\+\_\+\+URL~0x02}
+
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_a9f4c911b5656e1a38edf53f06c402c4a}\label{vsf__usbd__webusb_8h_a9f4c911b5656e1a38edf53f06c402c4a}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!WEBUSB\_URL\_PREFIX\_HTTP@{WEBUSB\_URL\_PREFIX\_HTTP}}
+\index{WEBUSB\_URL\_PREFIX\_HTTP@{WEBUSB\_URL\_PREFIX\_HTTP}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{WEBUSB\_URL\_PREFIX\_HTTP}{WEBUSB\_URL\_PREFIX\_HTTP}}
+{\footnotesize\ttfamily \#define WEBUSB\+\_\+\+URL\+\_\+\+PREFIX\+\_\+\+HTTP~0x00}
+
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_a175ddc398422753d0b585a0d9a4dff04}\label{vsf__usbd__webusb_8h_a175ddc398422753d0b585a0d9a4dff04}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!WEBUSB\_URL\_PREFIX\_HTTPS@{WEBUSB\_URL\_PREFIX\_HTTPS}}
+\index{WEBUSB\_URL\_PREFIX\_HTTPS@{WEBUSB\_URL\_PREFIX\_HTTPS}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{WEBUSB\_URL\_PREFIX\_HTTPS}{WEBUSB\_URL\_PREFIX\_HTTPS}}
+{\footnotesize\ttfamily \#define WEBUSB\+\_\+\+URL\+\_\+\+PREFIX\+\_\+\+HTTPS~0x01}
+
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_a0ca5945964d0a00f4f40e6e7bc600a18}\label{vsf__usbd__webusb_8h_a0ca5945964d0a00f4f40e6e7bc600a18}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!WEBUSB\_URL\_PREFIX\_NONE@{WEBUSB\_URL\_PREFIX\_NONE}}
+\index{WEBUSB\_URL\_PREFIX\_NONE@{WEBUSB\_URL\_PREFIX\_NONE}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{WEBUSB\_URL\_PREFIX\_NONE}{WEBUSB\_URL\_PREFIX\_NONE}}
+{\footnotesize\ttfamily \#define WEBUSB\+\_\+\+URL\+\_\+\+PREFIX\+\_\+\+NONE~0x\+FF}
+
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_ad12409a03fcd3545146f45bced8a879a}\label{vsf__usbd__webusb_8h_ad12409a03fcd3545146f45bced8a879a}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!USB\_WEBUSB\_URL\_DESC@{USB\_WEBUSB\_URL\_DESC}}
+\index{USB\_WEBUSB\_URL\_DESC@{USB\_WEBUSB\_URL\_DESC}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{USB\_WEBUSB\_URL\_DESC}{USB\_WEBUSB\_URL\_DESC}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+WEBUSB\+\_\+\+URL\+\_\+\+DESC(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+PREFIX,  }\item[{}]{\+\_\+\+\_\+\+URL\+\_\+\+LEN,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{                3 + (\_\_URL\_LEN),                                                \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__usbd__webusb_8h_aa35785f6a8701f596281fb675ef55651}{USB\_DT\_WEBUSB\_URL}},                                              \(\backslash\)}
+\DoxyCodeLine{                (\_\_PREFIX),                                                     \(\backslash\)}
+\DoxyCodeLine{                \_\_VA\_ARGS\_\_}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_a71d4ce1b5a4b9ef2aace02ecb89cde02}\label{vsf__usbd__webusb_8h_a71d4ce1b5a4b9ef2aace02ecb89cde02}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!\_\_bos\_desc\_webusb@{\_\_bos\_desc\_webusb}}
+\index{\_\_bos\_desc\_webusb@{\_\_bos\_desc\_webusb}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{\_\_bos\_desc\_webusb}{\_\_bos\_desc\_webusb}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+bos\+\_\+desc\+\_\+webusb(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+vendor\+\_\+code,  }\item[{}]{\+\_\+\+\_\+landing\+\_\+page }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__usbd__bos_8h_a155e88314764adec857bb00b4ecd637b}{USB\_DESC\_BOS\_CAPABILITY\_HEADER}}(4, 5,                                \(\backslash\)}
+\DoxyCodeLine{                0x38, 0xB6, 0x08, 0x34,     \textcolor{comment}{/* uuid: winusb */}                  \(\backslash\)}
+\DoxyCodeLine{                0xA9, 0x09, 0xA0, 0x47,                                         \(\backslash\)}
+\DoxyCodeLine{                0x8B, 0xFD, 0xA0, 0x76,                                         \(\backslash\)}
+\DoxyCodeLine{                0x88, 0x15, 0xB6, 0x65,                                         \(\backslash\)}
+\DoxyCodeLine{            )                                                                   \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(0x0100),          \textcolor{comment}{/* bcdVersion */}                    \(\backslash\)}
+\DoxyCodeLine{            (\_\_vendor\_code),                \textcolor{comment}{/* bVendorCode */}                   \(\backslash\)}
+\DoxyCodeLine{            (\_\_landing\_page),               \textcolor{comment}{/* iLandingPage */}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_a5e98fbfb468b5c3e4b320acb5cbc9d84}\label{vsf__usbd__webusb_8h_a5e98fbfb468b5c3e4b320acb5cbc9d84}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!bos\_desc\_webusb@{bos\_desc\_webusb}}
+\index{bos\_desc\_webusb@{bos\_desc\_webusb}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{bos\_desc\_webusb}{bos\_desc\_webusb}}
+{\footnotesize\ttfamily \#define bos\+\_\+desc\+\_\+webusb(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+vendor\+\_\+code,  }\item[{}]{\+\_\+\+\_\+landing\+\_\+page }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__usbd__webusb_8h_a71d4ce1b5a4b9ef2aace02ecb89cde02}{\+\_\+\+\_\+bos\+\_\+desc\+\_\+webusb}}((\+\_\+\+\_\+vendor\+\_\+code), (\+\_\+\+\_\+landing\+\_\+page))}
+
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_a45098d35c2a4cbb8be6db5a79e7560af}\label{vsf__usbd__webusb_8h_a45098d35c2a4cbb8be6db5a79e7560af}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!\_\_usbd\_webusb\_url\_desc@{\_\_usbd\_webusb\_url\_desc}}
+\index{\_\_usbd\_webusb\_url\_desc@{\_\_usbd\_webusb\_url\_desc}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{\_\_usbd\_webusb\_url\_desc}{\_\_usbd\_webusb\_url\_desc}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+landing\+\_\+page,  }\item[{}]{\+\_\+\+\_\+prefix,  }\item[{}]{\+\_\+\+\_\+url\+\_\+len,  }\item[{}]{\+\_\+\+\_\+url }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keyword}{struct }\{                                                                \(\backslash\)}
+\DoxyCodeLine{            uint8\_t bLength;                                                    \(\backslash\)}
+\DoxyCodeLine{            uint8\_t bDescriptorType;                                            \(\backslash\)}
+\DoxyCodeLine{            uint8\_t bScheme;                                                    \(\backslash\)}
+\DoxyCodeLine{            char url\_utf8[(\_\_url\_len) + 3];                                     \(\backslash\)}
+\DoxyCodeLine{        \} \mbox{\hyperlink{vsf__malfs_8c_af11eb5c92113b11905b4bad9c321f846}{PACKED}} \textcolor{keyword}{const} \_\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_webusb\_url\#\#\_\_landing\_page\#\#\_desc = \{       \(\backslash\)}
+\DoxyCodeLine{            .bLength            = 6 + (\_\_url\_len),                              \(\backslash\)}
+\DoxyCodeLine{            .bDescriptorType    = \mbox{\hyperlink{vsf__usbd__webusb_8h_aa35785f6a8701f596281fb675ef55651}{USB\_DT\_WEBUSB\_URL}},                            \(\backslash\)}
+\DoxyCodeLine{            .bScheme            = (\_\_prefix),                                   \(\backslash\)}
+\DoxyCodeLine{            .url\_utf8           = (\_\_url),                                      \(\backslash\)}
+\DoxyCodeLine{        \};                                                                      \(\backslash\)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_a648c77b9a9f3eef2a97f86d9a532d38c}\label{vsf__usbd__webusb_8h_a648c77b9a9f3eef2a97f86d9a532d38c}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!usbd\_webusb\_url\_desc@{usbd\_webusb\_url\_desc}}
+\index{usbd\_webusb\_url\_desc@{usbd\_webusb\_url\_desc}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{usbd\_webusb\_url\_desc}{usbd\_webusb\_url\_desc}}
+{\footnotesize\ttfamily \#define usbd\+\_\+webusb\+\_\+url\+\_\+desc(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+landing\+\_\+page,  }\item[{}]{\+\_\+\+\_\+prefix,  }\item[{}]{\+\_\+\+\_\+url\+\_\+len,  }\item[{}]{\+\_\+\+\_\+url }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__usbd__webusb_8h_a45098d35c2a4cbb8be6db5a79e7560af}{\+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+landing\+\_\+page, (\+\_\+\+\_\+prefix), (\+\_\+\+\_\+url\+\_\+len), (\+\_\+\+\_\+url))}
+
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_ad9a2699157d554734c7b1e03bd7ee4ef}\label{vsf__usbd__webusb_8h_ad9a2699157d554734c7b1e03bd7ee4ef}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!\_\_usbd\_webusb\_url\_desc\_buffer@{\_\_usbd\_webusb\_url\_desc\_buffer}}
+\index{\_\_usbd\_webusb\_url\_desc\_buffer@{\_\_usbd\_webusb\_url\_desc\_buffer}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{\_\_usbd\_webusb\_url\_desc\_buffer}{\_\_usbd\_webusb\_url\_desc\_buffer}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+buffer(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+index }\end{DoxyParamCaption})~        \&\+\_\+\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+webusb\+\_\+url\#\#\+\_\+\+\_\+index\#\#\+\_\+desc}
+
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_a0357e5ca9e7f03967d68052595acf479}\label{vsf__usbd__webusb_8h_a0357e5ca9e7f03967d68052595acf479}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!\_\_usbd\_webusb\_url\_desc\_len@{\_\_usbd\_webusb\_url\_desc\_len}}
+\index{\_\_usbd\_webusb\_url\_desc\_len@{\_\_usbd\_webusb\_url\_desc\_len}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{\_\_usbd\_webusb\_url\_desc\_len}{\_\_usbd\_webusb\_url\_desc\_len}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+len(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+index }\end{DoxyParamCaption})~        sizeof(\+\_\+\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+webusb\+\_\+url\#\#\+\_\+\+\_\+index\#\#\+\_\+desc)}
+
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_aa8917403026b2920357374fa563c6c79}\label{vsf__usbd__webusb_8h_aa8917403026b2920357374fa563c6c79}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!usbd\_webusb\_url\_desc\_buffer@{usbd\_webusb\_url\_desc\_buffer}}
+\index{usbd\_webusb\_url\_desc\_buffer@{usbd\_webusb\_url\_desc\_buffer}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{usbd\_webusb\_url\_desc\_buffer}{usbd\_webusb\_url\_desc\_buffer}}
+{\footnotesize\ttfamily \#define usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+buffer(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+index }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__usbd__webusb_8h_ad9a2699157d554734c7b1e03bd7ee4ef}{\+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+buffer}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+index)}
+
+\mbox{\Hypertarget{vsf__usbd__webusb_8h_a1f4a66dff68f17fa6f42bc4e82cec845}\label{vsf__usbd__webusb_8h_a1f4a66dff68f17fa6f42bc4e82cec845}} 
+\index{vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}!usbd\_webusb\_url\_desc\_len@{usbd\_webusb\_url\_desc\_len}}
+\index{usbd\_webusb\_url\_desc\_len@{usbd\_webusb\_url\_desc\_len}!vsf\_usbd\_webusb.h@{vsf\_usbd\_webusb.h}}
+\doxysubsubsection{\texorpdfstring{usbd\_webusb\_url\_desc\_len}{usbd\_webusb\_url\_desc\_len}}
+{\footnotesize\ttfamily \#define usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+len(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+index }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__usbd__webusb_8h_a0357e5ca9e7f03967d68052595acf479}{\+\_\+\+\_\+usbd\+\_\+webusb\+\_\+url\+\_\+desc\+\_\+len}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+index)}
+

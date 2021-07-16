@@ -1,0 +1,171 @@
+\hypertarget{linux_2include_2sys_2types_8h}{}\doxysection{source/shell/sys/linux/include/sys/types.h 文件参考}
+\label{linux_2include_2sys_2types_8h}\index{source/shell/sys/linux/include/sys/types.h@{source/shell/sys/linux/include/sys/types.h}}
+{\ttfamily \#include \char`\"{}utilities/compiler/compiler.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{linux_2include_2sys_2types_8h_a6ceb45028ae7a78145a0af7b12569aad}{\+\_\+\+\_\+\+VSF\+\_\+\+HEADER\+\_\+\+ONLY\+\_\+\+SHOW\+\_\+\+COMPILER\+\_\+\+INFO\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{linux_2include_2sys_2types_8h_a2d6569aa794c2f23e90691e60d2f3ad2}{SSIZE\+\_\+\+MAX}}~INT\+\_\+\+MAX
+\item 
+\#define \mbox{\hyperlink{linux_2include_2sys_2types_8h_a6497dbfa3e2fe1919b75376c89be2b24}{\+\_\+\+\_\+\+TIME\+\_\+T}}~long long
+\item 
+\#define \mbox{\hyperlink{linux_2include_2sys_2types_8h_a13ef95181cff3b6f275e6a0a90327e73}{\+\_\+\+\_\+\+CLOCK\+\_\+T}}~long
+\item 
+\#define \mbox{\hyperlink{linux_2include_2sys_2types_8h_a3d9fc3c745d0880902fe3ea3d5d5f71e}{CLOCKS\+\_\+\+PER\+\_\+\+SEC}}~((\mbox{\hyperlink{linux_2include_2sys_2types_8h_a0450ea8b06b50d6e055f6d47bd77622c}{clock\+\_\+t}})1000)
+\end{DoxyCompactItemize}
+\doxysubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+typedef int \mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}}
+\item 
+typedef unsigned int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}
+\item 
+typedef int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a99c5bd20241a4a2708237037a1857062}{key\+\_\+t}}
+\item 
+typedef int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a288e13e815d43b06e75819f8939524df}{pid\+\_\+t}}
+\item 
+typedef int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a8a35dd1207a16dfa8b1d4163176d828c}{mode\+\_\+t}}
+\item 
+typedef unsigned int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a69d80da7a8a72c4ededec9ea8497781c}{uid\+\_\+t}}
+\item 
+typedef unsigned int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a79e4526f6cb611a2e272db092186f8f0}{gid\+\_\+t}}
+\item 
+typedef long \mbox{\hyperlink{linux_2include_2sys_2types_8h_af83497edef361523a95b06deda0b4c2d}{off\+\_\+t}}
+\item 
+typedef long long \mbox{\hyperlink{linux_2include_2sys_2types_8h_aa688ec058157f2483db747a121ae6035}{off64\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{linux_2include_2sys_2types_8h_a6497dbfa3e2fe1919b75376c89be2b24}{\+\_\+\+\_\+\+TIME\+\_\+T}} \mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{linux_2include_2sys_2types_8h_a13ef95181cff3b6f275e6a0a90327e73}{\+\_\+\+\_\+\+CLOCK\+\_\+T}} \mbox{\hyperlink{linux_2include_2sys_2types_8h_a0450ea8b06b50d6e055f6d47bd77622c}{clock\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{枚举}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331a}{clockid\+\_\+t}} \{ \newline
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331aa12a9ebbd93d62f4b893c1831390bbc0f}{CLOCK\+\_\+\+MONOTONIC}}
+, \newline
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331aa3225196686ced5a2732f8030a10c5b98}{CLOCK\+\_\+\+REALTIME}}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a6ceb45028ae7a78145a0af7b12569aad}\label{linux_2include_2sys_2types_8h_a6ceb45028ae7a78145a0af7b12569aad}} 
+\index{types.h@{types.h}!\_\_VSF\_HEADER\_ONLY\_SHOW\_COMPILER\_INFO\_\_@{\_\_VSF\_HEADER\_ONLY\_SHOW\_COMPILER\_INFO\_\_}}
+\index{\_\_VSF\_HEADER\_ONLY\_SHOW\_COMPILER\_INFO\_\_@{\_\_VSF\_HEADER\_ONLY\_SHOW\_COMPILER\_INFO\_\_}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_HEADER\_ONLY\_SHOW\_COMPILER\_INFO\_\_}{\_\_VSF\_HEADER\_ONLY\_SHOW\_COMPILER\_INFO\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+HEADER\+\_\+\+ONLY\+\_\+\+SHOW\+\_\+\+COMPILER\+\_\+\+INFO\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a2d6569aa794c2f23e90691e60d2f3ad2}\label{linux_2include_2sys_2types_8h_a2d6569aa794c2f23e90691e60d2f3ad2}} 
+\index{types.h@{types.h}!SSIZE\_MAX@{SSIZE\_MAX}}
+\index{SSIZE\_MAX@{SSIZE\_MAX}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{SSIZE\_MAX}{SSIZE\_MAX}}
+{\footnotesize\ttfamily \#define SSIZE\+\_\+\+MAX~INT\+\_\+\+MAX}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a6497dbfa3e2fe1919b75376c89be2b24}\label{linux_2include_2sys_2types_8h_a6497dbfa3e2fe1919b75376c89be2b24}} 
+\index{types.h@{types.h}!\_\_TIME\_T@{\_\_TIME\_T}}
+\index{\_\_TIME\_T@{\_\_TIME\_T}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{\_\_TIME\_T}{\_\_TIME\_T}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+TIME\+\_\+T~long long}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a13ef95181cff3b6f275e6a0a90327e73}\label{linux_2include_2sys_2types_8h_a13ef95181cff3b6f275e6a0a90327e73}} 
+\index{types.h@{types.h}!\_\_CLOCK\_T@{\_\_CLOCK\_T}}
+\index{\_\_CLOCK\_T@{\_\_CLOCK\_T}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{\_\_CLOCK\_T}{\_\_CLOCK\_T}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+CLOCK\+\_\+T~long}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a3d9fc3c745d0880902fe3ea3d5d5f71e}\label{linux_2include_2sys_2types_8h_a3d9fc3c745d0880902fe3ea3d5d5f71e}} 
+\index{types.h@{types.h}!CLOCKS\_PER\_SEC@{CLOCKS\_PER\_SEC}}
+\index{CLOCKS\_PER\_SEC@{CLOCKS\_PER\_SEC}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{CLOCKS\_PER\_SEC}{CLOCKS\_PER\_SEC}}
+{\footnotesize\ttfamily \#define CLOCKS\+\_\+\+PER\+\_\+\+SEC~((\mbox{\hyperlink{linux_2include_2sys_2types_8h_a0450ea8b06b50d6e055f6d47bd77622c}{clock\+\_\+t}})1000)}
+
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}\label{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}} 
+\index{types.h@{types.h}!ssize\_t@{ssize\_t}}
+\index{ssize\_t@{ssize\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{ssize\_t}{ssize\_t}}
+{\footnotesize\ttfamily typedef int \mbox{\hyperlink{linux_2include_2sys_2types_8h_af629ed855824cf5955b54529adf78ad6}{ssize\+\_\+t}}}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}\label{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}} 
+\index{types.h@{types.h}!size\_t@{size\_t}}
+\index{size\_t@{size\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{size\_t}{size\_t}}
+{\footnotesize\ttfamily typedef unsigned int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a99c5bd20241a4a2708237037a1857062}\label{linux_2include_2sys_2types_8h_a99c5bd20241a4a2708237037a1857062}} 
+\index{types.h@{types.h}!key\_t@{key\_t}}
+\index{key\_t@{key\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{key\_t}{key\_t}}
+{\footnotesize\ttfamily typedef int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a99c5bd20241a4a2708237037a1857062}{key\+\_\+t}}}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a288e13e815d43b06e75819f8939524df}\label{linux_2include_2sys_2types_8h_a288e13e815d43b06e75819f8939524df}} 
+\index{types.h@{types.h}!pid\_t@{pid\_t}}
+\index{pid\_t@{pid\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{pid\_t}{pid\_t}}
+{\footnotesize\ttfamily typedef int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a288e13e815d43b06e75819f8939524df}{pid\+\_\+t}}}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a8a35dd1207a16dfa8b1d4163176d828c}\label{linux_2include_2sys_2types_8h_a8a35dd1207a16dfa8b1d4163176d828c}} 
+\index{types.h@{types.h}!mode\_t@{mode\_t}}
+\index{mode\_t@{mode\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{mode\_t}{mode\_t}}
+{\footnotesize\ttfamily typedef int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a8a35dd1207a16dfa8b1d4163176d828c}{mode\+\_\+t}}}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a69d80da7a8a72c4ededec9ea8497781c}\label{linux_2include_2sys_2types_8h_a69d80da7a8a72c4ededec9ea8497781c}} 
+\index{types.h@{types.h}!uid\_t@{uid\_t}}
+\index{uid\_t@{uid\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{uid\_t}{uid\_t}}
+{\footnotesize\ttfamily typedef unsigned int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a69d80da7a8a72c4ededec9ea8497781c}{uid\+\_\+t}}}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a79e4526f6cb611a2e272db092186f8f0}\label{linux_2include_2sys_2types_8h_a79e4526f6cb611a2e272db092186f8f0}} 
+\index{types.h@{types.h}!gid\_t@{gid\_t}}
+\index{gid\_t@{gid\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{gid\_t}{gid\_t}}
+{\footnotesize\ttfamily typedef unsigned int \mbox{\hyperlink{linux_2include_2sys_2types_8h_a79e4526f6cb611a2e272db092186f8f0}{gid\+\_\+t}}}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_af83497edef361523a95b06deda0b4c2d}\label{linux_2include_2sys_2types_8h_af83497edef361523a95b06deda0b4c2d}} 
+\index{types.h@{types.h}!off\_t@{off\_t}}
+\index{off\_t@{off\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{off\_t}{off\_t}}
+{\footnotesize\ttfamily typedef long \mbox{\hyperlink{linux_2include_2sys_2types_8h_af83497edef361523a95b06deda0b4c2d}{off\+\_\+t}}}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_aa688ec058157f2483db747a121ae6035}\label{linux_2include_2sys_2types_8h_aa688ec058157f2483db747a121ae6035}} 
+\index{types.h@{types.h}!off64\_t@{off64\_t}}
+\index{off64\_t@{off64\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{off64\_t}{off64\_t}}
+{\footnotesize\ttfamily typedef long long \mbox{\hyperlink{linux_2include_2sys_2types_8h_aa688ec058157f2483db747a121ae6035}{off64\+\_\+t}}}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}\label{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}} 
+\index{types.h@{types.h}!time\_t@{time\_t}}
+\index{time\_t@{time\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{time\_t}{time\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{linux_2include_2sys_2types_8h_a6497dbfa3e2fe1919b75376c89be2b24}{\+\_\+\+\_\+\+TIME\+\_\+T}} \mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}}}
+
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a0450ea8b06b50d6e055f6d47bd77622c}\label{linux_2include_2sys_2types_8h_a0450ea8b06b50d6e055f6d47bd77622c}} 
+\index{types.h@{types.h}!clock\_t@{clock\_t}}
+\index{clock\_t@{clock\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{clock\_t}{clock\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{linux_2include_2sys_2types_8h_a13ef95181cff3b6f275e6a0a90327e73}{\+\_\+\+\_\+\+CLOCK\+\_\+T}} \mbox{\hyperlink{linux_2include_2sys_2types_8h_a0450ea8b06b50d6e055f6d47bd77622c}{clock\+\_\+t}}}
+
+
+
+\doxysubsection{枚举类型说明}
+\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331a}\label{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331a}} 
+\index{types.h@{types.h}!clockid\_t@{clockid\_t}}
+\index{clockid\_t@{clockid\_t}!types.h@{types.h}}
+\doxysubsubsection{\texorpdfstring{clockid\_t}{clockid\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331a}{clockid\+\_\+t}}}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CLOCK\_MONOTONIC@{CLOCK\_MONOTONIC}!types.h@{types.h}}\index{types.h@{types.h}!CLOCK\_MONOTONIC@{CLOCK\_MONOTONIC}}}\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331aa12a9ebbd93d62f4b893c1831390bbc0f}\label{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331aa12a9ebbd93d62f4b893c1831390bbc0f}} 
+CLOCK\+\_\+\+MONOTONIC&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CLOCK\_REALTIME@{CLOCK\_REALTIME}!types.h@{types.h}}\index{types.h@{types.h}!CLOCK\_REALTIME@{CLOCK\_REALTIME}}}\mbox{\Hypertarget{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331aa3225196686ced5a2732f8030a10c5b98}\label{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331aa3225196686ced5a2732f8030a10c5b98}} 
+CLOCK\+\_\+\+REALTIME&\\
+\hline
+
+\end{DoxyEnumFields}

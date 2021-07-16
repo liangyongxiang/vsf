@@ -1,0 +1,146 @@
+\hypertarget{vsf__usbh___h_i_d_8h}{}\doxysection{source/component/usb/host/class/\+HID/vsf\+\_\+usbh\+\_\+\+HID.h 文件参考}
+\label{vsf__usbh___h_i_d_8h}\index{source/component/usb/host/class/HID/vsf\_usbh\_HID.h@{source/component/usb/host/class/HID/vsf\_usbh\_HID.h}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classvk__usbh__hid__base__t}{vk\+\_\+usbh\+\_\+hid\+\_\+base\+\_\+t}}
+\item 
+class \mbox{\hyperlink{classvk__usbh__hid__teda__t}{vk\+\_\+usbh\+\_\+hid\+\_\+teda\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usbh___h_i_d_8h_a45774c8fd31c2fe42f9ca397dbf6cde3}{vk\+\_\+usbh\+\_\+hid\+\_\+send\+\_\+report}}(\+\_\+\+\_\+hid,  \+\_\+\+\_\+buffer,  \+\_\+\+\_\+size)
+\item 
+\#define \mbox{\hyperlink{vsf__usbh___h_i_d_8h_a03064706585452361cf3244a60e94681}{vk\+\_\+usbh\+\_\+hid\+\_\+recv\+\_\+report}}(\+\_\+\+\_\+hid,  \+\_\+\+\_\+buffer,  \+\_\+\+\_\+size)
+\item 
+\#define \mbox{\hyperlink{vsf__usbh___h_i_d_8h_a41d84cec422e316abda576fc037510b0}{vk\+\_\+usbh\+\_\+hid\+\_\+get\+\_\+rx\+\_\+report}}(\+\_\+\+\_\+hid)~            \mbox{\hyperlink{vsf__usbh___h_i_d_8c_a3d5b64a2270b82803be3c5b78d6bc7bd}{\+\_\+\+\_\+vk\+\_\+usbh\+\_\+hid\+\_\+get\+\_\+rx\+\_\+report\+\_\+imp}}((\mbox{\hyperlink{classvk__usbh__hid__teda__t}{vk\+\_\+usbh\+\_\+hid\+\_\+teda\+\_\+t}} $\ast$)(\+\_\+\+\_\+hid))
+\item 
+\#define \mbox{\hyperlink{vsf__usbh___h_i_d_8h_a24fb78fdfdd576ad3ba834802288c3d2}{vk\+\_\+usbh\+\_\+hid\+\_\+get\+\_\+tx\+\_\+report}}(\+\_\+\+\_\+hid)~            \mbox{\hyperlink{vsf__usbh___h_i_d_8c_a4e59b6eb07a5617f8db1c0f6e5b3873a}{\+\_\+\+\_\+vk\+\_\+usbh\+\_\+hid\+\_\+get\+\_\+tx\+\_\+report\+\_\+imp}}((\mbox{\hyperlink{classvk__usbh__hid__teda__t}{vk\+\_\+usbh\+\_\+hid\+\_\+teda\+\_\+t}} $\ast$)(\+\_\+\+\_\+hid))
+\item 
+\#define \mbox{\hyperlink{vsf__usbh___h_i_d_8h_a07b432fdcdc72f7a71c022db51d0d6d3}{vk\+\_\+usbh\+\_\+hid\+\_\+set\+\_\+idle}}(\+\_\+\+\_\+hid,  \+\_\+\+\_\+id,  \+\_\+\+\_\+duration)
+\item 
+\#define \mbox{\hyperlink{vsf__usbh___h_i_d_8h_af326eadb74062cbd0a3cb59ff855232e}{vk\+\_\+usbh\+\_\+hid\+\_\+send\+\_\+report\+\_\+req}}(\+\_\+\+\_\+hid,  \+\_\+\+\_\+type\+\_\+id,  \+\_\+\+\_\+report,  \+\_\+\+\_\+report\+\_\+len)
+\item 
+\#define \mbox{\hyperlink{vsf__usbh___h_i_d_8h_aac5c21d535b8bcebbe4d0ea20ecbcf65}{vk\+\_\+usbh\+\_\+hid\+\_\+recv\+\_\+report\+\_\+req}}(\+\_\+\+\_\+hid,  \+\_\+\+\_\+type\+\_\+id,  \+\_\+\+\_\+report,  \+\_\+\+\_\+report\+\_\+len)
+\end{DoxyCompactItemize}
+\doxysubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvk__usbh__hid__input__t}{vk\+\_\+usbh\+\_\+hid\+\_\+input\+\_\+t}} \mbox{\hyperlink{vsf__usbh___h_i_d_8h_a5538a7c037aacc596030e9e820709280}{vk\+\_\+usbh\+\_\+hid\+\_\+input\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__usbh___h_i_d_8h_a8950e025c0e5af30d8c1fe235d831518}{\+\_\+\+\_\+vk\+\_\+usbh\+\_\+hid\+\_\+send\+\_\+report\+\_\+imp}} (\mbox{\hyperlink{classvk__usbh__hid__teda__t}{vk\+\_\+usbh\+\_\+hid\+\_\+teda\+\_\+t}} $\ast$hid, \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$buffer, \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} \mbox{\hyperlink{vsf__memfs_8h_ab2c6b258f02add8fdf4cfc7c371dd772}{size}})
+\end{DoxyCompactItemize}
+\doxysubsection*{变量}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvk__usbh__class__drv__t}{vk\+\_\+usbh\+\_\+class\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__usbh___h_i_d_8h_a4df5d65d42ed4ca4d15b97500f4c0505}{vk\+\_\+usbh\+\_\+hid\+\_\+drv}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__usbh___h_i_d_8h_a45774c8fd31c2fe42f9ca397dbf6cde3}\label{vsf__usbh___h_i_d_8h_a45774c8fd31c2fe42f9ca397dbf6cde3}} 
+\index{vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}!vk\_usbh\_hid\_send\_report@{vk\_usbh\_hid\_send\_report}}
+\index{vk\_usbh\_hid\_send\_report@{vk\_usbh\_hid\_send\_report}!vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_hid\_send\_report}{vk\_usbh\_hid\_send\_report}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbh\+\_\+hid\+\_\+send\+\_\+report(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+hid,  }\item[{}]{\+\_\+\+\_\+buffer,  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__usbh___h_i_d_8h_a8950e025c0e5af30d8c1fe235d831518}{\_\_vk\_usbh\_hid\_send\_report\_imp}}(                                     \(\backslash\)}
+\DoxyCodeLine{                (\mbox{\hyperlink{classvk__usbh__hid__teda__t}{vk\_usbh\_hid\_teda\_t}} *)(\_\_hid), (\_\_buffer), (\_\_size))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbh___h_i_d_8h_a03064706585452361cf3244a60e94681}\label{vsf__usbh___h_i_d_8h_a03064706585452361cf3244a60e94681}} 
+\index{vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}!vk\_usbh\_hid\_recv\_report@{vk\_usbh\_hid\_recv\_report}}
+\index{vk\_usbh\_hid\_recv\_report@{vk\_usbh\_hid\_recv\_report}!vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_hid\_recv\_report}{vk\_usbh\_hid\_recv\_report}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbh\+\_\+hid\+\_\+recv\+\_\+report(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+hid,  }\item[{}]{\+\_\+\+\_\+buffer,  }\item[{}]{\+\_\+\+\_\+size }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__usbh___h_i_d_8c_aa8b323ee867c92716d61bef5e61844cb}{\_\_vk\_usbh\_hid\_recv\_report\_imp}}(                                     \(\backslash\)}
+\DoxyCodeLine{                (\mbox{\hyperlink{classvk__usbh__hid__teda__t}{vk\_usbh\_hid\_teda\_t}} *)(\_\_hid), (\_\_buffer), (\_\_size))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbh___h_i_d_8h_a41d84cec422e316abda576fc037510b0}\label{vsf__usbh___h_i_d_8h_a41d84cec422e316abda576fc037510b0}} 
+\index{vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}!vk\_usbh\_hid\_get\_rx\_report@{vk\_usbh\_hid\_get\_rx\_report}}
+\index{vk\_usbh\_hid\_get\_rx\_report@{vk\_usbh\_hid\_get\_rx\_report}!vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_hid\_get\_rx\_report}{vk\_usbh\_hid\_get\_rx\_report}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbh\+\_\+hid\+\_\+get\+\_\+rx\+\_\+report(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+hid }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__usbh___h_i_d_8c_a3d5b64a2270b82803be3c5b78d6bc7bd}{\+\_\+\+\_\+vk\+\_\+usbh\+\_\+hid\+\_\+get\+\_\+rx\+\_\+report\+\_\+imp}}((\mbox{\hyperlink{classvk__usbh__hid__teda__t}{vk\+\_\+usbh\+\_\+hid\+\_\+teda\+\_\+t}} $\ast$)(\+\_\+\+\_\+hid))}
+
+\mbox{\Hypertarget{vsf__usbh___h_i_d_8h_a24fb78fdfdd576ad3ba834802288c3d2}\label{vsf__usbh___h_i_d_8h_a24fb78fdfdd576ad3ba834802288c3d2}} 
+\index{vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}!vk\_usbh\_hid\_get\_tx\_report@{vk\_usbh\_hid\_get\_tx\_report}}
+\index{vk\_usbh\_hid\_get\_tx\_report@{vk\_usbh\_hid\_get\_tx\_report}!vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_hid\_get\_tx\_report}{vk\_usbh\_hid\_get\_tx\_report}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbh\+\_\+hid\+\_\+get\+\_\+tx\+\_\+report(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+hid }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__usbh___h_i_d_8c_a4e59b6eb07a5617f8db1c0f6e5b3873a}{\+\_\+\+\_\+vk\+\_\+usbh\+\_\+hid\+\_\+get\+\_\+tx\+\_\+report\+\_\+imp}}((\mbox{\hyperlink{classvk__usbh__hid__teda__t}{vk\+\_\+usbh\+\_\+hid\+\_\+teda\+\_\+t}} $\ast$)(\+\_\+\+\_\+hid))}
+
+\mbox{\Hypertarget{vsf__usbh___h_i_d_8h_a07b432fdcdc72f7a71c022db51d0d6d3}\label{vsf__usbh___h_i_d_8h_a07b432fdcdc72f7a71c022db51d0d6d3}} 
+\index{vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}!vk\_usbh\_hid\_set\_idle@{vk\_usbh\_hid\_set\_idle}}
+\index{vk\_usbh\_hid\_set\_idle@{vk\_usbh\_hid\_set\_idle}!vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_hid\_set\_idle}{vk\_usbh\_hid\_set\_idle}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbh\+\_\+hid\+\_\+set\+\_\+idle(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+hid,  }\item[{}]{\+\_\+\+\_\+id,  }\item[{}]{\+\_\+\+\_\+duration }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__usbh___h_i_d_8c_a84a5c3386500561f4c03a7213a8506e4}{\_\_vk\_usbh\_hid\_set\_idle\_imp}}(                                        \(\backslash\)}
+\DoxyCodeLine{                (\mbox{\hyperlink{classvk__usbh__hid__base__t}{vk\_usbh\_hid\_base\_t}} *)(\_\_hid), (\_\_id), (\_\_duration))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbh___h_i_d_8h_af326eadb74062cbd0a3cb59ff855232e}\label{vsf__usbh___h_i_d_8h_af326eadb74062cbd0a3cb59ff855232e}} 
+\index{vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}!vk\_usbh\_hid\_send\_report\_req@{vk\_usbh\_hid\_send\_report\_req}}
+\index{vk\_usbh\_hid\_send\_report\_req@{vk\_usbh\_hid\_send\_report\_req}!vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_hid\_send\_report\_req}{vk\_usbh\_hid\_send\_report\_req}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbh\+\_\+hid\+\_\+send\+\_\+report\+\_\+req(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+hid,  }\item[{}]{\+\_\+\+\_\+type\+\_\+id,  }\item[{}]{\+\_\+\+\_\+report,  }\item[{}]{\+\_\+\+\_\+report\+\_\+len }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__usbh___h_i_d_8c_a171823785014e2af7b1ffc368bb4d675}{\_\_vk\_usbh\_hid\_send\_report\_req\_imp}}(                                 \(\backslash\)}
+\DoxyCodeLine{                (\mbox{\hyperlink{classvk__usbh__hid__base__t}{vk\_usbh\_hid\_base\_t}} *)(\_\_hid), (\_\_type\_id), (\_\_report), (\_\_report\_len))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbh___h_i_d_8h_aac5c21d535b8bcebbe4d0ea20ecbcf65}\label{vsf__usbh___h_i_d_8h_aac5c21d535b8bcebbe4d0ea20ecbcf65}} 
+\index{vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}!vk\_usbh\_hid\_recv\_report\_req@{vk\_usbh\_hid\_recv\_report\_req}}
+\index{vk\_usbh\_hid\_recv\_report\_req@{vk\_usbh\_hid\_recv\_report\_req}!vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_hid\_recv\_report\_req}{vk\_usbh\_hid\_recv\_report\_req}}
+{\footnotesize\ttfamily \#define vk\+\_\+usbh\+\_\+hid\+\_\+recv\+\_\+report\+\_\+req(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+hid,  }\item[{}]{\+\_\+\+\_\+type\+\_\+id,  }\item[{}]{\+\_\+\+\_\+report,  }\item[{}]{\+\_\+\+\_\+report\+\_\+len }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__usbh___h_i_d_8c_a08810a31e268067f5291fe23e0c4b3ad}{\_\_vk\_usbh\_hid\_recv\_report\_req\_imp}}(                                 \(\backslash\)}
+\DoxyCodeLine{                (\mbox{\hyperlink{classvk__usbh__hid__base__t}{vk\_usbh\_hid\_base\_t}} *)(\_\_hid), (\_\_type\_id), (\_\_report), (\_\_report\_len))}
+
+\end{DoxyCode}
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{vsf__usbh___h_i_d_8h_a5538a7c037aacc596030e9e820709280}\label{vsf__usbh___h_i_d_8h_a5538a7c037aacc596030e9e820709280}} 
+\index{vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}!vk\_usbh\_hid\_input\_t@{vk\_usbh\_hid\_input\_t}}
+\index{vk\_usbh\_hid\_input\_t@{vk\_usbh\_hid\_input\_t}!vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_hid\_input\_t}{vk\_usbh\_hid\_input\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__usbh__hid__input__t}{vk\+\_\+usbh\+\_\+hid\+\_\+input\+\_\+t}} \mbox{\hyperlink{structvk__usbh__hid__input__t}{vk\+\_\+usbh\+\_\+hid\+\_\+input\+\_\+t}}}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__usbh___h_i_d_8h_a8950e025c0e5af30d8c1fe235d831518}\label{vsf__usbh___h_i_d_8h_a8950e025c0e5af30d8c1fe235d831518}} 
+\index{vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}!\_\_vk\_usbh\_hid\_send\_report\_imp@{\_\_vk\_usbh\_hid\_send\_report\_imp}}
+\index{\_\_vk\_usbh\_hid\_send\_report\_imp@{\_\_vk\_usbh\_hid\_send\_report\_imp}!vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vk\_usbh\_hid\_send\_report\_imp()}{\_\_vk\_usbh\_hid\_send\_report\_imp()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \+\_\+\+\_\+vk\+\_\+usbh\+\_\+hid\+\_\+send\+\_\+report\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__usbh__hid__teda__t}{vk\+\_\+usbh\+\_\+hid\+\_\+teda\+\_\+t}} $\ast$}]{hid,  }\item[{\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} $\ast$}]{buffer,  }\item[{\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}}]{size }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{变量说明}
+\mbox{\Hypertarget{vsf__usbh___h_i_d_8h_a4df5d65d42ed4ca4d15b97500f4c0505}\label{vsf__usbh___h_i_d_8h_a4df5d65d42ed4ca4d15b97500f4c0505}} 
+\index{vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}!vk\_usbh\_hid\_drv@{vk\_usbh\_hid\_drv}}
+\index{vk\_usbh\_hid\_drv@{vk\_usbh\_hid\_drv}!vsf\_usbh\_HID.h@{vsf\_usbh\_HID.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbh\_hid\_drv}{vk\_usbh\_hid\_drv}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__usbh__class__drv__t}{vk\+\_\+usbh\+\_\+class\+\_\+drv\+\_\+t}} vk\+\_\+usbh\+\_\+hid\+\_\+drv\hspace{0.3cm}{\ttfamily [extern]}}
+

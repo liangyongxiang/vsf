@@ -1,0 +1,69 @@
+\hypertarget{vsf__kernel__common_8h}{}\doxysection{source/kernel/vsf\+\_\+kernel\+\_\+common.h 文件参考}
+\label{vsf__kernel__common_8h}\index{source/kernel/vsf\_kernel\_common.h@{source/kernel/vsf\_kernel\_common.h}}
+{\ttfamily \#include \char`\"{}./vsf\+\_\+kernel\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}hal/arch/vsf\+\_\+arch.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/preprocessor/mf\+\_\+u8\+\_\+dec2str.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__common_8h_a64114133aab50fa6a078e2d04e43dbc2}{\+\_\+\+\_\+\+VSF\+\_\+\+SWI\+\_\+\+PRIO\+\_\+\+INIT}}(\+\_\+\+\_\+index,  \+\_\+\+\_\+unused)~    vsf\+\_\+prio\+\_\+\#\#\+\_\+\+\_\+index,
+\item 
+\#define \mbox{\hyperlink{vsf__kernel__common_8h_a3e13608327c334f40f26109d6c27378e}{MFUNC\+\_\+\+IN\+\_\+\+U8\+\_\+\+DEC\+\_\+\+VALUE}}~\mbox{\hyperlink{vsf__kernel__cfg_8h_a0c26fa6ec9c02a3f733bae9795239348}{VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+PRIORITY\+\_\+\+NUM}}
+\end{DoxyCompactItemize}
+\doxysubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3}{vsf\+\_\+prio\+\_\+t}} \mbox{\hyperlink{vsf__kernel__common_8h_a3d72ba0726ae7a6ec8109de575683029}{vsf\+\_\+prio\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{枚举}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3}{vsf\+\_\+prio\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3aa36d1474bd7f42000e94d3ff79adc94a}{vsf\+\_\+prio\+\_\+inherit}} = -\/1
+, \newline
+\mbox{\hyperlink{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3a98abffe9f64a3c8ac1c6f845020d70b1}{vsf\+\_\+prio\+\_\+highest}} = MFUNC\+\_\+\+OUT\+\_\+\+DEC\+\_\+\+STR -\/ 1
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__kernel__common_8h_a64114133aab50fa6a078e2d04e43dbc2}\label{vsf__kernel__common_8h_a64114133aab50fa6a078e2d04e43dbc2}} 
+\index{vsf\_kernel\_common.h@{vsf\_kernel\_common.h}!\_\_VSF\_SWI\_PRIO\_INIT@{\_\_VSF\_SWI\_PRIO\_INIT}}
+\index{\_\_VSF\_SWI\_PRIO\_INIT@{\_\_VSF\_SWI\_PRIO\_INIT}!vsf\_kernel\_common.h@{vsf\_kernel\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_SWI\_PRIO\_INIT}{\_\_VSF\_SWI\_PRIO\_INIT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+SWI\+\_\+\+PRIO\+\_\+\+INIT(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+index,  }\item[{}]{\+\_\+\+\_\+unused }\end{DoxyParamCaption})~    vsf\+\_\+prio\+\_\+\#\#\+\_\+\+\_\+index,}
+
+\mbox{\Hypertarget{vsf__kernel__common_8h_a3e13608327c334f40f26109d6c27378e}\label{vsf__kernel__common_8h_a3e13608327c334f40f26109d6c27378e}} 
+\index{vsf\_kernel\_common.h@{vsf\_kernel\_common.h}!MFUNC\_IN\_U8\_DEC\_VALUE@{MFUNC\_IN\_U8\_DEC\_VALUE}}
+\index{MFUNC\_IN\_U8\_DEC\_VALUE@{MFUNC\_IN\_U8\_DEC\_VALUE}!vsf\_kernel\_common.h@{vsf\_kernel\_common.h}}
+\doxysubsubsection{\texorpdfstring{MFUNC\_IN\_U8\_DEC\_VALUE}{MFUNC\_IN\_U8\_DEC\_VALUE}}
+{\footnotesize\ttfamily \#define MFUNC\+\_\+\+IN\+\_\+\+U8\+\_\+\+DEC\+\_\+\+VALUE~\mbox{\hyperlink{vsf__kernel__cfg_8h_a0c26fa6ec9c02a3f733bae9795239348}{VSF\+\_\+\+OS\+\_\+\+CFG\+\_\+\+PRIORITY\+\_\+\+NUM}}}
+
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{vsf__kernel__common_8h_a3d72ba0726ae7a6ec8109de575683029}\label{vsf__kernel__common_8h_a3d72ba0726ae7a6ec8109de575683029}} 
+\index{vsf\_kernel\_common.h@{vsf\_kernel\_common.h}!vsf\_prio\_t@{vsf\_prio\_t}}
+\index{vsf\_prio\_t@{vsf\_prio\_t}!vsf\_kernel\_common.h@{vsf\_kernel\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_prio\_t}{vsf\_prio\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3}{vsf\+\_\+prio\+\_\+t}} \mbox{\hyperlink{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3}{vsf\+\_\+prio\+\_\+t}}}
+
+
+
+\doxysubsection{枚举类型说明}
+\mbox{\Hypertarget{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3}\label{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3}} 
+\index{vsf\_kernel\_common.h@{vsf\_kernel\_common.h}!vsf\_prio\_t@{vsf\_prio\_t}}
+\index{vsf\_prio\_t@{vsf\_prio\_t}!vsf\_kernel\_common.h@{vsf\_kernel\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_prio\_t}{vsf\_prio\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3}{vsf\+\_\+prio\+\_\+t}}}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{vsf\_prio\_inherit@{vsf\_prio\_inherit}!vsf\_kernel\_common.h@{vsf\_kernel\_common.h}}\index{vsf\_kernel\_common.h@{vsf\_kernel\_common.h}!vsf\_prio\_inherit@{vsf\_prio\_inherit}}}\mbox{\Hypertarget{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3aa36d1474bd7f42000e94d3ff79adc94a}\label{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3aa36d1474bd7f42000e94d3ff79adc94a}} 
+vsf\+\_\+prio\+\_\+inherit&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{vsf\_prio\_highest@{vsf\_prio\_highest}!vsf\_kernel\_common.h@{vsf\_kernel\_common.h}}\index{vsf\_kernel\_common.h@{vsf\_kernel\_common.h}!vsf\_prio\_highest@{vsf\_prio\_highest}}}\mbox{\Hypertarget{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3a98abffe9f64a3c8ac1c6f845020d70b1}\label{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3a98abffe9f64a3c8ac1c6f845020d70b1}} 
+vsf\+\_\+prio\+\_\+highest&\\
+\hline
+
+\end{DoxyEnumFields}

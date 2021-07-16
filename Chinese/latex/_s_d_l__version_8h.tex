@@ -1,0 +1,87 @@
+\hypertarget{_s_d_l__version_8h}{}\doxysection{source/shell/media/sdl2/include/\+SDL2/\+SDL\+\_\+version.h 文件参考}
+\label{_s_d_l__version_8h}\index{source/shell/media/sdl2/include/SDL2/SDL\_version.h@{source/shell/media/sdl2/include/SDL2/SDL\_version.h}}
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+sdl2\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}SDL\+\_\+stdinc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}begin\+\_\+code.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}close\+\_\+code.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_s_d_l__version}{SDL\+\_\+version}}
+\end{DoxyCompactItemize}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_s_d_l__version_8h_a8fc808626be61507ade364b399f81468}{SDL\+\_\+\+MAJOR\+\_\+\+VERSION}}~2
+\item 
+\#define \mbox{\hyperlink{_s_d_l__version_8h_a2dd98e1cec119d54322cd9c8ea685c5c}{SDL\+\_\+\+MINOR\+\_\+\+VERSION}}~0
+\item 
+\#define \mbox{\hyperlink{_s_d_l__version_8h_a84a0602cb43e6d9cefbdc119336019d5}{SDL\+\_\+\+PATCHLEVEL}}~0
+\item 
+\#define \mbox{\hyperlink{_s_d_l__version_8h_a9ab02dadb201edf3a37631e191005d86}{SDL\+\_\+\+VERSIONNUM}}(\+\_\+\+\_\+X,  \+\_\+\+\_\+Y,  \+\_\+\+\_\+Z)~((\+\_\+\+\_\+X) $\ast$ 1000 + (\+\_\+\+\_\+Y) $\ast$ 100 + (\+\_\+\+\_\+Z))
+\item 
+\#define \mbox{\hyperlink{_s_d_l__version_8h_a75227c9b9ca2b4015e4697971712f16c}{SDL\+\_\+\+COMPILEDVERSION}}~            \mbox{\hyperlink{_s_d_l__version_8h_a9ab02dadb201edf3a37631e191005d86}{SDL\+\_\+\+VERSIONNUM}}(\mbox{\hyperlink{_s_d_l__version_8h_a8fc808626be61507ade364b399f81468}{SDL\+\_\+\+MAJOR\+\_\+\+VERSION}}, \mbox{\hyperlink{_s_d_l__version_8h_a2dd98e1cec119d54322cd9c8ea685c5c}{SDL\+\_\+\+MINOR\+\_\+\+VERSION}}, \mbox{\hyperlink{_s_d_l__version_8h_a84a0602cb43e6d9cefbdc119336019d5}{SDL\+\_\+\+PATCHLEVEL}})
+\item 
+\#define \mbox{\hyperlink{_s_d_l__version_8h_a2a3ebc5084cfbe26f8bfd44fd5de36ff}{SDL\+\_\+\+VERSION\+\_\+\+ATLEAST}}(\+\_\+\+\_\+X,  \+\_\+\+\_\+Y,  \+\_\+\+\_\+Z)~            (\mbox{\hyperlink{_s_d_l__version_8h_a75227c9b9ca2b4015e4697971712f16c}{SDL\+\_\+\+COMPILEDVERSION}} $>$= \mbox{\hyperlink{_s_d_l__version_8h_a9ab02dadb201edf3a37631e191005d86}{SDL\+\_\+\+VERSIONNUM}}(\+\_\+\+\_\+X, \+\_\+\+\_\+Y, \+\_\+\+\_\+Z))
+\item 
+\#define \mbox{\hyperlink{_s_d_l__version_8h_a65d4f631f7e4de6938cb7ee1e08a7cdd}{SDL\+\_\+\+Linked\+\_\+\+Version}}~\mbox{\hyperlink{vsf__sdl2__cfg_8h_a320a73e45f2af7d46b0471f6f1535e28}{VSF\+\_\+\+SDL\+\_\+\+WRAPPER}}(SDL\+\_\+\+Linked\+\_\+\+Version)
+\end{DoxyCompactItemize}
+\doxysubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{struct_s_d_l__version}{SDL\+\_\+version}} \mbox{\hyperlink{_s_d_l__version_8h_ab9a870099fb4c3c2ffc926a067b5243e}{SDL\+\_\+version}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{_s_d_l__version_8h_a8fc808626be61507ade364b399f81468}\label{_s_d_l__version_8h_a8fc808626be61507ade364b399f81468}} 
+\index{SDL\_version.h@{SDL\_version.h}!SDL\_MAJOR\_VERSION@{SDL\_MAJOR\_VERSION}}
+\index{SDL\_MAJOR\_VERSION@{SDL\_MAJOR\_VERSION}!SDL\_version.h@{SDL\_version.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_MAJOR\_VERSION}{SDL\_MAJOR\_VERSION}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+MAJOR\+\_\+\+VERSION~2}
+
+\mbox{\Hypertarget{_s_d_l__version_8h_a2dd98e1cec119d54322cd9c8ea685c5c}\label{_s_d_l__version_8h_a2dd98e1cec119d54322cd9c8ea685c5c}} 
+\index{SDL\_version.h@{SDL\_version.h}!SDL\_MINOR\_VERSION@{SDL\_MINOR\_VERSION}}
+\index{SDL\_MINOR\_VERSION@{SDL\_MINOR\_VERSION}!SDL\_version.h@{SDL\_version.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_MINOR\_VERSION}{SDL\_MINOR\_VERSION}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+MINOR\+\_\+\+VERSION~0}
+
+\mbox{\Hypertarget{_s_d_l__version_8h_a84a0602cb43e6d9cefbdc119336019d5}\label{_s_d_l__version_8h_a84a0602cb43e6d9cefbdc119336019d5}} 
+\index{SDL\_version.h@{SDL\_version.h}!SDL\_PATCHLEVEL@{SDL\_PATCHLEVEL}}
+\index{SDL\_PATCHLEVEL@{SDL\_PATCHLEVEL}!SDL\_version.h@{SDL\_version.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_PATCHLEVEL}{SDL\_PATCHLEVEL}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+PATCHLEVEL~0}
+
+\mbox{\Hypertarget{_s_d_l__version_8h_a9ab02dadb201edf3a37631e191005d86}\label{_s_d_l__version_8h_a9ab02dadb201edf3a37631e191005d86}} 
+\index{SDL\_version.h@{SDL\_version.h}!SDL\_VERSIONNUM@{SDL\_VERSIONNUM}}
+\index{SDL\_VERSIONNUM@{SDL\_VERSIONNUM}!SDL\_version.h@{SDL\_version.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_VERSIONNUM}{SDL\_VERSIONNUM}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+VERSIONNUM(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+X,  }\item[{}]{\+\_\+\+\_\+Y,  }\item[{}]{\+\_\+\+\_\+Z }\end{DoxyParamCaption})~((\+\_\+\+\_\+X) $\ast$ 1000 + (\+\_\+\+\_\+Y) $\ast$ 100 + (\+\_\+\+\_\+Z))}
+
+\mbox{\Hypertarget{_s_d_l__version_8h_a75227c9b9ca2b4015e4697971712f16c}\label{_s_d_l__version_8h_a75227c9b9ca2b4015e4697971712f16c}} 
+\index{SDL\_version.h@{SDL\_version.h}!SDL\_COMPILEDVERSION@{SDL\_COMPILEDVERSION}}
+\index{SDL\_COMPILEDVERSION@{SDL\_COMPILEDVERSION}!SDL\_version.h@{SDL\_version.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_COMPILEDVERSION}{SDL\_COMPILEDVERSION}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+COMPILEDVERSION~            \mbox{\hyperlink{_s_d_l__version_8h_a9ab02dadb201edf3a37631e191005d86}{SDL\+\_\+\+VERSIONNUM}}(\mbox{\hyperlink{_s_d_l__version_8h_a8fc808626be61507ade364b399f81468}{SDL\+\_\+\+MAJOR\+\_\+\+VERSION}}, \mbox{\hyperlink{_s_d_l__version_8h_a2dd98e1cec119d54322cd9c8ea685c5c}{SDL\+\_\+\+MINOR\+\_\+\+VERSION}}, \mbox{\hyperlink{_s_d_l__version_8h_a84a0602cb43e6d9cefbdc119336019d5}{SDL\+\_\+\+PATCHLEVEL}})}
+
+\mbox{\Hypertarget{_s_d_l__version_8h_a2a3ebc5084cfbe26f8bfd44fd5de36ff}\label{_s_d_l__version_8h_a2a3ebc5084cfbe26f8bfd44fd5de36ff}} 
+\index{SDL\_version.h@{SDL\_version.h}!SDL\_VERSION\_ATLEAST@{SDL\_VERSION\_ATLEAST}}
+\index{SDL\_VERSION\_ATLEAST@{SDL\_VERSION\_ATLEAST}!SDL\_version.h@{SDL\_version.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_VERSION\_ATLEAST}{SDL\_VERSION\_ATLEAST}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+VERSION\+\_\+\+ATLEAST(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+X,  }\item[{}]{\+\_\+\+\_\+Y,  }\item[{}]{\+\_\+\+\_\+Z }\end{DoxyParamCaption})~            (\mbox{\hyperlink{_s_d_l__version_8h_a75227c9b9ca2b4015e4697971712f16c}{SDL\+\_\+\+COMPILEDVERSION}} $>$= \mbox{\hyperlink{_s_d_l__version_8h_a9ab02dadb201edf3a37631e191005d86}{SDL\+\_\+\+VERSIONNUM}}(\+\_\+\+\_\+X, \+\_\+\+\_\+Y, \+\_\+\+\_\+Z))}
+
+\mbox{\Hypertarget{_s_d_l__version_8h_a65d4f631f7e4de6938cb7ee1e08a7cdd}\label{_s_d_l__version_8h_a65d4f631f7e4de6938cb7ee1e08a7cdd}} 
+\index{SDL\_version.h@{SDL\_version.h}!SDL\_Linked\_Version@{SDL\_Linked\_Version}}
+\index{SDL\_Linked\_Version@{SDL\_Linked\_Version}!SDL\_version.h@{SDL\_version.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_Linked\_Version}{SDL\_Linked\_Version}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{struct_s_d_l__version}{SDL\+\_\+version}} $\ast$ SDL\+\_\+\+Linked\+\_\+\+Version~\mbox{\hyperlink{vsf__sdl2__cfg_8h_a320a73e45f2af7d46b0471f6f1535e28}{VSF\+\_\+\+SDL\+\_\+\+WRAPPER}}(SDL\+\_\+\+Linked\+\_\+\+Version)}
+
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{_s_d_l__version_8h_ab9a870099fb4c3c2ffc926a067b5243e}\label{_s_d_l__version_8h_ab9a870099fb4c3c2ffc926a067b5243e}} 
+\index{SDL\_version.h@{SDL\_version.h}!SDL\_version@{SDL\_version}}
+\index{SDL\_version@{SDL\_version}!SDL\_version.h@{SDL\_version.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_version}{SDL\_version}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{struct_s_d_l__version}{SDL\+\_\+version}} \mbox{\hyperlink{struct_s_d_l__version}{SDL\+\_\+version}}}
+

@@ -1,0 +1,142 @@
+\hypertarget{vsf__distbus__stream_8h}{}\doxysection{source/service/simple\+\_\+stream/distbus\+\_\+stream/vsf\+\_\+distbus\+\_\+stream.h 文件参考}
+\label{vsf__distbus__stream_8h}\index{source/service/simple\_stream/distbus\_stream/vsf\_distbus\_stream.h@{source/service/simple\_stream/distbus\_stream/vsf\_distbus\_stream.h}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}service/distbus/vsf\+\_\+distbus.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classvsf__distbus__stream__t}{vsf\+\_\+distbus\+\_\+stream\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__distbus__stream_8h_a5d9127a894c5ed8ab8cbd5131cabe55b}{\+\_\+\+\_\+\+VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+INIT}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+DISTBUS,  \+\_\+\+\_\+\+MTU,  \+\_\+\+\_\+\+IS\+\_\+\+TX,  \+\_\+\+\_\+\+BUF\+\_\+\+SIZE,  \+\_\+\+\_\+\+HANDLER)
+\item 
+\#define \mbox{\hyperlink{vsf__distbus__stream_8h_abec7217625422bd8ee94a11de37e4e01}{VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+INIT}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+DISTBUS,  \+\_\+\+\_\+\+MTU,  \+\_\+\+\_\+\+IS\+\_\+\+TX,  \+\_\+\+\_\+\+BUF\+\_\+\+SIZE,  \+\_\+\+\_\+\+HANDLER)~            \mbox{\hyperlink{vsf__distbus__stream_8h_a5d9127a894c5ed8ab8cbd5131cabe55b}{\+\_\+\+\_\+\+VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+INIT}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+DISTBUS), (\+\_\+\+\_\+\+MTU), (\+\_\+\+\_\+\+IS\+\_\+\+TX), (\+\_\+\+\_\+\+BUF\+\_\+\+SIZE), (\+\_\+\+\_\+\+HANDLER))
+\item 
+\#define \mbox{\hyperlink{vsf__distbus__stream_8h_ab85247cac5c665f45d5dbfa0e0145e7b}{\+\_\+\+\_\+describe\+\_\+distbus\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+distbus,  \+\_\+\+\_\+mtu,  \+\_\+\+\_\+is\+\_\+tx,  \+\_\+\+\_\+buf\+\_\+size,  \+\_\+\+\_\+handler)
+\item 
+\#define \mbox{\hyperlink{vsf__distbus__stream_8h_a6fdaf12bb358f0ef99ccf6b6d66b17ec}{describe\+\_\+distbus\+\_\+stream\+\_\+tx}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+distbus,  \+\_\+\+\_\+mtu,  \+\_\+\+\_\+buf\+\_\+size,  \+\_\+\+\_\+handler)~            \mbox{\hyperlink{vsf__distbus__stream_8h_ab85247cac5c665f45d5dbfa0e0145e7b}{\+\_\+\+\_\+describe\+\_\+distbus\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+distbus), (\+\_\+\+\_\+mtu), \mbox{\hyperlink{x86_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}{true}}, (\+\_\+\+\_\+buf\+\_\+size), (\+\_\+\+\_\+handler))
+\item 
+\#define \mbox{\hyperlink{vsf__distbus__stream_8h_a94a60e37e0cf74d4f987162a95620d26}{describe\+\_\+distbus\+\_\+stream\+\_\+rx}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+distbus,  \+\_\+\+\_\+mtu,  \+\_\+\+\_\+handler)~            \mbox{\hyperlink{vsf__distbus__stream_8h_ab85247cac5c665f45d5dbfa0e0145e7b}{\+\_\+\+\_\+describe\+\_\+distbus\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+distbus), (\+\_\+\+\_\+mtu), \mbox{\hyperlink{x86_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}{false}}, 0, (\+\_\+\+\_\+handler))
+\end{DoxyCompactItemize}
+\doxysubsection*{枚举}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4a08c67ed76a41f3d22dfcce7e2f1cac32}{VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+CMD\+\_\+\+BUF\+\_\+\+SIZE}}
+, \newline
+\mbox{\hyperlink{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4af04191704ff88f5487b7a447000a47c2}{VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+CMD\+\_\+\+DATA}}
+, \newline
+\mbox{\hyperlink{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4a6181ef435a0ae5b8127ecbaa703728e7}{VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+CMD\+\_\+\+SIZE}}
+, \newline
+\mbox{\hyperlink{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4ab784200cdf2909096be0c22a482d4e46}{VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+ADDR\+\_\+\+RANGE}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__distbus__stream_8h_ad408f0bc8c35015b7e3ddc71a630223e}{vsf\+\_\+distbus\+\_\+stream\+\_\+register\+\_\+service}} (\mbox{\hyperlink{classvsf__distbus__stream__t}{vsf\+\_\+distbus\+\_\+stream\+\_\+t}} $\ast$distbus\+\_\+stream)
+\end{DoxyCompactItemize}
+\doxysubsection*{变量}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvsf__stream__op__t}{vsf\+\_\+stream\+\_\+op\+\_\+t}} \mbox{\hyperlink{vsf__distbus__stream_8h_a41711c193f4347fe284f5043ccaf920e}{vsf\+\_\+distbus\+\_\+stream\+\_\+op}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__distbus__stream_8h_a5d9127a894c5ed8ab8cbd5131cabe55b}\label{vsf__distbus__stream_8h_a5d9127a894c5ed8ab8cbd5131cabe55b}} 
+\index{vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}!\_\_VSF\_DISTBUS\_STREAM\_INIT@{\_\_VSF\_DISTBUS\_STREAM\_INIT}}
+\index{\_\_VSF\_DISTBUS\_STREAM\_INIT@{\_\_VSF\_DISTBUS\_STREAM\_INIT}!vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISTBUS\_STREAM\_INIT}{\_\_VSF\_DISTBUS\_STREAM\_INIT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+INIT(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+DISTBUS,  }\item[{}]{\+\_\+\+\_\+\+MTU,  }\item[{}]{\+\_\+\+\_\+\+IS\+\_\+\+TX,  }\item[{}]{\+\_\+\+\_\+\+BUF\+\_\+\+SIZE,  }\item[{}]{\+\_\+\+\_\+\+HANDLER }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            .op                 = \&\mbox{\hyperlink{vsf__distbus__stream_8h_a41711c193f4347fe284f5043ccaf920e}{vsf\_distbus\_stream\_op}},                       \(\backslash\)}
+\DoxyCodeLine{            .buf\_size           = (\_\_BUF\_SIZE),                                 \(\backslash\)}
+\DoxyCodeLine{            .is\_tx              = (\_\_IS\_TX),                                    \(\backslash\)}
+\DoxyCodeLine{            .distbus            = (\_\_DISTBUS),                                  \(\backslash\)}
+\DoxyCodeLine{            .mtu                = (\_\_MTU),                                      \(\backslash\)}
+\DoxyCodeLine{            .addr\_range         = \mbox{\hyperlink{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4ab784200cdf2909096be0c22a482d4e46}{VSF\_DISTBUS\_STREAM\_ADDR\_RANGE}},                \(\backslash\)}
+\DoxyCodeLine{            .handler            = (\_\_HANDLER),                                  \(\backslash\)}
+\DoxyCodeLine{            .info               = (\textcolor{keyword}{const} \mbox{\hyperlink{structvsf__distbus__service__info__t}{vsf\_distbus\_service\_info\_t}} *)          \(\backslash\)}
+\DoxyCodeLine{                                    \&(\_\_NAME).use\_as\_\_vsf\_distbus\_service\_info\_t,}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__distbus__stream_8h_abec7217625422bd8ee94a11de37e4e01}\label{vsf__distbus__stream_8h_abec7217625422bd8ee94a11de37e4e01}} 
+\index{vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}!VSF\_DISTBUS\_STREAM\_INIT@{VSF\_DISTBUS\_STREAM\_INIT}}
+\index{VSF\_DISTBUS\_STREAM\_INIT@{VSF\_DISTBUS\_STREAM\_INIT}!vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_DISTBUS\_STREAM\_INIT}{VSF\_DISTBUS\_STREAM\_INIT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+INIT(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+DISTBUS,  }\item[{}]{\+\_\+\+\_\+\+MTU,  }\item[{}]{\+\_\+\+\_\+\+IS\+\_\+\+TX,  }\item[{}]{\+\_\+\+\_\+\+BUF\+\_\+\+SIZE,  }\item[{}]{\+\_\+\+\_\+\+HANDLER }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__distbus__stream_8h_a5d9127a894c5ed8ab8cbd5131cabe55b}{\+\_\+\+\_\+\+VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+INIT}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+DISTBUS), (\+\_\+\+\_\+\+MTU), (\+\_\+\+\_\+\+IS\+\_\+\+TX), (\+\_\+\+\_\+\+BUF\+\_\+\+SIZE), (\+\_\+\+\_\+\+HANDLER))}
+
+\mbox{\Hypertarget{vsf__distbus__stream_8h_ab85247cac5c665f45d5dbfa0e0145e7b}\label{vsf__distbus__stream_8h_ab85247cac5c665f45d5dbfa0e0145e7b}} 
+\index{vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}!\_\_describe\_distbus\_stream@{\_\_describe\_distbus\_stream}}
+\index{\_\_describe\_distbus\_stream@{\_\_describe\_distbus\_stream}!vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}}
+\doxysubsubsection{\texorpdfstring{\_\_describe\_distbus\_stream}{\_\_describe\_distbus\_stream}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+describe\+\_\+distbus\+\_\+stream(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+distbus,  }\item[{}]{\+\_\+\+\_\+mtu,  }\item[{}]{\+\_\+\+\_\+is\+\_\+tx,  }\item[{}]{\+\_\+\+\_\+buf\+\_\+size,  }\item[{}]{\+\_\+\+\_\+handler }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{classvsf__distbus__stream__t}{vsf\_distbus\_stream\_t}} \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}} = \{                                     \(\backslash\)}
+\DoxyCodeLine{                VSF\_DISTBUS\_STREAM\_INIT(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}, (\_\_distbus), (\_\_mtu), (\_\_is\_tx), (\_\_buf\_size), (\_\_handler))\(\backslash\)}
+\DoxyCodeLine{            \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__distbus__stream_8h_a6fdaf12bb358f0ef99ccf6b6d66b17ec}\label{vsf__distbus__stream_8h_a6fdaf12bb358f0ef99ccf6b6d66b17ec}} 
+\index{vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}!describe\_distbus\_stream\_tx@{describe\_distbus\_stream\_tx}}
+\index{describe\_distbus\_stream\_tx@{describe\_distbus\_stream\_tx}!vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}}
+\doxysubsubsection{\texorpdfstring{describe\_distbus\_stream\_tx}{describe\_distbus\_stream\_tx}}
+{\footnotesize\ttfamily \#define describe\+\_\+distbus\+\_\+stream\+\_\+tx(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+distbus,  }\item[{}]{\+\_\+\+\_\+mtu,  }\item[{}]{\+\_\+\+\_\+buf\+\_\+size,  }\item[{}]{\+\_\+\+\_\+handler }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__distbus__stream_8h_ab85247cac5c665f45d5dbfa0e0145e7b}{\+\_\+\+\_\+describe\+\_\+distbus\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+distbus), (\+\_\+\+\_\+mtu), \mbox{\hyperlink{x86_2type_8h_af6a258d8f3ee5206d682d799316314b1a08f175a5505a10b9ed657defeb050e4b}{true}}, (\+\_\+\+\_\+buf\+\_\+size), (\+\_\+\+\_\+handler))}
+
+\mbox{\Hypertarget{vsf__distbus__stream_8h_a94a60e37e0cf74d4f987162a95620d26}\label{vsf__distbus__stream_8h_a94a60e37e0cf74d4f987162a95620d26}} 
+\index{vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}!describe\_distbus\_stream\_rx@{describe\_distbus\_stream\_rx}}
+\index{describe\_distbus\_stream\_rx@{describe\_distbus\_stream\_rx}!vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}}
+\doxysubsubsection{\texorpdfstring{describe\_distbus\_stream\_rx}{describe\_distbus\_stream\_rx}}
+{\footnotesize\ttfamily \#define describe\+\_\+distbus\+\_\+stream\+\_\+rx(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+distbus,  }\item[{}]{\+\_\+\+\_\+mtu,  }\item[{}]{\+\_\+\+\_\+handler }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__distbus__stream_8h_ab85247cac5c665f45d5dbfa0e0145e7b}{\+\_\+\+\_\+describe\+\_\+distbus\+\_\+stream}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+distbus), (\+\_\+\+\_\+mtu), \mbox{\hyperlink{x86_2type_8h_af6a258d8f3ee5206d682d799316314b1ae9de385ef6fe9bf3360d1038396b884c}{false}}, 0, (\+\_\+\+\_\+handler))}
+
+
+
+\doxysubsection{枚举类型说明}
+\mbox{\Hypertarget{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4}\label{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_DISTBUS\_STREAM\_CMD\_BUF\_SIZE@{VSF\_DISTBUS\_STREAM\_CMD\_BUF\_SIZE}!vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}}\index{vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}!VSF\_DISTBUS\_STREAM\_CMD\_BUF\_SIZE@{VSF\_DISTBUS\_STREAM\_CMD\_BUF\_SIZE}}}\mbox{\Hypertarget{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4a08c67ed76a41f3d22dfcce7e2f1cac32}\label{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4a08c67ed76a41f3d22dfcce7e2f1cac32}} 
+VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+CMD\+\_\+\+BUF\+\_\+\+SIZE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_DISTBUS\_STREAM\_CMD\_DATA@{VSF\_DISTBUS\_STREAM\_CMD\_DATA}!vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}}\index{vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}!VSF\_DISTBUS\_STREAM\_CMD\_DATA@{VSF\_DISTBUS\_STREAM\_CMD\_DATA}}}\mbox{\Hypertarget{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4af04191704ff88f5487b7a447000a47c2}\label{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4af04191704ff88f5487b7a447000a47c2}} 
+VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+CMD\+\_\+\+DATA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_DISTBUS\_STREAM\_CMD\_SIZE@{VSF\_DISTBUS\_STREAM\_CMD\_SIZE}!vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}}\index{vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}!VSF\_DISTBUS\_STREAM\_CMD\_SIZE@{VSF\_DISTBUS\_STREAM\_CMD\_SIZE}}}\mbox{\Hypertarget{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4a6181ef435a0ae5b8127ecbaa703728e7}\label{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4a6181ef435a0ae5b8127ecbaa703728e7}} 
+VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+CMD\+\_\+\+SIZE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_DISTBUS\_STREAM\_ADDR\_RANGE@{VSF\_DISTBUS\_STREAM\_ADDR\_RANGE}!vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}}\index{vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}!VSF\_DISTBUS\_STREAM\_ADDR\_RANGE@{VSF\_DISTBUS\_STREAM\_ADDR\_RANGE}}}\mbox{\Hypertarget{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4ab784200cdf2909096be0c22a482d4e46}\label{vsf__distbus__stream_8h_a91b717cdc34dd7316e4c43e9f26287c4ab784200cdf2909096be0c22a482d4e46}} 
+VSF\+\_\+\+DISTBUS\+\_\+\+STREAM\+\_\+\+ADDR\+\_\+\+RANGE&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__distbus__stream_8h_ad408f0bc8c35015b7e3ddc71a630223e}\label{vsf__distbus__stream_8h_ad408f0bc8c35015b7e3ddc71a630223e}} 
+\index{vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}!vsf\_distbus\_stream\_register\_service@{vsf\_distbus\_stream\_register\_service}}
+\index{vsf\_distbus\_stream\_register\_service@{vsf\_distbus\_stream\_register\_service}!vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_distbus\_stream\_register\_service()}{vsf\_distbus\_stream\_register\_service()}}
+{\footnotesize\ttfamily void vsf\+\_\+distbus\+\_\+stream\+\_\+register\+\_\+service (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__distbus__stream__t}{vsf\+\_\+distbus\+\_\+stream\+\_\+t}} $\ast$}]{distbus\+\_\+stream }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{变量说明}
+\mbox{\Hypertarget{vsf__distbus__stream_8h_a41711c193f4347fe284f5043ccaf920e}\label{vsf__distbus__stream_8h_a41711c193f4347fe284f5043ccaf920e}} 
+\index{vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}!vsf\_distbus\_stream\_op@{vsf\_distbus\_stream\_op}}
+\index{vsf\_distbus\_stream\_op@{vsf\_distbus\_stream\_op}!vsf\_distbus\_stream.h@{vsf\_distbus\_stream.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_distbus\_stream\_op}{vsf\_distbus\_stream\_op}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvsf__stream__op__t}{vsf\+\_\+stream\+\_\+op\+\_\+t}} vsf\+\_\+distbus\+\_\+stream\+\_\+op\hspace{0.3cm}{\ttfamily [extern]}}
+

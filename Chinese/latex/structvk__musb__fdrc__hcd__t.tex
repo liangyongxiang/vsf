@@ -1,0 +1,145 @@
+\hypertarget{structvk__musb__fdrc__hcd__t}{}\doxysection{vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t结构体 参考}
+\label{structvk__musb__fdrc__hcd__t}\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsection*{Public 类型}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275}{vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+state\+\_\+t}} \{ \newline
+\mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a2d2f408fc651b246a8fe25fb9f32b2c0}{MUSB\+\_\+\+FDRC\+\_\+\+HCD\+\_\+\+STATE\+\_\+\+WAIT\+\_\+\+HOSTMODE}}
+, \newline
+\mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a3071b7521e4aa8e5b8b62a7bda2f9b1e}{MUSB\+\_\+\+FDRC\+\_\+\+HCD\+\_\+\+STATE\+\_\+\+WAIE\+\_\+\+CONNECT}}
+, \newline
+\mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275acc8dac2bef0dfb50110892cc53688778}{MUSB\+\_\+\+FDRC\+\_\+\+HCD\+\_\+\+STATE\+\_\+\+WAIT\+\_\+\+RESET}}
+, \newline
+\mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a65918766dce87cd71f0dd715077db77d}{MUSB\+\_\+\+FDRC\+\_\+\+HCD\+\_\+\+STATE\+\_\+\+WAIT\+\_\+\+RESET\+\_\+\+CLEAR}}
+, \newline
+\mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a9f37a8b86b8f9f6062d2ead42d994766}{MUSB\+\_\+\+FDRC\+\_\+\+HCD\+\_\+\+STATE\+\_\+\+CONNECTED}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{成员变量}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structvk__musb__fdrc__reg__t}{vk\+\_\+musb\+\_\+fdrc\+\_\+reg\+\_\+t}} $\ast$ \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_aa7c2019106f7938f47760df0d64c77e6}{reg}}
+\item 
+enum \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275}{vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+state\+\_\+t}} \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a5e2f2f5dac0f78c9673076e63110e608}{state}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a1736952855eefeb3135d692539e01916}{epnum}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_afbaedc4e43787c8c19c62dd0f9d87031}{speed}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a73f40f96b8531eea67e140b697dc9cc9}{ep\+\_\+in\+\_\+mask}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_aefd305f5eff30650590cf3239a2b512e}{ep\+\_\+out\+\_\+mask}}
+\item 
+\mbox{\hyperlink{classvsf__teda__t}{vsf\+\_\+teda\+\_\+t}} \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_afcdd6458a3ba2eb4f36c55310a9e56a7}{teda}}
+\item 
+\mbox{\hyperlink{classvk__usbh__hcd__t}{vk\+\_\+usbh\+\_\+hcd\+\_\+t}} $\ast$ \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a95447e663b17feaf73d432c32d4dc65b}{hcd}}
+\item 
+\mbox{\hyperlink{classvk__usbh__dev__t}{vk\+\_\+usbh\+\_\+dev\+\_\+t}} $\ast$ \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a34a20c9867fac4653406e0a5deca6f25}{dev}}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>\mbox{\hyperlink{structvsf__slist__t}{vsf\_slist\_t}} \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_aea1b612d973fe56c49864cc89b5caaa4}{urb\_list}}\\
+\} \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a1f389fffe8525d5fd1e0efc49b8c4c5b}{dev\_priv}}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\doxysubsection{成员枚举类型说明}
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275}\label{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!vk\_musb\_fdrc\_hcd\_state\_t@{vk\_musb\_fdrc\_hcd\_state\_t}}
+\index{vk\_musb\_fdrc\_hcd\_state\_t@{vk\_musb\_fdrc\_hcd\_state\_t}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{vk\_musb\_fdrc\_hcd\_state\_t}{vk\_musb\_fdrc\_hcd\_state\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275}{vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+state\+\_\+t}}}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MUSB\_FDRC\_HCD\_STATE\_WAIT\_HOSTMODE@{MUSB\_FDRC\_HCD\_STATE\_WAIT\_HOSTMODE}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!MUSB\_FDRC\_HCD\_STATE\_WAIT\_HOSTMODE@{MUSB\_FDRC\_HCD\_STATE\_WAIT\_HOSTMODE}}}\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a2d2f408fc651b246a8fe25fb9f32b2c0}\label{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a2d2f408fc651b246a8fe25fb9f32b2c0}} 
+MUSB\+\_\+\+FDRC\+\_\+\+HCD\+\_\+\+STATE\+\_\+\+WAIT\+\_\+\+HOSTMODE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MUSB\_FDRC\_HCD\_STATE\_WAIE\_CONNECT@{MUSB\_FDRC\_HCD\_STATE\_WAIE\_CONNECT}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!MUSB\_FDRC\_HCD\_STATE\_WAIE\_CONNECT@{MUSB\_FDRC\_HCD\_STATE\_WAIE\_CONNECT}}}\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a3071b7521e4aa8e5b8b62a7bda2f9b1e}\label{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a3071b7521e4aa8e5b8b62a7bda2f9b1e}} 
+MUSB\+\_\+\+FDRC\+\_\+\+HCD\+\_\+\+STATE\+\_\+\+WAIE\+\_\+\+CONNECT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MUSB\_FDRC\_HCD\_STATE\_WAIT\_RESET@{MUSB\_FDRC\_HCD\_STATE\_WAIT\_RESET}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!MUSB\_FDRC\_HCD\_STATE\_WAIT\_RESET@{MUSB\_FDRC\_HCD\_STATE\_WAIT\_RESET}}}\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275acc8dac2bef0dfb50110892cc53688778}\label{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275acc8dac2bef0dfb50110892cc53688778}} 
+MUSB\+\_\+\+FDRC\+\_\+\+HCD\+\_\+\+STATE\+\_\+\+WAIT\+\_\+\+RESET&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MUSB\_FDRC\_HCD\_STATE\_WAIT\_RESET\_CLEAR@{MUSB\_FDRC\_HCD\_STATE\_WAIT\_RESET\_CLEAR}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!MUSB\_FDRC\_HCD\_STATE\_WAIT\_RESET\_CLEAR@{MUSB\_FDRC\_HCD\_STATE\_WAIT\_RESET\_CLEAR}}}\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a65918766dce87cd71f0dd715077db77d}\label{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a65918766dce87cd71f0dd715077db77d}} 
+MUSB\+\_\+\+FDRC\+\_\+\+HCD\+\_\+\+STATE\+\_\+\+WAIT\+\_\+\+RESET\+\_\+\+CLEAR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MUSB\_FDRC\_HCD\_STATE\_CONNECTED@{MUSB\_FDRC\_HCD\_STATE\_CONNECTED}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!MUSB\_FDRC\_HCD\_STATE\_CONNECTED@{MUSB\_FDRC\_HCD\_STATE\_CONNECTED}}}\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a9f37a8b86b8f9f6062d2ead42d994766}\label{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275a9f37a8b86b8f9f6062d2ead42d994766}} 
+MUSB\+\_\+\+FDRC\+\_\+\+HCD\+\_\+\+STATE\+\_\+\+CONNECTED&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{结构体成员变量说明}
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_aa7c2019106f7938f47760df0d64c77e6}\label{structvk__musb__fdrc__hcd__t_aa7c2019106f7938f47760df0d64c77e6}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!reg@{reg}}
+\index{reg@{reg}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{reg}{reg}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvk__musb__fdrc__reg__t}{vk\+\_\+musb\+\_\+fdrc\+\_\+reg\+\_\+t}}$\ast$ vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::reg}
+
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a5e2f2f5dac0f78c9673076e63110e608}\label{structvk__musb__fdrc__hcd__t_a5e2f2f5dac0f78c9673076e63110e608}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!state@{state}}
+\index{state@{state}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{structvk__musb__fdrc__hcd__t_a3ea0e3d64c3e0d3ca56ed7ee9321a275}{vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+state\+\_\+t}} vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::state}
+
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a1736952855eefeb3135d692539e01916}\label{structvk__musb__fdrc__hcd__t_a1736952855eefeb3135d692539e01916}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!epnum@{epnum}}
+\index{epnum@{epnum}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{epnum}{epnum}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::epnum}
+
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_afbaedc4e43787c8c19c62dd0f9d87031}\label{structvk__musb__fdrc__hcd__t_afbaedc4e43787c8c19c62dd0f9d87031}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!speed@{speed}}
+\index{speed@{speed}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{speed}{speed}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}} vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::speed}
+
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a73f40f96b8531eea67e140b697dc9cc9}\label{structvk__musb__fdrc__hcd__t_a73f40f96b8531eea67e140b697dc9cc9}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!ep\_in\_mask@{ep\_in\_mask}}
+\index{ep\_in\_mask@{ep\_in\_mask}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{ep\_in\_mask}{ep\_in\_mask}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::ep\+\_\+in\+\_\+mask}
+
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_aefd305f5eff30650590cf3239a2b512e}\label{structvk__musb__fdrc__hcd__t_aefd305f5eff30650590cf3239a2b512e}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!ep\_out\_mask@{ep\_out\_mask}}
+\index{ep\_out\_mask@{ep\_out\_mask}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{ep\_out\_mask}{ep\_out\_mask}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::ep\+\_\+out\+\_\+mask}
+
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_afcdd6458a3ba2eb4f36c55310a9e56a7}\label{structvk__musb__fdrc__hcd__t_afcdd6458a3ba2eb4f36c55310a9e56a7}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!teda@{teda}}
+\index{teda@{teda}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{teda}{teda}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classvsf__teda__t}{vsf\+\_\+teda\+\_\+t}} vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::teda}
+
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a95447e663b17feaf73d432c32d4dc65b}\label{structvk__musb__fdrc__hcd__t_a95447e663b17feaf73d432c32d4dc65b}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!hcd@{hcd}}
+\index{hcd@{hcd}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{hcd}{hcd}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classvk__usbh__hcd__t}{vk\+\_\+usbh\+\_\+hcd\+\_\+t}}$\ast$ vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::hcd}
+
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a34a20c9867fac4653406e0a5deca6f25}\label{structvk__musb__fdrc__hcd__t_a34a20c9867fac4653406e0a5deca6f25}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!dev@{dev}}
+\index{dev@{dev}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{dev}{dev}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classvk__usbh__dev__t}{vk\+\_\+usbh\+\_\+dev\+\_\+t}}$\ast$ vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::dev}
+
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_aea1b612d973fe56c49864cc89b5caaa4}\label{structvk__musb__fdrc__hcd__t_aea1b612d973fe56c49864cc89b5caaa4}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!urb\_list@{urb\_list}}
+\index{urb\_list@{urb\_list}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{urb\_list}{urb\_list}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::urb\+\_\+list}
+
+\mbox{\Hypertarget{structvk__musb__fdrc__hcd__t_a1f389fffe8525d5fd1e0efc49b8c4c5b}\label{structvk__musb__fdrc__hcd__t_a1f389fffe8525d5fd1e0efc49b8c4c5b}} 
+\index{vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}!dev\_priv@{dev\_priv}}
+\index{dev\_priv@{dev\_priv}!vk\_musb\_fdrc\_hcd\_t@{vk\_musb\_fdrc\_hcd\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vk\+\_\+musb\+\_\+fdrc\+\_\+hcd\+\_\+t\+::dev\+\_\+priv}
+

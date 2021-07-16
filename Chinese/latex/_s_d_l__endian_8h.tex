@@ -1,0 +1,109 @@
+\hypertarget{_s_d_l__endian_8h}{}\doxysection{source/shell/media/sdl2/include/\+SDL2/\+SDL\+\_\+endian.h 文件参考}
+\label{_s_d_l__endian_8h}\index{source/shell/media/sdl2/include/SDL2/SDL\_endian.h@{source/shell/media/sdl2/include/SDL2/SDL\_endian.h}}
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+sdl2\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}hal/arch/vsf\+\_\+arch.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}SDL\+\_\+stdinc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}begin\+\_\+code.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}close\+\_\+code.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_a0582882a281bd6c7580e454be3595703}{SDL\+\_\+\+BYTEORDER}}~\+\_\+\+\_\+\+BYTE\+\_\+\+ORDER
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_ad2b20e63545e73207b007b03bf08c2df}{SDL\+\_\+\+LIL\+\_\+\+ENDIAN}}~\+\_\+\+\_\+\+LITTLE\+\_\+\+ENDIAN
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_af22db189169b9aa7e356bf26b2a553f6}{SDL\+\_\+\+BIG\+\_\+\+ENDIAN}}~\+\_\+\+\_\+\+BIG\+\_\+\+ENDIAN
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_a4caaf2f5aaf4b09cdc9cd5411f14cfc7}{SDL\+\_\+\+Swap16}}~bswap\+\_\+16
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_adb90a31152b6116f76718b247d8fd119}{SDL\+\_\+\+Swap32}}~bswap\+\_\+32
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_a11bc5169a894c2d36e73fef87eeac289}{SDL\+\_\+\+Swap64}}~bswap\+\_\+64
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_ad582ea2d15a9661e206fda8d9bdf8834}{SDL\+\_\+\+Swap\+LE16}}~cpu\+\_\+to\+\_\+le16
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_aeed0bb474ef0eb4cd28d3897f1901ce7}{SDL\+\_\+\+Swap\+LE32}}~cpu\+\_\+to\+\_\+le32
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_a23cb551171650bfea34d6c1290f2bae5}{SDL\+\_\+\+Swap\+LE64}}~cpu\+\_\+to\+\_\+le64
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_a34f009f03a82b7987207ac11452e2127}{SDL\+\_\+\+Swap\+BE16}}~cpu\+\_\+to\+\_\+be16
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_a90b9021b7d11dce4c4e7e2ad137e100b}{SDL\+\_\+\+Swap\+BE32}}~cpu\+\_\+to\+\_\+be32
+\item 
+\#define \mbox{\hyperlink{_s_d_l__endian_8h_ae2b78cc56f25d3c7cfb4ad0f7dc418e7}{SDL\+\_\+\+Swap\+BE64}}~cpu\+\_\+to\+\_\+be64
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{_s_d_l__endian_8h_a0582882a281bd6c7580e454be3595703}\label{_s_d_l__endian_8h_a0582882a281bd6c7580e454be3595703}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_BYTEORDER@{SDL\_BYTEORDER}}
+\index{SDL\_BYTEORDER@{SDL\_BYTEORDER}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_BYTEORDER}{SDL\_BYTEORDER}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+BYTEORDER~\+\_\+\+\_\+\+BYTE\+\_\+\+ORDER}
+
+\mbox{\Hypertarget{_s_d_l__endian_8h_ad2b20e63545e73207b007b03bf08c2df}\label{_s_d_l__endian_8h_ad2b20e63545e73207b007b03bf08c2df}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_LIL\_ENDIAN@{SDL\_LIL\_ENDIAN}}
+\index{SDL\_LIL\_ENDIAN@{SDL\_LIL\_ENDIAN}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_LIL\_ENDIAN}{SDL\_LIL\_ENDIAN}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+LIL\+\_\+\+ENDIAN~\+\_\+\+\_\+\+LITTLE\+\_\+\+ENDIAN}
+
+\mbox{\Hypertarget{_s_d_l__endian_8h_af22db189169b9aa7e356bf26b2a553f6}\label{_s_d_l__endian_8h_af22db189169b9aa7e356bf26b2a553f6}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_BIG\_ENDIAN@{SDL\_BIG\_ENDIAN}}
+\index{SDL\_BIG\_ENDIAN@{SDL\_BIG\_ENDIAN}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_BIG\_ENDIAN}{SDL\_BIG\_ENDIAN}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+BIG\+\_\+\+ENDIAN~\+\_\+\+\_\+\+BIG\+\_\+\+ENDIAN}
+
+\mbox{\Hypertarget{_s_d_l__endian_8h_a4caaf2f5aaf4b09cdc9cd5411f14cfc7}\label{_s_d_l__endian_8h_a4caaf2f5aaf4b09cdc9cd5411f14cfc7}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_Swap16@{SDL\_Swap16}}
+\index{SDL\_Swap16@{SDL\_Swap16}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_Swap16}{SDL\_Swap16}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+Swap16~bswap\+\_\+16}
+
+\mbox{\Hypertarget{_s_d_l__endian_8h_adb90a31152b6116f76718b247d8fd119}\label{_s_d_l__endian_8h_adb90a31152b6116f76718b247d8fd119}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_Swap32@{SDL\_Swap32}}
+\index{SDL\_Swap32@{SDL\_Swap32}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_Swap32}{SDL\_Swap32}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+Swap32~bswap\+\_\+32}
+
+\mbox{\Hypertarget{_s_d_l__endian_8h_a11bc5169a894c2d36e73fef87eeac289}\label{_s_d_l__endian_8h_a11bc5169a894c2d36e73fef87eeac289}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_Swap64@{SDL\_Swap64}}
+\index{SDL\_Swap64@{SDL\_Swap64}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_Swap64}{SDL\_Swap64}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+Swap64~bswap\+\_\+64}
+
+\mbox{\Hypertarget{_s_d_l__endian_8h_ad582ea2d15a9661e206fda8d9bdf8834}\label{_s_d_l__endian_8h_ad582ea2d15a9661e206fda8d9bdf8834}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_SwapLE16@{SDL\_SwapLE16}}
+\index{SDL\_SwapLE16@{SDL\_SwapLE16}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_SwapLE16}{SDL\_SwapLE16}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+Swap\+LE16~cpu\+\_\+to\+\_\+le16}
+
+\mbox{\Hypertarget{_s_d_l__endian_8h_aeed0bb474ef0eb4cd28d3897f1901ce7}\label{_s_d_l__endian_8h_aeed0bb474ef0eb4cd28d3897f1901ce7}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_SwapLE32@{SDL\_SwapLE32}}
+\index{SDL\_SwapLE32@{SDL\_SwapLE32}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_SwapLE32}{SDL\_SwapLE32}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+Swap\+LE32~cpu\+\_\+to\+\_\+le32}
+
+\mbox{\Hypertarget{_s_d_l__endian_8h_a23cb551171650bfea34d6c1290f2bae5}\label{_s_d_l__endian_8h_a23cb551171650bfea34d6c1290f2bae5}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_SwapLE64@{SDL\_SwapLE64}}
+\index{SDL\_SwapLE64@{SDL\_SwapLE64}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_SwapLE64}{SDL\_SwapLE64}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+Swap\+LE64~cpu\+\_\+to\+\_\+le64}
+
+\mbox{\Hypertarget{_s_d_l__endian_8h_a34f009f03a82b7987207ac11452e2127}\label{_s_d_l__endian_8h_a34f009f03a82b7987207ac11452e2127}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_SwapBE16@{SDL\_SwapBE16}}
+\index{SDL\_SwapBE16@{SDL\_SwapBE16}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_SwapBE16}{SDL\_SwapBE16}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+Swap\+BE16~cpu\+\_\+to\+\_\+be16}
+
+\mbox{\Hypertarget{_s_d_l__endian_8h_a90b9021b7d11dce4c4e7e2ad137e100b}\label{_s_d_l__endian_8h_a90b9021b7d11dce4c4e7e2ad137e100b}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_SwapBE32@{SDL\_SwapBE32}}
+\index{SDL\_SwapBE32@{SDL\_SwapBE32}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_SwapBE32}{SDL\_SwapBE32}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+Swap\+BE32~cpu\+\_\+to\+\_\+be32}
+
+\mbox{\Hypertarget{_s_d_l__endian_8h_ae2b78cc56f25d3c7cfb4ad0f7dc418e7}\label{_s_d_l__endian_8h_ae2b78cc56f25d3c7cfb4ad0f7dc418e7}} 
+\index{SDL\_endian.h@{SDL\_endian.h}!SDL\_SwapBE64@{SDL\_SwapBE64}}
+\index{SDL\_SwapBE64@{SDL\_SwapBE64}!SDL\_endian.h@{SDL\_endian.h}}
+\doxysubsubsection{\texorpdfstring{SDL\_SwapBE64}{SDL\_SwapBE64}}
+{\footnotesize\ttfamily \#define SDL\+\_\+\+Swap\+BE64~cpu\+\_\+to\+\_\+be64}
+

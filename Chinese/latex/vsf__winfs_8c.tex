@@ -1,0 +1,81 @@
+\hypertarget{vsf__winfs_8c}{}\doxysection{source/component/fs/driver/winfs/vsf\+\_\+winfs.c 文件参考}
+\label{vsf__winfs_8c}\index{source/component/fs/driver/winfs/vsf\_winfs.c@{source/component/fs/driver/winfs/vsf\_winfs.c}}
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+fs\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+fs.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$windows.\+h$>$}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__winfs_8c_a07fd8b6998b0f48113526bc4112b0354}{\+\_\+\+\_\+\+VSF\+\_\+\+FS\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__winfs_8c_aeaeebd2fecd2efcdf07c5732ceca92c9}{\+\_\+\+\_\+\+VSF\+\_\+\+WINFS\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{vsf__winfs_8c_a914932f90016de63a26a6edc09845d8a}{dcl\+\_\+vsf\+\_\+peda\+\_\+methods}} (dcl\+\_\+vsf\+\_\+peda\+\_\+methods(static, \+\_\+\+\_\+vk\+\_\+winfs\+\_\+mount)
+\item 
+\mbox{\hyperlink{vsf__winfs_8c_a4e42f2fdbec1c8b1cd686f0c183f6e47}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}} (\+\_\+\+\_\+vk\+\_\+winfs\+\_\+mount, \mbox{\hyperlink{vsf__fs_8h_ae0c4f1fc3a6dd16382d9bfa39b3cf50e}{vk\+\_\+fs\+\_\+mount}})
+\item 
+\mbox{\hyperlink{vsf__winfs_8c_aeebc6ebec9360c95b1d8876fac185cd5}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}} (\+\_\+\+\_\+vk\+\_\+winfs\+\_\+lookup, vk\+\_\+file\+\_\+lookup)
+\item 
+\mbox{\hyperlink{vsf__winfs_8c_a87d11e665195d3c766a737490db29613}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}} (\+\_\+\+\_\+vk\+\_\+winfs\+\_\+read, \mbox{\hyperlink{vsf__fs_8h_a4ff0dc8d12f7386c7019a11753b35d3f}{vk\+\_\+file\+\_\+read}})
+\item 
+\mbox{\hyperlink{vsf__winfs_8c_adff600b2c49eb7a33f03d75f3d36ca0a}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}} (\+\_\+\+\_\+vk\+\_\+winfs\+\_\+write, \mbox{\hyperlink{vsf__fs_8h_a8e48335574ee6acee317d85d54d19d75}{vk\+\_\+file\+\_\+write}})
+\item 
+\mbox{\hyperlink{vsf__winfs_8c_a5e3f5ca49a713a692d29dd58ec380116}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}} (\+\_\+\+\_\+vk\+\_\+winfs\+\_\+close, \mbox{\hyperlink{vsf__fs_8h_a34995c36fbfdcfd04932be4d9541d2a5}{vk\+\_\+file\+\_\+close}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__winfs_8c_a07fd8b6998b0f48113526bc4112b0354}\label{vsf__winfs_8c_a07fd8b6998b0f48113526bc4112b0354}} 
+\index{vsf\_winfs.c@{vsf\_winfs.c}!\_\_VSF\_FS\_CLASS\_INHERIT\_\_@{\_\_VSF\_FS\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_FS\_CLASS\_INHERIT\_\_@{\_\_VSF\_FS\_CLASS\_INHERIT\_\_}!vsf\_winfs.c@{vsf\_winfs.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_FS\_CLASS\_INHERIT\_\_}{\_\_VSF\_FS\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+FS\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__winfs_8c_aeaeebd2fecd2efcdf07c5732ceca92c9}\label{vsf__winfs_8c_aeaeebd2fecd2efcdf07c5732ceca92c9}} 
+\index{vsf\_winfs.c@{vsf\_winfs.c}!\_\_VSF\_WINFS\_CLASS\_IMPLEMENT@{\_\_VSF\_WINFS\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_WINFS\_CLASS\_IMPLEMENT@{\_\_VSF\_WINFS\_CLASS\_IMPLEMENT}!vsf\_winfs.c@{vsf\_winfs.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_WINFS\_CLASS\_IMPLEMENT}{\_\_VSF\_WINFS\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+WINFS\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__winfs_8c_a914932f90016de63a26a6edc09845d8a}\label{vsf__winfs_8c_a914932f90016de63a26a6edc09845d8a}} 
+\index{vsf\_winfs.c@{vsf\_winfs.c}!dcl\_vsf\_peda\_methods@{dcl\_vsf\_peda\_methods}}
+\index{dcl\_vsf\_peda\_methods@{dcl\_vsf\_peda\_methods}!vsf\_winfs.c@{vsf\_winfs.c}}
+\doxysubsubsection{\texorpdfstring{dcl\_vsf\_peda\_methods()}{dcl\_vsf\_peda\_methods()}}
+{\footnotesize\ttfamily dcl\+\_\+vsf\+\_\+peda\+\_\+methods (\begin{DoxyParamCaption}\item[{dcl\+\_\+vsf\+\_\+peda\+\_\+methods(}]{static,  }\item[{\+\_\+\+\_\+vk\+\_\+winfs\+\_\+mount}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__winfs_8c_a4e42f2fdbec1c8b1cd686f0c183f6e47}\label{vsf__winfs_8c_a4e42f2fdbec1c8b1cd686f0c183f6e47}} 
+\index{vsf\_winfs.c@{vsf\_winfs.c}!\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}}
+\index{\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}!vsf\_winfs.c@{vsf\_winfs.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs\_entry()}{\_\_vsf\_component\_peda\_ifs\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+vk\+\_\+winfs\+\_\+mount}]{,  }\item[{\mbox{\hyperlink{vsf__fs_8h_ae0c4f1fc3a6dd16382d9bfa39b3cf50e}{vk\+\_\+fs\+\_\+mount}}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__winfs_8c_aeebc6ebec9360c95b1d8876fac185cd5}\label{vsf__winfs_8c_aeebc6ebec9360c95b1d8876fac185cd5}} 
+\index{vsf\_winfs.c@{vsf\_winfs.c}!\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}}
+\index{\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}!vsf\_winfs.c@{vsf\_winfs.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs\_entry()}{\_\_vsf\_component\_peda\_ifs\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+vk\+\_\+winfs\+\_\+lookup}]{,  }\item[{vk\+\_\+file\+\_\+lookup}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__winfs_8c_a87d11e665195d3c766a737490db29613}\label{vsf__winfs_8c_a87d11e665195d3c766a737490db29613}} 
+\index{vsf\_winfs.c@{vsf\_winfs.c}!\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}}
+\index{\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}!vsf\_winfs.c@{vsf\_winfs.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs\_entry()}{\_\_vsf\_component\_peda\_ifs\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+vk\+\_\+winfs\+\_\+read}]{,  }\item[{\mbox{\hyperlink{vsf__fs_8h_a4ff0dc8d12f7386c7019a11753b35d3f}{vk\+\_\+file\+\_\+read}}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__winfs_8c_adff600b2c49eb7a33f03d75f3d36ca0a}\label{vsf__winfs_8c_adff600b2c49eb7a33f03d75f3d36ca0a}} 
+\index{vsf\_winfs.c@{vsf\_winfs.c}!\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}}
+\index{\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}!vsf\_winfs.c@{vsf\_winfs.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs\_entry()}{\_\_vsf\_component\_peda\_ifs\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+vk\+\_\+winfs\+\_\+write}]{,  }\item[{\mbox{\hyperlink{vsf__fs_8h_a8e48335574ee6acee317d85d54d19d75}{vk\+\_\+file\+\_\+write}}}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__winfs_8c_a5e3f5ca49a713a692d29dd58ec380116}\label{vsf__winfs_8c_a5e3f5ca49a713a692d29dd58ec380116}} 
+\index{vsf\_winfs.c@{vsf\_winfs.c}!\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}}
+\index{\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}!vsf\_winfs.c@{vsf\_winfs.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs\_entry()}{\_\_vsf\_component\_peda\_ifs\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry (\begin{DoxyParamCaption}\item[{\+\_\+\+\_\+vk\+\_\+winfs\+\_\+close}]{,  }\item[{\mbox{\hyperlink{vsf__fs_8h_a34995c36fbfdcfd04932be4d9541d2a5}{vk\+\_\+file\+\_\+close}}}]{ }\end{DoxyParamCaption})}
+

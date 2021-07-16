@@ -1,0 +1,1136 @@
+\hypertarget{vsf__tgui__common_8h}{}\doxysection{source/component/ui/tgui/vsf\+\_\+tgui\+\_\+common.h 文件参考}
+\label{vsf__tgui__common_8h}\index{source/component/ui/tgui/vsf\_tgui\_common.h@{source/component/ui/tgui/vsf\_tgui\_common.h}}
+{\ttfamily \#include \char`\"{}osa\+\_\+service/vsf\+\_\+osa\+\_\+service.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__size__t}{vsf\+\_\+tgui\+\_\+size\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__string__t}{vsf\+\_\+tgui\+\_\+string\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__text__info__t}{vsf\+\_\+tgui\+\_\+text\+\_\+info\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__tile__core__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+core\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__tile__idx__root__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+idx\+\_\+root\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__tile__buf__root__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+buf\+\_\+root\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__tile__child__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+child\+\_\+t}}
+\item 
+union \mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__refresh__evt__t}{vsf\+\_\+tgui\+\_\+refresh\+\_\+evt\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__pointer__evt__t}{vsf\+\_\+tgui\+\_\+pointer\+\_\+evt\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__gesture__evt__t}{vsf\+\_\+tgui\+\_\+gesture\+\_\+evt\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__tgui__key__evt__t}{vsf\+\_\+tgui\+\_\+key\+\_\+evt\+\_\+t}}
+\item 
+union \mbox{\hyperlink{unionvsf__tgui__evt__t}{vsf\+\_\+tgui\+\_\+evt\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_afb45bed9f9f01dfd13b038864f67cea0}{VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+1\+BIT}}~0
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_aef950b3a229d5d372a9518642e2b9ec1}{VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+4\+BIT}}~2
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a4765b68b746d44b7a1bdf4469aaba440}{VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+8\+BIT}}~3
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_aa3982dc0d8087b6598dc61fdf1504c38}{VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+16\+BIT}}~4
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a6884af8928dd95059fe0e129c2a5d1a3}{VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+24\+IT}}~6
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_aad26f6525691dad0d3e20231510ec919}{VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+32\+IT}}~5
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a8bec79ad08b669ba1a947df5ee8714a1}{tgui\+\_\+contains}}(...)~\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(\+\_\+\+\_\+\+NAME, ...)~.\+\_\+\+\_\+\+NAME = \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a5cc98f90645c732f5278681a91f8656c}{tgui\+\_\+attribute}}(\+\_\+\+\_\+\+NAME, ...)~\mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(\+\_\+\+\_\+\+NAME, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a8b555793e5252c93a6436b17ca20fdde}{tgui\+\_\+alignto}}(...)~\mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Align,        \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a866952d37473024d48f2dd03f25f4146}{tgui\+\_\+anchor}}(...)~\mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Anchor,       \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a77ec03a76c655f5f5cb16e6264e3ccff}{tgui\+\_\+dock}}(...)~\mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Dock,         \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a6192eae31f7a196259caeeb83645a4e8}{tgui\+\_\+margin}}(...)~\mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Margin,       \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a1bb73e8197b3469ffdd9c35505ade532}{tgui\+\_\+padding}}(...)~            \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(\mbox{\hyperlink{vsf__tgui__control_8h_a503b1255c86f0833d15c4d48fa99444b}{t\+Container\+Padding}}, \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a04a8fcc9d158d124bcfd1066e16633bb}{\+\_\+\+\_\+tgui\+\_\+text}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+ID, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_af848457b9b690052b2d36974e0b12cf4}{\+\_\+\+\_\+tgui\+\_\+container\+\_\+type}}(\+\_\+\+\_\+\+TYPE, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_ae913eaf3e62ad67464a45bd8d686f3fc}{\+\_\+\+\_\+tgui\+\_\+line\+\_\+space}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+PIX)~                .\+\_\+\+\_\+\+NAME.\+ch\+Inter\+Line\+Space = (\+\_\+\+\_\+\+PIX)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a1d19aaf3dc3afd4bfbfaf70268b39e7d}{tgui\+\_\+size}}(...)~                \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Size,                 \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_af608363456922ce6927b17ad607f3db2}{tgui\+\_\+location}}(...)~                \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Location,             \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_aabef588059443c4db7b8f371b65fc2c7}{tgui\+\_\+region}}(...)~                \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Region,               \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_acd07f76126a81231739febc9aade6df4}{tgui\+\_\+background}}(...)~                \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Background,           \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a3276a44c8458006c80b085b2103171e8}{tgui\+\_\+text}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+TEXT,  \+\_\+\+\_\+\+AUTOSIZE, ...)~                \mbox{\hyperlink{vsf__tgui__common_8h_a04a8fcc9d158d124bcfd1066e16633bb}{\+\_\+\+\_\+tgui\+\_\+text}}(\+\_\+\+\_\+\+NAME, \+\_\+\+\_\+\+TEXT, \+\_\+\+\_\+\+AUTOSIZE, \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a57d2091daa45c3d36c5e74f3c1a6835c}{tgui\+\_\+line\+\_\+space}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+PIX)~                \mbox{\hyperlink{vsf__tgui__common_8h_ae913eaf3e62ad67464a45bd8d686f3fc}{\+\_\+\+\_\+tgui\+\_\+line\+\_\+space}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+PIX))
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a044e21a386e0134b4c0e51ce52bdf74a}{tgui\+\_\+timer}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+INTERVAL,  \+\_\+\+\_\+\+REPEATE, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a89db6e6c49f29cce97d74d243072dd0a}{tgui\+\_\+handler}}(...)~                \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(msg\+\_\+handler,       \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a58350f68d58c4b18d161a1ec4ed5cdaf}{tgui\+\_\+container\+\_\+type}}(\+\_\+\+\_\+\+TYPE, ...)~                \mbox{\hyperlink{vsf__tgui__common_8h_af848457b9b690052b2d36974e0b12cf4}{\+\_\+\+\_\+tgui\+\_\+container\+\_\+type}}(\+\_\+\+\_\+\+TYPE, \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a6a3e7c544252f0d96e375062492dec12}{def\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+NAME)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a14c084fa8c7b297aab89d2cd55c77686}{end\+\_\+def\+\_\+tgui\+\_\+msgmap}}(...)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a8e1f33abd8b36eda8dd22dede124b800}{implement\+\_\+tgui\+\_\+msgmap}}(...)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_ae82c87efb2d7bed135e219c0bf7be195}{\+\_\+\+\_\+declare\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+NAME, ...)~            const \mbox{\hyperlink{structvsf__tgui__user__evt__handler}{vsf\+\_\+tgui\+\_\+user\+\_\+evt\+\_\+handler}}\mbox{[}\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\mbox{]} \+\_\+\+\_\+\+NAME;
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_ac939a98ed796b35a95e0f1c16648d932}{declare\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+NAME, ...)~            \mbox{\hyperlink{vsf__tgui__common_8h_ae82c87efb2d7bed135e219c0bf7be195}{\+\_\+\+\_\+declare\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+NAME, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a3ff9d9eb2fc94f339f4424c78355fe25}{\+\_\+\+\_\+describe\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+NAME, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a72737b16818544ec5f4bfb74271cdd48}{describe\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+NAME, ...)~            \mbox{\hyperlink{vsf__tgui__common_8h_a3ff9d9eb2fc94f339f4424c78355fe25}{\+\_\+\+\_\+describe\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+NAME, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_aa9660a81888e2c7dd9acb19beb8e071f}{\+\_\+\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+MSGMAP)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a9acfe0244e1b0303b57fc2f3172e4f0e}{\+\_\+\+\_\+tgui\+\_\+msg\+\_\+handler}}(\+\_\+\+\_\+\+MSG,  \+\_\+\+\_\+\+FUNC, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a0e49fa3955fe7a1223cfc172d39370b8}{\+\_\+\+\_\+tgui\+\_\+msg\+\_\+mux}}(\+\_\+\+\_\+\+MSG,  \+\_\+\+\_\+\+FUNC, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a93a3dad55a0227dfe8cface1d3508ae9}{tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+MSGMAP)~\mbox{\hyperlink{vsf__tgui__common_8h_aa9660a81888e2c7dd9acb19beb8e071f}{\+\_\+\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+MSGMAP)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a03e4c545217bfc2a40e89bb37d209927}{tgui\+\_\+msg\+\_\+handler}}(\+\_\+\+\_\+\+MSG,  \+\_\+\+\_\+\+FUNC, ...)~            \mbox{\hyperlink{vsf__tgui__common_8h_a9acfe0244e1b0303b57fc2f3172e4f0e}{\+\_\+\+\_\+tgui\+\_\+msg\+\_\+handler}}(\+\_\+\+\_\+\+MSG, \+\_\+\+\_\+\+FUNC, \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a09924e1818073b79057dd4238d8312df}{tgui\+\_\+msg\+\_\+mux}}(\+\_\+\+\_\+\+MSG,  \+\_\+\+\_\+\+FUNC, ...)~            \mbox{\hyperlink{vsf__tgui__common_8h_a0e49fa3955fe7a1223cfc172d39370b8}{\+\_\+\+\_\+tgui\+\_\+msg\+\_\+mux}}((\+\_\+\+\_\+\+MSG), \+\_\+\+\_\+\+FUNC, \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a1e2dce6deba7d849ac1595f754f3c420}{VSF\+\_\+\+TGUI\+\_\+\+CFG\+\_\+\+LANGUAGE\+\_\+\+ID\+\_\+\+TYPE}}~\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a0d7c6a9c2fc4f76e84c3b36b4dba76fa}{VSF\+\_\+\+TGUI\+\_\+\+CFG\+\_\+\+DRAM\+\_\+\+POINTER\+\_\+\+TYPE}}~\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}}
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a39581fe273bf040c27e394366a7d9186}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+MSK}}~(0x1\+F0)
+\item 
+\#define \mbox{\hyperlink{vsf__tgui__common_8h_a2fd6ef5223d693c82cbb7db162f8da7e}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+MSK}}~(0x00F)
+\end{DoxyCompactItemize}
+\doxysubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a88380ff1e1152dddb5f62b4997926f5d}{vsf\+\_\+tgui\+\_\+location\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__size__t}{vsf\+\_\+tgui\+\_\+size\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a1eaee5cb4908ecc21e3ad2e901e9c944}{vsf\+\_\+tgui\+\_\+size\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a3d5bee71005472331cd6d2822ed5cf93}{vsf\+\_\+tgui\+\_\+region\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{vsf__tgui__common_8h_a1e2dce6deba7d849ac1595f754f3c420}{VSF\+\_\+\+TGUI\+\_\+\+CFG\+\_\+\+LANGUAGE\+\_\+\+ID\+\_\+\+TYPE}} \mbox{\hyperlink{vsf__tgui__common_8h_afa08bd62f5ced822cb741438b9a85ca8}{vsf\+\_\+tgui\+\_\+text\+\_\+id\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__string__t}{vsf\+\_\+tgui\+\_\+string\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a58bf8c7d837a57aaf93c483452b0f250}{vsf\+\_\+tgui\+\_\+string\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__text__info__t}{vsf\+\_\+tgui\+\_\+text\+\_\+info\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a4e8b68623f96017429bfa9f54f373d52}{vsf\+\_\+tgui\+\_\+text\+\_\+info\+\_\+t}}
+\item 
+typedef \mbox{\hyperlink{vsf__tgui__common_8h_a0d7c6a9c2fc4f76e84c3b36b4dba76fa}{VSF\+\_\+\+TGUI\+\_\+\+CFG\+\_\+\+DRAM\+\_\+\+POINTER\+\_\+\+TYPE}} \mbox{\hyperlink{vsf__tgui__common_8h_a7a6e745e960857d0922f224246006124}{vsf\+\_\+tgui\+\_\+disp\+\_\+ram\+\_\+uintptr\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__tile__core__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+core\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_ab65ccf45c95ccef7e0ab338c8f332ef7}{vsf\+\_\+tgui\+\_\+tile\+\_\+core\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__tile__idx__root__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+idx\+\_\+root\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a0b547496c2fe63591cd3131e224a2140}{vsf\+\_\+tgui\+\_\+tile\+\_\+idx\+\_\+root\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__tile__buf__root__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+buf\+\_\+root\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a5b8801619f33403c45e587d3003810e6}{vsf\+\_\+tgui\+\_\+tile\+\_\+buf\+\_\+root\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__tile__child__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+child\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_af0d0beb37dd6702e30f43a07e85ee3d3}{vsf\+\_\+tgui\+\_\+tile\+\_\+child\+\_\+t}}
+\item 
+typedef union \mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a16115abf2f9357684cfccb85613f5122}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}}
+\item 
+typedef enum \mbox{\hyperlink{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecb}{vsf\+\_\+tgui\+\_\+container\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a28f436bff9a0ba513b914a8866b70227}{vsf\+\_\+tgui\+\_\+container\+\_\+type\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{vsf__tgui__common_8h_ae4b34ea80250bc4d45b379ae68c8f2c4}{vsf\+\_\+tgui\+\_\+root\+\_\+container\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_ae4b34ea80250bc4d45b379ae68c8f2c4}{vsf\+\_\+tgui\+\_\+root\+\_\+container\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a40d6e9c8d1e1f2ff906ca90d15750b43}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__refresh__evt__t}{vsf\+\_\+tgui\+\_\+refresh\+\_\+evt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a6e26dcb120a6d7effd9ce54dd4b16d94}{vsf\+\_\+tgui\+\_\+refresh\+\_\+evt\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__pointer__evt__t}{vsf\+\_\+tgui\+\_\+pointer\+\_\+evt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a94b2ac5f9e2c22438428a41c128e488a}{vsf\+\_\+tgui\+\_\+pointer\+\_\+evt\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__gesture__evt__t}{vsf\+\_\+tgui\+\_\+gesture\+\_\+evt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a9f300ab33ad3d9cbfa3d7db50d4ace73}{vsf\+\_\+tgui\+\_\+gesture\+\_\+evt\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__tgui__key__evt__t}{vsf\+\_\+tgui\+\_\+key\+\_\+evt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a8046c68c2e5a987faa84b3e68c4f125c}{vsf\+\_\+tgui\+\_\+key\+\_\+evt\+\_\+t}}
+\item 
+typedef union \mbox{\hyperlink{unionvsf__tgui__evt__t}{vsf\+\_\+tgui\+\_\+evt\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_ad2bb52511eb77047df9df36810d90303}{vsf\+\_\+tgui\+\_\+evt\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{枚举}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9}{vsf\+\_\+tgui\+\_\+align\+\_\+mode\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a434c9542a19913cb9021b6a771418871}{VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+CENTER}} = 0
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a8393ad8c26715860d3d6c9f5a302c74c}{VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+LEFT}} = BIT(0)
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9aec7bb899cb0269306d8045d016d80273}{VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+RIGHT}} = BIT(1)
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a9a684cbf599a2e9f35a6161624d6a3c2}{VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+TOP}} = BIT(2)
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a2f7f4c7b327a400030b47eba69c5a0e7}{VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+BOTTOM}} = BIT(3)
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a0792169243e44ee65c813ddcdd1c5370}{VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+FILL}}
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8e}{vsf\+\_\+tgui\+\_\+dock\+\_\+mode\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8ea9612b0329224362797d8c72c3a913e1c}{VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+NONE}} = 0
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8eafc11e911e2122fda2fceab24c0195558}{VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+LEFT}} = BIT(0)
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8eaa388ba5ada65c63bc959c5ff12bf8338}{VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+RIGHT}} = BIT(1)
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8ea70566d900c8e965d53f172cc782df0da}{VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+TOP}} = BIT(2)
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8ea400f9288d997146df7e57d38e1fd9650}{VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+BOTTOM}} = BIT(3)
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8eaccf2dae4f1e41fb5fd80343c1a7f4e85}{VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+FILL}}
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9}{vsf\+\_\+tgui\+\_\+anchor\+\_\+mode\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9a593653e319d27a4459052dee70276081}{VSF\+\_\+\+TGUI\+\_\+\+ANCHOR\+\_\+\+NONE}} = 0
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9ab5703b89accf66ee9a7d4a05b8b7115f}{VSF\+\_\+\+TGUI\+\_\+\+ANCHOR\+\_\+\+LEFT}} = BIT(0)
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9ab8b9476ab9254d154b7e9ac234462b24}{VSF\+\_\+\+TGUI\+\_\+\+ANCHOR\+\_\+\+RIGHT}} = BIT(1)
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9a34e8aceab6ef949056234963ec11208c}{VSF\+\_\+\+TGUI\+\_\+\+ANCHOR\+\_\+\+TOP}} = BIT(2)
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9a4e740fcfcb53445e7041cc4cd2962fc3}{VSF\+\_\+\+TGUI\+\_\+\+ANCHOR\+\_\+\+BOTTOM}} = BIT(3)
+ \}
+\item 
+enum \mbox{\hyperlink{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecb}{vsf\+\_\+tgui\+\_\+container\+\_\+type\+\_\+t}} \{ \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecbacbe7d078351ba0417e18559861b5dd22}{VSF\+\_\+\+TGUI\+\_\+\+CONTAINER\+\_\+\+TYPE\+\_\+\+PLANE}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba3560388f1c069c384200e91470b0347c}{VSF\+\_\+\+TGUI\+\_\+\+CONTAINER\+\_\+\+TYPE\+\_\+\+STREAM\+\_\+\+HORIZONTAL}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba8bf2ccc1bc4ab8a95d4ab789d8af4ad1}{VSF\+\_\+\+TGUI\+\_\+\+CONTAINER\+\_\+\+TYPE\+\_\+\+STREAM\+\_\+\+VERTICAL}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba6e2af8a9e91d25a2f0e8511af1f60b16}{VSF\+\_\+\+TGUI\+\_\+\+CONTAINER\+\_\+\+TYPE\+\_\+\+LINE\+\_\+\+STREAM\+\_\+\+HORIZONTAL}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba1e632120ac2cfb5e49d025f520f86ae7}{VSF\+\_\+\+TGUI\+\_\+\+CONTAINER\+\_\+\+TYPE\+\_\+\+LINE\+\_\+\+STREAM\+\_\+\+VERTICAL}}
+ \}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada23eda9626529f1f808679b21d2e0d09f}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+AVAILABLE}} = 0x200
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada98b6dcd4dd5cec85e9bcae8d2fd00e4b}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+LOW\+\_\+\+LEVEL\+\_\+\+READY\+\_\+\+TO\+\_\+\+REFRESH}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaef9682a9b9d38cad4f9d0d93c4452e39}{VSF\+\_\+\+TGUI\+\_\+\+MSG}} = 0x210
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada7040200bd742a35793d1e326c41f6627}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+CONTROL\+\_\+\+EVT}} = VSF\+\_\+\+TGUI\+\_\+\+MSG + 0x00
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada23519d8c2f5e11637a406a286d3e2242}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+ON\+\_\+\+SET\+\_\+\+TOP\+\_\+\+CONTAINER}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada08c4980ab0e91d564244a031634525ab}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+ON\+\_\+\+LOAD}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada7888a490354074fae060679e6ea7f389}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+ON\+\_\+\+DEPOSE}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada2441d62137b955879cc93930c395c9bd}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+UPDATE}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada1ebd082de6b4fa55362a1b9a05fe5554}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+UPDATE\+\_\+\+TREE}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada753c3a0558aa4eedcbc77ea2fdd4c0d7}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+REFRESH}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada599446f6aec174f380fe5c35f30cbfa1}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POST\+\_\+\+REFRESH}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada52078d8ec470ed2d260ee2f65183a03b}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GET\+\_\+\+ACTIVE}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadac597a6068817f1f34a91f35a1f357610}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+LOST\+\_\+\+ACTIVE}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada6da6446a537836dbc2c6b0d82cea2cc8}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+ON\+\_\+\+TIME}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaae23bc50c433c968f164062411d14db2}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+POINTER\+\_\+\+EVT}} = VSF\+\_\+\+TGUI\+\_\+\+MSG + 0x10
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadacec3ee3b58f1489bbd202761eb6cc708}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+DOWN}} = VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+POINTER\+\_\+\+EVT
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada1c7330a357bfaea94b214f61d6740c54}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+HOLD}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadad546b83b52a03da98c24e78f0c687fe7}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+UP}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada73d46136b73f153a639cde2df2e48764}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+CLICK}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada607937cebb94020c12048f1129d6e881}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+DOUBLE\+\_\+\+CLICK}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada041c9d72c3300242b79e08290178ddab}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+ENTER}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada0e349745090db29ce1fb002fb04d8c25}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+LEFT}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada85489565a3a5929d59fbf743fd222fa3}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+HOVER}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada88f8e24bc5f3dfc04d0465676687a359}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+MOVE}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada88f5c21f777ba99a3c26fabedb4451e2}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+KEY\+\_\+\+EVT}} = VSF\+\_\+\+TGUI\+\_\+\+MSG + 0x20
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada20961da5f84374c6589519b0a0f05cbb}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+DOWN}} = VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+KEY\+\_\+\+EVT
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada8e9c33073a6ef1e664279b6aadb433de}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+REPEATE}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada1e4a304e773fee2c6533484cf23227d7}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+UP}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada7d2992c279611edc2dd2d0f25ec2e5db}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+PRESSED}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaaf4549c9d122ec73562da46849c533d8}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+LONG\+\_\+\+PRESSED}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada8c5696e1bfa065914f4362feb7b38a38}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+DOUBLE\+\_\+\+CLICK}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada3a7ba045d7ca3ff34416dafa52682246}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+GESTURE\+\_\+\+EVT}} = VSF\+\_\+\+TGUI\+\_\+\+MSG + 0x30
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaf38636085d5b85cf2edefe1d7142748c}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+SLIDE}} = VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+GESTURE\+\_\+\+EVT
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada4b7e10ed0cda703cd5ed2fa4f7e88932}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+WHEEL}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadacb646c50970b835966dbb06d7163731c}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+ZOOM\+\_\+\+IN}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada44a9a1decb33abb9934550df225e6b8b}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+ZOOM\+\_\+\+OUT}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada8b3572b3810e850ab11114d502c08911}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+ROTATE\+\_\+\+CLOCKWISE}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada4bec6e637deeca6b8015f90eb0336879}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+ROTATE\+\_\+\+ANTICLOCKWISE}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadae2be6e311e8e81c234dfc5a36a809a57}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+CONTROL\+\_\+\+SPECIFIC\+\_\+\+EVT}} = VSF\+\_\+\+TGUI\+\_\+\+MSG + 0x40
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaa81e528b10d855ebcc100dbe70996cb3}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+LIST\+\_\+\+EVT}} = VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+CONTROL\+\_\+\+SPECIFIC\+\_\+\+EVT
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaec60f8200f74762f20520d554d8436f0}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+LIST\+\_\+\+SELECTION\+\_\+\+CHANGED}} = VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+LIST\+\_\+\+EVT
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadae547e61be5db69649a003fa80678ab37}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+LIST\+\_\+\+SLIDING\+\_\+\+STARTED}}
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada0fb981157a84f688cb0e01fd81b20ff9}{VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+LIST\+\_\+\+SLIDING\+\_\+\+STOPPED}}
+ \}
+\item 
+enum \{ \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daa27f8d109e398babf5713b17fe3d61159}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+RT\+\_\+\+UNHANDLED}} = fsm\+\_\+rt\+\_\+err
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daaf5c6ba5406a47397195a24de700b599f}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+RT\+\_\+\+DONE}} = fsm\+\_\+rt\+\_\+cpl
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daa903dc417bd3dae04815154b3efa4b845}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+RT\+\_\+\+REFRESH}} = fsm\+\_\+rt\+\_\+user
+, \newline
+\mbox{\hyperlink{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daa5d898f179c757cc894417da86feda273}{VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+RT\+\_\+\+REFRESH\+\_\+\+PARENT}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__tgui__common_8h_a1f55b1f80f0a2b4b31df5cfda62a7adc}{vsf\+\_\+tgui\+\_\+tile\+\_\+get\+\_\+root}} (const \mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}} $\ast$pt\+Tile, \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$region\+\_\+ptr)
+\item 
+\mbox{\hyperlink{structvsf__tgui__size__t}{vsf\+\_\+tgui\+\_\+size\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_abfe36c36cf9add15253b692349186d44}{vsf\+\_\+tgui\+\_\+root\+\_\+tile\+\_\+get\+\_\+size}} (const \mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}} $\ast$pt\+Tile)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__tgui__common_8h_a1fd01dfcf639c4ab588d72fe1330af8b}{vsf\+\_\+tgui\+\_\+tile\+\_\+is\+\_\+root}} (const \mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}} $\ast$pt\+Tile)
+\item 
+void \mbox{\hyperlink{vsf__tgui__common_8h_a6d6e33b07da5dc275ba7d69253185c7b}{vsf\+\_\+tgui\+\_\+text\+\_\+set}} (\mbox{\hyperlink{structvsf__tgui__text__info__t}{vsf\+\_\+tgui\+\_\+text\+\_\+info\+\_\+t}} $\ast$pt\+Text\+Info, const \mbox{\hyperlink{structvsf__tgui__string__t}{vsf\+\_\+tgui\+\_\+string\+\_\+t}} $\ast$pstr\+New)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__tgui__common_8h_afb45bed9f9f01dfd13b038864f67cea0}\label{vsf__tgui__common_8h_afb45bed9f9f01dfd13b038864f67cea0}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_COLORSIZE\_1BIT@{VSF\_TGUI\_COLORSIZE\_1BIT}}
+\index{VSF\_TGUI\_COLORSIZE\_1BIT@{VSF\_TGUI\_COLORSIZE\_1BIT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_TGUI\_COLORSIZE\_1BIT}{VSF\_TGUI\_COLORSIZE\_1BIT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+1\+BIT~0}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_aef950b3a229d5d372a9518642e2b9ec1}\label{vsf__tgui__common_8h_aef950b3a229d5d372a9518642e2b9ec1}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_COLORSIZE\_4BIT@{VSF\_TGUI\_COLORSIZE\_4BIT}}
+\index{VSF\_TGUI\_COLORSIZE\_4BIT@{VSF\_TGUI\_COLORSIZE\_4BIT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_TGUI\_COLORSIZE\_4BIT}{VSF\_TGUI\_COLORSIZE\_4BIT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+4\+BIT~2}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a4765b68b746d44b7a1bdf4469aaba440}\label{vsf__tgui__common_8h_a4765b68b746d44b7a1bdf4469aaba440}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_COLORSIZE\_8BIT@{VSF\_TGUI\_COLORSIZE\_8BIT}}
+\index{VSF\_TGUI\_COLORSIZE\_8BIT@{VSF\_TGUI\_COLORSIZE\_8BIT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_TGUI\_COLORSIZE\_8BIT}{VSF\_TGUI\_COLORSIZE\_8BIT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+8\+BIT~3}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_aa3982dc0d8087b6598dc61fdf1504c38}\label{vsf__tgui__common_8h_aa3982dc0d8087b6598dc61fdf1504c38}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_COLORSIZE\_16BIT@{VSF\_TGUI\_COLORSIZE\_16BIT}}
+\index{VSF\_TGUI\_COLORSIZE\_16BIT@{VSF\_TGUI\_COLORSIZE\_16BIT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_TGUI\_COLORSIZE\_16BIT}{VSF\_TGUI\_COLORSIZE\_16BIT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+16\+BIT~4}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a6884af8928dd95059fe0e129c2a5d1a3}\label{vsf__tgui__common_8h_a6884af8928dd95059fe0e129c2a5d1a3}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_COLORSIZE\_24IT@{VSF\_TGUI\_COLORSIZE\_24IT}}
+\index{VSF\_TGUI\_COLORSIZE\_24IT@{VSF\_TGUI\_COLORSIZE\_24IT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_TGUI\_COLORSIZE\_24IT}{VSF\_TGUI\_COLORSIZE\_24IT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+24\+IT~6}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_aad26f6525691dad0d3e20231510ec919}\label{vsf__tgui__common_8h_aad26f6525691dad0d3e20231510ec919}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_COLORSIZE\_32IT@{VSF\_TGUI\_COLORSIZE\_32IT}}
+\index{VSF\_TGUI\_COLORSIZE\_32IT@{VSF\_TGUI\_COLORSIZE\_32IT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_TGUI\_COLORSIZE\_32IT}{VSF\_TGUI\_COLORSIZE\_32IT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TGUI\+\_\+\+COLORSIZE\+\_\+32\+IT~5}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a8bec79ad08b669ba1a947df5ee8714a1}\label{vsf__tgui__common_8h_a8bec79ad08b669ba1a947df5ee8714a1}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_contains@{tgui\_contains}}
+\index{tgui\_contains@{tgui\_contains}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_contains}{tgui\_contains}}
+{\footnotesize\ttfamily \#define tgui\+\_\+contains(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}\label{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!\_\_tgui\_attribute@{\_\_tgui\_attribute}}
+\index{\_\_tgui\_attribute@{\_\_tgui\_attribute}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_tgui\_attribute}{\_\_tgui\_attribute}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+tgui\+\_\+attribute(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{... }\end{DoxyParamCaption})~.\+\_\+\+\_\+\+NAME = \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a5cc98f90645c732f5278681a91f8656c}\label{vsf__tgui__common_8h_a5cc98f90645c732f5278681a91f8656c}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_attribute@{tgui\_attribute}}
+\index{tgui\_attribute@{tgui\_attribute}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_attribute}{tgui\_attribute}}
+{\footnotesize\ttfamily \#define tgui\+\_\+attribute(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{... }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(\+\_\+\+\_\+\+NAME, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a8b555793e5252c93a6436b17ca20fdde}\label{vsf__tgui__common_8h_a8b555793e5252c93a6436b17ca20fdde}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_alignto@{tgui\_alignto}}
+\index{tgui\_alignto@{tgui\_alignto}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_alignto}{tgui\_alignto}}
+{\footnotesize\ttfamily \#define tgui\+\_\+alignto(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Align,        \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a866952d37473024d48f2dd03f25f4146}\label{vsf__tgui__common_8h_a866952d37473024d48f2dd03f25f4146}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_anchor@{tgui\_anchor}}
+\index{tgui\_anchor@{tgui\_anchor}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_anchor}{tgui\_anchor}}
+{\footnotesize\ttfamily \#define tgui\+\_\+anchor(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Anchor,       \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a77ec03a76c655f5f5cb16e6264e3ccff}\label{vsf__tgui__common_8h_a77ec03a76c655f5f5cb16e6264e3ccff}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_dock@{tgui\_dock}}
+\index{tgui\_dock@{tgui\_dock}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_dock}{tgui\_dock}}
+{\footnotesize\ttfamily \#define tgui\+\_\+dock(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Dock,         \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a6192eae31f7a196259caeeb83645a4e8}\label{vsf__tgui__common_8h_a6192eae31f7a196259caeeb83645a4e8}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_margin@{tgui\_margin}}
+\index{tgui\_margin@{tgui\_margin}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_margin}{tgui\_margin}}
+{\footnotesize\ttfamily \#define tgui\+\_\+margin(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Margin,       \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a1bb73e8197b3469ffdd9c35505ade532}\label{vsf__tgui__common_8h_a1bb73e8197b3469ffdd9c35505ade532}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_padding@{tgui\_padding}}
+\index{tgui\_padding@{tgui\_padding}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_padding}{tgui\_padding}}
+{\footnotesize\ttfamily \#define tgui\+\_\+padding(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(\mbox{\hyperlink{vsf__tgui__control_8h_a503b1255c86f0833d15c4d48fa99444b}{t\+Container\+Padding}}, \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a04a8fcc9d158d124bcfd1066e16633bb}\label{vsf__tgui__common_8h_a04a8fcc9d158d124bcfd1066e16633bb}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!\_\_tgui\_text@{\_\_tgui\_text}}
+\index{\_\_tgui\_text@{\_\_tgui\_text}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_tgui\_text}{\_\_tgui\_text}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+tgui\+\_\+text(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+ID,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{                .\_\_NAME.tString.tID = (\_\_ID),                                   \(\backslash\)}
+\DoxyCodeLine{                .\_\_NAME.bIsChanged = \textcolor{keyword}{true},                                      \(\backslash\)}
+\DoxyCodeLine{                .\_\_NAME.bIsAutoSize = \textcolor{keyword}{false},                                    \(\backslash\)}
+\DoxyCodeLine{                .\_\_NAME.u4Align = (0, \#\#\_\_VA\_ARGS\_\_)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__tgui__common_8h_af848457b9b690052b2d36974e0b12cf4}\label{vsf__tgui__common_8h_af848457b9b690052b2d36974e0b12cf4}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!\_\_tgui\_container\_type@{\_\_tgui\_container\_type}}
+\index{\_\_tgui\_container\_type@{\_\_tgui\_container\_type}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_tgui\_container\_type}{\_\_tgui\_container\_type}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+tgui\+\_\+container\+\_\+type(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+TYPE,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{                .ContainerAttribute.u5Type = (\_\_TYPE),                          \(\backslash\)}
+\DoxyCodeLine{                .ContainerAttribute.bIsAutoSize = (\textcolor{keyword}{true}, \#\#\_\_VA\_ARGS\_\_)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__tgui__common_8h_ae913eaf3e62ad67464a45bd8d686f3fc}\label{vsf__tgui__common_8h_ae913eaf3e62ad67464a45bd8d686f3fc}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!\_\_tgui\_line\_space@{\_\_tgui\_line\_space}}
+\index{\_\_tgui\_line\_space@{\_\_tgui\_line\_space}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_tgui\_line\_space}{\_\_tgui\_line\_space}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+tgui\+\_\+line\+\_\+space(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+PIX }\end{DoxyParamCaption})~                .\+\_\+\+\_\+\+NAME.\+ch\+Inter\+Line\+Space = (\+\_\+\+\_\+\+PIX)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a1d19aaf3dc3afd4bfbfaf70268b39e7d}\label{vsf__tgui__common_8h_a1d19aaf3dc3afd4bfbfaf70268b39e7d}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_size@{tgui\_size}}
+\index{tgui\_size@{tgui\_size}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_size}{tgui\_size}}
+{\footnotesize\ttfamily \#define tgui\+\_\+size(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Size,                 \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_af608363456922ce6927b17ad607f3db2}\label{vsf__tgui__common_8h_af608363456922ce6927b17ad607f3db2}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_location@{tgui\_location}}
+\index{tgui\_location@{tgui\_location}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_location}{tgui\_location}}
+{\footnotesize\ttfamily \#define tgui\+\_\+location(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Location,             \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_aabef588059443c4db7b8f371b65fc2c7}\label{vsf__tgui__common_8h_aabef588059443c4db7b8f371b65fc2c7}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_region@{tgui\_region}}
+\index{tgui\_region@{tgui\_region}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_region}{tgui\_region}}
+{\footnotesize\ttfamily \#define tgui\+\_\+region(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Region,               \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_acd07f76126a81231739febc9aade6df4}\label{vsf__tgui__common_8h_acd07f76126a81231739febc9aade6df4}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_background@{tgui\_background}}
+\index{tgui\_background@{tgui\_background}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_background}{tgui\_background}}
+{\footnotesize\ttfamily \#define tgui\+\_\+background(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(t\+Background,           \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a3276a44c8458006c80b085b2103171e8}\label{vsf__tgui__common_8h_a3276a44c8458006c80b085b2103171e8}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_text@{tgui\_text}}
+\index{tgui\_text@{tgui\_text}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_text}{tgui\_text}}
+{\footnotesize\ttfamily \#define tgui\+\_\+text(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+TEXT,  }\item[{}]{\+\_\+\+\_\+\+AUTOSIZE,  }\item[{}]{... }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__tgui__common_8h_a04a8fcc9d158d124bcfd1066e16633bb}{\+\_\+\+\_\+tgui\+\_\+text}}(\+\_\+\+\_\+\+NAME, \+\_\+\+\_\+\+TEXT, \+\_\+\+\_\+\+AUTOSIZE, \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a57d2091daa45c3d36c5e74f3c1a6835c}\label{vsf__tgui__common_8h_a57d2091daa45c3d36c5e74f3c1a6835c}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_line\_space@{tgui\_line\_space}}
+\index{tgui\_line\_space@{tgui\_line\_space}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_line\_space}{tgui\_line\_space}}
+{\footnotesize\ttfamily \#define tgui\+\_\+line\+\_\+space(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+PIX }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__tgui__common_8h_ae913eaf3e62ad67464a45bd8d686f3fc}{\+\_\+\+\_\+tgui\+\_\+line\+\_\+space}}(\+\_\+\+\_\+\+NAME, (\+\_\+\+\_\+\+PIX))}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a044e21a386e0134b4c0e51ce52bdf74a}\label{vsf__tgui__common_8h_a044e21a386e0134b4c0e51ce52bdf74a}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_timer@{tgui\_timer}}
+\index{tgui\_timer@{tgui\_timer}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_timer}{tgui\_timer}}
+{\footnotesize\ttfamily \#define tgui\+\_\+timer(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+INTERVAL,  }\item[{}]{\+\_\+\+\_\+\+REPEATE,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{                 \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\_\_tgui\_attribute}}(\_\_NAME,   \{.u29Interval = (\_\_INTERVAL),       \(\backslash\)}
+\DoxyCodeLine{                                             .\mbox{\hyperlink{vsf__tgui__control_8h_abb001d53f14f758f1ffc8aba4d75768b}{bIsRepeat}} = (\_\_REPEATE),          \(\backslash\)}
+\DoxyCodeLine{                                             .bEnabled = (\textcolor{keyword}{true}, \#\#\_\_VA\_ARGS\_\_), \(\backslash\)}
+\DoxyCodeLine{                                            \})}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a89db6e6c49f29cce97d74d243072dd0a}\label{vsf__tgui__common_8h_a89db6e6c49f29cce97d74d243072dd0a}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_handler@{tgui\_handler}}
+\index{tgui\_handler@{tgui\_handler}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_handler}{tgui\_handler}}
+{\footnotesize\ttfamily \#define tgui\+\_\+handler(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__tgui__common_8h_a568c188bf23cd7e202bb5d67974dcc98}{\+\_\+\+\_\+tgui\+\_\+attribute}}(msg\+\_\+handler,       \{\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a58350f68d58c4b18d161a1ec4ed5cdaf}\label{vsf__tgui__common_8h_a58350f68d58c4b18d161a1ec4ed5cdaf}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_container\_type@{tgui\_container\_type}}
+\index{tgui\_container\_type@{tgui\_container\_type}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_container\_type}{tgui\_container\_type}}
+{\footnotesize\ttfamily \#define tgui\+\_\+container\+\_\+type(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+TYPE,  }\item[{}]{... }\end{DoxyParamCaption})~                \mbox{\hyperlink{vsf__tgui__common_8h_af848457b9b690052b2d36974e0b12cf4}{\+\_\+\+\_\+tgui\+\_\+container\+\_\+type}}(\+\_\+\+\_\+\+TYPE, \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a6a3e7c544252f0d96e375062492dec12}\label{vsf__tgui__common_8h_a6a3e7c544252f0d96e375062492dec12}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!def\_tgui\_msgmap@{def\_tgui\_msgmap}}
+\index{def\_tgui\_msgmap@{def\_tgui\_msgmap}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{def\_tgui\_msgmap}{def\_tgui\_msgmap}}
+{\footnotesize\ttfamily \#define def\+\_\+tgui\+\_\+msgmap(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a14c084fa8c7b297aab89d2cd55c77686}\label{vsf__tgui__common_8h_a14c084fa8c7b297aab89d2cd55c77686}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!end\_def\_tgui\_msgmap@{end\_def\_tgui\_msgmap}}
+\index{end\_def\_tgui\_msgmap@{end\_def\_tgui\_msgmap}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{end\_def\_tgui\_msgmap}{end\_def\_tgui\_msgmap}}
+{\footnotesize\ttfamily \#define end\+\_\+def\+\_\+tgui\+\_\+msgmap(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a8e1f33abd8b36eda8dd22dede124b800}\label{vsf__tgui__common_8h_a8e1f33abd8b36eda8dd22dede124b800}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!implement\_tgui\_msgmap@{implement\_tgui\_msgmap}}
+\index{implement\_tgui\_msgmap@{implement\_tgui\_msgmap}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{implement\_tgui\_msgmap}{implement\_tgui\_msgmap}}
+{\footnotesize\ttfamily \#define implement\+\_\+tgui\+\_\+msgmap(\begin{DoxyParamCaption}\item[{}]{... }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_ae82c87efb2d7bed135e219c0bf7be195}\label{vsf__tgui__common_8h_ae82c87efb2d7bed135e219c0bf7be195}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!\_\_declare\_tgui\_msgmap@{\_\_declare\_tgui\_msgmap}}
+\index{\_\_declare\_tgui\_msgmap@{\_\_declare\_tgui\_msgmap}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_declare\_tgui\_msgmap}{\_\_declare\_tgui\_msgmap}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+declare\+\_\+tgui\+\_\+msgmap(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{... }\end{DoxyParamCaption})~            const \mbox{\hyperlink{structvsf__tgui__user__evt__handler}{vsf\+\_\+tgui\+\_\+user\+\_\+evt\+\_\+handler}}\mbox{[}\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+\mbox{]} \+\_\+\+\_\+\+NAME;}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_ac939a98ed796b35a95e0f1c16648d932}\label{vsf__tgui__common_8h_ac939a98ed796b35a95e0f1c16648d932}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!declare\_tgui\_msgmap@{declare\_tgui\_msgmap}}
+\index{declare\_tgui\_msgmap@{declare\_tgui\_msgmap}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{declare\_tgui\_msgmap}{declare\_tgui\_msgmap}}
+{\footnotesize\ttfamily \#define declare\+\_\+tgui\+\_\+msgmap(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__tgui__common_8h_ae82c87efb2d7bed135e219c0bf7be195}{\+\_\+\+\_\+declare\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+NAME, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a3ff9d9eb2fc94f339f4424c78355fe25}\label{vsf__tgui__common_8h_a3ff9d9eb2fc94f339f4424c78355fe25}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!\_\_describe\_tgui\_msgmap@{\_\_describe\_tgui\_msgmap}}
+\index{\_\_describe\_tgui\_msgmap@{\_\_describe\_tgui\_msgmap}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_describe\_tgui\_msgmap}{\_\_describe\_tgui\_msgmap}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+describe\+\_\+tgui\+\_\+msgmap(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{keyword}{const} \mbox{\hyperlink{structvsf__tgui__user__evt__handler}{vsf\_tgui\_user\_evt\_handler}} \_\_NAME[] = \{                        \(\backslash\)}
+\DoxyCodeLine{                \_\_VA\_ARGS\_\_                                                     \(\backslash\)}
+\DoxyCodeLine{            \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a72737b16818544ec5f4bfb74271cdd48}\label{vsf__tgui__common_8h_a72737b16818544ec5f4bfb74271cdd48}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!describe\_tgui\_msgmap@{describe\_tgui\_msgmap}}
+\index{describe\_tgui\_msgmap@{describe\_tgui\_msgmap}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{describe\_tgui\_msgmap}{describe\_tgui\_msgmap}}
+{\footnotesize\ttfamily \#define describe\+\_\+tgui\+\_\+msgmap(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__tgui__common_8h_a3ff9d9eb2fc94f339f4424c78355fe25}{\+\_\+\+\_\+describe\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+NAME, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_aa9660a81888e2c7dd9acb19beb8e071f}\label{vsf__tgui__common_8h_aa9660a81888e2c7dd9acb19beb8e071f}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!\_\_tgui\_msgmap@{\_\_tgui\_msgmap}}
+\index{\_\_tgui\_msgmap@{\_\_tgui\_msgmap}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_tgui\_msgmap}{\_\_tgui\_msgmap}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+tgui\+\_\+msgmap(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+MSGMAP }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{                .tMSGMap = \{                                                    \(\backslash\)}
+\DoxyCodeLine{                    .ptItems = \_\_MSGMAP,                                        \(\backslash\)}
+\DoxyCodeLine{                    .chCount = \mbox{\hyperlink{____type_8h_a68b61418f82c6385e25cee8d1caf2230}{UBOUND}}(\_\_MSGMAP),                                \(\backslash\)}
+\DoxyCodeLine{                    .name\_ptr = \#\_\_MSGMAP,                                      \(\backslash\)}
+\DoxyCodeLine{                \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a9acfe0244e1b0303b57fc2f3172e4f0e}\label{vsf__tgui__common_8h_a9acfe0244e1b0303b57fc2f3172e4f0e}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!\_\_tgui\_msg\_handler@{\_\_tgui\_msg\_handler}}
+\index{\_\_tgui\_msg\_handler@{\_\_tgui\_msg\_handler}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_tgui\_msg\_handler}{\_\_tgui\_msg\_handler}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+tgui\+\_\+msg\+\_\+handler(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+MSG,  }\item[{}]{\+\_\+\+\_\+\+FUNC,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \{                                                                   \(\backslash\)}
+\DoxyCodeLine{                .msg = (\_\_MSG),                                                 \(\backslash\)}
+\DoxyCodeLine{                .u2Type = \mbox{\hyperlink{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01aaae8a7f97d1ba4a7e52a20325b044e81}{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_CALLBACK}},                  \(\backslash\)}
+\DoxyCodeLine{                .FSM = (\mbox{\hyperlink{vsf__tgui__control_8h_ac4e1ffa3f346adb825c221f8c8f2f0a5}{vsf\_tgui\_controal\_fsm\_t}} *)\&\_\_FUNC,                      \(\backslash\)}
+\DoxyCodeLine{                .u10EvtMask = ((\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}})-\/1, \#\#\_\_VA\_ARGS\_\_),                    \(\backslash\)}
+\DoxyCodeLine{                .handler\_name\_ptr = \#\_\_FUNC,                                    \(\backslash\)}
+\DoxyCodeLine{            \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a0e49fa3955fe7a1223cfc172d39370b8}\label{vsf__tgui__common_8h_a0e49fa3955fe7a1223cfc172d39370b8}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!\_\_tgui\_msg\_mux@{\_\_tgui\_msg\_mux}}
+\index{\_\_tgui\_msg\_mux@{\_\_tgui\_msg\_mux}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{\_\_tgui\_msg\_mux}{\_\_tgui\_msg\_mux}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+tgui\+\_\+msg\+\_\+mux(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+MSG,  }\item[{}]{\+\_\+\+\_\+\+FUNC,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \{                                                                   \(\backslash\)}
+\DoxyCodeLine{                .msg = (\_\_MSG),                                                 \(\backslash\)}
+\DoxyCodeLine{                .u2Type = \mbox{\hyperlink{vsf__msg__tree_8h_ae6a6e5bb55792b0cf348df72d242aa01aaae8a7f97d1ba4a7e52a20325b044e81}{VSF\_MSGT\_NODE\_HANDLER\_TYPE\_CALLBACK}},                  \(\backslash\)}
+\DoxyCodeLine{                .FSM = (\mbox{\hyperlink{vsf__tgui__control_8h_ac4e1ffa3f346adb825c221f8c8f2f0a5}{vsf\_tgui\_controal\_fsm\_t}} *)\&\_\_FUNC,                      \(\backslash\)}
+\DoxyCodeLine{                .u10EvtMask = (0, \#\#\_\_VA\_ARGS\_\_),                               \(\backslash\)}
+\DoxyCodeLine{                .handler\_name\_ptr = \#\_\_FUNC,                                    \(\backslash\)}
+\DoxyCodeLine{            \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a93a3dad55a0227dfe8cface1d3508ae9}\label{vsf__tgui__common_8h_a93a3dad55a0227dfe8cface1d3508ae9}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_msgmap@{tgui\_msgmap}}
+\index{tgui\_msgmap@{tgui\_msgmap}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_msgmap}{tgui\_msgmap}}
+{\footnotesize\ttfamily \#define tgui\+\_\+msgmap(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+MSGMAP }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__tgui__common_8h_aa9660a81888e2c7dd9acb19beb8e071f}{\+\_\+\+\_\+tgui\+\_\+msgmap}}(\+\_\+\+\_\+\+MSGMAP)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a03e4c545217bfc2a40e89bb37d209927}\label{vsf__tgui__common_8h_a03e4c545217bfc2a40e89bb37d209927}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_msg\_handler@{tgui\_msg\_handler}}
+\index{tgui\_msg\_handler@{tgui\_msg\_handler}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_msg\_handler}{tgui\_msg\_handler}}
+{\footnotesize\ttfamily \#define tgui\+\_\+msg\+\_\+handler(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+MSG,  }\item[{}]{\+\_\+\+\_\+\+FUNC,  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__tgui__common_8h_a9acfe0244e1b0303b57fc2f3172e4f0e}{\+\_\+\+\_\+tgui\+\_\+msg\+\_\+handler}}(\+\_\+\+\_\+\+MSG, \+\_\+\+\_\+\+FUNC, \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a09924e1818073b79057dd4238d8312df}\label{vsf__tgui__common_8h_a09924e1818073b79057dd4238d8312df}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!tgui\_msg\_mux@{tgui\_msg\_mux}}
+\index{tgui\_msg\_mux@{tgui\_msg\_mux}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{tgui\_msg\_mux}{tgui\_msg\_mux}}
+{\footnotesize\ttfamily \#define tgui\+\_\+msg\+\_\+mux(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+MSG,  }\item[{}]{\+\_\+\+\_\+\+FUNC,  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__tgui__common_8h_a0e49fa3955fe7a1223cfc172d39370b8}{\+\_\+\+\_\+tgui\+\_\+msg\+\_\+mux}}((\+\_\+\+\_\+\+MSG), \+\_\+\+\_\+\+FUNC, \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a1e2dce6deba7d849ac1595f754f3c420}\label{vsf__tgui__common_8h_a1e2dce6deba7d849ac1595f754f3c420}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_CFG\_LANGUAGE\_ID\_TYPE@{VSF\_TGUI\_CFG\_LANGUAGE\_ID\_TYPE}}
+\index{VSF\_TGUI\_CFG\_LANGUAGE\_ID\_TYPE@{VSF\_TGUI\_CFG\_LANGUAGE\_ID\_TYPE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_TGUI\_CFG\_LANGUAGE\_ID\_TYPE}{VSF\_TGUI\_CFG\_LANGUAGE\_ID\_TYPE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TGUI\+\_\+\+CFG\+\_\+\+LANGUAGE\+\_\+\+ID\+\_\+\+TYPE~\mbox{\hyperlink{arm_2type_8h_aba7bc1797add20fe3efdf37ced1182c5}{uint8\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a0d7c6a9c2fc4f76e84c3b36b4dba76fa}\label{vsf__tgui__common_8h_a0d7c6a9c2fc4f76e84c3b36b4dba76fa}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_CFG\_DRAM\_POINTER\_TYPE@{VSF\_TGUI\_CFG\_DRAM\_POINTER\_TYPE}}
+\index{VSF\_TGUI\_CFG\_DRAM\_POINTER\_TYPE@{VSF\_TGUI\_CFG\_DRAM\_POINTER\_TYPE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_TGUI\_CFG\_DRAM\_POINTER\_TYPE}{VSF\_TGUI\_CFG\_DRAM\_POINTER\_TYPE}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TGUI\+\_\+\+CFG\+\_\+\+DRAM\+\_\+\+POINTER\+\_\+\+TYPE~\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a39581fe273bf040c27e394366a7d9186}\label{vsf__tgui__common_8h_a39581fe273bf040c27e394366a7d9186}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_MSK@{VSF\_TGUI\_MSG\_MSK}}
+\index{VSF\_TGUI\_MSG\_MSK@{VSF\_TGUI\_MSG\_MSK}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_TGUI\_MSG\_MSK}{VSF\_TGUI\_MSG\_MSK}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+MSK~(0x1\+F0)}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a2fd6ef5223d693c82cbb7db162f8da7e}\label{vsf__tgui__common_8h_a2fd6ef5223d693c82cbb7db162f8da7e}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_MSK@{VSF\_TGUI\_EVT\_MSK}}
+\index{VSF\_TGUI\_EVT\_MSK@{VSF\_TGUI\_EVT\_MSK}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_TGUI\_EVT\_MSK}{VSF\_TGUI\_EVT\_MSK}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+MSK~(0x00F)}
+
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a88380ff1e1152dddb5f62b4997926f5d}\label{vsf__tgui__common_8h_a88380ff1e1152dddb5f62b4997926f5d}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_location\_t@{vsf\_tgui\_location\_t}}
+\index{vsf\_tgui\_location\_t@{vsf\_tgui\_location\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_location\_t}{vsf\_tgui\_location\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__location__t}{vsf\+\_\+tgui\+\_\+location\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a1eaee5cb4908ecc21e3ad2e901e9c944}\label{vsf__tgui__common_8h_a1eaee5cb4908ecc21e3ad2e901e9c944}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_size\_t@{vsf\_tgui\_size\_t}}
+\index{vsf\_tgui\_size\_t@{vsf\_tgui\_size\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_size\_t}{vsf\_tgui\_size\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__size__t}{vsf\+\_\+tgui\+\_\+size\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__size__t}{vsf\+\_\+tgui\+\_\+size\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a3d5bee71005472331cd6d2822ed5cf93}\label{vsf__tgui__common_8h_a3d5bee71005472331cd6d2822ed5cf93}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_region\_t@{vsf\_tgui\_region\_t}}
+\index{vsf\_tgui\_region\_t@{vsf\_tgui\_region\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_region\_t}{vsf\_tgui\_region\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_afa08bd62f5ced822cb741438b9a85ca8}\label{vsf__tgui__common_8h_afa08bd62f5ced822cb741438b9a85ca8}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_text\_id\_t@{vsf\_tgui\_text\_id\_t}}
+\index{vsf\_tgui\_text\_id\_t@{vsf\_tgui\_text\_id\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_text\_id\_t}{vsf\_tgui\_text\_id\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{vsf__tgui__common_8h_a1e2dce6deba7d849ac1595f754f3c420}{VSF\+\_\+\+TGUI\+\_\+\+CFG\+\_\+\+LANGUAGE\+\_\+\+ID\+\_\+\+TYPE}} \mbox{\hyperlink{vsf__tgui__common_8h_afa08bd62f5ced822cb741438b9a85ca8}{vsf\+\_\+tgui\+\_\+text\+\_\+id\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a58bf8c7d837a57aaf93c483452b0f250}\label{vsf__tgui__common_8h_a58bf8c7d837a57aaf93c483452b0f250}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_string\_t@{vsf\_tgui\_string\_t}}
+\index{vsf\_tgui\_string\_t@{vsf\_tgui\_string\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_string\_t}{vsf\_tgui\_string\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__string__t}{vsf\+\_\+tgui\+\_\+string\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__string__t}{vsf\+\_\+tgui\+\_\+string\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a4e8b68623f96017429bfa9f54f373d52}\label{vsf__tgui__common_8h_a4e8b68623f96017429bfa9f54f373d52}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_text\_info\_t@{vsf\_tgui\_text\_info\_t}}
+\index{vsf\_tgui\_text\_info\_t@{vsf\_tgui\_text\_info\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_text\_info\_t}{vsf\_tgui\_text\_info\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__text__info__t}{vsf\+\_\+tgui\+\_\+text\+\_\+info\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__text__info__t}{vsf\+\_\+tgui\+\_\+text\+\_\+info\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a7a6e745e960857d0922f224246006124}\label{vsf__tgui__common_8h_a7a6e745e960857d0922f224246006124}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_disp\_ram\_uintptr\_t@{vsf\_tgui\_disp\_ram\_uintptr\_t}}
+\index{vsf\_tgui\_disp\_ram\_uintptr\_t@{vsf\_tgui\_disp\_ram\_uintptr\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_disp\_ram\_uintptr\_t}{vsf\_tgui\_disp\_ram\_uintptr\_t}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{vsf__tgui__common_8h_a0d7c6a9c2fc4f76e84c3b36b4dba76fa}{VSF\+\_\+\+TGUI\+\_\+\+CFG\+\_\+\+DRAM\+\_\+\+POINTER\+\_\+\+TYPE}} \mbox{\hyperlink{vsf__tgui__common_8h_a7a6e745e960857d0922f224246006124}{vsf\+\_\+tgui\+\_\+disp\+\_\+ram\+\_\+uintptr\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_ab65ccf45c95ccef7e0ab338c8f332ef7}\label{vsf__tgui__common_8h_ab65ccf45c95ccef7e0ab338c8f332ef7}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_tile\_core\_t@{vsf\_tgui\_tile\_core\_t}}
+\index{vsf\_tgui\_tile\_core\_t@{vsf\_tgui\_tile\_core\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_tile\_core\_t}{vsf\_tgui\_tile\_core\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__tile__core__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+core\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__tile__core__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+core\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a0b547496c2fe63591cd3131e224a2140}\label{vsf__tgui__common_8h_a0b547496c2fe63591cd3131e224a2140}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_tile\_idx\_root\_t@{vsf\_tgui\_tile\_idx\_root\_t}}
+\index{vsf\_tgui\_tile\_idx\_root\_t@{vsf\_tgui\_tile\_idx\_root\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_tile\_idx\_root\_t}{vsf\_tgui\_tile\_idx\_root\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__tile__idx__root__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+idx\+\_\+root\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__tile__idx__root__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+idx\+\_\+root\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a5b8801619f33403c45e587d3003810e6}\label{vsf__tgui__common_8h_a5b8801619f33403c45e587d3003810e6}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_tile\_buf\_root\_t@{vsf\_tgui\_tile\_buf\_root\_t}}
+\index{vsf\_tgui\_tile\_buf\_root\_t@{vsf\_tgui\_tile\_buf\_root\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_tile\_buf\_root\_t}{vsf\_tgui\_tile\_buf\_root\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__tile__buf__root__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+buf\+\_\+root\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__tile__buf__root__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+buf\+\_\+root\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_af0d0beb37dd6702e30f43a07e85ee3d3}\label{vsf__tgui__common_8h_af0d0beb37dd6702e30f43a07e85ee3d3}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_tile\_child\_t@{vsf\_tgui\_tile\_child\_t}}
+\index{vsf\_tgui\_tile\_child\_t@{vsf\_tgui\_tile\_child\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_tile\_child\_t}{vsf\_tgui\_tile\_child\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__tile__child__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+child\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__tile__child__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+child\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a16115abf2f9357684cfccb85613f5122}\label{vsf__tgui__common_8h_a16115abf2f9357684cfccb85613f5122}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_tile\_t@{vsf\_tgui\_tile\_t}}
+\index{vsf\_tgui\_tile\_t@{vsf\_tgui\_tile\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_tile\_t}{vsf\_tgui\_tile\_t}}
+{\footnotesize\ttfamily typedef union \mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}} \mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a28f436bff9a0ba513b914a8866b70227}\label{vsf__tgui__common_8h_a28f436bff9a0ba513b914a8866b70227}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_container\_type\_t@{vsf\_tgui\_container\_type\_t}}
+\index{vsf\_tgui\_container\_type\_t@{vsf\_tgui\_container\_type\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_container\_type\_t}{vsf\_tgui\_container\_type\_t}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecb}{vsf\+\_\+tgui\+\_\+container\+\_\+type\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecb}{vsf\+\_\+tgui\+\_\+container\+\_\+type\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}\label{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_control\_t@{vsf\_tgui\_control\_t}}
+\index{vsf\_tgui\_control\_t@{vsf\_tgui\_control\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_control\_t}{vsf\_tgui\_control\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_a402bec4349b84b8f4febe3e3c2d9c381}{vsf\+\_\+tgui\+\_\+control\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_ae4b34ea80250bc4d45b379ae68c8f2c4}\label{vsf__tgui__common_8h_ae4b34ea80250bc4d45b379ae68c8f2c4}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_root\_container\_t@{vsf\_tgui\_root\_container\_t}}
+\index{vsf\_tgui\_root\_container\_t@{vsf\_tgui\_root\_container\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_root\_container\_t}{vsf\_tgui\_root\_container\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{vsf__tgui__common_8h_ae4b34ea80250bc4d45b379ae68c8f2c4}{vsf\+\_\+tgui\+\_\+root\+\_\+container\+\_\+t}} \mbox{\hyperlink{vsf__tgui__common_8h_ae4b34ea80250bc4d45b379ae68c8f2c4}{vsf\+\_\+tgui\+\_\+root\+\_\+container\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a40d6e9c8d1e1f2ff906ca90d15750b43}\label{vsf__tgui__common_8h_a40d6e9c8d1e1f2ff906ca90d15750b43}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_msg\_t@{vsf\_tgui\_msg\_t}}
+\index{vsf\_tgui\_msg\_t@{vsf\_tgui\_msg\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_msg\_t}{vsf\_tgui\_msg\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__msg__t}{vsf\+\_\+tgui\+\_\+msg\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a6e26dcb120a6d7effd9ce54dd4b16d94}\label{vsf__tgui__common_8h_a6e26dcb120a6d7effd9ce54dd4b16d94}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_refresh\_evt\_t@{vsf\_tgui\_refresh\_evt\_t}}
+\index{vsf\_tgui\_refresh\_evt\_t@{vsf\_tgui\_refresh\_evt\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_refresh\_evt\_t}{vsf\_tgui\_refresh\_evt\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__refresh__evt__t}{vsf\+\_\+tgui\+\_\+refresh\+\_\+evt\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__refresh__evt__t}{vsf\+\_\+tgui\+\_\+refresh\+\_\+evt\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a94b2ac5f9e2c22438428a41c128e488a}\label{vsf__tgui__common_8h_a94b2ac5f9e2c22438428a41c128e488a}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_pointer\_evt\_t@{vsf\_tgui\_pointer\_evt\_t}}
+\index{vsf\_tgui\_pointer\_evt\_t@{vsf\_tgui\_pointer\_evt\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_pointer\_evt\_t}{vsf\_tgui\_pointer\_evt\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__pointer__evt__t}{vsf\+\_\+tgui\+\_\+pointer\+\_\+evt\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__pointer__evt__t}{vsf\+\_\+tgui\+\_\+pointer\+\_\+evt\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a9f300ab33ad3d9cbfa3d7db50d4ace73}\label{vsf__tgui__common_8h_a9f300ab33ad3d9cbfa3d7db50d4ace73}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_gesture\_evt\_t@{vsf\_tgui\_gesture\_evt\_t}}
+\index{vsf\_tgui\_gesture\_evt\_t@{vsf\_tgui\_gesture\_evt\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_gesture\_evt\_t}{vsf\_tgui\_gesture\_evt\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__gesture__evt__t}{vsf\+\_\+tgui\+\_\+gesture\+\_\+evt\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__gesture__evt__t}{vsf\+\_\+tgui\+\_\+gesture\+\_\+evt\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a8046c68c2e5a987faa84b3e68c4f125c}\label{vsf__tgui__common_8h_a8046c68c2e5a987faa84b3e68c4f125c}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_key\_evt\_t@{vsf\_tgui\_key\_evt\_t}}
+\index{vsf\_tgui\_key\_evt\_t@{vsf\_tgui\_key\_evt\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_key\_evt\_t}{vsf\_tgui\_key\_evt\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__tgui__key__evt__t}{vsf\+\_\+tgui\+\_\+key\+\_\+evt\+\_\+t}} \mbox{\hyperlink{structvsf__tgui__key__evt__t}{vsf\+\_\+tgui\+\_\+key\+\_\+evt\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_ad2bb52511eb77047df9df36810d90303}\label{vsf__tgui__common_8h_ad2bb52511eb77047df9df36810d90303}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_evt\_t@{vsf\_tgui\_evt\_t}}
+\index{vsf\_tgui\_evt\_t@{vsf\_tgui\_evt\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_evt\_t}{vsf\_tgui\_evt\_t}}
+{\footnotesize\ttfamily typedef union \mbox{\hyperlink{unionvsf__tgui__evt__t}{vsf\+\_\+tgui\+\_\+evt\+\_\+t}} \mbox{\hyperlink{unionvsf__tgui__evt__t}{vsf\+\_\+tgui\+\_\+evt\+\_\+t}}}
+
+
+
+\doxysubsection{枚举类型说明}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9}\label{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_align\_mode\_t@{vsf\_tgui\_align\_mode\_t}}
+\index{vsf\_tgui\_align\_mode\_t@{vsf\_tgui\_align\_mode\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_align\_mode\_t}{vsf\_tgui\_align\_mode\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9}{vsf\+\_\+tgui\+\_\+align\+\_\+mode\+\_\+t}}}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_ALIGN\_CENTER@{VSF\_TGUI\_ALIGN\_CENTER}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_ALIGN\_CENTER@{VSF\_TGUI\_ALIGN\_CENTER}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a434c9542a19913cb9021b6a771418871}\label{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a434c9542a19913cb9021b6a771418871}} 
+VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+CENTER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_ALIGN\_LEFT@{VSF\_TGUI\_ALIGN\_LEFT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_ALIGN\_LEFT@{VSF\_TGUI\_ALIGN\_LEFT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a8393ad8c26715860d3d6c9f5a302c74c}\label{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a8393ad8c26715860d3d6c9f5a302c74c}} 
+VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+LEFT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_ALIGN\_RIGHT@{VSF\_TGUI\_ALIGN\_RIGHT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_ALIGN\_RIGHT@{VSF\_TGUI\_ALIGN\_RIGHT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9aec7bb899cb0269306d8045d016d80273}\label{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9aec7bb899cb0269306d8045d016d80273}} 
+VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+RIGHT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_ALIGN\_TOP@{VSF\_TGUI\_ALIGN\_TOP}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_ALIGN\_TOP@{VSF\_TGUI\_ALIGN\_TOP}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a9a684cbf599a2e9f35a6161624d6a3c2}\label{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a9a684cbf599a2e9f35a6161624d6a3c2}} 
+VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+TOP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_ALIGN\_BOTTOM@{VSF\_TGUI\_ALIGN\_BOTTOM}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_ALIGN\_BOTTOM@{VSF\_TGUI\_ALIGN\_BOTTOM}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a2f7f4c7b327a400030b47eba69c5a0e7}\label{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a2f7f4c7b327a400030b47eba69c5a0e7}} 
+VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+BOTTOM&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_ALIGN\_FILL@{VSF\_TGUI\_ALIGN\_FILL}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_ALIGN\_FILL@{VSF\_TGUI\_ALIGN\_FILL}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a0792169243e44ee65c813ddcdd1c5370}\label{vsf__tgui__common_8h_a171eba20fc0b6c9e60be3d250221cde9a0792169243e44ee65c813ddcdd1c5370}} 
+VSF\+\_\+\+TGUI\+\_\+\+ALIGN\+\_\+\+FILL&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8e}\label{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8e}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_dock\_mode\_t@{vsf\_tgui\_dock\_mode\_t}}
+\index{vsf\_tgui\_dock\_mode\_t@{vsf\_tgui\_dock\_mode\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_dock\_mode\_t}{vsf\_tgui\_dock\_mode\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8e}{vsf\+\_\+tgui\+\_\+dock\+\_\+mode\+\_\+t}}}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_DOCK\_NONE@{VSF\_TGUI\_DOCK\_NONE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_DOCK\_NONE@{VSF\_TGUI\_DOCK\_NONE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8ea9612b0329224362797d8c72c3a913e1c}\label{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8ea9612b0329224362797d8c72c3a913e1c}} 
+VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+NONE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_DOCK\_LEFT@{VSF\_TGUI\_DOCK\_LEFT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_DOCK\_LEFT@{VSF\_TGUI\_DOCK\_LEFT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8eafc11e911e2122fda2fceab24c0195558}\label{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8eafc11e911e2122fda2fceab24c0195558}} 
+VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+LEFT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_DOCK\_RIGHT@{VSF\_TGUI\_DOCK\_RIGHT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_DOCK\_RIGHT@{VSF\_TGUI\_DOCK\_RIGHT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8eaa388ba5ada65c63bc959c5ff12bf8338}\label{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8eaa388ba5ada65c63bc959c5ff12bf8338}} 
+VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+RIGHT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_DOCK\_TOP@{VSF\_TGUI\_DOCK\_TOP}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_DOCK\_TOP@{VSF\_TGUI\_DOCK\_TOP}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8ea70566d900c8e965d53f172cc782df0da}\label{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8ea70566d900c8e965d53f172cc782df0da}} 
+VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+TOP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_DOCK\_BOTTOM@{VSF\_TGUI\_DOCK\_BOTTOM}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_DOCK\_BOTTOM@{VSF\_TGUI\_DOCK\_BOTTOM}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8ea400f9288d997146df7e57d38e1fd9650}\label{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8ea400f9288d997146df7e57d38e1fd9650}} 
+VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+BOTTOM&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_DOCK\_FILL@{VSF\_TGUI\_DOCK\_FILL}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_DOCK\_FILL@{VSF\_TGUI\_DOCK\_FILL}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8eaccf2dae4f1e41fb5fd80343c1a7f4e85}\label{vsf__tgui__common_8h_a1ab2e18f4036a5ecf84ec8db45a69a8eaccf2dae4f1e41fb5fd80343c1a7f4e85}} 
+VSF\+\_\+\+TGUI\+\_\+\+DOCK\+\_\+\+FILL&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9}\label{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_anchor\_mode\_t@{vsf\_tgui\_anchor\_mode\_t}}
+\index{vsf\_tgui\_anchor\_mode\_t@{vsf\_tgui\_anchor\_mode\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_anchor\_mode\_t}{vsf\_tgui\_anchor\_mode\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9}{vsf\+\_\+tgui\+\_\+anchor\+\_\+mode\+\_\+t}}}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_ANCHOR\_NONE@{VSF\_TGUI\_ANCHOR\_NONE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_ANCHOR\_NONE@{VSF\_TGUI\_ANCHOR\_NONE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9a593653e319d27a4459052dee70276081}\label{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9a593653e319d27a4459052dee70276081}} 
+VSF\+\_\+\+TGUI\+\_\+\+ANCHOR\+\_\+\+NONE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_ANCHOR\_LEFT@{VSF\_TGUI\_ANCHOR\_LEFT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_ANCHOR\_LEFT@{VSF\_TGUI\_ANCHOR\_LEFT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9ab5703b89accf66ee9a7d4a05b8b7115f}\label{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9ab5703b89accf66ee9a7d4a05b8b7115f}} 
+VSF\+\_\+\+TGUI\+\_\+\+ANCHOR\+\_\+\+LEFT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_ANCHOR\_RIGHT@{VSF\_TGUI\_ANCHOR\_RIGHT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_ANCHOR\_RIGHT@{VSF\_TGUI\_ANCHOR\_RIGHT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9ab8b9476ab9254d154b7e9ac234462b24}\label{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9ab8b9476ab9254d154b7e9ac234462b24}} 
+VSF\+\_\+\+TGUI\+\_\+\+ANCHOR\+\_\+\+RIGHT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_ANCHOR\_TOP@{VSF\_TGUI\_ANCHOR\_TOP}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_ANCHOR\_TOP@{VSF\_TGUI\_ANCHOR\_TOP}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9a34e8aceab6ef949056234963ec11208c}\label{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9a34e8aceab6ef949056234963ec11208c}} 
+VSF\+\_\+\+TGUI\+\_\+\+ANCHOR\+\_\+\+TOP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_ANCHOR\_BOTTOM@{VSF\_TGUI\_ANCHOR\_BOTTOM}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_ANCHOR\_BOTTOM@{VSF\_TGUI\_ANCHOR\_BOTTOM}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9a4e740fcfcb53445e7041cc4cd2962fc3}\label{vsf__tgui__common_8h_a1774ad6fa7e9bac06252d9c5baa374e9a4e740fcfcb53445e7041cc4cd2962fc3}} 
+VSF\+\_\+\+TGUI\+\_\+\+ANCHOR\+\_\+\+BOTTOM&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecb}\label{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecb}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_container\_type\_t@{vsf\_tgui\_container\_type\_t}}
+\index{vsf\_tgui\_container\_type\_t@{vsf\_tgui\_container\_type\_t}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_container\_type\_t}{vsf\_tgui\_container\_type\_t}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecb}{vsf\+\_\+tgui\+\_\+container\+\_\+type\+\_\+t}}}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_CONTAINER\_TYPE\_PLANE@{VSF\_TGUI\_CONTAINER\_TYPE\_PLANE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_CONTAINER\_TYPE\_PLANE@{VSF\_TGUI\_CONTAINER\_TYPE\_PLANE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecbacbe7d078351ba0417e18559861b5dd22}\label{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecbacbe7d078351ba0417e18559861b5dd22}} 
+VSF\+\_\+\+TGUI\+\_\+\+CONTAINER\+\_\+\+TYPE\+\_\+\+PLANE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_CONTAINER\_TYPE\_STREAM\_HORIZONTAL@{VSF\_TGUI\_CONTAINER\_TYPE\_STREAM\_HORIZONTAL}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_CONTAINER\_TYPE\_STREAM\_HORIZONTAL@{VSF\_TGUI\_CONTAINER\_TYPE\_STREAM\_HORIZONTAL}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba3560388f1c069c384200e91470b0347c}\label{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba3560388f1c069c384200e91470b0347c}} 
+VSF\+\_\+\+TGUI\+\_\+\+CONTAINER\+\_\+\+TYPE\+\_\+\+STREAM\+\_\+\+HORIZONTAL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_CONTAINER\_TYPE\_STREAM\_VERTICAL@{VSF\_TGUI\_CONTAINER\_TYPE\_STREAM\_VERTICAL}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_CONTAINER\_TYPE\_STREAM\_VERTICAL@{VSF\_TGUI\_CONTAINER\_TYPE\_STREAM\_VERTICAL}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba8bf2ccc1bc4ab8a95d4ab789d8af4ad1}\label{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba8bf2ccc1bc4ab8a95d4ab789d8af4ad1}} 
+VSF\+\_\+\+TGUI\+\_\+\+CONTAINER\+\_\+\+TYPE\+\_\+\+STREAM\+\_\+\+VERTICAL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_CONTAINER\_TYPE\_LINE\_STREAM\_HORIZONTAL@{VSF\_TGUI\_CONTAINER\_TYPE\_LINE\_STREAM\_HORIZONTAL}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_CONTAINER\_TYPE\_LINE\_STREAM\_HORIZONTAL@{VSF\_TGUI\_CONTAINER\_TYPE\_LINE\_STREAM\_HORIZONTAL}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba6e2af8a9e91d25a2f0e8511af1f60b16}\label{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba6e2af8a9e91d25a2f0e8511af1f60b16}} 
+VSF\+\_\+\+TGUI\+\_\+\+CONTAINER\+\_\+\+TYPE\+\_\+\+LINE\+\_\+\+STREAM\+\_\+\+HORIZONTAL&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_CONTAINER\_TYPE\_LINE\_STREAM\_VERTICAL@{VSF\_TGUI\_CONTAINER\_TYPE\_LINE\_STREAM\_VERTICAL}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_CONTAINER\_TYPE\_LINE\_STREAM\_VERTICAL@{VSF\_TGUI\_CONTAINER\_TYPE\_LINE\_STREAM\_VERTICAL}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba1e632120ac2cfb5e49d025f520f86ae7}\label{vsf__tgui__common_8h_a32b44f100f19ed10405c382de13aeecba1e632120ac2cfb5e49d025f520f86ae7}} 
+VSF\+\_\+\+TGUI\+\_\+\+CONTAINER\+\_\+\+TYPE\+\_\+\+LINE\+\_\+\+STREAM\+\_\+\+VERTICAL&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dad}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dad}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_AVAILABLE@{VSF\_TGUI\_MSG\_AVAILABLE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_AVAILABLE@{VSF\_TGUI\_MSG\_AVAILABLE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada23eda9626529f1f808679b21d2e0d09f}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada23eda9626529f1f808679b21d2e0d09f}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+AVAILABLE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_LOW\_LEVEL\_READY\_TO\_REFRESH@{VSF\_TGUI\_MSG\_LOW\_LEVEL\_READY\_TO\_REFRESH}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_LOW\_LEVEL\_READY\_TO\_REFRESH@{VSF\_TGUI\_MSG\_LOW\_LEVEL\_READY\_TO\_REFRESH}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada98b6dcd4dd5cec85e9bcae8d2fd00e4b}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada98b6dcd4dd5cec85e9bcae8d2fd00e4b}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+LOW\+\_\+\+LEVEL\+\_\+\+READY\+\_\+\+TO\+\_\+\+REFRESH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG@{VSF\_TGUI\_MSG}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG@{VSF\_TGUI\_MSG}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaef9682a9b9d38cad4f9d0d93c4452e39}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaef9682a9b9d38cad4f9d0d93c4452e39}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_CONTROL\_EVT@{VSF\_TGUI\_MSG\_CONTROL\_EVT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_CONTROL\_EVT@{VSF\_TGUI\_MSG\_CONTROL\_EVT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada7040200bd742a35793d1e326c41f6627}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada7040200bd742a35793d1e326c41f6627}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+CONTROL\+\_\+\+EVT&control events \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_ON\_SET\_TOP\_CONTAINER@{VSF\_TGUI\_EVT\_ON\_SET\_TOP\_CONTAINER}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_ON\_SET\_TOP\_CONTAINER@{VSF\_TGUI\_EVT\_ON\_SET\_TOP\_CONTAINER}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada23519d8c2f5e11637a406a286d3e2242}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada23519d8c2f5e11637a406a286d3e2242}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+ON\+\_\+\+SET\+\_\+\+TOP\+\_\+\+CONTAINER&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_ON\_LOAD@{VSF\_TGUI\_EVT\_ON\_LOAD}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_ON\_LOAD@{VSF\_TGUI\_EVT\_ON\_LOAD}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada08c4980ab0e91d564244a031634525ab}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada08c4980ab0e91d564244a031634525ab}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+ON\+\_\+\+LOAD&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_ON\_DEPOSE@{VSF\_TGUI\_EVT\_ON\_DEPOSE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_ON\_DEPOSE@{VSF\_TGUI\_EVT\_ON\_DEPOSE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada7888a490354074fae060679e6ea7f389}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada7888a490354074fae060679e6ea7f389}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+ON\+\_\+\+DEPOSE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_UPDATE@{VSF\_TGUI\_EVT\_UPDATE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_UPDATE@{VSF\_TGUI\_EVT\_UPDATE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada2441d62137b955879cc93930c395c9bd}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada2441d62137b955879cc93930c395c9bd}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+UPDATE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_UPDATE\_TREE@{VSF\_TGUI\_EVT\_UPDATE\_TREE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_UPDATE\_TREE@{VSF\_TGUI\_EVT\_UPDATE\_TREE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada1ebd082de6b4fa55362a1b9a05fe5554}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada1ebd082de6b4fa55362a1b9a05fe5554}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+UPDATE\+\_\+\+TREE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_REFRESH@{VSF\_TGUI\_EVT\_REFRESH}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_REFRESH@{VSF\_TGUI\_EVT\_REFRESH}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada753c3a0558aa4eedcbc77ea2fdd4c0d7}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada753c3a0558aa4eedcbc77ea2fdd4c0d7}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+REFRESH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_POST\_REFRESH@{VSF\_TGUI\_EVT\_POST\_REFRESH}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_POST\_REFRESH@{VSF\_TGUI\_EVT\_POST\_REFRESH}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada599446f6aec174f380fe5c35f30cbfa1}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada599446f6aec174f380fe5c35f30cbfa1}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POST\+\_\+\+REFRESH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_GET\_ACTIVE@{VSF\_TGUI\_EVT\_GET\_ACTIVE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_GET\_ACTIVE@{VSF\_TGUI\_EVT\_GET\_ACTIVE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada52078d8ec470ed2d260ee2f65183a03b}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada52078d8ec470ed2d260ee2f65183a03b}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GET\+\_\+\+ACTIVE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_LOST\_ACTIVE@{VSF\_TGUI\_EVT\_LOST\_ACTIVE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_LOST\_ACTIVE@{VSF\_TGUI\_EVT\_LOST\_ACTIVE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadac597a6068817f1f34a91f35a1f357610}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadac597a6068817f1f34a91f35a1f357610}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+LOST\+\_\+\+ACTIVE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_ON\_TIME@{VSF\_TGUI\_EVT\_ON\_TIME}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_ON\_TIME@{VSF\_TGUI\_EVT\_ON\_TIME}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada6da6446a537836dbc2c6b0d82cea2cc8}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada6da6446a537836dbc2c6b0d82cea2cc8}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+ON\+\_\+\+TIME&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_POINTER\_EVT@{VSF\_TGUI\_MSG\_POINTER\_EVT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_POINTER\_EVT@{VSF\_TGUI\_MSG\_POINTER\_EVT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaae23bc50c433c968f164062411d14db2}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaae23bc50c433c968f164062411d14db2}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+POINTER\+\_\+\+EVT&pointer events \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_POINTER\_DOWN@{VSF\_TGUI\_EVT\_POINTER\_DOWN}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_POINTER\_DOWN@{VSF\_TGUI\_EVT\_POINTER\_DOWN}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadacec3ee3b58f1489bbd202761eb6cc708}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadacec3ee3b58f1489bbd202761eb6cc708}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+DOWN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_POINTER\_HOLD@{VSF\_TGUI\_EVT\_POINTER\_HOLD}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_POINTER\_HOLD@{VSF\_TGUI\_EVT\_POINTER\_HOLD}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada1c7330a357bfaea94b214f61d6740c54}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada1c7330a357bfaea94b214f61d6740c54}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+HOLD&not all device support this \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_POINTER\_UP@{VSF\_TGUI\_EVT\_POINTER\_UP}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_POINTER\_UP@{VSF\_TGUI\_EVT\_POINTER\_UP}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadad546b83b52a03da98c24e78f0c687fe7}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadad546b83b52a03da98c24e78f0c687fe7}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+UP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_POINTER\_CLICK@{VSF\_TGUI\_EVT\_POINTER\_CLICK}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_POINTER\_CLICK@{VSF\_TGUI\_EVT\_POINTER\_CLICK}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada73d46136b73f153a639cde2df2e48764}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada73d46136b73f153a639cde2df2e48764}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+CLICK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_POINTER\_DOUBLE\_CLICK@{VSF\_TGUI\_EVT\_POINTER\_DOUBLE\_CLICK}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_POINTER\_DOUBLE\_CLICK@{VSF\_TGUI\_EVT\_POINTER\_DOUBLE\_CLICK}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada607937cebb94020c12048f1129d6e881}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada607937cebb94020c12048f1129d6e881}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+DOUBLE\+\_\+\+CLICK&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_POINTER\_ENTER@{VSF\_TGUI\_EVT\_POINTER\_ENTER}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_POINTER\_ENTER@{VSF\_TGUI\_EVT\_POINTER\_ENTER}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada041c9d72c3300242b79e08290178ddab}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada041c9d72c3300242b79e08290178ddab}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+ENTER&not all device support this pointer first entering the region of a control \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_POINTER\_LEFT@{VSF\_TGUI\_EVT\_POINTER\_LEFT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_POINTER\_LEFT@{VSF\_TGUI\_EVT\_POINTER\_LEFT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada0e349745090db29ce1fb002fb04d8c25}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada0e349745090db29ce1fb002fb04d8c25}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+LEFT&not all device support this pointer move out of the region of the target control \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_POINTER\_HOVER@{VSF\_TGUI\_EVT\_POINTER\_HOVER}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_POINTER\_HOVER@{VSF\_TGUI\_EVT\_POINTER\_HOVER}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada85489565a3a5929d59fbf743fd222fa3}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada85489565a3a5929d59fbf743fd222fa3}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+HOVER&not all device support this pointer stay in the region of a control for a while, ! it is different from VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+HOLD. Hold requires that ! the pointer is down at the same control. Hover requires no pointer ! down at the target control. ! ! this event is currently not supported but reserved. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_POINTER\_MOVE@{VSF\_TGUI\_EVT\_POINTER\_MOVE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_POINTER\_MOVE@{VSF\_TGUI\_EVT\_POINTER\_MOVE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada88f8e24bc5f3dfc04d0465676687a359}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada88f8e24bc5f3dfc04d0465676687a359}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+POINTER\+\_\+\+MOVE&not all device support this \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_KEY\_EVT@{VSF\_TGUI\_MSG\_KEY\_EVT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_KEY\_EVT@{VSF\_TGUI\_MSG\_KEY\_EVT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada88f5c21f777ba99a3c26fabedb4451e2}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada88f5c21f777ba99a3c26fabedb4451e2}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+KEY\+\_\+\+EVT&key events \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_KEY\_DOWN@{VSF\_TGUI\_EVT\_KEY\_DOWN}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_KEY\_DOWN@{VSF\_TGUI\_EVT\_KEY\_DOWN}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada20961da5f84374c6589519b0a0f05cbb}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada20961da5f84374c6589519b0a0f05cbb}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+DOWN&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_KEY\_REPEATE@{VSF\_TGUI\_EVT\_KEY\_REPEATE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_KEY\_REPEATE@{VSF\_TGUI\_EVT\_KEY\_REPEATE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada8e9c33073a6ef1e664279b6aadb433de}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada8e9c33073a6ef1e664279b6aadb433de}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+REPEATE&not all device support this \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_KEY\_UP@{VSF\_TGUI\_EVT\_KEY\_UP}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_KEY\_UP@{VSF\_TGUI\_EVT\_KEY\_UP}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada1e4a304e773fee2c6533484cf23227d7}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada1e4a304e773fee2c6533484cf23227d7}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+UP&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_KEY\_PRESSED@{VSF\_TGUI\_EVT\_KEY\_PRESSED}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_KEY\_PRESSED@{VSF\_TGUI\_EVT\_KEY\_PRESSED}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada7d2992c279611edc2dd2d0f25ec2e5db}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada7d2992c279611edc2dd2d0f25ec2e5db}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+PRESSED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_KEY\_LONG\_PRESSED@{VSF\_TGUI\_EVT\_KEY\_LONG\_PRESSED}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_KEY\_LONG\_PRESSED@{VSF\_TGUI\_EVT\_KEY\_LONG\_PRESSED}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaaf4549c9d122ec73562da46849c533d8}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaaf4549c9d122ec73562da46849c533d8}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+LONG\+\_\+\+PRESSED&not all device support this \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_KEY\_DOUBLE\_CLICK@{VSF\_TGUI\_EVT\_KEY\_DOUBLE\_CLICK}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_KEY\_DOUBLE\_CLICK@{VSF\_TGUI\_EVT\_KEY\_DOUBLE\_CLICK}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada8c5696e1bfa065914f4362feb7b38a38}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada8c5696e1bfa065914f4362feb7b38a38}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+KEY\+\_\+\+DOUBLE\+\_\+\+CLICK&not all device support this \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_GESTURE\_EVT@{VSF\_TGUI\_MSG\_GESTURE\_EVT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_GESTURE\_EVT@{VSF\_TGUI\_MSG\_GESTURE\_EVT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada3a7ba045d7ca3ff34416dafa52682246}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada3a7ba045d7ca3ff34416dafa52682246}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+GESTURE\+\_\+\+EVT&gesture events \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_GESTURE\_SLIDE@{VSF\_TGUI\_EVT\_GESTURE\_SLIDE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_GESTURE\_SLIDE@{VSF\_TGUI\_EVT\_GESTURE\_SLIDE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaf38636085d5b85cf2edefe1d7142748c}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaf38636085d5b85cf2edefe1d7142748c}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+SLIDE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_GESTURE\_WHEEL@{VSF\_TGUI\_EVT\_GESTURE\_WHEEL}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_GESTURE\_WHEEL@{VSF\_TGUI\_EVT\_GESTURE\_WHEEL}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada4b7e10ed0cda703cd5ed2fa4f7e88932}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada4b7e10ed0cda703cd5ed2fa4f7e88932}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+WHEEL&not all device support this \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_GESTURE\_ZOOM\_IN@{VSF\_TGUI\_EVT\_GESTURE\_ZOOM\_IN}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_GESTURE\_ZOOM\_IN@{VSF\_TGUI\_EVT\_GESTURE\_ZOOM\_IN}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadacb646c50970b835966dbb06d7163731c}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadacb646c50970b835966dbb06d7163731c}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+ZOOM\+\_\+\+IN&not all device support this \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_GESTURE\_ZOOM\_OUT@{VSF\_TGUI\_EVT\_GESTURE\_ZOOM\_OUT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_GESTURE\_ZOOM\_OUT@{VSF\_TGUI\_EVT\_GESTURE\_ZOOM\_OUT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada44a9a1decb33abb9934550df225e6b8b}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada44a9a1decb33abb9934550df225e6b8b}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+ZOOM\+\_\+\+OUT&not all device support this \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_GESTURE\_ROTATE\_CLOCKWISE@{VSF\_TGUI\_EVT\_GESTURE\_ROTATE\_CLOCKWISE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_GESTURE\_ROTATE\_CLOCKWISE@{VSF\_TGUI\_EVT\_GESTURE\_ROTATE\_CLOCKWISE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada8b3572b3810e850ab11114d502c08911}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada8b3572b3810e850ab11114d502c08911}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+ROTATE\+\_\+\+CLOCKWISE&not all device support this \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_GESTURE\_ROTATE\_ANTICLOCKWISE@{VSF\_TGUI\_EVT\_GESTURE\_ROTATE\_ANTICLOCKWISE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_GESTURE\_ROTATE\_ANTICLOCKWISE@{VSF\_TGUI\_EVT\_GESTURE\_ROTATE\_ANTICLOCKWISE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada4bec6e637deeca6b8015f90eb0336879}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada4bec6e637deeca6b8015f90eb0336879}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+GESTURE\+\_\+\+ROTATE\+\_\+\+ANTICLOCKWISE&not all device support this \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_CONTROL\_SPECIFIC\_EVT@{VSF\_TGUI\_MSG\_CONTROL\_SPECIFIC\_EVT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_CONTROL\_SPECIFIC\_EVT@{VSF\_TGUI\_MSG\_CONTROL\_SPECIFIC\_EVT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadae2be6e311e8e81c234dfc5a36a809a57}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadae2be6e311e8e81c234dfc5a36a809a57}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+CONTROL\+\_\+\+SPECIFIC\+\_\+\+EVT&All control specific events share the same code region \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_LIST\_EVT@{VSF\_TGUI\_MSG\_LIST\_EVT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_LIST\_EVT@{VSF\_TGUI\_MSG\_LIST\_EVT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaa81e528b10d855ebcc100dbe70996cb3}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaa81e528b10d855ebcc100dbe70996cb3}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+LIST\+\_\+\+EVT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_LIST\_SELECTION\_CHANGED@{VSF\_TGUI\_EVT\_LIST\_SELECTION\_CHANGED}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_LIST\_SELECTION\_CHANGED@{VSF\_TGUI\_EVT\_LIST\_SELECTION\_CHANGED}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaec60f8200f74762f20520d554d8436f0}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadaec60f8200f74762f20520d554d8436f0}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+LIST\+\_\+\+SELECTION\+\_\+\+CHANGED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_LIST\_SLIDING\_STARTED@{VSF\_TGUI\_EVT\_LIST\_SLIDING\_STARTED}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_LIST\_SLIDING\_STARTED@{VSF\_TGUI\_EVT\_LIST\_SLIDING\_STARTED}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadae547e61be5db69649a003fa80678ab37}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dadae547e61be5db69649a003fa80678ab37}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+LIST\+\_\+\+SLIDING\+\_\+\+STARTED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_EVT\_LIST\_SLIDING\_STOPPED@{VSF\_TGUI\_EVT\_LIST\_SLIDING\_STOPPED}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_EVT\_LIST\_SLIDING\_STOPPED@{VSF\_TGUI\_EVT\_LIST\_SLIDING\_STOPPED}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada0fb981157a84f688cb0e01fd81b20ff9}\label{vsf__tgui__common_8h_a01aea4eb01aa6415eee118b5a5ee3dada0fb981157a84f688cb0e01fd81b20ff9}} 
+VSF\+\_\+\+TGUI\+\_\+\+EVT\+\_\+\+LIST\+\_\+\+SLIDING\+\_\+\+STOPPED&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318da}\label{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318da}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_RT\_UNHANDLED@{VSF\_TGUI\_MSG\_RT\_UNHANDLED}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_RT\_UNHANDLED@{VSF\_TGUI\_MSG\_RT\_UNHANDLED}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daa27f8d109e398babf5713b17fe3d61159}\label{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daa27f8d109e398babf5713b17fe3d61159}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+RT\+\_\+\+UNHANDLED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_RT\_DONE@{VSF\_TGUI\_MSG\_RT\_DONE}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_RT\_DONE@{VSF\_TGUI\_MSG\_RT\_DONE}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daaf5c6ba5406a47397195a24de700b599f}\label{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daaf5c6ba5406a47397195a24de700b599f}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+RT\+\_\+\+DONE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_RT\_REFRESH@{VSF\_TGUI\_MSG\_RT\_REFRESH}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_RT\_REFRESH@{VSF\_TGUI\_MSG\_RT\_REFRESH}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daa903dc417bd3dae04815154b3efa4b845}\label{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daa903dc417bd3dae04815154b3efa4b845}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+RT\+\_\+\+REFRESH&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_TGUI\_MSG\_RT\_REFRESH\_PARENT@{VSF\_TGUI\_MSG\_RT\_REFRESH\_PARENT}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!VSF\_TGUI\_MSG\_RT\_REFRESH\_PARENT@{VSF\_TGUI\_MSG\_RT\_REFRESH\_PARENT}}}\mbox{\Hypertarget{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daa5d898f179c757cc894417da86feda273}\label{vsf__tgui__common_8h_a7646ae03981912f97626c39dfe9318daa5d898f179c757cc894417da86feda273}} 
+VSF\+\_\+\+TGUI\+\_\+\+MSG\+\_\+\+RT\+\_\+\+REFRESH\+\_\+\+PARENT&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__tgui__common_8h_a1f55b1f80f0a2b4b31df5cfda62a7adc}\label{vsf__tgui__common_8h_a1f55b1f80f0a2b4b31df5cfda62a7adc}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_tile\_get\_root@{vsf\_tgui\_tile\_get\_root}}
+\index{vsf\_tgui\_tile\_get\_root@{vsf\_tgui\_tile\_get\_root}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_tile\_get\_root()}{vsf\_tgui\_tile\_get\_root()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}}$\ast$ vsf\+\_\+tgui\+\_\+tile\+\_\+get\+\_\+root (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}} $\ast$}]{pt\+Tile,  }\item[{\mbox{\hyperlink{structvsf__tgui__region__t}{vsf\+\_\+tgui\+\_\+region\+\_\+t}} $\ast$}]{region\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_abfe36c36cf9add15253b692349186d44}\label{vsf__tgui__common_8h_abfe36c36cf9add15253b692349186d44}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_root\_tile\_get\_size@{vsf\_tgui\_root\_tile\_get\_size}}
+\index{vsf\_tgui\_root\_tile\_get\_size@{vsf\_tgui\_root\_tile\_get\_size}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_root\_tile\_get\_size()}{vsf\_tgui\_root\_tile\_get\_size()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__tgui__size__t}{vsf\+\_\+tgui\+\_\+size\+\_\+t}} vsf\+\_\+tgui\+\_\+root\+\_\+tile\+\_\+get\+\_\+size (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}} $\ast$}]{pt\+Tile }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a1fd01dfcf639c4ab588d72fe1330af8b}\label{vsf__tgui__common_8h_a1fd01dfcf639c4ab588d72fe1330af8b}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_tile\_is\_root@{vsf\_tgui\_tile\_is\_root}}
+\index{vsf\_tgui\_tile\_is\_root@{vsf\_tgui\_tile\_is\_root}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_tile\_is\_root()}{vsf\_tgui\_tile\_is\_root()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+tgui\+\_\+tile\+\_\+is\+\_\+root (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{unionvsf__tgui__tile__t}{vsf\+\_\+tgui\+\_\+tile\+\_\+t}} $\ast$}]{pt\+Tile }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__tgui__common_8h_a6d6e33b07da5dc275ba7d69253185c7b}\label{vsf__tgui__common_8h_a6d6e33b07da5dc275ba7d69253185c7b}} 
+\index{vsf\_tgui\_common.h@{vsf\_tgui\_common.h}!vsf\_tgui\_text\_set@{vsf\_tgui\_text\_set}}
+\index{vsf\_tgui\_text\_set@{vsf\_tgui\_text\_set}!vsf\_tgui\_common.h@{vsf\_tgui\_common.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_tgui\_text\_set()}{vsf\_tgui\_text\_set()}}
+{\footnotesize\ttfamily void vsf\+\_\+tgui\+\_\+text\+\_\+set (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__tgui__text__info__t}{vsf\+\_\+tgui\+\_\+text\+\_\+info\+\_\+t}} $\ast$}]{pt\+Text\+Info,  }\item[{const \mbox{\hyperlink{structvsf__tgui__string__t}{vsf\+\_\+tgui\+\_\+string\+\_\+t}} $\ast$}]{pstr\+New }\end{DoxyParamCaption})}
+

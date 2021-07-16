@@ -1,0 +1,401 @@
+\hypertarget{vsf__component__cfg_8h}{}\doxysection{source/component/vsf\+\_\+component\+\_\+cfg.h 文件参考}
+\label{vsf__component__cfg_8h}\index{source/component/vsf\_component\_cfg.h@{source/component/vsf\_component\_cfg.h}}
+{\ttfamily \#include \char`\"{}vsf\+\_\+cfg.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_aeac2418c561a01837a511d20cf298386}{VSF\+\_\+\+COMPONENT\+\_\+\+ASSERT}}~\mbox{\hyperlink{____type_8h_acd64f6b5d5274ec879245d7e83d67219}{VSF\+\_\+\+ASSERT}}
+\begin{DoxyCompactList}\small\item\em all service modules use this configuation file \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a9e64f7b80402f0ed4368d8012bac8ecb}{vsf\+\_\+peda\+\_\+evthandler\+\_\+t}}~\mbox{\hyperlink{vsf__eda_8h_ae54a29673245a143f8833329d8114806}{vsf\+\_\+param\+\_\+eda\+\_\+evthandler\+\_\+t}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_af4f8270386bcf09b2593862dea5460ff}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs0}}(\+\_\+\+\_\+ifs\+\_\+name)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a921a9887dda8609e66db37a32dcd8056}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs1}}(\+\_\+\+\_\+ifs\+\_\+name,  \+\_\+\+\_\+args)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_abf301adbe0c5070df790f19f19ae92c5}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs2}}(\+\_\+\+\_\+ifs\+\_\+name,  \+\_\+\+\_\+params,  \+\_\+\+\_\+args)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_aec84e927cf4c0020581fe3a712a12cea}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs3}}(\+\_\+\+\_\+ifs\+\_\+name,  \+\_\+\+\_\+params,  \+\_\+\+\_\+args,  \+\_\+\+\_\+locals)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a4a3f818bfc7e3a5e2ea407ed0abe2dab}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs}}(\+\_\+\+\_\+peda\+\_\+name, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a53716745e0e0164f67ac88389c4520ad}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}}(\+\_\+\+\_\+peda\+\_\+name,  \+\_\+\+\_\+ifs\+\_\+name,  ...)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_ae1fa41abd0d1ca9709956e215f44e38f}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+entry0}}(\+\_\+\+\_\+peda\+\_\+name,  \+\_\+\+\_\+decoration)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a4073b0f62fa718ed030bfddcb13deb7b}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+entry1}}(\+\_\+\+\_\+peda\+\_\+name,  \+\_\+\+\_\+decoration,  \+\_\+\+\_\+args)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_ad7a7b31548203187ad47be5064377447}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+entry2}}(\+\_\+\+\_\+peda\+\_\+name,  \+\_\+\+\_\+decoration,  \+\_\+\+\_\+params,  \+\_\+\+\_\+args)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a74127856ed0ed3ca45c1399fce1d492f}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+entry3}}(\+\_\+\+\_\+peda\+\_\+name,  \+\_\+\+\_\+decoration,  \+\_\+\+\_\+params,  \+\_\+\+\_\+args,  \+\_\+\+\_\+locals)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a088e95bbb3e66e2fe9c153e2a2cbbacb}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+public\+\_\+entry}}(\+\_\+\+\_\+peda\+\_\+name, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a8b73668c6decf6cc999116695cb6569e}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+private\+\_\+entry}}(\+\_\+\+\_\+peda\+\_\+name, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_ae343913e5ec68b2cd2c8358cb491f828}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs0}}(\+\_\+\+\_\+peda\+\_\+name,  \+\_\+\+\_\+err,  \+\_\+\+\_\+entry,  \+\_\+\+\_\+extra\+\_\+local\+\_\+size,  \+\_\+\+\_\+param)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}(\+\_\+\+\_\+peda\+\_\+name,  \+\_\+\+\_\+err,  \+\_\+\+\_\+entry,  \+\_\+\+\_\+extra\+\_\+local\+\_\+size,  \+\_\+\+\_\+param,  ...)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a8a39611b91b402cb2e57899dbbb6d973}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs1}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_adb713d28f386465a3d80caf3781a2007}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs2}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_aba085a63a2893f54b428bd47423c2d1a}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs3}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_addbf8df8d60976b6addcd8ef106b15c8}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs4}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a464ec1c4964003dae275f449ffc56c9a}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs5}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_aa1699f5f0e4a507dee819a2a277f2526}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs6}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a3aa18ebf3eddb5fb264673fe8c63b3c7}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs7}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_ae511b3aeb0e9ca9470d9d448c9b4b3bd}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs8}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_ae649bf18431dd2c28bceda681051818e}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs9}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a14e8fe0411c741a6f49ffb91f02b46e7}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs10}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a8d656556356a86c8a2b48de0252e14ab}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs11}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a8c91fd17974b4555b64727dbc2d8f358}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs12}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_ac5d7f5096179655f5322d088e18de789}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs13}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a4ce63d8a8fc18069b79844a707abd52d}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs14}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a227615edbd64d6b8b328f9cee29c6949}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs15}}~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a7e2f71ae9a658a9a20c586fe49af9122}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs}}(\+\_\+\+\_\+peda\+\_\+name,  \+\_\+\+\_\+ret,  \+\_\+\+\_\+entry,  \+\_\+\+\_\+local\+\_\+size,  \+\_\+\+\_\+param, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_a5bb19620fca4e55864ef9a542b83ae33}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda}}(\+\_\+\+\_\+peda\+\_\+name,  \+\_\+\+\_\+ret,  \+\_\+\+\_\+param, ...)~            \mbox{\hyperlink{vsf__component__cfg_8h_a7e2f71ae9a658a9a20c586fe49af9122}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs}}(\+\_\+\+\_\+peda\+\_\+name, \+\_\+\+\_\+ret, \mbox{\hyperlink{vsf__eda_8h_ae75a8b49ebc01b721de362ce53c8c5b3}{vsf\+\_\+peda\+\_\+func}}(\+\_\+\+\_\+peda\+\_\+name), 0, (\+\_\+\+\_\+param), \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__component__cfg_8h_acd4c7a63019059af3836f10f5a981016}{vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}}~\mbox{\hyperlink{vsf__usbh__msc_8c_aa8b46214d3e294f45fb8faf222ea7efb}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__component__cfg_8h_aeac2418c561a01837a511d20cf298386}\label{vsf__component__cfg_8h_aeac2418c561a01837a511d20cf298386}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!VSF\_COMPONENT\_ASSERT@{VSF\_COMPONENT\_ASSERT}}
+\index{VSF\_COMPONENT\_ASSERT@{VSF\_COMPONENT\_ASSERT}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{VSF\_COMPONENT\_ASSERT}{VSF\_COMPONENT\_ASSERT}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+COMPONENT\+\_\+\+ASSERT~\mbox{\hyperlink{____type_8h_acd64f6b5d5274ec879245d7e83d67219}{VSF\+\_\+\+ASSERT}}}
+
+
+
+all service modules use this configuation file 
+
+\begin{DoxyNote}{注解}
+do not move this pre-\/processor statement to other places 
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__component__cfg_8h_a9e64f7b80402f0ed4368d8012bac8ecb}\label{vsf__component__cfg_8h_a9e64f7b80402f0ed4368d8012bac8ecb}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!vsf\_peda\_evthandler\_t@{vsf\_peda\_evthandler\_t}}
+\index{vsf\_peda\_evthandler\_t@{vsf\_peda\_evthandler\_t}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_peda\_evthandler\_t}{vsf\_peda\_evthandler\_t}}
+{\footnotesize\ttfamily \#define vsf\+\_\+peda\+\_\+evthandler\+\_\+t~\mbox{\hyperlink{vsf__eda_8h_ae54a29673245a143f8833329d8114806}{vsf\+\_\+param\+\_\+eda\+\_\+evthandler\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_af4f8270386bcf09b2593862dea5460ff}\label{vsf__component__cfg_8h_af4f8270386bcf09b2593862dea5460ff}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_ifs0@{\_\_vsf\_component\_peda\_ifs0}}
+\index{\_\_vsf\_component\_peda\_ifs0@{\_\_vsf\_component\_peda\_ifs0}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs0}{\_\_vsf\_component\_peda\_ifs0}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs0(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ifs\+\_\+name }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__eda_8h_a5a41340d536d1d301822b160ccbd0d1e}{dcl\_vsf\_peda\_ctx}}(\_\_ifs\_name)                                        \(\backslash\)}
+\DoxyCodeLine{            def\_vsf\_peda\_ctx(\_\_ifs\_name)                                        \(\backslash\)}
+\DoxyCodeLine{            end\_def\_vsf\_peda\_ctx(\_\_ifs\_name)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_a921a9887dda8609e66db37a32dcd8056}\label{vsf__component__cfg_8h_a921a9887dda8609e66db37a32dcd8056}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_ifs1@{\_\_vsf\_component\_peda\_ifs1}}
+\index{\_\_vsf\_component\_peda\_ifs1@{\_\_vsf\_component\_peda\_ifs1}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs1}{\_\_vsf\_component\_peda\_ifs1}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs1(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ifs\+\_\+name,  }\item[{}]{\+\_\+\+\_\+args }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__eda_8h_a5a41340d536d1d301822b160ccbd0d1e}{dcl\_vsf\_peda\_ctx}}(\_\_ifs\_name)                                        \(\backslash\)}
+\DoxyCodeLine{            def\_vsf\_peda\_ctx(\_\_ifs\_name, \mbox{\hyperlink{vsf__eda_8h_a7a5185bc6ab661fae2b983a9419ca564}{def\_args}}(\_\_args))                      \(\backslash\)}
+\DoxyCodeLine{            end\_def\_vsf\_peda\_ctx(\_\_ifs\_name)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_abf301adbe0c5070df790f19f19ae92c5}\label{vsf__component__cfg_8h_abf301adbe0c5070df790f19f19ae92c5}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_ifs2@{\_\_vsf\_component\_peda\_ifs2}}
+\index{\_\_vsf\_component\_peda\_ifs2@{\_\_vsf\_component\_peda\_ifs2}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs2}{\_\_vsf\_component\_peda\_ifs2}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs2(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ifs\+\_\+name,  }\item[{}]{\+\_\+\+\_\+params,  }\item[{}]{\+\_\+\+\_\+args }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__eda_8h_a5a41340d536d1d301822b160ccbd0d1e}{dcl\_vsf\_peda\_ctx}}(\_\_ifs\_name)                                        \(\backslash\)}
+\DoxyCodeLine{            def\_vsf\_peda\_ctx(\_\_ifs\_name, \_\_params, \_\_args)                      \(\backslash\)}
+\DoxyCodeLine{            end\_def\_vsf\_peda\_ctx(\_\_ifs\_name)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_aec84e927cf4c0020581fe3a712a12cea}\label{vsf__component__cfg_8h_aec84e927cf4c0020581fe3a712a12cea}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_ifs3@{\_\_vsf\_component\_peda\_ifs3}}
+\index{\_\_vsf\_component\_peda\_ifs3@{\_\_vsf\_component\_peda\_ifs3}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs3}{\_\_vsf\_component\_peda\_ifs3}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs3(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+ifs\+\_\+name,  }\item[{}]{\+\_\+\+\_\+params,  }\item[{}]{\+\_\+\+\_\+args,  }\item[{}]{\+\_\+\+\_\+locals }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__eda_8h_a5a41340d536d1d301822b160ccbd0d1e}{dcl\_vsf\_peda\_ctx}}(\_\_ifs\_name)                                        \(\backslash\)}
+\DoxyCodeLine{            def\_vsf\_peda\_ctx(\_\_ifs\_name, \_\_params, \_\_args, \_\_locals)            \(\backslash\)}
+\DoxyCodeLine{            end\_def\_vsf\_peda\_ctx(\_\_ifs\_name)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_a4a3f818bfc7e3a5e2ea407ed0abe2dab}\label{vsf__component__cfg_8h_a4a3f818bfc7e3a5e2ea407ed0abe2dab}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_ifs@{\_\_vsf\_component\_peda\_ifs}}
+\index{\_\_vsf\_component\_peda\_ifs@{\_\_vsf\_component\_peda\_ifs}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs}{\_\_vsf\_component\_peda\_ifs}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \_\_PLOOC\_EVAL(\mbox{\hyperlink{vsf__component__cfg_8h_a4a3f818bfc7e3a5e2ea407ed0abe2dab}{\_\_vsf\_component\_peda\_ifs}}, \_\_VA\_ARGS\_\_)                 \(\backslash\)}
+\DoxyCodeLine{                (\_\_peda\_name, \#\#\_\_VA\_ARGS\_\_)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_a53716745e0e0164f67ac88389c4520ad}\label{vsf__component__cfg_8h_a53716745e0e0164f67ac88389c4520ad}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}}
+\index{\_\_vsf\_component\_peda\_ifs\_entry@{\_\_vsf\_component\_peda\_ifs\_entry}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_ifs\_entry}{\_\_vsf\_component\_peda\_ifs\_entry}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{\+\_\+\+\_\+ifs\+\_\+name,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__eda_8h_a5a41340d536d1d301822b160ccbd0d1e}{dcl\_vsf\_peda\_ctx}}(\_\_peda\_name)                                       \(\backslash\)}
+\DoxyCodeLine{            def\_vsf\_peda\_ctx(\_\_peda\_name,                                       \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__eda_8h_a7a5185bc6ab661fae2b983a9419ca564}{def\_args}}(                                                       \(\backslash\)}
+\DoxyCodeLine{                    implement(\mbox{\hyperlink{vsf__eda_8h_a7cf725ab8706059a445fdc092cc5eabc}{vsf\_peda\_arg}}(\_\_ifs\_name))                         \(\backslash\)}
+\DoxyCodeLine{                )                                                               \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__eda_8h_aa7f01b9dfc5d4dac9bbcd44afbee9661}{def\_locals}}(                                                     \(\backslash\)}
+\DoxyCodeLine{                    \_\_VA\_ARGS\_\_                                                 \(\backslash\)}
+\DoxyCodeLine{                )                                                               \(\backslash\)}
+\DoxyCodeLine{            )                                                                   \(\backslash\)}
+\DoxyCodeLine{            end\_def\_vsf\_peda\_ctx(\_\_peda\_name)                                   \(\backslash\)}
+\DoxyCodeLine{            static \mbox{\hyperlink{vsf__eda_8h_add5ed539f8c54f2ec96716fd9fb9c66f}{imp\_vsf\_peda}}(\_\_peda\_name)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_ae1fa41abd0d1ca9709956e215f44e38f}\label{vsf__component__cfg_8h_ae1fa41abd0d1ca9709956e215f44e38f}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_entry0@{\_\_vsf\_component\_peda\_entry0}}
+\index{\_\_vsf\_component\_peda\_entry0@{\_\_vsf\_component\_peda\_entry0}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_entry0}{\_\_vsf\_component\_peda\_entry0}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+entry0(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{\+\_\+\+\_\+decoration }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__component__cfg_8h_a4a3f818bfc7e3a5e2ea407ed0abe2dab}{\_\_vsf\_component\_peda\_ifs}}(\_\_peda\_name)                               \(\backslash\)}
+\DoxyCodeLine{            \_\_decoration \mbox{\hyperlink{vsf__eda_8h_add5ed539f8c54f2ec96716fd9fb9c66f}{imp\_vsf\_peda}}(\_\_peda\_name)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_a4073b0f62fa718ed030bfddcb13deb7b}\label{vsf__component__cfg_8h_a4073b0f62fa718ed030bfddcb13deb7b}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_entry1@{\_\_vsf\_component\_peda\_entry1}}
+\index{\_\_vsf\_component\_peda\_entry1@{\_\_vsf\_component\_peda\_entry1}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_entry1}{\_\_vsf\_component\_peda\_entry1}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+entry1(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{\+\_\+\+\_\+decoration,  }\item[{}]{\+\_\+\+\_\+args }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__component__cfg_8h_a4a3f818bfc7e3a5e2ea407ed0abe2dab}{\_\_vsf\_component\_peda\_ifs}}(\_\_peda\_name, \_\_args)                       \(\backslash\)}
+\DoxyCodeLine{            \_\_decoration \mbox{\hyperlink{vsf__eda_8h_add5ed539f8c54f2ec96716fd9fb9c66f}{imp\_vsf\_peda}}(\_\_peda\_name)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_ad7a7b31548203187ad47be5064377447}\label{vsf__component__cfg_8h_ad7a7b31548203187ad47be5064377447}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_entry2@{\_\_vsf\_component\_peda\_entry2}}
+\index{\_\_vsf\_component\_peda\_entry2@{\_\_vsf\_component\_peda\_entry2}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_entry2}{\_\_vsf\_component\_peda\_entry2}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+entry2(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{\+\_\+\+\_\+decoration,  }\item[{}]{\+\_\+\+\_\+params,  }\item[{}]{\+\_\+\+\_\+args }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__component__cfg_8h_a4a3f818bfc7e3a5e2ea407ed0abe2dab}{\_\_vsf\_component\_peda\_ifs}}(\_\_peda\_name, \_\_params, \_\_args)             \(\backslash\)}
+\DoxyCodeLine{            \_\_decoration \mbox{\hyperlink{vsf__eda_8h_add5ed539f8c54f2ec96716fd9fb9c66f}{imp\_vsf\_peda}}(\_\_peda\_name)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_a74127856ed0ed3ca45c1399fce1d492f}\label{vsf__component__cfg_8h_a74127856ed0ed3ca45c1399fce1d492f}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_entry3@{\_\_vsf\_component\_peda\_entry3}}
+\index{\_\_vsf\_component\_peda\_entry3@{\_\_vsf\_component\_peda\_entry3}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_entry3}{\_\_vsf\_component\_peda\_entry3}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+entry3(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{\+\_\+\+\_\+decoration,  }\item[{}]{\+\_\+\+\_\+params,  }\item[{}]{\+\_\+\+\_\+args,  }\item[{}]{\+\_\+\+\_\+locals }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__component__cfg_8h_a4a3f818bfc7e3a5e2ea407ed0abe2dab}{\_\_vsf\_component\_peda\_ifs}}(\_\_peda\_name, \_\_params, \_\_args, \_\_locals)   \(\backslash\)}
+\DoxyCodeLine{            \_\_decoration \mbox{\hyperlink{vsf__eda_8h_add5ed539f8c54f2ec96716fd9fb9c66f}{imp\_vsf\_peda}}(\_\_peda\_name)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_a088e95bbb3e66e2fe9c153e2a2cbbacb}\label{vsf__component__cfg_8h_a088e95bbb3e66e2fe9c153e2a2cbbacb}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_public\_entry@{\_\_vsf\_component\_peda\_public\_entry}}
+\index{\_\_vsf\_component\_peda\_public\_entry@{\_\_vsf\_component\_peda\_public\_entry}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_public\_entry}{\_\_vsf\_component\_peda\_public\_entry}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+public\+\_\+entry(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \_\_PLOOC\_EVAL(\_\_vsf\_component\_peda\_entry, \_\_VA\_ARGS\_\_)               \(\backslash\)}
+\DoxyCodeLine{                (\_\_peda\_name, , \#\#\_\_VA\_ARGS\_\_)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_a8b73668c6decf6cc999116695cb6569e}\label{vsf__component__cfg_8h_a8b73668c6decf6cc999116695cb6569e}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_peda\_private\_entry@{\_\_vsf\_component\_peda\_private\_entry}}
+\index{\_\_vsf\_component\_peda\_private\_entry@{\_\_vsf\_component\_peda\_private\_entry}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_peda\_private\_entry}{\_\_vsf\_component\_peda\_private\_entry}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+private\+\_\+entry(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \_\_PLOOC\_EVAL(\_\_vsf\_component\_peda\_entry, \_\_VA\_ARGS\_\_)               \(\backslash\)}
+\DoxyCodeLine{                (\_\_peda\_name, \textcolor{keyword}{static}, \#\#\_\_VA\_ARGS\_\_)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_ae343913e5ec68b2cd2c8358cb491f828}\label{vsf__component__cfg_8h_ae343913e5ec68b2cd2c8358cb491f828}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs0@{\_\_vsf\_component\_call\_peda\_ifs0}}
+\index{\_\_vsf\_component\_call\_peda\_ifs0@{\_\_vsf\_component\_call\_peda\_ifs0}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs0}{\_\_vsf\_component\_call\_peda\_ifs0}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs0(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{\+\_\+\+\_\+err,  }\item[{}]{\+\_\+\+\_\+entry,  }\item[{}]{\+\_\+\+\_\+extra\+\_\+local\+\_\+size,  }\item[{}]{\+\_\+\+\_\+param }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \{                                                                   \(\backslash\)}
+\DoxyCodeLine{                *(\&(\_\_err)) = \mbox{\hyperlink{vsf__simple_8h_af2f23062a7a5453b1f095a053c399448}{vsf\_call\_peda}}(\_\_peda\_name,                        \(\backslash\)}
+\DoxyCodeLine{                                            (\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\_t}})(\_\_entry),               \(\backslash\)}
+\DoxyCodeLine{                                            (\_\_extra\_local\_size),               \(\backslash\)}
+\DoxyCodeLine{                                            (\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\_t}})(\_\_param));              \(\backslash\)}
+\DoxyCodeLine{            \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}\label{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifsn@{\_\_vsf\_component\_call\_peda\_ifsn}}
+\index{\_\_vsf\_component\_call\_peda\_ifsn@{\_\_vsf\_component\_call\_peda\_ifsn}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifsn}{\_\_vsf\_component\_call\_peda\_ifsn}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{\+\_\+\+\_\+err,  }\item[{}]{\+\_\+\+\_\+entry,  }\item[{}]{\+\_\+\+\_\+extra\+\_\+local\+\_\+size,  }\item[{}]{\+\_\+\+\_\+param,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \{                                                                   \(\backslash\)}
+\DoxyCodeLine{                vsf\_peda\_arg(\_\_peda\_name) \mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} = \{ \_\_VA\_ARGS\_\_ \};                  \(\backslash\)}
+\DoxyCodeLine{                *(\&(\_\_err)) = \mbox{\hyperlink{vsf__simple_8h_af2f23062a7a5453b1f095a053c399448}{vsf\_call\_peda}}(\_\_peda\_name,                        \(\backslash\)}
+\DoxyCodeLine{                                            (\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\_t}})(\_\_entry),               \(\backslash\)}
+\DoxyCodeLine{                                            (\_\_extra\_local\_size),               \(\backslash\)}
+\DoxyCodeLine{                                            (\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\_t}})(\_\_param),               \(\backslash\)}
+\DoxyCodeLine{                                            (\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\_t}})\&\mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}});                     \(\backslash\)}
+\DoxyCodeLine{            \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_a8a39611b91b402cb2e57899dbbb6d973}\label{vsf__component__cfg_8h_a8a39611b91b402cb2e57899dbbb6d973}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs1@{\_\_vsf\_component\_call\_peda\_ifs1}}
+\index{\_\_vsf\_component\_call\_peda\_ifs1@{\_\_vsf\_component\_call\_peda\_ifs1}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs1}{\_\_vsf\_component\_call\_peda\_ifs1}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs1~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_adb713d28f386465a3d80caf3781a2007}\label{vsf__component__cfg_8h_adb713d28f386465a3d80caf3781a2007}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs2@{\_\_vsf\_component\_call\_peda\_ifs2}}
+\index{\_\_vsf\_component\_call\_peda\_ifs2@{\_\_vsf\_component\_call\_peda\_ifs2}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs2}{\_\_vsf\_component\_call\_peda\_ifs2}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs2~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_aba085a63a2893f54b428bd47423c2d1a}\label{vsf__component__cfg_8h_aba085a63a2893f54b428bd47423c2d1a}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs3@{\_\_vsf\_component\_call\_peda\_ifs3}}
+\index{\_\_vsf\_component\_call\_peda\_ifs3@{\_\_vsf\_component\_call\_peda\_ifs3}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs3}{\_\_vsf\_component\_call\_peda\_ifs3}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs3~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_addbf8df8d60976b6addcd8ef106b15c8}\label{vsf__component__cfg_8h_addbf8df8d60976b6addcd8ef106b15c8}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs4@{\_\_vsf\_component\_call\_peda\_ifs4}}
+\index{\_\_vsf\_component\_call\_peda\_ifs4@{\_\_vsf\_component\_call\_peda\_ifs4}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs4}{\_\_vsf\_component\_call\_peda\_ifs4}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs4~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_a464ec1c4964003dae275f449ffc56c9a}\label{vsf__component__cfg_8h_a464ec1c4964003dae275f449ffc56c9a}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs5@{\_\_vsf\_component\_call\_peda\_ifs5}}
+\index{\_\_vsf\_component\_call\_peda\_ifs5@{\_\_vsf\_component\_call\_peda\_ifs5}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs5}{\_\_vsf\_component\_call\_peda\_ifs5}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs5~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_aa1699f5f0e4a507dee819a2a277f2526}\label{vsf__component__cfg_8h_aa1699f5f0e4a507dee819a2a277f2526}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs6@{\_\_vsf\_component\_call\_peda\_ifs6}}
+\index{\_\_vsf\_component\_call\_peda\_ifs6@{\_\_vsf\_component\_call\_peda\_ifs6}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs6}{\_\_vsf\_component\_call\_peda\_ifs6}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs6~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_a3aa18ebf3eddb5fb264673fe8c63b3c7}\label{vsf__component__cfg_8h_a3aa18ebf3eddb5fb264673fe8c63b3c7}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs7@{\_\_vsf\_component\_call\_peda\_ifs7}}
+\index{\_\_vsf\_component\_call\_peda\_ifs7@{\_\_vsf\_component\_call\_peda\_ifs7}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs7}{\_\_vsf\_component\_call\_peda\_ifs7}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs7~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_ae511b3aeb0e9ca9470d9d448c9b4b3bd}\label{vsf__component__cfg_8h_ae511b3aeb0e9ca9470d9d448c9b4b3bd}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs8@{\_\_vsf\_component\_call\_peda\_ifs8}}
+\index{\_\_vsf\_component\_call\_peda\_ifs8@{\_\_vsf\_component\_call\_peda\_ifs8}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs8}{\_\_vsf\_component\_call\_peda\_ifs8}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs8~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_ae649bf18431dd2c28bceda681051818e}\label{vsf__component__cfg_8h_ae649bf18431dd2c28bceda681051818e}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs9@{\_\_vsf\_component\_call\_peda\_ifs9}}
+\index{\_\_vsf\_component\_call\_peda\_ifs9@{\_\_vsf\_component\_call\_peda\_ifs9}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs9}{\_\_vsf\_component\_call\_peda\_ifs9}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs9~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_a14e8fe0411c741a6f49ffb91f02b46e7}\label{vsf__component__cfg_8h_a14e8fe0411c741a6f49ffb91f02b46e7}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs10@{\_\_vsf\_component\_call\_peda\_ifs10}}
+\index{\_\_vsf\_component\_call\_peda\_ifs10@{\_\_vsf\_component\_call\_peda\_ifs10}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs10}{\_\_vsf\_component\_call\_peda\_ifs10}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs10~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_a8d656556356a86c8a2b48de0252e14ab}\label{vsf__component__cfg_8h_a8d656556356a86c8a2b48de0252e14ab}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs11@{\_\_vsf\_component\_call\_peda\_ifs11}}
+\index{\_\_vsf\_component\_call\_peda\_ifs11@{\_\_vsf\_component\_call\_peda\_ifs11}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs11}{\_\_vsf\_component\_call\_peda\_ifs11}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs11~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_a8c91fd17974b4555b64727dbc2d8f358}\label{vsf__component__cfg_8h_a8c91fd17974b4555b64727dbc2d8f358}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs12@{\_\_vsf\_component\_call\_peda\_ifs12}}
+\index{\_\_vsf\_component\_call\_peda\_ifs12@{\_\_vsf\_component\_call\_peda\_ifs12}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs12}{\_\_vsf\_component\_call\_peda\_ifs12}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs12~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_ac5d7f5096179655f5322d088e18de789}\label{vsf__component__cfg_8h_ac5d7f5096179655f5322d088e18de789}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs13@{\_\_vsf\_component\_call\_peda\_ifs13}}
+\index{\_\_vsf\_component\_call\_peda\_ifs13@{\_\_vsf\_component\_call\_peda\_ifs13}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs13}{\_\_vsf\_component\_call\_peda\_ifs13}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs13~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_a4ce63d8a8fc18069b79844a707abd52d}\label{vsf__component__cfg_8h_a4ce63d8a8fc18069b79844a707abd52d}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs14@{\_\_vsf\_component\_call\_peda\_ifs14}}
+\index{\_\_vsf\_component\_call\_peda\_ifs14@{\_\_vsf\_component\_call\_peda\_ifs14}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs14}{\_\_vsf\_component\_call\_peda\_ifs14}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs14~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_a227615edbd64d6b8b328f9cee29c6949}\label{vsf__component__cfg_8h_a227615edbd64d6b8b328f9cee29c6949}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs15@{\_\_vsf\_component\_call\_peda\_ifs15}}
+\index{\_\_vsf\_component\_call\_peda\_ifs15@{\_\_vsf\_component\_call\_peda\_ifs15}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs15}{\_\_vsf\_component\_call\_peda\_ifs15}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs15~\mbox{\hyperlink{vsf__component__cfg_8h_a645c792303c5530671e01471f1f0db96}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifsn}}}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_a7e2f71ae9a658a9a20c586fe49af9122}\label{vsf__component__cfg_8h_a7e2f71ae9a658a9a20c586fe49af9122}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda\_ifs@{\_\_vsf\_component\_call\_peda\_ifs}}
+\index{\_\_vsf\_component\_call\_peda\_ifs@{\_\_vsf\_component\_call\_peda\_ifs}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda\_ifs}{\_\_vsf\_component\_call\_peda\_ifs}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{\+\_\+\+\_\+ret,  }\item[{}]{\+\_\+\+\_\+entry,  }\item[{}]{\+\_\+\+\_\+local\+\_\+size,  }\item[{}]{\+\_\+\+\_\+param,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \_\_PLOOC\_EVAL(\mbox{\hyperlink{vsf__component__cfg_8h_a7e2f71ae9a658a9a20c586fe49af9122}{\_\_vsf\_component\_call\_peda\_ifs}}, \_\_VA\_ARGS\_\_)            \(\backslash\)}
+\DoxyCodeLine{                (\_\_peda\_name, (\_\_ret), \_\_entry, (\_\_local\_size), (\_\_param), \#\#\_\_VA\_ARGS\_\_)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__component__cfg_8h_a5bb19620fca4e55864ef9a542b83ae33}\label{vsf__component__cfg_8h_a5bb19620fca4e55864ef9a542b83ae33}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!\_\_vsf\_component\_call\_peda@{\_\_vsf\_component\_call\_peda}}
+\index{\_\_vsf\_component\_call\_peda@{\_\_vsf\_component\_call\_peda}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_component\_call\_peda}{\_\_vsf\_component\_call\_peda}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+peda\+\_\+name,  }\item[{}]{\+\_\+\+\_\+ret,  }\item[{}]{\+\_\+\+\_\+param,  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__component__cfg_8h_a7e2f71ae9a658a9a20c586fe49af9122}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+call\+\_\+peda\+\_\+ifs}}(\+\_\+\+\_\+peda\+\_\+name, \+\_\+\+\_\+ret, \mbox{\hyperlink{vsf__eda_8h_ae75a8b49ebc01b721de362ce53c8c5b3}{vsf\+\_\+peda\+\_\+func}}(\+\_\+\+\_\+peda\+\_\+name), 0, (\+\_\+\+\_\+param), \#\#\+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__component__cfg_8h_acd4c7a63019059af3836f10f5a981016}\label{vsf__component__cfg_8h_acd4c7a63019059af3836f10f5a981016}} 
+\index{vsf\_component\_cfg.h@{vsf\_component\_cfg.h}!vsf\_component\_peda\_ifs\_entry@{vsf\_component\_peda\_ifs\_entry}}
+\index{vsf\_component\_peda\_ifs\_entry@{vsf\_component\_peda\_ifs\_entry}!vsf\_component\_cfg.h@{vsf\_component\_cfg.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_component\_peda\_ifs\_entry}{vsf\_component\_peda\_ifs\_entry}}
+{\footnotesize\ttfamily \#define vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry~\mbox{\hyperlink{vsf__usbh__msc_8c_aa8b46214d3e294f45fb8faf222ea7efb}{\+\_\+\+\_\+vsf\+\_\+component\+\_\+peda\+\_\+ifs\+\_\+entry}}}
+

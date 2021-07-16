@@ -1,0 +1,46 @@
+\hypertarget{mount_8h}{}\doxysection{source/shell/sys/linux/include/sys/mount.h 文件参考}
+\label{mount_8h}\index{source/shell/sys/linux/include/sys/mount.h@{source/shell/sys/linux/include/sys/mount.h}}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{mount_8h_a8d05f294dc0fe0c534b9c95a4e932c0b}{mount}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+mount
+\item 
+\#define \mbox{\hyperlink{mount_8h_aa68791176c12544c260c2fb03447ae3c}{umount}}~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+umount
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{mount_8h_a00f05e8fa0141e08002cbc591963c4e8}{mount}} (const char $\ast$source, const char $\ast$target, const \mbox{\hyperlink{classvk__fs__op__t}{vk\+\_\+fs\+\_\+op\+\_\+t}} $\ast$filesystem, unsigned long mountflags, const void $\ast$data)
+\item 
+int \mbox{\hyperlink{mount_8h_a44634cfa8bcc732c29bcdf5822095422}{umount}} (const char $\ast$target)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{mount_8h_a8d05f294dc0fe0c534b9c95a4e932c0b}\label{mount_8h_a8d05f294dc0fe0c534b9c95a4e932c0b}} 
+\index{mount.h@{mount.h}!mount@{mount}}
+\index{mount@{mount}!mount.h@{mount.h}}
+\doxysubsubsection{\texorpdfstring{mount}{mount}}
+{\footnotesize\ttfamily \#define mount~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+mount}
+
+\mbox{\Hypertarget{mount_8h_aa68791176c12544c260c2fb03447ae3c}\label{mount_8h_aa68791176c12544c260c2fb03447ae3c}} 
+\index{mount.h@{mount.h}!umount@{umount}}
+\index{umount@{umount}!mount.h@{mount.h}}
+\doxysubsubsection{\texorpdfstring{umount}{umount}}
+{\footnotesize\ttfamily \#define umount~\+\_\+\+\_\+vsf\+\_\+linux\+\_\+umount}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{mount_8h_a00f05e8fa0141e08002cbc591963c4e8}\label{mount_8h_a00f05e8fa0141e08002cbc591963c4e8}} 
+\index{mount.h@{mount.h}!mount@{mount}}
+\index{mount@{mount}!mount.h@{mount.h}}
+\doxysubsubsection{\texorpdfstring{mount()}{mount()}}
+{\footnotesize\ttfamily int mount (\begin{DoxyParamCaption}\item[{const char $\ast$}]{source,  }\item[{const char $\ast$}]{target,  }\item[{const \mbox{\hyperlink{classvk__fs__op__t}{vk\+\_\+fs\+\_\+op\+\_\+t}} $\ast$}]{filesystem,  }\item[{unsigned long}]{mountflags,  }\item[{const void $\ast$}]{data }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{mount_8h_a44634cfa8bcc732c29bcdf5822095422}\label{mount_8h_a44634cfa8bcc732c29bcdf5822095422}} 
+\index{mount.h@{mount.h}!umount@{umount}}
+\index{umount@{umount}!mount.h@{mount.h}}
+\doxysubsubsection{\texorpdfstring{umount()}{umount()}}
+{\footnotesize\ttfamily int umount (\begin{DoxyParamCaption}\item[{const char $\ast$}]{target }\end{DoxyParamCaption})}
+

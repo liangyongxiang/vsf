@@ -1,0 +1,100 @@
+\hypertarget{vsf__fifo_8c}{}\doxysection{source/service/fifo/vsf\+\_\+fifo.c 文件参考}
+\label{vsf__fifo_8c}\index{source/service/fifo/vsf\_fifo.c@{source/service/fifo/vsf\_fifo.c}}
+{\ttfamily \#include \char`\"{}service/vsf\+\_\+service\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}vsf\+\_\+fifo.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}hal/arch/vsf\+\_\+arch.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__fifo_8c_a1eca7e2922e8d8708b2a9ad9654ed789}{\+\_\+\+\_\+\+VSF\+\_\+\+FIFO\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__fifo_8c_af0496fe0fca00dff347059c1d70673bd}{VSF\+\_\+\+FIFO\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}}~interrupt
+\item 
+\#define \mbox{\hyperlink{vsf__fifo_8c_ab7347baf37e994a9aedae7b6439492a5}{\+\_\+\+\_\+vsf\+\_\+fifo\+\_\+protect}}~vsf\+\_\+protect(\mbox{\hyperlink{vsf__fifo_8c_af0496fe0fca00dff347059c1d70673bd}{VSF\+\_\+\+FIFO\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})
+\item 
+\#define \mbox{\hyperlink{vsf__fifo_8c_a34d1665e76cdf3fa4c0660f40209e82c}{\+\_\+\+\_\+vsf\+\_\+fifo\+\_\+unprotect}}~vsf\+\_\+unprotect(\mbox{\hyperlink{vsf__fifo_8c_af0496fe0fca00dff347059c1d70673bd}{VSF\+\_\+\+FIFO\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__fifo_8c_af040c59e4d2a47a7c13d7af35198ef46}{vsf\+\_\+fifo\+\_\+init}} (\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{vsf__fifo_8h_a0bc005890b684c36c8ea655a975d28e2}{vsf\+\_\+fifo\+\_\+fast\+\_\+index\+\_\+t}} fifo\+\_\+depth)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__fifo_8c_ab22f9b36ef703881b54ff52ca8c5c9ab}{vsf\+\_\+fifo\+\_\+push}} (\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}} item, \mbox{\hyperlink{vsf__fifo_8h_ad6354a2b3197f6daa5650022c1106a98}{vsf\+\_\+fifo\+\_\+fast\+\_\+item\+\_\+size\+\_\+t}} \mbox{\hyperlink{vsf__pool_8h_ad27d25a00990c74c7bf1cc2bca27b745}{item\+\_\+size}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__fifo_8c_a928bb20593da3daa018e36f716d80707}{vsf\+\_\+fifo\+\_\+pop}} (\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}} item, \mbox{\hyperlink{vsf__fifo_8h_ad6354a2b3197f6daa5650022c1106a98}{vsf\+\_\+fifo\+\_\+fast\+\_\+item\+\_\+size\+\_\+t}} \mbox{\hyperlink{vsf__pool_8h_ad27d25a00990c74c7bf1cc2bca27b745}{item\+\_\+size}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}} \mbox{\hyperlink{vsf__fifo_8c_ad818ee03e4704853b9ed72ca60277741}{vsf\+\_\+fifo\+\_\+get\+\_\+head}} (\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{vsf__fifo_8h_ad6354a2b3197f6daa5650022c1106a98}{vsf\+\_\+fifo\+\_\+fast\+\_\+item\+\_\+size\+\_\+t}} \mbox{\hyperlink{vsf__pool_8h_ad27d25a00990c74c7bf1cc2bca27b745}{item\+\_\+size}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}} \mbox{\hyperlink{vsf__fifo_8c_a3d9ec27bcadf28fd7f9191fe59b43fec}{vsf\+\_\+fifo\+\_\+get\+\_\+tail}} (\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}}, \mbox{\hyperlink{vsf__fifo_8h_ad6354a2b3197f6daa5650022c1106a98}{vsf\+\_\+fifo\+\_\+fast\+\_\+item\+\_\+size\+\_\+t}} \mbox{\hyperlink{vsf__pool_8h_ad27d25a00990c74c7bf1cc2bca27b745}{item\+\_\+size}})
+\item 
+\mbox{\hyperlink{vsf__fifo_8h_a01f4bb2dc82e096ef4a49ba409fd8fda}{vsf\+\_\+fifo\+\_\+index\+\_\+t}} \mbox{\hyperlink{vsf__fifo_8c_a743f2d643ffc1271c15c30685117c533}{vsf\+\_\+fifo\+\_\+get\+\_\+number}} (\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$\mbox{\hyperlink{vsf__msg__tree_8h_ace2852557ffa7f64f597d2b77aa26529}{fifo}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__fifo_8c_a1eca7e2922e8d8708b2a9ad9654ed789}\label{vsf__fifo_8c_a1eca7e2922e8d8708b2a9ad9654ed789}} 
+\index{vsf\_fifo.c@{vsf\_fifo.c}!\_\_VSF\_FIFO\_CLASS\_IMPLEMENT@{\_\_VSF\_FIFO\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_FIFO\_CLASS\_IMPLEMENT@{\_\_VSF\_FIFO\_CLASS\_IMPLEMENT}!vsf\_fifo.c@{vsf\_fifo.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_FIFO\_CLASS\_IMPLEMENT}{\_\_VSF\_FIFO\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+FIFO\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__fifo_8c_af0496fe0fca00dff347059c1d70673bd}\label{vsf__fifo_8c_af0496fe0fca00dff347059c1d70673bd}} 
+\index{vsf\_fifo.c@{vsf\_fifo.c}!VSF\_FIFO\_CFG\_PROTECT\_LEVEL@{VSF\_FIFO\_CFG\_PROTECT\_LEVEL}}
+\index{VSF\_FIFO\_CFG\_PROTECT\_LEVEL@{VSF\_FIFO\_CFG\_PROTECT\_LEVEL}!vsf\_fifo.c@{vsf\_fifo.c}}
+\doxysubsubsection{\texorpdfstring{VSF\_FIFO\_CFG\_PROTECT\_LEVEL}{VSF\_FIFO\_CFG\_PROTECT\_LEVEL}}
+{\footnotesize\ttfamily \#define VSF\+\_\+\+FIFO\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL~interrupt}
+
+\begin{DoxyNote}{注解}
+By default, the driver tries to make all APIs interrupt-\/safe, ! ! in the case when you want to disable it, ! please use following macro\+: ! \#define VSF\+\_\+\+FIFO\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL none ! ! in the case when you want to use scheduler-\/safe, ! please use following macro\+: ! \#define VSF\+\_\+\+FIFO\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL scheduler ! ! NOTE\+: This macro should be defined in vsf\+\_\+usr\+\_\+cfg.\+h 
+\end{DoxyNote}
+\mbox{\Hypertarget{vsf__fifo_8c_ab7347baf37e994a9aedae7b6439492a5}\label{vsf__fifo_8c_ab7347baf37e994a9aedae7b6439492a5}} 
+\index{vsf\_fifo.c@{vsf\_fifo.c}!\_\_vsf\_fifo\_protect@{\_\_vsf\_fifo\_protect}}
+\index{\_\_vsf\_fifo\_protect@{\_\_vsf\_fifo\_protect}!vsf\_fifo.c@{vsf\_fifo.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_fifo\_protect}{\_\_vsf\_fifo\_protect}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+fifo\+\_\+protect~vsf\+\_\+protect(\mbox{\hyperlink{vsf__fifo_8c_af0496fe0fca00dff347059c1d70673bd}{VSF\+\_\+\+FIFO\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})}
+
+\mbox{\Hypertarget{vsf__fifo_8c_a34d1665e76cdf3fa4c0660f40209e82c}\label{vsf__fifo_8c_a34d1665e76cdf3fa4c0660f40209e82c}} 
+\index{vsf\_fifo.c@{vsf\_fifo.c}!\_\_vsf\_fifo\_unprotect@{\_\_vsf\_fifo\_unprotect}}
+\index{\_\_vsf\_fifo\_unprotect@{\_\_vsf\_fifo\_unprotect}!vsf\_fifo.c@{vsf\_fifo.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_fifo\_unprotect}{\_\_vsf\_fifo\_unprotect}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+fifo\+\_\+unprotect~vsf\+\_\+unprotect(\mbox{\hyperlink{vsf__fifo_8c_af0496fe0fca00dff347059c1d70673bd}{VSF\+\_\+\+FIFO\+\_\+\+CFG\+\_\+\+PROTECT\+\_\+\+LEVEL}})}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__fifo_8c_af040c59e4d2a47a7c13d7af35198ef46}\label{vsf__fifo_8c_af040c59e4d2a47a7c13d7af35198ef46}} 
+\index{vsf\_fifo.c@{vsf\_fifo.c}!vsf\_fifo\_init@{vsf\_fifo\_init}}
+\index{vsf\_fifo\_init@{vsf\_fifo\_init}!vsf\_fifo.c@{vsf\_fifo.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_fifo\_init()}{vsf\_fifo\_init()}}
+{\footnotesize\ttfamily void vsf\+\_\+fifo\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{vsf__fifo_8h_a0bc005890b684c36c8ea655a975d28e2}{vsf\+\_\+fifo\+\_\+fast\+\_\+index\+\_\+t}}}]{fifo\+\_\+depth }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo_8c_ab22f9b36ef703881b54ff52ca8c5c9ab}\label{vsf__fifo_8c_ab22f9b36ef703881b54ff52ca8c5c9ab}} 
+\index{vsf\_fifo.c@{vsf\_fifo.c}!vsf\_fifo\_push@{vsf\_fifo\_push}}
+\index{vsf\_fifo\_push@{vsf\_fifo\_push}!vsf\_fifo.c@{vsf\_fifo.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_fifo\_push()}{vsf\_fifo\_push()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+fifo\+\_\+push (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}}}]{item,  }\item[{\mbox{\hyperlink{vsf__fifo_8h_ad6354a2b3197f6daa5650022c1106a98}{vsf\+\_\+fifo\+\_\+fast\+\_\+item\+\_\+size\+\_\+t}}}]{item\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo_8c_a928bb20593da3daa018e36f716d80707}\label{vsf__fifo_8c_a928bb20593da3daa018e36f716d80707}} 
+\index{vsf\_fifo.c@{vsf\_fifo.c}!vsf\_fifo\_pop@{vsf\_fifo\_pop}}
+\index{vsf\_fifo\_pop@{vsf\_fifo\_pop}!vsf\_fifo.c@{vsf\_fifo.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_fifo\_pop()}{vsf\_fifo\_pop()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} vsf\+\_\+fifo\+\_\+pop (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}}}]{item,  }\item[{\mbox{\hyperlink{vsf__fifo_8h_ad6354a2b3197f6daa5650022c1106a98}{vsf\+\_\+fifo\+\_\+fast\+\_\+item\+\_\+size\+\_\+t}}}]{item\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo_8c_ad818ee03e4704853b9ed72ca60277741}\label{vsf__fifo_8c_ad818ee03e4704853b9ed72ca60277741}} 
+\index{vsf\_fifo.c@{vsf\_fifo.c}!vsf\_fifo\_get\_head@{vsf\_fifo\_get\_head}}
+\index{vsf\_fifo\_get\_head@{vsf\_fifo\_get\_head}!vsf\_fifo.c@{vsf\_fifo.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_fifo\_get\_head()}{vsf\_fifo\_get\_head()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}} vsf\+\_\+fifo\+\_\+get\+\_\+head (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{vsf__fifo_8h_ad6354a2b3197f6daa5650022c1106a98}{vsf\+\_\+fifo\+\_\+fast\+\_\+item\+\_\+size\+\_\+t}}}]{item\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo_8c_a3d9ec27bcadf28fd7f9191fe59b43fec}\label{vsf__fifo_8c_a3d9ec27bcadf28fd7f9191fe59b43fec}} 
+\index{vsf\_fifo.c@{vsf\_fifo.c}!vsf\_fifo\_get\_tail@{vsf\_fifo\_get\_tail}}
+\index{vsf\_fifo\_get\_tail@{vsf\_fifo\_get\_tail}!vsf\_fifo.c@{vsf\_fifo.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_fifo\_get\_tail()}{vsf\_fifo\_get\_tail()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a09674b9e56fd7a93a2169aa9210deec7}{uintptr\+\_\+t}} vsf\+\_\+fifo\+\_\+get\+\_\+tail (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$}]{fifo,  }\item[{\mbox{\hyperlink{vsf__fifo_8h_ad6354a2b3197f6daa5650022c1106a98}{vsf\+\_\+fifo\+\_\+fast\+\_\+item\+\_\+size\+\_\+t}}}]{item\+\_\+size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__fifo_8c_a743f2d643ffc1271c15c30685117c533}\label{vsf__fifo_8c_a743f2d643ffc1271c15c30685117c533}} 
+\index{vsf\_fifo.c@{vsf\_fifo.c}!vsf\_fifo\_get\_number@{vsf\_fifo\_get\_number}}
+\index{vsf\_fifo\_get\_number@{vsf\_fifo\_get\_number}!vsf\_fifo.c@{vsf\_fifo.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_fifo\_get\_number()}{vsf\_fifo\_get\_number()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__fifo_8h_a01f4bb2dc82e096ef4a49ba409fd8fda}{vsf\+\_\+fifo\+\_\+index\+\_\+t}} vsf\+\_\+fifo\+\_\+get\+\_\+number (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__fifo__t}{vsf\+\_\+fifo\+\_\+t}} $\ast$}]{fifo }\end{DoxyParamCaption})}
+

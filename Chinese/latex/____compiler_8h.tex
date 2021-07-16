@@ -1,0 +1,228 @@
+\hypertarget{____compiler_8h}{}\doxysection{source/utilities/compiler/\+\_\+\+\_\+common/\+\_\+\+\_\+compiler.h 文件参考}
+\label{____compiler_8h}\index{source/utilities/compiler/\_\_common/\_\_compiler.h@{source/utilities/compiler/\_\_common/\_\_compiler.h}}
+{\ttfamily \#include \char`\"{}vsf\+\_\+cfg.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a770f420aff398c03af01c25e5c0c7091}{\+\_\+\+\_\+\+REG\+\_\+\+MACRO\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_aef7e3dc0af8098c97cb8f72d7b0413da}{\+\_\+\+\_\+\+DEF\+\_\+\+REG}}
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a0939d8e9cc4e4288a05d16a4ddf3490e}{\+\_\+\+\_\+\+END\+\_\+\+DEF\+\_\+\+REG}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+BIT\+\_\+\+LEN)
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_aa0c52d5c5b4e2fdd9f4fe5fe944211f7}{DEF\+\_\+\+REG}}~\mbox{\hyperlink{____compiler_8h_aef7e3dc0af8098c97cb8f72d7b0413da}{\+\_\+\+\_\+\+DEF\+\_\+\+REG}}
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a44187aab9ec79805fb30e4e2eface91c}{END\+\_\+\+DEF\+\_\+\+REG}}(\+\_\+\+\_\+\+NAME,  \+\_\+\+\_\+\+BIT\+\_\+\+LEN)~        \mbox{\hyperlink{____compiler_8h_a0939d8e9cc4e4288a05d16a4ddf3490e}{\+\_\+\+\_\+\+END\+\_\+\+DEF\+\_\+\+REG}}(\+\_\+\+\_\+\+NAME, \+\_\+\+\_\+\+BIT\+\_\+\+LEN)
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a10a7d1d05c31b25eaaf5b4682e5bed1e}{DEF\+\_\+\+REG8}}~\mbox{\hyperlink{____compiler_8h_aa0c52d5c5b4e2fdd9f4fe5fe944211f7}{DEF\+\_\+\+REG}}
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_abb6e32a30cb5d06c347c84455105023b}{END\+\_\+\+DEF\+\_\+\+REG8}}(\+\_\+\+\_\+\+NAME)~\mbox{\hyperlink{____compiler_8h_a44187aab9ec79805fb30e4e2eface91c}{END\+\_\+\+DEF\+\_\+\+REG}}(\+\_\+\+\_\+\+NAME, 8)
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a40c198a3b01d7818aeb2abf84d3820a1}{DEF\+\_\+\+REG16}}~\mbox{\hyperlink{____compiler_8h_aa0c52d5c5b4e2fdd9f4fe5fe944211f7}{DEF\+\_\+\+REG}}
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a52be3cdd8623a3409642851dec6b68ab}{END\+\_\+\+DEF\+\_\+\+REG16}}(\+\_\+\+\_\+\+NAME)~\mbox{\hyperlink{____compiler_8h_a44187aab9ec79805fb30e4e2eface91c}{END\+\_\+\+DEF\+\_\+\+REG}}(\+\_\+\+\_\+\+NAME, 16)
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_ac0e2bae2f599e9b1a07323f90dd1d0e3}{DEF\+\_\+\+REG32}}~\mbox{\hyperlink{____compiler_8h_aa0c52d5c5b4e2fdd9f4fe5fe944211f7}{DEF\+\_\+\+REG}}
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_aa0851cc8130fb6115ce39da63b1450ea}{END\+\_\+\+DEF\+\_\+\+REG32}}(\+\_\+\+\_\+\+NAME)~\mbox{\hyperlink{____compiler_8h_a44187aab9ec79805fb30e4e2eface91c}{END\+\_\+\+DEF\+\_\+\+REG}}(\+\_\+\+\_\+\+NAME, 32)
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a744907a886eb929ebdee49a6106b5626}{MCU\+\_\+\+MEM\+\_\+\+ALIGN\+\_\+\+SIZE}}~sizeof(\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}})
+\begin{DoxyCompactList}\small\item\em The mcu memory align mode \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{____compiler_8h_a64fa3037957156c60db536aad57ae07e}{\+\_\+\+\_\+volatile\+\_\+\+\_\+}}~volatile
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a7f2690fa61869b5a072c35ba0fd9afba}{\+\_\+\+\_\+\+IS\+\_\+\+COMPILER\+\_\+\+LLVM\+\_\+\+\_\+}}~0
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a1683de3b194c04d831137aa6d6cf24ad}{\+\_\+\+\_\+\+IS\+\_\+\+COMPILER\+\_\+\+GCC\+\_\+\+\_\+}}~0
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_aa01e0efee06e26beda91f9e11f1c92de}{\+\_\+\+\_\+\+IS\+\_\+\+COMPILER\+\_\+\+IAR\+\_\+\+\_\+}}~0
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a4da29755ae070920ebe09360b7539599}{WEAK\+\_\+\+ALIAS}}(\+\_\+\+\_\+\+ORIGIN,  \+\_\+\+\_\+\+ALIAS)~                                \+\_\+\+\_\+\+WEAK\+\_\+\+ALIAS(\+\_\+\+\_\+\+ORIGIN, \+\_\+\+\_\+\+ALIAS)
+\begin{DoxyCompactList}\small\item\em none standard memory types \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{____compiler_8h_a0845c01828721d7edba02b12770858a3}{AT\+\_\+\+ADDR}}(\+\_\+\+\_\+\+ADDR)~\+\_\+\+\_\+\+AT\+\_\+\+ADDR(\+\_\+\+\_\+\+ADDR)
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a772cdb796bf75855c6a30626131d5e45}{ALIGN}}(\+\_\+\+\_\+N)~\+\_\+\+\_\+\+ALIGN(\+\_\+\+\_\+N)
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a3eaf49c35e19a8e3c92ee1b1b5b0c692}{SECTION}}(\+\_\+\+\_\+\+SEC)~\+\_\+\+\_\+\+SECTION(\+\_\+\+\_\+\+SEC)
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_a1ea4382450d0f6032048add36aecf6a1}{ALIGN\+\_\+\+OF}}(\+\_\+\+\_\+\+TYPE)~\+\_\+\+\_\+\+ALIGN\+\_\+\+OF(\+\_\+\+\_\+\+TYPE)
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_aaa36a0eb481d94f8af271f4899159335}{ALIGN\+\_\+\+WITH}}(\+\_\+\+\_\+\+TYPE)~\mbox{\hyperlink{____compiler_8h_a772cdb796bf75855c6a30626131d5e45}{ALIGN}}(\mbox{\hyperlink{mcs51__compiler_8h_a1ea4382450d0f6032048add36aecf6a1}{ALIGN\+\_\+\+OF}}(\+\_\+\+\_\+\+TYPE))
+\item 
+\#define \mbox{\hyperlink{____compiler_8h_ae98102c6b01460b1b6f62524457889a6}{ISR}}(\+\_\+\+\_\+\+VECT)~\+\_\+\+\_\+\+ISR(\+\_\+\+\_\+\+VECT)
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{____compiler_8h_a7eae9495dadbcf2bf982e09f5240f1bd}{vsf\+\_\+stdio\+\_\+init}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{____compiler_8h_a770f420aff398c03af01c25e5c0c7091}\label{____compiler_8h_a770f420aff398c03af01c25e5c0c7091}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!\_\_REG\_MACRO\_\_@{\_\_REG\_MACRO\_\_}}
+\index{\_\_REG\_MACRO\_\_@{\_\_REG\_MACRO\_\_}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{\_\_REG\_MACRO\_\_}{\_\_REG\_MACRO\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+REG\+\_\+\+MACRO\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{____compiler_8h_aef7e3dc0af8098c97cb8f72d7b0413da}\label{____compiler_8h_aef7e3dc0af8098c97cb8f72d7b0413da}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!\_\_DEF\_REG@{\_\_DEF\_REG}}
+\index{\_\_DEF\_REG@{\_\_DEF\_REG}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{\_\_DEF\_REG}{\_\_DEF\_REG}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+DEF\+\_\+\+REG}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keyword}{union  }\{                                                                \(\backslash\)}
+\DoxyCodeLine{            struct \{}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{____compiler_8h_a0939d8e9cc4e4288a05d16a4ddf3490e}\label{____compiler_8h_a0939d8e9cc4e4288a05d16a4ddf3490e}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!\_\_END\_DEF\_REG@{\_\_END\_DEF\_REG}}
+\index{\_\_END\_DEF\_REG@{\_\_END\_DEF\_REG}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{\_\_END\_DEF\_REG}{\_\_END\_DEF\_REG}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+END\+\_\+\+DEF\+\_\+\+REG(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+BIT\+\_\+\+LEN }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \};                                                                  \(\backslash\)}
+\DoxyCodeLine{            reg\#\#\_\_BIT\_LEN\#\#\_t VALUE;                                           \(\backslash\)}
+\DoxyCodeLine{        \} \_\_NAME;}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{____compiler_8h_aa0c52d5c5b4e2fdd9f4fe5fe944211f7}\label{____compiler_8h_aa0c52d5c5b4e2fdd9f4fe5fe944211f7}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!DEF\_REG@{DEF\_REG}}
+\index{DEF\_REG@{DEF\_REG}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{DEF\_REG}{DEF\_REG}}
+{\footnotesize\ttfamily \#define DEF\+\_\+\+REG~\mbox{\hyperlink{____compiler_8h_aef7e3dc0af8098c97cb8f72d7b0413da}{\+\_\+\+\_\+\+DEF\+\_\+\+REG}}}
+
+\mbox{\Hypertarget{____compiler_8h_a44187aab9ec79805fb30e4e2eface91c}\label{____compiler_8h_a44187aab9ec79805fb30e4e2eface91c}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!END\_DEF\_REG@{END\_DEF\_REG}}
+\index{END\_DEF\_REG@{END\_DEF\_REG}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{END\_DEF\_REG}{END\_DEF\_REG}}
+{\footnotesize\ttfamily \#define END\+\_\+\+DEF\+\_\+\+REG(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME,  }\item[{}]{\+\_\+\+\_\+\+BIT\+\_\+\+LEN }\end{DoxyParamCaption})~        \mbox{\hyperlink{____compiler_8h_a0939d8e9cc4e4288a05d16a4ddf3490e}{\+\_\+\+\_\+\+END\+\_\+\+DEF\+\_\+\+REG}}(\+\_\+\+\_\+\+NAME, \+\_\+\+\_\+\+BIT\+\_\+\+LEN)}
+
+\mbox{\Hypertarget{____compiler_8h_a10a7d1d05c31b25eaaf5b4682e5bed1e}\label{____compiler_8h_a10a7d1d05c31b25eaaf5b4682e5bed1e}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!DEF\_REG8@{DEF\_REG8}}
+\index{DEF\_REG8@{DEF\_REG8}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{DEF\_REG8}{DEF\_REG8}}
+{\footnotesize\ttfamily \#define DEF\+\_\+\+REG8~\mbox{\hyperlink{____compiler_8h_aa0c52d5c5b4e2fdd9f4fe5fe944211f7}{DEF\+\_\+\+REG}}}
+
+\mbox{\Hypertarget{____compiler_8h_abb6e32a30cb5d06c347c84455105023b}\label{____compiler_8h_abb6e32a30cb5d06c347c84455105023b}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!END\_DEF\_REG8@{END\_DEF\_REG8}}
+\index{END\_DEF\_REG8@{END\_DEF\_REG8}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{END\_DEF\_REG8}{END\_DEF\_REG8}}
+{\footnotesize\ttfamily \#define END\+\_\+\+DEF\+\_\+\+REG8(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME }\end{DoxyParamCaption})~\mbox{\hyperlink{____compiler_8h_a44187aab9ec79805fb30e4e2eface91c}{END\+\_\+\+DEF\+\_\+\+REG}}(\+\_\+\+\_\+\+NAME, 8)}
+
+\mbox{\Hypertarget{____compiler_8h_a40c198a3b01d7818aeb2abf84d3820a1}\label{____compiler_8h_a40c198a3b01d7818aeb2abf84d3820a1}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!DEF\_REG16@{DEF\_REG16}}
+\index{DEF\_REG16@{DEF\_REG16}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{DEF\_REG16}{DEF\_REG16}}
+{\footnotesize\ttfamily \#define DEF\+\_\+\+REG16~\mbox{\hyperlink{____compiler_8h_aa0c52d5c5b4e2fdd9f4fe5fe944211f7}{DEF\+\_\+\+REG}}}
+
+\mbox{\Hypertarget{____compiler_8h_a52be3cdd8623a3409642851dec6b68ab}\label{____compiler_8h_a52be3cdd8623a3409642851dec6b68ab}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!END\_DEF\_REG16@{END\_DEF\_REG16}}
+\index{END\_DEF\_REG16@{END\_DEF\_REG16}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{END\_DEF\_REG16}{END\_DEF\_REG16}}
+{\footnotesize\ttfamily \#define END\+\_\+\+DEF\+\_\+\+REG16(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME }\end{DoxyParamCaption})~\mbox{\hyperlink{____compiler_8h_a44187aab9ec79805fb30e4e2eface91c}{END\+\_\+\+DEF\+\_\+\+REG}}(\+\_\+\+\_\+\+NAME, 16)}
+
+\mbox{\Hypertarget{____compiler_8h_ac0e2bae2f599e9b1a07323f90dd1d0e3}\label{____compiler_8h_ac0e2bae2f599e9b1a07323f90dd1d0e3}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!DEF\_REG32@{DEF\_REG32}}
+\index{DEF\_REG32@{DEF\_REG32}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{DEF\_REG32}{DEF\_REG32}}
+{\footnotesize\ttfamily \#define DEF\+\_\+\+REG32~\mbox{\hyperlink{____compiler_8h_aa0c52d5c5b4e2fdd9f4fe5fe944211f7}{DEF\+\_\+\+REG}}}
+
+\mbox{\Hypertarget{____compiler_8h_aa0851cc8130fb6115ce39da63b1450ea}\label{____compiler_8h_aa0851cc8130fb6115ce39da63b1450ea}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!END\_DEF\_REG32@{END\_DEF\_REG32}}
+\index{END\_DEF\_REG32@{END\_DEF\_REG32}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{END\_DEF\_REG32}{END\_DEF\_REG32}}
+{\footnotesize\ttfamily \#define END\+\_\+\+DEF\+\_\+\+REG32(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+NAME }\end{DoxyParamCaption})~\mbox{\hyperlink{____compiler_8h_a44187aab9ec79805fb30e4e2eface91c}{END\+\_\+\+DEF\+\_\+\+REG}}(\+\_\+\+\_\+\+NAME, 32)}
+
+\mbox{\Hypertarget{____compiler_8h_a744907a886eb929ebdee49a6106b5626}\label{____compiler_8h_a744907a886eb929ebdee49a6106b5626}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!MCU\_MEM\_ALIGN\_SIZE@{MCU\_MEM\_ALIGN\_SIZE}}
+\index{MCU\_MEM\_ALIGN\_SIZE@{MCU\_MEM\_ALIGN\_SIZE}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{MCU\_MEM\_ALIGN\_SIZE}{MCU\_MEM\_ALIGN\_SIZE}}
+{\footnotesize\ttfamily \#define MCU\+\_\+\+MEM\+\_\+\+ALIGN\+\_\+\+SIZE~sizeof(\mbox{\hyperlink{arm_2type_8h_ac8e3d6f27cb089386219c1a817170c3d}{uintalu\+\_\+t}})}
+
+
+
+The mcu memory align mode 
+
+\mbox{\Hypertarget{____compiler_8h_a64fa3037957156c60db536aad57ae07e}\label{____compiler_8h_a64fa3037957156c60db536aad57ae07e}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!\_\_volatile\_\_@{\_\_volatile\_\_}}
+\index{\_\_volatile\_\_@{\_\_volatile\_\_}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{\_\_volatile\_\_}{\_\_volatile\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+volatile\+\_\+\+\_\+~volatile}
+
+\mbox{\Hypertarget{____compiler_8h_a7f2690fa61869b5a072c35ba0fd9afba}\label{____compiler_8h_a7f2690fa61869b5a072c35ba0fd9afba}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!\_\_IS\_COMPILER\_LLVM\_\_@{\_\_IS\_COMPILER\_LLVM\_\_}}
+\index{\_\_IS\_COMPILER\_LLVM\_\_@{\_\_IS\_COMPILER\_LLVM\_\_}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{\_\_IS\_COMPILER\_LLVM\_\_}{\_\_IS\_COMPILER\_LLVM\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+IS\+\_\+\+COMPILER\+\_\+\+LLVM\+\_\+\+\_\+~0}
+
+\mbox{\Hypertarget{____compiler_8h_a1683de3b194c04d831137aa6d6cf24ad}\label{____compiler_8h_a1683de3b194c04d831137aa6d6cf24ad}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!\_\_IS\_COMPILER\_GCC\_\_@{\_\_IS\_COMPILER\_GCC\_\_}}
+\index{\_\_IS\_COMPILER\_GCC\_\_@{\_\_IS\_COMPILER\_GCC\_\_}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{\_\_IS\_COMPILER\_GCC\_\_}{\_\_IS\_COMPILER\_GCC\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+IS\+\_\+\+COMPILER\+\_\+\+GCC\+\_\+\+\_\+~0}
+
+\mbox{\Hypertarget{____compiler_8h_aa01e0efee06e26beda91f9e11f1c92de}\label{____compiler_8h_aa01e0efee06e26beda91f9e11f1c92de}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!\_\_IS\_COMPILER\_IAR\_\_@{\_\_IS\_COMPILER\_IAR\_\_}}
+\index{\_\_IS\_COMPILER\_IAR\_\_@{\_\_IS\_COMPILER\_IAR\_\_}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{\_\_IS\_COMPILER\_IAR\_\_}{\_\_IS\_COMPILER\_IAR\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+IS\+\_\+\+COMPILER\+\_\+\+IAR\+\_\+\+\_\+~0}
+
+\mbox{\Hypertarget{____compiler_8h_a4da29755ae070920ebe09360b7539599}\label{____compiler_8h_a4da29755ae070920ebe09360b7539599}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!WEAK\_ALIAS@{WEAK\_ALIAS}}
+\index{WEAK\_ALIAS@{WEAK\_ALIAS}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{WEAK\_ALIAS}{WEAK\_ALIAS}}
+{\footnotesize\ttfamily \#define WEAK\+\_\+\+ALIAS(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+ORIGIN,  }\item[{}]{\+\_\+\+\_\+\+ALIAS }\end{DoxyParamCaption})~                                \+\_\+\+\_\+\+WEAK\+\_\+\+ALIAS(\+\_\+\+\_\+\+ORIGIN, \+\_\+\+\_\+\+ALIAS)}
+
+
+
+none standard memory types 
+
+\mbox{\Hypertarget{____compiler_8h_a0845c01828721d7edba02b12770858a3}\label{____compiler_8h_a0845c01828721d7edba02b12770858a3}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!AT\_ADDR@{AT\_ADDR}}
+\index{AT\_ADDR@{AT\_ADDR}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{AT\_ADDR}{AT\_ADDR}}
+{\footnotesize\ttfamily \#define AT\+\_\+\+ADDR(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+ADDR }\end{DoxyParamCaption})~\+\_\+\+\_\+\+AT\+\_\+\+ADDR(\+\_\+\+\_\+\+ADDR)}
+
+\mbox{\Hypertarget{____compiler_8h_a772cdb796bf75855c6a30626131d5e45}\label{____compiler_8h_a772cdb796bf75855c6a30626131d5e45}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!ALIGN@{ALIGN}}
+\index{ALIGN@{ALIGN}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{ALIGN}{ALIGN}}
+{\footnotesize\ttfamily \#define ALIGN(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+N }\end{DoxyParamCaption})~\+\_\+\+\_\+\+ALIGN(\+\_\+\+\_\+N)}
+
+\mbox{\Hypertarget{____compiler_8h_a3eaf49c35e19a8e3c92ee1b1b5b0c692}\label{____compiler_8h_a3eaf49c35e19a8e3c92ee1b1b5b0c692}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!SECTION@{SECTION}}
+\index{SECTION@{SECTION}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{SECTION}{SECTION}}
+{\footnotesize\ttfamily \#define SECTION(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+SEC }\end{DoxyParamCaption})~\+\_\+\+\_\+\+SECTION(\+\_\+\+\_\+\+SEC)}
+
+\mbox{\Hypertarget{____compiler_8h_a1ea4382450d0f6032048add36aecf6a1}\label{____compiler_8h_a1ea4382450d0f6032048add36aecf6a1}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!ALIGN\_OF@{ALIGN\_OF}}
+\index{ALIGN\_OF@{ALIGN\_OF}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{ALIGN\_OF}{ALIGN\_OF}}
+{\footnotesize\ttfamily \#define ALIGN\+\_\+\+OF(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+TYPE }\end{DoxyParamCaption})~\+\_\+\+\_\+\+ALIGN\+\_\+\+OF(\+\_\+\+\_\+\+TYPE)}
+
+\mbox{\Hypertarget{____compiler_8h_aaa36a0eb481d94f8af271f4899159335}\label{____compiler_8h_aaa36a0eb481d94f8af271f4899159335}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!ALIGN\_WITH@{ALIGN\_WITH}}
+\index{ALIGN\_WITH@{ALIGN\_WITH}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{ALIGN\_WITH}{ALIGN\_WITH}}
+{\footnotesize\ttfamily \#define ALIGN\+\_\+\+WITH(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+TYPE }\end{DoxyParamCaption})~\mbox{\hyperlink{____compiler_8h_a772cdb796bf75855c6a30626131d5e45}{ALIGN}}(\mbox{\hyperlink{mcs51__compiler_8h_a1ea4382450d0f6032048add36aecf6a1}{ALIGN\+\_\+\+OF}}(\+\_\+\+\_\+\+TYPE))}
+
+\mbox{\Hypertarget{____compiler_8h_ae98102c6b01460b1b6f62524457889a6}\label{____compiler_8h_ae98102c6b01460b1b6f62524457889a6}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!ISR@{ISR}}
+\index{ISR@{ISR}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{ISR}{ISR}}
+{\footnotesize\ttfamily \#define ISR(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+VECT }\end{DoxyParamCaption})~\+\_\+\+\_\+\+ISR(\+\_\+\+\_\+\+VECT)}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{____compiler_8h_a7eae9495dadbcf2bf982e09f5240f1bd}\label{____compiler_8h_a7eae9495dadbcf2bf982e09f5240f1bd}} 
+\index{\_\_compiler.h@{\_\_compiler.h}!vsf\_stdio\_init@{vsf\_stdio\_init}}
+\index{vsf\_stdio\_init@{vsf\_stdio\_init}!\_\_compiler.h@{\_\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stdio\_init()}{vsf\_stdio\_init()}}
+{\footnotesize\ttfamily void vsf\+\_\+stdio\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+

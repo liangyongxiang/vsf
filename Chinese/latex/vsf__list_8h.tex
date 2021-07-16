@@ -1,0 +1,1709 @@
+\hypertarget{vsf__list_8h}{}\doxysection{source/utilities/template/vsf\+\_\+list.h 文件参考}
+\label{vsf__list_8h}\index{source/utilities/template/vsf\_list.h@{source/utilities/template/vsf\_list.h}}
+{\ttfamily \#include \char`\"{}../compiler/compiler.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__slist__node__t}{vsf\+\_\+slist\+\_\+node\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvsf__slist__queue__t}{vsf\+\_\+slist\+\_\+queue\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_aadcd50839145ae99d5412965c6ceceab}{\+\_\+\+\_\+when}}(\+\_\+\+\_\+cond)~(\+\_\+\+\_\+cond)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a584151de0ac46a4b84fd26b045a152c8}{when}}(\+\_\+\+\_\+cond)~\mbox{\hyperlink{vsf__list_8h_aadcd50839145ae99d5412965c6ceceab}{\+\_\+\+\_\+when}}(\+\_\+\+\_\+cond)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\+\_\+\+\_\+vsf\+\_\+list\+\_\+tmp\+\_\+name}}(\+\_\+\+\_\+head)~\mbox{\hyperlink{vsf__connect__macro_8h_abf7f27bd9326ce9f85a40c371e32c91b}{VSF\+\_\+\+MCONNECT2}}(\+\_\+\+\_\+head, \+\_\+\+\_\+\+LINE\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ac1a06d3ae1e188c15e65237f165f8de4}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+is\+\_\+empty}}(\+\_\+\+\_\+list\+\_\+ptr)~            (\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} == ((\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$)(\+\_\+\+\_\+list\+\_\+ptr))-\/$>$\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}})
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a468b1664dd99951c98e30d7efab685d4}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+set\+\_\+next}}(\+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+next\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a27bfd19d2214ae169ec529982c2b3e3b}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+ref\+\_\+next}}(\+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a00e6d26a0fb65ed58424e400aac8f600}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+insert\+\_\+next}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a527cae98ea5eef8fd0fa522f41d160ba}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+remove\+\_\+next\+\_\+unsafe}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a8450463e52c38c1313234d7355d97640}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+insert\+\_\+after}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+item\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+new\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a9e2385aa2aa98e37345b6fd40912a2c7}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+remove\+\_\+after}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+item\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_aa741c22a933b4e85be57843beec1292d}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+insert}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr,  \+\_\+\+\_\+cond)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ac21f8bbacefd09caad9be0a1b48c2fef}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+foreach\+\_\+unsafe}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ae918ebfe1a716bbf750beb13ee579e61}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+foreach\+\_\+next\+\_\+unsafe}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a1640958fb8543b7303eb215e59d9ac24}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+foreach}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a4bf74eeb13ffab9feb1f1396bd1f7d74}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+discard\+\_\+head}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ab327db0ca90d0dd37e7e5f4784137355}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+init}}(\+\_\+\+\_\+queue\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ad9c0fcb3c5f88920e880de049dc95f71}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+enqueue}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+queue\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a6fc28ffdd406db800b27820e95aa82f5}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+dequeue}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+queue\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a7ee85329df012aea55414e9043145eaa}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+peek}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+queue\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)~        \mbox{\hyperlink{vsf__list_8h_a27bfd19d2214ae169ec529982c2b3e3b}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+ref\+\_\+next}}(\&((\+\_\+\+\_\+queue\+\_\+ptr)-\/$>$\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}), (\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr));
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a9cef6c0b5550d35bee376a0bc3ce84a5}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+add\+\_\+to\+\_\+head}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+queue\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a7f0ebfd07e063d71ede64a71e08136dc}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+init}}(\+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ab8df17bdce582d03b337fe38be5fbcfd}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+init\+\_\+node}}(\+\_\+\+\_\+node\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a7e1ba7352475968f654b2dd40ac3acf6}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+get\+\_\+host}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+node\+\_\+ptr)~            \mbox{\hyperlink{____type_8h_af8c317a42292b61c93aae91e59118a46}{container\+\_\+of}}((\+\_\+\+\_\+node\+\_\+ptr), \+\_\+\+\_\+host\+\_\+type, \+\_\+\+\_\+member)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a4c3aa55bec607e58b1c1d78b0bf5f589}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+get\+\_\+host\+\_\+safe}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+node\+\_\+ptr)~            \mbox{\hyperlink{____type_8h_a3ef76c493ea2a1f5bf999c4ced1b1362}{safe\+\_\+container\+\_\+of}}((\+\_\+\+\_\+node\+\_\+ptr), \+\_\+\+\_\+host\+\_\+type, \+\_\+\+\_\+member)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a76db82f080f098d9c47a4748dd8e4070}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+is\+\_\+empty}}(\+\_\+\+\_\+list\+\_\+ptr)~((\+\_\+\+\_\+list\+\_\+ptr)-\/$>$\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}} == \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}})
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a7f95462a8ae86a4ce692c568543001c0}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+is\+\_\+in}}(\+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+node\+\_\+ptr)~            \mbox{\hyperlink{vsf__list_8h_a9daff589007732e7605ad386ecfe5b15}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+is\+\_\+in\+\_\+imp}}((\+\_\+\+\_\+list\+\_\+ptr), (\+\_\+\+\_\+node\+\_\+ptr))
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ad550dd0304055f1188770d81d9740d0a}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+ref}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_adf289a654510919df547f0c0a45ddde1}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+ref\+\_\+safe}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a88a8bf141a6b1e83804bac6a55976ee9}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+head}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)~            \mbox{\hyperlink{vsf__list_8h_a543af7e444bebc837c65c348a5e6c973}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+head\+\_\+imp}}((\+\_\+\+\_\+list\+\_\+ptr), \&((\+\_\+\+\_\+item\+\_\+ptr)-\/$>$\+\_\+\+\_\+member))
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a9068654d714b5286bec1cd91aeb42b05}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+tail}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)~            \mbox{\hyperlink{vsf__list_8h_a20ede7cec5375baee56d0ac2b7e7e471}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+tail\+\_\+imp}}((\+\_\+\+\_\+list\+\_\+ptr), \&((\+\_\+\+\_\+item\+\_\+ptr)-\/$>$\+\_\+\+\_\+member))
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ac48108c86c723db6ea4b6dd6a4b0912b}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+peek\+\_\+next}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+item\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a0b47ccbb46f0c147b3cf6035d5a3e95a}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+peek\+\_\+head}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a68d72592b4f50c13fd1873a05b8bca54}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+head}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a52a2eb3ec4aa783296c5d27f3511f936}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+tail}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a2cc158da7c75599c79a152db05f7d699}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+insert\+\_\+after}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+prv\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_adcab6b761e88812d4f009ca8926abd2d}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+insert\+\_\+before}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+next\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a23e38a1e0374d0f9fc4afc345ca80992}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)~            \mbox{\hyperlink{vsf__list_8h_a73e053a9edd9738e9712414a03bf6bb3}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+imp}}((\+\_\+\+\_\+list\+\_\+ptr), \&((\+\_\+\+\_\+item\+\_\+ptr)-\/$>$\+\_\+\+\_\+member))
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a59b0acc43f1e6f4f130f16fcddc5ed29}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+after}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a70969b1397572cd28b7877b274e718b4}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+before}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a38a1767f37b8b32533821d2c6fa307aa}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+insert}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr,  \+\_\+\+\_\+cond)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a792e0e228cecae132d318ca08bf1f480}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+foreach\+\_\+unsafe}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr)
+\end{DoxyCompactItemize}
+\begin{Indent}\textbf{ list normal access}\par
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a99c7987cbac3e1bb5584b5d1abb3b00d}{vsf\+\_\+slist\+\_\+init}}(\+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a5ec2ae303cf39702ddb6b369f1157cb6}{vsf\+\_\+slist\+\_\+is\+\_\+empty}}(\+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a5da6e6a6ff456f2aada4460b0a6137f5}{vsf\+\_\+slist\+\_\+set\+\_\+next}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ad8740b9d5fd43eefc786da184cb30d2f}{vsf\+\_\+slist\+\_\+get\+\_\+length}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_aafae01a015c39f117ab1083716b22a24}{vsf\+\_\+slist\+\_\+remove\+\_\+tail}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a26232b9f75d81bfee0d59f4fc30d1430}{vsf\+\_\+slist\+\_\+get\+\_\+item\+\_\+by\+\_\+index}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+index)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a4ffc104a2f5aa861d4fab703d4f2e5a3}{vsf\+\_\+slist\+\_\+get\+\_\+index}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_aacadd87daa79b8b78729c2c2b765fb7b}{vsf\+\_\+slist\+\_\+append}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a97ca8e20b2de7f341eb32c4e9dadec68}{vsf\+\_\+slist\+\_\+is\+\_\+in}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ab6557e8a91b681874f59485a35b62b77}{vsf\+\_\+slist\+\_\+init\+\_\+node}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a3a01ea85638405bd68c9fdfec4ebe5bc}{vsf\+\_\+slist\+\_\+remove}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ab4d364c4e55b0c6f046266c3212f5832}{vsf\+\_\+slist\+\_\+insert}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr,  \+\_\+\+\_\+cond)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a547c72cb2832deaa188e92c4c414273b}{vsf\+\_\+slist\+\_\+remove\+\_\+after}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+item\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_aba7331b4c38027cd9a61d5d49903f64d}{vsf\+\_\+slist\+\_\+insert\+\_\+after}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+item\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+new\+\_\+ptr)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ stack / stack-\/like operations using list}\par
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a9b5144504ce633920d235ec2db2ac756}{vsf\+\_\+slist\+\_\+stack\+\_\+init}}(\+\_\+\+\_\+list\+\_\+ptr)~\mbox{\hyperlink{vsf__list_8h_ab6557e8a91b681874f59485a35b62b77}{vsf\+\_\+slist\+\_\+init\+\_\+node}}(\+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a53599d63955ec2714e971eae3ae7b0cb}{vsf\+\_\+slist\+\_\+stack\+\_\+pop}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a1fd597900bb6b9aa4753896635e449b5}{vsf\+\_\+slist\+\_\+stack\+\_\+push}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a33342bbcb2e2cd53dea5b6014f298d8d}{vsf\+\_\+slist\+\_\+add\+\_\+to\+\_\+head}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a403c29057adbbf58354a8322a9cdc7ba}{vsf\+\_\+slist\+\_\+discard\+\_\+head}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a61ffc11ea4f7307450da9465a1d0c380}{vsf\+\_\+slist\+\_\+remove\+\_\+from\+\_\+head\+\_\+unsafe}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a1bc3adc90cd8f81673ca7137bd90ba3c}{vsf\+\_\+slist\+\_\+remove\+\_\+from\+\_\+head}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a6d2f1d664bcb0300700aa949767198ac}{vsf\+\_\+slist\+\_\+peek\+\_\+next}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ list enumeration access}\par
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a8306e646a187242f6706c7085b98fabd}{vsf\+\_\+slist\+\_\+foreach}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ queue / queue-\/like operations using slist}\par
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a123d12401a4a6df83063c72fd22faf1e}{vsf\+\_\+slist\+\_\+queue\+\_\+is\+\_\+empty}}(\+\_\+\+\_\+queue\+\_\+ptr)~            \mbox{\hyperlink{vsf__list_8h_a5ec2ae303cf39702ddb6b369f1157cb6}{vsf\+\_\+slist\+\_\+is\+\_\+empty}}(\&(\+\_\+\+\_\+queue\+\_\+ptr)-\/$>$\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}})
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ad6c57dc3b80e59c0edde2e34d81536c4}{vsf\+\_\+slist\+\_\+queue\+\_\+init}}(\+\_\+\+\_\+queue\+\_\+ptr)~            \mbox{\hyperlink{vsf__list_8h_ab327db0ca90d0dd37e7e5f4784137355}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+init}}((\+\_\+\+\_\+queue\+\_\+ptr))/$\ast$ the address of the queue $\ast$/
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_aaa4ca942d75a5ec7fe9b33bf9e84a1a7}{vsf\+\_\+slist\+\_\+queue\+\_\+enqueue}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+queue\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a27edde9f19db0ec166a3d8df8712a985}{vsf\+\_\+slist\+\_\+queue\+\_\+dequeue}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+queue\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ac9bc8012f21172eb377dedacf7bc3681}{vsf\+\_\+slist\+\_\+queue\+\_\+peek}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+queue\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a245e41268c2b1286345effbda7be2b44}{vsf\+\_\+slist\+\_\+queue\+\_\+add\+\_\+to\+\_\+head}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+queue\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ dual-\/way linked list normal access}\par
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_abaa410ae26204a967097545754f549e4}{vsf\+\_\+dlist\+\_\+init}}(\+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ab2324c12c64fd519a6daae40fdca4f34}{vsf\+\_\+dlist\+\_\+is\+\_\+empty}}(\+\_\+\+\_\+list\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a1c27b432694f4667ccec25a77ed3a5a2}{vsf\+\_\+dlist\+\_\+is\+\_\+in}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a713c4813a3ee94bef9f74370d205b798}{vsf\+\_\+dlist\+\_\+init\+\_\+node}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ade088016a1bfe15849b043f33b2b4ba7}{vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+head}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a8ff96517ab1bfe3c9600de44afc77a0a}{vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+tail}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ad6e50a850179feae9507685b76fd9d86}{vsf\+\_\+dlist\+\_\+peek\+\_\+head}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a1439790174ebb2e5e8bedf218083ea6f}{vsf\+\_\+dlist\+\_\+peek\+\_\+next}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+item\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_abc107f709af35562d9fab32b57827a06}{vsf\+\_\+dlist\+\_\+remove\+\_\+head}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ae74f97aad825bbdab1032493de404923}{vsf\+\_\+dlist\+\_\+remove\+\_\+tail}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a1536f2ca72a4bcf4d693df586e32b864}{vsf\+\_\+dlist\+\_\+insert}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr,  \+\_\+\+\_\+cond)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a80bcf55cbbe7e9700d15814a5864bd25}{vsf\+\_\+dlist\+\_\+insert\+\_\+after}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+prv\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_add6c157c0df3e1e22dac14f3c545ca02}{vsf\+\_\+dlist\+\_\+insert\+\_\+before}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+next\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a7d146bcbce2f160cc49353d6924a2cff}{vsf\+\_\+dlist\+\_\+remove}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a4b03c2ef5945ca21e04acc7bc8df3f68}{vsf\+\_\+dlist\+\_\+remove\+\_\+after}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a47fca58b18aac18e99f34e5805be2cf4}{vsf\+\_\+dlist\+\_\+remove\+\_\+before}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+node\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ queue operation using dual-\/way linked list}\par
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_ace585866a12fad67af3d24e8c7e11a2a}{vsf\+\_\+dlist\+\_\+queue\+\_\+peek}}( \+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_aed44f89c30fb6d6ca7a2c512ada38356}{vsf\+\_\+dlist\+\_\+queue\+\_\+enqueue}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ptr)
+\item 
+\#define \mbox{\hyperlink{vsf__list_8h_a3f485b3534eccf164b2a8a10df63eabf}{vsf\+\_\+dlist\+\_\+queue\+\_\+dequeue}}(\+\_\+\+\_\+host\+\_\+type,  \+\_\+\+\_\+member,  \+\_\+\+\_\+list\+\_\+ptr,  \+\_\+\+\_\+item\+\_\+ref\+\_\+ptr)
+\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{类型定义}
+\begin{Indent}\textbf{ single list item}\par
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} \mbox{\hyperlink{vsf__list_8h_a42adf62668b9a18c029ca74cac1d770c}{vsf\+\_\+slist\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__slist__node__t}{vsf\+\_\+slist\+\_\+node\+\_\+t}} \mbox{\hyperlink{vsf__list_8h_a35aac09658b6cf1670fe7c0391e87144}{vsf\+\_\+slist\+\_\+node\+\_\+t}}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ dual-\/way linked list item}\par
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} \mbox{\hyperlink{vsf__list_8h_a08c84ac6db7ecd87240a0e54ea6cedd1}{vsf\+\_\+dlist\+\_\+t}}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} \mbox{\hyperlink{vsf__list_8h_a54813194507a058abb64ebd9cc2c73c5}{vsf\+\_\+dlist\+\_\+node\+\_\+t}}
+\end{DoxyCompactItemize}
+\end{Indent}
+\begin{Indent}\textbf{ single list queue header}\par
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvsf__slist__queue__t}{vsf\+\_\+slist\+\_\+queue\+\_\+t}} \mbox{\hyperlink{vsf__list_8h_a1d95ea047b7d9360a5b3ba51919df46e}{vsf\+\_\+slist\+\_\+queue\+\_\+t}}
+\end{DoxyCompactItemize}
+\end{Indent}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} \mbox{\hyperlink{vsf__list_8h_abb53a1d3b12e9e279516cef954a656fb}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+get\+\_\+length\+\_\+imp}} (\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} list\+\_\+offset)
+\begin{DoxyCompactList}\small\item\em calculate the length of the target list ! \end{DoxyCompactList}\item 
+void $\ast$ \mbox{\hyperlink{vsf__list_8h_a7e01dc931f754deabc39b17e5e9b0711}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+get\+\_\+item\+\_\+by\+\_\+index\+\_\+imp}} (\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} index, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} list\+\_\+offset)
+\begin{DoxyCompactList}\small\item\em get the specified item with a given index from the target list ! \end{DoxyCompactList}\item 
+\mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}} \mbox{\hyperlink{vsf__list_8h_aab16ff9b12e412504cc8d8a0c08a2108}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+get\+\_\+index\+\_\+imp}} (\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$this\+\_\+ptr, void $\ast$item, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} list\+\_\+offset)
+\begin{DoxyCompactList}\small\item\em find the index number of a given item from the target list ! \end{DoxyCompactList}\item 
+void $\ast$ \mbox{\hyperlink{vsf__list_8h_a728996713f091707bb004ba49c4f5e03}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+remove\+\_\+imp}} (\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$this\+\_\+ptr, void $\ast$item, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} list\+\_\+offset)
+\begin{DoxyCompactList}\small\item\em remove a item from the target list ! \end{DoxyCompactList}\item 
+void $\ast$ \mbox{\hyperlink{vsf__list_8h_ac64c2cfe171b9946527ad2bf1eaf2a96}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+append\+\_\+imp}} (\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$this\+\_\+ptr, void $\ast$item, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} list\+\_\+offset)
+\begin{DoxyCompactList}\small\item\em append a item from the target list ! \end{DoxyCompactList}\item 
+void $\ast$ \mbox{\hyperlink{vsf__list_8h_a7bb9cedce0ebf93d4be800da400d573d}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+remove\+\_\+tail\+\_\+imp}} (\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} list\+\_\+offset)
+\item 
+\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__list_8h_a9daff589007732e7605ad386ecfe5b15}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+is\+\_\+in\+\_\+imp}} (\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$node)
+\item 
+void \mbox{\hyperlink{vsf__list_8h_a543af7e444bebc837c65c348a5e6c973}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+head\+\_\+imp}} (\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$node)
+\item 
+void \mbox{\hyperlink{vsf__list_8h_a20ede7cec5375baee56d0ac2b7e7e471}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+tail\+\_\+imp}} (\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$node)
+\item 
+\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__list_8h_aad220a04bbc63baf2f3f32bef6886315}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+head\+\_\+imp}} (\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$this\+\_\+ptr)
+\item 
+\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$ \mbox{\hyperlink{vsf__list_8h_a9424bbb8ecae5b207a79d1c83c3ef141}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+tail\+\_\+imp}} (\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$this\+\_\+ptr)
+\item 
+void \mbox{\hyperlink{vsf__list_8h_af26095896aec9e3e940834c9caf0a981}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+insert\+\_\+after\+\_\+imp}} (\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$node\+\_\+prv, \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$node)
+\item 
+void \mbox{\hyperlink{vsf__list_8h_ae6be2a92a4dc558548f20944eca85299}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+insert\+\_\+before\+\_\+imp}} (\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$node\+\_\+nxt, \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$node)
+\item 
+void \mbox{\hyperlink{vsf__list_8h_a73e053a9edd9738e9712414a03bf6bb3}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+imp}} (\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$node)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__list_8h_aadcd50839145ae99d5412965c6ceceab}\label{vsf__list_8h_aadcd50839145ae99d5412965c6ceceab}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_when@{\_\_when}}
+\index{\_\_when@{\_\_when}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_when}{\_\_when}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+when(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+cond }\end{DoxyParamCaption})~(\+\_\+\+\_\+cond)}
+
+\mbox{\Hypertarget{vsf__list_8h_a584151de0ac46a4b84fd26b045a152c8}\label{vsf__list_8h_a584151de0ac46a4b84fd26b045a152c8}} 
+\index{vsf\_list.h@{vsf\_list.h}!when@{when}}
+\index{when@{when}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{when}{when}}
+{\footnotesize\ttfamily \#define when(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+cond }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__list_8h_aadcd50839145ae99d5412965c6ceceab}{\+\_\+\+\_\+when}}(\+\_\+\+\_\+cond)}
+
+\mbox{\Hypertarget{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}\label{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_list\_tmp\_name@{\_\_vsf\_list\_tmp\_name}}
+\index{\_\_vsf\_list\_tmp\_name@{\_\_vsf\_list\_tmp\_name}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_list\_tmp\_name}{\_\_vsf\_list\_tmp\_name}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+list\+\_\+tmp\+\_\+name(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+head }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__connect__macro_8h_abf7f27bd9326ce9f85a40c371e32c91b}{VSF\+\_\+\+MCONNECT2}}(\+\_\+\+\_\+head, \+\_\+\+\_\+\+LINE\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__list_8h_ac1a06d3ae1e188c15e65237f165f8de4}\label{vsf__list_8h_ac1a06d3ae1e188c15e65237f165f8de4}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_is\_empty@{\_\_vsf\_slist\_is\_empty}}
+\index{\_\_vsf\_slist\_is\_empty@{\_\_vsf\_slist\_is\_empty}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_is\_empty}{\_\_vsf\_slist\_is\_empty}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+is\+\_\+empty(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})~            (\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} == ((\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$)(\+\_\+\+\_\+list\+\_\+ptr))-\/$>$\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}})}
+
+\mbox{\Hypertarget{vsf__list_8h_a468b1664dd99951c98e30d7efab685d4}\label{vsf__list_8h_a468b1664dd99951c98e30d7efab685d4}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_set\_next@{\_\_vsf\_slist\_set\_next}}
+\index{\_\_vsf\_slist\_set\_next@{\_\_vsf\_slist\_set\_next}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_set\_next}{\_\_vsf\_slist\_set\_next}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+set\+\_\+next(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+next\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        ((\mbox{\hyperlink{structvsf__slist__node__t}{vsf\_slist\_node\_t}} *)(\_\_node\_ptr))-\/>\mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}} = (\_\_item\_next\_ptr);           \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a27bfd19d2214ae169ec529982c2b3e3b}\label{vsf__list_8h_a27bfd19d2214ae169ec529982c2b3e3b}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_ref\_next@{\_\_vsf\_slist\_ref\_next}}
+\index{\_\_vsf\_slist\_ref\_next@{\_\_vsf\_slist\_ref\_next}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_ref\_next}{\_\_vsf\_slist\_ref\_next}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+ref\+\_\+next(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        (*(\textcolor{keywordtype}{void} **)\&(\_\_item\_ref\_ptr)) =                                         \(\backslash\)}
+\DoxyCodeLine{            (((\mbox{\hyperlink{structvsf__slist__node__t}{vsf\_slist\_node\_t}} *)(\_\_node\_ptr))-\/>next);                         \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a00e6d26a0fb65ed58424e400aac8f600}\label{vsf__list_8h_a00e6d26a0fb65ed58424e400aac8f600}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_insert\_next@{\_\_vsf\_slist\_insert\_next}}
+\index{\_\_vsf\_slist\_insert\_next@{\_\_vsf\_slist\_insert\_next}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_insert\_next}{\_\_vsf\_slist\_insert\_next}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+insert\+\_\+next(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_set\_next(\&((\_\_item\_ptr)-\/>\_\_member), ((\_\_node\_ptr)-\/>\mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}}));  \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_set\_next((\_\_node\_ptr), (\_\_item\_ptr));                       \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a527cae98ea5eef8fd0fa522f41d160ba}\label{vsf__list_8h_a527cae98ea5eef8fd0fa522f41d160ba}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_remove\_next\_unsafe@{\_\_vsf\_slist\_remove\_next\_unsafe}}
+\index{\_\_vsf\_slist\_remove\_next\_unsafe@{\_\_vsf\_slist\_remove\_next\_unsafe}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_remove\_next\_unsafe}{\_\_vsf\_slist\_remove\_next\_unsafe}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+remove\+\_\+next\+\_\+unsafe(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_ref\_next((\_\_node\_ptr), (\_\_item\_ref\_ptr));                   \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_set\_next((\_\_node\_ptr),                                      \(\backslash\)}
+\DoxyCodeLine{                ((\_\_host\_type *)(\_\_item\_ref\_ptr))-\/>\_\_member.next);              \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a8450463e52c38c1313234d7355d97640}\label{vsf__list_8h_a8450463e52c38c1313234d7355d97640}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_insert\_after@{\_\_vsf\_slist\_insert\_after}}
+\index{\_\_vsf\_slist\_insert\_after@{\_\_vsf\_slist\_insert\_after}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_insert\_after}{\_\_vsf\_slist\_insert\_after}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+insert\+\_\+after(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+new\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{comment}{/* new item address */}       \(\backslash\)}
+\DoxyCodeLine{    do \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        vsf\_slist\_node\_t *\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node) = \&((\_\_item\_ptr)-\/>\_\_member);\(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_insert\_next(\_\_host\_type, \_\_member,                          \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node), (\_\_item\_new\_ptr));                   \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a9e2385aa2aa98e37345b6fd40912a2c7}\label{vsf__list_8h_a9e2385aa2aa98e37345b6fd40912a2c7}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_remove\_after@{\_\_vsf\_slist\_remove\_after}}
+\index{\_\_vsf\_slist\_remove\_after@{\_\_vsf\_slist\_remove\_after}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_remove\_after}{\_\_vsf\_slist\_remove\_after}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+remove\+\_\+after(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{comment}{/* pointer of host type*/}   \(\backslash\)}
+\DoxyCodeLine{    do \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        vsf\_slist\_node\_t *\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node) = \&((\_\_item\_ptr)-\/>\_\_member);\(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_ref\_next(\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node), (\_\_item\_ref\_ptr));      \(\backslash\)}
+\DoxyCodeLine{        if (\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} != \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node)-\/>\mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}}) \{                          \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_set\_next(\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node),                     \(\backslash\)}
+\DoxyCodeLine{                ((\_\_host\_type *)(\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node)-\/>\mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}}))-\/>\_\_member.next);\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_set\_next(\&((\_\_item\_ref\_ptr)-\/>\_\_member), \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}});          \(\backslash\)}
+\DoxyCodeLine{        \}                                                                       \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_aa741c22a933b4e85be57843beec1292d}\label{vsf__list_8h_aa741c22a933b4e85be57843beec1292d}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_insert@{\_\_vsf\_slist\_insert}}
+\index{\_\_vsf\_slist\_insert@{\_\_vsf\_slist\_insert}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_insert}{\_\_vsf\_slist\_insert}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+insert(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+cond }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{comment}{/* how to find insert point */}    \(\backslash\)}
+\DoxyCodeLine{    do \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        vsf\_slist\_node\_t *\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node) =                           \(\backslash\)}
+\DoxyCodeLine{                    (\mbox{\hyperlink{structvsf__slist__node__t}{vsf\_slist\_node\_t}} *)(\_\_list\_ptr);                           \(\backslash\)}
+\DoxyCodeLine{        vsf\_slist\_init\_node(\_\_host\_type, \_\_member, \_\_item\_ptr);                 \(\backslash\)}
+\DoxyCodeLine{        for (; \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node)-\/>next != \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};)\{                       \(\backslash\)}
+\DoxyCodeLine{            const \_\_host\_type * \textcolor{keyword}{const} \mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} =                                       \(\backslash\)}
+\DoxyCodeLine{                    (\_\_host\_type *)(\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node)-\/>next);           \(\backslash\)}
+\DoxyCodeLine{            \textcolor{comment}{/* using \_\_VA\_ARGS\_\_ so ',' operation could be supported */}         \(\backslash\)}
+\DoxyCodeLine{            if (\_\_cond) \{                                                       \(\backslash\)}
+\DoxyCodeLine{                \_\_vsf\_slist\_insert\_next(\_\_host\_type, \_\_member,                  \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node), (\_\_item\_ptr));                   \(\backslash\)}
+\DoxyCodeLine{                break;                                                          \(\backslash\)}
+\DoxyCodeLine{            \}                                                                   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_list\_tmp\_name(node) = (\mbox{\hyperlink{structvsf__slist__node__t}{vsf\_slist\_node\_t}} *)\&(\mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}}-\/>\_\_member);     \(\backslash\)}
+\DoxyCodeLine{        \}                                                                       \(\backslash\)}
+\DoxyCodeLine{        if (\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} == \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node)-\/>\mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}}) \{                          \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_insert\_next(\_\_host\_type, \_\_member,                      \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node), (\_\_item\_ptr));                   \(\backslash\)}
+\DoxyCodeLine{            break;                                                              \(\backslash\)}
+\DoxyCodeLine{        \}                                                                       \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ac21f8bbacefd09caad9be0a1b48c2fef}\label{vsf__list_8h_ac21f8bbacefd09caad9be0a1b48c2fef}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_foreach\_unsafe@{\_\_vsf\_slist\_foreach\_unsafe}}
+\index{\_\_vsf\_slist\_foreach\_unsafe@{\_\_vsf\_slist\_foreach\_unsafe}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_foreach\_unsafe}{\_\_vsf\_slist\_foreach\_unsafe}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+foreach\+\_\+unsafe(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{comment}{/* the address of the list */}       \(\backslash\)}
+\DoxyCodeLine{    for (   \_\_host\_type *\mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} = (\_\_host\_type *)((\_\_list\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}});               \(\backslash\)}
+\DoxyCodeLine{            \_ != \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};                                                          \(\backslash\)}
+\DoxyCodeLine{            \_ = (\_\_host\_type *)(\mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}}-\/>\_\_member.next))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ae918ebfe1a716bbf750beb13ee579e61}\label{vsf__list_8h_ae918ebfe1a716bbf750beb13ee579e61}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_foreach\_next\_unsafe@{\_\_vsf\_slist\_foreach\_next\_unsafe}}
+\index{\_\_vsf\_slist\_foreach\_next\_unsafe@{\_\_vsf\_slist\_foreach\_next\_unsafe}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_foreach\_next\_unsafe}{\_\_vsf\_slist\_foreach\_next\_unsafe}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+foreach\+\_\+next\+\_\+unsafe(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{comment}{/* the address of the list */}       \(\backslash\)}
+\DoxyCodeLine{    for (   \_\_host\_type *\mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} = (\_\_host\_type *)((\_\_list\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}),               \(\backslash\)}
+\DoxyCodeLine{                *\_\_ = \mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} ? (\_\_host\_type *)(\mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}}-\/>\_\_member.next) : \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};             \(\backslash\)}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} != \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};                                                          \(\backslash\)}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} = \_\_, \_\_ = \mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} ? (\_\_host\_type *)(\mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}}-\/>\_\_member.next) : \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}})}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a1640958fb8543b7303eb215e59d9ac24}\label{vsf__list_8h_a1640958fb8543b7303eb215e59d9ac24}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_foreach@{\_\_vsf\_slist\_foreach}}
+\index{\_\_vsf\_slist\_foreach@{\_\_vsf\_slist\_foreach}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_foreach}{\_\_vsf\_slist\_foreach}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+foreach(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{comment}{/* the pointer name, e.g. ptarget */}\(\backslash\)}
+\DoxyCodeLine{    for (\_\_host\_type                        \textcolor{comment}{/* loop initialisation */}           \(\backslash\)}
+\DoxyCodeLine{            *\_\_item\_ptr = (\_\_host\_type *)(\_\_list\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}},                    \(\backslash\)}
+\DoxyCodeLine{            *\mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} = \_\_item\_ptr,                                                    \(\backslash\)}
+\DoxyCodeLine{            *\mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}} = \_\_item\_ptr                                                  \(\backslash\)}
+\DoxyCodeLine{                ?   (\_\_host\_type *)                                             \(\backslash\)}
+\DoxyCodeLine{                        ((\_\_host\_type *)((\_\_list\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}))-\/>\_\_member.next    \(\backslash\)}
+\DoxyCodeLine{                :   \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};                                                       \(\backslash\)}
+\DoxyCodeLine{            \_\_item\_ptr != \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};             \textcolor{comment}{/* loop condition */}                \(\backslash\)}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} = \_\_item\_ptr = \mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}}, \mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}} = \_\_item\_ptr                            \(\backslash\)}
+\DoxyCodeLine{                ?   (\_\_host\_type *)                                             \(\backslash\)}
+\DoxyCodeLine{                       ((\_\_host\_type *)((\_\_list\_ptr)-\/>head))-\/>\_\_member.next     \(\backslash\)}
+\DoxyCodeLine{                :   \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}})                   \textcolor{comment}{/* prepare for next iteration */}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a4bf74eeb13ffab9feb1f1396bd1f7d74}\label{vsf__list_8h_a4bf74eeb13ffab9feb1f1396bd1f7d74}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_discard\_head@{\_\_vsf\_slist\_discard\_head}}
+\index{\_\_vsf\_slist\_discard\_head@{\_\_vsf\_slist\_discard\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_discard\_head}{\_\_vsf\_slist\_discard\_head}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+discard\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{keywordflow}{if} (\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} != (\_\_list\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}) \{                                   \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type *item = (\_\_host\_type *)((\_\_list\_ptr)-\/>head);        \(\backslash\)}
+\DoxyCodeLine{                \_\_vsf\_slist\_set\_next(                                           \(\backslash\)}
+\DoxyCodeLine{                        (\_\_list\_ptr),                                           \(\backslash\)}
+\DoxyCodeLine{                        ((\_\_host\_type *)((\_\_list\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}))-\/>\_\_member.next);  \(\backslash\)}
+\DoxyCodeLine{                item-\/>\_\_member.next = \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};                                     \(\backslash\)}
+\DoxyCodeLine{            \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ab327db0ca90d0dd37e7e5f4784137355}\label{vsf__list_8h_ab327db0ca90d0dd37e7e5f4784137355}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_queue\_init@{\_\_vsf\_slist\_queue\_init}}
+\index{\_\_vsf\_slist\_queue\_init@{\_\_vsf\_slist\_queue\_init}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_queue\_init}{\_\_vsf\_slist\_queue\_init}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+init(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+queue\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_set\_next(\&((\_\_queue\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}), \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}});                     \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_set\_next(\&((\_\_queue\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ace756213e1bd262b8d63eaf28e6249c9}{tail}}), \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}});                     \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ad9c0fcb3c5f88920e880de049dc95f71}\label{vsf__list_8h_ad9c0fcb3c5f88920e880de049dc95f71}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_queue\_enqueue@{\_\_vsf\_slist\_queue\_enqueue}}
+\index{\_\_vsf\_slist\_queue\_enqueue@{\_\_vsf\_slist\_queue\_enqueue}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_queue\_enqueue}{\_\_vsf\_slist\_queue\_enqueue}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+enqueue(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+queue\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        \_\_host\_type * \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(host\_tail) =                          \(\backslash\)}
+\DoxyCodeLine{                (\_\_host\_type *)((\_\_queue\_ptr)-\/>tail.next);                      \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_set\_next(\&((\_\_queue\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ace756213e1bd262b8d63eaf28e6249c9}{tail}}), (\_\_item\_ptr));             \(\backslash\)}
+\DoxyCodeLine{        if (\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(host\_tail) != \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}})                             \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_set\_next(\&\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(host\_tail)-\/>\_\_member, (\_\_item\_ptr));\mbox{\hyperlink{vsf__list_8h_a468b1664dd99951c98e30d7efab685d4}{\(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{vsf__list_8h_a468b1664dd99951c98e30d7efab685d4}{        else                                                                    \(\backslash\)}}}
+\DoxyCodeLine{\mbox{\hyperlink{vsf__list_8h_a468b1664dd99951c98e30d7efab685d4}{            \_\_vsf\_slist\_set\_next}}(\&((\_\_queue\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}), (\_\_item\_ptr));         \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a6fc28ffdd406db800b27820e95aa82f5}\label{vsf__list_8h_a6fc28ffdd406db800b27820e95aa82f5}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_queue\_dequeue@{\_\_vsf\_slist\_queue\_dequeue}}
+\index{\_\_vsf\_slist\_queue\_dequeue@{\_\_vsf\_slist\_queue\_dequeue}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_queue\_dequeue}{\_\_vsf\_slist\_queue\_dequeue}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+dequeue(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+queue\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_ref\_next(\&((\_\_queue\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}), (\_\_item\_ref\_ptr));         \(\backslash\)}
+\DoxyCodeLine{        if (\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} != (\_\_item\_ref\_ptr)) \{                                         \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_set\_next(                                               \(\backslash\)}
+\DoxyCodeLine{                \&((\_\_queue\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}),                                         \(\backslash\)}
+\DoxyCodeLine{                (\_\_item\_ref\_ptr)-\/>\_\_member.next);                               \(\backslash\)}
+\DoxyCodeLine{            if (\mbox{\hyperlink{vsf__list_8h_ac1a06d3ae1e188c15e65237f165f8de4}{\_\_vsf\_slist\_is\_empty}}(\&((\_\_queue\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}})))                   \(\backslash\)}
+\DoxyCodeLine{                \_\_vsf\_slist\_set\_next(\&((\_\_queue\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ace756213e1bd262b8d63eaf28e6249c9}{tail}}), \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}});             \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_set\_next(\&((\_\_item\_ref\_ptr)-\/>\_\_member), \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}});          \(\backslash\)}
+\DoxyCodeLine{        \}                                                                       \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a7ee85329df012aea55414e9043145eaa}\label{vsf__list_8h_a7ee85329df012aea55414e9043145eaa}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_queue\_peek@{\_\_vsf\_slist\_queue\_peek}}
+\index{\_\_vsf\_slist\_queue\_peek@{\_\_vsf\_slist\_queue\_peek}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_queue\_peek}{\_\_vsf\_slist\_queue\_peek}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+peek(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+queue\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__list_8h_a27bfd19d2214ae169ec529982c2b3e3b}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+ref\+\_\+next}}(\&((\+\_\+\+\_\+queue\+\_\+ptr)-\/$>$\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}), (\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr));}
+
+\mbox{\Hypertarget{vsf__list_8h_a9cef6c0b5550d35bee376a0bc3ce84a5}\label{vsf__list_8h_a9cef6c0b5550d35bee376a0bc3ce84a5}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_queue\_add\_to\_head@{\_\_vsf\_slist\_queue\_add\_to\_head}}
+\index{\_\_vsf\_slist\_queue\_add\_to\_head@{\_\_vsf\_slist\_queue\_add\_to\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_queue\_add\_to\_head}{\_\_vsf\_slist\_queue\_add\_to\_head}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+add\+\_\+to\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+queue\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        \_\_host\_type * \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(host\_head) =                          \(\backslash\)}
+\DoxyCodeLine{                (\_\_host\_type *)((\_\_queue\_ptr)-\/>head.next);                      \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_set\_next(\&(\_\_item\_ptr)-\/>\_\_member,                           \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(host\_head));                                \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_slist\_set\_next(\&((\_\_queue\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}), (\_\_item\_ptr));             \(\backslash\)}
+\DoxyCodeLine{        if (\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} == \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(host\_head))                             \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_set\_next(\&((\_\_queue\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ace756213e1bd262b8d63eaf28e6249c9}{tail}}), (\_\_item\_ptr));         \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a7f0ebfd07e063d71ede64a71e08136dc}\label{vsf__list_8h_a7f0ebfd07e063d71ede64a71e08136dc}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_init@{\_\_vsf\_dlist\_init}}
+\index{\_\_vsf\_dlist\_init@{\_\_vsf\_dlist\_init}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_init}{\_\_vsf\_dlist\_init}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+init(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        (\_\_list\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}} = (\_\_list\_ptr)-\/>tail = \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};                         \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ab8df17bdce582d03b337fe38be5fbcfd}\label{vsf__list_8h_ab8df17bdce582d03b337fe38be5fbcfd}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_init\_node@{\_\_vsf\_dlist\_init\_node}}
+\index{\_\_vsf\_dlist\_init\_node@{\_\_vsf\_dlist\_init\_node}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_init\_node}{\_\_vsf\_dlist\_init\_node}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+init\+\_\+node(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+node\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        (\_\_node\_ptr)-\/>\mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}} = (\_\_node\_ptr)-\/>prev = \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};                         \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a7e1ba7352475968f654b2dd40ac3acf6}\label{vsf__list_8h_a7e1ba7352475968f654b2dd40ac3acf6}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_get\_host@{\_\_vsf\_dlist\_get\_host}}
+\index{\_\_vsf\_dlist\_get\_host@{\_\_vsf\_dlist\_get\_host}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_get\_host}{\_\_vsf\_dlist\_get\_host}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+get\+\_\+host(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr }\end{DoxyParamCaption})~            \mbox{\hyperlink{____type_8h_af8c317a42292b61c93aae91e59118a46}{container\+\_\+of}}((\+\_\+\+\_\+node\+\_\+ptr), \+\_\+\+\_\+host\+\_\+type, \+\_\+\+\_\+member)}
+
+\mbox{\Hypertarget{vsf__list_8h_a4c3aa55bec607e58b1c1d78b0bf5f589}\label{vsf__list_8h_a4c3aa55bec607e58b1c1d78b0bf5f589}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_get\_host\_safe@{\_\_vsf\_dlist\_get\_host\_safe}}
+\index{\_\_vsf\_dlist\_get\_host\_safe@{\_\_vsf\_dlist\_get\_host\_safe}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_get\_host\_safe}{\_\_vsf\_dlist\_get\_host\_safe}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+get\+\_\+host\+\_\+safe(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr }\end{DoxyParamCaption})~            \mbox{\hyperlink{____type_8h_a3ef76c493ea2a1f5bf999c4ced1b1362}{safe\+\_\+container\+\_\+of}}((\+\_\+\+\_\+node\+\_\+ptr), \+\_\+\+\_\+host\+\_\+type, \+\_\+\+\_\+member)}
+
+\mbox{\Hypertarget{vsf__list_8h_a76db82f080f098d9c47a4748dd8e4070}\label{vsf__list_8h_a76db82f080f098d9c47a4748dd8e4070}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_is\_empty@{\_\_vsf\_dlist\_is\_empty}}
+\index{\_\_vsf\_dlist\_is\_empty@{\_\_vsf\_dlist\_is\_empty}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_is\_empty}{\_\_vsf\_dlist\_is\_empty}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+is\+\_\+empty(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})~((\+\_\+\+\_\+list\+\_\+ptr)-\/$>$\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}} == \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}})}
+
+\mbox{\Hypertarget{vsf__list_8h_a7f95462a8ae86a4ce692c568543001c0}\label{vsf__list_8h_a7f95462a8ae86a4ce692c568543001c0}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_is\_in@{\_\_vsf\_dlist\_is\_in}}
+\index{\_\_vsf\_dlist\_is\_in@{\_\_vsf\_dlist\_is\_in}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_is\_in}{\_\_vsf\_dlist\_is\_in}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+is\+\_\+in(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__list_8h_a9daff589007732e7605ad386ecfe5b15}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+is\+\_\+in\+\_\+imp}}((\+\_\+\+\_\+list\+\_\+ptr), (\+\_\+\+\_\+node\+\_\+ptr))}
+
+\mbox{\Hypertarget{vsf__list_8h_ad550dd0304055f1188770d81d9740d0a}\label{vsf__list_8h_ad550dd0304055f1188770d81d9740d0a}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_ref@{\_\_vsf\_dlist\_ref}}
+\index{\_\_vsf\_dlist\_ref@{\_\_vsf\_dlist\_ref}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_ref}{\_\_vsf\_dlist\_ref}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+ref(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        (*(\_\_host\_type **)\&(\_\_item\_ref\_ptr)) =                                  \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__list_8h_a7e1ba7352475968f654b2dd40ac3acf6}{\_\_vsf\_dlist\_get\_host}}(\_\_host\_type, \_\_member, \_\_node\_ptr);        \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_adf289a654510919df547f0c0a45ddde1}\label{vsf__list_8h_adf289a654510919df547f0c0a45ddde1}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_ref\_safe@{\_\_vsf\_dlist\_ref\_safe}}
+\index{\_\_vsf\_dlist\_ref\_safe@{\_\_vsf\_dlist\_ref\_safe}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_ref\_safe}{\_\_vsf\_dlist\_ref\_safe}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+ref\+\_\+safe(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        (*(\_\_host\_type **)\&(\_\_item\_ref\_ptr)) =                                  \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__list_8h_a4c3aa55bec607e58b1c1d78b0bf5f589}{\_\_vsf\_dlist\_get\_host\_safe}}(\_\_host\_type, \_\_member, \_\_node\_ptr);   \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a88a8bf141a6b1e83804bac6a55976ee9}\label{vsf__list_8h_a88a8bf141a6b1e83804bac6a55976ee9}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_add\_to\_head@{\_\_vsf\_dlist\_add\_to\_head}}
+\index{\_\_vsf\_dlist\_add\_to\_head@{\_\_vsf\_dlist\_add\_to\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_add\_to\_head}{\_\_vsf\_dlist\_add\_to\_head}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__list_8h_a543af7e444bebc837c65c348a5e6c973}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+head\+\_\+imp}}((\+\_\+\+\_\+list\+\_\+ptr), \&((\+\_\+\+\_\+item\+\_\+ptr)-\/$>$\+\_\+\+\_\+member))}
+
+\mbox{\Hypertarget{vsf__list_8h_a9068654d714b5286bec1cd91aeb42b05}\label{vsf__list_8h_a9068654d714b5286bec1cd91aeb42b05}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_add\_to\_tail@{\_\_vsf\_dlist\_add\_to\_tail}}
+\index{\_\_vsf\_dlist\_add\_to\_tail@{\_\_vsf\_dlist\_add\_to\_tail}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_add\_to\_tail}{\_\_vsf\_dlist\_add\_to\_tail}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+tail(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__list_8h_a20ede7cec5375baee56d0ac2b7e7e471}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+tail\+\_\+imp}}((\+\_\+\+\_\+list\+\_\+ptr), \&((\+\_\+\+\_\+item\+\_\+ptr)-\/$>$\+\_\+\+\_\+member))}
+
+\mbox{\Hypertarget{vsf__list_8h_ac48108c86c723db6ea4b6dd6a4b0912b}\label{vsf__list_8h_ac48108c86c723db6ea4b6dd6a4b0912b}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_peek\_next@{\_\_vsf\_dlist\_peek\_next}}
+\index{\_\_vsf\_dlist\_peek\_next@{\_\_vsf\_dlist\_peek\_next}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_peek\_next}{\_\_vsf\_dlist\_peek\_next}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+peek\+\_\+next(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        vsf\_dlist\_node\_t *\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node) = (\_\_item\_ptr)-\/>\_\_member.next;\(\backslash\)}
+\DoxyCodeLine{        \mbox{\hyperlink{vsf__list_8h_adf289a654510919df547f0c0a45ddde1}{\_\_vsf\_dlist\_ref\_safe}}(\_\_host\_type, \_\_member,                             \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node), (\_\_item\_ref\_ptr));                   \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a0b47ccbb46f0c147b3cf6035d5a3e95a}\label{vsf__list_8h_a0b47ccbb46f0c147b3cf6035d5a3e95a}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_peek\_head@{\_\_vsf\_dlist\_peek\_head}}
+\index{\_\_vsf\_dlist\_peek\_head@{\_\_vsf\_dlist\_peek\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_peek\_head}{\_\_vsf\_dlist\_peek\_head}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+peek\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        vsf\_dlist\_node\_t *\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node) = (\_\_list\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}};       \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_dlist\_ref\_safe(\_\_host\_type, \_\_member,                             \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node), (\_\_item\_ref\_ptr));                   \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a68d72592b4f50c13fd1873a05b8bca54}\label{vsf__list_8h_a68d72592b4f50c13fd1873a05b8bca54}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_remove\_head@{\_\_vsf\_dlist\_remove\_head}}
+\index{\_\_vsf\_dlist\_remove\_head@{\_\_vsf\_dlist\_remove\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_remove\_head}{\_\_vsf\_dlist\_remove\_head}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        vsf\_dlist\_node\_t *\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node) =                           \(\backslash\)}
+\DoxyCodeLine{                \_\_vsf\_dlist\_remove\_head\_imp(\_\_list\_ptr);                        \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_dlist\_ref\_safe(\_\_host\_type, \_\_member,                             \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node), (\_\_item\_ref\_ptr));                   \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a52a2eb3ec4aa783296c5d27f3511f936}\label{vsf__list_8h_a52a2eb3ec4aa783296c5d27f3511f936}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_remove\_tail@{\_\_vsf\_dlist\_remove\_tail}}
+\index{\_\_vsf\_dlist\_remove\_tail@{\_\_vsf\_dlist\_remove\_tail}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_remove\_tail}{\_\_vsf\_dlist\_remove\_tail}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+tail(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        vsf\_dlist\_node\_t *\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node) =                           \(\backslash\)}
+\DoxyCodeLine{                \_\_vsf\_dlist\_remove\_tail\_imp(\_\_list\_ptr);                        \(\backslash\)}
+\DoxyCodeLine{        \_\_vsf\_dlist\_ref\_safe(\_\_host\_type, \_\_member,                             \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node), (\_\_item\_ref\_ptr));                   \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a2cc158da7c75599c79a152db05f7d699}\label{vsf__list_8h_a2cc158da7c75599c79a152db05f7d699}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_insert\_after@{\_\_vsf\_dlist\_insert\_after}}
+\index{\_\_vsf\_dlist\_insert\_after@{\_\_vsf\_dlist\_insert\_after}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_insert\_after}{\_\_vsf\_dlist\_insert\_after}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+insert\+\_\+after(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+prv\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__list_8h_af26095896aec9e3e940834c9caf0a981}{\_\_vsf\_dlist\_insert\_after\_imp}}(                                       \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr),                                                   \(\backslash\)}
+\DoxyCodeLine{                \&((\_\_item\_prv\_ptr)-\/>\_\_member),                                  \(\backslash\)}
+\DoxyCodeLine{                \&((\_\_item\_ptr)-\/>\_\_member))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_adcab6b761e88812d4f009ca8926abd2d}\label{vsf__list_8h_adcab6b761e88812d4f009ca8926abd2d}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_insert\_before@{\_\_vsf\_dlist\_insert\_before}}
+\index{\_\_vsf\_dlist\_insert\_before@{\_\_vsf\_dlist\_insert\_before}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_insert\_before}{\_\_vsf\_dlist\_insert\_before}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+insert\+\_\+before(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+next\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__list_8h_ae6be2a92a4dc558548f20944eca85299}{\_\_vsf\_dlist\_insert\_before\_imp}}(                                      \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr),                                                   \(\backslash\)}
+\DoxyCodeLine{                \&((\_\_item\_next\_ptr)-\/>\_\_member),                                 \(\backslash\)}
+\DoxyCodeLine{                \&((\_\_item\_ptr)-\/>\_\_member))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a23e38a1e0374d0f9fc4afc345ca80992}\label{vsf__list_8h_a23e38a1e0374d0f9fc4afc345ca80992}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_remove@{\_\_vsf\_dlist\_remove}}
+\index{\_\_vsf\_dlist\_remove@{\_\_vsf\_dlist\_remove}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_remove}{\_\_vsf\_dlist\_remove}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__list_8h_a73e053a9edd9738e9712414a03bf6bb3}{\+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+imp}}((\+\_\+\+\_\+list\+\_\+ptr), \&((\+\_\+\+\_\+item\+\_\+ptr)-\/$>$\+\_\+\+\_\+member))}
+
+\mbox{\Hypertarget{vsf__list_8h_a59b0acc43f1e6f4f130f16fcddc5ed29}\label{vsf__list_8h_a59b0acc43f1e6f4f130f16fcddc5ed29}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_remove\_after@{\_\_vsf\_dlist\_remove\_after}}
+\index{\_\_vsf\_dlist\_remove\_after@{\_\_vsf\_dlist\_remove\_after}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_remove\_after}{\_\_vsf\_dlist\_remove\_after}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+after(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        vsf\_dlist\_node\_t *\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node\_nxt) = (\_\_node\_ptr)-\/>\mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}};   \(\backslash\)}
+\DoxyCodeLine{        if (\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node\_nxt) != \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}}) \{                            \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_remove(\_\_host\_type, \_\_member, \_\_list\_ptr,               \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node\_nxt));                             \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_ref(\_\_host\_type, \_\_member,                              \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node\_nxt), (\_\_item\_ref\_ptr));           \(\backslash\)}
+\DoxyCodeLine{        \} \textcolor{keywordflow}{else} \{                                                                \(\backslash\)}
+\DoxyCodeLine{            (*(\_\_host\_type **)\&(\_\_item\_ref\_ptr)) = \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};                        \(\backslash\)}
+\DoxyCodeLine{        \}                                                                       \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a70969b1397572cd28b7877b274e718b4}\label{vsf__list_8h_a70969b1397572cd28b7877b274e718b4}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_remove\_before@{\_\_vsf\_dlist\_remove\_before}}
+\index{\_\_vsf\_dlist\_remove\_before@{\_\_vsf\_dlist\_remove\_before}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_remove\_before}{\_\_vsf\_dlist\_remove\_before}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+before(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{keywordflow}{do} \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        vsf\_dlist\_node\_t *\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node\_prv) = (\_\_node\_ptr)-\/>prev;   \(\backslash\)}
+\DoxyCodeLine{        if (\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node\_prv) != \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}}) \{                            \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_remove(\_\_host\_type, \_\_member, \_\_list\_ptr,               \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node\_prv));                             \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_ref(\_\_host\_type, \_\_member,                              \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node\_prv), (\_\_item\_ref\_ptr));           \(\backslash\)}
+\DoxyCodeLine{        \} \textcolor{keywordflow}{else} \{                                                                \(\backslash\)}
+\DoxyCodeLine{            (*(\_\_host\_type **)\&(\_\_item\_ref\_ptr)) = \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};                        \(\backslash\)}
+\DoxyCodeLine{        \}                                                                       \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a38a1767f37b8b32533821d2c6fa307aa}\label{vsf__list_8h_a38a1767f37b8b32533821d2c6fa307aa}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_insert@{\_\_vsf\_dlist\_insert}}
+\index{\_\_vsf\_dlist\_insert@{\_\_vsf\_dlist\_insert}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_insert}{\_\_vsf\_dlist\_insert}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+insert(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+cond }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{comment}{/* how to find insert point */}      \(\backslash\)}
+\DoxyCodeLine{    do \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        vsf\_dlist\_node\_t *\mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node) =                           \(\backslash\)}
+\DoxyCodeLine{                (\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\_dlist\_node\_t}} *)(\_\_list\_ptr);                               \(\backslash\)}
+\DoxyCodeLine{        vsf\_dlist\_init\_node(\_\_host\_type, \_\_member, \_\_item\_ptr);                 \(\backslash\)}
+\DoxyCodeLine{        for (; \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node)-\/>next != \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};)\{                       \(\backslash\)}
+\DoxyCodeLine{            const \_\_host\_type * \textcolor{keyword}{const} \mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} = \mbox{\hyperlink{vsf__list_8h_a7e1ba7352475968f654b2dd40ac3acf6}{\_\_vsf\_dlist\_get\_host}}(\_\_host\_type,     \(\backslash\)}
+\DoxyCodeLine{                \_\_member, \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node)-\/>\mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}});                     \(\backslash\)}
+\DoxyCodeLine{            \textcolor{comment}{/* using \_\_VA\_ARGS\_\_ so ',' operation could be supported */}         \(\backslash\)}
+\DoxyCodeLine{            if (\_\_cond) \{                                                       \(\backslash\)}
+\DoxyCodeLine{                \_\_vsf\_dlist\_insert\_before\_imp((\_\_list\_ptr),                     \(\backslash\)}
+\DoxyCodeLine{                    \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node)-\/>\mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}}, \&((\_\_item\_ptr)-\/>\_\_member));\(\backslash\)}
+\DoxyCodeLine{                break;                                                          \(\backslash\)}
+\DoxyCodeLine{            \}                                                                   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_list\_tmp\_name(node) = \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node)-\/>next;        \(\backslash\)}
+\DoxyCodeLine{        \}                                                                       \(\backslash\)}
+\DoxyCodeLine{        if (\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} == \mbox{\hyperlink{vsf__list_8h_a4117c5441611b523019f9e5e329fe7f6}{\_\_vsf\_list\_tmp\_name}}(node)-\/>\mbox{\hyperlink{vsf__msg__tree_8h_afa9360287850ff1c4466d8bed43341ae}{next}}) \{                          \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_add\_to\_tail(                                            \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, \_\_list\_ptr, (\_\_item\_ptr));           \(\backslash\)}
+\DoxyCodeLine{        \}                                                                       \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a792e0e228cecae132d318ca08bf1f480}\label{vsf__list_8h_a792e0e228cecae132d318ca08bf1f480}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_foreach\_unsafe@{\_\_vsf\_dlist\_foreach\_unsafe}}
+\index{\_\_vsf\_dlist\_foreach\_unsafe@{\_\_vsf\_dlist\_foreach\_unsafe}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_foreach\_unsafe}{\_\_vsf\_dlist\_foreach\_unsafe}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+foreach\+\_\+unsafe(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{comment}{/* the address of the list */}       \(\backslash\)}
+\DoxyCodeLine{    for (   \_\_host\_type *\mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}} = \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} == (\_\_list\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}} ? \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} :                \(\backslash\)}
+\DoxyCodeLine{                \mbox{\hyperlink{vsf__list_8h_a7e1ba7352475968f654b2dd40ac3acf6}{\_\_vsf\_dlist\_get\_host}}(\_\_host\_type, \_\_member, (\_\_list\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}});\(\backslash\)}
+\DoxyCodeLine{            \_ != \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}};                                                          \(\backslash\)}
+\DoxyCodeLine{            \_ = \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}} == \mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}}-\/>\_\_member.next ? \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}}:                                \(\backslash\)}
+\DoxyCodeLine{                \_\_vsf\_dlist\_get\_host(\_\_host\_type, \_\_member, \mbox{\hyperlink{vsf__msg__tree_8h_a4e033cacc200db19fcb4ed1ffaa24da3}{\_}}-\/>\_\_member.next))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a99c7987cbac3e1bb5584b5d1abb3b00d}\label{vsf__list_8h_a99c7987cbac3e1bb5584b5d1abb3b00d}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_init@{vsf\_slist\_init}}
+\index{vsf\_slist\_init@{vsf\_slist\_init}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_init}{vsf\_slist\_init}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+init(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the list */}       \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_set\_next((\_\_list\_ptr), \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}})}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a5ec2ae303cf39702ddb6b369f1157cb6}\label{vsf__list_8h_a5ec2ae303cf39702ddb6b369f1157cb6}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_is\_empty@{vsf\_slist\_is\_empty}}
+\index{vsf\_slist\_is\_empty@{vsf\_slist\_is\_empty}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_is\_empty}{vsf\_slist\_is\_empty}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+is\+\_\+empty(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the list */}       \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_is\_empty(\_\_list\_ptr)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a5da6e6a6ff456f2aada4460b0a6137f5}\label{vsf__list_8h_a5da6e6a6ff456f2aada4460b0a6137f5}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_set\_next@{vsf\_slist\_set\_next}}
+\index{vsf\_slist\_set\_next@{vsf\_slist\_set\_next}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_set\_next}{vsf\_slist\_set\_next}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+set\+\_\+next(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_set\_next((\_\_node\_ptr), (\_\_item\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ad8740b9d5fd43eefc786da184cb30d2f}\label{vsf__list_8h_ad8740b9d5fd43eefc786da184cb30d2f}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_get\_length@{vsf\_slist\_get\_length}}
+\index{vsf\_slist\_get\_length@{vsf\_slist\_get\_length}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_get\_length}{vsf\_slist\_get\_length}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+get\+\_\+length(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the list */}       \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_get\_length\_imp(                                         \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr), \mbox{\hyperlink{____type_8h_af698b1c5bf3a24c76947d05cce6fee91}{offset\_of}}(\_\_host\_type, \_\_member))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_aafae01a015c39f117ab1083716b22a24}\label{vsf__list_8h_aafae01a015c39f117ab1083716b22a24}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_remove\_tail@{vsf\_slist\_remove\_tail}}
+\index{vsf\_slist\_remove\_tail@{vsf\_slist\_remove\_tail}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_remove\_tail}{vsf\_slist\_remove\_tail}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+remove\+\_\+tail(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the list */}       \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_remove\_tail\_imp(                                        \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr), \mbox{\hyperlink{____type_8h_af698b1c5bf3a24c76947d05cce6fee91}{offset\_of}}(\_\_host\_type, \_\_member))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a26232b9f75d81bfee0d59f4fc30d1430}\label{vsf__list_8h_a26232b9f75d81bfee0d59f4fc30d1430}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_get\_item\_by\_index@{vsf\_slist\_get\_item\_by\_index}}
+\index{vsf\_slist\_get\_item\_by\_index@{vsf\_slist\_get\_item\_by\_index}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_get\_item\_by\_index}{vsf\_slist\_get\_item\_by\_index}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+get\+\_\+item\+\_\+by\+\_\+index(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+index }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* index of the item in list */}     \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_get\_item\_by\_index\_imp(                                  \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr), (\_\_index), \mbox{\hyperlink{____type_8h_af698b1c5bf3a24c76947d05cce6fee91}{offset\_of}}(\_\_host\_type, \_\_member))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a4ffc104a2f5aa861d4fab703d4f2e5a3}\label{vsf__list_8h_a4ffc104a2f5aa861d4fab703d4f2e5a3}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_get\_index@{vsf\_slist\_get\_index}}
+\index{vsf\_slist\_get\_index@{vsf\_slist\_get\_index}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_get\_index}{vsf\_slist\_get\_index}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+get\+\_\+index(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_get\_index\_imp(                                          \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr), (\_\_item\_ptr), \mbox{\hyperlink{____type_8h_af698b1c5bf3a24c76947d05cce6fee91}{offset\_of}}(\_\_host\_type, \_\_member))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_aacadd87daa79b8b78729c2c2b765fb7b}\label{vsf__list_8h_aacadd87daa79b8b78729c2c2b765fb7b}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_append@{vsf\_slist\_append}}
+\index{vsf\_slist\_append@{vsf\_slist\_append}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_append}{vsf\_slist\_append}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+append(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_append\_imp(                                             \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr), (\_\_item\_ptr), \mbox{\hyperlink{____type_8h_af698b1c5bf3a24c76947d05cce6fee91}{offset\_of}}(\_\_host\_type, \_\_member))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a97ca8e20b2de7f341eb32c4e9dadec68}\label{vsf__list_8h_a97ca8e20b2de7f341eb32c4e9dadec68}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_is\_in@{vsf\_slist\_is\_in}}
+\index{vsf\_slist\_is\_in@{vsf\_slist\_is\_in}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_is\_in}{vsf\_slist\_is\_in}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+is\+\_\+in(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{        (   \mbox{\hyperlink{vsf__list_8h_a4ffc104a2f5aa861d4fab703d4f2e5a3}{vsf\_slist\_get\_index}}(                                                \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ptr))              \(\backslash\)}
+\DoxyCodeLine{        >=  0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ab6557e8a91b681874f59485a35b62b77}\label{vsf__list_8h_ab6557e8a91b681874f59485a35b62b77}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_init\_node@{vsf\_slist\_init\_node}}
+\index{vsf\_slist\_init\_node@{vsf\_slist\_init\_node}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_init\_node}{vsf\_slist\_init\_node}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+init\+\_\+node(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_set\_next(\&((\_\_item\_ptr)-\/>\_\_member), \mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL}})}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a3a01ea85638405bd68c9fdfec4ebe5bc}\label{vsf__list_8h_a3a01ea85638405bd68c9fdfec4ebe5bc}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_remove@{vsf\_slist\_remove}}
+\index{vsf\_slist\_remove@{vsf\_slist\_remove}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_remove}{vsf\_slist\_remove}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+remove(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_remove\_imp(                                             \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr), (\_\_item\_ptr), \mbox{\hyperlink{____type_8h_af698b1c5bf3a24c76947d05cce6fee91}{offset\_of}}(\_\_host\_type, \_\_member))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ab4d364c4e55b0c6f046266c3212f5832}\label{vsf__list_8h_ab4d364c4e55b0c6f046266c3212f5832}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_insert@{vsf\_slist\_insert}}
+\index{vsf\_slist\_insert@{vsf\_slist\_insert}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_insert}{vsf\_slist\_insert}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+insert(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+cond }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* when( condition expression ) */}  \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_insert(                                                 \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ptr), (\_\_cond))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a547c72cb2832deaa188e92c4c414273b}\label{vsf__list_8h_a547c72cb2832deaa188e92c4c414273b}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_remove\_after@{vsf\_slist\_remove\_after}}
+\index{vsf\_slist\_remove\_after@{vsf\_slist\_remove\_after}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_remove\_after}{vsf\_slist\_remove\_after}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+remove\+\_\+after(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_remove\_after(                                           \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type, \_\_member, (\_\_item\_ptr), (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_aba7331b4c38027cd9a61d5d49903f64d}\label{vsf__list_8h_aba7331b4c38027cd9a61d5d49903f64d}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_insert\_after@{vsf\_slist\_insert\_after}}
+\index{vsf\_slist\_insert\_after@{vsf\_slist\_insert\_after}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_insert\_after}{vsf\_slist\_insert\_after}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+insert\+\_\+after(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+new\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of new item */}    \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_insert\_after(                                           \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type, \_\_member, (\_\_item\_ptr), (\_\_item\_new\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a9b5144504ce633920d235ec2db2ac756}\label{vsf__list_8h_a9b5144504ce633920d235ec2db2ac756}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_stack\_init@{vsf\_slist\_stack\_init}}
+\index{vsf\_slist\_stack\_init@{vsf\_slist\_stack\_init}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_stack\_init}{vsf\_slist\_stack\_init}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+stack\+\_\+init(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__list_8h_ab6557e8a91b681874f59485a35b62b77}{vsf\+\_\+slist\+\_\+init\+\_\+node}}(\+\_\+\+\_\+list\+\_\+ptr)}
+
+\mbox{\Hypertarget{vsf__list_8h_a53599d63955ec2714e971eae3ae7b0cb}\label{vsf__list_8h_a53599d63955ec2714e971eae3ae7b0cb}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_stack\_pop@{vsf\_slist\_stack\_pop}}
+\index{vsf\_slist\_stack\_pop@{vsf\_slist\_stack\_pop}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_stack\_pop}{vsf\_slist\_stack\_pop}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+stack\+\_\+pop(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}      \(\backslash\)}
+\DoxyCodeLine{            vsf\_slist\_remove\_from\_head(                                         \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a1fd597900bb6b9aa4753896635e449b5}\label{vsf__list_8h_a1fd597900bb6b9aa4753896635e449b5}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_stack\_push@{vsf\_slist\_stack\_push}}
+\index{vsf\_slist\_stack\_push@{vsf\_slist\_stack\_push}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_stack\_push}{vsf\_slist\_stack\_push}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+stack\+\_\+push(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            vsf\_slist\_add\_to\_head(                                              \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a33342bbcb2e2cd53dea5b6014f298d8d}\label{vsf__list_8h_a33342bbcb2e2cd53dea5b6014f298d8d}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_add\_to\_head@{vsf\_slist\_add\_to\_head}}
+\index{vsf\_slist\_add\_to\_head@{vsf\_slist\_add\_to\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_add\_to\_head}{vsf\_slist\_add\_to\_head}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+add\+\_\+to\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_insert\_next(                                            \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type,                                                    \(\backslash\)}
+\DoxyCodeLine{                \_\_member,                                                       \(\backslash\)}
+\DoxyCodeLine{                (\mbox{\hyperlink{structvsf__slist__node__t}{vsf\_slist\_node\_t}} *)(\_\_list\_ptr),                               \(\backslash\)}
+\DoxyCodeLine{                (\_\_item\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a403c29057adbbf58354a8322a9cdc7ba}\label{vsf__list_8h_a403c29057adbbf58354a8322a9cdc7ba}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_discard\_head@{vsf\_slist\_discard\_head}}
+\index{vsf\_slist\_discard\_head@{vsf\_slist\_discard\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_discard\_head}{vsf\_slist\_discard\_head}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+discard\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the list */}       \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_discard\_head(\_\_host\_type, \_\_member, (\_\_list\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a61ffc11ea4f7307450da9465a1d0c380}\label{vsf__list_8h_a61ffc11ea4f7307450da9465a1d0c380}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_remove\_from\_head\_unsafe@{vsf\_slist\_remove\_from\_head\_unsafe}}
+\index{vsf\_slist\_remove\_from\_head\_unsafe@{vsf\_slist\_remove\_from\_head\_unsafe}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_remove\_from\_head\_unsafe}{vsf\_slist\_remove\_from\_head\_unsafe}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+remove\+\_\+from\+\_\+head\+\_\+unsafe(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_remove\_next\_unsafe(                                     \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type,                                                    \(\backslash\)}
+\DoxyCodeLine{                \_\_member,                                                       \(\backslash\)}
+\DoxyCodeLine{                (\mbox{\hyperlink{structvsf__slist__node__t}{vsf\_slist\_node\_t}} *)(\_\_list\_ptr),                               \(\backslash\)}
+\DoxyCodeLine{                (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a1bc3adc90cd8f81673ca7137bd90ba3c}\label{vsf__list_8h_a1bc3adc90cd8f81673ca7137bd90ba3c}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_remove\_from\_head@{vsf\_slist\_remove\_from\_head}}
+\index{vsf\_slist\_remove\_from\_head@{vsf\_slist\_remove\_from\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_remove\_from\_head}{vsf\_slist\_remove\_from\_head}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+remove\+\_\+from\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{    do \{                                                                        \(\backslash\)}
+\DoxyCodeLine{        vsf\_slist\_peek\_next(\_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ref\_ptr));\(\backslash\)}
+\DoxyCodeLine{        vsf\_slist\_discard\_head(\_\_host\_type, \_\_member, (\_\_list\_ptr));            \(\backslash\)}
+\DoxyCodeLine{    \} \textcolor{keywordflow}{while} (0)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a6d2f1d664bcb0300700aa949767198ac}\label{vsf__list_8h_a6d2f1d664bcb0300700aa949767198ac}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_peek\_next@{vsf\_slist\_peek\_next}}
+\index{vsf\_slist\_peek\_next@{vsf\_slist\_peek\_next}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_peek\_next}{vsf\_slist\_peek\_next}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+peek\+\_\+next(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}      \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_ref\_next((\_\_node\_ptr), (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a8306e646a187242f6706c7085b98fabd}\label{vsf__list_8h_a8306e646a187242f6706c7085b98fabd}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_foreach@{vsf\_slist\_foreach}}
+\index{vsf\_slist\_foreach@{vsf\_slist\_foreach}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_foreach}{vsf\_slist\_foreach}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+foreach(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer name, e.g. ptarget */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_foreach(\_\_host\_type, \_\_member, (\_\_list\_ptr), \_\_item\_ptr)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a123d12401a4a6df83063c72fd22faf1e}\label{vsf__list_8h_a123d12401a4a6df83063c72fd22faf1e}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_queue\_is\_empty@{vsf\_slist\_queue\_is\_empty}}
+\index{vsf\_slist\_queue\_is\_empty@{vsf\_slist\_queue\_is\_empty}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_queue\_is\_empty}{vsf\_slist\_queue\_is\_empty}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+queue\+\_\+is\+\_\+empty(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+queue\+\_\+ptr }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__list_8h_a5ec2ae303cf39702ddb6b369f1157cb6}{vsf\+\_\+slist\+\_\+is\+\_\+empty}}(\&(\+\_\+\+\_\+queue\+\_\+ptr)-\/$>$\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}})}
+
+\mbox{\Hypertarget{vsf__list_8h_ad6c57dc3b80e59c0edde2e34d81536c4}\label{vsf__list_8h_ad6c57dc3b80e59c0edde2e34d81536c4}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_queue\_init@{vsf\_slist\_queue\_init}}
+\index{vsf\_slist\_queue\_init@{vsf\_slist\_queue\_init}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_queue\_init}{vsf\_slist\_queue\_init}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+queue\+\_\+init(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+queue\+\_\+ptr }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__list_8h_ab327db0ca90d0dd37e7e5f4784137355}{\+\_\+\+\_\+vsf\+\_\+slist\+\_\+queue\+\_\+init}}((\+\_\+\+\_\+queue\+\_\+ptr))/$\ast$ the address of the queue $\ast$/}
+
+\mbox{\Hypertarget{vsf__list_8h_aaa4ca942d75a5ec7fe9b33bf9e84a1a7}\label{vsf__list_8h_aaa4ca942d75a5ec7fe9b33bf9e84a1a7}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_queue\_enqueue@{vsf\_slist\_queue\_enqueue}}
+\index{vsf\_slist\_queue\_enqueue@{vsf\_slist\_queue\_enqueue}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_queue\_enqueue}{vsf\_slist\_queue\_enqueue}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+queue\+\_\+enqueue(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+queue\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_queue\_enqueue(                                          \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, (\_\_queue\_ptr), (\_\_item\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a27edde9f19db0ec166a3d8df8712a985}\label{vsf__list_8h_a27edde9f19db0ec166a3d8df8712a985}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_queue\_dequeue@{vsf\_slist\_queue\_dequeue}}
+\index{vsf\_slist\_queue\_dequeue@{vsf\_slist\_queue\_dequeue}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_queue\_dequeue}{vsf\_slist\_queue\_dequeue}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+queue\+\_\+dequeue(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+queue\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_queue\_dequeue(                                          \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, (\_\_queue\_ptr), (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ac9bc8012f21172eb377dedacf7bc3681}\label{vsf__list_8h_ac9bc8012f21172eb377dedacf7bc3681}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_queue\_peek@{vsf\_slist\_queue\_peek}}
+\index{vsf\_slist\_queue\_peek@{vsf\_slist\_queue\_peek}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_queue\_peek}{vsf\_slist\_queue\_peek}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+queue\+\_\+peek(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+queue\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_queue\_peek(                                             \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, (\_\_queue\_ptr), (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a245e41268c2b1286345effbda7be2b44}\label{vsf__list_8h_a245e41268c2b1286345effbda7be2b44}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_queue\_add\_to\_head@{vsf\_slist\_queue\_add\_to\_head}}
+\index{vsf\_slist\_queue\_add\_to\_head@{vsf\_slist\_queue\_add\_to\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_queue\_add\_to\_head}{vsf\_slist\_queue\_add\_to\_head}}
+{\footnotesize\ttfamily \#define vsf\+\_\+slist\+\_\+queue\+\_\+add\+\_\+to\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+queue\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_slist\_queue\_add\_to\_head(                                      \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, (\_\_queue\_ptr), (\_\_item\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_abaa410ae26204a967097545754f549e4}\label{vsf__list_8h_abaa410ae26204a967097545754f549e4}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_init@{vsf\_dlist\_init}}
+\index{vsf\_dlist\_init@{vsf\_dlist\_init}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_init}{vsf\_dlist\_init}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+init(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the list */}       \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_init(\_\_list\_ptr)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ab2324c12c64fd519a6daae40fdca4f34}\label{vsf__list_8h_ab2324c12c64fd519a6daae40fdca4f34}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_is\_empty@{vsf\_dlist\_is\_empty}}
+\index{vsf\_dlist\_is\_empty@{vsf\_dlist\_is\_empty}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_is\_empty}{vsf\_dlist\_is\_empty}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+is\+\_\+empty(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+list\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the list */}       \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_is\_empty(\_\_list\_ptr)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a1c27b432694f4667ccec25a77ed3a5a2}\label{vsf__list_8h_a1c27b432694f4667ccec25a77ed3a5a2}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_is\_in@{vsf\_dlist\_is\_in}}
+\index{vsf\_dlist\_is\_in@{vsf\_dlist\_is\_in}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_is\_in}{vsf\_dlist\_is\_in}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+is\+\_\+in(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_is\_in((\_\_list\_ptr), \&(\_\_item\_ptr)-\/>\_\_member)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a713c4813a3ee94bef9f74370d205b798}\label{vsf__list_8h_a713c4813a3ee94bef9f74370d205b798}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_init\_node@{vsf\_dlist\_init\_node}}
+\index{vsf\_dlist\_init\_node@{vsf\_dlist\_init\_node}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_init\_node}{vsf\_dlist\_init\_node}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+init\+\_\+node(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_init\_node(\&((\_\_item\_ptr)-\/>\_\_member))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ade088016a1bfe15849b043f33b2b4ba7}\label{vsf__list_8h_ade088016a1bfe15849b043f33b2b4ba7}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_add\_to\_head@{vsf\_dlist\_add\_to\_head}}
+\index{vsf\_dlist\_add\_to\_head@{vsf\_dlist\_add\_to\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_add\_to\_head}{vsf\_dlist\_add\_to\_head}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_add\_to\_head(\_\_host\_type,                                \(\backslash\)}
+\DoxyCodeLine{                                    \_\_member,                                   \(\backslash\)}
+\DoxyCodeLine{                                    (\_\_list\_ptr),                               \(\backslash\)}
+\DoxyCodeLine{                                    (\_\_item\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a8ff96517ab1bfe3c9600de44afc77a0a}\label{vsf__list_8h_a8ff96517ab1bfe3c9600de44afc77a0a}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_add\_to\_tail@{vsf\_dlist\_add\_to\_tail}}
+\index{vsf\_dlist\_add\_to\_tail@{vsf\_dlist\_add\_to\_tail}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_add\_to\_tail}{vsf\_dlist\_add\_to\_tail}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+tail(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_add\_to\_tail(\_\_host\_type,                                \(\backslash\)}
+\DoxyCodeLine{                                    \_\_member,                                   \(\backslash\)}
+\DoxyCodeLine{                                    (\_\_list\_ptr),                               \(\backslash\)}
+\DoxyCodeLine{                                    (\_\_item\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ad6e50a850179feae9507685b76fd9d86}\label{vsf__list_8h_ad6e50a850179feae9507685b76fd9d86}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_peek\_head@{vsf\_dlist\_peek\_head}}
+\index{vsf\_dlist\_peek\_head@{vsf\_dlist\_peek\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_peek\_head}{vsf\_dlist\_peek\_head}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+peek\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_peek\_head(                                              \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a1439790174ebb2e5e8bedf218083ea6f}\label{vsf__list_8h_a1439790174ebb2e5e8bedf218083ea6f}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_peek\_next@{vsf\_dlist\_peek\_next}}
+\index{vsf\_dlist\_peek\_next@{vsf\_dlist\_peek\_next}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_peek\_next}{vsf\_dlist\_peek\_next}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+peek\+\_\+next(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_peek\_next(                                              \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, (\_\_item\_ptr), (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_abc107f709af35562d9fab32b57827a06}\label{vsf__list_8h_abc107f709af35562d9fab32b57827a06}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_remove\_head@{vsf\_dlist\_remove\_head}}
+\index{vsf\_dlist\_remove\_head@{vsf\_dlist\_remove\_head}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_remove\_head}{vsf\_dlist\_remove\_head}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+remove\+\_\+head(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_remove\_head(                                            \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ae74f97aad825bbdab1032493de404923}\label{vsf__list_8h_ae74f97aad825bbdab1032493de404923}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_remove\_tail@{vsf\_dlist\_remove\_tail}}
+\index{vsf\_dlist\_remove\_tail@{vsf\_dlist\_remove\_tail}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_remove\_tail}{vsf\_dlist\_remove\_tail}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+remove\+\_\+tail(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_remove\_tail(                                            \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a1536f2ca72a4bcf4d693df586e32b864}\label{vsf__list_8h_a1536f2ca72a4bcf4d693df586e32b864}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_insert@{vsf\_dlist\_insert}}
+\index{vsf\_dlist\_insert@{vsf\_dlist\_insert}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_insert}{vsf\_dlist\_insert}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+insert(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+cond }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* when( condition expression ) */}  \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_insert(                                                 \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ptr), (\_\_cond))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a80bcf55cbbe7e9700d15814a5864bd25}\label{vsf__list_8h_a80bcf55cbbe7e9700d15814a5864bd25}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_insert\_after@{vsf\_dlist\_insert\_after}}
+\index{vsf\_dlist\_insert\_after@{vsf\_dlist\_insert\_after}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_insert\_after}{vsf\_dlist\_insert\_after}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+insert\+\_\+after(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+prv\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_insert\_after(                                           \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type,                                                    \(\backslash\)}
+\DoxyCodeLine{                \_\_member,                                                       \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr),                                                   \(\backslash\)}
+\DoxyCodeLine{                (\_\_item\_prv\_ptr),                                               \(\backslash\)}
+\DoxyCodeLine{                (\_\_item\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_add6c157c0df3e1e22dac14f3c545ca02}\label{vsf__list_8h_add6c157c0df3e1e22dac14f3c545ca02}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_insert\_before@{vsf\_dlist\_insert\_before}}
+\index{vsf\_dlist\_insert\_before@{vsf\_dlist\_insert\_before}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_insert\_before}{vsf\_dlist\_insert\_before}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+insert\+\_\+before(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+next\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_insert\_before(                                          \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type,                                                    \(\backslash\)}
+\DoxyCodeLine{                \_\_member,                                                       \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr),                                                   \(\backslash\)}
+\DoxyCodeLine{                (\_\_item\_next\_ptr),                                              \(\backslash\)}
+\DoxyCodeLine{                (\_\_item\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a7d146bcbce2f160cc49353d6924a2cff}\label{vsf__list_8h_a7d146bcbce2f160cc49353d6924a2cff}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_remove@{vsf\_dlist\_remove}}
+\index{vsf\_dlist\_remove@{vsf\_dlist\_remove}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_remove}{vsf\_dlist\_remove}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+remove(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_remove(\_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a4b03c2ef5945ca21e04acc7bc8df3f68}\label{vsf__list_8h_a4b03c2ef5945ca21e04acc7bc8df3f68}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_remove\_after@{vsf\_dlist\_remove\_after}}
+\index{vsf\_dlist\_remove\_after@{vsf\_dlist\_remove\_after}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_remove\_after}{vsf\_dlist\_remove\_after}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+remove\+\_\+after(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_remove\_after(                                           \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type,                                                    \(\backslash\)}
+\DoxyCodeLine{                \_\_member,                                                       \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr),                                                   \(\backslash\)}
+\DoxyCodeLine{                (\_\_node\_ptr),                                                   \(\backslash\)}
+\DoxyCodeLine{                (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a47fca58b18aac18e99f34e5805be2cf4}\label{vsf__list_8h_a47fca58b18aac18e99f34e5805be2cf4}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_remove\_before@{vsf\_dlist\_remove\_before}}
+\index{vsf\_dlist\_remove\_before@{vsf\_dlist\_remove\_before}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_remove\_before}{vsf\_dlist\_remove\_before}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+remove\+\_\+before(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+node\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_remove\_before(                                          \(\backslash\)}
+\DoxyCodeLine{                \_\_host\_type,                                                    \(\backslash\)}
+\DoxyCodeLine{                \_\_member,                                                       \(\backslash\)}
+\DoxyCodeLine{                (\_\_list\_ptr),                                                   \(\backslash\)}
+\DoxyCodeLine{                (\_\_node\_ptr),                                                   \(\backslash\)}
+\DoxyCodeLine{                (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_ace585866a12fad67af3d24e8c7e11a2a}\label{vsf__list_8h_ace585866a12fad67af3d24e8c7e11a2a}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_queue\_peek@{vsf\_dlist\_queue\_peek}}
+\index{vsf\_dlist\_queue\_peek@{vsf\_dlist\_queue\_peek}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_queue\_peek}{vsf\_dlist\_queue\_peek}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+queue\+\_\+peek(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the pointer of host type */}   \(\backslash\)}
+\DoxyCodeLine{            \_\_vsf\_dlist\_ref\_safe(                                               \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, (\_\_list\_ptr)-\/>\mbox{\hyperlink{vsf__queue_8h_ae0411d119b6e19281b04bbe57cc854bc}{head}}, (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_aed44f89c30fb6d6ca7a2c512ada38356}\label{vsf__list_8h_aed44f89c30fb6d6ca7a2c512ada38356}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_queue\_enqueue@{vsf\_dlist\_queue\_enqueue}}
+\index{vsf\_dlist\_queue\_enqueue@{vsf\_dlist\_queue\_enqueue}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_queue\_enqueue}{vsf\_dlist\_queue\_enqueue}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+queue\+\_\+enqueue(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            vsf\_dlist\_add\_to\_tail(                                              \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ptr))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__list_8h_a3f485b3534eccf164b2a8a10df63eabf}\label{vsf__list_8h_a3f485b3534eccf164b2a8a10df63eabf}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_queue\_dequeue@{vsf\_dlist\_queue\_dequeue}}
+\index{vsf\_dlist\_queue\_dequeue@{vsf\_dlist\_queue\_dequeue}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_queue\_dequeue}{vsf\_dlist\_queue\_dequeue}}
+{\footnotesize\ttfamily \#define vsf\+\_\+dlist\+\_\+queue\+\_\+dequeue(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+host\+\_\+type,  }\item[{}]{\+\_\+\+\_\+member,  }\item[{}]{\+\_\+\+\_\+list\+\_\+ptr,  }\item[{}]{\+\_\+\+\_\+item\+\_\+ref\+\_\+ptr }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{comment}{/* the address of the target item */}\(\backslash\)}
+\DoxyCodeLine{            vsf\_dlist\_remove\_head(                                              \(\backslash\)}
+\DoxyCodeLine{                    \_\_host\_type, \_\_member, (\_\_list\_ptr), (\_\_item\_ref\_ptr))}
+
+\end{DoxyCode}
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{vsf__list_8h_a42adf62668b9a18c029ca74cac1d770c}\label{vsf__list_8h_a42adf62668b9a18c029ca74cac1d770c}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_t@{vsf\_slist\_t}}
+\index{vsf\_slist\_t@{vsf\_slist\_t}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_t}{vsf\_slist\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} \mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__list_8h_a35aac09658b6cf1670fe7c0391e87144}\label{vsf__list_8h_a35aac09658b6cf1670fe7c0391e87144}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_node\_t@{vsf\_slist\_node\_t}}
+\index{vsf\_slist\_node\_t@{vsf\_slist\_node\_t}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_node\_t}{vsf\_slist\_node\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__slist__node__t}{vsf\+\_\+slist\+\_\+node\+\_\+t}} \mbox{\hyperlink{structvsf__slist__node__t}{vsf\+\_\+slist\+\_\+node\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__list_8h_a08c84ac6db7ecd87240a0e54ea6cedd1}\label{vsf__list_8h_a08c84ac6db7ecd87240a0e54ea6cedd1}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_t@{vsf\_dlist\_t}}
+\index{vsf\_dlist\_t@{vsf\_dlist\_t}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_t}{vsf\_dlist\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} \mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__list_8h_a54813194507a058abb64ebd9cc2c73c5}\label{vsf__list_8h_a54813194507a058abb64ebd9cc2c73c5}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_dlist\_node\_t@{vsf\_dlist\_node\_t}}
+\index{vsf\_dlist\_node\_t@{vsf\_dlist\_node\_t}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_dlist\_node\_t}{vsf\_dlist\_node\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}}}
+
+\mbox{\Hypertarget{vsf__list_8h_a1d95ea047b7d9360a5b3ba51919df46e}\label{vsf__list_8h_a1d95ea047b7d9360a5b3ba51919df46e}} 
+\index{vsf\_list.h@{vsf\_list.h}!vsf\_slist\_queue\_t@{vsf\_slist\_queue\_t}}
+\index{vsf\_slist\_queue\_t@{vsf\_slist\_queue\_t}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_slist\_queue\_t}{vsf\_slist\_queue\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvsf__slist__queue__t}{vsf\+\_\+slist\+\_\+queue\+\_\+t}} \mbox{\hyperlink{structvsf__slist__queue__t}{vsf\+\_\+slist\+\_\+queue\+\_\+t}}}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__list_8h_abb53a1d3b12e9e279516cef954a656fb}\label{vsf__list_8h_abb53a1d3b12e9e279516cef954a656fb}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_get\_length\_imp@{\_\_vsf\_slist\_get\_length\_imp}}
+\index{\_\_vsf\_slist\_get\_length\_imp@{\_\_vsf\_slist\_get\_length\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_get\_length\_imp()}{\_\_vsf\_slist\_get\_length\_imp()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+slist\+\_\+get\+\_\+length\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{list\+\_\+offset }\end{DoxyParamCaption})}
+
+
+
+calculate the length of the target list ! 
+
+
+\begin{DoxyParams}{参数}
+{\em this\+\_\+ptr} & address of the target list !\\
+\hline
+{\em list\+\_\+offset} & the list offset in byte within a host type ! \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{返回}
+the length of the list, -\/1 means illegal input
+\end{DoxyReturn}
+
+\begin{DoxyParams}{参数}
+{\em this\+\_\+ptr} & address of the target list !\\
+\hline
+{\em list\+\_\+offset} & the list offset in byte within a host type ! \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{返回}
+the length of the list 
+\end{DoxyReturn}
+\mbox{\Hypertarget{vsf__list_8h_a7e01dc931f754deabc39b17e5e9b0711}\label{vsf__list_8h_a7e01dc931f754deabc39b17e5e9b0711}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_get\_item\_by\_index\_imp@{\_\_vsf\_slist\_get\_item\_by\_index\_imp}}
+\index{\_\_vsf\_slist\_get\_item\_by\_index\_imp@{\_\_vsf\_slist\_get\_item\_by\_index\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_get\_item\_by\_index\_imp()}{\_\_vsf\_slist\_get\_item\_by\_index\_imp()}}
+{\footnotesize\ttfamily void$\ast$ \+\_\+\+\_\+vsf\+\_\+slist\+\_\+get\+\_\+item\+\_\+by\+\_\+index\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{index,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{list\+\_\+offset }\end{DoxyParamCaption})}
+
+
+
+get the specified item with a given index from the target list ! 
+
+
+\begin{DoxyParams}{参数}
+{\em this\+\_\+ptr} & address of the target list !\\
+\hline
+{\em index} & index number of the wanted item !\\
+\hline
+{\em list\+\_\+offset} & the list offset in byte within a host type !\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em NULL} & Illegal input !\\
+\hline
+{\em !\+NULL} & the address of the wanted item \\
+\hline
+\end{DoxyRetVals}
+\mbox{\Hypertarget{vsf__list_8h_aab16ff9b12e412504cc8d8a0c08a2108}\label{vsf__list_8h_aab16ff9b12e412504cc8d8a0c08a2108}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_get\_index\_imp@{\_\_vsf\_slist\_get\_index\_imp}}
+\index{\_\_vsf\_slist\_get\_index\_imp@{\_\_vsf\_slist\_get\_index\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_get\_index\_imp()}{\_\_vsf\_slist\_get\_index\_imp()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a89a76a94f66a28fb25fa1548b05297bf}{int\+\_\+fast16\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+slist\+\_\+get\+\_\+index\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{void $\ast$}]{item,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{list\+\_\+offset }\end{DoxyParamCaption})}
+
+
+
+find the index number of a given item from the target list ! 
+
+
+\begin{DoxyParams}{参数}
+{\em this\+\_\+ptr} & address of the target list !\\
+\hline
+{\em item} & address of the target item !\\
+\hline
+{\em list\+\_\+offset} & the list offset in byte within a host type ! \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{返回}
+the index number, (-\/1) means illegal input or the item doesn\textquotesingle{}t exist 
+\end{DoxyReturn}
+\mbox{\Hypertarget{vsf__list_8h_a728996713f091707bb004ba49c4f5e03}\label{vsf__list_8h_a728996713f091707bb004ba49c4f5e03}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_remove\_imp@{\_\_vsf\_slist\_remove\_imp}}
+\index{\_\_vsf\_slist\_remove\_imp@{\_\_vsf\_slist\_remove\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_remove\_imp()}{\_\_vsf\_slist\_remove\_imp()}}
+{\footnotesize\ttfamily void$\ast$ \+\_\+\+\_\+vsf\+\_\+slist\+\_\+remove\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{void $\ast$}]{item,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{list\+\_\+offset }\end{DoxyParamCaption})}
+
+
+
+remove a item from the target list ! 
+
+
+\begin{DoxyParams}{参数}
+{\em this\+\_\+ptr} & address of the target list !\\
+\hline
+{\em item} & address of the target item !\\
+\hline
+{\em list\+\_\+offset} & the list offset in byte within a host type !\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em NULL} & Illegal input !\\
+\hline
+{\em !\+NULL} & the address of the removed item \\
+\hline
+\end{DoxyRetVals}
+remove the target item
+
+cut the item off from the list\mbox{\Hypertarget{vsf__list_8h_ac64c2cfe171b9946527ad2bf1eaf2a96}\label{vsf__list_8h_ac64c2cfe171b9946527ad2bf1eaf2a96}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_append\_imp@{\_\_vsf\_slist\_append\_imp}}
+\index{\_\_vsf\_slist\_append\_imp@{\_\_vsf\_slist\_append\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_append\_imp()}{\_\_vsf\_slist\_append\_imp()}}
+{\footnotesize\ttfamily void$\ast$ \+\_\+\+\_\+vsf\+\_\+slist\+\_\+append\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{void $\ast$}]{item,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{list\+\_\+offset }\end{DoxyParamCaption})}
+
+
+
+append a item from the target list ! 
+
+
+\begin{DoxyParams}{参数}
+{\em this\+\_\+ptr} & address of the target list !\\
+\hline
+{\em item} & address of the target item !\\
+\hline
+{\em list\+\_\+offset} & the list offset in byte within a host type !\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em NULL} & Illegal input !\\
+\hline
+{\em !\+NULL} & the address of the appended item\\
+\hline
+\end{DoxyRetVals}
+append a item from the target list !
+
+
+\begin{DoxyParams}{参数}
+{\em this\+\_\+ptr} & address of the target list !\\
+\hline
+{\em item} & address of the target item !\\
+\hline
+{\em list\+\_\+offset} & the list offset in byte within a host type !\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{返回值}
+{\em NULL} & Illegal input !\\
+\hline
+{\em !\+NULL} & the address of the appended item \\
+\hline
+\end{DoxyRetVals}
+$<$ append the item\mbox{\Hypertarget{vsf__list_8h_a7bb9cedce0ebf93d4be800da400d573d}\label{vsf__list_8h_a7bb9cedce0ebf93d4be800da400d573d}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_slist\_remove\_tail\_imp@{\_\_vsf\_slist\_remove\_tail\_imp}}
+\index{\_\_vsf\_slist\_remove\_tail\_imp@{\_\_vsf\_slist\_remove\_tail\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_slist\_remove\_tail\_imp()}{\_\_vsf\_slist\_remove\_tail\_imp()}}
+{\footnotesize\ttfamily void$\ast$ \+\_\+\+\_\+vsf\+\_\+slist\+\_\+remove\+\_\+tail\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__slist__t}{vsf\+\_\+slist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{list\+\_\+offset }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__list_8h_a9daff589007732e7605ad386ecfe5b15}\label{vsf__list_8h_a9daff589007732e7605ad386ecfe5b15}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_is\_in\_imp@{\_\_vsf\_dlist\_is\_in\_imp}}
+\index{\_\_vsf\_dlist\_is\_in\_imp@{\_\_vsf\_dlist\_is\_in\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_is\_in\_imp()}{\_\_vsf\_dlist\_is\_in\_imp()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+is\+\_\+in\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__list_8h_a543af7e444bebc837c65c348a5e6c973}\label{vsf__list_8h_a543af7e444bebc837c65c348a5e6c973}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_add\_to\_head\_imp@{\_\_vsf\_dlist\_add\_to\_head\_imp}}
+\index{\_\_vsf\_dlist\_add\_to\_head\_imp@{\_\_vsf\_dlist\_add\_to\_head\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_add\_to\_head\_imp()}{\_\_vsf\_dlist\_add\_to\_head\_imp()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+head\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__list_8h_a20ede7cec5375baee56d0ac2b7e7e471}\label{vsf__list_8h_a20ede7cec5375baee56d0ac2b7e7e471}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_add\_to\_tail\_imp@{\_\_vsf\_dlist\_add\_to\_tail\_imp}}
+\index{\_\_vsf\_dlist\_add\_to\_tail\_imp@{\_\_vsf\_dlist\_add\_to\_tail\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_add\_to\_tail\_imp()}{\_\_vsf\_dlist\_add\_to\_tail\_imp()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+add\+\_\+to\+\_\+tail\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__list_8h_aad220a04bbc63baf2f3f32bef6886315}\label{vsf__list_8h_aad220a04bbc63baf2f3f32bef6886315}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_remove\_head\_imp@{\_\_vsf\_dlist\_remove\_head\_imp}}
+\index{\_\_vsf\_dlist\_remove\_head\_imp@{\_\_vsf\_dlist\_remove\_head\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_remove\_head\_imp()}{\_\_vsf\_dlist\_remove\_head\_imp()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}}$\ast$ \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+head\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$}]{this\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__list_8h_a9424bbb8ecae5b207a79d1c83c3ef141}\label{vsf__list_8h_a9424bbb8ecae5b207a79d1c83c3ef141}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_remove\_tail\_imp@{\_\_vsf\_dlist\_remove\_tail\_imp}}
+\index{\_\_vsf\_dlist\_remove\_tail\_imp@{\_\_vsf\_dlist\_remove\_tail\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_remove\_tail\_imp()}{\_\_vsf\_dlist\_remove\_tail\_imp()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}}$\ast$ \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+tail\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$}]{this\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__list_8h_af26095896aec9e3e940834c9caf0a981}\label{vsf__list_8h_af26095896aec9e3e940834c9caf0a981}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_insert\_after\_imp@{\_\_vsf\_dlist\_insert\_after\_imp}}
+\index{\_\_vsf\_dlist\_insert\_after\_imp@{\_\_vsf\_dlist\_insert\_after\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_insert\_after\_imp()}{\_\_vsf\_dlist\_insert\_after\_imp()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+insert\+\_\+after\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$}]{node\+\_\+prv,  }\item[{\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__list_8h_ae6be2a92a4dc558548f20944eca85299}\label{vsf__list_8h_ae6be2a92a4dc558548f20944eca85299}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_insert\_before\_imp@{\_\_vsf\_dlist\_insert\_before\_imp}}
+\index{\_\_vsf\_dlist\_insert\_before\_imp@{\_\_vsf\_dlist\_insert\_before\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_insert\_before\_imp()}{\_\_vsf\_dlist\_insert\_before\_imp()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+insert\+\_\+before\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$}]{node\+\_\+nxt,  }\item[{\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$}]{node }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__list_8h_a73e053a9edd9738e9712414a03bf6bb3}\label{vsf__list_8h_a73e053a9edd9738e9712414a03bf6bb3}} 
+\index{vsf\_list.h@{vsf\_list.h}!\_\_vsf\_dlist\_remove\_imp@{\_\_vsf\_dlist\_remove\_imp}}
+\index{\_\_vsf\_dlist\_remove\_imp@{\_\_vsf\_dlist\_remove\_imp}!vsf\_list.h@{vsf\_list.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_dlist\_remove\_imp()}{\_\_vsf\_dlist\_remove\_imp()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+dlist\+\_\+remove\+\_\+imp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structvsf__dlist__t}{vsf\+\_\+dlist\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{structvsf__dlist__node__t}{vsf\+\_\+dlist\+\_\+node\+\_\+t}} $\ast$}]{node }\end{DoxyParamCaption})}
+

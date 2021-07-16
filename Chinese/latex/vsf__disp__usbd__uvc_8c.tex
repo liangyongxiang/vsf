@@ -1,0 +1,77 @@
+\hypertarget{vsf__disp__usbd__uvc_8c}{}\doxysection{source/component/ui/disp/driver/usbd\+\_\+uvc/vsf\+\_\+disp\+\_\+usbd\+\_\+uvc.c 文件参考}
+\label{vsf__disp__usbd__uvc_8c}\index{source/component/ui/disp/driver/usbd\_uvc/vsf\_disp\_usbd\_uvc.c@{source/component/ui/disp/driver/usbd\_uvc/vsf\_disp\_usbd\_uvc.c}}
+{\ttfamily \#include \char`\"{}component/ui/vsf\+\_\+ui\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+disp.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+disp\+\_\+usbd\+\_\+uvc.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__usbd__uvc_8c_ae68af52b29d55a0d7474c656fd71d931}{\+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__usbd__uvc_8c_af99b8578fffc21cf409b8a2b4de350f5}{\+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{vsf__disp__usbd__uvc_8c_a76d0d5a73a4581dfcffbb01847e078f1}{\+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+USBD\+\_\+\+UVC\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\end{DoxyCompactItemize}
+\doxysubsection*{枚举}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{vsf__disp__usbd__uvc_8c_a79e9f285d34216706a748fd7ba8941b7a90039d7260262f128331e96d176368bd}{VSF\+\_\+\+EVT\+\_\+\+REFRESH}} = VSF\+\_\+\+EVT\+\_\+\+USER
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{变量}
+\begin{DoxyCompactItemize}
+\item 
+const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} \mbox{\hyperlink{vsf__disp__usbd__uvc_8c_af4ae9136755094ef29c95796761cbce5}{vk\+\_\+disp\+\_\+drv\+\_\+usbd\+\_\+uvc}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__disp__usbd__uvc_8c_ae68af52b29d55a0d7474c656fd71d931}\label{vsf__disp__usbd__uvc_8c_ae68af52b29d55a0d7474c656fd71d931}} 
+\index{vsf\_disp\_usbd\_uvc.c@{vsf\_disp\_usbd\_uvc.c}!\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_@{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}!vsf\_disp\_usbd\_uvc.c@{vsf\_disp\_usbd\_uvc.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}{\_\_VSF\_EDA\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+EDA\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__disp__usbd__uvc_8c_af99b8578fffc21cf409b8a2b4de350f5}\label{vsf__disp__usbd__uvc_8c_af99b8578fffc21cf409b8a2b4de350f5}} 
+\index{vsf\_disp\_usbd\_uvc.c@{vsf\_disp\_usbd\_uvc.c}!\_\_VSF\_DISP\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}}
+\index{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_@{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}!vsf\_disp\_usbd\_uvc.c@{vsf\_disp\_usbd\_uvc.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}{\_\_VSF\_DISP\_CLASS\_INHERIT\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+CLASS\+\_\+\+INHERIT\+\_\+\+\_\+}
+
+\mbox{\Hypertarget{vsf__disp__usbd__uvc_8c_a76d0d5a73a4581dfcffbb01847e078f1}\label{vsf__disp__usbd__uvc_8c_a76d0d5a73a4581dfcffbb01847e078f1}} 
+\index{vsf\_disp\_usbd\_uvc.c@{vsf\_disp\_usbd\_uvc.c}!\_\_VSF\_DISP\_USBD\_UVC\_CLASS\_IMPLEMENT@{\_\_VSF\_DISP\_USBD\_UVC\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_DISP\_USBD\_UVC\_CLASS\_IMPLEMENT@{\_\_VSF\_DISP\_USBD\_UVC\_CLASS\_IMPLEMENT}!vsf\_disp\_usbd\_uvc.c@{vsf\_disp\_usbd\_uvc.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_DISP\_USBD\_UVC\_CLASS\_IMPLEMENT}{\_\_VSF\_DISP\_USBD\_UVC\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+DISP\+\_\+\+USBD\+\_\+\+UVC\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+
+
+\doxysubsection{枚举类型说明}
+\mbox{\Hypertarget{vsf__disp__usbd__uvc_8c_a79e9f285d34216706a748fd7ba8941b7}\label{vsf__disp__usbd__uvc_8c_a79e9f285d34216706a748fd7ba8941b7}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum}
+
+\begin{DoxyEnumFields}{枚举值}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{VSF\_EVT\_REFRESH@{VSF\_EVT\_REFRESH}!vsf\_disp\_usbd\_uvc.c@{vsf\_disp\_usbd\_uvc.c}}\index{vsf\_disp\_usbd\_uvc.c@{vsf\_disp\_usbd\_uvc.c}!VSF\_EVT\_REFRESH@{VSF\_EVT\_REFRESH}}}\mbox{\Hypertarget{vsf__disp__usbd__uvc_8c_a79e9f285d34216706a748fd7ba8941b7a90039d7260262f128331e96d176368bd}\label{vsf__disp__usbd__uvc_8c_a79e9f285d34216706a748fd7ba8941b7a90039d7260262f128331e96d176368bd}} 
+VSF\+\_\+\+EVT\+\_\+\+REFRESH&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{变量说明}
+\mbox{\Hypertarget{vsf__disp__usbd__uvc_8c_af4ae9136755094ef29c95796761cbce5}\label{vsf__disp__usbd__uvc_8c_af4ae9136755094ef29c95796761cbce5}} 
+\index{vsf\_disp\_usbd\_uvc.c@{vsf\_disp\_usbd\_uvc.c}!vk\_disp\_drv\_usbd\_uvc@{vk\_disp\_drv\_usbd\_uvc}}
+\index{vk\_disp\_drv\_usbd\_uvc@{vk\_disp\_drv\_usbd\_uvc}!vsf\_disp\_usbd\_uvc.c@{vsf\_disp\_usbd\_uvc.c}}
+\doxysubsubsection{\texorpdfstring{vk\_disp\_drv\_usbd\_uvc}{vk\_disp\_drv\_usbd\_uvc}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{classvk__disp__drv__t}{vk\+\_\+disp\+\_\+drv\+\_\+t}} vk\+\_\+disp\+\_\+drv\+\_\+usbd\+\_\+uvc}
+
+{\bfseries 初始值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    .init           = \_\_vk\_disp\_usbd\_uvc\_init,}
+\DoxyCodeLine{    .refresh        = \_\_vk\_disp\_usbd\_uvc\_refresh,}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

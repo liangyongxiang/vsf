@@ -1,0 +1,84 @@
+\hypertarget{structvsf__kernel__resource__t}{}\doxysection{vsf\+\_\+kernel\+\_\+resource\+\_\+t结构体 参考}
+\label{structvsf__kernel__resource__t}\index{vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}}
+
+
+{\ttfamily \#include $<$vsf\+\_\+os.\+h$>$}
+
+\doxysubsection*{成员变量}
+\begin{DoxyCompactItemize}
+\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>struct \{\\
+\>\>\mbox{\hyperlink{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3}{vsf\_prio\_t}} \mbox{\hyperlink{structvsf__kernel__resource__t_acf06a9557fbe7c395c45657e63cecec5}{highest}}\\
+\>\} \mbox{\hyperlink{structvsf__kernel__resource__t_ad1e3b585be04a87bb41ba478a2553a99}{sched\_prio}}\\
+\} \mbox{\hyperlink{structvsf__kernel__resource__t_a88342ce4c13fc6d60dffc66ff06e32d8}{arch}}\\
+
+\end{tabbing}\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>\mbox{\hyperlink{structvsf__evtq__t}{vsf\_evtq\_t}} $\ast$ \mbox{\hyperlink{structvsf__kernel__resource__t_a2c5aa9a2ebf197dad45025774852bb3a}{queue\_array}}\\
+\>\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}} \mbox{\hyperlink{structvsf__kernel__resource__t_ab43c1b34e9a0e180d554dd675aeda24b}{queue\_cnt}}\\
+\} \mbox{\hyperlink{structvsf__kernel__resource__t_a56bddfa04c7d254fd1c283f91279a6bd}{evt\_queue}}\\
+
+\end{tabbing}\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+struct \{\\
+\>\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\_t}} \mbox{\hyperlink{structvsf__kernel__resource__t_abdcf29fc1c0b8bf4e717b138edd10dc6}{frame\_cnt}}\\
+\} \mbox{\hyperlink{structvsf__kernel__resource__t_a2c22e81dd8e5b643c80fe35d91e187ba}{frame\_stack}}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+\doxysubsection{结构体成员变量说明}
+\mbox{\Hypertarget{structvsf__kernel__resource__t_acf06a9557fbe7c395c45657e63cecec5}\label{structvsf__kernel__resource__t_acf06a9557fbe7c395c45657e63cecec5}} 
+\index{vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}!highest@{highest}}
+\index{highest@{highest}!vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}}
+\doxysubsubsection{\texorpdfstring{highest}{highest}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__kernel__common_8h_ad388b0c213cac0eadd2a95f215e8ffc3}{vsf\+\_\+prio\+\_\+t}} vsf\+\_\+kernel\+\_\+resource\+\_\+t\+::highest}
+
+\mbox{\Hypertarget{structvsf__kernel__resource__t_ad1e3b585be04a87bb41ba478a2553a99}\label{structvsf__kernel__resource__t_ad1e3b585be04a87bb41ba478a2553a99}} 
+\index{vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}!sched\_prio@{sched\_prio}}
+\index{sched\_prio@{sched\_prio}!vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vsf\+\_\+kernel\+\_\+resource\+\_\+t\+::sched\+\_\+prio}
+
+\mbox{\Hypertarget{structvsf__kernel__resource__t_a88342ce4c13fc6d60dffc66ff06e32d8}\label{structvsf__kernel__resource__t_a88342ce4c13fc6d60dffc66ff06e32d8}} 
+\index{vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}!arch@{arch}}
+\index{arch@{arch}!vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vsf\+\_\+kernel\+\_\+resource\+\_\+t\+::arch}
+
+\mbox{\Hypertarget{structvsf__kernel__resource__t_a2c5aa9a2ebf197dad45025774852bb3a}\label{structvsf__kernel__resource__t_a2c5aa9a2ebf197dad45025774852bb3a}} 
+\index{vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}!queue\_array@{queue\_array}}
+\index{queue\_array@{queue\_array}!vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}}
+\doxysubsubsection{\texorpdfstring{queue\_array}{queue\_array}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structvsf__evtq__t}{vsf\+\_\+evtq\+\_\+t}}$\ast$ vsf\+\_\+kernel\+\_\+resource\+\_\+t\+::queue\+\_\+array}
+
+\mbox{\Hypertarget{structvsf__kernel__resource__t_ab43c1b34e9a0e180d554dd675aeda24b}\label{structvsf__kernel__resource__t_ab43c1b34e9a0e180d554dd675aeda24b}} 
+\index{vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}!queue\_cnt@{queue\_cnt}}
+\index{queue\_cnt@{queue\_cnt}!vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}}
+\doxysubsubsection{\texorpdfstring{queue\_cnt}{queue\_cnt}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} vsf\+\_\+kernel\+\_\+resource\+\_\+t\+::queue\+\_\+cnt}
+
+\mbox{\Hypertarget{structvsf__kernel__resource__t_a56bddfa04c7d254fd1c283f91279a6bd}\label{structvsf__kernel__resource__t_a56bddfa04c7d254fd1c283f91279a6bd}} 
+\index{vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}!evt\_queue@{evt\_queue}}
+\index{evt\_queue@{evt\_queue}!vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vsf\+\_\+kernel\+\_\+resource\+\_\+t\+::evt\+\_\+queue}
+
+\mbox{\Hypertarget{structvsf__kernel__resource__t_abdcf29fc1c0b8bf4e717b138edd10dc6}\label{structvsf__kernel__resource__t_abdcf29fc1c0b8bf4e717b138edd10dc6}} 
+\index{vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}!frame\_cnt@{frame\_cnt}}
+\index{frame\_cnt@{frame\_cnt}!vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}}
+\doxysubsubsection{\texorpdfstring{frame\_cnt}{frame\_cnt}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} vsf\+\_\+kernel\+\_\+resource\+\_\+t\+::frame\+\_\+cnt}
+
+\mbox{\Hypertarget{structvsf__kernel__resource__t_a2c22e81dd8e5b643c80fe35d91e187ba}\label{structvsf__kernel__resource__t_a2c22e81dd8e5b643c80fe35d91e187ba}} 
+\index{vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}!frame\_stack@{frame\_stack}}
+\index{frame\_stack@{frame\_stack}!vsf\_kernel\_resource\_t@{vsf\_kernel\_resource\_t}}
+\doxysubsubsection{\texorpdfstring{}{}}
+{\footnotesize\ttfamily struct \{ ... \}  vsf\+\_\+kernel\+\_\+resource\+\_\+t\+::frame\+\_\+stack}
+

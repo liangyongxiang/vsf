@@ -1,0 +1,243 @@
+\hypertarget{usb__desc_8h}{}\doxysection{source/component/usb/common/usb\+\_\+desc.h 文件参考}
+\label{usb__desc_8h}\index{source/component/usb/common/usb\_desc.h@{source/component/usb/common/usb\_desc.h}}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_ae4d9539a73189ebe3e50a4adc60d4391}{USB\+\_\+\+DESC\+\_\+\+WORD}}(\+\_\+\+\_\+\+VALUE)~            ((\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}})(\+\_\+\+\_\+\+VALUE) $>$$>$ 0) \& 0x\+FF, ((\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}})(\+\_\+\+\_\+\+VALUE) $>$$>$ 8) \& 0x\+FF
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_a07ce80784f28285351a77455ba95edc6}{USB\+\_\+\+DESC\+\_\+\+DWORD}}(\+\_\+\+\_\+\+VALUE)
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_afad61d3a79d7d074bc996e447b27f9af}{USB\+\_\+\+DESC\+\_\+\+DEV\+\_\+\+LEN}}~\mbox{\hyperlink{usb__common_8h_adf113fe0d44d34bd71d49e7baf39d9d3}{USB\+\_\+\+DT\+\_\+\+DEVICE\+\_\+\+SIZE}}
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_a130e6d8682c0c073b0c8dd7a159e6bb1}{USB\+\_\+\+DESC\+\_\+\+DEV}}(\+\_\+\+\_\+\+VERSION,  \+\_\+\+\_\+\+CLASS,  \+\_\+\+\_\+\+SUBCLASS,  \+\_\+\+\_\+\+PROTOCOL,  \+\_\+\+\_\+\+EP0\+\_\+\+SIZE,  \+\_\+\+\_\+\+VID,  \+\_\+\+\_\+\+PID,  \+\_\+\+\_\+\+BCD\+\_\+\+VER,  \+\_\+\+\_\+\+I\+\_\+\+MANUFACTURER,  \+\_\+\+\_\+\+I\+\_\+\+PRODUCT,  \+\_\+\+\_\+\+I\+\_\+\+SERIAL\+\_\+\+NUM,  \+\_\+\+\_\+\+CONFIG\+\_\+\+NUM)
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_a3c2421a48f0310b0385ae99b453fddcb}{USB\+\_\+\+DESC\+\_\+\+DEV\+\_\+\+IAD\+\_\+\+LEN}}~(\mbox{\hyperlink{usb__desc_8h_a93b9331124c9759887c67e7eea1c64b9}{USB\+\_\+\+DESC\+\_\+\+IAD\+\_\+\+LEN}} + \mbox{\hyperlink{usb__desc_8h_afad61d3a79d7d074bc996e447b27f9af}{USB\+\_\+\+DESC\+\_\+\+DEV\+\_\+\+LEN}})
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_ad70810725a3ad98d6ac4f8e8231d7c8a}{USB\+\_\+\+DESC\+\_\+\+DEV\+\_\+\+IAD}}(\+\_\+\+\_\+\+VERSION,  \+\_\+\+\_\+\+EP0\+\_\+\+SIZE,  \+\_\+\+\_\+\+VID,  \+\_\+\+\_\+\+PID,  \+\_\+\+\_\+\+BCD\+\_\+\+VER,  \+\_\+\+\_\+\+I\+\_\+\+MANUFACTURER,  \+\_\+\+\_\+\+I\+\_\+\+PRODUCT,  \+\_\+\+\_\+\+I\+\_\+\+SERIAL\+\_\+\+NUM,  \+\_\+\+\_\+\+CONFIG\+\_\+\+NUM)~            \mbox{\hyperlink{usb__desc_8h_a130e6d8682c0c073b0c8dd7a159e6bb1}{USB\+\_\+\+DESC\+\_\+\+DEV}}((\+\_\+\+\_\+\+VERSION), 0x\+EF, 0x02, 0x01, (\+\_\+\+\_\+\+EP0\+\_\+\+SIZE), (\+\_\+\+\_\+\+VID), (\+\_\+\+\_\+\+PID), (\+\_\+\+\_\+\+BCD\+\_\+\+VER), (\+\_\+\+\_\+\+I\+\_\+\+MANUFACTURER), (\+\_\+\+\_\+\+I\+\_\+\+PRODUCT), (\+\_\+\+\_\+\+I\+\_\+\+SERIAL\+\_\+\+NUM), (\+\_\+\+\_\+\+CONFIG\+\_\+\+NUM))
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_a3081676f44d3c2d131de8c306328aa98}{USB\+\_\+\+DESC\+\_\+\+CFG\+\_\+\+LEN}}~\mbox{\hyperlink{usb__common_8h_aba2ee8e6c45da0dd97562fee78991272}{USB\+\_\+\+DT\+\_\+\+CONFIG\+\_\+\+SIZE}}
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_ab008ab0eb47c3c58109d48f9b07f6bc0}{USB\+\_\+\+DESC\+\_\+\+CFG}}(\+\_\+\+\_\+\+CFG\+\_\+\+SIZE,  \+\_\+\+\_\+\+IFS\+\_\+\+NUM,  \+\_\+\+\_\+\+CONFIG\+\_\+\+VALUE,  \+\_\+\+\_\+\+I\+\_\+\+CONFIG,  \+\_\+\+\_\+\+ATTR,  \+\_\+\+\_\+\+MAX\+\_\+\+POWER)
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_ac33b787e711271878e10c2f7451dde6e}{USB\+\_\+\+DESC\+\_\+\+IFS\+\_\+\+LEN}}~\mbox{\hyperlink{usb__common_8h_aeaeb5548b6db222104675158bce05d85}{USB\+\_\+\+DT\+\_\+\+INTERFACE\+\_\+\+SIZE}}
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_ae7df2f033c60a7e7e6b9269ca81a9503}{USB\+\_\+\+DESC\+\_\+\+IFS}}(\+\_\+\+\_\+\+IFS\+\_\+\+NUM,  \+\_\+\+\_\+\+ALT\+\_\+\+SETTING,  \+\_\+\+\_\+\+EP\+\_\+\+NUM,  \+\_\+\+\_\+\+CLASS,  \+\_\+\+\_\+\+SUBCLASS,  \+\_\+\+\_\+\+PROTOCOL,  \+\_\+\+\_\+\+I\+\_\+\+IFS)
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_a8eb7feb2b377ef011426dc74ca7ce862}{USB\+\_\+\+DESC\+\_\+\+EP\+\_\+\+LEN}}~\mbox{\hyperlink{usb__common_8h_a08bf41bc04ea5919ed8820007c198b71}{USB\+\_\+\+DT\+\_\+\+ENDPOINT\+\_\+\+SIZE}}
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_a696aacbe295583c6dae9c5777af9b20f}{USB\+\_\+\+DESC\+\_\+\+EP}}(\+\_\+\+\_\+\+EP\+\_\+\+NUM,  \+\_\+\+\_\+\+EP\+\_\+\+ATTR,  \+\_\+\+\_\+\+EP\+\_\+\+SIZE,  \+\_\+\+\_\+\+EP\+\_\+\+INTERVAL)
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_af867b0952a74e90d634dce72c36b772d}{USB\+\_\+\+DESC\+\_\+\+QUALIFIER\+\_\+\+LEN}}~\mbox{\hyperlink{usb__common_8h_a6890c2ae62f18dc2ca480d35d2e03de3}{USB\+\_\+\+DT\+\_\+\+DEVICE\+\_\+\+QUALIFIER\+\_\+\+SIZE}}
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_ab1eaf7887c5c67f9e16ca752ee459147}{USB\+\_\+\+DESC\+\_\+\+QUALIFIER}}(\+\_\+\+\_\+\+VERSION,  \+\_\+\+\_\+\+CLASS,  \+\_\+\+\_\+\+SUB\+\_\+\+CLASS,  \+\_\+\+\_\+\+PROTOCOL,  \+\_\+\+\_\+\+EP0\+\_\+\+SIZE,  \+\_\+\+\_\+\+CONFIG\+\_\+\+NUM)
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_a93b9331124c9759887c67e7eea1c64b9}{USB\+\_\+\+DESC\+\_\+\+IAD\+\_\+\+LEN}}~\mbox{\hyperlink{usb__common_8h_ab96a1c58a2009386328c9da06794b98f}{USB\+\_\+\+DT\+\_\+\+INTERFACE\+\_\+\+ASSOCIATION\+\_\+\+SIZE}}
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_acad31a122370554edc1541c860758adb}{USB\+\_\+\+DESC\+\_\+\+IAD}}(\+\_\+\+\_\+\+IFS\+\_\+\+START,  \+\_\+\+\_\+\+IFS\+\_\+\+NUM,  \+\_\+\+\_\+\+CLASS,  \+\_\+\+\_\+\+SUBCLASS,  \+\_\+\+\_\+\+PROTOCOL,  \+\_\+\+\_\+\+I\+\_\+\+FUNC)
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_acd60ccfbf89822cce653d2202b80d4d3}{USB\+\_\+\+DESC\+\_\+\+STRING\+\_\+\+LEN}}(\+\_\+\+\_\+\+STR\+\_\+\+LEN)~((\+\_\+\+\_\+\+STR\+\_\+\+LEN) + 2)
+\item 
+\#define \mbox{\hyperlink{usb__desc_8h_af916eca484ddbb5847af518c8b426fb4}{USB\+\_\+\+DESC\+\_\+\+STRING}}(\+\_\+\+\_\+\+STR\+\_\+\+LEN, ...)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{usb__desc_8h_ae4d9539a73189ebe3e50a4adc60d4391}\label{usb__desc_8h_ae4d9539a73189ebe3e50a4adc60d4391}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_WORD@{USB\_DESC\_WORD}}
+\index{USB\_DESC\_WORD@{USB\_DESC\_WORD}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_WORD}{USB\_DESC\_WORD}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+WORD(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+VALUE }\end{DoxyParamCaption})~            ((\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}})(\+\_\+\+\_\+\+VALUE) $>$$>$ 0) \& 0x\+FF, ((\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}})(\+\_\+\+\_\+\+VALUE) $>$$>$ 8) \& 0x\+FF}
+
+\mbox{\Hypertarget{usb__desc_8h_a07ce80784f28285351a77455ba95edc6}\label{usb__desc_8h_a07ce80784f28285351a77455ba95edc6}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_DWORD@{USB\_DESC\_DWORD}}
+\index{USB\_DESC\_DWORD@{USB\_DESC\_DWORD}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_DWORD}{USB\_DESC\_DWORD}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+DWORD(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+VALUE }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            ((\_\_VALUE) >> 0) \& 0xFF, ((\_\_VALUE) >> 8) \& 0xFF,                   \(\backslash\)}
+\DoxyCodeLine{            ((\_\_VALUE) >> 16) \& 0xFF, ((\_\_VALUE) >> 24) \& 0xFF}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{usb__desc_8h_afad61d3a79d7d074bc996e447b27f9af}\label{usb__desc_8h_afad61d3a79d7d074bc996e447b27f9af}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_DEV\_LEN@{USB\_DESC\_DEV\_LEN}}
+\index{USB\_DESC\_DEV\_LEN@{USB\_DESC\_DEV\_LEN}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_DEV\_LEN}{USB\_DESC\_DEV\_LEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+DEV\+\_\+\+LEN~\mbox{\hyperlink{usb__common_8h_adf113fe0d44d34bd71d49e7baf39d9d3}{USB\+\_\+\+DT\+\_\+\+DEVICE\+\_\+\+SIZE}}}
+
+\mbox{\Hypertarget{usb__desc_8h_a130e6d8682c0c073b0c8dd7a159e6bb1}\label{usb__desc_8h_a130e6d8682c0c073b0c8dd7a159e6bb1}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_DEV@{USB\_DESC\_DEV}}
+\index{USB\_DESC\_DEV@{USB\_DESC\_DEV}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_DEV}{USB\_DESC\_DEV}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+DEV(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+VERSION,  }\item[{}]{\+\_\+\+\_\+\+CLASS,  }\item[{}]{\+\_\+\+\_\+\+SUBCLASS,  }\item[{}]{\+\_\+\+\_\+\+PROTOCOL,  }\item[{}]{\+\_\+\+\_\+\+EP0\+\_\+\+SIZE,  }\item[{}]{\+\_\+\+\_\+\+VID,  }\item[{}]{\+\_\+\+\_\+\+PID,  }\item[{}]{\+\_\+\+\_\+\+BCD\+\_\+\+VER,  }\item[{}]{\+\_\+\+\_\+\+I\+\_\+\+MANUFACTURER,  }\item[{}]{\+\_\+\+\_\+\+I\+\_\+\+PRODUCT,  }\item[{}]{\+\_\+\+\_\+\+I\+\_\+\+SERIAL\+\_\+\+NUM,  }\item[{}]{\+\_\+\+\_\+\+CONFIG\+\_\+\+NUM }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_afad61d3a79d7d074bc996e447b27f9af}{USB\_DESC\_DEV\_LEN}},                                                   \(\backslash\)}
+\DoxyCodeLine{            USB\_DT\_DEVICE,                                                      \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\_\_VERSION),           \textcolor{comment}{/* bcdUSB */}                    \(\backslash\)}
+\DoxyCodeLine{            (\_\_CLASS),                          \textcolor{comment}{/* device class: IAD */}         \(\backslash\)}
+\DoxyCodeLine{            (\_\_SUBCLASS),                       \textcolor{comment}{/* device sub class */}          \(\backslash\)}
+\DoxyCodeLine{            (\_\_PROTOCOL),                       \textcolor{comment}{/* device protocol */}           \(\backslash\)}
+\DoxyCodeLine{            (\_\_EP0\_SIZE),                       \textcolor{comment}{/* max packet size */}           \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\_\_VID),               \textcolor{comment}{/* vendor */}                    \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\_\_PID),               \textcolor{comment}{/* product */}                   \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\_\_BCD\_VER),           \textcolor{comment}{/* bcdDevice */}                 \(\backslash\)}
+\DoxyCodeLine{            (\_\_I\_MANUFACTURER),                 \textcolor{comment}{/* manufacturer */}              \(\backslash\)}
+\DoxyCodeLine{            (\_\_I\_PRODUCT),                      \textcolor{comment}{/* product */}                   \(\backslash\)}
+\DoxyCodeLine{            (\_\_I\_SERIAL\_NUM),                   \textcolor{comment}{/* serial number */}             \(\backslash\)}
+\DoxyCodeLine{            (\_\_CONFIG\_NUM),                     \textcolor{comment}{/* number of configuration */}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{usb__desc_8h_a3c2421a48f0310b0385ae99b453fddcb}\label{usb__desc_8h_a3c2421a48f0310b0385ae99b453fddcb}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_DEV\_IAD\_LEN@{USB\_DESC\_DEV\_IAD\_LEN}}
+\index{USB\_DESC\_DEV\_IAD\_LEN@{USB\_DESC\_DEV\_IAD\_LEN}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_DEV\_IAD\_LEN}{USB\_DESC\_DEV\_IAD\_LEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+DEV\+\_\+\+IAD\+\_\+\+LEN~(\mbox{\hyperlink{usb__desc_8h_a93b9331124c9759887c67e7eea1c64b9}{USB\+\_\+\+DESC\+\_\+\+IAD\+\_\+\+LEN}} + \mbox{\hyperlink{usb__desc_8h_afad61d3a79d7d074bc996e447b27f9af}{USB\+\_\+\+DESC\+\_\+\+DEV\+\_\+\+LEN}})}
+
+\mbox{\Hypertarget{usb__desc_8h_ad70810725a3ad98d6ac4f8e8231d7c8a}\label{usb__desc_8h_ad70810725a3ad98d6ac4f8e8231d7c8a}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_DEV\_IAD@{USB\_DESC\_DEV\_IAD}}
+\index{USB\_DESC\_DEV\_IAD@{USB\_DESC\_DEV\_IAD}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_DEV\_IAD}{USB\_DESC\_DEV\_IAD}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+DEV\+\_\+\+IAD(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+VERSION,  }\item[{}]{\+\_\+\+\_\+\+EP0\+\_\+\+SIZE,  }\item[{}]{\+\_\+\+\_\+\+VID,  }\item[{}]{\+\_\+\+\_\+\+PID,  }\item[{}]{\+\_\+\+\_\+\+BCD\+\_\+\+VER,  }\item[{}]{\+\_\+\+\_\+\+I\+\_\+\+MANUFACTURER,  }\item[{}]{\+\_\+\+\_\+\+I\+\_\+\+PRODUCT,  }\item[{}]{\+\_\+\+\_\+\+I\+\_\+\+SERIAL\+\_\+\+NUM,  }\item[{}]{\+\_\+\+\_\+\+CONFIG\+\_\+\+NUM }\end{DoxyParamCaption})~            \mbox{\hyperlink{usb__desc_8h_a130e6d8682c0c073b0c8dd7a159e6bb1}{USB\+\_\+\+DESC\+\_\+\+DEV}}((\+\_\+\+\_\+\+VERSION), 0x\+EF, 0x02, 0x01, (\+\_\+\+\_\+\+EP0\+\_\+\+SIZE), (\+\_\+\+\_\+\+VID), (\+\_\+\+\_\+\+PID), (\+\_\+\+\_\+\+BCD\+\_\+\+VER), (\+\_\+\+\_\+\+I\+\_\+\+MANUFACTURER), (\+\_\+\+\_\+\+I\+\_\+\+PRODUCT), (\+\_\+\+\_\+\+I\+\_\+\+SERIAL\+\_\+\+NUM), (\+\_\+\+\_\+\+CONFIG\+\_\+\+NUM))}
+
+\mbox{\Hypertarget{usb__desc_8h_a3081676f44d3c2d131de8c306328aa98}\label{usb__desc_8h_a3081676f44d3c2d131de8c306328aa98}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_CFG\_LEN@{USB\_DESC\_CFG\_LEN}}
+\index{USB\_DESC\_CFG\_LEN@{USB\_DESC\_CFG\_LEN}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_CFG\_LEN}{USB\_DESC\_CFG\_LEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+CFG\+\_\+\+LEN~\mbox{\hyperlink{usb__common_8h_aba2ee8e6c45da0dd97562fee78991272}{USB\+\_\+\+DT\+\_\+\+CONFIG\+\_\+\+SIZE}}}
+
+\mbox{\Hypertarget{usb__desc_8h_ab008ab0eb47c3c58109d48f9b07f6bc0}\label{usb__desc_8h_ab008ab0eb47c3c58109d48f9b07f6bc0}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_CFG@{USB\_DESC\_CFG}}
+\index{USB\_DESC\_CFG@{USB\_DESC\_CFG}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_CFG}{USB\_DESC\_CFG}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+CFG(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+CFG\+\_\+\+SIZE,  }\item[{}]{\+\_\+\+\_\+\+IFS\+\_\+\+NUM,  }\item[{}]{\+\_\+\+\_\+\+CONFIG\+\_\+\+VALUE,  }\item[{}]{\+\_\+\+\_\+\+I\+\_\+\+CONFIG,  }\item[{}]{\+\_\+\+\_\+\+ATTR,  }\item[{}]{\+\_\+\+\_\+\+MAX\+\_\+\+POWER }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_a3081676f44d3c2d131de8c306328aa98}{USB\_DESC\_CFG\_LEN}},                                                   \(\backslash\)}
+\DoxyCodeLine{            USB\_DT\_CONFIG,                                                      \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\_\_CFG\_SIZE),          \textcolor{comment}{/* wTotalLength */}              \(\backslash\)}
+\DoxyCodeLine{            (\_\_IFS\_NUM),                        \textcolor{comment}{/* bNumInterfaces: */}           \(\backslash\)}
+\DoxyCodeLine{            (\_\_CONFIG\_VALUE),                   \textcolor{comment}{/* bConfigurationValue: Configuration value */}\(\backslash\)}
+\DoxyCodeLine{            (\_\_I\_CONFIG),                       \textcolor{comment}{/* iConfiguration: Index of string descriptor describing the configuration */}\(\backslash\)}
+\DoxyCodeLine{            (\_\_ATTR),                           \textcolor{comment}{/* bmAttributes: bus powered */} \(\backslash\)}
+\DoxyCodeLine{            (\_\_MAX\_POWER),                      \textcolor{comment}{/* MaxPower */}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{usb__desc_8h_ac33b787e711271878e10c2f7451dde6e}\label{usb__desc_8h_ac33b787e711271878e10c2f7451dde6e}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_IFS\_LEN@{USB\_DESC\_IFS\_LEN}}
+\index{USB\_DESC\_IFS\_LEN@{USB\_DESC\_IFS\_LEN}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_IFS\_LEN}{USB\_DESC\_IFS\_LEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+IFS\+\_\+\+LEN~\mbox{\hyperlink{usb__common_8h_aeaeb5548b6db222104675158bce05d85}{USB\+\_\+\+DT\+\_\+\+INTERFACE\+\_\+\+SIZE}}}
+
+\mbox{\Hypertarget{usb__desc_8h_ae7df2f033c60a7e7e6b9269ca81a9503}\label{usb__desc_8h_ae7df2f033c60a7e7e6b9269ca81a9503}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_IFS@{USB\_DESC\_IFS}}
+\index{USB\_DESC\_IFS@{USB\_DESC\_IFS}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_IFS}{USB\_DESC\_IFS}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+IFS(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+IFS\+\_\+\+NUM,  }\item[{}]{\+\_\+\+\_\+\+ALT\+\_\+\+SETTING,  }\item[{}]{\+\_\+\+\_\+\+EP\+\_\+\+NUM,  }\item[{}]{\+\_\+\+\_\+\+CLASS,  }\item[{}]{\+\_\+\+\_\+\+SUBCLASS,  }\item[{}]{\+\_\+\+\_\+\+PROTOCOL,  }\item[{}]{\+\_\+\+\_\+\+I\+\_\+\+IFS }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_ac33b787e711271878e10c2f7451dde6e}{USB\_DESC\_IFS\_LEN}},                                                   \(\backslash\)}
+\DoxyCodeLine{            USB\_DT\_INTERFACE,                                                   \(\backslash\)}
+\DoxyCodeLine{            (\_\_IFS\_NUM),                        \textcolor{comment}{/* bInterfaceNumber: Number of Interface */}\(\backslash\)}
+\DoxyCodeLine{            (\_\_ALT\_SETTING),                    \textcolor{comment}{/* bAlternateSetting: Alternate setting */}\(\backslash\)}
+\DoxyCodeLine{            (\_\_EP\_NUM),                         \textcolor{comment}{/* bNumEndpoints */}             \(\backslash\)}
+\DoxyCodeLine{            (\_\_CLASS),                          \textcolor{comment}{/* bInterfaceClass */}           \(\backslash\)}
+\DoxyCodeLine{            (\_\_SUBCLASS),                       \textcolor{comment}{/* bInterfaceSubClass */}        \(\backslash\)}
+\DoxyCodeLine{            (\_\_PROTOCOL),                       \textcolor{comment}{/* nInterfaceProtocol */}        \(\backslash\)}
+\DoxyCodeLine{            (\_\_I\_IFS),                          \textcolor{comment}{/* iInterface: */}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{usb__desc_8h_a8eb7feb2b377ef011426dc74ca7ce862}\label{usb__desc_8h_a8eb7feb2b377ef011426dc74ca7ce862}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_EP\_LEN@{USB\_DESC\_EP\_LEN}}
+\index{USB\_DESC\_EP\_LEN@{USB\_DESC\_EP\_LEN}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_EP\_LEN}{USB\_DESC\_EP\_LEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+EP\+\_\+\+LEN~\mbox{\hyperlink{usb__common_8h_a08bf41bc04ea5919ed8820007c198b71}{USB\+\_\+\+DT\+\_\+\+ENDPOINT\+\_\+\+SIZE}}}
+
+\mbox{\Hypertarget{usb__desc_8h_a696aacbe295583c6dae9c5777af9b20f}\label{usb__desc_8h_a696aacbe295583c6dae9c5777af9b20f}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_EP@{USB\_DESC\_EP}}
+\index{USB\_DESC\_EP@{USB\_DESC\_EP}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_EP}{USB\_DESC\_EP}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+EP(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+EP\+\_\+\+NUM,  }\item[{}]{\+\_\+\+\_\+\+EP\+\_\+\+ATTR,  }\item[{}]{\+\_\+\+\_\+\+EP\+\_\+\+SIZE,  }\item[{}]{\+\_\+\+\_\+\+EP\+\_\+\+INTERVAL }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_a8eb7feb2b377ef011426dc74ca7ce862}{USB\_DESC\_EP\_LEN}},                                                    \(\backslash\)}
+\DoxyCodeLine{            USB\_DT\_ENDPOINT,                                                    \(\backslash\)}
+\DoxyCodeLine{            (\_\_EP\_NUM),                         \textcolor{comment}{/* bEndpointAddress: */}         \(\backslash\)}
+\DoxyCodeLine{            (\_\_EP\_ATTR),                        \textcolor{comment}{/* bmAttributes: */}             \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\_\_EP\_SIZE),           \textcolor{comment}{/* wMaxPacketSize: */}           \(\backslash\)}
+\DoxyCodeLine{            (\_\_EP\_INTERVAL),                    \textcolor{comment}{/* bInterval: */}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{usb__desc_8h_af867b0952a74e90d634dce72c36b772d}\label{usb__desc_8h_af867b0952a74e90d634dce72c36b772d}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_QUALIFIER\_LEN@{USB\_DESC\_QUALIFIER\_LEN}}
+\index{USB\_DESC\_QUALIFIER\_LEN@{USB\_DESC\_QUALIFIER\_LEN}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_QUALIFIER\_LEN}{USB\_DESC\_QUALIFIER\_LEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+QUALIFIER\+\_\+\+LEN~\mbox{\hyperlink{usb__common_8h_a6890c2ae62f18dc2ca480d35d2e03de3}{USB\+\_\+\+DT\+\_\+\+DEVICE\+\_\+\+QUALIFIER\+\_\+\+SIZE}}}
+
+\mbox{\Hypertarget{usb__desc_8h_ab1eaf7887c5c67f9e16ca752ee459147}\label{usb__desc_8h_ab1eaf7887c5c67f9e16ca752ee459147}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_QUALIFIER@{USB\_DESC\_QUALIFIER}}
+\index{USB\_DESC\_QUALIFIER@{USB\_DESC\_QUALIFIER}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_QUALIFIER}{USB\_DESC\_QUALIFIER}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+QUALIFIER(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+VERSION,  }\item[{}]{\+\_\+\+\_\+\+CLASS,  }\item[{}]{\+\_\+\+\_\+\+SUB\+\_\+\+CLASS,  }\item[{}]{\+\_\+\+\_\+\+PROTOCOL,  }\item[{}]{\+\_\+\+\_\+\+EP0\+\_\+\+SIZE,  }\item[{}]{\+\_\+\+\_\+\+CONFIG\+\_\+\+NUM }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_af867b0952a74e90d634dce72c36b772d}{USB\_DESC\_QUALIFIER\_LEN}},                                             \(\backslash\)}
+\DoxyCodeLine{            USB\_DT\_DEVICE\_QUALIFIER,                                            \(\backslash\)}
+\DoxyCodeLine{            USB\_DESC\_WORD(\_\_VERSION),           \textcolor{comment}{/* bcdUSB */}                    \(\backslash\)}
+\DoxyCodeLine{            (\_\_CLASS),                          \textcolor{comment}{/* bDeviceClass */}              \(\backslash\)}
+\DoxyCodeLine{            (\_\_SUB\_CLASS),                      \textcolor{comment}{/* bDeviceSubClass */}           \(\backslash\)}
+\DoxyCodeLine{            (\_\_PROTOCOL),                       \textcolor{comment}{/* bDeviceProtocol */}           \(\backslash\)}
+\DoxyCodeLine{            (\_\_EP0\_SIZE),                       \textcolor{comment}{/* bMaxPacketSize0 */}           \(\backslash\)}
+\DoxyCodeLine{            (\_\_CONFIG\_NUM),                     \textcolor{comment}{/* bNumConfigurations */}        \(\backslash\)}
+\DoxyCodeLine{            0,                                  \textcolor{comment}{/* bReserved */}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{usb__desc_8h_a93b9331124c9759887c67e7eea1c64b9}\label{usb__desc_8h_a93b9331124c9759887c67e7eea1c64b9}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_IAD\_LEN@{USB\_DESC\_IAD\_LEN}}
+\index{USB\_DESC\_IAD\_LEN@{USB\_DESC\_IAD\_LEN}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_IAD\_LEN}{USB\_DESC\_IAD\_LEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+IAD\+\_\+\+LEN~\mbox{\hyperlink{usb__common_8h_ab96a1c58a2009386328c9da06794b98f}{USB\+\_\+\+DT\+\_\+\+INTERFACE\+\_\+\+ASSOCIATION\+\_\+\+SIZE}}}
+
+\mbox{\Hypertarget{usb__desc_8h_acad31a122370554edc1541c860758adb}\label{usb__desc_8h_acad31a122370554edc1541c860758adb}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_IAD@{USB\_DESC\_IAD}}
+\index{USB\_DESC\_IAD@{USB\_DESC\_IAD}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_IAD}{USB\_DESC\_IAD}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+IAD(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+IFS\+\_\+\+START,  }\item[{}]{\+\_\+\+\_\+\+IFS\+\_\+\+NUM,  }\item[{}]{\+\_\+\+\_\+\+CLASS,  }\item[{}]{\+\_\+\+\_\+\+SUBCLASS,  }\item[{}]{\+\_\+\+\_\+\+PROTOCOL,  }\item[{}]{\+\_\+\+\_\+\+I\+\_\+\+FUNC }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_a93b9331124c9759887c67e7eea1c64b9}{USB\_DESC\_IAD\_LEN}}                 ,  \textcolor{comment}{/* IDA */}                       \(\backslash\)}
+\DoxyCodeLine{            USB\_DT\_INTERFACE\_ASSOCIATION,                                       \(\backslash\)}
+\DoxyCodeLine{            (\_\_IFS\_START),                      \textcolor{comment}{/* bFirstInterface */}           \(\backslash\)}
+\DoxyCodeLine{            (\_\_IFS\_NUM),                        \textcolor{comment}{/* bInterfaceCount */}           \(\backslash\)}
+\DoxyCodeLine{            (\_\_CLASS),                          \textcolor{comment}{/* bFunctionClass */}            \(\backslash\)}
+\DoxyCodeLine{            (\_\_SUBCLASS),                       \textcolor{comment}{/* bFunctionSubClass */}         \(\backslash\)}
+\DoxyCodeLine{            (\_\_PROTOCOL),                       \textcolor{comment}{/* bFunctionProtocol */}         \(\backslash\)}
+\DoxyCodeLine{            (\_\_I\_FUNC),                         \textcolor{comment}{/* iFunction */}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{usb__desc_8h_acd60ccfbf89822cce653d2202b80d4d3}\label{usb__desc_8h_acd60ccfbf89822cce653d2202b80d4d3}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_STRING\_LEN@{USB\_DESC\_STRING\_LEN}}
+\index{USB\_DESC\_STRING\_LEN@{USB\_DESC\_STRING\_LEN}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_STRING\_LEN}{USB\_DESC\_STRING\_LEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+STRING\+\_\+\+LEN(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+STR\+\_\+\+LEN }\end{DoxyParamCaption})~((\+\_\+\+\_\+\+STR\+\_\+\+LEN) + 2)}
+
+\mbox{\Hypertarget{usb__desc_8h_af916eca484ddbb5847af518c8b426fb4}\label{usb__desc_8h_af916eca484ddbb5847af518c8b426fb4}} 
+\index{usb\_desc.h@{usb\_desc.h}!USB\_DESC\_STRING@{USB\_DESC\_STRING}}
+\index{USB\_DESC\_STRING@{USB\_DESC\_STRING}!usb\_desc.h@{usb\_desc.h}}
+\doxysubsubsection{\texorpdfstring{USB\_DESC\_STRING}{USB\_DESC\_STRING}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+DESC\+\_\+\+STRING(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+STR\+\_\+\+LEN,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{usb__desc_8h_acd60ccfbf89822cce653d2202b80d4d3}{USB\_DESC\_STRING\_LEN}}(\_\_STR\_LEN),                                     \(\backslash\)}
+\DoxyCodeLine{            USB\_DT\_STRING,                                                      \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_,}
+
+\end{DoxyCode}

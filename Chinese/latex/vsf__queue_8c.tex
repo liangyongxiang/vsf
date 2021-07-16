@@ -1,0 +1,128 @@
+\hypertarget{vsf__queue_8c}{}\doxysection{source/utilities/template/vsf\+\_\+queue.c 文件参考}
+\label{vsf__queue_8c}\index{source/utilities/template/vsf\_queue.c@{source/utilities/template/vsf\_queue.c}}
+{\ttfamily \#include \char`\"{}utilities/vsf\+\_\+utilities\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../compiler/compiler.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+queue.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__queue_8c_a65225f581469f0c81b06e35532fba268}{\+\_\+\+\_\+\+VSF\+\_\+\+QUEUE\+\_\+\+CLASS\+\_\+\+IMPLEMENT}}
+\item 
+\#define \mbox{\hyperlink{vsf__queue_8c_a170ed34cb45d3bd351735c7521ba7aa6}{vsf\+\_\+this}}~($\ast$this\+\_\+ptr)
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__queue_8c_a03ada2396a76285b7f58b9ea068096bc}{\+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+init\+\_\+ex}} (vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} \mbox{\hyperlink{vsf__queue_8h_a3ac62073dd86c45d11650d8d8efa4819}{buffer\+\_\+item\+\_\+cnt}}, \mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}} \mbox{\hyperlink{vsf__queue_8h_a79ab33e8845c92af71eb3ebf06be1e8a}{is\+\_\+init\+\_\+as\+\_\+full}})
+\item 
+\mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \mbox{\hyperlink{vsf__queue_8c_ae24730d82ba5cf0b1bca098623734024}{\+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+send\+\_\+one}} (vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \mbox{\hyperlink{vsf__queue_8c_adc2114e992a74fb7e6e11ae28a5e3b37}{\+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+get\+\_\+one}} (vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} \mbox{\hyperlink{vsf__queue_8c_a9bf2ef0ef34e5a3f49ce0e553532c4a7}{\+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+item\+\_\+count}} (vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \mbox{\hyperlink{vsf__queue_8c_a77c27299cd52b9b8bd2ab8078e01792a}{\+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+send\+\_\+multiple}} (vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} $\ast$item\+\_\+cnt\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \mbox{\hyperlink{vsf__queue_8c_ad88911a8bb57167ee546ed1f48025686}{\+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+get\+\_\+multiple}} (vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} $\ast$item\+\_\+cnt\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \mbox{\hyperlink{vsf__queue_8c_a081e7423b7a42cd27936016c9fcefb16}{\+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+peek\+\_\+one}} (vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+void \mbox{\hyperlink{vsf__queue_8c_ac2252119f7b99b9e3ae8f74bcee4ec80}{\+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+reset\+\_\+peek}} (vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+void \mbox{\hyperlink{vsf__queue_8c_a277d5cc062e2859eb1e235fd54a50e8e}{\+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+get\+\_\+all\+\_\+peeked}} (vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} \mbox{\hyperlink{vsf__queue_8c_a9f491f6038f082317065dbc9e1f19f36}{\+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+item\+\_\+count\+\_\+peekable}} (vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$obj\+\_\+ptr)
+\item 
+\mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \mbox{\hyperlink{vsf__queue_8c_a3c29823f745deab413fadb1514cd7c5e}{\+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+peek\+\_\+multiple}} (vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$obj\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} $\ast$item\+\_\+cnt\+\_\+ptr)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__queue_8c_a65225f581469f0c81b06e35532fba268}\label{vsf__queue_8c_a65225f581469f0c81b06e35532fba268}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_VSF\_QUEUE\_CLASS\_IMPLEMENT@{\_\_VSF\_QUEUE\_CLASS\_IMPLEMENT}}
+\index{\_\_VSF\_QUEUE\_CLASS\_IMPLEMENT@{\_\_VSF\_QUEUE\_CLASS\_IMPLEMENT}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_VSF\_QUEUE\_CLASS\_IMPLEMENT}{\_\_VSF\_QUEUE\_CLASS\_IMPLEMENT}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+VSF\+\_\+\+QUEUE\+\_\+\+CLASS\+\_\+\+IMPLEMENT}
+
+\mbox{\Hypertarget{vsf__queue_8c_a170ed34cb45d3bd351735c7521ba7aa6}\label{vsf__queue_8c_a170ed34cb45d3bd351735c7521ba7aa6}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!vsf\_this@{vsf\_this}}
+\index{vsf\_this@{vsf\_this}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{vsf\_this}{vsf\_this}}
+{\footnotesize\ttfamily \#define vsf\+\_\+this~($\ast$this\+\_\+ptr)}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__queue_8c_a03ada2396a76285b7f58b9ea068096bc}\label{vsf__queue_8c_a03ada2396a76285b7f58b9ea068096bc}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_vsf\_rng\_buf\_init\_ex@{\_\_vsf\_rng\_buf\_init\_ex}}
+\index{\_\_vsf\_rng\_buf\_init\_ex@{\_\_vsf\_rng\_buf\_init\_ex}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_rng\_buf\_init\_ex()}{\_\_vsf\_rng\_buf\_init\_ex()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+init\+\_\+ex (\begin{DoxyParamCaption}\item[{vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}}}]{buffer\+\_\+item\+\_\+cnt,  }\item[{\mbox{\hyperlink{arm_2type_8h_af6a258d8f3ee5206d682d799316314b1}{bool}}}]{is\+\_\+init\+\_\+as\+\_\+full }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__queue_8c_ae24730d82ba5cf0b1bca098623734024}\label{vsf__queue_8c_ae24730d82ba5cf0b1bca098623734024}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_vsf\_rng\_buf\_send\_one@{\_\_vsf\_rng\_buf\_send\_one}}
+\index{\_\_vsf\_rng\_buf\_send\_one@{\_\_vsf\_rng\_buf\_send\_one}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_rng\_buf\_send\_one()}{\_\_vsf\_rng\_buf\_send\_one()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+send\+\_\+one (\begin{DoxyParamCaption}\item[{vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+this queue is full\mbox{\Hypertarget{vsf__queue_8c_adc2114e992a74fb7e6e11ae28a5e3b37}\label{vsf__queue_8c_adc2114e992a74fb7e6e11ae28a5e3b37}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_vsf\_rng\_buf\_get\_one@{\_\_vsf\_rng\_buf\_get\_one}}
+\index{\_\_vsf\_rng\_buf\_get\_one@{\_\_vsf\_rng\_buf\_get\_one}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_rng\_buf\_get\_one()}{\_\_vsf\_rng\_buf\_get\_one()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+get\+\_\+one (\begin{DoxyParamCaption}\item[{vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+this queue is empty\mbox{\Hypertarget{vsf__queue_8c_a9bf2ef0ef34e5a3f49ce0e553532c4a7}\label{vsf__queue_8c_a9bf2ef0ef34e5a3f49ce0e553532c4a7}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_vsf\_rng\_buf\_item\_count@{\_\_vsf\_rng\_buf\_item\_count}}
+\index{\_\_vsf\_rng\_buf\_item\_count@{\_\_vsf\_rng\_buf\_item\_count}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_rng\_buf\_item\_count()}{\_\_vsf\_rng\_buf\_item\_count()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+item\+\_\+count (\begin{DoxyParamCaption}\item[{vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__queue_8c_a77c27299cd52b9b8bd2ab8078e01792a}\label{vsf__queue_8c_a77c27299cd52b9b8bd2ab8078e01792a}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_vsf\_rng\_buf\_send\_multiple@{\_\_vsf\_rng\_buf\_send\_multiple}}
+\index{\_\_vsf\_rng\_buf\_send\_multiple@{\_\_vsf\_rng\_buf\_send\_multiple}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_rng\_buf\_send\_multiple()}{\_\_vsf\_rng\_buf\_send\_multiple()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+send\+\_\+multiple (\begin{DoxyParamCaption}\item[{vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} $\ast$}]{item\+\_\+cnt\+\_\+ptr }\end{DoxyParamCaption})}
+
+this queue is full
+
+$<$ update actual written number\mbox{\Hypertarget{vsf__queue_8c_ad88911a8bb57167ee546ed1f48025686}\label{vsf__queue_8c_ad88911a8bb57167ee546ed1f48025686}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_vsf\_rng\_buf\_get\_multiple@{\_\_vsf\_rng\_buf\_get\_multiple}}
+\index{\_\_vsf\_rng\_buf\_get\_multiple@{\_\_vsf\_rng\_buf\_get\_multiple}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_rng\_buf\_get\_multiple()}{\_\_vsf\_rng\_buf\_get\_multiple()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+get\+\_\+multiple (\begin{DoxyParamCaption}\item[{vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} $\ast$}]{item\+\_\+cnt\+\_\+ptr }\end{DoxyParamCaption})}
+
+this queue is empty
+
+$<$ update actual written number\mbox{\Hypertarget{vsf__queue_8c_a081e7423b7a42cd27936016c9fcefb16}\label{vsf__queue_8c_a081e7423b7a42cd27936016c9fcefb16}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_vsf\_rng\_buf\_peek\_one@{\_\_vsf\_rng\_buf\_peek\_one}}
+\index{\_\_vsf\_rng\_buf\_peek\_one@{\_\_vsf\_rng\_buf\_peek\_one}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_rng\_buf\_peek\_one()}{\_\_vsf\_rng\_buf\_peek\_one()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+peek\+\_\+one (\begin{DoxyParamCaption}\item[{vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+all items have been peeked\mbox{\Hypertarget{vsf__queue_8c_ac2252119f7b99b9e3ae8f74bcee4ec80}\label{vsf__queue_8c_ac2252119f7b99b9e3ae8f74bcee4ec80}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_vsf\_rng\_buf\_reset\_peek@{\_\_vsf\_rng\_buf\_reset\_peek}}
+\index{\_\_vsf\_rng\_buf\_reset\_peek@{\_\_vsf\_rng\_buf\_reset\_peek}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_rng\_buf\_reset\_peek()}{\_\_vsf\_rng\_buf\_reset\_peek()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+reset\+\_\+peek (\begin{DoxyParamCaption}\item[{vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__queue_8c_a277d5cc062e2859eb1e235fd54a50e8e}\label{vsf__queue_8c_a277d5cc062e2859eb1e235fd54a50e8e}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_vsf\_rng\_buf\_get\_all\_peeked@{\_\_vsf\_rng\_buf\_get\_all\_peeked}}
+\index{\_\_vsf\_rng\_buf\_get\_all\_peeked@{\_\_vsf\_rng\_buf\_get\_all\_peeked}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_rng\_buf\_get\_all\_peeked()}{\_\_vsf\_rng\_buf\_get\_all\_peeked()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+get\+\_\+all\+\_\+peeked (\begin{DoxyParamCaption}\item[{vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__queue_8c_a9f491f6038f082317065dbc9e1f19f36}\label{vsf__queue_8c_a9f491f6038f082317065dbc9e1f19f36}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_vsf\_rng\_buf\_item\_count\_peekable@{\_\_vsf\_rng\_buf\_item\_count\_peekable}}
+\index{\_\_vsf\_rng\_buf\_item\_count\_peekable@{\_\_vsf\_rng\_buf\_item\_count\_peekable}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_rng\_buf\_item\_count\_peekable()}{\_\_vsf\_rng\_buf\_item\_count\_peekable()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a226d967fb6d06433caf43f20dc876aae}{uint\+\_\+fast16\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+item\+\_\+count\+\_\+peekable (\begin{DoxyParamCaption}\item[{vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$}]{obj\+\_\+ptr }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__queue_8c_a3c29823f745deab413fadb1514cd7c5e}\label{vsf__queue_8c_a3c29823f745deab413fadb1514cd7c5e}} 
+\index{vsf\_queue.c@{vsf\_queue.c}!\_\_vsf\_rng\_buf\_peek\_multiple@{\_\_vsf\_rng\_buf\_peek\_multiple}}
+\index{\_\_vsf\_rng\_buf\_peek\_multiple@{\_\_vsf\_rng\_buf\_peek\_multiple}!vsf\_queue.c@{vsf\_queue.c}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_rng\_buf\_peek\_multiple()}{\_\_vsf\_rng\_buf\_peek\_multiple()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_ab1967d8591af1a4e48c37fd2b0f184d0}{int32\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+rng\+\_\+buf\+\_\+peek\+\_\+multiple (\begin{DoxyParamCaption}\item[{vsf\+\_\+rng\+\_\+buf\+\_\+t $\ast$}]{obj\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_a273cf69d639a59973b6019625df33e30}{uint16\+\_\+t}} $\ast$}]{item\+\_\+cnt\+\_\+ptr }\end{DoxyParamCaption})}
+
+this queue is empty
+
+$<$ update actual written number

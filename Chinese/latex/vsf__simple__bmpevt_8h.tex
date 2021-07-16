@@ -1,0 +1,402 @@
+\hypertarget{vsf__simple__bmpevt_8h}{}\doxysection{source/kernel/shell/simple/vsf\+\_\+simple\+\_\+bmpevt.h 文件参考}
+\label{vsf__simple__bmpevt_8h}\index{source/kernel/shell/simple/vsf\_simple\_bmpevt.h@{source/kernel/shell/simple/vsf\_simple\_bmpevt.h}}
+{\ttfamily \#include \char`\"{}kernel/vsf\+\_\+kernel\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../../vsf\+\_\+eda.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a816687bafb40dac44ec716c135a2b7a7}{using\+\_\+grouped\+\_\+evt}}~\mbox{\hyperlink{classvsf__bmpevt__pender__t}{vsf\+\_\+bmpevt\+\_\+pender\+\_\+t}} pender
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_ac4676de48e6dc167beaee2c7370ade7d}{\+\_\+\+\_\+declare\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_aaeb0c5e8a5812e3a8cfe17a160dc3939}{declare\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\mbox{\hyperlink{vsf__simple__bmpevt_8h_ac4676de48e6dc167beaee2c7370ade7d}{\+\_\+\+\_\+declare\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_adeaf1b4af412f028f6a7da61faffff58}{\+\_\+\+\_\+def\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a9d0d3bc24f92347171604d19f51357a4}{\+\_\+\+\_\+end\+\_\+def\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_ae25655559ee43bb1082ca62558bb6d97}{end\+\_\+def\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\mbox{\hyperlink{vsf__simple__bmpevt_8h_a9d0d3bc24f92347171604d19f51357a4}{\+\_\+\+\_\+end\+\_\+def\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a5ae69b1ecb668a79e7d0ecbbc9ba86b6}{\+\_\+\+\_\+def\+\_\+evt}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+evt)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a5a38d602bc173d351981c4745d32dc34}{def\+\_\+evt}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+evt)~\mbox{\hyperlink{vsf__simple__bmpevt_8h_a5ae69b1ecb668a79e7d0ecbbc9ba86b6}{\+\_\+\+\_\+def\+\_\+evt}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+evt)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_aa34e28932c9fd8985803af7e02a73c81}{def\+\_\+adapter}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+evt)~\mbox{\hyperlink{vsf__simple__bmpevt_8h_a5ae69b1ecb668a79e7d0ecbbc9ba86b6}{\+\_\+\+\_\+def\+\_\+evt}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+evt)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_aa1cfad70e2d4bfbd5493b65934c12d7b}{def\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_adeaf1b4af412f028f6a7da61faffff58}{\+\_\+\+\_\+def\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a16d92490c0977455bba2c27e7b31a11e}{\+\_\+\+\_\+implement\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a4d40cd79a5e72d26bbe7be266163ac7b}{implement\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, ...)~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a16d92490c0977455bba2c27e7b31a11e}{\+\_\+\+\_\+implement\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a1319ec55281095b60818077bd348f468}{add\+\_\+sync\+\_\+adapter}}(\+\_\+\+\_\+\+SYNC,  \+\_\+\+\_\+\+MSK, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_ad9025cc7c21c56fbfea6b99cca307a94}{\+\_\+\+\_\+init\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+evt\+\_\+group,  \+\_\+\+\_\+auto\+\_\+reset)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_aaa08d50b9fbf3daa8a553c17f1ada498}{init\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+evt\+\_\+group,  \+\_\+\+\_\+auto\+\_\+reset)~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_ad9025cc7c21c56fbfea6b99cca307a94}{\+\_\+\+\_\+init\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+evt\+\_\+group, (\+\_\+\+\_\+auto\+\_\+reset))
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a500cf0b275e04988f6cc5c2a22206e5c}{\+\_\+\+\_\+grouped\+\_\+evts\+\_\+info}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\+\_\+\+\_\+grouped\+\_\+evts\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+info
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_ac290ec87d250440b46aafd7c65cdf68d}{grouped\+\_\+evts\+\_\+info}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})~\mbox{\hyperlink{vsf__simple__bmpevt_8h_a500cf0b275e04988f6cc5c2a22206e5c}{\+\_\+\+\_\+grouped\+\_\+evts\+\_\+info}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a18ff44a5d7e9a87c5e7df0f1226605ab}{\+\_\+\+\_\+grouped\+\_\+evts\+\_\+adapter}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+\+INDEX)~        \+\_\+\+\_\+adapters\+\_\+of\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\mbox{[}(\+\_\+\+\_\+\+INDEX)\mbox{]}
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a6a14b1d57f626f5bd8f6915134883a82}{grouped\+\_\+evts\+\_\+adapter}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+\+INDEX)~        \mbox{\hyperlink{vsf__simple__bmpevt_8h_a18ff44a5d7e9a87c5e7df0f1226605ab}{\+\_\+\+\_\+grouped\+\_\+evts\+\_\+adapter}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+\+INDEX))
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_af1a530bd7223e7f0dec90c5f44fbd3c1}{wait\+\_\+for\+\_\+all\+\_\+timeout}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk,  \+\_\+\+\_\+timeout)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a3ee3d23713e57be1a2f88cb3207a2cc4}{wait\+\_\+for\+\_\+all\+\_\+timeout\+\_\+ms}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk,  \+\_\+\+\_\+timeout)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_af1959227a81d66eeedfc588cd618b470}{wait\+\_\+for\+\_\+all\+\_\+timeout\+\_\+us}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk,  \+\_\+\+\_\+timeout)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a2fdf44a5351201159a11edb6ba003675}{wait\+\_\+for\+\_\+all}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk)~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_af1a530bd7223e7f0dec90c5f44fbd3c1}{wait\+\_\+for\+\_\+all\+\_\+timeout}}( \+\_\+\+\_\+group, (\+\_\+\+\_\+msk), -\/1)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a583b259d4971f73c924fff6548c1e898}{wait\+\_\+for\+\_\+any\+\_\+timeout}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk,  \+\_\+\+\_\+timeout)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_af2f64759763fb64b92c622dc2ab548d6}{wait\+\_\+for\+\_\+any\+\_\+timeout\+\_\+ms}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk,  \+\_\+\+\_\+timeout)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a024876b138308bed0ab90bccbc20fde5}{wait\+\_\+for\+\_\+any\+\_\+timeout\+\_\+us}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk,  \+\_\+\+\_\+timeout)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a543bd1c01ff81a63649ef87210dd5804}{wait\+\_\+for\+\_\+any}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk)~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a583b259d4971f73c924fff6548c1e898}{wait\+\_\+for\+\_\+any\+\_\+timeout}}( \+\_\+\+\_\+group, (\+\_\+\+\_\+msk), -\/1)
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_ade4d72e98dc2d77156088e54fb5d33f1}{wait\+\_\+for\+\_\+one}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk)~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a543bd1c01ff81a63649ef87210dd5804}{wait\+\_\+for\+\_\+any}}((\+\_\+\+\_\+group), (\+\_\+\+\_\+msk))
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a42023fc9e0ac3ae65eb49253cd2eb555}{wait\+\_\+for\+\_\+one\+\_\+timeout}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk,  \+\_\+\+\_\+timeout)~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a583b259d4971f73c924fff6548c1e898}{wait\+\_\+for\+\_\+any\+\_\+timeout}}((\+\_\+\+\_\+group), (\+\_\+\+\_\+msk), (\+\_\+\+\_\+timeout))
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a846d0c356bcd4b6ccf17b84ddffff604}{wait\+\_\+for\+\_\+one\+\_\+timeout\+\_\+ms}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk,  \+\_\+\+\_\+timeout)~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_af2f64759763fb64b92c622dc2ab548d6}{wait\+\_\+for\+\_\+any\+\_\+timeout\+\_\+ms}}((\+\_\+\+\_\+group), (\+\_\+\+\_\+msk), (\+\_\+\+\_\+timeout))
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a476627f56297d8a373296e89a7d91624}{wait\+\_\+for\+\_\+one\+\_\+timeout\+\_\+us}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk,  \+\_\+\+\_\+timeout)~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a024876b138308bed0ab90bccbc20fde5}{wait\+\_\+for\+\_\+any\+\_\+timeout\+\_\+us}}((\+\_\+\+\_\+group), (\+\_\+\+\_\+msk), (\+\_\+\+\_\+timeout))
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a39b9041e853d2f3abbcbdcd672e98bb6}{reset\+\_\+grouped\+\_\+evts}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk)~            \mbox{\hyperlink{vsf__eda_8h_a17c732075ab77841cb4a1b9bbf8b16ae}{vsf\+\_\+eda\+\_\+bmpevt\+\_\+reset}}((\+\_\+\+\_\+group),(\+\_\+\+\_\+msk))
+\item 
+\#define \mbox{\hyperlink{vsf__simple__bmpevt_8h_a64791687d53876519860ae4e4e01597d}{set\+\_\+grouped\+\_\+evts}}(\+\_\+\+\_\+group,  \+\_\+\+\_\+msk)~            \mbox{\hyperlink{vsf__eda_8h_a37d85a87b6266afb4f73dfa209aa92f4}{vsf\+\_\+eda\+\_\+bmpevt\+\_\+set}}((\+\_\+\+\_\+group),(\+\_\+\+\_\+msk))
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{vsf__simple__bmpevt_8h_a213273986da45c740e1db6f532c9bcfc}{\+\_\+\+\_\+vsf\+\_\+grouped\+\_\+evts\+\_\+init}} (\mbox{\hyperlink{classvsf__bmpevt__t}{vsf\+\_\+bmpevt\+\_\+t}} $\ast$this\+\_\+ptr, \mbox{\hyperlink{classvsf__bmpevt__adapter__t}{vsf\+\_\+bmpevt\+\_\+adapter\+\_\+t}} $\ast$$\ast$adapters\+\_\+pptr, \mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}} adapter\+\_\+count, \mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}} auto\+\_\+reset)
+\item 
+\mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939}{vsf\+\_\+sync\+\_\+reason\+\_\+t}} \mbox{\hyperlink{vsf__simple__bmpevt_8h_a3700cee992fd87786cd6195dffd97d69}{\+\_\+\+\_\+vsf\+\_\+bmpevt\+\_\+wait\+\_\+for}} (\mbox{\hyperlink{classvsf__bmpevt__t}{vsf\+\_\+bmpevt\+\_\+t}} $\ast$bmpevt\+\_\+ptr, const \mbox{\hyperlink{classvsf__bmpevt__pender__t}{vsf\+\_\+bmpevt\+\_\+pender\+\_\+t}} $\ast$pender\+\_\+ptr, \mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}} time\+\_\+out)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a816687bafb40dac44ec716c135a2b7a7}\label{vsf__simple__bmpevt_8h_a816687bafb40dac44ec716c135a2b7a7}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!using\_grouped\_evt@{using\_grouped\_evt}}
+\index{using\_grouped\_evt@{using\_grouped\_evt}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{using\_grouped\_evt}{using\_grouped\_evt}}
+{\footnotesize\ttfamily \#define using\+\_\+grouped\+\_\+evt~\mbox{\hyperlink{classvsf__bmpevt__pender__t}{vsf\+\_\+bmpevt\+\_\+pender\+\_\+t}} pender}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_ac4676de48e6dc167beaee2c7370ade7d}\label{vsf__simple__bmpevt_8h_ac4676de48e6dc167beaee2c7370ade7d}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!\_\_declare\_grouped\_evts@{\_\_declare\_grouped\_evts}}
+\index{\_\_declare\_grouped\_evts@{\_\_declare\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{\_\_declare\_grouped\_evts}{\_\_declare\_grouped\_evts}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+declare\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \textcolor{keyword}{typedef} \mbox{\hyperlink{classvsf__bmpevt__t}{vsf\_bmpevt\_t}} \mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}};                                        \(\backslash\)}
+\DoxyCodeLine{            typedef \textcolor{keyword}{enum} enum\_of\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}   enum\_of\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_aaeb0c5e8a5812e3a8cfe17a160dc3939}\label{vsf__simple__bmpevt_8h_aaeb0c5e8a5812e3a8cfe17a160dc3939}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!declare\_grouped\_evts@{declare\_grouped\_evts}}
+\index{declare\_grouped\_evts@{declare\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{declare\_grouped\_evts}{declare\_grouped\_evts}}
+{\footnotesize\ttfamily \#define declare\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__simple__bmpevt_8h_ac4676de48e6dc167beaee2c7370ade7d}{\+\_\+\+\_\+declare\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_adeaf1b4af412f028f6a7da61faffff58}\label{vsf__simple__bmpevt_8h_adeaf1b4af412f028f6a7da61faffff58}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!\_\_def\_grouped\_evts@{\_\_def\_grouped\_evts}}
+\index{\_\_def\_grouped\_evts@{\_\_def\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{\_\_def\_grouped\_evts}{\_\_def\_grouped\_evts}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+def\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keyword}{enum} enum\_of\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\{                                                  \(\backslash\)}
+\DoxyCodeLine{            \_\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_start = \_\_COUNTER\_\_ + 1,}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a9d0d3bc24f92347171604d19f51357a4}\label{vsf__simple__bmpevt_8h_a9d0d3bc24f92347171604d19f51357a4}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!\_\_end\_def\_grouped\_evts@{\_\_end\_def\_grouped\_evts}}
+\index{\_\_end\_def\_grouped\_evts@{\_\_end\_def\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{\_\_end\_def\_grouped\_evts}{\_\_end\_def\_grouped\_evts}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+end\+\_\+def\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            all\_evts\_msk\_of\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}} =                                          \(\backslash\)}
+\DoxyCodeLine{            ((\mbox{\hyperlink{arm_2type_8h_aaa5d1cd013383c889537491c3cfd9aad}{uint64\_t}})1<<(\_\_COUNTER\_\_ -\/ \_\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_start)) -\/ 1,              \(\backslash\)}
+\DoxyCodeLine{        \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_ae25655559ee43bb1082ca62558bb6d97}\label{vsf__simple__bmpevt_8h_ae25655559ee43bb1082ca62558bb6d97}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!end\_def\_grouped\_evts@{end\_def\_grouped\_evts}}
+\index{end\_def\_grouped\_evts@{end\_def\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{end\_def\_grouped\_evts}{end\_def\_grouped\_evts}}
+{\footnotesize\ttfamily \#define end\+\_\+def\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__simple__bmpevt_8h_a9d0d3bc24f92347171604d19f51357a4}{\+\_\+\+\_\+end\+\_\+def\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a5ae69b1ecb668a79e7d0ecbbc9ba86b6}\label{vsf__simple__bmpevt_8h_a5ae69b1ecb668a79e7d0ecbbc9ba86b6}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!\_\_def\_evt@{\_\_def\_evt}}
+\index{\_\_def\_evt@{\_\_def\_evt}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{\_\_def\_evt}{\_\_def\_evt}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+def\+\_\+evt(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+evt }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \_\_evt\#\#\_idx = \_\_COUNTER\_\_ -\/ \_\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_start,                     \(\backslash\)}
+\DoxyCodeLine{            \_\_evt\#\#\_msk = (\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\_t}})(1<<(\_\_evt\#\#\_idx))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a5a38d602bc173d351981c4745d32dc34}\label{vsf__simple__bmpevt_8h_a5a38d602bc173d351981c4745d32dc34}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!def\_evt@{def\_evt}}
+\index{def\_evt@{def\_evt}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{def\_evt}{def\_evt}}
+{\footnotesize\ttfamily \#define def\+\_\+evt(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+evt }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__simple__bmpevt_8h_a5ae69b1ecb668a79e7d0ecbbc9ba86b6}{\+\_\+\+\_\+def\+\_\+evt}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+evt)}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_aa34e28932c9fd8985803af7e02a73c81}\label{vsf__simple__bmpevt_8h_aa34e28932c9fd8985803af7e02a73c81}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!def\_adapter@{def\_adapter}}
+\index{def\_adapter@{def\_adapter}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{def\_adapter}{def\_adapter}}
+{\footnotesize\ttfamily \#define def\+\_\+adapter(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+evt }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__simple__bmpevt_8h_a5ae69b1ecb668a79e7d0ecbbc9ba86b6}{\+\_\+\+\_\+def\+\_\+evt}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+evt)}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_aa1cfad70e2d4bfbd5493b65934c12d7b}\label{vsf__simple__bmpevt_8h_aa1cfad70e2d4bfbd5493b65934c12d7b}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!def\_grouped\_evts@{def\_grouped\_evts}}
+\index{def\_grouped\_evts@{def\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{def\_grouped\_evts}{def\_grouped\_evts}}
+{\footnotesize\ttfamily \#define def\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_adeaf1b4af412f028f6a7da61faffff58}{\+\_\+\+\_\+def\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a16d92490c0977455bba2c27e7b31a11e}\label{vsf__simple__bmpevt_8h_a16d92490c0977455bba2c27e7b31a11e}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!\_\_implement\_grouped\_evts@{\_\_implement\_grouped\_evts}}
+\index{\_\_implement\_grouped\_evts@{\_\_implement\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{\_\_implement\_grouped\_evts}{\_\_implement\_grouped\_evts}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+implement\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \textcolor{keyword}{static} \textcolor{keyword}{const} \mbox{\hyperlink{classvsf__bmpevt__adapter__t}{vsf\_bmpevt\_adapter\_t}} *\_\_adapters\_of\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}[] = \{         \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_                                                         \(\backslash\)}
+\DoxyCodeLine{        \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a4d40cd79a5e72d26bbe7be266163ac7b}\label{vsf__simple__bmpevt_8h_a4d40cd79a5e72d26bbe7be266163ac7b}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!implement\_grouped\_evts@{implement\_grouped\_evts}}
+\index{implement\_grouped\_evts@{implement\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{implement\_grouped\_evts}{implement\_grouped\_evts}}
+{\footnotesize\ttfamily \#define implement\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a16d92490c0977455bba2c27e7b31a11e}{\+\_\+\+\_\+implement\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a1319ec55281095b60818077bd348f468}\label{vsf__simple__bmpevt_8h_a1319ec55281095b60818077bd348f468}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!add\_sync\_adapter@{add\_sync\_adapter}}
+\index{add\_sync\_adapter@{add\_sync\_adapter}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{add\_sync\_adapter}{add\_sync\_adapter}}
+{\footnotesize\ttfamily \#define add\+\_\+sync\+\_\+adapter(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+SYNC,  }\item[{}]{\+\_\+\+\_\+\+MSK,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{    \&((\mbox{\hyperlink{vsf__eda_8h_ad859060d4124f4c8b39c1b3862d4900d}{vsf\_bmpevt\_adapter\_sync\_t}})\{                                              \(\backslash\)}
+\DoxyCodeLine{            .sync = (\_\_SYNC),                                                   \(\backslash\)}
+\DoxyCodeLine{            .use\_as\_\_vsf\_bmpevt\_adapter\_eda\_t.use\_as\_\_vsf\_bmpevt\_adapter\_t = \{  \(\backslash\)}
+\DoxyCodeLine{                .mask  = (\_\_MSK),                                               \(\backslash\)}
+\DoxyCodeLine{                .op = \&\mbox{\hyperlink{vsf__eda_8h_ac1e31b1b2f8c2693e7d8393b0f42577e}{vsf\_eda\_bmpevt\_adapter\_sync\_op}},                          \(\backslash\)}
+\DoxyCodeLine{            \},                                                                  \(\backslash\)}
+\DoxyCodeLine{            \_\_VA\_ARGS\_\_                                                         \(\backslash\)}
+\DoxyCodeLine{        \}.use\_as\_\_vsf\_bmpevt\_adapter\_eda\_t.use\_as\_\_vsf\_bmpevt\_adapter\_t)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_ad9025cc7c21c56fbfea6b99cca307a94}\label{vsf__simple__bmpevt_8h_ad9025cc7c21c56fbfea6b99cca307a94}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!\_\_init\_grouped\_evts@{\_\_init\_grouped\_evts}}
+\index{\_\_init\_grouped\_evts@{\_\_init\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_grouped\_evts}{\_\_init\_grouped\_evts}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+init\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+evt\+\_\+group,  }\item[{}]{\+\_\+\+\_\+auto\+\_\+reset }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{        \mbox{\hyperlink{vsf__simple__bmpevt_8h_a213273986da45c740e1db6f532c9bcfc}{\_\_vsf\_grouped\_evts\_init}}((\_\_evt\_group),                                  \(\backslash\)}
+\DoxyCodeLine{            (\mbox{\hyperlink{classvsf__bmpevt__adapter__t}{vsf\_bmpevt\_adapter\_t}} **)\&(\_\_adapters\_of\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}),                 \(\backslash\)}
+\DoxyCodeLine{            \mbox{\hyperlink{____type_8h_a68b61418f82c6385e25cee8d1caf2230}{UBOUND}}(\_\_adapters\_of\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}),                                     \(\backslash\)}
+\DoxyCodeLine{            (\_\_auto\_reset))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_aaa08d50b9fbf3daa8a553c17f1ada498}\label{vsf__simple__bmpevt_8h_aaa08d50b9fbf3daa8a553c17f1ada498}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!init\_grouped\_evts@{init\_grouped\_evts}}
+\index{init\_grouped\_evts@{init\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{init\_grouped\_evts}{init\_grouped\_evts}}
+{\footnotesize\ttfamily \#define init\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+evt\+\_\+group,  }\item[{}]{\+\_\+\+\_\+auto\+\_\+reset }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_ad9025cc7c21c56fbfea6b99cca307a94}{\+\_\+\+\_\+init\+\_\+grouped\+\_\+evts}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+evt\+\_\+group, (\+\_\+\+\_\+auto\+\_\+reset))}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a500cf0b275e04988f6cc5c2a22206e5c}\label{vsf__simple__bmpevt_8h_a500cf0b275e04988f6cc5c2a22206e5c}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!\_\_grouped\_evts\_info@{\_\_grouped\_evts\_info}}
+\index{\_\_grouped\_evts\_info@{\_\_grouped\_evts\_info}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{\_\_grouped\_evts\_info}{\_\_grouped\_evts\_info}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+grouped\+\_\+evts\+\_\+info(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\+\_\+\+\_\+grouped\+\_\+evts\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\#\#\+\_\+info}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_ac290ec87d250440b46aafd7c65cdf68d}\label{vsf__simple__bmpevt_8h_ac290ec87d250440b46aafd7c65cdf68d}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!grouped\_evts\_info@{grouped\_evts\_info}}
+\index{grouped\_evts\_info@{grouped\_evts\_info}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{grouped\_evts\_info}{grouped\_evts\_info}}
+{\footnotesize\ttfamily \#define grouped\+\_\+evts\+\_\+info(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}} }\end{DoxyParamCaption})~\mbox{\hyperlink{vsf__simple__bmpevt_8h_a500cf0b275e04988f6cc5c2a22206e5c}{\+\_\+\+\_\+grouped\+\_\+evts\+\_\+info}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}})}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a18ff44a5d7e9a87c5e7df0f1226605ab}\label{vsf__simple__bmpevt_8h_a18ff44a5d7e9a87c5e7df0f1226605ab}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!\_\_grouped\_evts\_adapter@{\_\_grouped\_evts\_adapter}}
+\index{\_\_grouped\_evts\_adapter@{\_\_grouped\_evts\_adapter}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{\_\_grouped\_evts\_adapter}{\_\_grouped\_evts\_adapter}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+grouped\+\_\+evts\+\_\+adapter(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+\+INDEX }\end{DoxyParamCaption})~        \+\_\+\+\_\+adapters\+\_\+of\+\_\+\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}\mbox{[}(\+\_\+\+\_\+\+INDEX)\mbox{]}}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a6a14b1d57f626f5bd8f6915134883a82}\label{vsf__simple__bmpevt_8h_a6a14b1d57f626f5bd8f6915134883a82}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!grouped\_evts\_adapter@{grouped\_evts\_adapter}}
+\index{grouped\_evts\_adapter@{grouped\_evts\_adapter}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{grouped\_evts\_adapter}{grouped\_evts\_adapter}}
+{\footnotesize\ttfamily \#define grouped\+\_\+evts\+\_\+adapter(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+\+INDEX }\end{DoxyParamCaption})~        \mbox{\hyperlink{vsf__simple__bmpevt_8h_a18ff44a5d7e9a87c5e7df0f1226605ab}{\+\_\+\+\_\+grouped\+\_\+evts\+\_\+adapter}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+\+INDEX))}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_af1a530bd7223e7f0dec90c5f44fbd3c1}\label{vsf__simple__bmpevt_8h_af1a530bd7223e7f0dec90c5f44fbd3c1}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_all\_timeout@{wait\_for\_all\_timeout}}
+\index{wait\_for\_all\_timeout@{wait\_for\_all\_timeout}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_all\_timeout}{wait\_for\_all\_timeout}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+all\+\_\+timeout(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk,  }\item[{}]{\+\_\+\+\_\+timeout }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}{vsf\_this}}.pender.mask = (\_\_msk);                                         \(\backslash\)}
+\DoxyCodeLine{            vsf\_this.pender.op  = \mbox{\hyperlink{vsf__eda_8h_a34a1a71056d1219dd366bcc3a5cad6d2}{VSF\_BMPEVT\_AND}};                                   \(\backslash\)}
+\DoxyCodeLine{            for (   \mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939}{vsf\_sync\_reason\_t}} reason = \mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939ab9c676b45de3fafca726e320b92447a0}{VSF\_SYNC\_CANCEL}};                 \(\backslash\)}
+\DoxyCodeLine{                    reason == \mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939ab9c676b45de3fafca726e320b92447a0}{VSF\_SYNC\_CANCEL}};)                                 \(\backslash\)}
+\DoxyCodeLine{                \textcolor{keywordflow}{if} ((reason = \mbox{\hyperlink{vsf__simple__bmpevt_8h_a3700cee992fd87786cd6195dffd97d69}{\_\_vsf\_bmpevt\_wait\_for}}(                            \(\backslash\)}
+\DoxyCodeLine{                    (\_\_group),                                                  \(\backslash\)}
+\DoxyCodeLine{                    (\mbox{\hyperlink{classvsf__bmpevt__pender__t}{vsf\_bmpevt\_pender\_t}} *)                                     \(\backslash\)}
+\DoxyCodeLine{                    \&\mbox{\hyperlink{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}{vsf\_this}}.pender, (\_\_timeout)),                                 \(\backslash\)}
+\DoxyCodeLine{                    (reason == \mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939a60237abf13c6ef4ab6e13b60925b4933}{VSF\_SYNC\_GET}} || reason == \mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939accd59a3078e2b0330c698dccd6c55b4f}{VSF\_SYNC\_TIMEOUT}})))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a3ee3d23713e57be1a2f88cb3207a2cc4}\label{vsf__simple__bmpevt_8h_a3ee3d23713e57be1a2f88cb3207a2cc4}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_all\_timeout\_ms@{wait\_for\_all\_timeout\_ms}}
+\index{wait\_for\_all\_timeout\_ms@{wait\_for\_all\_timeout\_ms}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_all\_timeout\_ms}{wait\_for\_all\_timeout\_ms}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+all\+\_\+timeout\+\_\+ms(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk,  }\item[{}]{\+\_\+\+\_\+timeout }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__simple__bmpevt_8h_af1a530bd7223e7f0dec90c5f44fbd3c1}{wait\_for\_all\_timeout}}(   \_\_group,                                    \(\backslash\)}
+\DoxyCodeLine{                                    (\_\_msk),                                    \(\backslash\)}
+\DoxyCodeLine{                                    vsf\_systimer\_ms\_to\_tick(\_\_timeout))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_af1959227a81d66eeedfc588cd618b470}\label{vsf__simple__bmpevt_8h_af1959227a81d66eeedfc588cd618b470}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_all\_timeout\_us@{wait\_for\_all\_timeout\_us}}
+\index{wait\_for\_all\_timeout\_us@{wait\_for\_all\_timeout\_us}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_all\_timeout\_us}{wait\_for\_all\_timeout\_us}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+all\+\_\+timeout\+\_\+us(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk,  }\item[{}]{\+\_\+\+\_\+timeout }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__simple__bmpevt_8h_af1a530bd7223e7f0dec90c5f44fbd3c1}{wait\_for\_all\_timeout}}(   \_\_group,                                    \(\backslash\)}
+\DoxyCodeLine{                                    (\_\_msk),                                    \(\backslash\)}
+\DoxyCodeLine{                                    vsf\_systimer\_us\_to\_tick(\_\_timeout))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a2fdf44a5351201159a11edb6ba003675}\label{vsf__simple__bmpevt_8h_a2fdf44a5351201159a11edb6ba003675}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_all@{wait\_for\_all}}
+\index{wait\_for\_all@{wait\_for\_all}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_all}{wait\_for\_all}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+all(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_af1a530bd7223e7f0dec90c5f44fbd3c1}{wait\+\_\+for\+\_\+all\+\_\+timeout}}( \+\_\+\+\_\+group, (\+\_\+\+\_\+msk), -\/1)}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a583b259d4971f73c924fff6548c1e898}\label{vsf__simple__bmpevt_8h_a583b259d4971f73c924fff6548c1e898}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_any\_timeout@{wait\_for\_any\_timeout}}
+\index{wait\_for\_any\_timeout@{wait\_for\_any\_timeout}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_any\_timeout}{wait\_for\_any\_timeout}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+any\+\_\+timeout(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk,  }\item[{}]{\+\_\+\+\_\+timeout }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}{vsf\_this}}.pender.mask = (\_\_msk);                                         \(\backslash\)}
+\DoxyCodeLine{            vsf\_this.pender.op = \mbox{\hyperlink{vsf__eda_8h_ad13ddbc292e3f87ebb9f30c638ba7caa}{VSF\_BMPEVT\_OR}};                                     \(\backslash\)}
+\DoxyCodeLine{            for (   \mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939}{vsf\_sync\_reason\_t}} reason = \mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939ab9c676b45de3fafca726e320b92447a0}{VSF\_SYNC\_CANCEL}};                 \(\backslash\)}
+\DoxyCodeLine{                    reason == \mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939ab9c676b45de3fafca726e320b92447a0}{VSF\_SYNC\_CANCEL}};)                                 \(\backslash\)}
+\DoxyCodeLine{                \textcolor{keywordflow}{if} ((reason = \mbox{\hyperlink{vsf__simple__bmpevt_8h_a3700cee992fd87786cd6195dffd97d69}{\_\_vsf\_bmpevt\_wait\_for}}(                            \(\backslash\)}
+\DoxyCodeLine{                    (\_\_group),                                                  \(\backslash\)}
+\DoxyCodeLine{                    (\mbox{\hyperlink{classvsf__bmpevt__pender__t}{vsf\_bmpevt\_pender\_t}} *)                                     \(\backslash\)}
+\DoxyCodeLine{                    \&\mbox{\hyperlink{vsf__fsm_8h_a170ed34cb45d3bd351735c7521ba7aa6}{vsf\_this}}.pender, (\_\_timeout)),                                 \(\backslash\)}
+\DoxyCodeLine{                    (reason == \mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939a60237abf13c6ef4ab6e13b60925b4933}{VSF\_SYNC\_GET}} || reason == \mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939accd59a3078e2b0330c698dccd6c55b4f}{VSF\_SYNC\_TIMEOUT}})))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_af2f64759763fb64b92c622dc2ab548d6}\label{vsf__simple__bmpevt_8h_af2f64759763fb64b92c622dc2ab548d6}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_any\_timeout\_ms@{wait\_for\_any\_timeout\_ms}}
+\index{wait\_for\_any\_timeout\_ms@{wait\_for\_any\_timeout\_ms}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_any\_timeout\_ms}{wait\_for\_any\_timeout\_ms}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+any\+\_\+timeout\+\_\+ms(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk,  }\item[{}]{\+\_\+\+\_\+timeout }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a583b259d4971f73c924fff6548c1e898}{wait\_for\_any\_timeout}}(   \_\_group,                                    \(\backslash\)}
+\DoxyCodeLine{                                    (\_\_msk),                                    \(\backslash\)}
+\DoxyCodeLine{                                    vsf\_systimer\_ms\_to\_tick(\_\_timeout))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a024876b138308bed0ab90bccbc20fde5}\label{vsf__simple__bmpevt_8h_a024876b138308bed0ab90bccbc20fde5}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_any\_timeout\_us@{wait\_for\_any\_timeout\_us}}
+\index{wait\_for\_any\_timeout\_us@{wait\_for\_any\_timeout\_us}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_any\_timeout\_us}{wait\_for\_any\_timeout\_us}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+any\+\_\+timeout\+\_\+us(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk,  }\item[{}]{\+\_\+\+\_\+timeout }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a583b259d4971f73c924fff6548c1e898}{wait\_for\_any\_timeout}}(   \_\_group,                                    \(\backslash\)}
+\DoxyCodeLine{                                    (\_\_msk),                                    \(\backslash\)}
+\DoxyCodeLine{                                    vsf\_systimer\_us\_to\_tick(\_\_timeout))}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a543bd1c01ff81a63649ef87210dd5804}\label{vsf__simple__bmpevt_8h_a543bd1c01ff81a63649ef87210dd5804}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_any@{wait\_for\_any}}
+\index{wait\_for\_any@{wait\_for\_any}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_any}{wait\_for\_any}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+any(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a583b259d4971f73c924fff6548c1e898}{wait\+\_\+for\+\_\+any\+\_\+timeout}}( \+\_\+\+\_\+group, (\+\_\+\+\_\+msk), -\/1)}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_ade4d72e98dc2d77156088e54fb5d33f1}\label{vsf__simple__bmpevt_8h_ade4d72e98dc2d77156088e54fb5d33f1}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_one@{wait\_for\_one}}
+\index{wait\_for\_one@{wait\_for\_one}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_one}{wait\_for\_one}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+one(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a543bd1c01ff81a63649ef87210dd5804}{wait\+\_\+for\+\_\+any}}((\+\_\+\+\_\+group), (\+\_\+\+\_\+msk))}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a42023fc9e0ac3ae65eb49253cd2eb555}\label{vsf__simple__bmpevt_8h_a42023fc9e0ac3ae65eb49253cd2eb555}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_one\_timeout@{wait\_for\_one\_timeout}}
+\index{wait\_for\_one\_timeout@{wait\_for\_one\_timeout}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_one\_timeout}{wait\_for\_one\_timeout}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+one\+\_\+timeout(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk,  }\item[{}]{\+\_\+\+\_\+timeout }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a583b259d4971f73c924fff6548c1e898}{wait\+\_\+for\+\_\+any\+\_\+timeout}}((\+\_\+\+\_\+group), (\+\_\+\+\_\+msk), (\+\_\+\+\_\+timeout))}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a846d0c356bcd4b6ccf17b84ddffff604}\label{vsf__simple__bmpevt_8h_a846d0c356bcd4b6ccf17b84ddffff604}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_one\_timeout\_ms@{wait\_for\_one\_timeout\_ms}}
+\index{wait\_for\_one\_timeout\_ms@{wait\_for\_one\_timeout\_ms}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_one\_timeout\_ms}{wait\_for\_one\_timeout\_ms}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+one\+\_\+timeout\+\_\+ms(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk,  }\item[{}]{\+\_\+\+\_\+timeout }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_af2f64759763fb64b92c622dc2ab548d6}{wait\+\_\+for\+\_\+any\+\_\+timeout\+\_\+ms}}((\+\_\+\+\_\+group), (\+\_\+\+\_\+msk), (\+\_\+\+\_\+timeout))}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a476627f56297d8a373296e89a7d91624}\label{vsf__simple__bmpevt_8h_a476627f56297d8a373296e89a7d91624}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!wait\_for\_one\_timeout\_us@{wait\_for\_one\_timeout\_us}}
+\index{wait\_for\_one\_timeout\_us@{wait\_for\_one\_timeout\_us}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{wait\_for\_one\_timeout\_us}{wait\_for\_one\_timeout\_us}}
+{\footnotesize\ttfamily \#define wait\+\_\+for\+\_\+one\+\_\+timeout\+\_\+us(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk,  }\item[{}]{\+\_\+\+\_\+timeout }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__simple__bmpevt_8h_a024876b138308bed0ab90bccbc20fde5}{wait\+\_\+for\+\_\+any\+\_\+timeout\+\_\+us}}((\+\_\+\+\_\+group), (\+\_\+\+\_\+msk), (\+\_\+\+\_\+timeout))}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a39b9041e853d2f3abbcbdcd672e98bb6}\label{vsf__simple__bmpevt_8h_a39b9041e853d2f3abbcbdcd672e98bb6}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!reset\_grouped\_evts@{reset\_grouped\_evts}}
+\index{reset\_grouped\_evts@{reset\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{reset\_grouped\_evts}{reset\_grouped\_evts}}
+{\footnotesize\ttfamily \#define reset\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__eda_8h_a17c732075ab77841cb4a1b9bbf8b16ae}{vsf\+\_\+eda\+\_\+bmpevt\+\_\+reset}}((\+\_\+\+\_\+group),(\+\_\+\+\_\+msk))}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a64791687d53876519860ae4e4e01597d}\label{vsf__simple__bmpevt_8h_a64791687d53876519860ae4e4e01597d}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!set\_grouped\_evts@{set\_grouped\_evts}}
+\index{set\_grouped\_evts@{set\_grouped\_evts}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{set\_grouped\_evts}{set\_grouped\_evts}}
+{\footnotesize\ttfamily \#define set\+\_\+grouped\+\_\+evts(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+group,  }\item[{}]{\+\_\+\+\_\+msk }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__eda_8h_a37d85a87b6266afb4f73dfa209aa92f4}{vsf\+\_\+eda\+\_\+bmpevt\+\_\+set}}((\+\_\+\+\_\+group),(\+\_\+\+\_\+msk))}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a213273986da45c740e1db6f532c9bcfc}\label{vsf__simple__bmpevt_8h_a213273986da45c740e1db6f532c9bcfc}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!\_\_vsf\_grouped\_evts\_init@{\_\_vsf\_grouped\_evts\_init}}
+\index{\_\_vsf\_grouped\_evts\_init@{\_\_vsf\_grouped\_evts\_init}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_grouped\_evts\_init()}{\_\_vsf\_grouped\_evts\_init()}}
+{\footnotesize\ttfamily void \+\_\+\+\_\+vsf\+\_\+grouped\+\_\+evts\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__bmpevt__t}{vsf\+\_\+bmpevt\+\_\+t}} $\ast$}]{this\+\_\+ptr,  }\item[{\mbox{\hyperlink{classvsf__bmpevt__adapter__t}{vsf\+\_\+bmpevt\+\_\+adapter\+\_\+t}} $\ast$$\ast$}]{adapters\+\_\+pptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_ad0906fbe05a45fbdb000c58fe8929e70}{uint\+\_\+fast8\+\_\+t}}}]{adapter\+\_\+count,  }\item[{\mbox{\hyperlink{arm_2type_8h_a633264eb9df8f0520acccbbfb406f806}{uint\+\_\+fast32\+\_\+t}}}]{auto\+\_\+reset }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{vsf__simple__bmpevt_8h_a3700cee992fd87786cd6195dffd97d69}\label{vsf__simple__bmpevt_8h_a3700cee992fd87786cd6195dffd97d69}} 
+\index{vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}!\_\_vsf\_bmpevt\_wait\_for@{\_\_vsf\_bmpevt\_wait\_for}}
+\index{\_\_vsf\_bmpevt\_wait\_for@{\_\_vsf\_bmpevt\_wait\_for}!vsf\_simple\_bmpevt.h@{vsf\_simple\_bmpevt.h}}
+\doxysubsubsection{\texorpdfstring{\_\_vsf\_bmpevt\_wait\_for()}{\_\_vsf\_bmpevt\_wait\_for()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{vsf__eda_8h_aeaa3152ca9e561ff10865c65a67bb939}{vsf\+\_\+sync\+\_\+reason\+\_\+t}} \+\_\+\+\_\+vsf\+\_\+bmpevt\+\_\+wait\+\_\+for (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvsf__bmpevt__t}{vsf\+\_\+bmpevt\+\_\+t}} $\ast$}]{bmpevt\+\_\+ptr,  }\item[{const \mbox{\hyperlink{classvsf__bmpevt__pender__t}{vsf\+\_\+bmpevt\+\_\+pender\+\_\+t}} $\ast$}]{pender\+\_\+ptr,  }\item[{\mbox{\hyperlink{arm_2type_8h_ae884dda22bf64c7e974894a6d3b67929}{int\+\_\+fast32\+\_\+t}}}]{time\+\_\+out }\end{DoxyParamCaption})}
+

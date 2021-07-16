@@ -1,0 +1,248 @@
+\hypertarget{vsf__usbd___c_d_c_a_c_m_8h}{}\doxysection{source/component/usb/device/class/\+CDC/vsf\+\_\+usbd\+\_\+\+CDCACM.h 文件参考}
+\label{vsf__usbd___c_d_c_a_c_m_8h}\index{source/component/usb/device/class/CDC/vsf\_usbd\_CDCACM.h@{source/component/usb/device/class/CDC/vsf\_usbd\_CDCACM.h}}
+{\ttfamily \#include \char`\"{}component/usb/vsf\+\_\+usb\+\_\+cfg.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}component/usb/common/class/\+CDC/vsf\+\_\+usb\+\_\+\+CDCACM.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./vsf\+\_\+usbd\+\_\+\+CDCACM\+\_\+desc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}utilities/ooc\+\_\+class.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classvk__usbd__cdcacm__t}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+t}}
+\item 
+struct \mbox{\hyperlink{structvk__usbd__cdcacm__cfg__t}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+cfg\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a21c517563254e784b165a7bbae17faf7}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARAM}}(\+\_\+\+\_\+\+INT\+\_\+\+IN\+\_\+\+EP,  \+\_\+\+\_\+\+BULK\+\_\+\+IN\+\_\+\+EP,  \+\_\+\+\_\+\+BULK\+\_\+\+OUT\+\_\+\+EP,  \+\_\+\+\_\+\+STREAM\+\_\+\+RX,  \+\_\+\+\_\+\+STREAM\+\_\+\+TX, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a48d8b87bba10ef6c2c0d53a6714502f8}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARITY\+\_\+\+NONE}}~0
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a5c4e0ef52afad46ad3145b53e23b3f2a}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARITY\+\_\+\+ODD}}~1
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a9f55836fd5e645bb5b47dfd60b1ce778}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARITY\+\_\+\+EVEN}}~2
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_abec44ca37902b03ae84b8917499f1f19}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+STOPBIT\+\_\+1}}~0
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_ac3016788be021b5211f37918d6e12506}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+STOPBIT\+\_\+1\+P5}}~1
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_ad8da210f542a6ef11234e71f00b14681}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+STOPBIT\+\_\+2}}~2
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_ac7d6c87b4b36434dd882d82895093b71}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+LINECODE}}(\+\_\+\+\_\+\+BAUDRATE,  \+\_\+\+\_\+\+BITLEN,  \+\_\+\+\_\+\+PARITY,  \+\_\+\+\_\+\+STOP)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a4f211dff5b8a718eb6d6b7009a5dce2a}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+LINECODE\+\_\+115200\+\_\+8\+N1}}~            \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_ac7d6c87b4b36434dd882d82895093b71}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+LINECODE}}(115200, 8, \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a48d8b87bba10ef6c2c0d53a6714502f8}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARITY\+\_\+\+NONE}}, \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_abec44ca37902b03ae84b8917499f1f19}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+STOPBIT\+\_\+1}})
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a5d488f092cc8337363aaf4fe2b96c4cb}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+IFS\+\_\+\+NUM}}~\mbox{\hyperlink{vsf__usbd___c_d_c_8h_afe50b7aa170892cdeccaaebd1cbc6788}{USB\+\_\+\+CDC\+\_\+\+IFS\+\_\+\+NUM}}
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a1b2cc4ad3993713676ac6e56f3eaf895}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+IFS\+\_\+\+CONTROL}}(\+\_\+\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARAM)~            \mbox{\hyperlink{vsf__usbd_8h_a2fd7de414ed90220ec6e7f751d0a13af}{USB\+\_\+\+IFS}}(\&\mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a5e07f792bc11a3e17fdf88879a55df21}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+control}}, \&\+\_\+\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARAM)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a0da77c8c13867d750d89096fd0e59413}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+IFS\+\_\+\+DATA}}(\+\_\+\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARAM)~            \mbox{\hyperlink{vsf__usbd_8h_a2fd7de414ed90220ec6e7f751d0a13af}{USB\+\_\+\+IFS}}(\&\mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_ae62e26e44b391bd99c25f288ba6e9610}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+data}}, \&\+\_\+\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARAM)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a369f9092dd6e06b1b62f222a4ad67bf3}{\+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+desc\+\_\+iad}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+ifs\+\_\+start,  \+\_\+\+\_\+i\+\_\+func,  \+\_\+\+\_\+int\+\_\+in\+\_\+ep,  \+\_\+\+\_\+bulk\+\_\+in\+\_\+ep,  \+\_\+\+\_\+bulk\+\_\+out\+\_\+ep,  \+\_\+\+\_\+bulk\+\_\+ep\+\_\+size,  \+\_\+\+\_\+int\+\_\+ep\+\_\+interval)~            \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m__desc_8h_a7998b762ae272dd6eeedddf6187000af}{USB\+\_\+\+DESC\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+IAD}}((\+\_\+\+\_\+ifs\+\_\+start), (\+\_\+\+\_\+i\+\_\+func), (\+\_\+\+\_\+int\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+out\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+ep\+\_\+size), (\+\_\+\+\_\+int\+\_\+ep\+\_\+interval))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_acad4158ad03ddec27ec5023c12fee209}{\+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+func}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+func\+\_\+id,  \+\_\+\+\_\+int\+\_\+in\+\_\+ep,  \+\_\+\+\_\+bulk\+\_\+in\+\_\+ep,  \+\_\+\+\_\+bulk\+\_\+out\+\_\+ep,  \+\_\+\+\_\+stream\+\_\+rx,  \+\_\+\+\_\+stream\+\_\+tx, ...)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a7ea71c3aabeed7d6efe38b5c75cc2807}{\+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+ifs}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+func\+\_\+id)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a364ccc28c79b6aa589516731c93d4243}{usbd\+\_\+cdc\+\_\+acm\+\_\+desc\+\_\+iad}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+ifs\+\_\+start,  \+\_\+\+\_\+i\+\_\+func,  \+\_\+\+\_\+int\+\_\+in\+\_\+ep,  \+\_\+\+\_\+bulk\+\_\+in\+\_\+ep,  \+\_\+\+\_\+bulk\+\_\+out\+\_\+ep,  \+\_\+\+\_\+bulk\+\_\+ep\+\_\+size,  \+\_\+\+\_\+int\+\_\+ep\+\_\+interval)~            \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a369f9092dd6e06b1b62f222a4ad67bf3}{\+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+desc\+\_\+iad}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+ifs\+\_\+start), 4 + (\+\_\+\+\_\+i\+\_\+func), (\+\_\+\+\_\+int\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+out\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+ep\+\_\+size), (\+\_\+\+\_\+int\+\_\+ep\+\_\+interval))
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a69521009f81002c9555472b1b2135cb7}{usbd\+\_\+cdc\+\_\+acm\+\_\+func}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+func\+\_\+id,  \+\_\+\+\_\+int\+\_\+in\+\_\+ep,  \+\_\+\+\_\+bulk\+\_\+in\+\_\+ep,  \+\_\+\+\_\+bulk\+\_\+out\+\_\+ep,  \+\_\+\+\_\+stream\+\_\+rx,  \+\_\+\+\_\+stream\+\_\+tx, ...)~            \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_acad4158ad03ddec27ec5023c12fee209}{\+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+func}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+func\+\_\+id, (\+\_\+\+\_\+int\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+out\+\_\+ep), (\+\_\+\+\_\+stream\+\_\+rx), (\+\_\+\+\_\+stream\+\_\+tx), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)
+\item 
+\#define \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a829659c7cee01417f4bb1bd87745b0c1}{usbd\+\_\+cdc\+\_\+acm\+\_\+ifs}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  \+\_\+\+\_\+func\+\_\+id)~            \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a7ea71c3aabeed7d6efe38b5c75cc2807}{\+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+ifs}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+func\+\_\+id)
+\end{DoxyCompactItemize}
+\doxysubsection*{类型定义}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct \mbox{\hyperlink{structvk__usbd__cdcacm__cfg__t}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+cfg\+\_\+t}} \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a72d64960c105b5dd77d5920a1b2147ff}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+cfg\+\_\+t}}
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a9e8a0825d3b2006397afd02bcb097230}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+init}} (\mbox{\hyperlink{classvk__usbd__cdcacm__t}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+t}} $\ast$obj, const \mbox{\hyperlink{structvk__usbd__cdcacm__cfg__t}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+cfg\+\_\+t}} $\ast$cfg)
+\end{DoxyCompactItemize}
+\doxysubsection*{变量}
+\begin{DoxyCompactItemize}
+\item 
+const vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a5e07f792bc11a3e17fdf88879a55df21}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+control}}
+\item 
+const vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_ae62e26e44b391bd99c25f288ba6e9610}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+data}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a21c517563254e784b165a7bbae17faf7}\label{vsf__usbd___c_d_c_a_c_m_8h_a21c517563254e784b165a7bbae17faf7}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_PARAM@{USB\_CDC\_ACM\_PARAM}}
+\index{USB\_CDC\_ACM\_PARAM@{USB\_CDC\_ACM\_PARAM}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_PARAM}{USB\_CDC\_ACM\_PARAM}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARAM(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+INT\+\_\+\+IN\+\_\+\+EP,  }\item[{}]{\+\_\+\+\_\+\+BULK\+\_\+\+IN\+\_\+\+EP,  }\item[{}]{\+\_\+\+\_\+\+BULK\+\_\+\+OUT\+\_\+\+EP,  }\item[{}]{\+\_\+\+\_\+\+STREAM\+\_\+\+RX,  }\item[{}]{\+\_\+\+\_\+\+STREAM\+\_\+\+TX,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            .ep = \{                                                             \(\backslash\)}
+\DoxyCodeLine{                .notify         = (\_\_INT\_IN\_EP),                                \(\backslash\)}
+\DoxyCodeLine{                .out            = (\_\_BULK\_OUT\_EP),                              \(\backslash\)}
+\DoxyCodeLine{                .in             = (\_\_BULK\_IN\_EP),                               \(\backslash\)}
+\DoxyCodeLine{            \},                                                                  \(\backslash\)}
+\DoxyCodeLine{            .line\_coding        = \_\_VA\_ARGS\_\_,                                  \(\backslash\)}
+\DoxyCodeLine{            .stream.tx.stream   = (\mbox{\hyperlink{classvsf__stream__t}{vsf\_stream\_t}} *)(\_\_STREAM\_TX),                \(\backslash\)}
+\DoxyCodeLine{            .stream.rx.stream   = (\mbox{\hyperlink{classvsf__stream__t}{vsf\_stream\_t}} *)(\_\_STREAM\_RX),}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a48d8b87bba10ef6c2c0d53a6714502f8}\label{vsf__usbd___c_d_c_a_c_m_8h_a48d8b87bba10ef6c2c0d53a6714502f8}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_PARITY\_NONE@{USB\_CDC\_ACM\_PARITY\_NONE}}
+\index{USB\_CDC\_ACM\_PARITY\_NONE@{USB\_CDC\_ACM\_PARITY\_NONE}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_PARITY\_NONE}{USB\_CDC\_ACM\_PARITY\_NONE}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARITY\+\_\+\+NONE~0}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a5c4e0ef52afad46ad3145b53e23b3f2a}\label{vsf__usbd___c_d_c_a_c_m_8h_a5c4e0ef52afad46ad3145b53e23b3f2a}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_PARITY\_ODD@{USB\_CDC\_ACM\_PARITY\_ODD}}
+\index{USB\_CDC\_ACM\_PARITY\_ODD@{USB\_CDC\_ACM\_PARITY\_ODD}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_PARITY\_ODD}{USB\_CDC\_ACM\_PARITY\_ODD}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARITY\+\_\+\+ODD~1}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a9f55836fd5e645bb5b47dfd60b1ce778}\label{vsf__usbd___c_d_c_a_c_m_8h_a9f55836fd5e645bb5b47dfd60b1ce778}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_PARITY\_EVEN@{USB\_CDC\_ACM\_PARITY\_EVEN}}
+\index{USB\_CDC\_ACM\_PARITY\_EVEN@{USB\_CDC\_ACM\_PARITY\_EVEN}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_PARITY\_EVEN}{USB\_CDC\_ACM\_PARITY\_EVEN}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARITY\+\_\+\+EVEN~2}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_abec44ca37902b03ae84b8917499f1f19}\label{vsf__usbd___c_d_c_a_c_m_8h_abec44ca37902b03ae84b8917499f1f19}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_STOPBIT\_1@{USB\_CDC\_ACM\_STOPBIT\_1}}
+\index{USB\_CDC\_ACM\_STOPBIT\_1@{USB\_CDC\_ACM\_STOPBIT\_1}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_STOPBIT\_1}{USB\_CDC\_ACM\_STOPBIT\_1}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+STOPBIT\+\_\+1~0}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_ac3016788be021b5211f37918d6e12506}\label{vsf__usbd___c_d_c_a_c_m_8h_ac3016788be021b5211f37918d6e12506}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_STOPBIT\_1P5@{USB\_CDC\_ACM\_STOPBIT\_1P5}}
+\index{USB\_CDC\_ACM\_STOPBIT\_1P5@{USB\_CDC\_ACM\_STOPBIT\_1P5}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_STOPBIT\_1P5}{USB\_CDC\_ACM\_STOPBIT\_1P5}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+STOPBIT\+\_\+1\+P5~1}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_ad8da210f542a6ef11234e71f00b14681}\label{vsf__usbd___c_d_c_a_c_m_8h_ad8da210f542a6ef11234e71f00b14681}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_STOPBIT\_2@{USB\_CDC\_ACM\_STOPBIT\_2}}
+\index{USB\_CDC\_ACM\_STOPBIT\_2@{USB\_CDC\_ACM\_STOPBIT\_2}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_STOPBIT\_2}{USB\_CDC\_ACM\_STOPBIT\_2}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+STOPBIT\+\_\+2~2}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_ac7d6c87b4b36434dd882d82895093b71}\label{vsf__usbd___c_d_c_a_c_m_8h_ac7d6c87b4b36434dd882d82895093b71}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_LINECODE@{USB\_CDC\_ACM\_LINECODE}}
+\index{USB\_CDC\_ACM\_LINECODE@{USB\_CDC\_ACM\_LINECODE}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_LINECODE}{USB\_CDC\_ACM\_LINECODE}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+LINECODE(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+BAUDRATE,  }\item[{}]{\+\_\+\+\_\+\+BITLEN,  }\item[{}]{\+\_\+\+\_\+\+PARITY,  }\item[{}]{\+\_\+\+\_\+\+STOP }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \{                                                                   \(\backslash\)}
+\DoxyCodeLine{                .bitrate        = (\_\_BAUDRATE),                                 \(\backslash\)}
+\DoxyCodeLine{                .stop           = (\_\_STOP),                                     \(\backslash\)}
+\DoxyCodeLine{                .parity         = (\_\_PARITY),                                   \(\backslash\)}
+\DoxyCodeLine{                .datalen        = (\_\_BITLEN),                                   \(\backslash\)}
+\DoxyCodeLine{            \}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a4f211dff5b8a718eb6d6b7009a5dce2a}\label{vsf__usbd___c_d_c_a_c_m_8h_a4f211dff5b8a718eb6d6b7009a5dce2a}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_LINECODE\_115200\_8N1@{USB\_CDC\_ACM\_LINECODE\_115200\_8N1}}
+\index{USB\_CDC\_ACM\_LINECODE\_115200\_8N1@{USB\_CDC\_ACM\_LINECODE\_115200\_8N1}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_LINECODE\_115200\_8N1}{USB\_CDC\_ACM\_LINECODE\_115200\_8N1}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+LINECODE\+\_\+115200\+\_\+8\+N1~            \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_ac7d6c87b4b36434dd882d82895093b71}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+LINECODE}}(115200, 8, \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a48d8b87bba10ef6c2c0d53a6714502f8}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARITY\+\_\+\+NONE}}, \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_abec44ca37902b03ae84b8917499f1f19}{USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+STOPBIT\+\_\+1}})}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a5d488f092cc8337363aaf4fe2b96c4cb}\label{vsf__usbd___c_d_c_a_c_m_8h_a5d488f092cc8337363aaf4fe2b96c4cb}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_IFS\_NUM@{USB\_CDC\_ACM\_IFS\_NUM}}
+\index{USB\_CDC\_ACM\_IFS\_NUM@{USB\_CDC\_ACM\_IFS\_NUM}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_IFS\_NUM}{USB\_CDC\_ACM\_IFS\_NUM}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+IFS\+\_\+\+NUM~\mbox{\hyperlink{vsf__usbd___c_d_c_8h_afe50b7aa170892cdeccaaebd1cbc6788}{USB\+\_\+\+CDC\+\_\+\+IFS\+\_\+\+NUM}}}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a1b2cc4ad3993713676ac6e56f3eaf895}\label{vsf__usbd___c_d_c_a_c_m_8h_a1b2cc4ad3993713676ac6e56f3eaf895}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_IFS\_CONTROL@{USB\_CDC\_ACM\_IFS\_CONTROL}}
+\index{USB\_CDC\_ACM\_IFS\_CONTROL@{USB\_CDC\_ACM\_IFS\_CONTROL}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_IFS\_CONTROL}{USB\_CDC\_ACM\_IFS\_CONTROL}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+IFS\+\_\+\+CONTROL(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARAM }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__usbd_8h_a2fd7de414ed90220ec6e7f751d0a13af}{USB\+\_\+\+IFS}}(\&\mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a5e07f792bc11a3e17fdf88879a55df21}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+control}}, \&\+\_\+\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARAM)}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a0da77c8c13867d750d89096fd0e59413}\label{vsf__usbd___c_d_c_a_c_m_8h_a0da77c8c13867d750d89096fd0e59413}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!USB\_CDC\_ACM\_IFS\_DATA@{USB\_CDC\_ACM\_IFS\_DATA}}
+\index{USB\_CDC\_ACM\_IFS\_DATA@{USB\_CDC\_ACM\_IFS\_DATA}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{USB\_CDC\_ACM\_IFS\_DATA}{USB\_CDC\_ACM\_IFS\_DATA}}
+{\footnotesize\ttfamily \#define USB\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+IFS\+\_\+\+DATA(\begin{DoxyParamCaption}\item[{}]{\+\_\+\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARAM }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__usbd_8h_a2fd7de414ed90220ec6e7f751d0a13af}{USB\+\_\+\+IFS}}(\&\mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_ae62e26e44b391bd99c25f288ba6e9610}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+data}}, \&\+\_\+\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+PARAM)}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a369f9092dd6e06b1b62f222a4ad67bf3}\label{vsf__usbd___c_d_c_a_c_m_8h_a369f9092dd6e06b1b62f222a4ad67bf3}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!\_\_usbd\_cdc\_acm\_desc\_iad@{\_\_usbd\_cdc\_acm\_desc\_iad}}
+\index{\_\_usbd\_cdc\_acm\_desc\_iad@{\_\_usbd\_cdc\_acm\_desc\_iad}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{\_\_usbd\_cdc\_acm\_desc\_iad}{\_\_usbd\_cdc\_acm\_desc\_iad}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+desc\+\_\+iad(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+ifs\+\_\+start,  }\item[{}]{\+\_\+\+\_\+i\+\_\+func,  }\item[{}]{\+\_\+\+\_\+int\+\_\+in\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+bulk\+\_\+in\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+bulk\+\_\+out\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+bulk\+\_\+ep\+\_\+size,  }\item[{}]{\+\_\+\+\_\+int\+\_\+ep\+\_\+interval }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m__desc_8h_a7998b762ae272dd6eeedddf6187000af}{USB\+\_\+\+DESC\+\_\+\+CDC\+\_\+\+ACM\+\_\+\+IAD}}((\+\_\+\+\_\+ifs\+\_\+start), (\+\_\+\+\_\+i\+\_\+func), (\+\_\+\+\_\+int\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+out\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+ep\+\_\+size), (\+\_\+\+\_\+int\+\_\+ep\+\_\+interval))}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_acad4158ad03ddec27ec5023c12fee209}\label{vsf__usbd___c_d_c_a_c_m_8h_acad4158ad03ddec27ec5023c12fee209}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!\_\_usbd\_cdc\_acm\_func@{\_\_usbd\_cdc\_acm\_func}}
+\index{\_\_usbd\_cdc\_acm\_func@{\_\_usbd\_cdc\_acm\_func}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{\_\_usbd\_cdc\_acm\_func}{\_\_usbd\_cdc\_acm\_func}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+func(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+func\+\_\+id,  }\item[{}]{\+\_\+\+\_\+int\+\_\+in\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+bulk\+\_\+in\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+bulk\+\_\+out\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+stream\+\_\+rx,  }\item[{}]{\+\_\+\+\_\+stream\+\_\+tx,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{classvk__usbd__cdcacm__t}{vk\_usbd\_cdcacm\_t}} \_\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_CDCACM\#\#\_\_func\_id = \{                 \(\backslash\)}
+\DoxyCodeLine{                USB\_CDC\_ACM\_PARAM((\_\_int\_in\_ep), (\_\_bulk\_in\_ep), (\_\_bulk\_out\_ep), (\_\_stream\_rx), (\_\_stream\_tx), \_\_VA\_ARGS\_\_)\(\backslash\)}
+\DoxyCodeLine{            \};}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a7ea71c3aabeed7d6efe38b5c75cc2807}\label{vsf__usbd___c_d_c_a_c_m_8h_a7ea71c3aabeed7d6efe38b5c75cc2807}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!\_\_usbd\_cdc\_acm\_ifs@{\_\_usbd\_cdc\_acm\_ifs}}
+\index{\_\_usbd\_cdc\_acm\_ifs@{\_\_usbd\_cdc\_acm\_ifs}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{\_\_usbd\_cdc\_acm\_ifs}{\_\_usbd\_cdc\_acm\_ifs}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+ifs(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+func\+\_\+id }\end{DoxyParamCaption})}
+
+{\bfseries 值\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{            \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a1b2cc4ad3993713676ac6e56f3eaf895}{USB\_CDC\_ACM\_IFS\_CONTROL}}(\_\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_CDCACM\#\#\_\_func\_id)             \(\backslash\)}
+\DoxyCodeLine{            USB\_CDC\_ACM\_IFS\_DATA(\_\_\#\#\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\_\_name}}\#\#\_CDCACM\#\#\_\_func\_id)}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a364ccc28c79b6aa589516731c93d4243}\label{vsf__usbd___c_d_c_a_c_m_8h_a364ccc28c79b6aa589516731c93d4243}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!usbd\_cdc\_acm\_desc\_iad@{usbd\_cdc\_acm\_desc\_iad}}
+\index{usbd\_cdc\_acm\_desc\_iad@{usbd\_cdc\_acm\_desc\_iad}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{usbd\_cdc\_acm\_desc\_iad}{usbd\_cdc\_acm\_desc\_iad}}
+{\footnotesize\ttfamily \#define usbd\+\_\+cdc\+\_\+acm\+\_\+desc\+\_\+iad(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+ifs\+\_\+start,  }\item[{}]{\+\_\+\+\_\+i\+\_\+func,  }\item[{}]{\+\_\+\+\_\+int\+\_\+in\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+bulk\+\_\+in\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+bulk\+\_\+out\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+bulk\+\_\+ep\+\_\+size,  }\item[{}]{\+\_\+\+\_\+int\+\_\+ep\+\_\+interval }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a369f9092dd6e06b1b62f222a4ad67bf3}{\+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+desc\+\_\+iad}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, (\+\_\+\+\_\+ifs\+\_\+start), 4 + (\+\_\+\+\_\+i\+\_\+func), (\+\_\+\+\_\+int\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+out\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+ep\+\_\+size), (\+\_\+\+\_\+int\+\_\+ep\+\_\+interval))}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a69521009f81002c9555472b1b2135cb7}\label{vsf__usbd___c_d_c_a_c_m_8h_a69521009f81002c9555472b1b2135cb7}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!usbd\_cdc\_acm\_func@{usbd\_cdc\_acm\_func}}
+\index{usbd\_cdc\_acm\_func@{usbd\_cdc\_acm\_func}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{usbd\_cdc\_acm\_func}{usbd\_cdc\_acm\_func}}
+{\footnotesize\ttfamily \#define usbd\+\_\+cdc\+\_\+acm\+\_\+func(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+func\+\_\+id,  }\item[{}]{\+\_\+\+\_\+int\+\_\+in\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+bulk\+\_\+in\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+bulk\+\_\+out\+\_\+ep,  }\item[{}]{\+\_\+\+\_\+stream\+\_\+rx,  }\item[{}]{\+\_\+\+\_\+stream\+\_\+tx,  }\item[{}]{... }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_acad4158ad03ddec27ec5023c12fee209}{\+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+func}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+func\+\_\+id, (\+\_\+\+\_\+int\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+in\+\_\+ep), (\+\_\+\+\_\+bulk\+\_\+out\+\_\+ep), (\+\_\+\+\_\+stream\+\_\+rx), (\+\_\+\+\_\+stream\+\_\+tx), \+\_\+\+\_\+\+VA\+\_\+\+ARGS\+\_\+\+\_\+)}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a829659c7cee01417f4bb1bd87745b0c1}\label{vsf__usbd___c_d_c_a_c_m_8h_a829659c7cee01417f4bb1bd87745b0c1}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!usbd\_cdc\_acm\_ifs@{usbd\_cdc\_acm\_ifs}}
+\index{usbd\_cdc\_acm\_ifs@{usbd\_cdc\_acm\_ifs}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{usbd\_cdc\_acm\_ifs}{usbd\_cdc\_acm\_ifs}}
+{\footnotesize\ttfamily \#define usbd\+\_\+cdc\+\_\+acm\+\_\+ifs(\begin{DoxyParamCaption}\item[{}]{\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}},  }\item[{}]{\+\_\+\+\_\+func\+\_\+id }\end{DoxyParamCaption})~            \mbox{\hyperlink{vsf__usbd___c_d_c_a_c_m_8h_a7ea71c3aabeed7d6efe38b5c75cc2807}{\+\_\+\+\_\+usbd\+\_\+cdc\+\_\+acm\+\_\+ifs}}(\mbox{\hyperlink{vsf__os_8c_a7f565b52ec477e9c0c235e88b9355558}{\+\_\+\+\_\+name}}, \+\_\+\+\_\+func\+\_\+id)}
+
+
+
+\doxysubsection{类型定义说明}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a72d64960c105b5dd77d5920a1b2147ff}\label{vsf__usbd___c_d_c_a_c_m_8h_a72d64960c105b5dd77d5920a1b2147ff}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!vk\_usbd\_cdcacm\_cfg\_t@{vk\_usbd\_cdcacm\_cfg\_t}}
+\index{vk\_usbd\_cdcacm\_cfg\_t@{vk\_usbd\_cdcacm\_cfg\_t}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_cdcacm\_cfg\_t}{vk\_usbd\_cdcacm\_cfg\_t}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structvk__usbd__cdcacm__cfg__t}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+cfg\+\_\+t}} \mbox{\hyperlink{structvk__usbd__cdcacm__cfg__t}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+cfg\+\_\+t}}}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a9e8a0825d3b2006397afd02bcb097230}\label{vsf__usbd___c_d_c_a_c_m_8h_a9e8a0825d3b2006397afd02bcb097230}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!vk\_usbd\_cdcacm\_init@{vk\_usbd\_cdcacm\_init}}
+\index{vk\_usbd\_cdcacm\_init@{vk\_usbd\_cdcacm\_init}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_cdcacm\_init()}{vk\_usbd\_cdcacm\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{____type_8h_ac6c55e737799b5e73899ccfae13b98e4}{vsf\+\_\+err\+\_\+t}} vk\+\_\+usbd\+\_\+cdcacm\+\_\+init (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classvk__usbd__cdcacm__t}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+t}} $\ast$}]{obj,  }\item[{const \mbox{\hyperlink{structvk__usbd__cdcacm__cfg__t}{vk\+\_\+usbd\+\_\+cdcacm\+\_\+cfg\+\_\+t}} $\ast$}]{cfg }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{变量说明}
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_a5e07f792bc11a3e17fdf88879a55df21}\label{vsf__usbd___c_d_c_a_c_m_8h_a5e07f792bc11a3e17fdf88879a55df21}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!vk\_usbd\_cdcacm\_control@{vk\_usbd\_cdcacm\_control}}
+\index{vk\_usbd\_cdcacm\_control@{vk\_usbd\_cdcacm\_control}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_cdcacm\_control}{vk\_usbd\_cdcacm\_control}}
+{\footnotesize\ttfamily const vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t vk\+\_\+usbd\+\_\+cdcacm\+\_\+control\hspace{0.3cm}{\ttfamily [extern]}}
+
+\mbox{\Hypertarget{vsf__usbd___c_d_c_a_c_m_8h_ae62e26e44b391bd99c25f288ba6e9610}\label{vsf__usbd___c_d_c_a_c_m_8h_ae62e26e44b391bd99c25f288ba6e9610}} 
+\index{vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}!vk\_usbd\_cdcacm\_data@{vk\_usbd\_cdcacm\_data}}
+\index{vk\_usbd\_cdcacm\_data@{vk\_usbd\_cdcacm\_data}!vsf\_usbd\_CDCACM.h@{vsf\_usbd\_CDCACM.h}}
+\doxysubsubsection{\texorpdfstring{vk\_usbd\_cdcacm\_data}{vk\_usbd\_cdcacm\_data}}
+{\footnotesize\ttfamily const vk\+\_\+usbd\+\_\+class\+\_\+op\+\_\+t vk\+\_\+usbd\+\_\+cdcacm\+\_\+data\hspace{0.3cm}{\ttfamily [extern]}}
+

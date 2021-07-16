@@ -1,0 +1,126 @@
+\hypertarget{simple__libc_2time_8h}{}\doxysection{source/shell/sys/linux/include/simple\+\_\+libc/time.h 文件参考}
+\label{simple__libc_2time_8h}\index{source/shell/sys/linux/include/simple\_libc/time.h@{source/shell/sys/linux/include/simple\_libc/time.h}}
+{\ttfamily \#include \char`\"{}./stddef.\+h\char`\"{}}\newline
+\doxysubsection*{结构体}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structtm}{tm}}
+\item 
+struct \mbox{\hyperlink{structtimespec}{timespec}}
+\end{DoxyCompactItemize}
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{simple__libc_2time_8h_a48c9eeee31d85fcd2f22d4a05e572331}{clock\+\_\+gettime}}~\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a26562cd8bcb8d1a75b3b5f53b76133f4}{VSF\+\_\+\+LINUX\+\_\+\+LIBC\+\_\+\+WRAPPER}}(clock\+\_\+gettime)
+\item 
+\#define \mbox{\hyperlink{simple__libc_2time_8h_aa014d7ec4e9b954fca762935e5463f76}{nanosleep}}~\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a26562cd8bcb8d1a75b3b5f53b76133f4}{VSF\+\_\+\+LINUX\+\_\+\+LIBC\+\_\+\+WRAPPER}}(nanosleep)
+\item 
+\#define \mbox{\hyperlink{simple__libc_2time_8h_a68647ad925af4acb6d09f948ea6575dd}{clock}}~\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a26562cd8bcb8d1a75b3b5f53b76133f4}{VSF\+\_\+\+LINUX\+\_\+\+LIBC\+\_\+\+WRAPPER}}(clock)
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{simple__libc_2time_8h_a6fa4fcf1ad1f2f62773a03323f08592e}{clock\+\_\+gettime}} (\mbox{\hyperlink{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331a}{clockid\+\_\+t}} clk\+\_\+id, struct \mbox{\hyperlink{structtimespec}{timespec}} $\ast$tp)
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} \mbox{\hyperlink{simple__libc_2time_8h_ae7841e681c8c9d59818568d39553642c}{time}} (\mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} $\ast$t)
+\item 
+char $\ast$ \mbox{\hyperlink{simple__libc_2time_8h_a416a0a99a5bab4c030e93d21152727f4}{asctime}} (const struct \mbox{\hyperlink{structtm}{tm}} $\ast$\mbox{\hyperlink{structtm}{tm}})
+\item 
+char $\ast$ \mbox{\hyperlink{simple__libc_2time_8h_a00807bc04f14f2f15e06eed0b4752353}{ctime}} (const \mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} $\ast$t)
+\item 
+double \mbox{\hyperlink{simple__libc_2time_8h_a1901c00eb89e8e35ea193c6a4676679c}{difftime}} (\mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} time1, \mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} time2)
+\item 
+struct \mbox{\hyperlink{structtm}{tm}} $\ast$ \mbox{\hyperlink{simple__libc_2time_8h_a30d9732f32117a94652e28512905bfb9}{gmtime}} (const \mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} $\ast$t)
+\item 
+struct \mbox{\hyperlink{structtm}{tm}} $\ast$ \mbox{\hyperlink{simple__libc_2time_8h_a70311f8aa60fc5ebbd76c55ea10bc899}{localtime}} (const \mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} $\ast$t)
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} \mbox{\hyperlink{simple__libc_2time_8h_afc0e3f373a3ea00b37714f1b621ae0b1}{mktime}} (struct \mbox{\hyperlink{structtm}{tm}} $\ast$\mbox{\hyperlink{structtm}{tm}})
+\item 
+\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} \mbox{\hyperlink{simple__libc_2time_8h_aa8b537240f49262e3334ec2d8008fdad}{strftime}} (char $\ast$str, \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} maxsize, const char $\ast$\mbox{\hyperlink{vsf__sdl2__pixelformat_8c_a4be577502bbbb32a53837492421f2369}{format}}, const struct \mbox{\hyperlink{structtm}{tm}} $\ast$\mbox{\hyperlink{structtm}{tm}})
+\item 
+int \mbox{\hyperlink{simple__libc_2time_8h_a85cd4cf3ebc8d5d15f7c34c61a5d91c9}{nanosleep}} (const struct \mbox{\hyperlink{structtimespec}{timespec}} $\ast$requested\+\_\+time, struct \mbox{\hyperlink{structtimespec}{timespec}} $\ast$remaining)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{simple__libc_2time_8h_a48c9eeee31d85fcd2f22d4a05e572331}\label{simple__libc_2time_8h_a48c9eeee31d85fcd2f22d4a05e572331}} 
+\index{time.h@{time.h}!clock\_gettime@{clock\_gettime}}
+\index{clock\_gettime@{clock\_gettime}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{clock\_gettime}{clock\_gettime}}
+{\footnotesize\ttfamily \#define clock\+\_\+gettime~\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a26562cd8bcb8d1a75b3b5f53b76133f4}{VSF\+\_\+\+LINUX\+\_\+\+LIBC\+\_\+\+WRAPPER}}(clock\+\_\+gettime)}
+
+\mbox{\Hypertarget{simple__libc_2time_8h_aa014d7ec4e9b954fca762935e5463f76}\label{simple__libc_2time_8h_aa014d7ec4e9b954fca762935e5463f76}} 
+\index{time.h@{time.h}!nanosleep@{nanosleep}}
+\index{nanosleep@{nanosleep}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{nanosleep}{nanosleep}}
+{\footnotesize\ttfamily \#define nanosleep~\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a26562cd8bcb8d1a75b3b5f53b76133f4}{VSF\+\_\+\+LINUX\+\_\+\+LIBC\+\_\+\+WRAPPER}}(nanosleep)}
+
+\mbox{\Hypertarget{simple__libc_2time_8h_a68647ad925af4acb6d09f948ea6575dd}\label{simple__libc_2time_8h_a68647ad925af4acb6d09f948ea6575dd}} 
+\index{time.h@{time.h}!clock@{clock}}
+\index{clock@{clock}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{clock}{clock}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_a0450ea8b06b50d6e055f6d47bd77622c}{clock\+\_\+t}} clock~\mbox{\hyperlink{linux_2include_2simple__libc_2stddef_8h_a26562cd8bcb8d1a75b3b5f53b76133f4}{VSF\+\_\+\+LINUX\+\_\+\+LIBC\+\_\+\+WRAPPER}}(clock)}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{simple__libc_2time_8h_a6fa4fcf1ad1f2f62773a03323f08592e}\label{simple__libc_2time_8h_a6fa4fcf1ad1f2f62773a03323f08592e}} 
+\index{time.h@{time.h}!clock\_gettime@{clock\_gettime}}
+\index{clock\_gettime@{clock\_gettime}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{clock\_gettime()}{clock\_gettime()}}
+{\footnotesize\ttfamily int clock\+\_\+gettime (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a2f9c761af656069fe6fc3df81fa4331a}{clockid\+\_\+t}}}]{clk\+\_\+id,  }\item[{struct \mbox{\hyperlink{structtimespec}{timespec}} $\ast$}]{tp }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{simple__libc_2time_8h_ae7841e681c8c9d59818568d39553642c}\label{simple__libc_2time_8h_ae7841e681c8c9d59818568d39553642c}} 
+\index{time.h@{time.h}!time@{time}}
+\index{time@{time}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{time()}{time()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} time (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} $\ast$}]{t }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{simple__libc_2time_8h_a416a0a99a5bab4c030e93d21152727f4}\label{simple__libc_2time_8h_a416a0a99a5bab4c030e93d21152727f4}} 
+\index{time.h@{time.h}!asctime@{asctime}}
+\index{asctime@{asctime}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{asctime()}{asctime()}}
+{\footnotesize\ttfamily char$\ast$ asctime (\begin{DoxyParamCaption}\item[{const struct \mbox{\hyperlink{structtm}{tm}} $\ast$}]{tm }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{simple__libc_2time_8h_a00807bc04f14f2f15e06eed0b4752353}\label{simple__libc_2time_8h_a00807bc04f14f2f15e06eed0b4752353}} 
+\index{time.h@{time.h}!ctime@{ctime}}
+\index{ctime@{ctime}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{ctime()}{ctime()}}
+{\footnotesize\ttfamily char$\ast$ ctime (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} $\ast$}]{t }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{simple__libc_2time_8h_a1901c00eb89e8e35ea193c6a4676679c}\label{simple__libc_2time_8h_a1901c00eb89e8e35ea193c6a4676679c}} 
+\index{time.h@{time.h}!difftime@{difftime}}
+\index{difftime@{difftime}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{difftime()}{difftime()}}
+{\footnotesize\ttfamily double difftime (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}}}]{time1,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}}}]{time2 }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{simple__libc_2time_8h_a30d9732f32117a94652e28512905bfb9}\label{simple__libc_2time_8h_a30d9732f32117a94652e28512905bfb9}} 
+\index{time.h@{time.h}!gmtime@{gmtime}}
+\index{gmtime@{gmtime}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{gmtime()}{gmtime()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structtm}{tm}}$\ast$ gmtime (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} $\ast$}]{t }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{simple__libc_2time_8h_a70311f8aa60fc5ebbd76c55ea10bc899}\label{simple__libc_2time_8h_a70311f8aa60fc5ebbd76c55ea10bc899}} 
+\index{time.h@{time.h}!localtime@{localtime}}
+\index{localtime@{localtime}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{localtime()}{localtime()}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structtm}{tm}}$\ast$ localtime (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} $\ast$}]{t }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{simple__libc_2time_8h_afc0e3f373a3ea00b37714f1b621ae0b1}\label{simple__libc_2time_8h_afc0e3f373a3ea00b37714f1b621ae0b1}} 
+\index{time.h@{time.h}!mktime@{mktime}}
+\index{mktime@{mktime}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{mktime()}{mktime()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_abb9869afc581d83258dfbaf60d9d0861}{time\+\_\+t}} mktime (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structtm}{tm}} $\ast$}]{tm }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{simple__libc_2time_8h_aa8b537240f49262e3334ec2d8008fdad}\label{simple__libc_2time_8h_aa8b537240f49262e3334ec2d8008fdad}} 
+\index{time.h@{time.h}!strftime@{strftime}}
+\index{strftime@{strftime}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{strftime()}{strftime()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}} strftime (\begin{DoxyParamCaption}\item[{char $\ast$}]{str,  }\item[{\mbox{\hyperlink{linux_2include_2sys_2types_8h_a7c94ea6f8948649f8d181ae55911eeaf}{size\+\_\+t}}}]{maxsize,  }\item[{const char $\ast$}]{format,  }\item[{const struct \mbox{\hyperlink{structtm}{tm}} $\ast$}]{tm }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{simple__libc_2time_8h_a85cd4cf3ebc8d5d15f7c34c61a5d91c9}\label{simple__libc_2time_8h_a85cd4cf3ebc8d5d15f7c34c61a5d91c9}} 
+\index{time.h@{time.h}!nanosleep@{nanosleep}}
+\index{nanosleep@{nanosleep}!time.h@{time.h}}
+\doxysubsubsection{\texorpdfstring{nanosleep()}{nanosleep()}}
+{\footnotesize\ttfamily int nanosleep (\begin{DoxyParamCaption}\item[{const struct \mbox{\hyperlink{structtimespec}{timespec}} $\ast$}]{requested\+\_\+time,  }\item[{struct \mbox{\hyperlink{structtimespec}{timespec}} $\ast$}]{remaining }\end{DoxyParamCaption})}
+

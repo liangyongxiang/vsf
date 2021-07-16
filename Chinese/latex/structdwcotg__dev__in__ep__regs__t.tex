@@ -1,0 +1,84 @@
+\hypertarget{structdwcotg__dev__in__ep__regs__t}{}\doxysection{dwcotg\+\_\+dev\+\_\+in\+\_\+ep\+\_\+regs\+\_\+t结构体 参考}
+\label{structdwcotg__dev__in__ep__regs__t}\index{dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}}
+
+
+{\ttfamily \#include $<$dwcotg\+\_\+regs.\+h$>$}
+
+\doxysubsection*{成员变量}
+\begin{DoxyCompactItemize}
+\item 
+volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{structdwcotg__dev__in__ep__regs__t_ad1844408d98cd965287fc50bbe5991e7}{diepctl}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{structdwcotg__dev__in__ep__regs__t_af74d2f46da64eb2622e3b7694e6bb9f7}{reserved04}}
+\item 
+volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{structdwcotg__dev__in__ep__regs__t_ae4613a5cc2e4ffae15460d53819b6179}{diepint}}
+\item 
+\mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{structdwcotg__dev__in__ep__regs__t_a849cec44511cf982a47bb5dd7a03f12a}{reserved0C}}
+\item 
+volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{structdwcotg__dev__in__ep__regs__t_ab71e2e2bc22d4f59e038690e925a4f35}{dieptsiz}}
+\item 
+volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{structdwcotg__dev__in__ep__regs__t_a90243bff6b8624da62009ebcb14b61ce}{diepdma}}
+\item 
+volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{structdwcotg__dev__in__ep__regs__t_ad76e825282afb4499a248f3f3585b764}{dtxfsts}}
+\item 
+volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} \mbox{\hyperlink{structdwcotg__dev__in__ep__regs__t_a5ee5e672fcc3a4b1c341d3bb1df98715}{diepdmab}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{详细描述}
+Device Logical IN Endpoint-\/\+Specific Registers. {\itshape Offsets 900h-\/\+AFCh}
+
+There will be one set of endpoint registers per logical endpoint implemented.
+
+{\itshape These registers are visible only in Device mode and must not be accessed in Host mode, as the results are unknown.} 
+
+\doxysubsection{结构体成员变量说明}
+\mbox{\Hypertarget{structdwcotg__dev__in__ep__regs__t_ad1844408d98cd965287fc50bbe5991e7}\label{structdwcotg__dev__in__ep__regs__t_ad1844408d98cd965287fc50bbe5991e7}} 
+\index{dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}!diepctl@{diepctl}}
+\index{diepctl@{diepctl}!dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}}
+\doxysubsubsection{\texorpdfstring{diepctl}{diepctl}}
+{\footnotesize\ttfamily volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} dwcotg\+\_\+dev\+\_\+in\+\_\+ep\+\_\+regs\+\_\+t\+::diepctl}
+
+Device IN Endpoint Control Register. {\itshape Offset\+:900h + (ep\+\_\+num $\ast$ 20h) + 00h} \mbox{\Hypertarget{structdwcotg__dev__in__ep__regs__t_af74d2f46da64eb2622e3b7694e6bb9f7}\label{structdwcotg__dev__in__ep__regs__t_af74d2f46da64eb2622e3b7694e6bb9f7}} 
+\index{dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}!reserved04@{reserved04}}
+\index{reserved04@{reserved04}!dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}}
+\doxysubsubsection{\texorpdfstring{reserved04}{reserved04}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} dwcotg\+\_\+dev\+\_\+in\+\_\+ep\+\_\+regs\+\_\+t\+::reserved04}
+
+Reserved. {\itshape Offset\+:900h + (ep\+\_\+num $\ast$ 20h) + 04h} \mbox{\Hypertarget{structdwcotg__dev__in__ep__regs__t_ae4613a5cc2e4ffae15460d53819b6179}\label{structdwcotg__dev__in__ep__regs__t_ae4613a5cc2e4ffae15460d53819b6179}} 
+\index{dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}!diepint@{diepint}}
+\index{diepint@{diepint}!dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}}
+\doxysubsubsection{\texorpdfstring{diepint}{diepint}}
+{\footnotesize\ttfamily volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} dwcotg\+\_\+dev\+\_\+in\+\_\+ep\+\_\+regs\+\_\+t\+::diepint}
+
+Device IN Endpoint Interrupt Register. {\itshape Offset\+:900h + (ep\+\_\+num $\ast$ 20h) + 08h} \mbox{\Hypertarget{structdwcotg__dev__in__ep__regs__t_a849cec44511cf982a47bb5dd7a03f12a}\label{structdwcotg__dev__in__ep__regs__t_a849cec44511cf982a47bb5dd7a03f12a}} 
+\index{dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}!reserved0C@{reserved0C}}
+\index{reserved0C@{reserved0C}!dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}}
+\doxysubsubsection{\texorpdfstring{reserved0C}{reserved0C}}
+{\footnotesize\ttfamily \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} dwcotg\+\_\+dev\+\_\+in\+\_\+ep\+\_\+regs\+\_\+t\+::reserved0C}
+
+Reserved. {\itshape Offset\+:900h + (ep\+\_\+num $\ast$ 20h) + 0Ch} \mbox{\Hypertarget{structdwcotg__dev__in__ep__regs__t_ab71e2e2bc22d4f59e038690e925a4f35}\label{structdwcotg__dev__in__ep__regs__t_ab71e2e2bc22d4f59e038690e925a4f35}} 
+\index{dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}!dieptsiz@{dieptsiz}}
+\index{dieptsiz@{dieptsiz}!dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}}
+\doxysubsubsection{\texorpdfstring{dieptsiz}{dieptsiz}}
+{\footnotesize\ttfamily volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} dwcotg\+\_\+dev\+\_\+in\+\_\+ep\+\_\+regs\+\_\+t\+::dieptsiz}
+
+Device IN Endpoint Transfer Size Register. {\itshape Offset\+:900h + (ep\+\_\+num $\ast$ 20h) + 10h} \mbox{\Hypertarget{structdwcotg__dev__in__ep__regs__t_a90243bff6b8624da62009ebcb14b61ce}\label{structdwcotg__dev__in__ep__regs__t_a90243bff6b8624da62009ebcb14b61ce}} 
+\index{dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}!diepdma@{diepdma}}
+\index{diepdma@{diepdma}!dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}}
+\doxysubsubsection{\texorpdfstring{diepdma}{diepdma}}
+{\footnotesize\ttfamily volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} dwcotg\+\_\+dev\+\_\+in\+\_\+ep\+\_\+regs\+\_\+t\+::diepdma}
+
+Device IN Endpoint DMA Address Register. {\itshape Offset\+:900h + (ep\+\_\+num $\ast$ 20h) + 14h} \mbox{\Hypertarget{structdwcotg__dev__in__ep__regs__t_ad76e825282afb4499a248f3f3585b764}\label{structdwcotg__dev__in__ep__regs__t_ad76e825282afb4499a248f3f3585b764}} 
+\index{dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}!dtxfsts@{dtxfsts}}
+\index{dtxfsts@{dtxfsts}!dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}}
+\doxysubsubsection{\texorpdfstring{dtxfsts}{dtxfsts}}
+{\footnotesize\ttfamily volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} dwcotg\+\_\+dev\+\_\+in\+\_\+ep\+\_\+regs\+\_\+t\+::dtxfsts}
+
+Device IN Endpoint Transmit FIFO Status Register. {\itshape Offset\+:900h + (ep\+\_\+num $\ast$ 20h) + 18h} \mbox{\Hypertarget{structdwcotg__dev__in__ep__regs__t_a5ee5e672fcc3a4b1c341d3bb1df98715}\label{structdwcotg__dev__in__ep__regs__t_a5ee5e672fcc3a4b1c341d3bb1df98715}} 
+\index{dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}!diepdmab@{diepdmab}}
+\index{diepdmab@{diepdmab}!dwcotg\_dev\_in\_ep\_regs\_t@{dwcotg\_dev\_in\_ep\_regs\_t}}
+\doxysubsubsection{\texorpdfstring{diepdmab}{diepdmab}}
+{\footnotesize\ttfamily volatile \mbox{\hyperlink{arm_2type_8h_a435d1572bf3f880d55459d9805097f62}{uint32\+\_\+t}} dwcotg\+\_\+dev\+\_\+in\+\_\+ep\+\_\+regs\+\_\+t\+::diepdmab}
+
+Device IN Endpoint DMA Buffer Register. {\itshape Offset\+:900h + (ep\+\_\+num $\ast$ 20h) + 1Ch} 

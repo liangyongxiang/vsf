@@ -1,0 +1,70 @@
+\hypertarget{rv__compiler_8h}{}\doxysection{source/utilities/compiler/rv/rv\+\_\+compiler.h 文件参考}
+\label{rv__compiler_8h}\index{source/utilities/compiler/rv/rv\_compiler.h@{source/utilities/compiler/rv/rv\_compiler.h}}
+{\ttfamily \#include \char`\"{}./\+RISCV/riscv\+\_\+compiler.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}./type.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}../\+\_\+\+\_\+common/\+\_\+\+\_\+compiler.\+h\char`\"{}}\newline
+\doxysubsection*{宏定义}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{rv__compiler_8h_a0f6a6e8719297b4a46ae5a4d14328090}{\+\_\+\+\_\+\+USE\+\_\+\+RV\+\_\+\+COMPILER\+\_\+\+H\+\_\+\+PART\+\_\+2\+\_\+\+\_\+}}
+\item 
+\#define \mbox{\hyperlink{rv__compiler_8h_ad99fda6bb7696991797c925f968234b9}{NOP}}()~\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{____compiler_8h_a64fa3037957156c60db536aad57ae07e}{\+\_\+\+\_\+volatile\+\_\+\+\_\+}} (\char`\"{}nop\char`\"{});
+\begin{DoxyCompactList}\small\item\em 1 cycle nop operation \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{rv__compiler_8h_a5f49ab0b615a22ce16c6fd2a09a9f9dd}{ENABLE\+\_\+\+GLOBAL\+\_\+\+INTERRUPT}}()~\mbox{\hyperlink{riscv__compiler_8h_a0319cf15fd7e6eaac008c9bec764532d}{\+\_\+\+\_\+enable\+\_\+interrupt}}()
+\begin{DoxyCompactList}\small\item\em none standard memory types \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{rv__compiler_8h_a02f5fad71c0af5fc8ae4659ddf631ebc}{DISABLE\+\_\+\+GLOBAL\+\_\+\+INTERRUPT}}()~\mbox{\hyperlink{riscv__compiler_8h_a15e5433d948a5d95c28a3d020f035be0}{\+\_\+\+\_\+disable\+\_\+interrupt}}()
+\end{DoxyCompactItemize}
+\doxysubsection*{函数}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{rv__compiler_8h_a7eae9495dadbcf2bf982e09f5240f1bd}{vsf\+\_\+stdio\+\_\+init}} (void)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{宏定义说明}
+\mbox{\Hypertarget{rv__compiler_8h_a0f6a6e8719297b4a46ae5a4d14328090}\label{rv__compiler_8h_a0f6a6e8719297b4a46ae5a4d14328090}} 
+\index{rv\_compiler.h@{rv\_compiler.h}!\_\_USE\_RV\_COMPILER\_H\_PART\_2\_\_@{\_\_USE\_RV\_COMPILER\_H\_PART\_2\_\_}}
+\index{\_\_USE\_RV\_COMPILER\_H\_PART\_2\_\_@{\_\_USE\_RV\_COMPILER\_H\_PART\_2\_\_}!rv\_compiler.h@{rv\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{\_\_USE\_RV\_COMPILER\_H\_PART\_2\_\_}{\_\_USE\_RV\_COMPILER\_H\_PART\_2\_\_}}
+{\footnotesize\ttfamily \#define \+\_\+\+\_\+\+USE\+\_\+\+RV\+\_\+\+COMPILER\+\_\+\+H\+\_\+\+PART\+\_\+2\+\_\+\+\_\+}
+
+\begin{DoxyNote}{注解}
+for IAR
+
+for gcc 
+\end{DoxyNote}
+\mbox{\Hypertarget{rv__compiler_8h_ad99fda6bb7696991797c925f968234b9}\label{rv__compiler_8h_ad99fda6bb7696991797c925f968234b9}} 
+\index{rv\_compiler.h@{rv\_compiler.h}!NOP@{NOP}}
+\index{NOP@{NOP}!rv\_compiler.h@{rv\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{NOP}{NOP}}
+{\footnotesize\ttfamily \#define NOP(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\+\_\+\+\_\+asm\+\_\+\+\_\+ \mbox{\hyperlink{____compiler_8h_a64fa3037957156c60db536aad57ae07e}{\+\_\+\+\_\+volatile\+\_\+\+\_\+}} (\char`\"{}nop\char`\"{});}
+
+
+
+1 cycle nop operation 
+
+\mbox{\Hypertarget{rv__compiler_8h_a5f49ab0b615a22ce16c6fd2a09a9f9dd}\label{rv__compiler_8h_a5f49ab0b615a22ce16c6fd2a09a9f9dd}} 
+\index{rv\_compiler.h@{rv\_compiler.h}!ENABLE\_GLOBAL\_INTERRUPT@{ENABLE\_GLOBAL\_INTERRUPT}}
+\index{ENABLE\_GLOBAL\_INTERRUPT@{ENABLE\_GLOBAL\_INTERRUPT}!rv\_compiler.h@{rv\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{ENABLE\_GLOBAL\_INTERRUPT}{ENABLE\_GLOBAL\_INTERRUPT}}
+{\footnotesize\ttfamily \#define ENABLE\+\_\+\+GLOBAL\+\_\+\+INTERRUPT(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\mbox{\hyperlink{riscv__compiler_8h_a0319cf15fd7e6eaac008c9bec764532d}{\+\_\+\+\_\+enable\+\_\+interrupt}}()}
+
+
+
+none standard memory types 
+
+$<$ Macro to enable/disable all interrupts. \mbox{\Hypertarget{rv__compiler_8h_a02f5fad71c0af5fc8ae4659ddf631ebc}\label{rv__compiler_8h_a02f5fad71c0af5fc8ae4659ddf631ebc}} 
+\index{rv\_compiler.h@{rv\_compiler.h}!DISABLE\_GLOBAL\_INTERRUPT@{DISABLE\_GLOBAL\_INTERRUPT}}
+\index{DISABLE\_GLOBAL\_INTERRUPT@{DISABLE\_GLOBAL\_INTERRUPT}!rv\_compiler.h@{rv\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{DISABLE\_GLOBAL\_INTERRUPT}{DISABLE\_GLOBAL\_INTERRUPT}}
+{\footnotesize\ttfamily \#define DISABLE\+\_\+\+GLOBAL\+\_\+\+INTERRUPT(\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})~\mbox{\hyperlink{riscv__compiler_8h_a15e5433d948a5d95c28a3d020f035be0}{\+\_\+\+\_\+disable\+\_\+interrupt}}()}
+
+
+
+\doxysubsection{函数说明}
+\mbox{\Hypertarget{rv__compiler_8h_a7eae9495dadbcf2bf982e09f5240f1bd}\label{rv__compiler_8h_a7eae9495dadbcf2bf982e09f5240f1bd}} 
+\index{rv\_compiler.h@{rv\_compiler.h}!vsf\_stdio\_init@{vsf\_stdio\_init}}
+\index{vsf\_stdio\_init@{vsf\_stdio\_init}!rv\_compiler.h@{rv\_compiler.h}}
+\doxysubsubsection{\texorpdfstring{vsf\_stdio\_init()}{vsf\_stdio\_init()}}
+{\footnotesize\ttfamily void vsf\+\_\+stdio\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+

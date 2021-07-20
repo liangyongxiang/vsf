@@ -1592,7 +1592,7 @@
       </UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="vk_dwcotg_hcd_t"><param name="Local" value="structvk__dwcotg__hcd__t.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="state"><param name="Local" value="structvk__dwcotg__hcd__t.html#a2d50cbd27cab13794a34e11efa129136"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="state"><param name="Local" value="structvk__dwcotg__hcd__t.html#a3a8e06a37d925337e2c5d013d6bf7ce5"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="is_port_changed"><param name="Local" value="structvk__dwcotg__hcd__t.html#a7932e4c6894e6ab6d54196386d3364b7"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="is_connected"><param name="Local" value="structvk__dwcotg__hcd__t.html#a8c08adb3cdf852d03b5e49b6f2f491b5"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="is_reset_issued"><param name="Local" value="structvk__dwcotg__hcd__t.html#a4daccadb7ebaaffb4d14d839b88eba42"><param name="ImageNumber" value="11"></OBJECT>
@@ -2217,11 +2217,11 @@
       <UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="irq_thread"><param name="Local" value="structvk__socket__win__local__t.html#a19e0c0fa95c30f17b1eff59be53671e4"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="irq_request"><param name="Local" value="structvk__socket__win__local__t.html#a237339a7463240fbef96585ca49b699d"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="request"><param name="Local" value="structvk__socket__win__local__t.html#aa08e4474717fcc9fc96fd2b02c555559"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="request"><param name="Local" value="structvk__socket__win__local__t.html#a8b6ca60f42126a8d6082e94524d08ce9"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="name"><param name="Local" value="structvk__socket__win__local__t.html#a1f80c8895c006ccef928630483cfe4a8"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="addr"><param name="Local" value="structvk__socket__win__local__t.html#a9a0a180afea00452cbfba6fafaa90962"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="gethostbyname"><param name="Local" value="structvk__socket__win__local__t.html#a48a35ba6898e3520643141c86ba5bb14"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="param"><param name="Local" value="structvk__socket__win__local__t.html#a14e144e108c4338b9d82d6f66e0e7fee"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="gethostbyname"><param name="Local" value="structvk__socket__win__local__t.html#aee683abba831240e8a94f0597e9c4f42"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="param"><param name="Local" value="structvk__socket__win__local__t.html#ab83346a23e680059ea1397db63a8e70d"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="mutex"><param name="Local" value="structvk__socket__win__local__t.html#ae17f5d49d095c4461588ff06395d24eb"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="eda"><param name="Local" value="structvk__socket__win__local__t.html#a0d54362acc66ed873f3dd0d27d973594"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="ret"><param name="Local" value="structvk__socket__win__local__t.html#a5db21c82d0295f1ec4a47741e9d43b38"><param name="ImageNumber" value="11"></OBJECT>
@@ -3231,7 +3231,7 @@
     <LI><OBJECT type="text/sitemap"><param name="Name" value="vsf_local_t"><param name="Local" value="structvsf__local__t.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="cur"><param name="Local" value="structvsf__local__t.html#a3996944a1de1636cab9d4fd0d6ca45e1"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="evtq"><param name="Local" value="structvsf__local__t.html#af344a64ab2834710f77769de87333d88"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="evtq"><param name="Local" value="structvsf__local__t.html#afd432395d8e5efe5d0cb373172c3c9cd"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="task"><param name="Local" value="structvsf__local__t.html#ab8fca51ec17bc8e91a41601064f1c3c0"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="highest_prio"><param name="Local" value="structvsf__local__t.html#a58d632686d4b8328f9903a6b2b9d5d02"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="callback_timq"><param name="Local" value="structvsf__local__t.html#a601ec4e10f49154ddeac639efe859235"><param name="ImageNumber" value="11"></OBJECT>
@@ -3239,7 +3239,7 @@
       <LI><OBJECT type="text/sitemap"><param name="Name" value="timq"><param name="Local" value="structvsf__local__t.html#aece5f276afb2d495fc3c9c1bda12c084"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="processing"><param name="Local" value="structvsf__local__t.html#ace2e58988f722cb84e978c8beca8bc1a"><param name="ImageNumber" value="11"></OBJECT>
       <LI><OBJECT type="text/sitemap"><param name="Name" value="arch_prio"><param name="Local" value="structvsf__local__t.html#a82df38ddbc6eb0963d0e2eb241bc4550"><param name="ImageNumber" value="11"></OBJECT>
-      <LI><OBJECT type="text/sitemap"><param name="Name" value="timer"><param name="Local" value="structvsf__local__t.html#a694c39af4c11afe5ab9ebe565a9220e2"><param name="ImageNumber" value="11"></OBJECT>
+      <LI><OBJECT type="text/sitemap"><param name="Name" value="timer"><param name="Local" value="structvsf__local__t.html#a734e7785fa809b503f96c926b8c99862"><param name="ImageNumber" value="11"></OBJECT>
       </UL>
     <LI><OBJECT type="text/sitemap"><param name="Name" value="vsf_mem_stream_t"><param name="Local" value="classvsf__mem__stream__t.html"><param name="ImageNumber" value="1"></OBJECT>
       <UL>
@@ -5616,11 +5616,11 @@
                     <UL>
                     <LI><OBJECT type="text/sitemap"><param name="Name" value="irq_thread"><param name="Local" value="structvk__socket__win__local__t.html#a19e0c0fa95c30f17b1eff59be53671e4"><param name="ImageNumber" value="11"></OBJECT>
                     <LI><OBJECT type="text/sitemap"><param name="Name" value="irq_request"><param name="Local" value="structvk__socket__win__local__t.html#a237339a7463240fbef96585ca49b699d"><param name="ImageNumber" value="11"></OBJECT>
-                    <LI><OBJECT type="text/sitemap"><param name="Name" value="request"><param name="Local" value="structvk__socket__win__local__t.html#aa08e4474717fcc9fc96fd2b02c555559"><param name="ImageNumber" value="11"></OBJECT>
+                    <LI><OBJECT type="text/sitemap"><param name="Name" value="request"><param name="Local" value="structvk__socket__win__local__t.html#a8b6ca60f42126a8d6082e94524d08ce9"><param name="ImageNumber" value="11"></OBJECT>
                     <LI><OBJECT type="text/sitemap"><param name="Name" value="name"><param name="Local" value="structvk__socket__win__local__t.html#a1f80c8895c006ccef928630483cfe4a8"><param name="ImageNumber" value="11"></OBJECT>
                     <LI><OBJECT type="text/sitemap"><param name="Name" value="addr"><param name="Local" value="structvk__socket__win__local__t.html#a9a0a180afea00452cbfba6fafaa90962"><param name="ImageNumber" value="11"></OBJECT>
-                    <LI><OBJECT type="text/sitemap"><param name="Name" value="gethostbyname"><param name="Local" value="structvk__socket__win__local__t.html#a48a35ba6898e3520643141c86ba5bb14"><param name="ImageNumber" value="11"></OBJECT>
-                    <LI><OBJECT type="text/sitemap"><param name="Name" value="param"><param name="Local" value="structvk__socket__win__local__t.html#a14e144e108c4338b9d82d6f66e0e7fee"><param name="ImageNumber" value="11"></OBJECT>
+                    <LI><OBJECT type="text/sitemap"><param name="Name" value="gethostbyname"><param name="Local" value="structvk__socket__win__local__t.html#aee683abba831240e8a94f0597e9c4f42"><param name="ImageNumber" value="11"></OBJECT>
+                    <LI><OBJECT type="text/sitemap"><param name="Name" value="param"><param name="Local" value="structvk__socket__win__local__t.html#ab83346a23e680059ea1397db63a8e70d"><param name="ImageNumber" value="11"></OBJECT>
                     <LI><OBJECT type="text/sitemap"><param name="Name" value="mutex"><param name="Local" value="structvk__socket__win__local__t.html#ae17f5d49d095c4461588ff06395d24eb"><param name="ImageNumber" value="11"></OBJECT>
                     <LI><OBJECT type="text/sitemap"><param name="Name" value="eda"><param name="Local" value="structvk__socket__win__local__t.html#a0d54362acc66ed873f3dd0d27d973594"><param name="ImageNumber" value="11"></OBJECT>
                     <LI><OBJECT type="text/sitemap"><param name="Name" value="ret"><param name="Local" value="structvk__socket__win__local__t.html#a5db21c82d0295f1ec4a47741e9d43b38"><param name="ImageNumber" value="11"></OBJECT>
@@ -6313,7 +6313,6 @@
                 </UL>
               <LI><OBJECT type="text/sitemap"><param name="Name" value="__vk_tgui_slider.h"><param name="Local" value="____vk__tgui__slider_8h.html"><param name="ImageNumber" value="1"></OBJECT>
                 <UL>
-                <LI><OBJECT type="text/sitemap"><param name="Name" value="__PLOOC_CLASS_IMPLEMENT__"><param name="Local" value="____vk__tgui__slider_8h.html#a551e43a61abae2da0ddc065ee84ed12a"><param name="ImageNumber" value="11"></OBJECT>
                 <LI><OBJECT type="text/sitemap"><param name="Name" value="declare_class"><param name="Local" value="____vk__tgui__slider_8h.html#ad215a6763b73b34e87a0795a5a8d2a48"><param name="ImageNumber" value="11"></OBJECT>
                 <LI><OBJECT type="text/sitemap"><param name="Name" value="end_def_class"><param name="Local" value="____vk__tgui__slider_8h.html#a45b7e792cbcda68e30f560c9784930ba"><param name="ImageNumber" value="11"></OBJECT>
                 <LI><OBJECT type="text/sitemap"><param name="Name" value="vk_tgui_slider_on_timer_event_handler"><param name="Local" value="____vk__tgui__slider_8h.html#a5989c3264dcfad5c50dec9861d1bac98"><param name="ImageNumber" value="11"></OBJECT>
@@ -6369,6 +6368,7 @@
                 </UL>
               <LI><OBJECT type="text/sitemap"><param name="Name" value="vsf_tgui_button.h"><param name="Local" value="vsf__tgui__button_8h.html"><param name="ImageNumber" value="1"></OBJECT>
                 <UL>
+                <LI><OBJECT type="text/sitemap"><param name="Name" value="__PLOOC_CLASS_IMPLEMENT__"><param name="Local" value="vsf__tgui__button_8h.html#a551e43a61abae2da0ddc065ee84ed12a"><param name="ImageNumber" value="11"></OBJECT>
                 <LI><OBJECT type="text/sitemap"><param name="Name" value="__VSF_TGUI_INTERFACE_CONTROLS_BUTTON"><param name="Local" value="vsf__tgui__button_8h.html#a7734a36478a4d30be7a490f36ed1b723"><param name="ImageNumber" value="11"></OBJECT>
                 <LI><OBJECT type="text/sitemap"><param name="Name" value="__tgui_button"><param name="Local" value="vsf__tgui__button_8h.html#a6b0089a0d1b985e5b0bc58b2a84ec4ec"><param name="ImageNumber" value="11"></OBJECT>
                 <LI><OBJECT type="text/sitemap"><param name="Name" value="tgui_button"><param name="Local" value="vsf__tgui__button_8h.html#ae98089777ab4bd43dc1bda47472fc0b7"><param name="ImageNumber" value="11"></OBJECT>
@@ -10077,7 +10077,7 @@
                     </UL>
                   <LI><OBJECT type="text/sitemap"><param name="Name" value="vk_dwcotg_hcd_t"><param name="Local" value="structvk__dwcotg__hcd__t.html"><param name="ImageNumber" value="1"></OBJECT>
                     <UL>
-                    <LI><OBJECT type="text/sitemap"><param name="Name" value="state"><param name="Local" value="structvk__dwcotg__hcd__t.html#a2d50cbd27cab13794a34e11efa129136"><param name="ImageNumber" value="11"></OBJECT>
+                    <LI><OBJECT type="text/sitemap"><param name="Name" value="state"><param name="Local" value="structvk__dwcotg__hcd__t.html#a3a8e06a37d925337e2c5d013d6bf7ce5"><param name="ImageNumber" value="11"></OBJECT>
                     <LI><OBJECT type="text/sitemap"><param name="Name" value="is_port_changed"><param name="Local" value="structvk__dwcotg__hcd__t.html#a7932e4c6894e6ab6d54196386d3364b7"><param name="ImageNumber" value="11"></OBJECT>
                     <LI><OBJECT type="text/sitemap"><param name="Name" value="is_connected"><param name="Local" value="structvk__dwcotg__hcd__t.html#a8c08adb3cdf852d03b5e49b6f2f491b5"><param name="ImageNumber" value="11"></OBJECT>
                     <LI><OBJECT type="text/sitemap"><param name="Name" value="is_reset_issued"><param name="Local" value="structvk__dwcotg__hcd__t.html#a4daccadb7ebaaffb4d14d839b88eba42"><param name="ImageNumber" value="11"></OBJECT>
@@ -12031,7 +12031,7 @@
           <LI><OBJECT type="text/sitemap"><param name="Name" value="vsf_local_t"><param name="Local" value="structvsf__local__t.html"><param name="ImageNumber" value="1"></OBJECT>
             <UL>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="cur"><param name="Local" value="structvsf__local__t.html#a3996944a1de1636cab9d4fd0d6ca45e1"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="evtq"><param name="Local" value="structvsf__local__t.html#af344a64ab2834710f77769de87333d88"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="evtq"><param name="Local" value="structvsf__local__t.html#afd432395d8e5efe5d0cb373172c3c9cd"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="task"><param name="Local" value="structvsf__local__t.html#ab8fca51ec17bc8e91a41601064f1c3c0"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="highest_prio"><param name="Local" value="structvsf__local__t.html#a58d632686d4b8328f9903a6b2b9d5d02"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="callback_timq"><param name="Local" value="structvsf__local__t.html#a601ec4e10f49154ddeac639efe859235"><param name="ImageNumber" value="11"></OBJECT>
@@ -12039,7 +12039,7 @@
             <LI><OBJECT type="text/sitemap"><param name="Name" value="timq"><param name="Local" value="structvsf__local__t.html#aece5f276afb2d495fc3c9c1bda12c084"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="processing"><param name="Local" value="structvsf__local__t.html#ace2e58988f722cb84e978c8beca8bc1a"><param name="ImageNumber" value="11"></OBJECT>
             <LI><OBJECT type="text/sitemap"><param name="Name" value="arch_prio"><param name="Local" value="structvsf__local__t.html#a82df38ddbc6eb0963d0e2eb241bc4550"><param name="ImageNumber" value="11"></OBJECT>
-            <LI><OBJECT type="text/sitemap"><param name="Name" value="timer"><param name="Local" value="structvsf__local__t.html#a694c39af4c11afe5ab9ebe565a9220e2"><param name="ImageNumber" value="11"></OBJECT>
+            <LI><OBJECT type="text/sitemap"><param name="Name" value="timer"><param name="Local" value="structvsf__local__t.html#a734e7785fa809b503f96c926b8c99862"><param name="ImageNumber" value="11"></OBJECT>
             </UL>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="__VSF_EDA_CLASS_IMPLEMENT"><param name="Local" value="vsf__eda_8c.html#a90c7481fdf7ed8e00e6cbef01539457b"><param name="ImageNumber" value="11"></OBJECT>
           <LI><OBJECT type="text/sitemap"><param name="Name" value="__VSF_KERNEL_TASK"><param name="Local" value="vsf__eda_8c.html#aa710e142c538b63cc58d7eadf68c60bc"><param name="ImageNumber" value="11"></OBJECT>

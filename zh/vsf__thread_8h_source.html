@@ -399,202 +399,210 @@ $(function() {
 <div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160; </div>
 <div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_EDA_SUPPORT_TIMER == ENABLED</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#a987c7a75897ff5232f8e3c2e73b54b9e">  358</a></span>&#160;<span class="preprocessor">#   define vsf_thread_delay_ms(__ms)            vsf_thread_delay(vsf_systimer_ms_to_tick(__ms))</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#a0b2f9d8d401a589ff4015fd36f9f27bf">  359</a></span>&#160;<span class="preprocessor">#   define vsf_thread_delay_us(__us)            vsf_thread_delay(vsf_systimer_us_to_tick(__us))</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#a987c7a75897ff5232f8e3c2e73b54b9e">  358</a></span>&#160;<span class="preprocessor">#   define vsf_thread_delay_ms(__ms)                vsf_thread_delay(vsf_systimer_ms_to_tick(__ms))</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#a0b2f9d8d401a589ff4015fd36f9f27bf">  359</a></span>&#160;<span class="preprocessor">#   define vsf_thread_delay_us(__us)                vsf_thread_delay(vsf_systimer_us_to_tick(__us))</span></div>
 <div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment">/*============================ TYPES =========================================*/</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160; </div>
-<div class="line"><a name="l00364"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#af3369683f94314ec579ccd6d147b18d7">  364</a></span>&#160;<a class="code" href="vsf__thread_8h.html#af3369683f94314ec579ccd6d147b18d7">declare_class</a>(vsf_thread_t)</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_SUPPORT_SYNC == ENABLED</span></div>
+<div class="line"><a name="l00363"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#a6f2a12a1dc8a3a671cfdf53ebfd25a86">  363</a></span>&#160;<span class="preprocessor">#   define vsf_thread_sem_post(__sem)               vsf_eda_sem_post(__sem)</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#a2ba572c9992a9f47989b187db3857428">  364</a></span>&#160;<span class="preprocessor">#   define vsf_thread_sem_pend(__sem, timeout)      __vsf_thread_wait_for_sync(__sem, timeout)</span></div>
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160; </div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_EDA_SUPPORT_SUB_CALL == ENABLED</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<a class="code" href="vsf__thread_8h.html#af3369683f94314ec579ccd6d147b18d7">declare_class</a>(vsf_thread_cb_t)</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160; </div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">void</span> vsf_thread_entry_t(vsf_thread_cb_t *thread);</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160; </div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<a class="code" href="vsf__pbuf__queue_8h.html#aaeeb7f0fcf0ded303697c4169f1406c3">def_class</a>( vsf_thread_t,</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <a class="code" href="vsf__tgui__control_8h.html#a5b5d6de3808ae65bdaef685a8ec16f8b">which</a>(</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    #   <span class="keywordflow">if</span> <a class="code" href="vsf__kernel__cfg_8h.html#a593e4d09957c516132d2d293571b17ae">VSF_KERNEL_CFG_EDA_SUPPORT_TIMER</a> == <a class="code" href="____type_8h.html#a73c228f87e038e8295ee8ea8eceaa5ac">ENABLED</a></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        implement(<a class="code" href="classvsf__teda__t.html">vsf_teda_t</a>)</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    #   <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        implement(<a class="code" href="classvsf__eda__t.html">vsf_eda_t</a>)</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    #   endif</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    )</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;)</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;end_def_class(vsf_thread_t)</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<a class="code" href="vsf__pbuf__queue_8h.html#aaeeb7f0fcf0ded303697c4169f1406c3">def_class</a>(vsf_thread_cb_t,</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160; </div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    public_member(</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        vsf_thread_entry_t      *<a class="code" href="vsf__thread_8h.html#a7b1bd7ace931306a646900d724bb7329">entry</a>;</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <a class="code" href="arm_2type_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>                <a class="code" href="vsf__thread_8h.html#a3422a71bd11b1a1ff48721495c7d9c8f">stack_size</a>;</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        <a class="code" href="arm_2type_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a>                *<a class="code" href="vsf__thread_8h.html#a761030e55da522d31cb4ac9181dc2de4">stack</a>;                 </div>
-<div class="line"><a name="l00389"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#a7b1bd7ace931306a646900d724bb7329">  389</a></span>&#160;    )</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160; </div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    private_member(</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;#ifdef VSF_ARCH_LIMIT_NO_SET_STACK</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        vsf_arch_irq_thread_t   host_thread;</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        vsf_arch_irq_request_t  req, *rep;</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        <a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a>               evt;</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        jmp_buf                 *pos;</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        jmp_buf                 *ret;</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    )</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;)</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;end_def_class(vsf_thread_cb_t)</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160; </div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;typedef struct {</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    vsf_thread_entry_t          *<a class="code" href="vsf__thread_8h.html#a7b1bd7ace931306a646900d724bb7329">entry</a>;</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;    <span class="keywordtype">void</span>                        *<a class="code" href="vsf__thread_8h.html#a761030e55da522d31cb4ac9181dc2de4">stack</a>;</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    <a class="code" href="arm_2type_8h.html#a633264eb9df8f0520acccbbfb406f806">uint_fast32_t</a>               <a class="code" href="vsf__thread_8h.html#a3422a71bd11b1a1ff48721495c7d9c8f">stack_size</a>;</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    <span class="comment">//vsf_prio_t                  priority;         //!&lt; TODO do we need this??</span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;} vsf_thread_prepare_cfg_t;</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160; </div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160; </div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160; </div>
+<div class="line"><a name="l00366"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#a78019d28532710fe072e5a36563e93f5">  366</a></span>&#160;<span class="preprocessor">#   define vsf_thread_trig_set(__trig, ...)         vsf_eda_trig_set(__trig, ##__VA_ARGS__)</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#a9f8d9e9505a38c5b7795dac2bb083516">  367</a></span>&#160;<span class="preprocessor">#   define vsf_thread_trig_reset(__trig)            vsf_eda_trig_reset(__trig)</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#a50faf6bcb5a8760071ec9543929f8ee3">  368</a></span>&#160;<span class="preprocessor">#   define vsf_thread_trig_pend(__trig, timeout)    __vsf_thread_wait_for_sync(__trig, timeout)</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160; </div>
+<div class="line"><a name="l00370"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#ade3ae5d6be68e7db4bce7a8df68d6164">  370</a></span>&#160;<span class="preprocessor">#   define vsf_thread_mutex_enter(__mtx, timeout)   __vsf_thread_wait_for_sync(&amp;(__mtx)-&gt;use_as__vsf_sync_t, timeout)</span></div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160; </div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="comment">/*============================ TYPES =========================================*/</span></div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
+<div class="line"><a name="l00375"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#af3369683f94314ec579ccd6d147b18d7">  375</a></span>&#160;<a class="code" href="vsf__thread_8h.html#af3369683f94314ec579ccd6d147b18d7">declare_class</a>(vsf_thread_t)</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_EDA_SUPPORT_SUB_CALL == ENABLED</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<a class="code" href="vsf__thread_8h.html#af3369683f94314ec579ccd6d147b18d7">declare_class</a>(vsf_thread_cb_t)</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160; </div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">void</span> vsf_thread_entry_t(vsf_thread_cb_t *thread);</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160; </div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<a class="code" href="vsf__pbuf__queue_8h.html#aaeeb7f0fcf0ded303697c4169f1406c3">def_class</a>( vsf_thread_t,</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <a class="code" href="vsf__tgui__control_8h.html#a5b5d6de3808ae65bdaef685a8ec16f8b">which</a>(</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    #   <span class="keywordflow">if</span> <a class="code" href="vsf__kernel__cfg_8h.html#a593e4d09957c516132d2d293571b17ae">VSF_KERNEL_CFG_EDA_SUPPORT_TIMER</a> == <a class="code" href="____type_8h.html#a73c228f87e038e8295ee8ea8eceaa5ac">ENABLED</a></div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        implement(<a class="code" href="classvsf__teda__t.html">vsf_teda_t</a>)</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    #   <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        implement(<a class="code" href="classvsf__eda__t.html">vsf_eda_t</a>)</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    #   endif</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    )</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;)</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;end_def_class(vsf_thread_t)</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;<a class="code" href="vsf__pbuf__queue_8h.html#aaeeb7f0fcf0ded303697c4169f1406c3">def_class</a>(vsf_thread_cb_t,</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160; </div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    public_member(</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        vsf_thread_entry_t      *<a class="code" href="vsf__thread_8h.html#a7b1bd7ace931306a646900d724bb7329">entry</a>;</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        <a class="code" href="arm_2type_8h.html#a273cf69d639a59973b6019625df33e30">uint16_t</a>                <a class="code" href="vsf__thread_8h.html#a3422a71bd11b1a1ff48721495c7d9c8f">stack_size</a>;</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        <a class="code" href="arm_2type_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a>                *<a class="code" href="vsf__thread_8h.html#a761030e55da522d31cb4ac9181dc2de4">stack</a>;                 </div>
+<div class="line"><a name="l00400"></a><span class="lineno"><a class="line" href="vsf__thread_8h.html#a7b1bd7ace931306a646900d724bb7329">  400</a></span>&#160;    )</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160; </div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;    private_member(</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;#ifdef VSF_ARCH_LIMIT_NO_SET_STACK</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;        vsf_arch_irq_thread_t   host_thread;</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        vsf_arch_irq_request_t  req, *rep;</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        <a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a>               evt;</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        jmp_buf                 *pos;</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        jmp_buf                 *ret;</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    )</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;)</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;end_def_class(vsf_thread_cb_t)</div>
 <div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160; </div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">void</span> vsf_thread_entry_t(vsf_thread_t *thread);</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160; </div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;<a class="code" href="vsf__pbuf__queue_8h.html#aaeeb7f0fcf0ded303697c4169f1406c3">def_class</a>(vsf_thread_t,</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    <a class="code" href="vsf__tgui__control_8h.html#a5b5d6de3808ae65bdaef685a8ec16f8b">which</a>(</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;#<span class="keywordflow">if</span> <a class="code" href="vsf__kernel__cfg_8h.html#a593e4d09957c516132d2d293571b17ae">VSF_KERNEL_CFG_EDA_SUPPORT_TIMER</a> == <a class="code" href="____type_8h.html#a73c228f87e038e8295ee8ea8eceaa5ac">ENABLED</a></div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;        implement(<a class="code" href="classvsf__teda__t.html">vsf_teda_t</a>)</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;#<span class="keywordflow">else</span></div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;        implement(<a class="code" href="classvsf__eda__t.html">vsf_eda_t</a>)</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;#endif</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    )</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;typedef struct {</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;    vsf_thread_entry_t          *<a class="code" href="vsf__thread_8h.html#a7b1bd7ace931306a646900d724bb7329">entry</a>;</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    <span class="keywordtype">void</span>                        *<a class="code" href="vsf__thread_8h.html#a761030e55da522d31cb4ac9181dc2de4">stack</a>;</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    <a class="code" href="arm_2type_8h.html#a633264eb9df8f0520acccbbfb406f806">uint_fast32_t</a>               <a class="code" href="vsf__thread_8h.html#a3422a71bd11b1a1ff48721495c7d9c8f">stack_size</a>;</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;    <span class="comment">//vsf_prio_t                  priority;         //!&lt; TODO do we need this??</span></div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;} vsf_thread_prepare_cfg_t;</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160; </div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160; </div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160; </div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160; </div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;<span class="keyword">typedef</span> <span class="keywordtype">void</span> vsf_thread_entry_t(vsf_thread_t *thread);</div>
 <div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160; </div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    public_member(</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        vsf_thread_entry_t      *<a class="code" href="vsf__thread_8h.html#a7b1bd7ace931306a646900d724bb7329">entry</a>;</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;        <a class="code" href="arm_2type_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>                <a class="code" href="vsf__thread_8h.html#a3422a71bd11b1a1ff48721495c7d9c8f">stack_size</a>;</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;        <a class="code" href="arm_2type_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a>                *<a class="code" href="vsf__thread_8h.html#a761030e55da522d31cb4ac9181dc2de4">stack</a>;                 </div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    ),</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160; </div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    private_member(</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;#ifdef VSF_ARCH_LIMIT_NO_SET_STACK</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        vsf_arch_irq_thread_t   host_thread;</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        vsf_arch_irq_request_t  req, *rep;</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;        <a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a>               evt;</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        jmp_buf                 *pos;</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        jmp_buf                 *ret;</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    )</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;)</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;end_def_class(vsf_thread_t)</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;<span class="comment">/*============================ GLOBAL VARIABLES ==============================*/</span></div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;<span class="comment">/*============================ PROTOTYPES ====================================*/</span></div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160; </div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_EDA_SUPPORT_SUB_CALL == ENABLED</span></div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vk_eda_call_thread_prepare&quot;</span>)</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;extern <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#a54cdcce0cd3b60c83eb22fe1e9803fb3">vk_eda_call_thread_prepare</a>( vsf_thread_cb_t *thread_cb,</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;                                                vsf_thread_prepare_cfg_t *cfg);</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160; </div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#a7e20d09d8e81887a1fef65cc9dbb3806">vk_eda_call_thread</a>&quot;)</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;extern <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#a7e20d09d8e81887a1fef65cc9dbb3806">vk_eda_call_thread</a>(vsf_thread_cb_t *thread_cb);</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160; </div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#a5cab9147c81762ae9bd775fcc049c5b3">vk_thread_call_fsm</a>&quot;)</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;extern</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;<a class="code" href="vsf__fsm_8h.html#ae61ab5e1d66a489d89fa8786e6b5f64b">fsm_rt_t</a> <a class="code" href="vsf__thread_8c.html#a5cab9147c81762ae9bd775fcc049c5b3">vk_thread_call_fsm</a>(<a class="code" href="vsf__eda_8h.html#a869fe5732129390c11e4c405bcb6c281">vsf_fsm_entry_t</a> eda_handler, <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> param, <span class="keywordtype">size_t</span> local_size);</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160; </div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#abc793559227b611bf0bddd32e611e1c2">vk_thread_call_eda</a>&quot;)</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;extern</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;<a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#abc793559227b611bf0bddd32e611e1c2">vk_thread_call_eda</a>(   <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> eda_handler,</div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;                                <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> param,</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;                                <span class="keywordtype">size_t</span> local_size,</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;                                <span class="keywordtype">size_t</span> local_buff_size,</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;                                <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> local_buff);</div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160; </div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.vsf_thread_call_thread&quot;)</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;extern <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#a05733801aeeafa61d4d63f5d22d9f7de">vk_thread_call_thread</a>(     vsf_thread_cb_t *thread_cb,</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;                                            vsf_thread_prepare_cfg_t *cfg);</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160; </div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160; </div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160; </div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread&quot;</span>)</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_EDA_SUPPORT_SUB_CALL == ENABLED</span></div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;<span class="keyword">extern</span> <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#ac9c821b49a0db250386257b27699a421">vsf_thread_start</a>(  vsf_thread_t *thread,</div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;                                    vsf_thread_cb_t *thread_cb,</div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;                                    <a class="code" href="vsf__kernel__common_8h.html#ad388b0c213cac0eadd2a95f215e8ffc3">vsf_prio_t</a> priority);</div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;<span class="keyword">extern</span> <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#ac9c821b49a0db250386257b27699a421">vsf_thread_start</a>(vsf_thread_t *this_ptr, <a class="code" href="vsf__kernel__common_8h.html#ad388b0c213cac0eadd2a95f215e8ffc3">vsf_prio_t</a> priority);</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160; </div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_THREAD_STACK_CHECK == ENABLED</span></div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_stack_check&quot;</span>)</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;extern <span class="keywordtype">void</span> <a class="code" href="vsf__thread_8c.html#af527665eb6fb8ba7ccb8d2b65e3e5214">vsf_thread_stack_check</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160; </div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_exit&quot;</span>)</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;extern <span class="keywordtype">void</span> <a class="code" href="vsf__thread_8c.html#a1612c1dc718de57c28835827e12517f4">vsf_thread_exit</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160; </div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#a5a65430da59fc065c08380786c772314">vsf_thread_get_cur</a>&quot;)</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;extern vsf_thread_t *<a class="code" href="vsf__thread_8c.html#a5a65430da59fc065c08380786c772314">vsf_thread_get_cur</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;<a class="code" href="vsf__pbuf__queue_8h.html#aaeeb7f0fcf0ded303697c4169f1406c3">def_class</a>(vsf_thread_t,</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;    <a class="code" href="vsf__tgui__control_8h.html#a5b5d6de3808ae65bdaef685a8ec16f8b">which</a>(</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;#<span class="keywordflow">if</span> <a class="code" href="vsf__kernel__cfg_8h.html#a593e4d09957c516132d2d293571b17ae">VSF_KERNEL_CFG_EDA_SUPPORT_TIMER</a> == <a class="code" href="____type_8h.html#a73c228f87e038e8295ee8ea8eceaa5ac">ENABLED</a></div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        implement(<a class="code" href="classvsf__teda__t.html">vsf_teda_t</a>)</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;#<span class="keywordflow">else</span></div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;        implement(<a class="code" href="classvsf__eda__t.html">vsf_eda_t</a>)</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;#endif</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;    )</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160; </div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;    public_member(</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        vsf_thread_entry_t      *<a class="code" href="vsf__thread_8h.html#a7b1bd7ace931306a646900d724bb7329">entry</a>;</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        <a class="code" href="arm_2type_8h.html#a435d1572bf3f880d55459d9805097f62">uint32_t</a>                <a class="code" href="vsf__thread_8h.html#a3422a71bd11b1a1ff48721495c7d9c8f">stack_size</a>;</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        <a class="code" href="arm_2type_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a>                *<a class="code" href="vsf__thread_8h.html#a761030e55da522d31cb4ac9181dc2de4">stack</a>;                 </div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    ),</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160; </div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;    private_member(</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;#ifdef VSF_ARCH_LIMIT_NO_SET_STACK</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        vsf_arch_irq_thread_t   host_thread;</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;        vsf_arch_irq_request_t  req, *rep;</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;        <a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a>               evt;</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;        jmp_buf                 *pos;</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;        jmp_buf                 *ret;</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    )</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;)</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;end_def_class(vsf_thread_t)</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;<span class="comment">/*============================ GLOBAL VARIABLES ==============================*/</span></div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;<span class="comment">/*============================ PROTOTYPES ====================================*/</span></div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160; </div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_EDA_SUPPORT_SUB_CALL == ENABLED</span></div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vk_eda_call_thread_prepare&quot;</span>)</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;extern <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#a54cdcce0cd3b60c83eb22fe1e9803fb3">vk_eda_call_thread_prepare</a>( vsf_thread_cb_t *thread_cb,</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;                                                vsf_thread_prepare_cfg_t *cfg);</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160; </div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#a7e20d09d8e81887a1fef65cc9dbb3806">vk_eda_call_thread</a>&quot;)</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;extern <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#a7e20d09d8e81887a1fef65cc9dbb3806">vk_eda_call_thread</a>(vsf_thread_cb_t *thread_cb);</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160; </div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#a5cab9147c81762ae9bd775fcc049c5b3">vk_thread_call_fsm</a>&quot;)</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;extern</div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;<a class="code" href="vsf__fsm_8h.html#ae61ab5e1d66a489d89fa8786e6b5f64b">fsm_rt_t</a> <a class="code" href="vsf__thread_8c.html#a5cab9147c81762ae9bd775fcc049c5b3">vk_thread_call_fsm</a>(<a class="code" href="vsf__eda_8h.html#a869fe5732129390c11e4c405bcb6c281">vsf_fsm_entry_t</a> eda_handler, <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> param, <span class="keywordtype">size_t</span> local_size);</div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160; </div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#abc793559227b611bf0bddd32e611e1c2">vk_thread_call_eda</a>&quot;)</div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;extern</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;<a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#abc793559227b611bf0bddd32e611e1c2">vk_thread_call_eda</a>(   <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> eda_handler,</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;                                <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> param,</div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;                                <span class="keywordtype">size_t</span> local_size,</div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;                                <span class="keywordtype">size_t</span> local_buff_size,</div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;                                <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> local_buff);</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160; </div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.vsf_thread_call_thread&quot;)</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;extern <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#a05733801aeeafa61d4d63f5d22d9f7de">vk_thread_call_thread</a>(     vsf_thread_cb_t *thread_cb,</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;                                            vsf_thread_prepare_cfg_t *cfg);</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160; </div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160; </div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160; </div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread&quot;</span>)</div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_EDA_SUPPORT_SUB_CALL == ENABLED</span></div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;<span class="keyword">extern</span> <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#ac9c821b49a0db250386257b27699a421">vsf_thread_start</a>(  vsf_thread_t *thread,</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;                                    vsf_thread_cb_t *thread_cb,</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;                                    <a class="code" href="vsf__kernel__common_8h.html#ad388b0c213cac0eadd2a95f215e8ffc3">vsf_prio_t</a> priority);</div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;<span class="keyword">extern</span> <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#ac9c821b49a0db250386257b27699a421">vsf_thread_start</a>(vsf_thread_t *this_ptr, <a class="code" href="vsf__kernel__common_8h.html#ad388b0c213cac0eadd2a95f215e8ffc3">vsf_prio_t</a> priority);</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160; </div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#ab91a162a89f89c2196142a77a1e167c6">vsf_thread_wait</a>&quot;)</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;extern <a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a> <a class="code" href="vsf__thread_8c.html#ab91a162a89f89c2196142a77a1e167c6">vsf_thread_wait</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160; </div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#ac47ce4fa4d0e22b6fa7839f6687fb420">vsf_thread_wait_for_evt</a>&quot;)</div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;extern <span class="keywordtype">void</span> <a class="code" href="vsf__thread_8c.html#ac47ce4fa4d0e22b6fa7839f6687fb420">vsf_thread_wait_for_evt</a>(<a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a> evt);</div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160; </div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#ad9193a2aba0764f99ebe7922ebd9a805">vsf_thread_sendevt</a>&quot;)</div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;extern <span class="keywordtype">void</span> <a class="code" href="vsf__thread_8c.html#ad9193a2aba0764f99ebe7922ebd9a805">vsf_thread_sendevt</a>(vsf_thread_t *thread, <a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a> evt);</div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160; </div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_SUPPORT_EVT_MESSAGE == ENABLED</span></div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_wait_for_evt_msg&quot;</span>)</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;extern <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> <a class="code" href="vsf__thread_8c.html#a42937973d3e05b6e290cc4f861e2fcc9">vsf_thread_wait_for_evt_msg</a>(<a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a> evt);</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_THREAD_STACK_CHECK == ENABLED</span></div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_stack_check&quot;</span>)</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;extern <span class="keywordtype">void</span> <a class="code" href="vsf__thread_8c.html#af527665eb6fb8ba7ccb8d2b65e3e5214">vsf_thread_stack_check</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160; </div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_exit&quot;</span>)</div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;extern <span class="keywordtype">void</span> <a class="code" href="vsf__thread_8c.html#a1612c1dc718de57c28835827e12517f4">vsf_thread_exit</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160; </div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#a5a65430da59fc065c08380786c772314">vsf_thread_get_cur</a>&quot;)</div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;extern vsf_thread_t *<a class="code" href="vsf__thread_8c.html#a5a65430da59fc065c08380786c772314">vsf_thread_get_cur</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160; </div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#ab91a162a89f89c2196142a77a1e167c6">vsf_thread_wait</a>&quot;)</div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;extern <a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a> <a class="code" href="vsf__thread_8c.html#ab91a162a89f89c2196142a77a1e167c6">vsf_thread_wait</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160; </div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_wait_for_evt_msg&quot;</span>)</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;extern <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> <a class="code" href="vsf__thread_8c.html#a4a2815f26d6b786637cd98c7af814421">vsf_thread_wait_for_msg</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#ac47ce4fa4d0e22b6fa7839f6687fb420">vsf_thread_wait_for_evt</a>&quot;)</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;extern <span class="keywordtype">void</span> <a class="code" href="vsf__thread_8c.html#ac47ce4fa4d0e22b6fa7839f6687fb420">vsf_thread_wait_for_evt</a>(<a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a> evt);</div>
 <div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160; </div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_EDA_SUPPORT_TIMER == ENABLED</span></div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_delay&quot;</span>)</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;extern <span class="keywordtype">void</span> <a class="code" href="vsf__thread_8c.html#a419e6bb8e990595930244cf449268774">vsf_thread_delay</a>(vsf_systimer_tick_t tick);</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160; </div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_yield&quot;</span>)</div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;void <a class="code" href="vsf__thread_8c.html#a435919205bc59fb7a42172ebf0499c8b">vsf_thread_yield</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#ad9193a2aba0764f99ebe7922ebd9a805">vsf_thread_sendevt</a>&quot;)</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;extern <span class="keywordtype">void</span> <a class="code" href="vsf__thread_8c.html#ad9193a2aba0764f99ebe7922ebd9a805">vsf_thread_sendevt</a>(vsf_thread_t *thread, <a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a> evt);</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160; </div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_SUPPORT_EVT_MESSAGE == ENABLED</span></div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_wait_for_evt_msg&quot;</span>)</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;extern <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> <a class="code" href="vsf__thread_8c.html#a42937973d3e05b6e290cc4f861e2fcc9">vsf_thread_wait_for_evt_msg</a>(<a class="code" href="vsf__eda_8h.html#a0095e13b0285f6d680edab1e0f9bd2f3">vsf_evt_t</a> evt);</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160; </div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_SUPPORT_DYNAMIC_PRIOTIRY == ENABLED</span></div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_set_priority&quot;</span>)</div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;extern <a class="code" href="vsf__kernel__common_8h.html#ad388b0c213cac0eadd2a95f215e8ffc3">vsf_prio_t</a> <a class="code" href="vsf__thread_8c.html#aa43ef992638679e39a4534d477d7f139">vsf_thread_set_priority</a>(<a class="code" href="vsf__kernel__common_8h.html#ad388b0c213cac0eadd2a95f215e8ffc3">vsf_prio_t</a> priority);</div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160; </div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_SUPPORT_SYNC == ENABLED</span></div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_mutex&quot;</span>)</div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;extern <a class="code" href="vsf__eda_8h.html#aeaa3152ca9e561ff10865c65a67bb939">vsf_sync_reason_t</a> <a class="code" href="vsf__thread_8c.html#a8f1e414594f75858bf508ccc7d44cf7f">vsf_thread_mutex_enter</a>(<a class="code" href="classvsf__sync__owner__t.html">vsf_mutex_t</a> *mtx, <a class="code" href="vsf__eda_8h.html#a680d3037efb9ab5d71ad711931d38b02">vsf_timeout_tick_t</a> <a class="code" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>);</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160; </div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.vsf_thread_mutex&quot;)</div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;extern <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#a738e3831e3a50147e896ad0d2a71d57b">vsf_thread_mutex_leave</a>(<a class="code" href="classvsf__sync__owner__t.html">vsf_mutex_t</a> *mtx);</div>
-<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160; </div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.<a class="code" href="vsf__thread_8c.html#a83f6a4472e31c76e5391f1db89d4e0b2">vsf_thread_sem_post</a>&quot;)</div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;extern <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#a83f6a4472e31c76e5391f1db89d4e0b2">vsf_thread_sem_post</a>(<a class="code" href="classvsf__sync__t.html">vsf_sem_t</a> *sem);</div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160; </div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.__vsf_thread_wait_for_sync&quot;)</div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;extern <a class="code" href="vsf__eda_8h.html#aeaa3152ca9e561ff10865c65a67bb939">vsf_sync_reason_t</a> <a class="code" href="vsf__thread_8c.html#a6243d88fd438231b8c4cd424e972d0ef">vsf_thread_sem_pend</a>(<a class="code" href="classvsf__sync__t.html">vsf_sem_t</a> *sem, <a class="code" href="vsf__eda_8h.html#a680d3037efb9ab5d71ad711931d38b02">vsf_timeout_tick_t</a> <a class="code" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>);</div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160; </div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.__vsf_thread_wait_for_sync&quot;)</div>
-<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;extern <a class="code" href="vsf__eda_8h.html#aeaa3152ca9e561ff10865c65a67bb939">vsf_sync_reason_t</a> <a class="code" href="vsf__thread_8c.html#ac20be8a482b6fffaa0d41aeb2199cce5">vsf_thread_trig_pend</a>(<a class="code" href="classvsf__sync__t.html">vsf_trig_t</a> *trig, <a class="code" href="vsf__eda_8h.html#a680d3037efb9ab5d71ad711931d38b02">vsf_timeout_tick_t</a> <a class="code" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>);</div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160; </div>
-<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;<span class="preprocessor">#   if VSF_KERNEL_CFG_SUPPORT_BITMAP_EVENT == ENABLED</span></div>
-<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_bmpevt_pend&quot;</span>)</div>
-<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;extern <a class="code" href="vsf__eda_8h.html#aeaa3152ca9e561ff10865c65a67bb939">vsf_sync_reason_t</a> <a class="code" href="vsf__thread_8c.html#a16a3a5b37ca48c1dcfd9355ef1ba2a98">vsf_thread_bmpevt_pend</a>(</div>
-<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;                    <a class="code" href="classvsf__bmpevt__t.html">vsf_bmpevt_t</a> *bmpevt,</div>
-<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;                    <a class="code" href="classvsf__bmpevt__pender__t.html">vsf_bmpevt_pender_t</a> *pender,</div>
-<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;                    <a class="code" href="vsf__eda_8h.html#a680d3037efb9ab5d71ad711931d38b02">vsf_timeout_tick_t</a> <a class="code" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>);</div>
-<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;<span class="preprocessor">#   endif</span></div>
-<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160; </div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;}</div>
-<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160; </div>
-<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_wait_for_evt_msg&quot;</span>)</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;extern <a class="code" href="arm_2type_8h.html#a09674b9e56fd7a93a2169aa9210deec7">uintptr_t</a> <a class="code" href="vsf__thread_8c.html#a4a2815f26d6b786637cd98c7af814421">vsf_thread_wait_for_msg</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160; </div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_EDA_SUPPORT_TIMER == ENABLED</span></div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_delay&quot;</span>)</div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;extern <span class="keywordtype">void</span> <a class="code" href="vsf__thread_8c.html#a419e6bb8e990595930244cf449268774">vsf_thread_delay</a>(vsf_systimer_tick_t tick);</div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160; </div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_yield&quot;</span>)</div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;void <a class="code" href="vsf__thread_8c.html#a435919205bc59fb7a42172ebf0499c8b">vsf_thread_yield</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160; </div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_SUPPORT_DYNAMIC_PRIOTIRY == ENABLED</span></div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_set_priority&quot;</span>)</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;extern <a class="code" href="vsf__kernel__common_8h.html#ad388b0c213cac0eadd2a95f215e8ffc3">vsf_prio_t</a> <a class="code" href="vsf__thread_8c.html#aa43ef992638679e39a4534d477d7f139">vsf_thread_set_priority</a>(<a class="code" href="vsf__kernel__common_8h.html#ad388b0c213cac0eadd2a95f215e8ffc3">vsf_prio_t</a> priority);</div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160; </div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;<span class="preprocessor">#if VSF_KERNEL_CFG_SUPPORT_SYNC == ENABLED</span></div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.__vsf_thread_wait_for_sync&quot;</span>)</div>
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;<a class="code" href="vsf__eda_8h.html#aeaa3152ca9e561ff10865c65a67bb939">vsf_sync_reason_t</a> <a class="code" href="vsf__thread_8c.html#a5b8d074f4b1a12d66bab50fd1ae2c456">__vsf_thread_wait_for_sync</a>(<a class="code" href="classvsf__sync__t.html">vsf_sync_t</a> *sync, <a class="code" href="vsf__eda_8h.html#a680d3037efb9ab5d71ad711931d38b02">vsf_timeout_tick_t</a> time_out);</div>
+<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160; </div>
+<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.vsf_thread_mutex&quot;)</div>
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;extern <a class="code" href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a> <a class="code" href="vsf__thread_8c.html#a738e3831e3a50147e896ad0d2a71d57b">vsf_thread_mutex_leave</a>(<a class="code" href="classvsf__sync__owner__t.html">vsf_mutex_t</a> *mtx);</div>
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160; </div>
+<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.vsf_thread_queue&quot;)</div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;<a class="code" href="vsf__eda_8h.html#aeaa3152ca9e561ff10865c65a67bb939">vsf_sync_reason_t</a> <a class="code" href="vsf__thread_8c.html#a12e3d0101bf0c3482341c12fae3c3348">vsf_thread_queue_send</a>(<a class="code" href="classvsf__eda__queue__t.html">vsf_eda_queue_t</a> *queue, <span class="keywordtype">void</span> *node, <a class="code" href="vsf__eda_8h.html#a680d3037efb9ab5d71ad711931d38b02">vsf_timeout_tick_t</a> <a class="code" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>);</div>
+<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160; </div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(&quot;.text.vsf.kernel.vsf_thread_queue&quot;)</div>
+<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;<a class="code" href="vsf__eda_8h.html#aeaa3152ca9e561ff10865c65a67bb939">vsf_sync_reason_t</a> <a class="code" href="vsf__thread_8c.html#adf45640e423124a9ee1f1969ae3c6155">vsf_thread_queue_recv</a>(<a class="code" href="classvsf__eda__queue__t.html">vsf_eda_queue_t</a> *queue, <span class="keywordtype">void</span> **node, <a class="code" href="vsf__eda_8h.html#a680d3037efb9ab5d71ad711931d38b02">vsf_timeout_tick_t</a> <a class="code" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>);</div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160; </div>
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;<span class="preprocessor">#   if VSF_KERNEL_CFG_SUPPORT_BITMAP_EVENT == ENABLED</span></div>
+<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;<a class="code" href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a>(<span class="stringliteral">&quot;.text.vsf.kernel.vsf_thread_bmpevt_pend&quot;</span>)</div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;extern <a class="code" href="vsf__eda_8h.html#aeaa3152ca9e561ff10865c65a67bb939">vsf_sync_reason_t</a> <a class="code" href="vsf__thread_8c.html#a16a3a5b37ca48c1dcfd9355ef1ba2a98">vsf_thread_bmpevt_pend</a>(</div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;                    <a class="code" href="classvsf__bmpevt__t.html">vsf_bmpevt_t</a> *bmpevt,</div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;                    <a class="code" href="classvsf__bmpevt__pender__t.html">vsf_bmpevt_pender_t</a> *pender,</div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;                    <a class="code" href="vsf__eda_8h.html#a680d3037efb9ab5d71ad711931d38b02">vsf_timeout_tick_t</a> <a class="code" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>);</div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;<span class="preprocessor">#   endif</span></div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160; </div>
+<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;}</div>
+<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160; </div>
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="a____compiler_8h_html_a3eaf49c35e19a8e3c92ee1b1b5b0c692"><div class="ttname"><a href="____compiler_8h.html#a3eaf49c35e19a8e3c92ee1b1b5b0c692">SECTION</a></div><div class="ttdeci">#define SECTION(__SEC)</div><div class="ttdef"><b>Definition:</b> __compiler.h:134</div></div>
 <div class="ttc" id="a____type_8h_html_a73c228f87e038e8295ee8ea8eceaa5ac"><div class="ttname"><a href="____type_8h.html#a73c228f87e038e8295ee8ea8eceaa5ac">ENABLED</a></div><div class="ttdeci">#define ENABLED</div><div class="ttdef"><b>Definition:</b> __type.h:28</div></div>
 <div class="ttc" id="a____type_8h_html_ac6c55e737799b5e73899ccfae13b98e4"><div class="ttname"><a href="____type_8h.html#ac6c55e737799b5e73899ccfae13b98e4">vsf_err_t</a></div><div class="ttdeci">vsf_err_t</div><div class="ttdef"><b>Definition:</b> __type.h:42</div></div>
@@ -605,6 +613,7 @@ $(function() {
 <div class="ttc" id="aarm_2type_8h_html_aaa5d1cd013383c889537491c3cfd9aad"><div class="ttname"><a href="arm_2type_8h.html#aaa5d1cd013383c889537491c3cfd9aad">uint64_t</a></div><div class="ttdeci">unsigned long long uint64_t</div><div class="ttdef"><b>Definition:</b> type.h:42</div></div>
 <div class="ttc" id="aclassvsf__bmpevt__pender__t_html"><div class="ttname"><a href="classvsf__bmpevt__pender__t.html">vsf_bmpevt_pender_t</a></div><div class="ttdef"><b>Definition:</b> vsf_eda.h:875</div></div>
 <div class="ttc" id="aclassvsf__bmpevt__t_html"><div class="ttname"><a href="classvsf__bmpevt__t.html">vsf_bmpevt_t</a></div><div class="ttdef"><b>Definition:</b> vsf_eda.h:890</div></div>
+<div class="ttc" id="aclassvsf__eda__queue__t_html"><div class="ttname"><a href="classvsf__eda__queue__t.html">vsf_eda_queue_t</a></div><div class="ttdef"><b>Definition:</b> vsf_eda.h:929</div></div>
 <div class="ttc" id="aclassvsf__eda__t_html"><div class="ttname"><a href="classvsf__eda__t.html">vsf_eda_t</a></div><div class="ttdef"><b>Definition:</b> vsf_eda.h:711</div></div>
 <div class="ttc" id="aclassvsf__sync__owner__t_html"><div class="ttname"><a href="classvsf__sync__owner__t.html">vsf_sync_owner_t</a></div><div class="ttdef"><b>Definition:</b> vsf_eda.h:825</div></div>
 <div class="ttc" id="aclassvsf__sync__t_html"><div class="ttname"><a href="classvsf__sync__t.html">vsf_sync_t</a></div><div class="ttdef"><b>Definition:</b> vsf_eda.h:800</div></div>
@@ -620,33 +629,32 @@ $(function() {
 <div class="ttc" id="avsf__kernel__cfg_8h_html_a593e4d09957c516132d2d293571b17ae"><div class="ttname"><a href="vsf__kernel__cfg_8h.html#a593e4d09957c516132d2d293571b17ae">VSF_KERNEL_CFG_EDA_SUPPORT_TIMER</a></div><div class="ttdeci">#define VSF_KERNEL_CFG_EDA_SUPPORT_TIMER</div><div class="ttdef"><b>Definition:</b> vsf_kernel_cfg.h:66</div></div>
 <div class="ttc" id="avsf__kernel__common_8h_html_ad388b0c213cac0eadd2a95f215e8ffc3"><div class="ttname"><a href="vsf__kernel__common_8h.html#ad388b0c213cac0eadd2a95f215e8ffc3">vsf_prio_t</a></div><div class="ttdeci">vsf_prio_t</div><div class="ttdef"><b>Definition:</b> vsf_kernel_common.h:37</div></div>
 <div class="ttc" id="avsf__pbuf__queue_8h_html_aaeeb7f0fcf0ded303697c4169f1406c3"><div class="ttname"><a href="vsf__pbuf__queue_8h.html#aaeeb7f0fcf0ded303697c4169f1406c3">def_class</a></div><div class="ttdeci">def_class(vsf_stream_fifo_t, which(vsf_stream_tx_t TX;vsf_stream_rx_t RX;), private:vsf_slist_queue_t union { vsf_stream_fifo_cfg_t cfg;struct { vsf_stream_dat_rdy_evt_t tDataReadyEventHandling;vsf_stream_dat_drn_evt_t tDataDrainEventHandling;vsf_stream_status_t Status;#if !defined(VSF_PBUF_QUEUE_CFG_ATOM_ACCESS) vsf_protect_region_t *pregion;#endif };};) end_def_class(vsf_stream_fifo_t) extern vsf_err_t vsf_stream_fifo_init(vsf_stream_fifo_t *obj_ptr</div></div>
-<div class="ttc" id="avsf__tgui__control_8h_html_a5b5d6de3808ae65bdaef685a8ec16f8b"><div class="ttname"><a href="vsf__tgui__control_8h.html#a5b5d6de3808ae65bdaef685a8ec16f8b">which</a></div><div class="ttdeci">which(union { inherit(vsf_msgt_container_t) vsf_tgui_control_t };vsf_tgui_v_container_t) implement_ex(struct</div><div class="ttdef"><b>Definition:</b> vsf_tgui_control.h:539</div></div>
+<div class="ttc" id="avsf__tgui__control_8h_html_a5b5d6de3808ae65bdaef685a8ec16f8b"><div class="ttname"><a href="vsf__tgui__control_8h.html#a5b5d6de3808ae65bdaef685a8ec16f8b">which</a></div><div class="ttdeci">which(union { inherit(vsf_msgt_container_t) vsf_tgui_control_t };vsf_tgui_v_container_t) implement_ex(struct</div><div class="ttdef"><b>Definition:</b> vsf_tgui_control.h:540</div></div>
 <div class="ttc" id="avsf__thread_8c_html_a05733801aeeafa61d4d63f5d22d9f7de"><div class="ttname"><a href="vsf__thread_8c.html#a05733801aeeafa61d4d63f5d22d9f7de">vk_thread_call_thread</a></div><div class="ttdeci">vsf_err_t vk_thread_call_thread(vsf_thread_cb_t *thread_cb, vsf_thread_prepare_cfg_t *cfg)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:564</div></div>
+<div class="ttc" id="avsf__thread_8c_html_a12e3d0101bf0c3482341c12fae3c3348"><div class="ttname"><a href="vsf__thread_8c.html#a12e3d0101bf0c3482341c12fae3c3348">vsf_thread_queue_send</a></div><div class="ttdeci">vsf_sync_reason_t vsf_thread_queue_send(vsf_eda_queue_t *queue, void *node, vsf_timeout_tick_t timeout)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:714</div></div>
 <div class="ttc" id="avsf__thread_8c_html_a1612c1dc718de57c28835827e12517f4"><div class="ttname"><a href="vsf__thread_8c.html#a1612c1dc718de57c28835827e12517f4">vsf_thread_exit</a></div><div class="ttdeci">void vsf_thread_exit(void)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:59</div></div>
-<div class="ttc" id="avsf__thread_8c_html_a16a3a5b37ca48c1dcfd9355ef1ba2a98"><div class="ttname"><a href="vsf__thread_8c.html#a16a3a5b37ca48c1dcfd9355ef1ba2a98">vsf_thread_bmpevt_pend</a></div><div class="ttdeci">vsf_sync_reason_t vsf_thread_bmpevt_pend(vsf_bmpevt_t *bmpevt, vsf_bmpevt_pender_t *pender, vsf_timeout_tick_t timeout)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:740</div></div>
+<div class="ttc" id="avsf__thread_8c_html_a16a3a5b37ca48c1dcfd9355ef1ba2a98"><div class="ttname"><a href="vsf__thread_8c.html#a16a3a5b37ca48c1dcfd9355ef1ba2a98">vsf_thread_bmpevt_pend</a></div><div class="ttdeci">vsf_sync_reason_t vsf_thread_bmpevt_pend(vsf_bmpevt_t *bmpevt, vsf_bmpevt_pender_t *pender, vsf_timeout_tick_t timeout)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:750</div></div>
 <div class="ttc" id="avsf__thread_8c_html_a419e6bb8e990595930244cf449268774"><div class="ttname"><a href="vsf__thread_8c.html#a419e6bb8e990595930244cf449268774">vsf_thread_delay</a></div><div class="ttdeci">void vsf_thread_delay(vsf_systimer_tick_t tick)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:641</div></div>
 <div class="ttc" id="avsf__thread_8c_html_a42937973d3e05b6e290cc4f861e2fcc9"><div class="ttname"><a href="vsf__thread_8c.html#a42937973d3e05b6e290cc4f861e2fcc9">vsf_thread_wait_for_evt_msg</a></div><div class="ttdeci">uintptr_t vsf_thread_wait_for_evt_msg(vsf_evt_t evt)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:185</div></div>
 <div class="ttc" id="avsf__thread_8c_html_a435919205bc59fb7a42172ebf0499c8b"><div class="ttname"><a href="vsf__thread_8c.html#a435919205bc59fb7a42172ebf0499c8b">vsf_thread_yield</a></div><div class="ttdeci">void vsf_thread_yield(void)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:649</div></div>
 <div class="ttc" id="avsf__thread_8c_html_a4a2815f26d6b786637cd98c7af814421"><div class="ttname"><a href="vsf__thread_8c.html#a4a2815f26d6b786637cd98c7af814421">vsf_thread_wait_for_msg</a></div><div class="ttdeci">uintptr_t vsf_thread_wait_for_msg(void)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:192</div></div>
 <div class="ttc" id="avsf__thread_8c_html_a54cdcce0cd3b60c83eb22fe1e9803fb3"><div class="ttname"><a href="vsf__thread_8c.html#a54cdcce0cd3b60c83eb22fe1e9803fb3">vk_eda_call_thread_prepare</a></div><div class="ttdeci">vsf_err_t vk_eda_call_thread_prepare(vsf_thread_cb_t *thread_cb, vsf_thread_prepare_cfg_t *cfg)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:461</div></div>
 <div class="ttc" id="avsf__thread_8c_html_a5a65430da59fc065c08380786c772314"><div class="ttname"><a href="vsf__thread_8c.html#a5a65430da59fc065c08380786c772314">vsf_thread_get_cur</a></div><div class="ttdeci">vsf_thread_t * vsf_thread_get_cur(void)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:47</div></div>
+<div class="ttc" id="avsf__thread_8c_html_a5b8d074f4b1a12d66bab50fd1ae2c456"><div class="ttname"><a href="vsf__thread_8c.html#a5b8d074f4b1a12d66bab50fd1ae2c456">__vsf_thread_wait_for_sync</a></div><div class="ttdeci">vsf_sync_reason_t __vsf_thread_wait_for_sync(vsf_sync_t *sync, vsf_timeout_tick_t time_out)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:675</div></div>
 <div class="ttc" id="avsf__thread_8c_html_a5cab9147c81762ae9bd775fcc049c5b3"><div class="ttname"><a href="vsf__thread_8c.html#a5cab9147c81762ae9bd775fcc049c5b3">vk_thread_call_fsm</a></div><div class="ttdeci">fsm_rt_t vk_thread_call_fsm(vsf_fsm_entry_t eda_handler, uintptr_t param, size_t local_size)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:589</div></div>
-<div class="ttc" id="avsf__thread_8c_html_a6243d88fd438231b8c4cd424e972d0ef"><div class="ttname"><a href="vsf__thread_8c.html#a6243d88fd438231b8c4cd424e972d0ef">vsf_thread_sem_pend</a></div><div class="ttdeci">vsf_sync_reason_t vsf_thread_sem_pend(vsf_sem_t *sem, vsf_timeout_tick_t timeout)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:697</div></div>
-<div class="ttc" id="avsf__thread_8c_html_a738e3831e3a50147e896ad0d2a71d57b"><div class="ttname"><a href="vsf__thread_8c.html#a738e3831e3a50147e896ad0d2a71d57b">vsf_thread_mutex_leave</a></div><div class="ttdeci">vsf_err_t vsf_thread_mutex_leave(vsf_mutex_t *mtx)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:715</div></div>
+<div class="ttc" id="avsf__thread_8c_html_a738e3831e3a50147e896ad0d2a71d57b"><div class="ttname"><a href="vsf__thread_8c.html#a738e3831e3a50147e896ad0d2a71d57b">vsf_thread_mutex_leave</a></div><div class="ttdeci">vsf_err_t vsf_thread_mutex_leave(vsf_mutex_t *mtx)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:697</div></div>
 <div class="ttc" id="avsf__thread_8c_html_a7e20d09d8e81887a1fef65cc9dbb3806"><div class="ttname"><a href="vsf__thread_8c.html#a7e20d09d8e81887a1fef65cc9dbb3806">vk_eda_call_thread</a></div><div class="ttdeci">vsf_err_t vk_eda_call_thread(vsf_thread_cb_t *thread_cb)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:478</div></div>
-<div class="ttc" id="avsf__thread_8c_html_a83f6a4472e31c76e5391f1db89d4e0b2"><div class="ttname"><a href="vsf__thread_8c.html#a83f6a4472e31c76e5391f1db89d4e0b2">vsf_thread_sem_post</a></div><div class="ttdeci">vsf_err_t vsf_thread_sem_post(vsf_sem_t *sem)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:732</div></div>
-<div class="ttc" id="avsf__thread_8c_html_a8f1e414594f75858bf508ccc7d44cf7f"><div class="ttname"><a href="vsf__thread_8c.html#a8f1e414594f75858bf508ccc7d44cf7f">vsf_thread_mutex_enter</a></div><div class="ttdeci">vsf_sync_reason_t vsf_thread_mutex_enter(vsf_mutex_t *mtx, vsf_timeout_tick_t timeout)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:709</div></div>
 <div class="ttc" id="avsf__thread_8c_html_aa43ef992638679e39a4534d477d7f139"><div class="ttname"><a href="vsf__thread_8c.html#aa43ef992638679e39a4534d477d7f139">vsf_thread_set_priority</a></div><div class="ttdeci">vsf_prio_t vsf_thread_set_priority(vsf_prio_t priority)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:657</div></div>
 <div class="ttc" id="avsf__thread_8c_html_ab91a162a89f89c2196142a77a1e167c6"><div class="ttname"><a href="vsf__thread_8c.html#ab91a162a89f89c2196142a77a1e167c6">vsf_thread_wait</a></div><div class="ttdeci">vsf_evt_t vsf_thread_wait(void)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:136</div></div>
 <div class="ttc" id="avsf__thread_8c_html_abc793559227b611bf0bddd32e611e1c2"><div class="ttname"><a href="vsf__thread_8c.html#abc793559227b611bf0bddd32e611e1c2">vk_thread_call_eda</a></div><div class="ttdeci">vsf_err_t vk_thread_call_eda(uintptr_t eda_handler, uintptr_t param, size_t local_size, size_t local_buff_size, uintptr_t local_buff)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:551</div></div>
-<div class="ttc" id="avsf__thread_8c_html_ac20be8a482b6fffaa0d41aeb2199cce5"><div class="ttname"><a href="vsf__thread_8c.html#ac20be8a482b6fffaa0d41aeb2199cce5">vsf_thread_trig_pend</a></div><div class="ttdeci">vsf_sync_reason_t vsf_thread_trig_pend(vsf_trig_t *trig, vsf_timeout_tick_t timeout)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:703</div></div>
 <div class="ttc" id="avsf__thread_8c_html_ac47ce4fa4d0e22b6fa7839f6687fb420"><div class="ttname"><a href="vsf__thread_8c.html#ac47ce4fa4d0e22b6fa7839f6687fb420">vsf_thread_wait_for_evt</a></div><div class="ttdeci">void vsf_thread_wait_for_evt(vsf_evt_t evt)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:175</div></div>
 <div class="ttc" id="avsf__thread_8c_html_ac9c821b49a0db250386257b27699a421"><div class="ttname"><a href="vsf__thread_8c.html#ac9c821b49a0db250386257b27699a421">vsf_thread_start</a></div><div class="ttdeci">vsf_err_t vsf_thread_start(vsf_thread_t *thread, vsf_thread_cb_t *thread_cb, vsf_prio_t priority)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:417</div></div>
 <div class="ttc" id="avsf__thread_8c_html_ad9193a2aba0764f99ebe7922ebd9a805"><div class="ttname"><a href="vsf__thread_8c.html#ad9193a2aba0764f99ebe7922ebd9a805">vsf_thread_sendevt</a></div><div class="ttdeci">void vsf_thread_sendevt(vsf_thread_t *thread, vsf_evt_t evt)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:207</div></div>
+<div class="ttc" id="avsf__thread_8c_html_adf45640e423124a9ee1f1969ae3c6155"><div class="ttname"><a href="vsf__thread_8c.html#adf45640e423124a9ee1f1969ae3c6155">vsf_thread_queue_recv</a></div><div class="ttdeci">vsf_sync_reason_t vsf_thread_queue_recv(vsf_eda_queue_t *queue, void **node, vsf_timeout_tick_t timeout)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:731</div></div>
 <div class="ttc" id="avsf__thread_8c_html_af527665eb6fb8ba7ccb8d2b65e3e5214"><div class="ttname"><a href="vsf__thread_8c.html#af527665eb6fb8ba7ccb8d2b65e3e5214">vsf_thread_stack_check</a></div><div class="ttdeci">void vsf_thread_stack_check(void)</div><div class="ttdef"><b>Definition:</b> vsf_thread.c:288</div></div>
-<div class="ttc" id="avsf__thread_8h_html_a3422a71bd11b1a1ff48721495c7d9c8f"><div class="ttname"><a href="vsf__thread_8h.html#a3422a71bd11b1a1ff48721495c7d9c8f">stack_size</a></div><div class="ttdeci">uint16_t stack_size</div><div class="ttdef"><b>Definition:</b> vsf_thread.h:389</div></div>
-<div class="ttc" id="avsf__thread_8h_html_a761030e55da522d31cb4ac9181dc2de4"><div class="ttname"><a href="vsf__thread_8h.html#a761030e55da522d31cb4ac9181dc2de4">stack</a></div><div class="ttdeci">uint64_t * stack</div><div class="ttdef"><b>Definition:</b> vsf_thread.h:389</div></div>
-<div class="ttc" id="avsf__thread_8h_html_a7b1bd7ace931306a646900d724bb7329"><div class="ttname"><a href="vsf__thread_8h.html#a7b1bd7ace931306a646900d724bb7329">entry</a></div><div class="ttdeci">vsf_thread_entry_t * entry</div><div class="ttdoc">&lt; stack must be 8byte aligned</div><div class="ttdef"><b>Definition:</b> vsf_thread.h:389</div></div>
+<div class="ttc" id="avsf__thread_8h_html_a3422a71bd11b1a1ff48721495c7d9c8f"><div class="ttname"><a href="vsf__thread_8h.html#a3422a71bd11b1a1ff48721495c7d9c8f">stack_size</a></div><div class="ttdeci">uint16_t stack_size</div><div class="ttdef"><b>Definition:</b> vsf_thread.h:400</div></div>
+<div class="ttc" id="avsf__thread_8h_html_a761030e55da522d31cb4ac9181dc2de4"><div class="ttname"><a href="vsf__thread_8h.html#a761030e55da522d31cb4ac9181dc2de4">stack</a></div><div class="ttdeci">uint64_t * stack</div><div class="ttdef"><b>Definition:</b> vsf_thread.h:400</div></div>
+<div class="ttc" id="avsf__thread_8h_html_a7b1bd7ace931306a646900d724bb7329"><div class="ttname"><a href="vsf__thread_8h.html#a7b1bd7ace931306a646900d724bb7329">entry</a></div><div class="ttdeci">vsf_thread_entry_t * entry</div><div class="ttdoc">&lt; stack must be 8byte aligned</div><div class="ttdef"><b>Definition:</b> vsf_thread.h:400</div></div>
 <div class="ttc" id="avsf__thread_8h_html_af3369683f94314ec579ccd6d147b18d7"><div class="ttname"><a href="vsf__thread_8h.html#af3369683f94314ec579ccd6d147b18d7">declare_class</a></div><div class="ttdeci">declare_class(vsf_thread_t) declare_class(vsf_thread_cb_t) typedef void vsf_thread_entry_t(vsf_thread_cb_t *thread)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

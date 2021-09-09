@@ -149,6 +149,18 @@ $(function() {
 <tr class="separator:a987c7a75897ff5232f8e3c2e73b54b9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b2f9d8d401a589ff4015fd36f9f27bf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__thread_8h.html#a0b2f9d8d401a589ff4015fd36f9f27bf">vsf_thread_delay_us</a>(__us)&#160;&#160;&#160;<a class="el" href="vsf__thread_8c.html#a419e6bb8e990595930244cf449268774">vsf_thread_delay</a>(vsf_systimer_us_to_tick(__us))</td></tr>
 <tr class="separator:a0b2f9d8d401a589ff4015fd36f9f27bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f2a12a1dc8a3a671cfdf53ebfd25a86"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__thread_8h.html#a6f2a12a1dc8a3a671cfdf53ebfd25a86">vsf_thread_sem_post</a>(__sem)&#160;&#160;&#160;<a class="el" href="vsf__eda_8h.html#a53820edcc984447442dd99509a0a245b">vsf_eda_sem_post</a>(__sem)</td></tr>
+<tr class="separator:a6f2a12a1dc8a3a671cfdf53ebfd25a86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ba572c9992a9f47989b187db3857428"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__thread_8h.html#a2ba572c9992a9f47989b187db3857428">vsf_thread_sem_pend</a>(__sem,  <a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>)&#160;&#160;&#160;<a class="el" href="vsf__thread_8c.html#a5b8d074f4b1a12d66bab50fd1ae2c456">__vsf_thread_wait_for_sync</a>(__sem, <a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>)</td></tr>
+<tr class="separator:a2ba572c9992a9f47989b187db3857428"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78019d28532710fe072e5a36563e93f5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__thread_8h.html#a78019d28532710fe072e5a36563e93f5">vsf_thread_trig_set</a>(__trig, ...)&#160;&#160;&#160;<a class="el" href="vsf__eda_8h.html#a3a8c9556b461a9f5a5a13784d0cd0456">vsf_eda_trig_set</a>(__trig, ##__VA_ARGS__)</td></tr>
+<tr class="separator:a78019d28532710fe072e5a36563e93f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f8d9e9505a38c5b7795dac2bb083516"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__thread_8h.html#a9f8d9e9505a38c5b7795dac2bb083516">vsf_thread_trig_reset</a>(__trig)&#160;&#160;&#160;<a class="el" href="vsf__eda_8h.html#ad12febf0dc7561ba6f92a063109d9bbd">vsf_eda_trig_reset</a>(__trig)</td></tr>
+<tr class="separator:a9f8d9e9505a38c5b7795dac2bb083516"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50faf6bcb5a8760071ec9543929f8ee3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__thread_8h.html#a50faf6bcb5a8760071ec9543929f8ee3">vsf_thread_trig_pend</a>(__trig,  <a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>)&#160;&#160;&#160;<a class="el" href="vsf__thread_8c.html#a5b8d074f4b1a12d66bab50fd1ae2c456">__vsf_thread_wait_for_sync</a>(__trig, <a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>)</td></tr>
+<tr class="separator:a50faf6bcb5a8760071ec9543929f8ee3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade3ae5d6be68e7db4bce7a8df68d6164"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vsf__thread_8h.html#ade3ae5d6be68e7db4bce7a8df68d6164">vsf_thread_mutex_enter</a>(__mtx,  <a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>)&#160;&#160;&#160;<a class="el" href="vsf__thread_8c.html#a5b8d074f4b1a12d66bab50fd1ae2c456">__vsf_thread_wait_for_sync</a>(&amp;(__mtx)-&gt;use_as__vsf_sync_t, <a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>)</td></tr>
+<tr class="separator:ade3ae5d6be68e7db4bce7a8df68d6164"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 函数</h2></td></tr>
@@ -468,7 +480,7 @@ $(function() {
 <div class="line">                vk_eda_call_thread_prepare(&amp;(__vsf_pthis-&gt;use_as__vsf_thread_cb_t),\</div>
 <div class="line">                                              (vsf_thread_prepare_cfg_t *)&amp;cfg);\</div>
 <div class="line">            } <span class="keywordflow">while</span>(0)</div>
-<div class="ttc" id="avsf__thread_8h_html_a761030e55da522d31cb4ac9181dc2de4"><div class="ttname"><a href="vsf__thread_8h.html#a761030e55da522d31cb4ac9181dc2de4">stack</a></div><div class="ttdeci">uint64_t * stack</div><div class="ttdef"><b>Definition:</b> vsf_thread.h:389</div></div>
+<div class="ttc" id="avsf__thread_8h_html_a761030e55da522d31cb4ac9181dc2de4"><div class="ttname"><a href="vsf__thread_8h.html#a761030e55da522d31cb4ac9181dc2de4">stack</a></div><div class="ttdeci">uint64_t * stack</div><div class="ttdef"><b>Definition:</b> vsf_thread.h:400</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -558,7 +570,7 @@ $(function() {
 <div class="line">            extern <span class="keywordtype">void</span> vsf_thread_##<a class="code" href="vsf__os_8c.html#a7f565b52ec477e9c0c235e88b9355558">__name</a>##_entry(                            \</div>
 <div class="line">                            <span class="keyword">struct</span> thread_cb_##<a class="code" href="vsf__os_8c.html#a7f565b52ec477e9c0c235e88b9355558">__name</a>##_t *vsf_pthis);</div>
 <div class="ttc" id="aarm_2type_8h_html_a633264eb9df8f0520acccbbfb406f806"><div class="ttname"><a href="arm_2type_8h.html#a633264eb9df8f0520acccbbfb406f806">uint_fast32_t</a></div><div class="ttdeci">unsigned int uint_fast32_t</div><div class="ttdef"><b>Definition:</b> type.h:39</div></div>
-<div class="ttc" id="avsf__memfs_8h_html_ab2c6b258f02add8fdf4cfc7c371dd772"><div class="ttname"><a href="vsf__memfs_8h.html#ab2c6b258f02add8fdf4cfc7c371dd772">size</a></div><div class="ttdeci">uint32_t size</div><div class="ttdef"><b>Definition:</b> vsf_memfs.h:49</div></div>
+<div class="ttc" id="avsf__memfs_8h_html_ab2c6b258f02add8fdf4cfc7c371dd772"><div class="ttname"><a href="vsf__memfs_8h.html#ab2c6b258f02add8fdf4cfc7c371dd772">size</a></div><div class="ttdeci">uint32_t size</div><div class="ttdef"><b>Definition:</b> vsf_memfs.h:50</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1398,6 +1410,154 @@ $(function() {
           <td class="paramtype">&#160;</td>
           <td class="paramname">__us</td><td>)</td>
           <td>&#160;&#160;&#160;<a class="el" href="vsf__thread_8c.html#a419e6bb8e990595930244cf449268774">vsf_thread_delay</a>(vsf_systimer_us_to_tick(__us))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6f2a12a1dc8a3a671cfdf53ebfd25a86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f2a12a1dc8a3a671cfdf53ebfd25a86">&#9670;&nbsp;</a></span>vsf_thread_sem_post</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define vsf_thread_sem_post</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">__sem</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="vsf__eda_8h.html#a53820edcc984447442dd99509a0a245b">vsf_eda_sem_post</a>(__sem)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ba572c9992a9f47989b187db3857428"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ba572c9992a9f47989b187db3857428">&#9670;&nbsp;</a></span>vsf_thread_sem_pend</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define vsf_thread_sem_pend</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">__sem, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="vsf__thread_8c.html#a5b8d074f4b1a12d66bab50fd1ae2c456">__vsf_thread_wait_for_sync</a>(__sem, <a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a78019d28532710fe072e5a36563e93f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78019d28532710fe072e5a36563e93f5">&#9670;&nbsp;</a></span>vsf_thread_trig_set</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define vsf_thread_trig_set</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">__trig, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="vsf__eda_8h.html#a3a8c9556b461a9f5a5a13784d0cd0456">vsf_eda_trig_set</a>(__trig, ##__VA_ARGS__)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9f8d9e9505a38c5b7795dac2bb083516"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f8d9e9505a38c5b7795dac2bb083516">&#9670;&nbsp;</a></span>vsf_thread_trig_reset</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define vsf_thread_trig_reset</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">__trig</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="vsf__eda_8h.html#ad12febf0dc7561ba6f92a063109d9bbd">vsf_eda_trig_reset</a>(__trig)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a50faf6bcb5a8760071ec9543929f8ee3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50faf6bcb5a8760071ec9543929f8ee3">&#9670;&nbsp;</a></span>vsf_thread_trig_pend</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define vsf_thread_trig_pend</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">__trig, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="vsf__thread_8c.html#a5b8d074f4b1a12d66bab50fd1ae2c456">__vsf_thread_wait_for_sync</a>(__trig, <a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ade3ae5d6be68e7db4bce7a8df68d6164"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade3ae5d6be68e7db4bce7a8df68d6164">&#9670;&nbsp;</a></span>vsf_thread_mutex_enter</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define vsf_thread_mutex_enter</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">__mtx, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;<a class="el" href="vsf__thread_8c.html#a5b8d074f4b1a12d66bab50fd1ae2c456">__vsf_thread_wait_for_sync</a>(&amp;(__mtx)-&gt;use_as__vsf_sync_t, <a class="el" href="select_8h.html#aff126839915cf06976792d265ce29a48">timeout</a>)</td>
         </tr>
       </table>
 </div><div class="memdoc">

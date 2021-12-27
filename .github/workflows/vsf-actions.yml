@@ -96,6 +96,10 @@ jobs:
       with:
         submodules: recursive
       continue-on-error: true     # allow faild because evm has gitee repositories
+      
+    - name: clone gitee
+      run: |
+        git submodule update --init # without recursive
 
     - name: get latest cmake and ninja
       uses: lukka/get-cmake@latest

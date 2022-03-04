@@ -64,7 +64,7 @@ typedef enum {
 #endif
 
 #if !__IS_COMPILER_GCC__ && !__IS_COMPILER_ARM_COMPILER_5__
-#   include <uchar.h>
+//#   include <uchar.h>
 #endif
 
 #ifdef __cplusplus

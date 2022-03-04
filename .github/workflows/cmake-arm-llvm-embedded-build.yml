@@ -1,0 +1,44 @@
+name: cmake-arm-llvm-embedded-build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  arm-llvm-embedded-build:
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [aic8800, m484, mps2]
+        os: [ubuntu-latest]
+
+    runs-on: ${{matrix.os}}
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true # without recursive
+
+    - name:
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential ninja-build
+        relase_version="13.0.0"
+        file_name="LLVMEmbeddedToolchainForArm-${relase_version}-linux.tar.gz" 
+        wget https://github.com/ARM-software/LLVM-embedded-toolchain-for-Arm/releases/download/release-${relase_version}/${file_name}
+        tar xvf ${file_name} --directory=.
+
+    - name: configure cmake
+      working-directory: ${{github.workspace}}/example/template/project/cmake/${{matrix.target}}
+      run: |
+        cmake --version
+        cmake -GNinja -B ./build
+      env:
+        VSF_PATH: ${{github.workspace}}
+        CC: ${{github.workspace}}/LLVMEmbeddedToolchainForArm-13.0.0/bin/clang
+        CXX: ${{github.workspace}}/LLVMEmbeddedToolchainForArm-13.0.0/bin/clang++
+
+    - name: build
+      working-directory: ${{github.workspace}}/example/template/project/cmake/${{matrix.target}}
+      run: cmake --build ./build -v

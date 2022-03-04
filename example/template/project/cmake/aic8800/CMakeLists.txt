@@ -8,15 +8,20 @@ message(STATUS "VSF_PATH: $ENV{VSF_PATH}")
 
 # compiler configurations
 # arm-none-eabi-gcc will not pass compiler checker of cmake, so include before project
-set(CMAKE_C_FLAGS 
-    "-Ofast"
+set(CMAKE_C_COMPILER_WORKS 1)
+set(CMAKE_CXX_COMPILER_WORKS 1)
+
+set(CMAKE_C_FLAGS
+    "--config armv6m_soft_nofp_nosys -Ofast"
     CACHE INTERNAL "C compiler common flags"
 )
-set(CMAKE_CXX_FLAGS 
-    "-Ofast"
+set(CMAKE_CXX_FLAGS
+    "--config armv6m_soft_nofp_nosys -Ofast"
     CACHE INTERNAL "C++ compiler common flags"
 )
-include($ENV{VSF_PATH}/script/cmake/compilers/gnuarmemb.cmake)
+set(CMAKE_EXE_LINKER_FLAGS
+    "-T ${CMAKE_CURRENT_SOURCE_DIR}/linker.ld"
+)
 
 project(vsf_template)
 set(VSF_TARGET AIC8800M)

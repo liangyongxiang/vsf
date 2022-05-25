@@ -27,11 +27,11 @@
 /*============================ MACROS ========================================*/
 
 #ifndef APP_DISP_DEMO_CFG_WIDTH
-#   define APP_DISP_DEMO_CFG_WIDTH          320
+#   define APP_DISP_DEMO_CFG_WIDTH          256
 #endif
 
 #ifndef APP_DISP_DEMO_CFG_HEIGHT
-#   define APP_DISP_DEMO_CFG_HEIGHT         100
+#   define APP_DISP_DEMO_CFG_HEIGHT         1
 #endif
 
 #ifndef APP_DISP_DEMO_FPS_OUTPUT
@@ -97,7 +97,13 @@ static void __vk_disp_on_ready(vk_disp_t* disp)
 
 static void __disp_demo_evthandler(vsf_eda_t* eda, vsf_evt_t evt)
 {
-    static uint16_t __color_buf[APP_DISP_DEMO_CFG_WIDTH * APP_DISP_DEMO_CFG_HEIGHT];
+    static struct {
+#if APP_USE_USBD_UVC_DEMO == ENABLED
+        uint8_t header[2];
+#endif
+        uint16_t buf[APP_DISP_DEMO_CFG_WIDTH * APP_DISP_DEMO_CFG_HEIGHT];
+    } colors;
+
     static vk_disp_area_t __disp_area = {
         .pos = {
             .x = 0,
@@ -120,9 +126,8 @@ static void __disp_demo_evthandler(vsf_eda_t* eda, vsf_evt_t evt)
         break;
 
     case VSF_EVT_MESSAGE:
-        __disp_demo_update_buffer(__color_buf, dimof(__color_buf));
-        vk_disp_refresh(disp, &__disp_area, __color_buf);
-        __disp_demo_fps_dump();
+        __disp_demo_update_buffer(colors.buf, dimof(colors.buf));
+        vk_disp_refresh(disp, &__disp_area, colors.buf);
         break;
     }
 }

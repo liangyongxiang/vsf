@@ -75,7 +75,7 @@
 #   define APP_USE_LINUX_MOUNT_DEMO                     DISABLED
 #   define APP_USE_LINUX_HTTPD_DEMO                     ENABLED
 #       define APP_LINUX_HTTPD_DEMO_CFG_ROOT            "/memfs/webroot"
-#define APP_USE_USBH_DEMO                               ENABLED
+#define APP_USE_USBH_DEMO                               DISABLED
 // Actually, usbd use usbip_dcd or distbus_dcd, no conflicts with hardware usb host
 #define APP_USE_USBD_DEMO                               ENABLED
 #   define APP_USE_USBD_CDC_DEMO                        ENABLED
@@ -86,7 +86,7 @@
 #define APP_USE_SCSI_DEMO                               ENABLED
 #define APP_USE_AUDIO_DEMO                              DISABLED
 #define APP_USE_SDL2_DEMO                               ENABLED
-#define APP_USE_DISP_DEMO                               DISABLED
+#define APP_USE_DISP_DEMO                               ENABLED
 // if using dl1x5, only RGB565 is supported
 #   define APP_SDL2_DEMO_CFG_COLOR_RGB565
 #   define APP_SDL2_DEMO_CFG_WIDTH                      256
@@ -127,8 +127,8 @@
 // if using dl1x5(DL1X5 chips from DisplayLink), color_depth should be 16,
 //  and hor_res/ver_res should smaller than the hardware resolution
 #   define APP_LVGL_DEMO_CFG_COLOR_DEPTH                16
-#   define APP_LVGL_DEMO_CFG_HOR_RES                    1920
-#   define APP_LVGL_DEMO_CFG_VER_RES                    1080
+#   define APP_LVGL_DEMO_CFG_HOR_RES                    256
+#   define APP_LVGL_DEMO_CFG_VER_RES                    256
 #   define APP_LVGL_DEMO_CFG_PIXEL_BUFFER_SIZE          (40 * 1024)
 #   define APP_LVGL_DEMO_CFG_PIXEL_BUFFER_HEAP
 #   define APP_LVGL_DEMO_CFG_DOUBLE_BUFFER              ENABLED
@@ -188,6 +188,7 @@
 #   define VSF_USBD_USE_CDCACM                          ENABLED
 #   define VSF_USBD_USE_MSC                             ENABLED
 #   define VSF_USBD_USE_UVC                             ENABLED
+#       define VSF_USBD_UVC_CFG_TRACE_EN                ENABLED
 #   define VSF_USBD_USE_UAC                             ENABLED
 #   define VSF_USBD_USE_HID                             ENABLED
 #   define APP_CFG_USBD_VID                             0xA7A8
@@ -285,21 +286,21 @@ extern void VSF_DEBUG_STREAM_POLL(void);
 #if     APP_USE_USBD_DEMO == ENABLED                                            \
     ||  (APP_USE_DISTBUS_DEMO == ENABLED && APP_USE_DISTBUS_HAL_SLAVE_DEMO == ENABLED)
 #   define VSF_USE_USB_DEVICE                           ENABLED
-#   if      APP_USE_DISTBUS_DEMO == ENABLED && APP_USE_DISTBUS_HAL_MASTER_DEMO == ENABLED
-#       define VSF_HAL_USE_DISTBUS                      ENABLED
-#           define VSF_HAL_USE_DISTBUS_USBD             ENABLED
-#   elif    APP_USE_DISTBUS_DEMO == ENABLED && APP_USE_DISTBUS_HAL_SLAVE_DEMO == ENABLED
+//#   if      APP_USE_DISTBUS_DEMO == ENABLED && APP_USE_DISTBUS_HAL_MASTER_DEMO == ENABLED
+//#       define VSF_HAL_USE_DISTBUS                      ENABLED
+//#           define VSF_HAL_USE_DISTBUS_USBD             ENABLED
+//#   elif    APP_USE_DISTBUS_DEMO == ENABLED && APP_USE_DISTBUS_HAL_SLAVE_DEMO == ENABLED
 #       define VSF_USBD_USE_DCD_DWCOTG                  ENABLED
 #           define USRAPP_USBD_DWCOTG_CFG_ULPI_EN       true
 #           define USRAPP_USBD_DWCOTG_CFG_UTMI_EN       false
 #           define USRAPP_USBD_DWCOTG_CFG_VBUS_EN       false
 #           define USRAPP_USBD_DWCOTG_CFG_DMA_EN        false
-#   else
-#       define VSF_USBD_USE_DCD_USBIP                   ENABLED
-#           define VSF_USBIP_SERVER_CFG_DEBUG           DISABLED
-#           define VSF_USBIP_SERVER_CFG_DEBUG_TRAFFIC   DISABLED
-#           define VSF_USBIP_SERVER_CFG_DEBUG_URB       DISABLED
-#   endif
+//#   else
+//#       define VSF_USBD_USE_DCD_USBIP                   ENABLED
+//#           define VSF_USBIP_SERVER_CFG_DEBUG           DISABLED
+//#           define VSF_USBIP_SERVER_CFG_DEBUG_TRAFFIC   DISABLED
+//#           define VSF_USBIP_SERVER_CFG_DEBUG_URB       DISABLED
+//#   endif
 #       define VSF_USBD_CFG_EDA_PRIORITY                vsf_prio_0
 #       define VSF_USBD_CFG_HW_PRIORITY                 vsf_arch_prio_0
 #       define USRAPP_CFG_USBD_SPEED                    USB_SPEED_HIGH
@@ -370,18 +371,24 @@ extern void VSF_DEBUG_STREAM_POLL(void);
 
 #if APP_USE_DISP_DEMO == ENABLED
 #   define VSF_USE_UI                                   ENABLED
-#   define VSF_DISP_USE_MIPI_LCD                        ENABLED
-#      define APP_DISP_DEMO_SPI                         (vsf_spi_t *)&vsf_spi0
-#      define APP_DISP_DEMO_RESET_GPIO                  (vsf_gpio_t *)&vsf_gpio0
-#      define APP_DISP_DEMO_RESET_PIN_MASK              (1 << 5)
-#      define APP_DISP_DEMO_DCX_GPIO                    (vsf_gpio_t *)&vsf_gpio0
-#      define APP_DISP_DEMO_DCX_PIN_MASK                (1 << 6)
+//#   define VSF_DISP_USE_MIPI_LCD                        ENABLED
+//#      define APP_DISP_DEMO_SPI                         (vsf_spi_t *)&vsf_spi0
+//#      define APP_DISP_DEMO_RESET_GPIO                  (vsf_gpio_t *)&vsf_gpio0
+//#      define APP_DISP_DEMO_RESET_PIN_MASK              (1 << 5)
+//#      define APP_DISP_DEMO_DCX_GPIO                    (vsf_gpio_t *)&vsf_gpio0
+//#      define APP_DISP_DEMO_DCX_PIN_MASK                (1 << 6)
+//#      define APP_DISP_DEMO_SEQ                         VSF_DISP_MIPI_LCD_ST7789V
+//#      define APP_DISP_DEMO_CLOCK_HZ                    (20ul * 1000ul * 1000ul)
 
-#      define APP_DISP_DEMO_HEIGHT                      240
-#      define APP_DISP_DEMO_WIDTH                       320
-#      define APP_DISP_DEMO_COLOR                       VSF_DISP_COLOR_RGB565
-#      define APP_DISP_DEMO_SEQ                         VSF_DISP_MIPI_LCD_ST7789V
-#      define APP_DISP_DEMO_CLOCK_HZ                    (20ul * 1000ul * 1000ul)
+#   define VSF_DISP_USE_USBD_UVC                        ENABLED
+#   define APP_DISP_USBD_UVC_HEIGHT                     256
+#   define APP_DISP_USBD_UVC_WIDTH                      256
+#   define APP_DISP_USBD_UVC_COLOR                      VSF_DISP_COLOR_RGB565
+
+#   define APP_DISP_DEMO_HEIGHT                         256
+#   define APP_DISP_DEMO_WIDTH                          256
+#   define APP_DISP_DEMO_COLOR                          VSF_DISP_COLOR_RGB565
+
 #endif
 
 /*============================ TYPES =========================================*/

@@ -77,11 +77,14 @@ static void __disp_demo_fps_dump(void)
 static void __disp_demo_update_buffer(uint16_t *buf, uint32_t size)
 {
     // TODO: add color support
-    static const uint16_t __colors[] = {0x1F << 11, 0x3F << 6, 0x1F};
+    static const uint16_t __colors[] = {0x1F << 11, 0x3F << 6, 0x1F,
+                                        0x1F << 11 | 0x3F << 6,
+                                        0x1F << 11 | 0x1F,
+                                        0x3F << 6  | 0x1F};
     static int __color_index = 0;
 
     for (int i = 0; i < size; i++) {
-        buf[i] = __colors[__color_index];
+        buf[i] = __colors[(__color_index + i) % dimof(__colors)];
     }
     __color_index = (__color_index + 1) % dimof(__colors);
 }

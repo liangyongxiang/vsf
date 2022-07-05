@@ -4,16 +4,20 @@ import os
 import pytest
 import platform
 import time
+import re
 
 from conftest import printh
 
 from pytest_bdd import (
     given,
     scenario,
+    scenarios,
     then,
     when,
     parsers
 )
+
+scenarios("../features")
 
 @pytest.fixture
 def vsh_subprocess(pytestconfig):
@@ -46,26 +50,20 @@ def vsh_subprocess(pytestconfig):
 
     vsh_subprocess.close()
 
-
-@scenario('../features/vsh.feature', 'ls')
-def test_ls():
-    pass
-
 @given('connect vsh')
 def connect_vsh(vsh_subprocess):
     return vsh_subprocess
 
-@when('type ls /')
-def type_ls_(vsh_subprocess, pytestconfig):
-    vsh_subprocess.sendline("ls /\r")
+@when(parsers.parse('type "{vsh_input}"'))
+def type_command(vsh_subprocess, pytestconfig, vsh_input):
+    vsh_subprocess.sendline(vsh_input + "\r")
 
-@then(parsers.parse('ls / output include "{output}"'))
-def receive_string(vsh_subprocess, pytestconfig, output):
+@then(parsers.parse('type "{vsh_input}", then "{vsh_output}" in output'))
+def receive_string(vsh_subprocess, pytestconfig, vsh_input, vsh_output):
 
-    vsh_subprocess.expect(output + '.*$', timeout=pytestconfig.getoption("vsf_timeout"))
+    vsh_subprocess.expect(vsh_output, timeout=pytestconfig.getoption("vsf_timeout"))
 
-    printh("expect ls / output before", vsh_subprocess.before)
-    printh("expect ls / output after ", vsh_subprocess.after)
+    printh("expect %s output before" % vsh_input, vsh_subprocess.before)
+    printh("expect %s output after " % vsh_input, vsh_subprocess.after)
 
-    assert 'ls /' in vsh_subprocess.before
-    assert output in vsh_subprocess.after
+    assert re.search(vsh_output, vsh_subprocess.after)

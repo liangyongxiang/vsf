@@ -72,22 +72,22 @@
 
 // Application configure
 #define APP_USE_LINUX_DEMO                              ENABLED
-#   define APP_USE_LINUX_LIBUSB_DEMO                    ENABLED
+#   define APP_USE_LINUX_LIBUSB_DEMO                    DISABLED
 #   define APP_USE_LINUX_MOUNT_DEMO                     DISABLED
-#   define APP_USE_LINUX_HTTPD_DEMO                     ENABLED
+#   define APP_USE_LINUX_HTTPD_DEMO                     DISABLED
 #       define APP_LINUX_HTTPD_DEMO_CFG_ROOT            "/memfs/webroot"
-#   define APP_USE_LINUX_TTY_DEMO                       ENABLED
-#define APP_USE_USBH_DEMO                               ENABLED
+#   define APP_USE_LINUX_TTY_DEMO                       DISABLED
+#define APP_USE_USBH_DEMO                               DISABLED
 // Actually, usbd use usbip_dcd or distbus_dcd, no conflicts with hardware usb host
-#define APP_USE_USBD_DEMO                               ENABLED
+#define APP_USE_USBD_DEMO                               DISABLED
 #   define APP_USE_USBD_CDC_DEMO                        ENABLED
 #   define APP_USE_USBD_MSC_DEMO                        ENABLED
 #   define APP_USE_USBD_UVC_DEMO                        ENABLED
 #   define APP_USE_USBD_UAC_DEMO                        ENABLED
 #   define APP_USE_USBD_USER_DEMO                       ENABLED
-#define APP_USE_SCSI_DEMO                               ENABLED
+#define APP_USE_SCSI_DEMO                               DISABLED
 #define APP_USE_AUDIO_DEMO                              DISABLED
-#define APP_USE_SDL2_DEMO                               ENABLED
+#define APP_USE_SDL2_DEMO                               DISABLED
 #define APP_USE_DISP_DEMO                               DISABLED
 // if using dl1x5, only RGB565 is supported
 #   define APP_SDL2_DEMO_CFG_COLOR_RGB565
@@ -100,7 +100,7 @@
 #   if __IS_COMPILER_IAR__
 #       define __VSF_WORKAROUND_IAR_CPP__
 #   endif
-#define APP_USE_HAL_DEMO                                ENABLED
+#define APP_USE_HAL_DEMO                                DISABLED
 #   define APP_USE_HAL_ADC_DEMO                         ENABLED
 #   define APP_USE_HAL_FLASH_DEMO                       ENABLED
 #   define APP_USE_HAL_GPIO_DEMO                        ENABLED
@@ -118,7 +118,7 @@
 
 // 3rd-party demos
 #define APP_USE_NNOM_DEMO                               DISABLED
-#define APP_USE_LVGL_DEMO                               ENABLED
+#define APP_USE_LVGL_DEMO                               DISABLED
 //#   define APP_LVGL_DEMO_USE_TERMINAL                   ENABLED
 //#   define APP_LVGL_DEMO_CFG_ANIMINATION                ENABLED
 
@@ -135,17 +135,17 @@
 #   define APP_LVGL_DEMO_CFG_PIXEL_BUFFER_HEAP
 #   define APP_LVGL_DEMO_CFG_DOUBLE_BUFFER              ENABLED
 #   define VSF_LVGL_IMP_WAIT_CB                         ENABLED
-#define APP_USE_BTSTACK_DEMO                            ENABLED
+#define APP_USE_BTSTACK_DEMO                            DISABLED
 // DO NOT use bthci, use on-chip bluetooth
 #   define VSF_USBH_USE_BTHCI                           DISABLED
 #define APP_USE_VSFVM_DEMO                              DISABLED
 // select one for tcpip stack
 #define APP_USE_VSFIP_DEMO                              DISABLED
 // lwip demo is not compatible with aic8800 sdk, but VSF_USE_LWIP should be defined
-#define APP_USE_LWIP_DEMO                               ENABLED
+#define APP_USE_LWIP_DEMO                               DISABLED
 #   define VSF_USE_LWIP                                 ENABLED
-#define APP_USE_LUA_DEMO                                ENABLED
-#define APP_USE_COREMARK_DEMO                           ENABLED
+#define APP_USE_LUA_DEMO                                DISABLED
+#define APP_USE_COREMARK_DEMO                           DISABLED
 //#define APP_USE_DISTBUS_DEMO                            ENABLED
 //#   define APP_DISTBUS_DEMO_CFG_LWIP                    ENABLED
 //#   define APP_USE_DISTBUS_HAL_DEMO                     ENABLED
@@ -154,8 +154,8 @@
 // demo for AIC8800
 #define VSF_USE_WIFI                                    ENABLED
 #define VSF_USE_MBEDTLS                                 ENABLED
-#define AIC8800_APP_USE_WIFI_DEMO                       ENABLED
-#define AIC8800_APP_USE_BT_DEMO                         ENABLED
+#define AIC8800_APP_USE_WIFI_DEMO                       DISABLED
+#define AIC8800_APP_USE_BT_DEMO                         DISABLED
 
 
 // app configurations to vsf configurations

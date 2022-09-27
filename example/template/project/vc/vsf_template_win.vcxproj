@@ -1492,6 +1492,7 @@
     <ClCompile Include="..\..\demo\freetype_demo\freetype_demo.c" />
     <ClCompile Include="..\..\demo\hal_demo\adc_demo.c" />
     <ClCompile Include="..\..\demo\hal_demo\flash_demo.c" />
+    <ClCompile Include="..\..\demo\hal_demo\flash_mal_demo.c" />
     <ClCompile Include="..\..\demo\hal_demo\gpio_demo.c" />
     <ClCompile Include="..\..\demo\hal_demo\i2c_demo.c" />
     <ClCompile Include="..\..\demo\hal_demo\pwm_demo.c" />

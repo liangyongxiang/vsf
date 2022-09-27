@@ -19,7 +19,7 @@
 
 #include "../../vsf_mal_cfg.h"
 
-#if VSF_USE_MAL == ENABLED && VSF_MAL_USE_HW_FLASH_MAL == ENABLED && VSF_HAL_USE_FLASH == ENABLED
+#if 1//VSF_USE_MAL == ENABLED && VSF_MAL_USE_HW_FLASH_MAL == ENABLED && VSF_HAL_USE_FLASH == ENABLED
 
 #define __VSF_MAL_CLASS_INHERIT__
 #define __VSF_HW_FLASH_MAL_CLASS_IMPLEMENT
@@ -91,7 +91,15 @@ __vsf_component_peda_ifs_entry(__vk_hw_flash_mal_init, vk_mal_init)
     vsf_peda_begin();
     vk_hw_flash_mal_t *pthis = (vk_hw_flash_mal_t *)&vsf_this;
     VSF_MAL_ASSERT(pthis != NULL);
-    pthis->size = pthis->mem.size;
+    VSF_MAL_ASSERT(pthis->flash != NULL);
+
+    // TODO: interrupt mode
+    vsf_err_t err = vsf_hw_flash_init(pthis->flash, NULL);
+    if (err != VSF_ERR_NONE) {
+        while (vsf_hw_flash_enable(pthis->flash) != fsm_rt_cpl);
+        pthis->capability = vsf_hw_flash_capability(pthis->flash);
+    }
+
     vsf_eda_return(VSF_ERR_NONE);
     vsf_peda_end();
 }
@@ -102,7 +110,27 @@ __vsf_component_peda_ifs_entry(__vk_hw_flash_mal_fini, vk_mal_fini)
     vk_hw_flash_mal_t *pthis = (vk_hw_flash_mal_t *)&vsf_this;
     VSF_UNUSED_PARAM(pthis);
     VSF_MAL_ASSERT(pthis != NULL);
+
+    while (vsf_hw_flash_disable(pthis->flash) != fsm_rt_cpl);
+
     vsf_eda_return(VSF_ERR_NONE);
+    vsf_peda_end();
+}
+
+__vsf_component_peda_ifs_entry(__vk_hw_flash_mal_erase, vk_mal_erase)
+{
+    vsf_peda_begin();
+    vk_hw_flash_mal_t *pthis = (vk_hw_flash_mal_t *)&vsf_this;
+    uint_fast64_t addr;
+    uint_fast32_t size;
+
+    VSF_MAL_ASSERT(pthis != NULL);
+    addr = vsf_local.addr;
+    size = vsf_local.size;
+    VSF_MAL_ASSERT((size > 0) && ((addr + size) <= pthis->capability.max_size));
+
+
+    vsf_eda_return(size);
     vsf_peda_end();
 }
 
@@ -116,7 +144,13 @@ __vsf_component_peda_ifs_entry(__vk_hw_flash_mal_read, vk_mal_read)
     VSF_MAL_ASSERT(pthis != NULL);
     addr = vsf_local.addr;
     size = vsf_local.size;
-    VSF_MAL_ASSERT((size > 0) && ((addr + size) <= pthis->mem.size));
+    VSF_MAL_ASSERT((size > 0) && ((addr + size) <= pthis->capability.max_size));
+    VSF_MAL_ASSERT(pthis->flash != NULL);
+
+    vsf_err_t err = vsf_hw_flash_read(pthis->flash, NULL);
+    if (err != VSF_ERR_NONE) {
+        pthis->capability = vsf_hw_flash_capability(pthis->flash);
+    }
 
     if (vsf_local.buff != &pthis->mem.buffer[addr]) {
         memcpy(vsf_local.buff, &pthis->mem.buffer[addr], size);
@@ -135,7 +169,7 @@ __vsf_component_peda_ifs_entry(__vk_hw_flash_mal_write, vk_mal_write)
     VSF_MAL_ASSERT(pthis != NULL);
     addr = vsf_local.addr;
     size = vsf_local.size;
-    VSF_MAL_ASSERT((size > 0) && ((addr + size) <= pthis->mem.size));
+    VSF_MAL_ASSERT((size > 0) && ((addr + size) <= pthis->capability.max_size));
 
     if (vsf_local.buff != &pthis->mem.buffer[addr]) {
         memcpy(&pthis->mem.buffer[addr], vsf_local.buff, size);

@@ -7158,6 +7158,9 @@
                     <name>$PROJ_DIR$\..\..\demo\hal_demo\flash_demo.c</name>
                 </file>
                 <file>
+                    <name>$PROJ_DIR$\..\..\demo\hal_demo\flash_mal_demo.c</name>
+                </file>
+                <file>
                     <name>$PROJ_DIR$\..\..\demo\hal_demo\gpio_demo.c</name>
                 </file>
                 <file>

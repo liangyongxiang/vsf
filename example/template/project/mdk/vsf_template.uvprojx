@@ -16,7 +16,7 @@
         <TargetCommonOption>
           <Device>CMSDK_CM7</Device>
           <Vendor>ARM</Vendor>
-          <PackID>Keil.V2M-MPS2_CMx_BSP.1.7.0</PackID>
+          <PackID>Keil.V2M-MPS2_CMx_BSP.1.7.1</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00400000) IROM(0x00000000,0x00400000) CPUTYPE("Cortex-M7") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -34196,6 +34196,16 @@
               <FileName>vsf_gpio_74hc165.h</FileName>
               <FileType>5</FileType>
               <FilePath>../../../../source/hal/driver/vsf/gpio/74hc165/vsf_gpio_74hc165.h</FilePath>
+            </File>
+            <File>
+              <FileName>vsf_gpio_74hc165.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\source\hal\driver\vsf\gpio\74hc165\vsf_gpio_74hc165.c</FilePath>
+            </File>
+            <File>
+              <FileName>vsf_gpio_74hc165.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\..\source\hal\driver\vsf\gpio\74hc165\vsf_gpio_74hc165.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -70585,6 +70595,16 @@
         <Group>
           <GroupName>source/hal/driver/vsf/gpio/74hc165</GroupName>
           <Files>
+            <File>
+              <FileName>vsf_gpio_74hc165.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../../../source/hal/driver/vsf/gpio/74hc165/vsf_gpio_74hc165.c</FilePath>
+            </File>
+            <File>
+              <FileName>vsf_gpio_74hc165.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../../../../source/hal/driver/vsf/gpio/74hc165/vsf_gpio_74hc165.h</FilePath>
+            </File>
             <File>
               <FileName>vsf_gpio_74hc165.c</FileName>
               <FileType>1</FileType>

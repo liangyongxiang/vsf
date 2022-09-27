@@ -5642,6 +5642,9 @@
     <ClCompile Include="..\..\..\..\source\shell\sys\linux\lib\glibc\vsf_linux_glibcpp_stdio.cpp">
       <Filter>vsf\shell\sys\linux\lib\glibc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\demo\hal_demo\flash_mal_demo.c">
+      <Filter>usrapp\demo\hal_demo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\source\hal\arch\common\arch_without_thread_suspend\vsf_arch_without_thread_suspend_template.inc">

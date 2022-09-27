@@ -37,7 +37,7 @@
 #endif
 
 #ifndef APP_FLASH_DEMO_CFG_SIZE
-#   define APP_FLASH_DEMO_CFG_SIZE                      4096
+#   define APP_FLASH_DEMO_CFG_SIZE                      4046
 #endif
 
 /*============================ IMPLEMENTATION ================================*/
@@ -52,7 +52,7 @@ static void __flash_demo(void)
 
     while (fsm_rt_cpl != vsf_flash_enable(APP_FLASH_DEMO_CFG_FLASH));
 
-    result = vsf_flash_erase(APP_FLASH_DEMO_CFG_FLASH, APP_FLASH_DEMO_CFG_OFFSET, sizeof(buffer));
+    result = vsf_flash_erase(APP_FLASH_DEMO_CFG_FLASH, 0x001FB000, 4096);
     VSF_ASSERT(result == VSF_ERR_NONE);
 
     for (int i = 0; i < dimof(buffer); i++) {
@@ -63,6 +63,9 @@ static void __flash_demo(void)
 
     memset(buffer, 0x00, sizeof(buffer));
     result = vsf_flash_read(APP_FLASH_DEMO_CFG_FLASH, APP_FLASH_DEMO_CFG_OFFSET, buffer, sizeof(buffer));
+    VSF_ASSERT(result == VSF_ERR_NONE);
+
+    result = vsf_flash_read(APP_FLASH_DEMO_CFG_FLASH, 0x001FB000 + 40, buffer + 40, sizeof(buffer) - 40);
     VSF_ASSERT(result == VSF_ERR_NONE);
 
     for (int i = 0; i < dimof(buffer); i++) {

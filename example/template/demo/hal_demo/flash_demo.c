@@ -37,7 +37,7 @@
 #endif
 
 #ifndef APP_FLASH_DEMO_CFG_SIZE
-#   define APP_FLASH_DEMO_CFG_SIZE                      4046
+#   define APP_FLASH_DEMO_CFG_SIZE                      4046 * 2
 #endif
 
 /*============================ IMPLEMENTATION ================================*/
@@ -77,7 +77,7 @@ static void __flash_demo(void)
         }
     }
 
-    vsf_trace_debug("veriy flash erase/write/read pass" VSF_TRACE_CFG_LINEEND);
+    vsf_trace_debug("veriy flash erase/write/read %d buffer pass" VSF_TRACE_CFG_LINEEND, APP_FLASH_DEMO_CFG_SIZE);
 }
 
 #if APP_USE_LINUX_DEMO == ENABLED

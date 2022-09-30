@@ -100,7 +100,7 @@
 #   if __IS_COMPILER_IAR__
 #       define __VSF_WORKAROUND_IAR_CPP__
 #   endif
-#define APP_USE_HAL_DEMO                                DISABLED
+#define APP_USE_HAL_DEMO                                ENABLED
 #   define APP_USE_HAL_ADC_DEMO                         ENABLED
 #   define APP_USE_HAL_FLASH_DEMO                       ENABLED
 #   define APP_USE_HAL_GPIO_DEMO                        ENABLED
@@ -200,6 +200,7 @@
 #   define VSF_MAL_USE_FAKEFAT32_MAL                    ENABLED
 #   define VSF_MAL_USE_SCSI_MAL                         ENABLED
 #   define VSF_MAL_USE_FILE_MAL                         ENABLED
+#   define VSF_MAL_USE_HW_FLASH_MAL                     ENABLED
 
 #define VSF_USE_SCSI                                    ENABLED
 #   define VSF_SCSI_USE_MAL_SCSI                        ENABLED
@@ -219,17 +220,20 @@
 #       define VSF_LINUX_SOCKET_USE_UNIX                ENABLED
 #   define VSF_LINUX_USE_DEVFS                          ENABLED
 #       define VSF_LINUX_DEVFS_USE_RAND                 ENABLED
+//#   define VSF_LINUX_USE_SIMPLE_LIBC                    ENABLED
+//#   define VSF_LINUX_USE_SIMPLE_TIME                    ENABLED
+//#   define VSF_LINUX_CFG_RELATIVE_PATH                  ENABLED
 
 #   define VSF_LINUX_USE_SIMPLE_LIBC                    ENABLED
 #       if __IS_COMPILER_IAR__
 // IAR: to support CPP in linux-subsystem, define MACFOs below, and don't include the simple_libc path
 //  Note that __VSF_WORKAROUND_IAR_CPP__ MUST also be defined to support CPP
-#           define VSF_LINUX_LIBC_CFG_CPP               ENABLED
-#           define VSF_LINUX_USE_SIMPLE_STDIO           DISABLED
-#           define VSF_LINUX_USE_SIMPLE_STRING          DISABLED
-#           define VSF_LINUX_USE_SIMPLE_TIME            DISABLED
+#           define VSF_LINUX_LIBC_CFG_CPP               DISABLED
+#           define VSF_LINUX_USE_SIMPLE_STDIO           ENABLED
+#           define VSF_LINUX_USE_SIMPLE_STRING          ENABLED
+#           define VSF_LINUX_USE_SIMPLE_TIME            ENABLED
 #           define VSF_LINUX_USE_SIMPLE_STDLIB          ENABLED
-#           define VSF_LINUX_USE_SIMPLE_CTYPE           DISABLED
+#           define VSF_LINUX_USE_SIMPLE_CTYPE           ENABLED
 #       else
 #           define VSF_LINUX_LIBC_CFG_CPP               ENABLED
 #           define VSF_LINUX_USE_SIMPLE_STDIO           ENABLED

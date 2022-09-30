@@ -66,16 +66,15 @@ static uint_fast32_t __vk_hw_flash_mal_blksz(vk_mal_t *mal, uint_fast64_t addr,
                 uint_fast32_t size, vsf_mal_op_t op)
 {
     vk_hw_flash_mal_t *pthis = (vk_hw_flash_mal_t *)mal;
-    return pthis->blksz;
+    return pthis->cap.erase_sector_size;
 }
 
 static bool __vk_hw_flash_mal_buffer(vk_mal_t *mal, uint_fast64_t addr,
                 uint_fast32_t size, vsf_mal_op_t op, vsf_mem_t *mem)
 {
-    vk_hw_flash_mal_t *pthis = (vk_hw_flash_mal_t *)mal;
-    mem->buffer = &pthis->mem.buffer[addr];
-    mem->size = size;
-    return true;
+    mem->buffer = 0;
+    mem->size = 0;
+    return false;
 }
 
 #if     __IS_COMPILER_GCC__
@@ -95,12 +94,12 @@ __vsf_component_peda_ifs_entry(__vk_hw_flash_mal_init, vk_mal_init)
 
     // TODO: interrupt mode
     vsf_err_t err = vsf_hw_flash_init(pthis->flash, NULL);
-    if (err != VSF_ERR_NONE) {
+    if (err == VSF_ERR_NONE) {
         while (vsf_hw_flash_enable(pthis->flash) != fsm_rt_cpl);
-        pthis->capability = vsf_hw_flash_capability(pthis->flash);
+        pthis->cap = vsf_hw_flash_capability(pthis->flash);
     }
 
-    vsf_eda_return(VSF_ERR_NONE);
+    vsf_eda_return(err);
     vsf_peda_end();
 }
 
@@ -121,16 +120,22 @@ __vsf_component_peda_ifs_entry(__vk_hw_flash_mal_erase, vk_mal_erase)
 {
     vsf_peda_begin();
     vk_hw_flash_mal_t *pthis = (vk_hw_flash_mal_t *)&vsf_this;
-    uint_fast64_t addr;
-    uint_fast32_t size;
+    vsf_flash_size_t offset;
+    vsf_flash_size_t size;
 
     VSF_MAL_ASSERT(pthis != NULL);
-    addr = vsf_local.addr;
+    offset = vsf_local.addr;
     size = vsf_local.size;
-    VSF_MAL_ASSERT((size > 0) && ((addr + size) <= pthis->capability.max_size));
+    VSF_MAL_ASSERT((offset + size) <= pthis->cap.max_size);
 
+    vsf_err_t err;
+    if (size == 0) {
+        err = vsf_hw_flash_erase_all(pthis->flash);
+    } else {
+        err = vsf_hw_flash_erase_multi_sector(pthis->flash, offset, size);
+    }
 
-    vsf_eda_return(size);
+    vsf_eda_return(err);
     vsf_peda_end();
 }
 
@@ -138,24 +143,21 @@ __vsf_component_peda_ifs_entry(__vk_hw_flash_mal_read, vk_mal_read)
 {
     vsf_peda_begin();
     vk_hw_flash_mal_t *pthis = (vk_hw_flash_mal_t *)&vsf_this;
-    uint_fast64_t addr;
-    uint_fast32_t size;
+    vsf_flash_size_t offset;
+    vsf_flash_size_t size;
 
     VSF_MAL_ASSERT(pthis != NULL);
-    addr = vsf_local.addr;
+    offset = vsf_local.addr;
     size = vsf_local.size;
-    VSF_MAL_ASSERT((size > 0) && ((addr + size) <= pthis->capability.max_size));
+    VSF_MAL_ASSERT((size > 0) && ((offset + size) <= pthis->cap.max_size));
     VSF_MAL_ASSERT(pthis->flash != NULL);
 
-    vsf_err_t err = vsf_hw_flash_read(pthis->flash, NULL);
-    if (err != VSF_ERR_NONE) {
-        pthis->capability = vsf_hw_flash_capability(pthis->flash);
+    vsf_flash_size_t return_size;
+    if (VSF_ERR_NONE != vsf_hw_flash_read_multi_sector(pthis->flash, offset, vsf_local.buff, size)) {
+        size = (vsf_flash_size_t)-1;
     }
 
-    if (vsf_local.buff != &pthis->mem.buffer[addr]) {
-        memcpy(vsf_local.buff, &pthis->mem.buffer[addr], size);
-    }
-    vsf_eda_return(size);
+    vsf_eda_return(err);
     vsf_peda_end();
 }
 
@@ -163,18 +165,18 @@ __vsf_component_peda_ifs_entry(__vk_hw_flash_mal_write, vk_mal_write)
 {
     vsf_peda_begin();
     vk_hw_flash_mal_t *pthis = (vk_hw_flash_mal_t *)&vsf_this;
-    uint_fast64_t addr;
-    uint_fast32_t size;
+    vsf_flash_size_t offset;
+    vsf_flash_size_t size;
 
     VSF_MAL_ASSERT(pthis != NULL);
-    addr = vsf_local.addr;
+    offset = vsf_local.addr;
     size = vsf_local.size;
-    VSF_MAL_ASSERT((size > 0) && ((addr + size) <= pthis->capability.max_size));
+    VSF_MAL_ASSERT(size > 0);
+    VSF_MAL_ASSERT((offset + size) <= pthis->cap.max_size);
 
-    if (vsf_local.buff != &pthis->mem.buffer[addr]) {
-        memcpy(&pthis->mem.buffer[addr], vsf_local.buff, size);
-    }
-    vsf_eda_return(size);
+    vsf_err_t err = vsf_hw_flash_write_multi_sector(pthis->flash, offset, vsf_local.buff, size);
+
+    vsf_eda_return(err);
     vsf_peda_end();
 }
 

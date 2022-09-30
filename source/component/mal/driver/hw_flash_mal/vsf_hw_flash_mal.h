@@ -22,7 +22,7 @@
 
 #include "../../vsf_mal_cfg.h"
 
-#if 1//VSF_USE_MAL == ENABLED && VSF_MAL_USE_HW_FLASH_MAL == ENABLED && VSF_HAL_USE_FLASH == ENABLED
+#if VSF_USE_MAL == ENABLED && VSF_MAL_USE_HW_FLASH_MAL == ENABLED && VSF_HAL_USE_FLASH == ENABLED
 
 #if     defined(__VSF_HW_FLASH_MAL_CLASS_IMPLEMENT)
 #   undef __VSF_HW_FLASH_MAL_CLASS_IMPLEMENT
@@ -43,12 +43,13 @@ extern "C" {
 vsf_class(vk_hw_flash_mal_t) {
     implement(vk_mal_t)
 
-    vsf_flash_capability_t capability;
+    vsf_flash_capability_t cap;
+    //uint32_t cur_addr;
 
     public_member(
         vsf_hw_flash_t *flash;
-        uint32_t start_addr;
-        uint32_t size;
+        //uint32_t start_addr;
+        //uint32_t max_size;
     )
 };
 

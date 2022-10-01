@@ -255,6 +255,7 @@ int vsf_linux_create_fhs(void)
     extern int flash_main(int argc, char *argv[]);
     busybox_bind(VSF_LINUX_CFG_BIN_PATH "/flash", flash_main);
 #   endif
+
 #   if APP_USE_HAL_GPIO_DEMO == ENABLED && VSF_HAL_USE_GPIO == ENABLED
     extern int gpio_main(int argc, char *argv[]);
     busybox_bind(VSF_LINUX_CFG_BIN_PATH "/gpio", gpio_main);
@@ -319,6 +320,10 @@ int vsf_linux_create_fhs(void)
     extern int distbus_main(int argc, char *argv[]);
     busybox_bind(VSF_LINUX_CFG_BIN_PATH "/distbus", distbus_main);
 #endif
+
+
+    extern int mal_main(int argc, char *argv[]);
+    busybox_bind(VSF_LINUX_CFG_BIN_PATH "/mal", mal_main);
 
     return 0;
 }

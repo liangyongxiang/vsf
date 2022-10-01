@@ -37,7 +37,7 @@
 #endif
 
 #ifndef APP_FLASH_DEMO_CFG_SIZE
-#   define APP_FLASH_DEMO_CFG_SIZE                      4096
+#   define APP_FLASH_DEMO_CFG_SIZE                      4046 * 2
 #endif
 
 /*============================ IMPLEMENTATION ================================*/
@@ -52,7 +52,7 @@ static void __flash_demo(void)
 
     while (fsm_rt_cpl != vsf_flash_enable(APP_FLASH_DEMO_CFG_FLASH));
 
-    result = vsf_flash_erase(APP_FLASH_DEMO_CFG_FLASH, APP_FLASH_DEMO_CFG_OFFSET, sizeof(buffer));
+    result = vsf_flash_erase(APP_FLASH_DEMO_CFG_FLASH, 0x001FB000, 4096);
     VSF_ASSERT(result == VSF_ERR_NONE);
 
     for (int i = 0; i < dimof(buffer); i++) {
@@ -65,6 +65,9 @@ static void __flash_demo(void)
     result = vsf_flash_read(APP_FLASH_DEMO_CFG_FLASH, APP_FLASH_DEMO_CFG_OFFSET, buffer, sizeof(buffer));
     VSF_ASSERT(result == VSF_ERR_NONE);
 
+    result = vsf_flash_read(APP_FLASH_DEMO_CFG_FLASH, 0x001FB000 + 40, buffer + 40, sizeof(buffer) - 40);
+    VSF_ASSERT(result == VSF_ERR_NONE);
+
     for (int i = 0; i < dimof(buffer); i++) {
         if (buffer[i] != (uint8_t)i) {
             vsf_trace_debug("veriy flash erase/write/read faild, "
@@ -74,7 +77,7 @@ static void __flash_demo(void)
         }
     }
 
-    vsf_trace_debug("veriy flash erase/write/read pass" VSF_TRACE_CFG_LINEEND);
+    vsf_trace_debug("veriy flash erase/write/read %d buffer pass" VSF_TRACE_CFG_LINEEND, APP_FLASH_DEMO_CFG_SIZE);
 }
 
 #if APP_USE_LINUX_DEMO == ENABLED

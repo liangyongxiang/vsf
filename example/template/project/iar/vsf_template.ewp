@@ -4641,7 +4641,7 @@
                 <option>
                     <name>CCAllowList</name>
                     <version>1</version>
-                    <state>11111110</state>
+                    <state>10010100</state>
                 </option>
                 <option>
                     <name>CCDebugInfo</name>
@@ -4712,7 +4712,7 @@
                     <state>$PROJ_DIR$\..\..\config\3rd-party\lvgl</state>
                     <state>$PROJ_DIR$\..\..\..\..\source</state>
                     <state>$PROJ_DIR$\..\..\..\..\source\shell\sys\linux\include</state>
-                    <state>//$PROJ_DIR$\..\..\..\..\source\shell\sys\linux\include\simple_libc</state>
+                    <state>$PROJ_DIR$\..\..\..\..\source\shell\sys\linux\include\simple_libc</state>
                     <state>$PROJ_DIR$\..\..\..\..\source\shell\sys\linux\include\libusb</state>
                     <state>$PROJ_DIR$\..\..\..\..\source\shell\sys\linux\kernel\fs\vfs\files\terminfo</state>
                     <state>$PROJ_DIR$\..\..\..\..\source\shell\media\sdl2\include</state>
@@ -4794,7 +4794,7 @@
                 </option>
                 <option>
                     <name>CCOptLevel</name>
-                    <state>3</state>
+                    <state>2</state>
                 </option>
                 <option>
                     <name>CCOptStrategy</name>
@@ -4803,7 +4803,7 @@
                 </option>
                 <option>
                     <name>CCOptLevelSlave</name>
-                    <state>3</state>
+                    <state>2</state>
                 </option>
                 <option>
                     <name>CompilerMisraRules98</name>
@@ -7156,6 +7156,9 @@
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\demo\hal_demo\flash_demo.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\demo\hal_demo\flash_mal_demo.c</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\demo\hal_demo\gpio_demo.c</name>

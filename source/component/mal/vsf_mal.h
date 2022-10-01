@@ -156,6 +156,7 @@ extern vsf_err_t vk_mal_write_stream(vk_mal_stream_t *pthis, uint_fast64_t addr,
 #include "./driver/fakefat32_mal/vsf_fakefat32_mal.h"
 #include "./driver/scsi_mal/vsf_scsi_mal.h"
 #include "./driver/file_mal/vsf_file_mal.h"
+#include "./driver/hw_flash_mal/vsf_hw_flash_mal.h"
 
 #undef __VSF_MAL_CLASS_IMPLEMENT
 #undef __VSF_MAL_CLASS_INHERIT__

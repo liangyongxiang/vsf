@@ -792,6 +792,56 @@ static void __vk_usbd_hw_init_reset(vk_usbd_dev_t *dev, bool reset)
     }
 }
 
+vk_usbd_dev_t __dev;
+i_usb_dc_t __dc;
+
+void __vk_usbd_hal_dump(vk_usbd_dev_t *dev)
+{
+    vk_usbd_dev_t *mydev = &__dev;
+
+
+    vsf_trace_debug("dev->speed: %u/%u\n", mydev->speed, dev->speed);
+    vsf_trace_debug("dev->num_of_config: %u/%u\n", mydev->num_of_config, dev->num_of_config);
+    vsf_trace_debug("dev->num_of_desc: %u/%u\n", mydev->num_of_desc, dev->num_of_desc);
+    vsf_trace_debug("dev->num_of_desc: %u/%u\n", mydev->num_of_desc, dev->num_of_desc);
+    vsf_trace_debug("dev->config: %p/%p\n", mydev->config, dev->config);
+    vsf_trace_debug("dev->drv: %p/%p\n", mydev->drv, dev->drv);
+    vsf_trace_debug("dev->vendor.prepare: %p/%p\n", mydev->vendor.prepare, dev->vendor.prepare);
+    vsf_trace_debug("dev->vendor.process: %p/%p\n", mydev->vendor.process, dev->vendor.process);
+
+#if 0
+    i_usb_dc_t *mydrv = &__dc;
+
+    const i_usb_dc_t *drv = (dev)->drv;
+
+    vsf_trace_debug("drv->Init: %p/%p\n", mydrv->Init, drv->Init);
+    vsf_trace_debug("drv->Fini: %p/%p\n", mydrv->Fini, drv->Fini);
+    vsf_trace_debug("drv->Reset: %p/%p\n", mydrv->Reset, drv->Reset);
+    vsf_trace_debug("drv->Connect: %p/%p\n", mydrv->Connect, drv->Connect);
+    vsf_trace_debug("drv->Disconnect: %p/%p\n", mydrv->Disconnect, drv->Disconnect);
+    vsf_trace_debug("drv->SetAddress: %p/%p\n", mydrv->SetAddress, drv->SetAddress);
+    vsf_trace_debug("drv->GetAddress: %p/%p\n", mydrv->GetAddress, drv->GetAddress);
+    vsf_trace_debug("drv->GetFrameNo: %p/%p\n", mydrv->GetFrameNo, drv->GetFrameNo);
+    vsf_trace_debug("drv->GetMicroFrameNo: %p/%p\n", mydrv->GetMicroFrameNo, drv->GetMicroFrameNo);
+    vsf_trace_debug("drv->GetSetup: %p/%p\n", mydrv->GetSetup, drv->GetSetup);
+    vsf_trace_debug("drv->StatusStage: %p/%p\n", mydrv->StatusStage, drv->StatusStage);
+    vsf_trace_debug("drv->Ep.GetFeature: %p/%p\n", mydrv->Ep.GetFeature, drv->Ep.GetFeature);
+    vsf_trace_debug("drv->Ep.Add: %p/%p\n", mydrv->Ep.Add, drv->Ep.Add);
+    vsf_trace_debug("drv->Ep.GetSize: %p/%p\n", mydrv->Ep.GetSize, drv->Ep.GetSize);
+    vsf_trace_debug("drv->Ep.SetStall: %p/%p\n", mydrv->Ep.SetStall, drv->Ep.SetStall);
+    vsf_trace_debug("drv->Ep.IsStalled: %p/%p\n", mydrv->Ep.IsStalled, drv->Ep.IsStalled);
+    vsf_trace_debug("drv->Ep.ClearStall: %p/%p\n", mydrv->Ep.ClearStall, drv->Ep.ClearStall);
+    vsf_trace_debug("drv->Ep.GetDataSize: %p/%p\n", mydrv->Ep.GetDataSize, drv->Ep.GetDataSize);
+    vsf_trace_debug("drv->Ep.Transaction.ReadBuffer: %p/%p\n", mydrv->Ep.Transaction.ReadBuffer, drv->Ep.Transaction.ReadBuffer);
+    vsf_trace_debug("drv->Ep.Transaction.EnableOut: %p/%p\n", mydrv->Ep.Transaction.EnableOut, drv->Ep.Transaction.EnableOut);
+    vsf_trace_debug("drv->Ep.Transaction.SetDataSize: %p/%p\n", mydrv->Ep.Transaction.SetDataSize, drv->Ep.Transaction.SetDataSize);
+    vsf_trace_debug("drv->Ep.Transaction.WriteBuffer: %p/%p\n", mydrv->Ep.Transaction.WriteBuffer, drv->Ep.Transaction.WriteBuffer);
+#endif
+}
+
+
+
+
 // state machines
 static void __vk_usbd_hal_evthandler(void *p, usb_evt_t evt, uint_fast8_t value)
 #if VSF_USBD_CFG_USE_EDA == ENABLED
@@ -873,7 +923,8 @@ static void __vk_usbd_evthandler(vsf_eda_t *eda, vsf_evt_t evt_eda)
                 }
 #endif
             }
-
+            __dev = *dev;
+            __dc = *dev->drv;
             vsf_usbd_notify_user(dev, evt, NULL);
             vk_usbd_drv_set_address(0);
             break;
@@ -927,31 +978,60 @@ static void __vk_usbd_evthandler(vsf_eda_t *eda, vsf_evt_t evt_eda)
             break;
         }
     case USB_ON_OUT: {
+            if (dev->drv != __drv) {
+                __vk_usbd_hal_dump(dev);
+                VSF_ASSERT(0);
+            }
             uint_fast8_t ep = value | USB_DIR_OUT;
+            vsf_trace_error("t");
             vk_usbd_trans_t *trans = __vk_usbd_get_trans(dev, ep);
+            vsf_trace_error("T");
+            if (trans == NULL) {
+                vsf_trace_debug("ep: 0x%x\n", ep);
+            }
             VSF_USB_ASSERT(trans != NULL);
 
             if (!trans->use_as__vsf_mem_t.buffer) {
+                vsf_trace_error("NO buff\n");
                 __vk_usbd_trans_finish(dev, trans);
             } else {
-                uint_fast32_t pkg_size = vk_usbd_drv_ep_get_data_size(ep);
+                vsf_trace_error("v");
+                if (__dc.Ep.GetDataSize != __drv->Ep.GetDataSize) {
+                    vsf_trace_debug("o: %p, n: %p\n", __dc.Ep.GetDataSize, __drv->Ep.GetDataSize);
 
+                    vsf_trace_buffer(VSF_TRACE_ERROR, &__dev, sizeof(__dev));
+                    vsf_trace_buffer(VSF_TRACE_ERROR, dev, sizeof(*dev));
+
+                    vsf_trace_buffer(VSF_TRACE_ERROR, &__dc, sizeof(__dc));
+                    vsf_trace_buffer(VSF_TRACE_ERROR, __drv, sizeof(*__drv));
+
+                    //__vk_usbd_hal_dump(dev);
+
+                    VSF_ASSERT(0);
+                }
+                uint_fast32_t pkg_size = vk_usbd_drv_ep_get_data_size(ep);
+                vsf_trace_error("V");
                 if (vk_usbd_drv_ep_get_feature(trans->ep, trans->feature) & USB_DC_FEATURE_TRANSFER) {
                     VSF_USB_ASSERT(trans->use_as__vsf_mem_t.size >= pkg_size);
                     trans->use_as__vsf_mem_t.size -= pkg_size;
+                    vsf_trace_error("transfer\n");
                     __vk_usbd_trans_finish(dev, trans);
                 } else {
+                    vsf_trace_error("r");
                     uint_fast16_t ep_size = vk_usbd_drv_ep_get_size(ep);
                     // ignore the over-run data
                     pkg_size = vsf_min(pkg_size, trans->use_as__vsf_mem_t.size);
                     vk_usbd_drv_ep_transaction_read_buffer(ep, trans->cur, pkg_size);
+                    vsf_trace_error("R");
                     trans->cur += pkg_size;
                     trans->use_as__vsf_mem_t.size -= pkg_size;
 
                     // TODO: check trans->zlp
                     if ((trans->use_as__vsf_mem_t.size > 0) && (pkg_size == ep_size)) {
+                        vsf_trace_debug("trans size:%u, pkg_size: %u, ep_size: %u\n", trans->use_as__vsf_mem_t.size, pkg_size, ep_size);
                         vk_usbd_drv_ep_transaction_enable_out(ep);
                     } else {
+                        vsf_trace_error("F");
                         __vk_usbd_trans_finish(dev, trans);
                     }
                 }

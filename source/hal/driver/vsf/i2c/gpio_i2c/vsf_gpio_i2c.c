@@ -184,7 +184,7 @@ static void __vsf_gpio_i2c_isrhandler(vsf_gpio_i2c_t *gpio_i2c_ptr)
 vsf_err_t vsf_gpio_i2c_master_request(vsf_gpio_i2c_t *gpio_i2c_ptr,
                                     uint16_t address,
                                     vsf_i2c_cmd_t cmd,
-                                    uint16_t count,
+                                    uint_fast16_t count,
                                     uint8_t *buffer)
 {
     bool is_read = (cmd & VSF_I2C_CMD_RW_MASK) == VSF_I2C_CMD_READ;
@@ -230,7 +230,7 @@ check_stop:
     return VSF_ERR_NONE;
 }
 
-uint_fast32_t vsf_gpio_i2c_get_transferred_count(vsf_gpio_i2c_t *gpio_i2c_ptr)
+uint_fast16_t vsf_gpio_i2c_get_transferred_count(vsf_gpio_i2c_t *gpio_i2c_ptr)
 {
     return gpio_i2c_ptr->transferred_count;
 }
@@ -240,7 +240,7 @@ vsf_i2c_capability_t vsf_gpio_i2c_capability(vsf_gpio_i2c_t *gpio_i2c_ptr)
     vsf_i2c_capability_t capability = {
         .irq_mask = VSF_I2C_IRQ_ALL_BITS_MASK,
         .support_no_start = 1,
-        .support_no_stop_restart = 1,
+        .support_no_stop = 1,
         .support_restart = 1,
         .max_transfer_size = 0xFFFF,
         .min_transfer_size = 0,

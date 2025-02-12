@@ -162,7 +162,7 @@ vsf_i2c_capability_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_capability)(
         .irq_mask                   = 0,
         .support_restart            = 0,
         .support_no_start           = 0,
-        .support_no_stop_restart    = 0,
+        .support_no_stop    = 0,
         .max_transfer_size          = 0,
     };
 }

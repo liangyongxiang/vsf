@@ -79,7 +79,7 @@ vsf_timer_capability_t vsf_real_timer_capability(vsf_real_timer_t *timer_ptr)
         .irq_mask           = VSF_TIMER_CFG_CAPABILITY_IRQ_MASK,
         .timer_bitlen       = VSF_TIMER_CFG_CAPABILITY_TIMER_BITLEN,
         .support_pwm        = VSF_TIMER_CFG_CAPABILITY_SUPPORT_PWM,
-        .pwm_channel_cnt    = VSF_TIMER_CFG_CAPABILITY_PWM_CHANNEL_CNT,
+        .channel_cnt        = VSF_TIMER_CFG_CAPABILITY_PWM_CHANNEL_CNT,
     };
 
     return timer_capability;

@@ -198,7 +198,7 @@ vsf_err_t vsf_gpio_i2c_master_request(vsf_gpio_i2c_t *gpio_i2c_ptr,
         uint32_t rw_mask = is_read ? 1 : 0;
         uint8_t bits = ((cmd & VSF_I2C_CMD_BITS_MASK) == VSF_I2C_CMD_7_BITS) ? 8 : 11;
         bool acked = __vsf_gpio_i2c_out(gpio_i2c_ptr, (address << 1) | rw_mask, bits);
-        gpio_i2c_ptr->irq_mask = VSF_I2C_IRQ_MASK_MASTER_STARTED;
+        gpio_i2c_ptr->irq_mask = VSF_I2C_IRQ_MASK_MASTER_START_OR_RESTART_DETECT;
         if (!acked) {
             gpio_i2c_ptr->irq_mask |= VSF_I2C_IRQ_MASK_MASTER_ADDRESS_NACK;
             goto check_stop;

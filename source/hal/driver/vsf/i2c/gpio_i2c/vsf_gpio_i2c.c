@@ -172,6 +172,24 @@ static uint8_t __vsf_gpio_i2c_in(vsf_gpio_i2c_t *gpio_i2c_ptr, bool ack)
     return data;
 }
 
+void vsf_gpio_i2c_master_fifo_transfer(vsf_gpio_i2c_t *gpio_i2c_ptr,
+                                       uint16_t address, vsf_i2c_cmd_t cmd,
+                                       uint_fast16_t count,
+                                       uint8_t *buffer_ptr)
+{
+
+}
+
+uint_fast16_t vsf_gpio_i2c_slave_fifo_transfer(vsf_gpio_i2c_t *gpio_i2c_ptr,
+                                               bool transmit_or_receive,
+                                               uint_fast16_t count,
+                                               uint8_t *buffer_ptr) {
+  VSF_HAL_ASSERT(NULL != gpio_i2c_ptr);
+  VSF_HAL_ASSERT(0);
+
+  return 0;
+}
+
 static void __vsf_gpio_i2c_isrhandler(vsf_gpio_i2c_t *gpio_i2c_ptr)
 {
     if (gpio_i2c_ptr->cfg.isr.handler_fn != NULL) {
@@ -230,9 +248,28 @@ check_stop:
     return VSF_ERR_NONE;
 }
 
-uint_fast16_t vsf_gpio_i2c_get_transferred_count(vsf_gpio_i2c_t *gpio_i2c_ptr)
+vsf_err_t vsf_gpio_i2c_slave_request(vsf_gpio_i2c_t *gpio_i2c_ptr,
+                                     bool transmit_or_receive,
+                                     uint_fast16_t count,
+                                     uint8_t *buffer_ptr)
 {
+    VSF_HAL_ASSERT(NULL != gpio_i2c_ptr);
+
+    return VSF_ERR_NOT_SUPPORT;
+}
+
+uint_fast16_t vsf_gpio_i2c_master_get_transferred_count(vsf_gpio_i2c_t *gpio_i2c_ptr)
+{
+    VSF_HAL_ASSERT(NULL != gpio_i2c_ptr);
     return gpio_i2c_ptr->transferred_count;
+}
+
+uint_fast16_t vsf_gpio_i2c_slave_get_transferred_count(vsf_gpio_i2c_t *gpio_i2c_ptr)
+{
+    VSF_HAL_ASSERT(NULL != gpio_i2c_ptr);
+    VSF_HAL_ASSERT(0);
+
+    return 0;
 }
 
 vsf_i2c_capability_t vsf_gpio_i2c_capability(vsf_gpio_i2c_t *gpio_i2c_ptr)
@@ -246,6 +283,13 @@ vsf_i2c_capability_t vsf_gpio_i2c_capability(vsf_gpio_i2c_t *gpio_i2c_ptr)
         .min_transfer_size = 0,
     };
     return capability;
+}
+
+vsf_err_t vsf_gpio_i2c_ctrl(vsf_gpio_i2c_t *gpio_i2c_ptr, vsf_i2c_ctrl_t ctrl, void *param)
+{
+    VSF_HAL_ASSERT(NULL != gpio_i2c_ptr);
+
+    return VSF_ERR_NOT_SUPPORT;
 }
 
 /*============================ TYPES =========================================*/

@@ -1629,6 +1629,16 @@ HAL_StatusTypeDef HAL_I2C_IsDeviceReady(I2C_HandleTypeDef *hi2c,
                                         uint16_t DevAddress, uint32_t Trials,
                                         uint32_t Timeout)
 {
+    // 检查输入参数有效性
+    if (hi2c == NULL) {
+        return HAL_ERROR;
+    }
+
+    if (DevAddress == 0 || Trials == 0) {
+        hi2c->ErrorCode |= HAL_I2C_ERROR_INVALID_PARAM;
+        return HAL_ERROR;
+    }
+
     uint32_t Tickstart = HAL_GetTick();
 
     uint32_t      i = 0;

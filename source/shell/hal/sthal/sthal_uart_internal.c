@@ -455,6 +455,15 @@ HAL_StatusTypeDef __HAL_UART_Transmit(struct __UART_HandleTypeDef *huart,
                                       const uint8_t *pData, uint16_t Size,
                                       uint32_t Timeout, bool ready_when_timeout)
 {
+    if (huart == NULL) {
+        return HAL_ERROR;
+    }
+
+    if (pData == NULL || Size == 0) {
+        huart->ErrorCode |= HAL_UART_ERROR_INVALID_PARAM;
+        return HAL_ERROR;
+    }
+
     VSF_STHAL_ASSERT(huart != NULL);
     vsf_usart_t *usart = (vsf_usart_t *)huart->Instance;
     VSF_STHAL_ASSERT(usart != NULL);

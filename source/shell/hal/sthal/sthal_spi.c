@@ -582,6 +582,11 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi,
         return HAL_ERROR;
     }
 
+    if (pTxData == NULL || pRxData == NULL || Size == 0) {
+        hspi->ErrorCode |= HAL_SPI_ERROR_INVALID_PARAM;
+        return HAL_ERROR;
+    }
+
     VSF_STHAL_ASSERT(IS_SPI_DIRECTION_2LINES(hspi->Init.Direction));
 
     if (!((hspi->State == HAL_SPI_STATE_READY) ||

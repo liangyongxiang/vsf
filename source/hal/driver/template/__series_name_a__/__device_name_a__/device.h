@@ -75,7 +75,7 @@
 
 // GPIO
 
-#define VSF_HW_GPIO_PORT_COUNT                      1
+#define VSF_HW_GPIO_PORT_COUNT                      2
 #define VSF_HW_GPIO_PIN_COUNT                       32
 
 // I2C0, I2C2

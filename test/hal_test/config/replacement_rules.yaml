@@ -1,0 +1,164 @@
+# VSF HAL Driver Template Test - Replacement Rules Configuration
+# 文件替换规则配置文件
+
+# 设备头文件替换规则
+device_header_replacements:
+  operation_id: "device_header_replacement"
+  file_pattern: "**/device.h"
+  description: "设备头文件替换"
+  rules:
+    - name: "device_path_replacement"
+      type: "simple_string"
+      priority: 1
+      description: "替换设备路径"
+      patterns:
+        - "./__DEVICE_NAME_A__/device.h"
+        - "./__DEVICE_NAME_B__/device.h"
+        - "./__DEVICE_NAME_C__/device.h"
+        - "./__DEVICE_NAME_D__/device.h"
+      replacements:
+        "./__DEVICE_NAME_A__/device.h": "./{device}/device.h"
+        "./__DEVICE_NAME_B__/device.h": "./{device}_B/device.h"
+        "./__DEVICE_NAME_C__/device.h": "./{device}_C/device.h"
+        "./__DEVICE_NAME_D__/device.h": "./{device}_D/device.h"
+
+    - name: "device_macro_replacement"
+      type: "simple_string"
+      priority: 2
+      description: "替换设备宏定义"
+      patterns:
+        - "defined(__DEVICE_NAME_A__)"
+        - "defined(__DEVICE_NAME_B__)"
+        - "defined(__DEVICE_NAME_C__)"
+        - "defined(__DEVICE_NAME_D__)"
+      replacements:
+        "defined(__DEVICE_NAME_A__)": "defined(__{device_upper}__)"
+        "defined(__DEVICE_NAME_B__)": "defined(__{device_upper}_B__)"
+        "defined(__DEVICE_NAME_C__)": "defined(__{device_upper}_C__)"
+        "defined(__DEVICE_NAME_D__)": "defined(__{device_upper}_D__)"
+
+    - name: "series_macro_replacement"
+      type: "simple_string"
+      priority: 3
+      description: "替换系列宏定义"
+      patterns:
+        - "__SERIES_NAME_A__"
+        - "__SERIES_NAME_B__"
+        - "__SERIES_NAME_C__"
+      replacements:
+        "__SERIES_NAME_A__": "{series_upper}"
+        "__SERIES_NAME_B__": "{series_upper}_B"
+        "__SERIES_NAME_C__": "{series_upper}_C"
+
+# 外设名称替换规则
+peripheral_replacements:
+  operation_id: "peripheral_replacement"
+  file_pattern: "**/*.{h,c}"
+  description: "外设名称替换"
+  rules:
+    - name: "peripheral_path_replacement"
+      type: "simple_string"
+      priority: 1
+      description: "替换外设路径"
+      patterns:
+        - "../common/{old_name}/"
+        - "./{old_name}/"
+      replacements:
+        "../common/{old_name}/": "../common/{new_name}/"
+        "./{old_name}/": "./{new_name}/"
+
+    - name: "peripheral_header_replacement"
+      type: "simple_string"
+      priority: 2
+      description: "替换外设头文件名"
+      patterns:
+        - "/{old_name}.h"
+      replacements:
+        "/{old_name}.h": "/{new_name}.h"
+
+# 路径引用替换规则
+path_reference_replacements:
+  operation_id: "path_reference_replacement"
+  file_pattern: "**/*.{h,c}"
+  description: "路径引用替换"
+  rules:
+    - name: "device_path_references"
+      type: "simple_string"
+      priority: 1
+      description: "替换设备路径引用"
+      patterns:
+        - "../../../__device.h"
+        - "../../__device.h"
+        - "../__device.h"
+      replacements:
+        "../../../__device.h": "../../{device}/device.h"
+        "../../__device.h": "../{device}/device.h"
+        "../__device.h": "./device.h"
+
+    - name: "vendor_header_replacement"
+      type: "simple_string"
+      priority: 2
+      description: "替换厂商头文件引用"
+      patterns:
+        - "vendor_header.h"
+      replacements:
+        "vendor_header.h": "../common/vendor/fake_chip.h"
+
+    - name: "path_cleanup"
+      type: "simple_string"
+      priority: 3
+      description: "清理多余路径分隔符"
+      patterns:
+        - ".././"
+      replacements:
+        ".././": "../"
+
+# 模板变量替换规则
+template_variable_replacements:
+  operation_id: "template_variable_replacement"
+  file_pattern: "**/*.{h,c,template}"
+  description: "模板变量替换"
+  rules:
+    - name: "basic_template_variables"
+      type: "template_variable"
+      priority: 1
+      description: "基本模板变量替换"
+      patterns:
+        - "${VENDOR}"
+        - "${SERIES}"
+        - "${DEVICE}"
+        - "__SERIES_NAME_A__"
+        - "__DEVICE_NAME_A__"
+      replacements:
+        "${VENDOR}": "{vendor_upper}"
+        "${SERIES}": "{series_upper}"
+        "${DEVICE}": "{device_upper}"
+        "__SERIES_NAME_A__": "{series_upper}"
+        "__DEVICE_NAME_A__": "{device}"
+
+    - name: "peripheral_ip_variables"
+      type: "template_variable"
+      priority: 2
+      description: "外设IP变量替换"
+      patterns:
+        - "${SERIES/{peripheral}_IP}"
+      replacements:
+        "${SERIES/{peripheral}_IP}": "{series_upper}"
+
+# 条件替换规则（根据文件类型）
+conditional_replacements:
+  operation_id: "conditional_formatting"
+  file_pattern: "**/*.{txt,h,template}"
+  description: "条件格式化"
+  rules:
+
+# 外设映射配置
+peripheral_mappings:
+  uart: usart
+  trng: rng
+  usb: usb_otg.nonip
+  mac: eth
+
+# 特殊外设头文件名映射
+special_header_mappings:
+  usb: usb # usb_otg.nonip 目录下的头文件仍叫 usb.h

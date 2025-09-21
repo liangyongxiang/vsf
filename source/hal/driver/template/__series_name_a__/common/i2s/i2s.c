@@ -102,6 +102,23 @@ vsf_err_t VSF_MCONNECT(VSF_I2S_CFG_IMP_PREFIX, _i2s_init)(
     return VSF_ERR_NONE;
 }
 
+vsf_err_t VSF_MCONNECT(VSF_I2S_CFG_IMP_PREFIX, _i2s_get_configuration)(
+    VSF_MCONNECT(VSF_I2S_CFG_IMP_PREFIX, _i2s_t) *i2s_ptr,
+    vsf_i2s_cfg_t *cfg_ptr
+) {
+    VSF_HAL_ASSERT(NULL != i2s_ptr);
+    VSF_HAL_ASSERT(NULL != cfg_ptr);
+
+    // TODO: Implement hardware-specific configuration reading
+    // Read current I2S configuration from hardware registers
+
+    // Template implementation returns default configuration
+    cfg_ptr->isr = i2s_ptr->isr;
+    // Add other configuration fields as needed
+
+    return VSF_ERR_NONE;
+}
+
 vsf_err_t VSF_MCONNECT(VSF_I2S_CFG_IMP_PREFIX, _i2s_tx_init)(
     VSF_MCONNECT(VSF_I2S_CFG_IMP_PREFIX, _i2s_t) *i2s_ptr,
     vsf_i2s_cfg_t *cfg_ptr
@@ -214,6 +231,7 @@ static void VSF_MCONNECT(__, VSF_I2S_CFG_IMP_PREFIX, _i2s_irqhandler)(
 
 // HW
 #define VSF_I2S_CFG_REIMPLEMENT_API_CAPABILITY             ENABLED
+#define VSF_I2S_CFG_REIMPLEMENT_API_GET_CONFIGURATION ENABLED
 #define VSF_I2S_CFG_IMP_LV0(__IDX, __HAL_OP)                                    \
     VSF_MCONNECT(VSF_I2S_CFG_IMP_PREFIX, _i2s_t)                                \
         VSF_MCONNECT(VSF_I2S_CFG_IMP_PREFIX, _i2s, __IDX) = {                   \

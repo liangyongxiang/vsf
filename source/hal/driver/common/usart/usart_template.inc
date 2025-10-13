@@ -480,4 +480,154 @@ vsf_usart_irq_mask_t vsf_real_usart_irq_clear(vsf_real_usart_t *usart_ptr, vsf_u
 #undef vsf_remap_usart_get_configuration
 #undef vsf_remap_usart_tx_send_break
 
+/*============================ STATIC ASSERTIONS ==============================*/
+
+/* Default mode lists - can be redefined by users before including this file */
+#ifndef VSF_USART_PARITY_MODES
+#   define VSF_USART_PARITY_MODES \
+        VSF_USART_NO_PARITY, \
+        VSF_USART_EVEN_PARITY, \
+        VSF_USART_ODD_PARITY, \
+        VSF_USART_FORCE_0_PARITY, \
+        VSF_USART_FORCE_1_PARITY
+#endif
+
+#ifndef VSF_USART_STOP_BIT_MODES
+#   define VSF_USART_STOP_BIT_MODES \
+        VSF_USART_1_STOPBIT, \
+        VSF_USART_1_5_STOPBIT, \
+        VSF_USART_0_5_STOPBIT, \
+        VSF_USART_2_STOPBIT
+#endif
+
+#ifndef VSF_USART_DATA_BIT_MODES
+#   define VSF_USART_DATA_BIT_MODES \
+        VSF_USART_5_BIT_LENGTH, \
+        VSF_USART_6_BIT_LENGTH, \
+        VSF_USART_7_BIT_LENGTH, \
+        VSF_USART_8_BIT_LENGTH, \
+        VSF_USART_9_BIT_LENGTH, \
+        VSF_USART_10_BIT_LENGTH
+#endif
+
+#ifndef VSF_USART_HW_CONTROL_MODES
+#   define VSF_USART_HW_CONTROL_MODES \
+        VSF_USART_NO_HWCONTROL, \
+        VSF_USART_RTS_HWCONTROL, \
+        VSF_USART_CTS_HWCONTROL, \
+        VSF_USART_RTS_CTS_HWCONTROL
+#endif
+
+#ifndef VSF_USART_TX_ENABLE_MODES
+#   define VSF_USART_TX_ENABLE_MODES \
+        VSF_USART_TX_ENABLE, \
+        VSF_USART_TX_DISABLE
+#endif
+
+#ifndef VSF_USART_RX_ENABLE_MODES
+#   define VSF_USART_RX_ENABLE_MODES \
+        VSF_USART_RX_ENABLE, \
+        VSF_USART_RX_DISABLE
+#endif
+
+#ifndef VSF_USART_SYNC_CLOCK_MODES
+#   define VSF_USART_SYNC_CLOCK_MODES \
+        VSF_USART_SYNC_CLOCK_ENABLE, \
+        VSF_USART_SYNC_CLOCK_DISABLE
+#endif
+
+#ifndef VSF_USART_HALF_DUPLEX_MODES
+#   define VSF_USART_HALF_DUPLEX_MODES \
+        VSF_USART_HALF_DUPLEX_DISABLE, \
+        VSF_USART_HALF_DUPLEX_ENABLE
+#endif
+
+#ifndef VSF_USART_TX_FIFO_THRESHOLD_MODES
+#   define VSF_USART_TX_FIFO_THRESHOLD_MODES \
+        VSF_USART_TX_FIFO_THRESHOLD_EMPTY, \
+        VSF_USART_TX_FIFO_THRESHOLD_HALF_EMPTY, \
+        VSF_USART_TX_FIFO_THRESHOLD_NOT_FULL
+#endif
+
+#ifndef VSF_USART_RX_FIFO_THRESHOLD_MODES
+#   define VSF_USART_RX_FIFO_THRESHOLD_MODES \
+        VSF_USART_RX_FIFO_THRESHOLD_NOT_EMPTY, \
+        VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL, \
+        VSF_USART_RX_FIFO_THRESHOLD_FULL
+#endif
+
+#ifndef VSF_USART_SYNC_CLOCK_POLARITY_MODES
+#   define VSF_USART_SYNC_CLOCK_POLARITY_MODES \
+        VSF_USART_SYNC_CLOCK_POLARITY_LOW, \
+        VSF_USART_SYNC_CLOCK_POLARITY_HIGH
+#endif
+
+#ifndef VSF_USART_SYNC_CLOCK_PHASE_MODES
+#   define VSF_USART_SYNC_CLOCK_PHASE_MODES \
+        VSF_USART_SYNC_CLOCK_PHASE_1_EDGE, \
+        VSF_USART_SYNC_CLOCK_PHASE_2_EDGE
+#endif
+
+/* ==================== GROUP INTERNAL UNIQUENESS CHECKS ==================== */
+/* Check uniqueness within each functional group */
+
+/* Check parity mode uniqueness - all parity modes should have different values */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_PARITY_MODES);
+
+/* Check stop bit uniqueness - all stop bit modes should have different values */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_STOP_BIT_MODES);
+
+/* Check data bit length uniqueness - all data bit length modes should have different values */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_DATA_BIT_MODES);
+
+/* Check hardware flow control uniqueness - all hw control modes should have different values */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_HW_CONTROL_MODES);
+
+/* Check TX enable/disable uniqueness */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_TX_ENABLE_MODES);
+
+/* Check RX enable/disable uniqueness */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_RX_ENABLE_MODES);
+
+/* Check sync clock enable/disable uniqueness */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_SYNC_CLOCK_MODES);
+
+/* Check half duplex enable/disable uniqueness */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_HALF_DUPLEX_MODES);
+
+/* Check TX FIFO threshold uniqueness - all TX FIFO threshold modes should have different values */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_TX_FIFO_THRESHOLD_MODES);
+
+/* Check RX FIFO threshold uniqueness - all RX FIFO threshold modes should have different values */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_RX_FIFO_THRESHOLD_MODES);
+
+/* Check sync clock polarity uniqueness */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_SYNC_CLOCK_POLARITY_MODES);
+
+/* Check sync clock phase uniqueness */
+VSF_HAL_CHECK_UNIQUE(VSF_USART_SYNC_CLOCK_PHASE_MODES);
+
+/* ==================== CROSS-GROUP UNIQUENESS CHECKS ==================== */
+/* Check uniqueness across different functional groups to prevent conflicts */
+
+/* Cross-group uniqueness check - manually expand all default mode values */
+/* This ensures no mode value conflicts between different functional groups */
+/* Note: This only works for default configurations. Custom configurations need manual verification. */
+VSF_HAL_CHECK_UNIQUE(
+    VSF_USART_NO_PARITY, VSF_USART_EVEN_PARITY, VSF_USART_ODD_PARITY,
+    VSF_USART_FORCE_0_PARITY, VSF_USART_FORCE_1_PARITY, VSF_USART_1_STOPBIT,
+    VSF_USART_1_5_STOPBIT, VSF_USART_0_5_STOPBIT, VSF_USART_2_STOPBIT,
+    VSF_USART_5_BIT_LENGTH, VSF_USART_6_BIT_LENGTH, VSF_USART_7_BIT_LENGTH,
+    VSF_USART_8_BIT_LENGTH, VSF_USART_9_BIT_LENGTH, VSF_USART_10_BIT_LENGTH,
+    VSF_USART_NO_HWCONTROL, VSF_USART_RTS_HWCONTROL, VSF_USART_CTS_HWCONTROL,
+    VSF_USART_RTS_CTS_HWCONTROL, VSF_USART_TX_ENABLE, VSF_USART_TX_DISABLE,
+    VSF_USART_RX_ENABLE, VSF_USART_RX_DISABLE, VSF_USART_SYNC_CLOCK_ENABLE,
+    VSF_USART_SYNC_CLOCK_DISABLE, VSF_USART_HALF_DUPLEX_DISABLE,
+    VSF_USART_HALF_DUPLEX_ENABLE, VSF_USART_TX_FIFO_THRESHOLD_EMPTY,
+    VSF_USART_TX_FIFO_THRESHOLD_HALF_EMPTY,
+    VSF_USART_TX_FIFO_THRESHOLD_NOT_FULL, VSF_USART_RX_FIFO_THRESHOLD_NOT_EMPTY,
+    VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL, VSF_USART_RX_FIFO_THRESHOLD_FULL,
+    VSF_USART_SYNC_CLOCK_POLARITY_LOW, VSF_USART_SYNC_CLOCK_POLARITY_HIGH,
+    VSF_USART_SYNC_CLOCK_PHASE_1_EDGE, VSF_USART_SYNC_CLOCK_PHASE_2_EDGE);
+
 #endif  /* VSF_HAL_USE_USART */

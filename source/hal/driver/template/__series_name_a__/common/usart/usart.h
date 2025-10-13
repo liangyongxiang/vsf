@@ -137,34 +137,34 @@ typedef enum vsf_usart_mode_t {
     VSF_USART_CTS_HWCONTROL             = (0x2ul << 8),
     VSF_USART_RTS_CTS_HWCONTROL         = (0x3ul << 8),
 
-    VSF_USART_TX_ENABLE                 = (0x0ul << 9),
-    VSF_USART_TX_DISABLE                = (0x1ul << 9),
+    VSF_USART_TX_ENABLE                 = (0x0ul << 10),
+    VSF_USART_TX_DISABLE                = (0x1ul << 10),
 
-    VSF_USART_RX_ENABLE                 = (0x0ul << 10),
-    VSF_USART_RX_DISABLE                = (0x1ul << 10),
+    VSF_USART_RX_ENABLE                 = (0x0ul << 11),
+    VSF_USART_RX_DISABLE                = (0x1ul << 11),
 
-    VSF_USART_SYNC_CLOCK_ENABLE         = (0x0ul << 11),
-    VSF_USART_SYNC_CLOCK_DISABLE        = (0x1ul << 11),
+    VSF_USART_SYNC_CLOCK_ENABLE         = (0x0ul << 12),
+    VSF_USART_SYNC_CLOCK_DISABLE        = (0x1ul << 12),
 
-    VSF_USART_HALF_DUPLEX_DISABLE       = (0x0ul << 12),
-    VSF_USART_HALF_DUPLEX_ENABLE        = (0x1ul << 12),
+    VSF_USART_HALF_DUPLEX_DISABLE       = (0x0ul << 13),
+    VSF_USART_HALF_DUPLEX_ENABLE        = (0x1ul << 13),
 
-    VSF_USART_TX_FIFO_THRESHOLD_EMPTY   = (0x0ul << 13),
+    VSF_USART_TX_FIFO_THRESHOLD_EMPTY   = (0x0ul << 14),
     VSF_USART_TX_FIFO_THRESHOLD_HALF_EMPTY
-                                        = (0x1ul << 13),
+                                        = (0x1ul << 14),
     VSF_USART_TX_FIFO_THRESHOLD_NOT_FULL
-                                        = (0x2ul << 15),
+                                        = (0x2ul << 14),
 
     VSF_USART_RX_FIFO_THRESHOLD_NOT_EMPTY
-                                        = (0x0ul << 15),
+                                        = (0x0ul << 16),
     VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL
-                                        = (0x1ul << 15),
-    VSF_USART_RX_FIFO_THRESHOLD_FULL    = (0x2ul << 15),
+                                        = (0x1ul << 16),
+    VSF_USART_RX_FIFO_THRESHOLD_FULL    = (0x2ul << 16),
 
-    VSF_USART_SYNC_CLOCK_POLARITY_LOW   = (0x0ul << 16),
-    VSF_USART_SYNC_CLOCK_POLARITY_HIGH  = (0x1ul << 16),
-    VSF_USART_SYNC_CLOCK_PHASE_1_EDGE   = (0x0ul << 17),
-    VSF_USART_SYNC_CLOCK_PHASE_2_EDGE   = (0x1ul << 17),
+    VSF_USART_SYNC_CLOCK_POLARITY_LOW   = (0x0ul << 18),
+    VSF_USART_SYNC_CLOCK_POLARITY_HIGH  = (0x1ul << 18),
+    VSF_USART_SYNC_CLOCK_PHASE_1_EDGE   = (0x0ul << 19),
+    VSF_USART_SYNC_CLOCK_PHASE_2_EDGE   = (0x1ul << 19),
 
     // more vendor specified modes can be added here
 } vsf_usart_mode_t;

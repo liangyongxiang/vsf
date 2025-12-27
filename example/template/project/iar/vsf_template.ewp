@@ -7126,7 +7126,7 @@
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>CCPreprocComments</name>
@@ -7252,6 +7252,10 @@
                     <state>$PROJ_DIR$\..\..\..\..\source\hal\driver\Artery\AT32F402_405\common</state>
                     <state>$PROJ_DIR$\..\..\..\..\source\hal\driver\Artery\AT32F402_405\common\vendor\libraries\drivers\inc</state>
                     <state>$PROJ_DIR$\..\..\..\..\source\hal\driver\Artery\AT32F402_405\common\vendor\libraries\cmsis\cm4\device_support</state>
+                    <state>$PROJ_DIR$\..\..\..\..\source\shell\sys\linux\include</state>
+                    <state>$PROJ_DIR$\..\..\..\..\source\shell\sys\linux\include\simple_libc</state>
+                    <state>$PROJ_DIR$\..\..\..\..\source\shell\sys\linux\include\libusb</state>
+                    <state>$PROJ_DIR$\..\..\..\..\source\shell\sys\linux\kernel\fs\vfs\files\terminfo</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -8142,6 +8146,7 @@
                     <configuration>vsf_template_gd32e103</configuration>
                     <configuration>vsf_template_mt071</configuration>
                     <configuration>vsf_template_stm32h743</configuration>
+                    <configuration>vsf_template_at32f405</configuration>
                 </excluded>
                 <group>
                     <name>bt_demo</name>
@@ -8481,9 +8486,26 @@
                         <name>$PROJ_DIR$\..\..\demo\board\embedfire_stm32h743_pro\vsf_bsp.c</name>
                     </file>
                 </group>
+                <group>
+                    <name>at32f405kcu7-4</name>
+                    <excluded>
+                        <configuration>vsf_template_m484</configuration>
+                        <configuration>vsf_template_f1c100s</configuration>
+                        <configuration>vsf_template_gd32e103</configuration>
+                        <configuration>vsf_template_mt071</configuration>
+                        <configuration>vsf_template_aic8800</configuration>
+                        <configuration>vsf_template_stm32h743</configuration>
+                    </excluded>
+                    <file>
+                        <name>$PROJ_DIR$\..\..\demo\board\at32f405kcu7-4\vsf_bsp.c</name>
+                    </file>
+                </group>
             </group>
             <group>
                 <name>btstack_demo</name>
+                <excluded>
+                    <configuration>vsf_template_at32f405</configuration>
+                </excluded>
                 <file>
                     <name>$PROJ_DIR$\..\..\demo\btstack_demo\btstack_application.c</name>
                 </file>
@@ -16134,6 +16156,15 @@
                         <group>
                             <name>common</name>
                             <group>
+                                <name>dma</name>
+                                <file>
+                                    <name>$PROJ_DIR$\..\..\..\..\source\hal\driver\Artery\AT32F402_405\common\dma\dma.c</name>
+                                </file>
+                                <file>
+                                    <name>$PROJ_DIR$\..\..\..\..\source\hal\driver\Artery\AT32F402_405\common\dma\dma.h</name>
+                                </file>
+                            </group>
+                            <group>
                                 <name>exti</name>
                                 <file>
                                     <name>$PROJ_DIR$\..\..\..\..\source\hal\driver\Artery\AT32F402_405\common\exti\exti.c</name>
@@ -18405,9 +18436,6 @@
                 <name>sys</name>
                 <group>
                     <name>linux</name>
-                    <excluded>
-                        <configuration>vsf_template_at32f405</configuration>
-                    </excluded>
                     <group>
                         <name>app</name>
                         <group>
@@ -18810,9 +18838,6 @@
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\..\..\source\utilities\compiler\arm\retarget_io.c</name>
-                    <excluded>
-                        <configuration>vsf_template_at32f405</configuration>
-                    </excluded>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\..\..\source\utilities\compiler\arm\type.h</name>

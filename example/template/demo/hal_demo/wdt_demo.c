@@ -84,6 +84,13 @@ typedef struct wdt_test_t {
     bool test_reset;
 } wdt_test_t;
 
+typedef struct wdt_feed_plan_t {
+    uint32_t interval_ms;
+    uint32_t duration_ms;
+    bool use_window;
+    uint32_t wait_before_feed_ms;
+} wdt_feed_plan_t;
+
 /*============================ GLOBAL VARIABLES ==============================*/
 /*============================ PROTOTYPES ====================================*/
 
@@ -106,6 +113,9 @@ static void __wdt_log_reset_expectation(const vsf_wdt_cfg_t *cfg, const vsf_wdt_
 static bool __wdt_supports_window(const vsf_wdt_capability_t *capability, const vsf_wdt_cfg_t *cfg);
 static uint32_t __wdt_calc_wait_before_feed(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability);
 static uint32_t __wdt_calc_test_duration_ms(const vsf_wdt_cfg_t *cfg);
+static wdt_feed_plan_t __wdt_build_feed_plan(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability);
+static void __wdt_maybe_wait_window(const vsf_wdt_cfg_t *cfg, const wdt_feed_plan_t *plan);
+static uint32_t __wdt_run_feed_sequence(wdt_test_t *ctx, const wdt_feed_plan_t *plan);
 static uint32_t __wdt_clamp_range(uint32_t value, uint32_t min, uint32_t max);
 static uint32_t __wdt_clamp_ms(uint32_t value);
 static bool __wdt_pick_reset_mode(const vsf_wdt_capability_t *capability, vsf_wdt_mode_t *mode);
@@ -172,10 +182,11 @@ static void __wdt_print_config(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capabilit
 // Helper function to calculate feed interval based on configuration
 static uint32_t __wdt_calc_feed_interval(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability)
 {
+    bool use_window = __wdt_supports_window(capability, cfg);
     uint32_t feed_interval_ms;
 
     // 对于 WWDT，使用窗口时间的指定比率作为喂狗间隔
-    if (capability->support_min_timeout && cfg->min_ms > 0) {
+    if (use_window) {
         feed_interval_ms = (cfg->min_ms * WDT_TEST_FEED_INTERVAL_RATIO) / 100;
         // 对于 WWDT，喂狗间隔必须在窗口 [min_ms, max_ms] 内
         feed_interval_ms = __wdt_clamp_range(feed_interval_ms, cfg->min_ms, cfg->max_ms);
@@ -436,7 +447,6 @@ static bool __wdt_test_feed(wdt_test_t *ctx)
     vsf_wdt_t *wdt = ctx->wdt;
     vsf_wdt_cfg_t cfg;
     vsf_wdt_capability_t capability;
-    uint32_t feed_count = 0;
 
     __WDT_TRACE_INFO("=== WDT Feed Test ===" VSF_TRACE_CFG_LINEEND);
 
@@ -449,41 +459,18 @@ static bool __wdt_test_feed(wdt_test_t *ctx)
         return false;
     }
 
-    // 计算合适的喂狗间隔
-    uint32_t feed_interval_ms = __wdt_calc_feed_interval(&cfg, &capability);
-    uint32_t test_duration_ms = __wdt_calc_test_duration_ms(&cfg);
-    bool use_window = __wdt_supports_window(&capability, &cfg);
+    wdt_feed_plan_t plan = __wdt_build_feed_plan(&cfg, &capability);
 
     __wdt_print_config(&cfg, &capability, "feed");
-    if (use_window) {
+    if (plan.use_window) {
         __WDT_TRACE_INFO("WDT enabled, feeding every %d ms (must be within window [%d, %d] ms)..." VSF_TRACE_CFG_LINEEND,
-                        feed_interval_ms, cfg.min_ms, cfg.max_ms);
+                        plan.interval_ms, cfg.min_ms, cfg.max_ms);
     } else {
-        __WDT_TRACE_INFO("WDT enabled, feeding every %d ms..." VSF_TRACE_CFG_LINEEND, feed_interval_ms);
+        __WDT_TRACE_INFO("WDT enabled, feeding every %d ms..." VSF_TRACE_CFG_LINEEND, plan.interval_ms);
     }
 
-    // 定期喂狗，持续一段时间（应该不会复位）
-    vsf_systimer_tick_t start_tick = vsf_systimer_get_tick();
-    vsf_systimer_tick_t test_duration = vsf_systimer_ms_to_tick(test_duration_ms);
-
-    // 对于 WWDT，需要等待窗口时间（min_ms）后才能第一次喂狗
-    // 否则过早喂狗会导致立即复位
-    // 每次喂狗后，计数器重置，下次喂狗必须在 [min_ms, max_ms] 窗口内
-    if (use_window) {
-        uint32_t wait_time_ms = __wdt_calc_wait_before_feed(&cfg, &capability);
-        __wdt_wait_for_window(wait_time_ms, cfg.min_ms, cfg.max_ms);
-        __WDT_TRACE_INFO("Wait completed, starting feed (interval: %d ms)..." VSF_TRACE_CFG_LINEEND, feed_interval_ms);
-    }
-
-    while (vsf_systimer_get_tick() - start_tick < test_duration) {
-        vsf_wdt_feed(wdt);
-        feed_count++;
-        __WDT_TRACE_INFO("WDT fed, count: %d" VSF_TRACE_CFG_LINEEND, feed_count);
-
-        // 对于 WWDT，每次喂狗后计数器重置，下次喂狗必须在窗口 [min_ms, max_ms] 内
-        // 注意：feed_interval_ms 已经通过 __wdt_calc_feed_interval 确保在窗口内
-        vsf_thread_delay_ms(feed_interval_ms);
-    }
+    __wdt_maybe_wait_window(&cfg, &plan);
+    uint32_t feed_count = __wdt_run_feed_sequence(ctx, &plan);
 
     __WDT_TRACE_INFO("WDT feed test completed, total feeds: %d" VSF_TRACE_CFG_LINEEND, feed_count);
 
@@ -558,7 +545,6 @@ static bool __wdt_supports_window(const vsf_wdt_capability_t *capability, const 
 
 static uint32_t __wdt_calc_wait_before_feed(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability)
 {
-    VSF_UNUSED_PARAM(capability);
     if (!__wdt_supports_window(capability, cfg)) {
         return 0;
     }
@@ -572,6 +558,47 @@ static uint32_t __wdt_calc_test_duration_ms(const vsf_wdt_cfg_t *cfg)
         test_duration_ms = WDT_TEST_FEED_DURATION_MIN_MS;
     }
     return test_duration_ms;
+}
+
+static wdt_feed_plan_t __wdt_build_feed_plan(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability)
+{
+    wdt_feed_plan_t plan;
+
+    plan.interval_ms = __wdt_calc_feed_interval(cfg, capability);
+    plan.duration_ms = __wdt_calc_test_duration_ms(cfg);
+    plan.use_window = __wdt_supports_window(capability, cfg);
+    plan.wait_before_feed_ms = __wdt_calc_wait_before_feed(cfg, capability);
+    return plan;
+}
+
+static void __wdt_maybe_wait_window(const vsf_wdt_cfg_t *cfg, const wdt_feed_plan_t *plan)
+{
+    if (!plan->use_window) {
+        return;
+    }
+
+    __wdt_wait_for_window(plan->wait_before_feed_ms, cfg->min_ms, cfg->max_ms);
+    __WDT_TRACE_INFO("Wait completed, starting feed (interval: %d ms)..." VSF_TRACE_CFG_LINEEND, plan->interval_ms);
+}
+
+static uint32_t __wdt_run_feed_sequence(wdt_test_t *ctx, const wdt_feed_plan_t *plan)
+{
+    vsf_wdt_t *wdt = ctx->wdt;
+    uint32_t feed_count = 0;
+    vsf_systimer_tick_t start_tick = vsf_systimer_get_tick();
+    vsf_systimer_tick_t test_duration = vsf_systimer_ms_to_tick(plan->duration_ms);
+
+    while (vsf_systimer_get_tick() - start_tick < test_duration) {
+        vsf_wdt_feed(wdt);
+        feed_count++;
+        __WDT_TRACE_INFO("WDT fed, count: %d" VSF_TRACE_CFG_LINEEND, feed_count);
+
+        // 对于 WWDT，每次喂狗后计数器重置，下次喂狗必须在窗口 [min_ms, max_ms] 内
+        // 注意：plan->interval_ms 已经通过 __wdt_calc_feed_interval 确保在窗口内
+        vsf_thread_delay_ms(plan->interval_ms);
+    }
+
+    return feed_count;
 }
 
 static uint32_t __wdt_clamp_range(uint32_t value, uint32_t min, uint32_t max)

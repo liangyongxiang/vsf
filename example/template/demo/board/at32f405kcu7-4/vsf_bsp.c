@@ -37,6 +37,10 @@
 #   endif
 #endif
 
+#if APP_USE_HAL_DEMO == ENABLED
+#   include "../../hal_demo/hal_demo.h"
+#endif
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_DEBUG_STREAM_CFG_RX_BUF_SIZE
@@ -146,45 +150,97 @@ static void __VSF_DEBUG_STREAM_TX_WRITE_BLOCKED(uint8_t *buf, uint_fast32_t size
 static void __clock_init(void)
 {
     // Configure clock to maximum performance mode
-    // System clock: 216 MHz (PLL from HEXT 12MHz: 72x / 4 = 216 MHz)
+    // Reference: AT32 SDK at32f402_405_clock.c
+    // PLL configuration:
+    //   HEXT = 12MHz
+    //   PLL_MS = 1, PLL_NS = 72 → VCO = 12MHz × 72 / 1 = 864MHz (satisfies 500~1000MHz)
+    //   PLLP = 864MHz / 4 = 216MHz → PLL_FP = 4
+    //   PLLU = 864MHz / 18 = 48MHz → PLL_FU = 18
+    // System clock: 216 MHz
     // AHB: 216 MHz (div=1)
     // APB2: 216 MHz (div=1)
     // APB1: 108 MHz (div=2, max 120 MHz)
 
-    // Update flash latency for 216 MHz (need 6 wait cycles)
+    // Step 1: Update flash latency for 216 MHz (need 6 wait cycles)
+    // Equivalent to: flash_psr_set(FLASH_WAIT_CYCLE_6)
     vsf_hw_update_flash_latency(216 * 1000 * 1000);
 
-    // Enable HSE (HEXT)
+    // Step 2: Enable HSE (HEXT)
+    // Equivalent to: crm_clock_source_enable(CRM_CLOCK_SOURCE_HEXT, TRUE)
     vsf_hw_clk_enable(&VSF_HW_CLK_HSE);
     while (!vsf_hw_clk_is_ready(&VSF_HW_CLK_HSE));
 
-    // Configure PLL: 12MHz * 72 / 4 = 216 MHz
-    // mul = 72, div = 4
-    vsf_hw_pll_config(&VSF_HW_CLK_PLL, &VSF_HW_CLK_HSE, 72, 4, 0);
+    // Step 3: Configure PLL: PLL_MS = 1, PLL_NS = 72
+    // Equivalent to: crm_pll_config(CRM_PLL_SOURCE_HEXT, 72, 1, CRM_PLL_FP_4)
+    // VCO = HEXT × PLL_NS / PLL_MS = 12 × 72 / 1 = 864MHz
+    // mul = PLL_NS = 72, div = PLL_MS = 1
+    vsf_hw_pll_config(&VSF_HW_CLK_PLL, &VSF_HW_CLK_HSE, 72, 1, 0);
 
-    // Enable PLL
+    // Step 4: Configure PLLU prescaler before enabling PLL
+    // Equivalent to: crm_pllu_div_set(CRM_PLL_FU_18)
+    // PLLU prescaler options: [11, 13, 12, 14, 16, 18, 20, 11]
+    // PLL_FU = 18 → function will find index 5 (value 18) in mapper
+    vsf_hw_clk_config(&VSF_HW_CLK_PLLU, NULL, 18, 0);  // prescaler value 18
+
+    // Step 5: Configure PLLP output before enabling PLL (PLLP is used as system clock source)
+    // PLLP divider: PLL_FP = 4 → function will find index 2 (value 4) in mapper
+    // PLLP prescaler options: [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]
+    vsf_hw_clk_config(&VSF_HW_CLK_PLLP, NULL, 4, 0);  // prescaler value 4
+
+    // Step 6: Enable PLL
+    // Equivalent to: crm_clock_source_enable(CRM_CLOCK_SOURCE_PLL, TRUE)
     vsf_hw_clk_enable(&VSF_HW_CLK_PLL);
     while (!vsf_hw_clk_is_ready(&VSF_HW_CLK_PLL));
 
-    // Configure PLLP output (PLLP is used as system clock source)
-    // PLLP divider: 1 (no division)
-    vsf_hw_clk_config(&VSF_HW_CLK_PLLP, NULL, 1, 0);
-
-    // Configure AHB: div=1 (216 MHz)
+    // Step 7: Configure AHB: div=1 (216 MHz)
+    // Equivalent to: crm_ahb_div_set(CRM_AHB_DIV_1)
     vsf_hw_clk_config(&VSF_HW_CLK_AHB, NULL, 1, 0);
 
-    // Configure APB2: div=1 (216 MHz, max 216 MHz)
+    // Step 8: Configure APB2: div=1 (216 MHz, max 216 MHz)
+    // Equivalent to: crm_apb2_div_set(CRM_APB2_DIV_1)
     vsf_hw_clk_config(&VSF_HW_CLK_APB2, NULL, 1, 0);
 
-    // Configure APB1: div=2 (108 MHz, max 120 MHz)
+    // Step 9: Configure APB1: div=2 (108 MHz, max 120 MHz)
+    // Equivalent to: crm_apb1_div_set(CRM_APB1_DIV_2)
     vsf_hw_clk_config(&VSF_HW_CLK_APB1, NULL, 2, 0);
 
-    // Switch system clock to PLLP
+    // Step 10: Switch system clock to PLLP
+    // Equivalent to: crm_sysclk_switch(CRM_SCLK_PLL)
+    // Note: vsf_hw_clk_config will wait for clock ready internally if clkrdy_type is VSF_HW_CLK_RDY_MATCH_CLKSEL
     vsf_hw_clk_config(&VSF_HW_CLK_SYS, &VSF_HW_CLK_PLLP, 0, 0);
-    while (!vsf_hw_clk_is_ready(&VSF_HW_CLK_SYS));
 
-    // Update system core clock variable
+    // Step 11: Update system core clock variable
+    // Equivalent to: system_core_clock_update()
     system_core_clock_update();
+
+    // Initialize USB clocks
+#if defined(VSF_HW_USB_OTG_MASK) && (VSF_HW_USB_OTG_MASK & (1 << 0))
+    // Enable USB OTG0 peripheral clock (equivalent to crm_periph_clock_enable(OTGFS_CLOCK, TRUE))
+    vsf_hw_peripheral_enable(VSF_HW_EN_USBOTG0);
+
+    // Select USB 48MHz clock source from PLL (via PLLU)
+    // Equivalent to usb_clock48m_select(USB_CLK_HEXT)
+    // Enable PLLU output (equivalent to crm_pllu_output_set(TRUE))
+    // Note: PLLU prescaler is already configured above (index 5 = 18)
+    // PLLU frequency = PLL / prescaler, but actual calculation may be different
+    // For 48MHz: need to verify PLLU output frequency with hardware
+    vsf_hw_clk_enable(&VSF_HW_CLK_PLLU);
+    while (!vsf_hw_clk_is_ready(&VSF_HW_CLK_PLLU));
+
+    // Configure USBOTG0 to use PLLU as clock source
+    // Equivalent to crm_usb_clock_source_select(CRM_USB_CLOCK_SOURCE_PLLU)
+    // clksel_mapper[0] = PLLU, clksel_mapper[1] = HSI48
+    vsf_hw_clk_config(&VSF_HW_CLK_USBOTG0, &VSF_HW_CLK_PLLU, 0, 0);
+    while (!vsf_hw_clk_is_ready(&VSF_HW_CLK_USBOTG0));
+#endif
+
+#if defined(VSF_HW_USB_OTG_MASK) && (VSF_HW_USB_OTG_MASK & (1 << 1))
+    // Enable USB OTG1 (OTGHS) peripheral clock (equivalent to crm_periph_clock_enable(OTGHS_CLOCK, TRUE))
+    vsf_hw_peripheral_enable(VSF_HW_EN_OTGHS);
+
+    // USB OTG1 uses HEXT (12MHz) as PHY clock, which is already enabled above
+    // No additional clock configuration needed for OTG1
+#endif
 }
 
 #if APP_USE_LINUX_DEMO == ENABLED
@@ -261,6 +317,31 @@ int sysclock_main(int argc, char *argv[])
 #if defined(VSF_HW_USB_OTG_MASK) && (VSF_HW_USB_OTG_MASK & (1 << 0))
     __sysclock_dump_clk("USBOTG0", &VSF_HW_CLK_USBOTG0);
 #endif
+#if defined(VSF_HW_USB_OTG_MASK) && (VSF_HW_USB_OTG_MASK & (1 << 1))
+    // USBOTG1 uses HEXT as PHY clock
+    __sysclock_dump_clk("USBOTG1", &VSF_HW_CLK_HEXT);
+#endif
+#if defined(VSF_HW_SPI_MASK) && (VSF_HW_SPI_MASK & (1 << 1))
+    __sysclock_dump_clk("SPI1", &VSF_HW_CLK_SPI1);
+#endif
+#if defined(VSF_HW_SPI_MASK) && (VSF_HW_SPI_MASK & (1 << 2))
+    __sysclock_dump_clk("SPI2", &VSF_HW_CLK_SPI2);
+#endif
+#if defined(VSF_HW_SPI_MASK) && (VSF_HW_SPI_MASK & (1 << 3))
+    __sysclock_dump_clk("SPI3", &VSF_HW_CLK_SPI3);
+#endif
+#if defined(VSF_HW_I2C_MASK) && (VSF_HW_I2C_MASK & (1 << 1))
+    __sysclock_dump_clk("I2C1", &VSF_HW_CLK_I2C1);
+#endif
+#if defined(VSF_HW_I2C_MASK) && (VSF_HW_I2C_MASK & (1 << 2))
+    __sysclock_dump_clk("I2C2", &VSF_HW_CLK_I2C2);
+#endif
+#if defined(VSF_HW_I2C_MASK) && (VSF_HW_I2C_MASK & (1 << 3))
+    __sysclock_dump_clk("I2C3", &VSF_HW_CLK_I2C3);
+#endif
+#if defined(VSF_HW_WWDT_MASK) && (VSF_HW_WWDT_MASK & (1 << 0))
+    __sysclock_dump_clk("WWDT0", &VSF_HW_WWDT0_CLK);
+#endif
 
     return 0;
 }
@@ -270,6 +351,10 @@ void vsf_board_init(void)
 {
 #if APP_USE_LINUX_DEMO == ENABLED
     vsf_linux_fs_bind_executable(VSF_LINUX_CFG_BIN_PATH "/sysclock", sysclock_main);
+#endif
+
+#if APP_USE_HAL_DEMO == ENABLED
+    hal_main();
 #endif
 }
 

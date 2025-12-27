@@ -355,6 +355,40 @@
 #   define VSF_HW_I2C3_ERROR_IRQN       73      // I2C3_ERR_IRQn
 #endif
 
+// WDT: Independent Watchdog
+
+#ifndef VSF_HW_WDT_COUNT
+#   define VSF_HW_WDT_COUNT             1
+#endif
+#ifndef VSF_HW_WDT_MASK
+#   define VSF_HW_WDT_MASK              0x1
+#endif
+
+#if VSF_HW_WDT_MASK & (1 << 0)
+#   define VSF_HW_WDT0_REG              WDT
+#   define VSF_HW_WDT0_TYPE             0   // WDT (Independent Watchdog)
+#   define VSF_HW_WDT0_CLK              VSF_HW_CLK_LICK  // WDT uses LICK (40kHz)
+#   define VSF_HW_WDT0_CLK_FREQ_HZ      40000
+#endif
+
+// WWDT: Window Watchdog (as separate device with device prefix)
+
+#ifndef VSF_HW_WWDT_COUNT
+#   define VSF_HW_WWDT_COUNT            1
+#endif
+#ifndef VSF_HW_WWDT_MASK
+#   define VSF_HW_WWDT_MASK             0x1
+#endif
+
+#if VSF_HW_WWDT_MASK & (1 << 0)
+#   define VSF_HW_WWDT0_REG             WWDT
+#   define VSF_HW_WWDT0_TYPE            1   // WWDT (Window Watchdog)
+#   define VSF_HW_WWDT0_CLK             VSF_HW_CLK_APB1  // WWDT uses APB1 (PCLK1)
+#   define VSF_HW_WWDT0_EN              VSF_HW_EN_WWDT
+#   define VSF_HW_WWDT0_RST             VSF_HW_RST_WWDT
+#   define VSF_HW_WWDT0_IRQN            0   // WWDT has no dedicated IRQ, uses early wakeup interrupt
+#endif
+
 // USB OTG
 
 #ifndef VSF_HW_USB_OTG_MASK
@@ -378,7 +412,7 @@
             .reg                        = (void *)OTGFS1_BASE,                  \
             .irq                        = VSF_HW_USB_OTG0_IRQN,                 \
             .en                         = VSF_HW_EN_OTGFS1,                     \
-            .phyclk                     = &VSF_HW_CLK_HICK,                     \
+            .phyclk                     = &VSF_HW_CLK_USBOTG0,                  \
             .phyclk_freq_required       = 48 * 1000 * 1000,                     \
             /* vk_dwcotg_hw_info_t */                                           \
                 .buffer_word_size       = 320,                                  \

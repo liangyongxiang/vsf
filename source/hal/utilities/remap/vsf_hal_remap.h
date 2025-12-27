@@ -32,6 +32,7 @@
 #include "./i2s/vsf_remapped_i2s.h"
 #include "./rtc/vsf_remapped_rtc.h"
 #include "./rng/vsf_remapped_rng.h"
+#include "./wdt/vsf_remapped_wdt.h"
 
 #ifdef __cplusplus
 extern "C" {

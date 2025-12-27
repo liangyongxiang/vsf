@@ -93,6 +93,8 @@ static bool __wdt_init_and_enable(wdt_test_t *ctx, vsf_wdt_cfg_t *cfg);
 static void __wdt_print_capability(const vsf_wdt_capability_t *capability);
 static void __wdt_print_config(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability, const char *mode_str);
 static uint32_t __wdt_calc_feed_interval(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability);
+static bool __wdt_validate_ctx(const wdt_test_t *ctx);
+static bool __wdt_get_capability(wdt_test_t *ctx, vsf_wdt_capability_t *capability);
 static void __wdt_wait_for_window(uint32_t wait_ms, uint32_t min_ms, uint32_t max_ms);
 static void __wdt_prepare_mode_cfg(const vsf_wdt_capability_t *capability, vsf_wdt_cfg_t *cfg, vsf_wdt_mode_t mode, wdt_test_t *ctx, bool use_irq);
 static bool __wdt_prepare_test(wdt_test_t *ctx, vsf_wdt_capability_t *capability, vsf_wdt_cfg_t *cfg, vsf_wdt_mode_t mode, bool use_irq, bool test_reset, const char *mode_str, bool log_capability);
@@ -270,6 +272,29 @@ static bool __wdt_init_and_enable(wdt_test_t *ctx, vsf_wdt_cfg_t *cfg)
     return true;
 }
 
+static bool __wdt_validate_ctx(const wdt_test_t *ctx)
+{
+    if ((ctx == NULL) || (ctx->wdt == NULL)) {
+        __WDT_TRACE_ERROR("WDT test context or device is NULL!" VSF_TRACE_CFG_LINEEND);
+        return false;
+    }
+    return true;
+}
+
+static bool __wdt_get_capability(wdt_test_t *ctx, vsf_wdt_capability_t *capability)
+{
+    if (!__wdt_validate_ctx(ctx)) {
+        return false;
+    }
+    if (capability == NULL) {
+        __WDT_TRACE_ERROR("WDT capability pointer is NULL!" VSF_TRACE_CFG_LINEEND);
+        return false;
+    }
+
+    *capability = vsf_wdt_capability(ctx->wdt);
+    return true;
+}
+
 static void __wdt_prepare_mode_cfg(const vsf_wdt_capability_t *capability, vsf_wdt_cfg_t *cfg, vsf_wdt_mode_t mode, wdt_test_t *ctx, bool use_irq)
 {
     cfg->mode = mode;
@@ -281,8 +306,13 @@ static void __wdt_prepare_mode_cfg(const vsf_wdt_capability_t *capability, vsf_w
 
 static bool __wdt_prepare_test(wdt_test_t *ctx, vsf_wdt_capability_t *capability, vsf_wdt_cfg_t *cfg, vsf_wdt_mode_t mode, bool use_irq, bool test_reset, const char *mode_str, bool log_capability)
 {
-    if ((ctx == NULL) || (ctx->wdt == NULL) || (capability == NULL) || (cfg == NULL)) {
-        __WDT_TRACE_ERROR("WDT test context or config invalid!" VSF_TRACE_CFG_LINEEND);
+    if (!__wdt_validate_ctx(ctx) || (capability == NULL) || (cfg == NULL)) {
+        if (capability == NULL) {
+            __WDT_TRACE_ERROR("WDT capability is NULL!" VSF_TRACE_CFG_LINEEND);
+        }
+        if (cfg == NULL) {
+            __WDT_TRACE_ERROR("WDT cfg is NULL!" VSF_TRACE_CFG_LINEEND);
+        }
         return false;
     }
 
@@ -305,10 +335,6 @@ static bool __wdt_prepare_test(wdt_test_t *ctx, vsf_wdt_capability_t *capability
 
 static bool __wdt_test_interrupt(wdt_test_t *ctx)
 {
-    if (ctx == NULL || ctx->wdt == NULL) {
-        __WDT_TRACE_ERROR("WDT test context or device is NULL!" VSF_TRACE_CFG_LINEEND);
-        return false;
-    }
     vsf_wdt_t *wdt = ctx->wdt;
     vsf_wdt_cfg_t cfg;
     vsf_wdt_capability_t capability;
@@ -316,7 +342,9 @@ static bool __wdt_test_interrupt(wdt_test_t *ctx)
     __WDT_TRACE_INFO("=== WDT Interrupt Test ===" VSF_TRACE_CFG_LINEEND);
 
     // 获取 WDT 能力
-    capability = vsf_wdt_capability(wdt);
+    if (!__wdt_get_capability(ctx, &capability)) {
+        return false;
+    }
 
     // 检查是否支持中断模式
     if (!capability.support_reset_none) {
@@ -369,10 +397,6 @@ static bool __wdt_test_interrupt(wdt_test_t *ctx)
 
 static bool __wdt_test_reset(wdt_test_t *ctx)
 {
-    if (ctx == NULL || ctx->wdt == NULL) {
-        __WDT_TRACE_ERROR("WDT test context or device is NULL!" VSF_TRACE_CFG_LINEEND);
-        return false;
-    }
     vsf_wdt_t *wdt = ctx->wdt;
     vsf_wdt_cfg_t cfg;
     vsf_wdt_capability_t capability;
@@ -381,7 +405,9 @@ static bool __wdt_test_reset(wdt_test_t *ctx)
     __WDT_TRACE_INFO("WARNING: This test will cause system reset!" VSF_TRACE_CFG_LINEEND);
 
     // 获取 WDT 能力
-    capability = vsf_wdt_capability(wdt);
+    if (!__wdt_get_capability(ctx, &capability)) {
+        return false;
+    }
 
     // 配置 WDT 为复位模式
     if (!__wdt_pick_reset_mode(&capability, &cfg.mode)) {
@@ -416,10 +442,6 @@ static bool __wdt_test_reset(wdt_test_t *ctx)
 
 static bool __wdt_test_feed(wdt_test_t *ctx)
 {
-    if (ctx == NULL || ctx->wdt == NULL) {
-        __WDT_TRACE_ERROR("WDT test context or device is NULL!" VSF_TRACE_CFG_LINEEND);
-        return false;
-    }
     vsf_wdt_t *wdt = ctx->wdt;
     vsf_wdt_cfg_t cfg;
     vsf_wdt_capability_t capability;
@@ -428,7 +450,9 @@ static bool __wdt_test_feed(wdt_test_t *ctx)
     __WDT_TRACE_INFO("=== WDT Feed Test ===" VSF_TRACE_CFG_LINEEND);
 
     // 获取 WDT 能力
-    capability = vsf_wdt_capability(wdt);
+    if (!__wdt_get_capability(ctx, &capability)) {
+        return false;
+    }
 
     // 配置 WDT 为复位模式
     if (!__wdt_pick_reset_mode(&capability, &cfg.mode)) {
@@ -530,8 +554,6 @@ int VSF_USER_ENTRY(void)
 }
 #endif
 
-#endif
-
 static uint32_t __wdt_clamp_ms(uint32_t value)
 {
     if (value > WDT_TEST_TIMEOUT_MS_MAX) {
@@ -555,3 +577,5 @@ static bool __wdt_pick_reset_mode(const vsf_wdt_capability_t *capability, vsf_wd
     }
     return false;
 }
+
+#endif

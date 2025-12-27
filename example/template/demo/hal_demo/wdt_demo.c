@@ -101,6 +101,12 @@ static bool __wdt_prepare_test(wdt_test_t *ctx, vsf_wdt_capability_t *capability
 static bool __wdt_test_interrupt(wdt_test_t *ctx);
 static bool __wdt_test_reset(wdt_test_t *ctx);
 static bool __wdt_test_feed(wdt_test_t *ctx);
+static bool __wdt_setup_reset_mode_test(wdt_test_t *ctx, vsf_wdt_capability_t *capability, vsf_wdt_cfg_t *cfg, const char *mode_str, bool test_reset);
+static void __wdt_log_reset_expectation(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability);
+static bool __wdt_supports_window(const vsf_wdt_capability_t *capability, const vsf_wdt_cfg_t *cfg);
+static uint32_t __wdt_calc_wait_before_feed(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability);
+static uint32_t __wdt_calc_test_duration_ms(const vsf_wdt_cfg_t *cfg);
+static uint32_t __wdt_clamp_range(uint32_t value, uint32_t min, uint32_t max);
 static uint32_t __wdt_clamp_ms(uint32_t value);
 static bool __wdt_pick_reset_mode(const vsf_wdt_capability_t *capability, vsf_wdt_mode_t *mode);
 
@@ -172,10 +178,7 @@ static uint32_t __wdt_calc_feed_interval(const vsf_wdt_cfg_t *cfg, const vsf_wdt
     if (capability->support_min_timeout && cfg->min_ms > 0) {
         feed_interval_ms = (cfg->min_ms * WDT_TEST_FEED_INTERVAL_RATIO) / 100;
         // 对于 WWDT，喂狗间隔必须在窗口 [min_ms, max_ms] 内
-        // 如果计算出的间隔小于 min_ms，调整为 min_ms
-        feed_interval_ms = feed_interval_ms < cfg->min_ms ? cfg->min_ms : feed_interval_ms;
-        // 如果计算出的间隔大于 max_ms，调整为 max_ms（避免超时）
-        feed_interval_ms = feed_interval_ms > cfg->max_ms ? cfg->max_ms : feed_interval_ms;
+        feed_interval_ms = __wdt_clamp_range(feed_interval_ms, cfg->min_ms, cfg->max_ms);
     } else {
         // 对于普通 WDT，使用最大超时时间的指定比率作为喂狗间隔
         feed_interval_ms = (cfg->max_ms * WDT_TEST_FEED_INTERVAL_RATIO) / 100;
@@ -320,6 +323,7 @@ static bool __wdt_prepare_test(wdt_test_t *ctx, vsf_wdt_capability_t *capability
         __wdt_print_capability(capability);
     }
 
+    *cfg = (vsf_wdt_cfg_t){ 0 };
     __wdt_prepare_mode_cfg(capability, cfg, mode, ctx, use_irq);
     ctx->irq_triggered = false;
     ctx->irq_count = 0;
@@ -397,7 +401,6 @@ static bool __wdt_test_interrupt(wdt_test_t *ctx)
 
 static bool __wdt_test_reset(wdt_test_t *ctx)
 {
-    vsf_wdt_t *wdt = ctx->wdt;
     vsf_wdt_cfg_t cfg;
     vsf_wdt_capability_t capability;
 
@@ -409,22 +412,10 @@ static bool __wdt_test_reset(wdt_test_t *ctx)
         return false;
     }
 
-    // 配置 WDT 为复位模式
-    if (!__wdt_pick_reset_mode(&capability, &cfg.mode)) {
-        __WDT_TRACE_ERROR("WDT does not support reset mode!" VSF_TRACE_CFG_LINEEND);
+    if (!__wdt_setup_reset_mode_test(ctx, &capability, &cfg, "reset", true)) {
         return false;
     }
-
-    if (!__wdt_prepare_test(ctx, &capability, &cfg, cfg.mode, false, true, "reset", false)) {
-        return false;
-    }
-    if (capability.support_min_timeout && cfg.min_ms > 0) {
-        __WDT_TRACE_INFO("System will reset in %d ms if not fed within window [%d, %d] ms..." VSF_TRACE_CFG_LINEEND,
-                        cfg.max_ms, cfg.min_ms, cfg.max_ms);
-    } else {
-        __WDT_TRACE_INFO("System will reset in %d ms if not fed..." VSF_TRACE_CFG_LINEEND, cfg.max_ms);
-    }
-    __WDT_TRACE_INFO("WDT enabled, system will reset if not fed..." VSF_TRACE_CFG_LINEEND);
+    __wdt_log_reset_expectation(&cfg, &capability);
 
     // 不喂狗，等待复位
     // 注意：这里不喂狗，系统会在超时后复位
@@ -436,7 +427,7 @@ static bool __wdt_test_reset(wdt_test_t *ctx)
 
     // 如果执行到这里，说明复位测试失败（可能是硬件不支持或配置错误）
     __WDT_TRACE_ERROR("WDT reset test failed - system did not reset!" VSF_TRACE_CFG_LINEEND);
-    __wdt_cleanup(wdt, &capability);
+    __wdt_cleanup(ctx->wdt, &capability);
     return false;
 }
 
@@ -454,20 +445,17 @@ static bool __wdt_test_feed(wdt_test_t *ctx)
         return false;
     }
 
-    // 配置 WDT 为复位模式
-    if (!__wdt_pick_reset_mode(&capability, &cfg.mode)) {
-        __WDT_TRACE_ERROR("WDT does not support reset mode!" VSF_TRACE_CFG_LINEEND);
-        return false;
-    }
-    if (!__wdt_prepare_test(ctx, &capability, &cfg, cfg.mode, false, false, "feed", false)) {
+    if (!__wdt_setup_reset_mode_test(ctx, &capability, &cfg, "feed", false)) {
         return false;
     }
 
     // 计算合适的喂狗间隔
     uint32_t feed_interval_ms = __wdt_calc_feed_interval(&cfg, &capability);
+    uint32_t test_duration_ms = __wdt_calc_test_duration_ms(&cfg);
+    bool use_window = __wdt_supports_window(&capability, &cfg);
 
     __wdt_print_config(&cfg, &capability, "feed");
-    if (capability.support_min_timeout && cfg.min_ms > 0) {
+    if (use_window) {
         __WDT_TRACE_INFO("WDT enabled, feeding every %d ms (must be within window [%d, %d] ms)..." VSF_TRACE_CFG_LINEEND,
                         feed_interval_ms, cfg.min_ms, cfg.max_ms);
     } else {
@@ -476,18 +464,13 @@ static bool __wdt_test_feed(wdt_test_t *ctx)
 
     // 定期喂狗，持续一段时间（应该不会复位）
     vsf_systimer_tick_t start_tick = vsf_systimer_get_tick();
-    // 测试持续时间：最大超时时间的指定倍数，但至少指定最小值
-    uint32_t test_duration_ms = cfg.max_ms * WDT_TEST_FEED_DURATION_MULTIPLIER;
-    if (test_duration_ms < WDT_TEST_FEED_DURATION_MIN_MS) {
-        test_duration_ms = WDT_TEST_FEED_DURATION_MIN_MS;
-    }
     vsf_systimer_tick_t test_duration = vsf_systimer_ms_to_tick(test_duration_ms);
 
     // 对于 WWDT，需要等待窗口时间（min_ms）后才能第一次喂狗
     // 否则过早喂狗会导致立即复位
     // 每次喂狗后，计数器重置，下次喂狗必须在 [min_ms, max_ms] 窗口内
-    if (capability.support_min_timeout && cfg.min_ms > 0) {
-        uint32_t wait_time_ms = cfg.min_ms + (cfg.min_ms * WDT_TEST_SAFETY_MARGIN_RATIO / 100);
+    if (use_window) {
+        uint32_t wait_time_ms = __wdt_calc_wait_before_feed(&cfg, &capability);
         __wdt_wait_for_window(wait_time_ms, cfg.min_ms, cfg.max_ms);
         __WDT_TRACE_INFO("Wait completed, starting feed (interval: %d ms)..." VSF_TRACE_CFG_LINEEND, feed_interval_ms);
     }
@@ -499,13 +482,7 @@ static bool __wdt_test_feed(wdt_test_t *ctx)
 
         // 对于 WWDT，每次喂狗后计数器重置，下次喂狗必须在窗口 [min_ms, max_ms] 内
         // 注意：feed_interval_ms 已经通过 __wdt_calc_feed_interval 确保在窗口内
-        if (capability.support_min_timeout && cfg.min_ms > 0) {
-            // 直接使用喂狗间隔（已经在窗口 [min_ms, max_ms] 内）
-            vsf_thread_delay_ms(feed_interval_ms);
-        } else {
-            // 普通 WDT，直接使用喂狗间隔
-            vsf_thread_delay_ms(feed_interval_ms);
-        }
+        vsf_thread_delay_ms(feed_interval_ms);
     }
 
     __WDT_TRACE_INFO("WDT feed test completed, total feeds: %d" VSF_TRACE_CFG_LINEEND, feed_count);
@@ -553,6 +530,60 @@ int VSF_USER_ENTRY(void)
     return 0;
 }
 #endif
+
+static bool __wdt_setup_reset_mode_test(wdt_test_t *ctx, vsf_wdt_capability_t *capability, vsf_wdt_cfg_t *cfg, const char *mode_str, bool test_reset)
+{
+    if (!__wdt_pick_reset_mode(capability, &cfg->mode)) {
+        __WDT_TRACE_ERROR("WDT does not support reset mode!" VSF_TRACE_CFG_LINEEND);
+        return false;
+    }
+    return __wdt_prepare_test(ctx, capability, cfg, cfg->mode, false, test_reset, mode_str, false);
+}
+
+static void __wdt_log_reset_expectation(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability)
+{
+    if (__wdt_supports_window(capability, cfg)) {
+        __WDT_TRACE_INFO("System will reset in %d ms if not fed within window [%d, %d] ms..." VSF_TRACE_CFG_LINEEND,
+                        cfg->max_ms, cfg->min_ms, cfg->max_ms);
+    } else {
+        __WDT_TRACE_INFO("System will reset in %d ms if not fed..." VSF_TRACE_CFG_LINEEND, cfg->max_ms);
+    }
+    __WDT_TRACE_INFO("WDT enabled, system will reset if not fed..." VSF_TRACE_CFG_LINEEND);
+}
+
+static bool __wdt_supports_window(const vsf_wdt_capability_t *capability, const vsf_wdt_cfg_t *cfg)
+{
+    return (capability->support_min_timeout && (cfg->min_ms > 0));
+}
+
+static uint32_t __wdt_calc_wait_before_feed(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability)
+{
+    VSF_UNUSED_PARAM(capability);
+    if (!__wdt_supports_window(capability, cfg)) {
+        return 0;
+    }
+    return cfg->min_ms + (cfg->min_ms * WDT_TEST_SAFETY_MARGIN_RATIO / 100);
+}
+
+static uint32_t __wdt_calc_test_duration_ms(const vsf_wdt_cfg_t *cfg)
+{
+    uint32_t test_duration_ms = cfg->max_ms * WDT_TEST_FEED_DURATION_MULTIPLIER;
+    if (test_duration_ms < WDT_TEST_FEED_DURATION_MIN_MS) {
+        test_duration_ms = WDT_TEST_FEED_DURATION_MIN_MS;
+    }
+    return test_duration_ms;
+}
+
+static uint32_t __wdt_clamp_range(uint32_t value, uint32_t min, uint32_t max)
+{
+    if (value < min) {
+        value = min;
+    }
+    if (value > max) {
+        value = max;
+    }
+    return value;
+}
 
 static uint32_t __wdt_clamp_ms(uint32_t value)
 {

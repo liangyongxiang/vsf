@@ -54,16 +54,28 @@
 // Actually, usbd use usbip_dcd or distbus_dcd, no conflicts with hardware usb host
 #define APP_USE_USBD_DEMO                               ENABLED
 #   define APP_USE_USBD_CDC_DEMO                        ENABLED
-#   define APP_USE_USBD_MSC_DEMO                        DISABLED
-#   define APP_USE_USBD_UVC_DEMO                        DISABLED
-#   define APP_USE_USBD_UAC_DEMO                        DISABLED
-#   define APP_USE_USBD_USER_DEMO                       DISABLED
+#   define APP_USE_USBD_MSC_DEMO                        ENABLED
+#   define APP_USE_USBD_UVC_DEMO                        ENABLED
+#   define APP_USE_USBD_UAC_DEMO                        ENABLED
+#   define APP_USE_USBD_USER_DEMO                       ENABLED
 
 //  TODO: CPP support is not ready in hal
 #define APP_USE_CPP_DEMO                                DISABLED
 #   if APP_USE_CPP_DEMO == ENABLED
 #       define __VSF_CPP__
 #   endif
+#define APP_USE_HAL_DEMO                                ENABLED
+#   define APP_USE_HAL_ADC_DEMO                         DISABLED
+#   define APP_USE_HAL_FLASH_DEMO                       DISABLED
+#   define APP_USE_HAL_GPIO_DEMO                        DISABLED
+#   define APP_USE_HAL_I2C_DEMO                         DISABLED
+#   define APP_USE_HAL_PWM_DEMO                         DISABLED
+#   define APP_USE_HAL_RTC_DEMO                         DISABLED
+#   define APP_USE_HAL_SPI_DEMO                         DISABLED
+#   define APP_USE_HAL_TIMER_DEMO                       DISABLED
+#   define APP_USE_HAL_USART_DEMO                       DISABLED
+#   define APP_USE_HAL_WDT_DEMO                         ENABLED
+
 
 // component configure
 #define VSF_USE_HEAP                                    ENABLED
@@ -71,14 +83,20 @@
 #   define VSF_HEAP_CFG_MCB_ALIGN_BIT                   4
 #   define VSF_HEAP_SIZE                                0x10000
 
+#define VSF_USE_VIDEO                                   ENABLED
+#define VSF_USE_AUDIO                                   ENABLED
+#   define VSF_AUDIO_USE_DECODER_WAV                    ENABLED
+#   define VSF_AUDIO_USE_PLAYBACK                       ENABLED
+#   define VSF_AUDIO_USE_CATURE                         DISABLED
+
 // VSF_USE_USB_DEVICE will be enabled if target chip supports USBD
-#define VSF_USE_USB_DEVICE                              ENABLED
+//#define VSF_USE_USB_DEVICE                              ENABLED
 #   define VSF_USBD_CFG_USE_EDA                         ENABLED
 #   define VSF_USBD_USE_CDCACM                          ENABLED
-#   define VSF_USBD_USE_MSC                             DISABLED
-#   define VSF_USBD_USE_UVC                             DISABLED
-#   define VSF_USBD_USE_UAC                             DISABLED
-#   define VSF_USBD_USE_HID                             DISABLED
+#   define VSF_USBD_USE_MSC                             ENABLED
+#   define VSF_USBD_USE_UVC                             ENABLED
+#   define VSF_USBD_USE_UAC                             ENABLED
+#   define VSF_USBD_USE_HID                             ENABLED
 #   define APP_CFG_USBD_VID                             0xA7A8
 #   define APP_CFG_USBD_PID                             0x2348
 
@@ -138,7 +156,7 @@
 #define VSF_USE_SIMPLE_STREAM                           ENABLED
 
 #define USRAPP_CFG_FAKEFAT32                            ENABLED
-#   define USRAPP_FAKEFAT32_CFG_FONT                    ENABLED
+#   define USRAPP_FAKEFAT32_CFG_FONT                    DISABLED
 
 // VSF_HAL_USE_DEBUG_STREAM for hardware debug uart
 // VSF_DEBUGGER_CFG_CONSOLE for debug console from debugger
@@ -155,21 +173,36 @@
 #   define VSF_ASSERT(...)                              if (!(__VA_ARGS__)) {while(1);}
 #endif
 
-#if APP_USE_USBD_DEMO == ENABLED
-#   define VSF_USBD_CFG_EDA_PRIORITY                    vsf_prio_0
-#   define VSF_USBD_CFG_HW_PRIORITY                     vsf_arch_prio_0
-#   define USRAPP_CFG_USBD_SPEED                        USB_SPEED_FULL
-
-#   define VSF_USBH_USE_HCD_DWCOTG                      ENABLED
-
-#   define VSF_USBD_USE_DCD_DWCOTG                      ENABLED
-#   define VSF_USBD_CFG_SPEED                           USB_SPEED_FULL
-
-
+#if     APP_USE_USBD_DEMO == ENABLED                                            \
+    ||  (APP_USE_DISTBUS_DEMO == ENABLED && APP_USE_DISTBUS_HAL_SLAVE_DEMO == ENABLED)
+#   define VSF_USE_USB_DEVICE                           ENABLED
+#   if      APP_USE_DISTBUS_DEMO == ENABLED && APP_USE_DISTBUS_HAL_MASTER_DEMO == ENABLED
+#       define VSF_HAL_USE_DISTBUS                      ENABLED
+#           define VSF_HAL_USE_DISTBUS_USBD             ENABLED
+#   elif    APP_USE_DISTBUS_DEMO == ENABLED && APP_USE_DISTBUS_HAL_SLAVE_DEMO == ENABLED
+#       define VSF_USBD_USE_DCD_DWCOTG                  ENABLED
+#           define USRAPP_USBD_DWCOTG_CFG_ULPI_EN       false
+#           define USRAPP_USBD_DWCOTG_CFG_UTMI_EN       false
+#           define USRAPP_USBD_DWCOTG_CFG_VBUS_EN       false
+#           define USRAPP_USBD_DWCOTG_CFG_DMA_EN        false
+#   else
+#       define VSF_USBD_USE_DCD_DWCOTG                  ENABLED
+#           define USRAPP_USBD_DWCOTG_CFG_ULPI_EN       false
+#           define USRAPP_USBD_DWCOTG_CFG_UTMI_EN       false
+#           define USRAPP_USBD_DWCOTG_CFG_VBUS_EN       false
+#           define USRAPP_USBD_DWCOTG_CFG_DMA_EN        false
+#   endif
+#       define VSF_USBD_CFG_EDA_PRIORITY                vsf_prio_0
+#       define VSF_USBD_CFG_HW_PRIORITY                 vsf_arch_prio_0
+#       define USRAPP_CFG_USBD_SPEED                    USB_SPEED_FULL
+#       define USRAPP_CFG_CDC_NUM                       1
+#       define USRAPP_CFG_CDC_TX_STREAM_SIZE            1024
+#       define USRAPP_CFG_CDC_RX_STREAM_SIZE            512
 #endif
 
 #if APP_USE_USBH_DEMO == ENABLED
 #   define VSF_USBH_USE_HCD_DWCOTG                      ENABLED
+//  VSF_DWCOTG_HCD_CFG_ENABLE_ROOT_HUB is by default disabled, no need root_hub support
 #   define VSF_USBH_CFG_ENABLE_ROOT_HUB                 DISABLED
 #   define VSF_USBH_USE_HUB                             ENABLED
 #endif

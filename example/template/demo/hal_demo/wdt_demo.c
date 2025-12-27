@@ -116,6 +116,8 @@ static uint32_t __wdt_calc_test_duration_ms(const vsf_wdt_cfg_t *cfg);
 static wdt_feed_plan_t __wdt_build_feed_plan(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability);
 static void __wdt_maybe_wait_window(const vsf_wdt_cfg_t *cfg, const wdt_feed_plan_t *plan);
 static uint32_t __wdt_run_feed_sequence(wdt_test_t *ctx, const wdt_feed_plan_t *plan);
+static uint32_t __wdt_apply_ratio(uint32_t base, uint32_t ratio_percent);
+static void __wdt_fix_window_bounds(vsf_wdt_cfg_t *cfg);
 static uint32_t __wdt_clamp_range(uint32_t value, uint32_t min, uint32_t max);
 static uint32_t __wdt_clamp_ms(uint32_t value);
 static bool __wdt_pick_reset_mode(const vsf_wdt_capability_t *capability, vsf_wdt_mode_t *mode);
@@ -141,15 +143,13 @@ static void __wdt_irq_handler(void *target_ptr, vsf_wdt_t *wdt_ptr)
 static void __wdt_calc_timeout_config(const vsf_wdt_capability_t *capability, vsf_wdt_cfg_t *cfg)
 {
     // 根据硬件能力设置超时时间：使用最大超时时间的指定比率，但不超过 WDT_TEST_TIMEOUT_MS_MAX
-    uint32_t calculated_timeout = (capability->max_timeout_ms * WDT_TEST_TIMEOUT_RATIO) / 100;
+    uint32_t calculated_timeout = __wdt_apply_ratio(capability->max_timeout_ms, WDT_TEST_TIMEOUT_RATIO);
     cfg->max_ms = __wdt_clamp_ms(calculated_timeout);
     // 如果支持窗口模式（WWDT），设置窗口时间（使用最大超时时间的指定比率）
     if (capability->support_min_timeout) {
-        uint32_t calculated_window = (capability->max_timeout_ms * WDT_TEST_WINDOW_RATIO) / 100;
+        uint32_t calculated_window = __wdt_apply_ratio(capability->max_timeout_ms, WDT_TEST_WINDOW_RATIO);
         cfg->min_ms = __wdt_clamp_ms(calculated_window);
-        if (cfg->min_ms >= cfg->max_ms) {
-            cfg->min_ms = cfg->max_ms / 2;  // 确保 min < max
-        }
+        __wdt_fix_window_bounds(cfg);
     } else {
         cfg->min_ms = 0;
     }
@@ -170,7 +170,7 @@ static void __wdt_print_capability(const vsf_wdt_capability_t *capability)
 // Helper function to print WDT configuration
 static void __wdt_print_config(const vsf_wdt_cfg_t *cfg, const vsf_wdt_capability_t *capability, const char *mode_str)
 {
-    if (capability->support_min_timeout && cfg->min_ms > 0) {
+    if (__wdt_supports_window(capability, cfg)) {
         __WDT_TRACE_INFO("WDT initialized with %s mode, timeout: max=%d ms, min=%d ms (window)" VSF_TRACE_CFG_LINEEND,
                         mode_str, cfg->max_ms, cfg->min_ms);
     } else {
@@ -187,12 +187,12 @@ static uint32_t __wdt_calc_feed_interval(const vsf_wdt_cfg_t *cfg, const vsf_wdt
 
     // 对于 WWDT，使用窗口时间的指定比率作为喂狗间隔
     if (use_window) {
-        feed_interval_ms = (cfg->min_ms * WDT_TEST_FEED_INTERVAL_RATIO) / 100;
+        feed_interval_ms = __wdt_apply_ratio(cfg->min_ms, WDT_TEST_FEED_INTERVAL_RATIO);
         // 对于 WWDT，喂狗间隔必须在窗口 [min_ms, max_ms] 内
         feed_interval_ms = __wdt_clamp_range(feed_interval_ms, cfg->min_ms, cfg->max_ms);
     } else {
         // 对于普通 WDT，使用最大超时时间的指定比率作为喂狗间隔
-        feed_interval_ms = (cfg->max_ms * WDT_TEST_FEED_INTERVAL_RATIO) / 100;
+        feed_interval_ms = __wdt_apply_ratio(cfg->max_ms, WDT_TEST_FEED_INTERVAL_RATIO);
     }
 
     // 确保至少 1ms
@@ -220,6 +220,12 @@ static void __wdt_wait_for_window(uint32_t wait_ms, uint32_t min_ms, uint32_t ma
 
     if (report_interval_ms < WDT_TEST_MIN_TIME_MS) {
         report_interval_ms = WDT_TEST_MIN_TIME_MS;
+    }
+
+    // 如果等待时间很短，不打印中间进度，直接等待结束
+    if (report_interval_ms >= wait_ms) {
+        vsf_thread_delay_ms(wait_ms);
+        return;
     }
 
     while (vsf_systimer_get_tick() - wait_start_tick < wait_duration_tick) {
@@ -321,12 +327,7 @@ static void __wdt_prepare_mode_cfg(const vsf_wdt_capability_t *capability, vsf_w
 static bool __wdt_prepare_test(wdt_test_t *ctx, vsf_wdt_capability_t *capability, vsf_wdt_cfg_t *cfg, vsf_wdt_mode_t mode, bool use_irq, bool test_reset, const char *mode_str, bool log_capability)
 {
     if (!__wdt_validate_ctx(ctx) || (capability == NULL) || (cfg == NULL)) {
-        if (capability == NULL) {
-            __WDT_TRACE_ERROR("WDT capability is NULL!" VSF_TRACE_CFG_LINEEND);
-        }
-        if (cfg == NULL) {
-            __WDT_TRACE_ERROR("WDT cfg is NULL!" VSF_TRACE_CFG_LINEEND);
-        }
+        __WDT_TRACE_ERROR("WDT prepare test parameters invalid (capability or cfg missing)!" VSF_TRACE_CFG_LINEEND);
         return false;
     }
 
@@ -548,7 +549,7 @@ static uint32_t __wdt_calc_wait_before_feed(const vsf_wdt_cfg_t *cfg, const vsf_
     if (!__wdt_supports_window(capability, cfg)) {
         return 0;
     }
-    return cfg->min_ms + (cfg->min_ms * WDT_TEST_SAFETY_MARGIN_RATIO / 100);
+    return cfg->min_ms + __wdt_apply_ratio(cfg->min_ms, WDT_TEST_SAFETY_MARGIN_RATIO);
 }
 
 static uint32_t __wdt_calc_test_duration_ms(const vsf_wdt_cfg_t *cfg)
@@ -634,6 +635,18 @@ static bool __wdt_pick_reset_mode(const vsf_wdt_capability_t *capability, vsf_wd
         return true;
     }
     return false;
+}
+
+static uint32_t __wdt_apply_ratio(uint32_t base, uint32_t ratio_percent)
+{
+    return (base * ratio_percent) / 100;
+}
+
+static void __wdt_fix_window_bounds(vsf_wdt_cfg_t *cfg)
+{
+    if (cfg->min_ms >= cfg->max_ms) {
+        cfg->min_ms = cfg->max_ms / 2;
+    }
 }
 
 #endif

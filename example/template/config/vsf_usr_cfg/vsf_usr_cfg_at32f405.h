@@ -75,6 +75,7 @@
 #   define APP_USE_HAL_TIMER_DEMO                       DISABLED
 #   define APP_USE_HAL_USART_DEMO                       DISABLED
 #   define APP_USE_HAL_WDT_DEMO                         ENABLED
+#   define APP_USE_HAL_DMA_DEMO                         ENABLED
 
 
 // component configure

@@ -133,6 +133,7 @@ void VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_fini)(
     VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_t) *spi_ptr
 ) {
     VSF_HAL_ASSERT(spi_ptr != NULL);
+    NVIC_DisableIRQ(spi_ptr->irqn);
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_enable)(

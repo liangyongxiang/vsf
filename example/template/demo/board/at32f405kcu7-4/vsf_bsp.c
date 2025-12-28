@@ -352,10 +352,6 @@ void vsf_board_init(void)
 #if APP_USE_LINUX_DEMO == ENABLED
     vsf_linux_fs_bind_executable(VSF_LINUX_CFG_BIN_PATH "/sysclock", sysclock_main);
 #endif
-
-#if APP_USE_HAL_DEMO == ENABLED
-    hal_main();
-#endif
 }
 
 void vsf_app_driver_init(void)

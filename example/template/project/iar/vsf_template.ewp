@@ -8179,6 +8179,20 @@
             <group>
                 <name>board</name>
                 <group>
+                    <name>at32f405kcu7-4</name>
+                    <excluded>
+                        <configuration>vsf_template_m484</configuration>
+                        <configuration>vsf_template_f1c100s</configuration>
+                        <configuration>vsf_template_gd32e103</configuration>
+                        <configuration>vsf_template_mt071</configuration>
+                        <configuration>vsf_template_aic8800</configuration>
+                        <configuration>vsf_template_stm32h743</configuration>
+                    </excluded>
+                    <file>
+                        <name>$PROJ_DIR$\..\..\demo\board\at32f405kcu7-4\vsf_bsp.c</name>
+                    </file>
+                </group>
+                <group>
                     <name>embedfire_stm32h743_pro</name>
                     <excluded>
                         <configuration>vsf_template_m484</configuration>
@@ -8486,20 +8500,6 @@
                         <name>$PROJ_DIR$\..\..\demo\board\embedfire_stm32h743_pro\vsf_bsp.c</name>
                     </file>
                 </group>
-                <group>
-                    <name>at32f405kcu7-4</name>
-                    <excluded>
-                        <configuration>vsf_template_m484</configuration>
-                        <configuration>vsf_template_f1c100s</configuration>
-                        <configuration>vsf_template_gd32e103</configuration>
-                        <configuration>vsf_template_mt071</configuration>
-                        <configuration>vsf_template_aic8800</configuration>
-                        <configuration>vsf_template_stm32h743</configuration>
-                    </excluded>
-                    <file>
-                        <name>$PROJ_DIR$\..\..\demo\board\at32f405kcu7-4\vsf_bsp.c</name>
-                    </file>
-                </group>
             </group>
             <group>
                 <name>btstack_demo</name>
@@ -8606,6 +8606,9 @@
                 <name>hal_demo</name>
                 <file>
                     <name>$PROJ_DIR$\..\..\demo\hal_demo\adc_demo.c</name>
+                </file>
+                <file>
+                    <name>$PROJ_DIR$\..\..\demo\hal_demo\dma_demo.c</name>
                 </file>
                 <file>
                     <name>$PROJ_DIR$\..\..\demo\hal_demo\flash_demo.c</name>
@@ -16421,6 +16424,18 @@
                                         </group>
                                     </group>
                                 </group>
+                            </group>
+                            <group>
+                                <name>wdt</name>
+                                <file>
+                                    <name>$PROJ_DIR$\..\..\..\..\source\hal\driver\Artery\AT32F402_405\common\wdt\wdt.c</name>
+                                </file>
+                                <file>
+                                    <name>$PROJ_DIR$\..\..\..\..\source\hal\driver\Artery\AT32F402_405\common\wdt\wdt.h</name>
+                                </file>
+                                <file>
+                                    <name>$PROJ_DIR$\..\..\..\..\source\hal\driver\Artery\AT32F402_405\common\wdt\wwdt.c</name>
+                                </file>
                             </group>
                             <file>
                                 <name>$PROJ_DIR$\..\..\..\..\source\hal\driver\Artery\AT32F402_405\common\at32f402_405_conf.h</name>

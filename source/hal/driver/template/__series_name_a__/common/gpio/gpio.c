@@ -100,6 +100,37 @@ vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_direction)(
     return 0;
 }
 
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_input)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
+    VSF_HAL_ASSERT(NULL != gpio_ptr);
+    VSF_HAL_ASSERT(0 != pin_mask);
+
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_direction)(gpio_ptr, pin_mask, 0);
+}
+
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_output)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
+    VSF_HAL_ASSERT(NULL != gpio_ptr);
+    VSF_HAL_ASSERT(0 != pin_mask);
+
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_direction)(gpio_ptr, pin_mask, pin_mask);
+}
+
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_switch_direction)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
+    VSF_HAL_ASSERT(NULL != gpio_ptr);
+    VSF_HAL_ASSERT(0 != pin_mask);
+
+    vsf_gpio_pin_mask_t dir = VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_direction)(gpio_ptr, pin_mask);
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_direction)(gpio_ptr, pin_mask, ~dir);
+}
+
 vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_read)(
     VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *gpio_ptr
 ) {
@@ -282,6 +313,9 @@ vsf_gpio_capability_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_capability)(
 #define VSF_GPIO_CFG_REIMPLEMENT_API_READ_OUTPUT_REGISTER   ENABLED
 #define VSF_GPIO_CFG_REIMPLEMENT_API_OUTPUT_AND_SET         ENABLED
 #define VSF_GPIO_CFG_REIMPLEMENT_API_OUTPUT_AND_CLEAR       ENABLED
+#define VSF_GPIO_CFG_REIMPLEMENT_API_SET_INPUT              ENABLED
+#define VSF_GPIO_CFG_REIMPLEMENT_API_SET_OUTPUT             ENABLED
+#define VSF_GPIO_CFG_REIMPLEMENT_API_SWITCH_DIRECTION       ENABLED
 #define VSF_GPIO_CFG_REIMPLEMENT_API_CAPABILITY             ENABLED
 
 #define VSF_GPIO_CFG_IMP_LV0(__IDX, __HAL_OP)                                   \

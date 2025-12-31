@@ -139,6 +139,31 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_erase_multi_sector)(
     return VSF_ERR_NONE;
 }
 
+vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_erase_one_sector)(
+    VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_t) *flash_ptr,
+    vsf_flash_size_t offset
+) {
+    VSF_HAL_ASSERT(NULL != flash_ptr);
+
+    vsf_flash_capability_t cap = VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_capability)(flash_ptr);
+    VSF_HAL_ASSERT(cap.erase_sector_size > 0);
+    VSF_HAL_ASSERT((offset % cap.erase_sector_size) == 0);
+
+    return VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_erase_multi_sector)(flash_ptr, offset, cap.erase_sector_size);
+}
+
+vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_erase_all)(
+    VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_t) *flash_ptr
+) {
+    VSF_HAL_ASSERT(NULL != flash_ptr);
+
+    vsf_flash_capability_t cap = VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_capability)(flash_ptr);
+    VSF_HAL_ASSERT(cap.max_size > 0);
+    VSF_HAL_ASSERT(cap.erase_sector_size > 0);
+
+    return VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_erase_multi_sector)(flash_ptr, 0, cap.max_size);
+}
+
 vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_write_multi_sector)(
     VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_t) *flash_ptr,
     vsf_flash_size_t offset,
@@ -150,6 +175,22 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_write_multi_sector)(
     return VSF_ERR_FAIL;
 }
 
+vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_write_one_sector)(
+    VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_t) *flash_ptr,
+    vsf_flash_size_t offset,
+    uint8_t *buffer,
+    vsf_flash_size_t size
+) {
+    VSF_HAL_ASSERT(NULL != flash_ptr);
+    VSF_HAL_ASSERT(NULL != buffer);
+
+    vsf_flash_capability_t cap = VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_capability)(flash_ptr);
+    VSF_HAL_ASSERT(size <= cap.write_sector_size);
+    VSF_HAL_ASSERT(cap.none_sector_aligned_write || ((offset % cap.write_sector_size) == 0));
+
+    return VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_write_multi_sector)(flash_ptr, offset, buffer, size);
+}
+
 vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_read_multi_sector)(
     VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_t) *flash_ptr,
     vsf_flash_size_t offset,
@@ -159,6 +200,22 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_read_multi_sector)(
     VSF_HAL_ASSERT(flash_ptr != NULL);
     VSF_HAL_ASSERT(NULL != buffer);
     return VSF_ERR_FAIL;
+}
+
+vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_read_one_sector)(
+    VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_t) *flash_ptr,
+    vsf_flash_size_t offset,
+    uint8_t *buffer,
+    vsf_flash_size_t size
+) {
+    VSF_HAL_ASSERT(NULL != flash_ptr);
+    VSF_HAL_ASSERT(NULL != buffer);
+
+    vsf_flash_capability_t cap = VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_capability)(flash_ptr);
+    VSF_HAL_ASSERT(size <= cap.write_sector_size);
+    VSF_HAL_ASSERT(cap.none_sector_aligned_read || ((offset % cap.write_sector_size) == 0));
+
+    return VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_read_multi_sector)(flash_ptr, offset, buffer, size);
 }
 
 vsf_flash_status_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_status)(
@@ -265,10 +322,10 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_ctrl)(
 // only define in source file
 #define VSF_FLASH_CFG_REIMPLEMENT_API_CAPABILITY        ENABLED
 #define VSF_FLASH_CFG_REIMPLEMENT_API_GET_CONFIGURATION ENABLED
-#define VSF_FLASH_CFG_ERASE_ALL_TEMPLATE                ENABLED
-#define VSF_FLASH_CFG_ERASE_ONE_SECTOR_TEMPLATE         ENABLED
-#define VSF_FLASH_CFG_WRITE_ONE_SECTOR_TEMPLATE         ENABLED
-#define VSF_FLASH_CFG_READ_ONE_SECTOR_TEMPLATE          ENABLED
+#define VSF_FLASH_CFG_ERASE_ALL_TEMPLATE                DISABLED
+#define VSF_FLASH_CFG_ERASE_ONE_SECTOR_TEMPLATE         DISABLED
+#define VSF_FLASH_CFG_WRITE_ONE_SECTOR_TEMPLATE         DISABLED
+#define VSF_FLASH_CFG_READ_ONE_SECTOR_TEMPLATE          DISABLED
 #define VSF_FLASH_CFG_REIMPLEMENT_API_CTRL              ENABLED
 
 #define VSF_FLASH_CFG_IMP_LV0(__IDX, __HAL_OP)                                  \

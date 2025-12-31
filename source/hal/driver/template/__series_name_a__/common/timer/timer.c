@@ -286,6 +286,15 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_ctrl)(
 
     return VSF_ERR_NONE;
 }
+
+vsf_timer_status_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_status)(
+    VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_t) *timer_ptr
+) {
+    VSF_HAL_ASSERT(NULL != timer_ptr);
+    return (vsf_timer_status_t) {
+        .is_busy = 0,
+    };
+}
 // HW end
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
@@ -298,6 +307,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_ctrl)(
 #   define VSF_TIMER_CFG_REIMPLEMENT_API_CAPABILITY                 ENABLED
 #define VSF_TIMER_CFG_REIMPLEMENT_API_GET_CONFIGURATION ENABLED
 #   define VSF_TIMER_CFG_REIMPLEMENT_API_CTRL                       ENABLED
+#   define VSF_TIMER_CFG_REIMPLEMENT_API_STATUS                     ENABLED
 #   define VSF_TIMER_CFG_REIMPLEMENT_API_CHANNEL_CTRL               ENABLED
 #   define VSF_TIMER_CFG_REIMPLEMENT_API_CHANNEL_CONFIG             ENABLED
 #   define VSF_TIMER_CFG_REIMPLEMENT_API_CHANNEL_START              ENABLED

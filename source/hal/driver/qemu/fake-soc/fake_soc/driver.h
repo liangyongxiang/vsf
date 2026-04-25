@@ -27,6 +27,11 @@
 /*============================ INCLUDES ======================================*/
 #       include "hal/vsf_hal_cfg.h"
 #       include "./device.h"
+#       include "hal/driver/common/template/vsf_template_hal_driver.h"
+
+#       if VSF_HAL_USE_USART == ENABLED
+#           include "../common/usart/usart.h"
+#       endif
 
 /*============================ MACROS ========================================*/
 /*============================ MACROFIED FUNCTIONS ===========================*/

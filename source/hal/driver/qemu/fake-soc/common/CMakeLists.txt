@@ -8,3 +8,4 @@ vsf_add_sources(
 )
 
 add_subdirectory(debug_uart)
+add_subdirectory(usart)

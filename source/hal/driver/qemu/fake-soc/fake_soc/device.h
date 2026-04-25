@@ -40,6 +40,17 @@
 #include "../common/__common.h"
 
 /*============================ MACROS ========================================*/
+
+#define VSF_HW_USART_COUNT          1
+
+#define VSF_HW_USART0_REG           CMSDK_UART0
+#define VSF_HW_USART0_RX_IRQN       UART0RX_IRQn
+#define VSF_HW_USART0_TX_IRQN       UART0TX_IRQn
+#define VSF_HW_USART0_OVF_IRQN      UART_0_1_2_OVF_IRQn
+#define VSF_HW_USART0_RX_IRQHandler UART0RX_Handler
+#define VSF_HW_USART0_TX_IRQHandler UART0TX_Handler
+#define VSF_HW_USART0_OVF_IRQHandler UART_0_1_2_OVF_Handler
+
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 /*============================ GLOBAL VARIABLES ==============================*/

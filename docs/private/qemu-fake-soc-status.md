@@ -24,7 +24,8 @@ Public code branch:
 - remote: `github`
 - repository: `https://github.com/liangyongxiang/vsf`
 - branch: `feat/qemu-fake-soc-hello`
-- pushed content: code only, based on commit `f27828b6b`
+- pushed content: code and local development notes
+- current pushed documentation tip: `30a8e3831`
 
 The original `vsf` worktree was intentionally left untouched because it already
 had unrelated local changes.
@@ -99,7 +100,8 @@ Current state is intentionally minimal.
 - complete `vsf_usart_t` support is not implemented yet
 - `debug_uart` and `stdio` are not the validated hello-world path yet
 - the fake-soc linker layout is temporarily aligned with the bridge target
-- `docs/private` is intentionally not pushed to GitHub
+- `docs/private` is currently pushed to the fork branch and should still be
+  treated as branch-local development notes, not as final upstream material
 
 ## Recommended Next Steps
 

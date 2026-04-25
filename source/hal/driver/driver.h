@@ -80,6 +80,8 @@
 #       define  VSF_DRIVER_HEADER       "./SiFli/driver.h"
 #   elif    defined(__Nations__)
 #       define  VSF_DRIVER_HEADER       "./Nations/driver.h"
+#   elif    defined(__QEMU__)
+#       define  VSF_DRIVER_HEADER       "./qemu/driver.h"
 #   elif    defined(__FAKE_VENDOR__)
 #       define  VSF_DRIVER_HEADER       "./FAKE_VENDOR/driver.h"
 /* example

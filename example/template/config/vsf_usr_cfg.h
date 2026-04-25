@@ -38,6 +38,8 @@
 #   include "./vsf_usr_cfg/vsf_usr_cfg_gd32e103.h"
 #elif   defined(__MT071__)
 #   include "./vsf_usr_cfg/vsf_usr_cfg_mt071.h"
+#elif   defined(__QEMU_MPS2_BRIDGE__) || defined(__QEMU_FAKE_SOC__)
+#   include "./vsf_usr_cfg/vsf_usr_cfg_qemu.h"
 #elif   defined(__MPS2__)
 #   include "./vsf_usr_cfg/vsf_usr_cfg_mps2.h"
 #elif   defined(__ESP32__)

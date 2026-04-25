@@ -5,6 +5,37 @@
 Continue development of `feat/qemu-fake-soc-hello` on a Linux machine without
 re-discovering the Windows-specific issues already identified.
 
+## Public and Private Parts
+
+Public code branch:
+
+- remote: `github`
+- repository: `https://github.com/liangyongxiang/vsf`
+- branch: `feat/qemu-fake-soc-hello`
+
+Private local notes:
+
+- directory: `docs/private`
+- these notes are intentionally not pushed to GitHub
+
+If the Linux machine also needs the private notes, use one of these methods:
+
+1. Copy the entire `vsf-qemu-fake-soc` worktree directory to the Linux machine.
+2. Create a local bundle from the current branch and import it on Linux.
+
+Suggested bundle command on the current machine:
+
+```sh
+git bundle create vsf-qemu-fake-soc-local.bundle a5b3e2561..feat/qemu-fake-soc-hello
+```
+
+Suggested import flow on Linux from an existing clone:
+
+```sh
+git fetch /path/to/vsf-qemu-fake-soc-local.bundle feat/qemu-fake-soc-hello:feat/qemu-fake-soc-hello-local
+git checkout feat/qemu-fake-soc-hello-local
+```
+
 ## Linux Prerequisites
 
 Install at least:

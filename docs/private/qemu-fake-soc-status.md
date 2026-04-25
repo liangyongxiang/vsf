@@ -19,6 +19,13 @@ Implemented first UART IP:
 - repository worktree: `C:\Users\yongxiang\work\vsfteam\vsf-qemu-fake-soc`
 - branch: `feat/qemu-fake-soc-hello`
 
+Public code branch:
+
+- remote: `github`
+- repository: `https://github.com/liangyongxiang/vsf`
+- branch: `feat/qemu-fake-soc-hello`
+- pushed content: code only, based on commit `f27828b6b`
+
 The original `vsf` worktree was intentionally left untouched because it already
 had unrelated local changes.
 
@@ -92,6 +99,7 @@ Current state is intentionally minimal.
 - complete `vsf_usart_t` support is not implemented yet
 - `debug_uart` and `stdio` are not the validated hello-world path yet
 - the fake-soc linker layout is temporarily aligned with the bridge target
+- `docs/private` is intentionally not pushed to GitHub
 
 ## Recommended Next Steps
 

@@ -1,0 +1,110 @@
+"""Parse hardware-map.yml and return typed board descriptors."""
+
+import yaml
+from pathlib import Path
+
+from vsf_bench.config import ArtifactConfig, BoardConfig, BuildConfig, RunnerConfig
+
+
+def load(path: str | Path) -> BoardConfig:
+    """Load the first connected board from a hardware-map.yml file."""
+    p = Path(path)
+    with open(p) as f:
+        entries = yaml.safe_load(f)
+
+    if not entries:
+        raise RuntimeError(f"No entries in {p}")
+
+    for entry in entries:
+        if not entry.get("connected", False):
+            continue
+
+        build_cfg = entry.get("build", {})
+        build_artifacts = [
+            ArtifactConfig(name=a["name"], format=a["format"])
+            for a in build_cfg.get("artifacts", [])
+        ]
+        build = BuildConfig(
+            source_dir=build_cfg.get("source_dir", ""),
+            build_dir=build_cfg.get("build_dir", ""),
+            artifacts=build_artifacts,
+        )
+
+        runners = {}
+        for name, cfg in entry.get("runners", {}).items():
+            artifact_raw = cfg.get("artifact")
+            artifact = None
+            if artifact_raw:
+                artifact = ArtifactConfig(
+                    name=artifact_raw["name"],
+                    format=artifact_raw["format"],
+                )
+
+            params = {k: v for k, v in cfg.items()
+                      if k not in ("type", "artifact")}
+
+            runners[name] = RunnerConfig(
+                type=cfg["type"],
+                artifact=artifact,
+                params=params,
+            )
+
+        board = BoardConfig(
+            platform=entry.get("platform", ""),
+            connected=entry.get("connected", True),
+            active_runner=entry.get("active_runner", ""),
+            runners=runners,
+            serial=entry.get("serial", ""),
+            baud=entry.get("baud", 0),
+            build=build,
+            fixtures=entry.get("fixtures", []),
+        )
+        board.validate()
+        return board
+
+    raise RuntimeError("No connected board found in hardware-map.yml")
+
+
+def validate_runners(board: BoardConfig) -> None:
+    """Validate runner params against their class definitions.
+
+    Checks REQUIRED_PARAMS, class-specific validate_params(), and artifact
+    cross-reference against build.artifacts. Uses inline import to avoid
+    circular dependency with runner modules.
+    """
+    from vsf_bench.runners.registry import get_runner_class
+
+    errors = []
+
+    for name, runner_cfg in board.runners.items():
+        cls = get_runner_class(runner_cfg.type)
+        if cls is None:
+            continue  # custom runner (post-MVP), skip validation
+
+        for param in cls.REQUIRED_PARAMS:
+            if param not in runner_cfg.params:
+                errors.append(f"runners.{name}: missing required param '{param}'")
+
+        for err in cls.validate_params(runner_cfg.params):
+            errors.append(f"runners.{name}: {err}")
+
+        if runner_cfg.artifact is None:
+            errors.append(f"runners.{name}: missing required 'artifact' field")
+        else:
+            build_names = {a.name for a in board.build.artifacts}
+            if runner_cfg.artifact.name not in build_names:
+                errors.append(
+                    f"runners.{name}.artifact '{runner_cfg.artifact.name}' "
+                    f"not found in build.artifacts"
+                )
+
+    for name, runner_cfg in board.runners.items():
+        if runner_cfg.artifact and runner_cfg.artifact.format not in (
+            "elf", "uf2", "bin", "hex",
+        ):
+            errors.append(
+                f"runners.{name}.artifact.format '{runner_cfg.artifact.format}' unknown"
+            )
+
+    if errors:
+        raise ValueError("Runner validation failed:\n  " + "\n  ".join(errors))

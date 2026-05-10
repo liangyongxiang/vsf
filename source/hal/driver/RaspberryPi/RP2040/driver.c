@@ -40,6 +40,22 @@
 #define KHZ 1000
 #define MHZ 1000000
 
+#ifndef PICO_PLL_VCO_MIN_FREQ_KHZ
+#   ifdef PICO_PLL_VCO_MIN_FREQ_HZ
+#       define PICO_PLL_VCO_MIN_FREQ_KHZ    (PICO_PLL_VCO_MIN_FREQ_HZ / KHZ)
+#   else
+#       define PICO_PLL_VCO_MIN_FREQ_KHZ    (750 * KHZ)
+#   endif
+#endif
+
+#ifndef PICO_PLL_VCO_MAX_FREQ_KHZ
+#   ifdef PICO_PLL_VCO_MAX_FREQ_HZ
+#       define PICO_PLL_VCO_MAX_FREQ_KHZ    (PICO_PLL_VCO_MAX_FREQ_HZ / KHZ)
+#   else
+#       define PICO_PLL_VCO_MAX_FREQ_KHZ    (1600 * KHZ)
+#   endif
+#endif
+
 /// \tag::pll_settings[]
 //
 // There are two PLLs in RP2040:
@@ -83,6 +99,34 @@
 #endif // SYS_CLK_KHZ == 125000 && XOSC_KHZ == 12000 && PLL_COMMON_REFDIV == 1
 #if !defined(PLL_SYS_VCO_FREQ_KHZ) || !defined(PLL_SYS_POSTDIV1) || !defined(PLL_SYS_POSTDIV2)
 #error PLL_SYS_VCO_FREQ_KHZ, PLL_SYS_POSTDIV1 and PLL_SYS_POSTDIV2 must all be specified when using custom clock setup
+#endif
+
+#ifndef USB_CLK_KHZ
+#   ifdef USB_CLK_HZ
+#       define USB_CLK_KHZ                    (USB_CLK_HZ / KHZ)
+#   else
+#       define USB_CLK_KHZ                    48000
+#   endif
+#endif
+
+#ifndef PLL_USB_REFDIV
+#define PLL_USB_REFDIV                        PLL_COMMON_REFDIV
+#endif
+
+#ifndef PLL_USB_VCO_FREQ_KHZ
+#   ifdef PLL_USB_VCO_FREQ_HZ
+#       define PLL_USB_VCO_FREQ_KHZ           (PLL_USB_VCO_FREQ_HZ / KHZ)
+#   else
+#       define PLL_USB_VCO_FREQ_KHZ           (1200 * KHZ)
+#   endif
+#endif
+
+#ifndef PLL_USB_POSTDIV1
+#define PLL_USB_POSTDIV1                      5
+#endif
+
+#ifndef PLL_USB_POSTDIV2
+#define PLL_USB_POSTDIV2                      5
 #endif
 
 /*******************************************************************************
@@ -389,8 +433,7 @@ bool vsf_driver_init(void)
 
     /// \tag::pll_init[]
     pll_init(pll_sys_hw, PLL_COMMON_REFDIV, PLL_SYS_VCO_FREQ_KHZ * KHZ, PLL_SYS_POSTDIV1, PLL_SYS_POSTDIV2);
-// initialize usb pll in usb module when required
-//    pll_init(pll_usb_hw, PLL_COMMON_REFDIV, PLL_USB_VCO_FREQ_KHZ * KHZ, PLL_USB_POSTDIV1, PLL_USB_POSTDIV2);
+    pll_init(pll_usb_hw, PLL_USB_REFDIV, PLL_USB_VCO_FREQ_KHZ * KHZ, PLL_USB_POSTDIV1, PLL_USB_POSTDIV2);
     /// \end::pll_init[]
 
     /// \tag::configure_clk_sys[]
@@ -409,6 +452,24 @@ bool vsf_driver_init(void)
                     CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_CLK_SYS,
                     SYS_CLK_KHZ * KHZ,
                     SYS_CLK_KHZ * KHZ);
+
+    clock_configure(clk_usb,
+                    0,
+                    CLOCKS_CLK_USB_CTRL_AUXSRC_VALUE_CLKSRC_PLL_USB,
+                    USB_CLK_KHZ * KHZ,
+                    USB_CLK_KHZ * KHZ);
+
+    clock_configure(clk_adc,
+                    0,
+                    CLOCKS_CLK_ADC_CTRL_AUXSRC_VALUE_CLKSRC_PLL_USB,
+                    USB_CLK_KHZ * KHZ,
+                    USB_CLK_KHZ * KHZ);
+
+    clock_configure(clk_rtc,
+                    0,
+                    CLOCKS_CLK_RTC_CTRL_AUXSRC_VALUE_CLKSRC_PLL_USB,
+                    USB_CLK_KHZ * KHZ,
+                    (USB_CLK_KHZ * KHZ) / 1024);
 
     unreset_block_wait(RESETS_RESET_BITS);
     return true;

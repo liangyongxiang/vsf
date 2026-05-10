@@ -5,17 +5,26 @@ description: Main agent loop — build, flash, run test script, return results. 
 
 # board-run
 
-The primary entry point for AI agent development. Chains the full development loop: build → flash → execute test script → return pass/fail.
+The primary entry point for AI agent development. Chains the development loop: build → flash → optionally execute test script → return results.
 
 **Always rebuilds** (no skip-build in MVP).
 
 ## Usage
 
 ```bash
+# Build + flash + verify
 board-run board/pico/hardware-map.yml test_script.py
+
+# Build + flash only (no test)
+board-run board/pico/hardware-map.yml
+
+# Explicit project root (defaults to cwd)
+board-run --project-root /path/to/project board/pico/hardware-map.yml test_script.py
 ```
 
-Where `test_script.py` is a Python file with a `run(serial)` function:
+The `test_script.py` is optional. When omitted, board-run runs build + flash only — no serial is opened, no audit log is created, exit code is always 0 on success.
+
+When provided, `test_script.py` is a Python file with a `run(serial)` function:
 
 ```python
 def run(serial):
@@ -26,24 +35,26 @@ def run(serial):
 
 ## What it does
 
-1. **Detect project root** — git `rev-parse --show-toplevel` from the hardware-map path
+1. **Resolve project root** — `--project-root` flag, defaults to cwd
 2. **Build** — cmake configure (if needed) + build
-3. **Open serial** — before flash, to capture boot output
-4. **Flash** — select runner from `active_runner` in hardware-map.yml, flash firmware
-5. **Run test script** — load script, inject `SerialInstrument`, call `run(serial)`
-6. **Report** — prints PASS or FAIL, writes audit log to `logs/<timestamp>-board-run.jsonl`
-7. **Write final verdict** — appends `{"verdict": "pass"}` or `{"verdict": "fail", "error": "..."}` to the audit log
+3. **Flash** — select runner from `active_runner` in hardware-map.yml, flash firmware
+4. **If test script provided:**
+   - Open serial
+   - Run test script (inject `SerialInstrument`, call `run(serial)`)
+   - Print PASS or FAIL
+   - Write audit log + final verdict to `logs/<timestamp>-board-run.jsonl`
+5. **If no test script:** exit 0 after flash
 
 ## Exit codes
 
 | Code | Meaning |
 |------|---------|
-| 0    | PASS — test script completed without exception |
+| 0    | Success — build+flash OK (or test script PASS) |
 | 1    | FAIL — test script raised TimeoutError or AssertionError |
 
 ## Audit log
 
-Events logged per step, plus a final verdict line:
+Only created when a test script is provided. Events logged per step, plus a final verdict line:
 
 ```jsonl
 {"ts":"...", "direction":"recv", "data":"UART echo demo ...", "verdict":"pending"}

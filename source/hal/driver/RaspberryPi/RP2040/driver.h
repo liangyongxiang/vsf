@@ -30,7 +30,7 @@
 #   include "hal/driver/common/swi/vsf_swi_template.h"
 #   include "./device.h"
 
-// for enum clock_index
+// for clock_num_t
 #   include "hardware/structs/clocks.h"
 
 #   include "i2c/i2c.h"
@@ -153,8 +153,8 @@
 /*============================ LOCAL VARIABLES ===============================*/
 /*============================ PROTOTYPES ====================================*/
 
-extern bool clock_configure(enum clock_index clk_index, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t freq);
-extern uint32_t clock_get_hz(enum clock_index clk_index);
+extern bool clock_configure(clock_num_t clk_index, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t freq);
+extern uint32_t clock_get_hz(clock_num_t clk_index);
 
 #   endif   // __HAL_DRIVER_RASPBERRYPI_RP2040_H__
 #endif      // __VSF_HEADER_ONLY_SHOW_ARCH_INFO__

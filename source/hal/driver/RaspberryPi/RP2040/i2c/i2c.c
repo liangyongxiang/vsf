@@ -115,7 +115,43 @@ vsf_err_t vsf_hw_i2c_master_request(vsf_hw_i2c_t *hw_i2c_ptr, uint16_t address,
 uint_fast16_t vsf_hw_i2c_get_transferred_count(vsf_hw_i2c_t *hw_i2c_ptr)
 {
     VSF_HAL_ASSERT(hw_i2c_ptr != NULL);
-    return vsf_dw_apb_i2c_get_transferred_count(&hw_i2c_ptr->use_as__vsf_dw_apb_i2c_t);
+    return vsf_dw_apb_i2c_master_get_transferred_count(&hw_i2c_ptr->use_as__vsf_dw_apb_i2c_t);
+}
+
+// New API split from get_transferred_count (template updated)
+uint_fast16_t vsf_hw_i2c_master_get_transferred_count(vsf_hw_i2c_t *hw_i2c_ptr)
+{
+    return vsf_hw_i2c_get_transferred_count(hw_i2c_ptr);
+}
+
+// Stub: DW APB I2C master FIFO transfer not yet implemented
+fsm_rt_t vsf_hw_i2c_master_fifo_transfer(vsf_hw_i2c_t *hw_i2c_ptr, uint16_t address,
+    vsf_i2c_cmd_t cmd, uint_fast16_t count, uint8_t *buffer_ptr,
+    vsf_i2c_cmd_t *cur_cmd_ptr, uint_fast16_t *offset_ptr)
+{
+    VSF_HAL_ASSERT(false);
+    return fsm_rt_err;
+}
+
+// Stubs: slave mode not supported on this driver
+uint_fast16_t vsf_hw_i2c_slave_fifo_transfer(vsf_hw_i2c_t *hw_i2c_ptr,
+    bool transmit_or_receive, uint_fast16_t count, uint8_t *buffer_ptr)
+{
+    VSF_HAL_ASSERT(false);
+    return 0;
+}
+
+vsf_err_t vsf_hw_i2c_slave_request(vsf_hw_i2c_t *hw_i2c_ptr,
+    bool transmit_or_receive, uint_fast16_t count, uint8_t *buffer_ptr)
+{
+    VSF_HAL_ASSERT(false);
+    return VSF_ERR_NOT_SUPPORT;
+}
+
+uint_fast16_t vsf_hw_i2c_slave_get_transferred_count(vsf_hw_i2c_t *hw_i2c_ptr)
+{
+    VSF_HAL_ASSERT(false);
+    return 0;
 }
 
 vsf_i2c_capability_t vsf_hw_i2c_capability(vsf_hw_i2c_t *hw_i2c_ptr)

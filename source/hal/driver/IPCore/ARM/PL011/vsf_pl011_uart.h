@@ -100,9 +100,22 @@ typedef enum vsf_usart_mode_t {
                                         | VSF_USART_RX_ENABLE
                                         | VSF_USART_RTS_CTS_HWCONTROL,
 
-    // Not supported by hardware, just keep for build
+    // Not supported by hardware, just keep for build compatibility
     VSF_USART_9_BIT_LENGTH              = (0x1ul << 24),
     VSF_USART_1_5_STOPBIT               = (0x1ul << 25),
+    VSF_USART_0_5_STOPBIT               = (0x1ul << 26),
+    VSF_USART_10_BIT_LENGTH             = (0x1ul << 27),
+    VSF_USART_SYNC_CLOCK_ENABLE         = (0x1ul << 28),
+    VSF_USART_SYNC_CLOCK_DISABLE        = 0,
+    VSF_USART_HALF_DUPLEX_ENABLE        = (0x1ul << 29),
+    VSF_USART_HALF_DUPLEX_DISABLE       = 0,
+    // PL011 FIFO threshold not modeled; keep 0 so masks compile
+    VSF_USART_TX_FIFO_THRESHOLD_EMPTY   = 0,
+    VSF_USART_TX_FIFO_THRESHOLD_HALF_EMPTY = 0,
+    VSF_USART_TX_FIFO_THRESHOLD_NOT_FULL   = 0,
+    VSF_USART_RX_FIFO_THRESHOLD_NOT_EMPTY  = 0,
+    VSF_USART_RX_FIFO_THRESHOLD_FULL       = 0,
+    VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL  = 0,
 } vsf_usart_mode_t;
 
 typedef enum vsf_usart_irq_mask_t {
@@ -117,6 +130,7 @@ typedef enum vsf_usart_irq_mask_t {
     VSF_USART_IRQ_MASK_PARITY_ERR       = (0x1ul << 8),
     VSF_USART_IRQ_MASK_BREAK_ERR        = (0x1ul << 9),
     VSF_USART_IRQ_MASK_RX_OVERFLOW_ERR  = (0x1ul << 10),
+    VSF_USART_IRQ_MASK_CTS              = (0x1ul << 11),
 
     PL011_USART_IRQ_MASK_ERROR          = VSF_USART_IRQ_MASK_FRAME_ERR
                                         | VSF_USART_IRQ_MASK_PARITY_ERR

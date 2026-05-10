@@ -61,7 +61,7 @@ vsf_err_t vsf_pl011_usart_init(vsf_pl011_usart_t *pl011_usart_ptr, vsf_usart_cfg
     // mode | FEN(Enable FIFOs, bit4)
     reg->UARTLCR_H.VALUE = (cfg_ptr->mode & PL011_USART_MODE_MASK) | (1 << 4);
     // enable
-    reg->UARTCR.VALUE = (cfg_ptr->mode >> 8) & PL011_USART_ENABLE_MASK;
+    reg->UARTCR.VALUE = (cfg_ptr->mode & PL011_USART_ENABLE_MASK) >> 8;
 
     return VSF_ERR_NONE;
 }

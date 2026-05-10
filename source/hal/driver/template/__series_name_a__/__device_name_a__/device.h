@@ -61,6 +61,8 @@
 
 /*============================ MACROS ========================================*/
 
+// peripheral defines
+
 // software interrupt provided by a dedicated device
 #define VSF_DEV_SWI_NUM                             0
 
@@ -107,6 +109,8 @@
 #define VSF_HW_QSPI1_IRQN                          QSPI1_IRQn
 #define VSF_HW_QSPI1_IRQHandler                    QSPI1_IRQHandler
 #define VSF_HW_QSPI1_REG                           QSPI1_BASE
+
+// peripheral defines end
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/

@@ -15,16 +15,20 @@ class SerialInstrument:
         port: str,
         baud: int = 115200,
         audit_log: Path | None = None,
+        echo: bool = True,
     ):
         self._port = port
         self._baud = baud
         self._audit_log = audit_log
+        self._echo = echo
         self._ser: serial.Serial | None = None
+        self._leftover = ""
 
     def open(self) -> None:
         self._ser = serial.Serial(self._port, self._baud, timeout=0.1)
         time.sleep(0.1)
         self._ser.reset_input_buffer()
+        self._leftover = ""
 
     def close(self) -> None:
         if self._ser and self._ser.is_open:
@@ -36,24 +40,37 @@ class SerialInstrument:
         self._log("send", data)
 
     def expect(self, pattern: str, timeout: float = 5.0) -> str:
-        """Read until pattern matches or timeout. Returns matched line."""
+        """Read until pattern matches or timeout. Returns matched line.
+
+        Unconsumed data after the matched line is preserved as leftover and
+        prepended to the next read, so no data is silently lost.
+        """
         assert self._ser is not None
         deadline = time.monotonic() + timeout
-        buf = ""
+        buf = self._leftover
+        self._leftover = ""
+
+        # Check leftover first
+        for line in buf.splitlines(keepends=True):
+            if re.search(pattern, line):
+                remaining = buf[buf.index(line) + len(line):]
+                self._leftover = remaining
+                self._log("recv", line.rstrip())
+                return line.rstrip()
 
         while time.monotonic() < deadline:
             available = self._ser.in_waiting
             if available > 0:
                 chunk = self._ser.read(available).decode(errors="replace")
                 buf += chunk
-                print(chunk, end="", flush=True)
+                if self._echo:
+                    print(chunk, end="", flush=True)
 
             for line in buf.splitlines(keepends=True):
                 if re.search(pattern, line):
                     remaining = buf[buf.index(line) + len(line):]
+                    self._leftover = remaining
                     self._log("recv", line.rstrip())
-                    if remaining:
-                        self._log("recv", remaining.rstrip())
                     return line.rstrip()
 
             time.sleep(0.05)
@@ -65,14 +82,16 @@ class SerialInstrument:
         """Read all available data until timeout expires with no new data."""
         assert self._ser is not None
         deadline = time.monotonic() + timeout
-        buf = ""
+        buf = self._leftover
+        self._leftover = ""
 
         while time.monotonic() < deadline:
             available = self._ser.in_waiting
             if available > 0:
                 chunk = self._ser.read(available).decode(errors="replace")
                 buf += chunk
-                print(chunk, end="", flush=True)
+                if self._echo:
+                    print(chunk, end="", flush=True)
                 deadline = time.monotonic() + timeout
             else:
                 time.sleep(0.05)

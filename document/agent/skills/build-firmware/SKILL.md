@@ -9,12 +9,6 @@ Run cmake configure (if needed) and build for the board specified in hardware-ma
 
 ## Usage
 
-```bash
-python -m vsf_bench.runners.cmake_runner --hardware-map board/pico/hardware-map.yml
-```
-
-Or programmatically:
-
 ```python
 from vsf_bench.hardware_map import load
 from vsf_bench.runners.cmake_runner import CMakeRunner
@@ -34,5 +28,5 @@ print(f"Build output: {build_dir}")
 
 ## Returns
 
-- Build directory path (contains `vsf_demo.elf`, `vsf_demo.uf2`, etc.)
+- Build directory path (contains `.elf`, `.uf2`, etc.)
 - Non-zero exit on build failure

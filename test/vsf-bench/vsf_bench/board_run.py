@@ -1,6 +1,7 @@
 """board-run — build → flash → run test script → return results."""
 
 import importlib.util
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -17,12 +18,34 @@ RUNNER_MAP = {
 }
 
 
+def find_project_root(hwmap_path: str) -> Path:
+    """Find the git repository root containing hardware-map.yml."""
+    hwmap = Path(hwmap_path).resolve()
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--show-toplevel"],
+            capture_output=True, text=True, check=True,
+            cwd=str(hwmap.parent),
+        )
+        return Path(result.stdout.strip())
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        # Fallback: walk up to find CONTEXT.md or .git
+        for parent in hwmap.parents:
+            if (parent / ".git").exists() or (parent / "CONTEXT.md").exists():
+                return parent
+        raise RuntimeError(f"Cannot find project root from {hwmap_path}")
+
+
 def load_test_script(path: str | Path):
     """Load a test script and return its run() function."""
     p = Path(path).resolve()
+    if not p.exists():
+        raise FileNotFoundError(f"Test script not found: {p}")
     spec = importlib.util.spec_from_file_location("test_script", p)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
+    if not hasattr(mod, "run"):
+        raise AttributeError(f"Test script {p} must define a run(serial) function")
     return mod.run
 
 
@@ -33,7 +56,7 @@ def main():
 
     hwmap_path = sys.argv[1]
     test_script_path = sys.argv[2]
-    project_root = Path(hwmap_path).resolve().parents[2]  # board/pico/hardware-map.yml → repo root
+    project_root = find_project_root(hwmap_path)
 
     board = load_hardware_map(hwmap_path)
 
@@ -71,8 +94,14 @@ def main():
     try:
         run_fn(ser)
         print("\n[board-run] PASS")
+        with open(log_path, "a") as f:
+            import json
+            f.write(json.dumps({"verdict": "pass"}) + "\n")
     except (TimeoutError, AssertionError) as e:
         print(f"\n[board-run] FAIL: {e}")
+        with open(log_path, "a") as f:
+            import json
+            f.write(json.dumps({"verdict": "fail", "error": str(e)}) + "\n")
         sys.exit(1)
     finally:
         ser.close()

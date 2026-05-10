@@ -9,13 +9,8 @@ Flash a pre-built firmware binary to the board. Uses the `active_runner` field f
 
 ## Usage
 
-```bash
-python -m vsf_bench.runners.swd_runner --build-dir build/rp2040 --hardware-map board/pico/hardware-map.yml
-```
-
-Or programmatically:
-
 ```python
+from pathlib import Path
 from vsf_bench.hardware_map import load
 from vsf_bench.runners.swd_runner import SWDRunner
 from vsf_bench.runners.uf2_runner import UF2Runner
@@ -42,7 +37,8 @@ runner.flash(Path("build/rp2040"))
 
 1. Reads `active_runner` from hardware-map.yml
 2. Selects the corresponding runner class
-3. Calls `runner.flash(build_dir)` — the runner picks the correct artifact automatically
+3. Finds the correct artifact in the build directory (globs for `.elf` or `.uf2`)
+4. Calls `runner.flash(build_dir)`
 
 ## Prerequisites
 

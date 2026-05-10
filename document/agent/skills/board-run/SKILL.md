@@ -12,8 +12,7 @@ The primary entry point for AI agent development. Chains the full development lo
 ## Usage
 
 ```bash
-cd <project root>
-python -m vsf_bench.board_run board/pico/hardware-map.yml test_script.py
+board-run board/pico/hardware-map.yml test_script.py
 ```
 
 Where `test_script.py` is a Python file with a `run(serial)` function:
@@ -27,10 +26,13 @@ def run(serial):
 
 ## What it does
 
-1. **Build** — cmake configure (if needed) + build
-2. **Flash** — select runner from `active_runner` in hardware-map.yml, flash firmware
-3. **Run test script** — load script, inject `SerialInstrument`, call `run(serial)`
-4. **Report** — prints PASS or FAIL, writes audit log to `logs/<timestamp>-board-run.jsonl`
+1. **Detect project root** — git `rev-parse --show-toplevel` from the hardware-map path
+2. **Build** — cmake configure (if needed) + build
+3. **Open serial** — before flash, to capture boot output
+4. **Flash** — select runner from `active_runner` in hardware-map.yml, flash firmware
+5. **Run test script** — load script, inject `SerialInstrument`, call `run(serial)`
+6. **Report** — prints PASS or FAIL, writes audit log to `logs/<timestamp>-board-run.jsonl`
+7. **Write final verdict** — appends `{"verdict": "pass"}` or `{"verdict": "fail", "error": "..."}` to the audit log
 
 ## Exit codes
 
@@ -38,6 +40,17 @@ def run(serial):
 |------|---------|
 | 0    | PASS — test script completed without exception |
 | 1    | FAIL — test script raised TimeoutError or AssertionError |
+
+## Audit log
+
+Events logged per step, plus a final verdict line:
+
+```jsonl
+{"ts":"...", "direction":"recv", "data":"UART echo demo ...", "verdict":"pending"}
+{"ts":"...", "direction":"send", "data":"hello", "verdict":"pending"}
+{"ts":"...", "direction":"recv", "data":"hello", "verdict":"pending"}
+{"verdict":"pass"}
+```
 
 ## Workflow for AI agents
 

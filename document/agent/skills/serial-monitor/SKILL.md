@@ -9,8 +9,6 @@ Open a programmatic serial connection to the board. Supports send/expect pattern
 
 ## Usage
 
-Programmatic (Python test script):
-
 ```python
 from pathlib import Path
 from vsf_bench.hardware_map import load
@@ -42,6 +40,10 @@ with SerialInstrument(board.serial, board.baud, audit_log=Path("logs/test.jsonl"
 | `expect(pattern, timeout)`  | Read until regex pattern matches, raises TimeoutError |
 | `read_all(timeout)`         | Read all data until silence, returns string       |
 | Context manager (`with`)    | Auto open/close                                   |
+
+## Leftover buffering
+
+`expect()` preserves unconsumed data after the matched line in an internal buffer. The next `expect()` or `read_all()` call consumes it first, so no serial data is silently lost.
 
 ## Audit log
 

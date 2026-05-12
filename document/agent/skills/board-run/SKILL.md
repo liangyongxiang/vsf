@@ -1,31 +1,27 @@
 ---
 name: board-run
-description: Main agent loop — build, flash, run test script, return results. Call once after every code change.
+type: workflow
+description: |
+  USE FOR: running the build-flash-test loop after firmware changes, executing automated test scripts on hardware, getting PASS/FAIL with audit trails, iterating on driver implementation.
+  DO NOT USE FOR: building only (use build-firmware), manual serial (use serial-monitor), flashing pre-built firmware (use flash-board).
 ---
 
 # board-run
 
-The primary entry point for AI agent development. Chains the development loop: build → flash → optionally execute test script → return results.
+**PRIMARY ENTRY POINT** for AI agent firmware development. INVOKES: `build-firmware` → `flash-board` → `serial-monitor`.
 
-**Always rebuilds** (no skip-build in MVP).
+## Overview
+
+Build → flash → optionally run test script → return results. Always rebuilds.
 
 ## Usage
 
 ```bash
-# Build + flash + verify
-board-run board/pico/hardware-map.yml test_script.py
-
-# Build + flash only (no test)
-board-run board/pico/hardware-map.yml
-
-# Explicit project root (defaults to cwd)
-board-run --project-root /path/to/project board/pico/hardware-map.yml test_script.py
+board-run board/<board>/hardware-map.yml test_script.py
+board-run board/<board>/hardware-map.yml
 ```
 
-The `test_script.py` is optional. When omitted, board-run runs build + flash only — no serial is opened, no audit log is created, exit code is always 0 on success.
-
-When provided, `test_script.py` is a Python file with a `run(serial)` function:
-
+Test script — Python file with `run(serial)`:
 ```python
 def run(serial):
     serial.expect("UART echo demo", timeout=3)
@@ -35,53 +31,32 @@ def run(serial):
 
 ## What it does
 
-1. **Resolve project root** — `--project-root` flag, defaults to cwd
-2. **Build** — cmake configure (if needed) + build
-3. **Flash** — select runner from `active_runner` in hardware-map.yml, flash firmware
-4. **If test script provided:**
-   - Open serial
-   - Run test script (inject `SerialInstrument`, call `run(serial)`)
-   - Print PASS or FAIL
-   - Write audit log + final verdict to `logs/<timestamp>-board-run.jsonl`
-5. **If no test script:** exit 0 after flash
+1. Resolve project root (`--project-root` or cwd)
+2. Build via cmake configure + build
+3. Flash via active runner from hardware-map.yml
+4. If test script: open serial, run test, print PASS/FAIL, write audit log
+5. If no test script: exit 0 after flash
 
 ## Exit codes
 
 | Code | Meaning |
 |------|---------|
-| 0    | Success — build+flash OK (or test script PASS) |
-| 1    | FAIL — test script raised TimeoutError or AssertionError |
+| 0    | Success |
+| 1    | FAIL (TimeoutError or AssertionError in test script) |
 
 ## Audit log
 
-Only created when a test script is provided. Events logged per step, plus a final verdict line:
-
-```jsonl
-{"ts":"...", "direction":"recv", "data":"UART echo demo ...", "verdict":"pending"}
-{"ts":"...", "direction":"send", "data":"hello", "verdict":"pending"}
-{"ts":"...", "direction":"recv", "data":"hello", "verdict":"pending"}
-{"verdict":"pass"}
-```
-
-## Workflow for AI agents
-
-After modifying firmware source code:
-
-```
-1. Generate or reuse a test script (e.g. test_uart_echo.py)
-2. Run: board-run board/pico/hardware-map.yml test_uart_echo.py
-3. Check exit code and output
-4. If PASS → proceed to next task
-5. If FAIL → read error message and audit log, modify code, go to 1
-```
-
-## Test script format
-
-Plain Python file with a single `run(serial)` function. The `serial` parameter is a `SerialInstrument` instance with `send()`, `expect()`, and `read_all()` methods. See serial-monitor skill for full API.
+JSONL per step, final verdict: `{"verdict":"pass"}` or `{"verdict":"fail"}`, written to `logs/<timestamp>-board-run.jsonl`.
 
 ## Prerequisites
 
 - vsf-bench installed (`pip install -e vsf.demo/vsf/test/vsf-bench`)
 - pyyaml, pyserial installed
 - Board connected and powered
-- hardware-map.yml configured with correct serial port and runner
+- hardware-map.yml configured
+
+## Troubleshooting
+
+- **Build fails**: Run `build-firmware` standalone
+- **Flash fails**: Check board connection and active runner config
+- **Test timeout**: Debug with `serial-monitor` standalone

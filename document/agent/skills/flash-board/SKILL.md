@@ -1,46 +1,56 @@
 ---
 name: flash-board
-description: Flash firmware to the target board using the active runner from hardware-map.yml.
+type: utility
+description: |
+  USE FOR: deploying firmware to hardware via SWD or UF2, selecting flash method from hardware-map.yml, flashing pre-built artifacts.
+  DO NOT USE FOR: building firmware (use build-firmware), full build-flash-test loop (use board-run), serial interaction (use serial-monitor).
 ---
 
 # flash-board
 
-Flash a pre-built firmware binary to the board. Uses the `active_runner` field from hardware-map.yml to select the flash method.
+**UTILITY SKILL** — called by `board-run`. Also usable standalone.
+
+## Overview
+
+Flash a pre-built firmware binary to the board using the `active_runner` from hardware-map.yml.
 
 ## Usage
 
 ```python
 from pathlib import Path
 from vsf_bench.hardware_map import load
-from vsf_bench.runners.swd_runner import SWDRunner
-from vsf_bench.runners.uf2_runner import UF2Runner
+from vsf_bench.runners.registry import get_runner_class
 
-board = load("board/pico/hardware-map.yml")
+board = load("board/<board>/hardware-map.yml")
 runner_cfg = board.runners[board.active_runner]
-
-if runner_cfg.type == "openocd":
-    runner = SWDRunner(runner_cfg)
-elif runner_cfg.type == "uf2":
-    runner = UF2Runner(runner_cfg)
-
-runner.flash(Path("build/rp2040"))
+runner_cls = get_runner_class(runner_cfg.type)
+if runner_cls is None:
+    raise RuntimeError(f"Unknown runner type: {runner_cfg.type}")
+runner = runner_cls(runner_cfg)
+runner.flash(Path(board.build.build_dir))
 ```
 
 ## Supported runners
 
-| type     | Class      | Artifact | Method                        |
-|----------|------------|----------|-------------------------------|
-| openocd  | SWDRunner  | .elf     | OpenOCD via CMSIS-DAP/SWD     |
-| uf2      | UF2Runner  | .uf2     | USB mass storage copy         |
+| type    | Class      | Artifact | Method                    |
+|---------|------------|----------|---------------------------|
+| openocd | SWDRunner  | .elf     | OpenOCD via CMSIS-DAP/SWD |
+| uf2     | UF2Runner  | .uf2     | USB mass storage copy     |
 
 ## What it does
 
 1. Reads `active_runner` from hardware-map.yml
-2. Selects the corresponding runner class
-3. Finds the correct artifact in the build directory (globs for `.elf` or `.uf2`)
+2. Selects runner class via `get_runner_class`
+3. Finds artifact in the build directory
 4. Calls `runner.flash(build_dir)`
 
 ## Prerequisites
 
-- Firmware must be built first (use build-firmware skill)
-- Board must be connected (SWD debugger or in BOOTSEL mode for UF2)
+- Firmware must be built first (use `build-firmware`)
+- Board connected (SWD debugger or BOOTSEL mode for UF2)
+
+## Troubleshooting
+
+- **OpenOCD fails**: Check debug probe connection and interface/target config
+- **UF2 copy fails**: Verify board is in BOOTSEL mode and mount point correct
+- **Artifact not found**: Verify build completed and artifact name matches hardware-map.yml

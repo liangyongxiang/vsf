@@ -192,7 +192,7 @@ void vsf_pl011_usart_irqhandler(vsf_pl011_usart_t *pl011_usart_ptr)
     vsf_usart_irq_mask_t mask = reg->UARTMIS.VALUE;
     reg->UARTICR.VALUE = mask;
     if (mask && (pl011_usart_ptr->isr.handler_fn != NULL)) {
-        pl011_usart_ptr->isr.handler_fn(pl011_usart_ptr, pl011_usart_ptr->isr.target_ptr, mask);
+        pl011_usart_ptr->isr.handler_fn(pl011_usart_ptr->isr.target_ptr, (vsf_usart_t *)pl011_usart_ptr, mask);
     }
 }
 

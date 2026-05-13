@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
 Deterministic check: USART source implementation completeness.
+Supports both direct-reg and IPCore-based drivers.
 Usage: check-usart-source.py <uart.c>
-Exit: 0=pass, 1=errors, 2=warnings-only
+Exit: 0=pass, 1=errors, 2=warnings
 """
 
 import re
@@ -29,6 +30,10 @@ def check_source(path: str) -> tuple[int, int]:
             print(f"  WARN: {msg}")
             warnings += 1
 
+    is_ipcore = has(r"#define\s+__VSF_HAL_.*_CLASS_INHERIT__")
+    if is_ipcore:
+        print("  INFO: IPCore-based driver detected")
+
     # ── Guard ──
     if has(r"VSF_HAL_USE_USART\s*==\s*ENABLED"):
         say("OK", "VSF_HAL_USE_USART guard")
@@ -36,12 +41,12 @@ def check_source(path: str) -> tuple[int, int]:
         say("FAIL", "missing VSF_HAL_USE_USART == ENABLED guard")
 
     # ── HW struct ──
-    if has(r"typedef\s+struct\s+\w*.*vsf_hw_usart_t"):
-        say("OK", "vsf_hw_usart_t struct")
+    if has(r"typedef\s+struct\s+\w*.*_usart_t"):
+        say("OK", "HW usart struct defined")
     elif has(r"implement\(vsf_\w+_usart_t\)"):
         say("OK", "IPCore-based struct (implement pattern)")
     else:
-        say("FAIL", "missing vsf_hw_usart_t struct or IPCore implement pattern")
+        say("FAIL", "missing usart struct or IPCore implement pattern")
 
     # ── Essential API implementations ──
     apis = [

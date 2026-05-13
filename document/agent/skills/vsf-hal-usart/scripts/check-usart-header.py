@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
 Deterministic check: USART header completeness.
+Supports both direct-reg and IPCore-based drivers.
 Usage: check-usart-header.py <uart.h>
-Exit: 0=pass, 1=errors, 2=warnings-only
+Exit: 0=pass, 1=errors, 2=warnings
 """
 
 import re
@@ -32,31 +33,42 @@ def check_header(path: str) -> tuple[int, int]:
             print(f"  WARN: {msg}")
             warnings += 1
 
+    is_ipcore = bool(re.search(r'#include\s+.*IPCore/', text))
+    if is_ipcore:
+        print("  INFO: IPCore-based driver detected, skipping type/enum checks")
+
     # ── Guard ──
     if has(r"VSF_HAL_USE_USART\s*==\s*ENABLED"):
         say("OK", "VSF_HAL_USE_USART guard")
     else:
         say("FAIL", "missing VSF_HAL_USE_USART == ENABLED guard")
 
-    # ── Template include ──
+    # ── Template/IPCore include ──
     if has(r'#include.*vsf_template_usart\.h'):
         say("OK", "vsf_template_usart.h included")
+    elif is_ipcore:
+        say("OK", "types provided by IPCore header include")
     else:
         say("FAIL", "missing #include vsf_template_usart.h")
 
-    # ── irq_mask_t ──
+    # ── irq_mask_t (from chip or IPCore header) ──
     if has(r"vsf_usart_irq_mask_t"):
         say("OK", "vsf_usart_irq_mask_t defined")
+    elif is_ipcore:
+        pass  # defined in IPCore header, not in chip file
     else:
         say("FAIL", "vsf_usart_irq_mask_t not found")
 
     # ── IRQ mandatory bits ──
-    for bit in ("TX", "RX"):
-        macro = f"VSF_USART_IRQ_MASK_{bit}"
-        if has(re.escape(macro)):
-            say("OK", f"{macro}")
-        else:
-            say("FAIL", f"{macro} not found")
+    if is_ipcore:
+        pass  # defined in IPCore header
+    else:
+        for bit in ("TX", "RX"):
+            macro = f"VSF_USART_IRQ_MASK_{bit}"
+            if has(re.escape(macro)):
+                say("OK", f"{macro}")
+            else:
+                say("FAIL", f"{macro} not found")
 
     # ── IRQ DMA bits (warn only) ──
     for bit in ("TX_CPL", "RX_CPL"):
@@ -66,58 +78,57 @@ def check_header(path: str) -> tuple[int, int]:
         else:
             say("WARN", f"{macro} not found (add if using DMA/fifo2req)")
 
-    # ── Non-mandatory IRQ bits: enum present → #define required ──
+    # ── Non-mandatory IRQ bits: #define present? ──
     for bit in ("RX_TIMEOUT", "CTS", "FRAME_ERR", "BREAK_ERR",
                 "PARITY_ERR", "RX_OVERFLOW_ERR", "RX_IDLE"):
         macro = f"VSF_USART_IRQ_MASK_{bit}"
-        in_enum = has(rf"^\s+{re.escape(macro)}\s*=")
-        if in_enum:
-            if has_define(macro):
-                say("OK", f"{macro} in enum + #define present")
+        if has_define(macro):
+            say("OK", f"{macro} #define present")
+        else:
+            say("WARN", f"{macro} #define not found (VSF treats as unsupported)")
+
+    # ── Mode bits: skip for IPCore (provided by IPCore header) ──
+    if not is_ipcore:
+        mandatory_modes = [
+            "VSF_USART_NO_PARITY", "VSF_USART_EVEN_PARITY", "VSF_USART_ODD_PARITY",
+            "VSF_USART_1_STOPBIT", "VSF_USART_8_BIT_LENGTH",
+            "VSF_USART_NO_HWCONTROL",
+            "VSF_USART_TX_ENABLE", "VSF_USART_RX_ENABLE",
+            "VSF_USART_TX_FIFO_THRESHOLD_EMPTY",
+            "VSF_USART_RX_FIFO_THRESHOLD_NOT_EMPTY",
+        ]
+        for bit in mandatory_modes:
+            if has(re.escape(bit)):
+                say("OK", f"{bit}")
             else:
-                say("WARN", f"{macro} in enum but missing #define (VSF treats as unsupported)")
+                say("FAIL", f"mandatory mode bit {bit} not found")
 
-    # ── Mandatory mode bits ──
-    mandatory_modes = [
-        "VSF_USART_NO_PARITY", "VSF_USART_EVEN_PARITY", "VSF_USART_ODD_PARITY",
-        "VSF_USART_1_STOPBIT", "VSF_USART_8_BIT_LENGTH",
-        "VSF_USART_NO_HWCONTROL",
-        "VSF_USART_TX_ENABLE", "VSF_USART_RX_ENABLE",
-        "VSF_USART_TX_FIFO_THRESHOLD_EMPTY",
-        "VSF_USART_RX_FIFO_THRESHOLD_NOT_EMPTY",
-    ]
-    for bit in mandatory_modes:
-        if has(re.escape(bit)):
-            say("OK", f"{bit}")
-        else:
-            say("FAIL", f"mandatory mode bit {bit} not found")
+        placeholders = [
+            "VSF_USART_9_BIT_LENGTH",
+            "VSF_USART_1_5_STOPBIT", "VSF_USART_0_5_STOPBIT",
+            "VSF_USART_10_BIT_LENGTH",
+            "VSF_USART_SYNC_CLOCK_ENABLE", "VSF_USART_SYNC_CLOCK_DISABLE",
+            "VSF_USART_HALF_DUPLEX_ENABLE", "VSF_USART_HALF_DUPLEX_DISABLE",
+        ]
+        for bit in placeholders:
+            if has(re.escape(bit)):
+                say("OK", f"placeholder {bit}")
+            else:
+                say("FAIL", f"missing placeholder {bit} (build compat)")
 
-    # ── Placeholder mode bits ──
-    placeholders = [
-        "VSF_USART_9_BIT_LENGTH",
-        "VSF_USART_1_5_STOPBIT", "VSF_USART_0_5_STOPBIT",
-        "VSF_USART_10_BIT_LENGTH",
-        "VSF_USART_SYNC_CLOCK_ENABLE", "VSF_USART_SYNC_CLOCK_DISABLE",
-        "VSF_USART_HALF_DUPLEX_ENABLE", "VSF_USART_HALF_DUPLEX_DISABLE",
-    ]
-    for bit in placeholders:
-        if has(re.escape(bit)):
-            say("OK", f"placeholder {bit}")
-        else:
-            say("FAIL", f"missing placeholder {bit} (build compat)")
-
-    # ── vsf_usart_isr_t ──
+    # ── vsf_usart_isr_t (check only if not IPCore) ──
     if has(r"vsf_usart_isr_t"):
         say("OK", "vsf_usart_isr_t defined")
+    elif not is_ipcore:
+        say("WARN", "vsf_usart_isr_t not found")
 
     # ── CTRL #define ──
     for ctrl in ("SEND_BREAK", "SET_BREAK", "CLEAR_BREAK"):
         macro = f"VSF_USART_CTRL_{ctrl}"
-        if has(re.escape(macro)):
-            if has_define(macro):
-                say("OK", f"{macro} with #define")
-            else:
-                say("WARN", f"{macro} missing #define")
+        if has_define(macro):
+            say("OK", f"{macro} with #define")
+        else:
+            say("WARN", f"{macro} missing #define")
 
     return errors, warnings
 

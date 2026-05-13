@@ -1,14 +1,14 @@
 ---
-name: add-chip-support
+name: vsf-add-chip-support
 type: workflow
 description: |
   USE FOR: porting a new MCU to VSF HAL, generating driver skeleton for a new chip, implementing VSF peripheral drivers (UART, I2C, SPI, GPIO), setting up IPCore-backed or direct-register peripherals.
   DO NOT USE FOR: adding features to supported chips, fixing driver bugs, board-level BSP changes.
 ---
 
-# add-chip-support
+# vsf-add-chip-support
 
-**WORKFLOW SKILL**. INVOKES: `scaffold_chip.py`, `build-firmware`, `board-run`.
+**WORKFLOW SKILL**. INVOKES: `scaffold_chip.py`, `vsf-build-firmware`, `vsf-board-run`.
 
 ## Overview
 
@@ -16,7 +16,7 @@ description: |
 |-------|------|--------|
 | L0 | Vendor SDK UART echo works | serial output |
 | L1 | VSF skeleton builds | cmake passes |
-| L2 | First VSF UART works | board-run PASS |
+| L2 | First VSF UART works | vsf-board-run PASS |
 | L3 | Other peripherals | per-peripheral test |
 
 ## L0 — SDK Baseline
@@ -29,15 +29,15 @@ Collect from vendor SDK: CPU type, IRQ prio bits, clock freqs, per-peripheral IR
 
 Run `scaffold_chip.py --driver-dir <dir> --config chip_config.yml`. Script copies templates — no real driver logic. **Warning**: overwrites existing files.
 
-Make it build: verify `device.h` macros, implement `driver.c` clock init, add SDK paths to `CMakeLists.txt`. Build with `build-firmware`.
+Make it build: verify `device.h` macros, implement `driver.c` clock init, add SDK paths to `CMakeLists.txt`. Build with `vsf-build-firmware`.
 
 ## L2 — Minimal Peripheral (UART)
 
-Reference: an existing UART driver for a supported chip (e.g. `driver/<VENDOR>/<DEVICE>/uart/uart.c`). Fill `.c` stub, wire IRQ in `VSF_USART_CFG_IMP_LV0`. IPCore pattern: wrap type in struct, delegate init/fini, instantiate via `CFG_IMP_LV0` with `IRQHandler`. Verify with `board-run`.
+Reference: an existing UART driver for a supported chip (e.g. `driver/<VENDOR>/<DEVICE>/uart/uart.c`). Fill `.c` stub, wire IRQ in `VSF_USART_CFG_IMP_LV0`. IPCore pattern: wrap type in struct, delegate init/fini, instantiate via `CFG_IMP_LV0` with `IRQHandler`. Verify with `vsf-board-run`.
 
 ## L3 — Other Peripherals
 
-Repeat L2 per peripheral. Non-IPCore (GPIO): register ops directly. Verify each with `board-run`.
+Repeat L2 per peripheral. Non-IPCore (GPIO): register ops directly. Verify each with `vsf-board-run`.
 
 ## Troubleshooting
 

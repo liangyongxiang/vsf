@@ -1,14 +1,14 @@
 ---
-name: flash-board
+name: vsf-flash-board
 type: utility
 description: |
   USE FOR: deploying firmware to hardware via SWD or UF2, selecting flash method from hardware-map.yml, flashing pre-built artifacts.
-  DO NOT USE FOR: building firmware (use build-firmware), full build-flash-test loop (use board-run), serial interaction (use serial-monitor).
+  DO NOT USE FOR: building firmware (use vsf-build-firmware), full build-flash-test loop (use vsf-board-run), serial interaction (use vsf-serial-monitor).
 ---
 
-# flash-board
+# vsf-flash-board
 
-**UTILITY SKILL** — called by `board-run`. Also usable standalone.
+**UTILITY SKILL** — called by `vsf-board-run`. Also usable standalone.
 
 ## Overview
 
@@ -46,7 +46,7 @@ runner.flash(Path(board.build.build_dir))
 
 ## Prerequisites
 
-- Firmware must be built first (use `build-firmware`)
+- Firmware must be built first (use `vsf-build-firmware`)
 - Board connected (SWD debugger or BOOTSEL mode for UF2)
 
 ## Troubleshooting

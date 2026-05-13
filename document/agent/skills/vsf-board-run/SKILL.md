@@ -1,14 +1,14 @@
 ---
-name: board-run
+name: vsf-board-run
 type: workflow
 description: |
   USE FOR: running the build-flash-test loop after firmware changes, executing automated test scripts on hardware, getting PASS/FAIL with audit trails, iterating on driver implementation.
-  DO NOT USE FOR: building only (use build-firmware), manual serial (use serial-monitor), flashing pre-built firmware (use flash-board).
+  DO NOT USE FOR: building only (use vsf-build-firmware), manual serial (use vsf-serial-monitor), flashing pre-built firmware (use vsf-flash-board).
 ---
 
-# board-run
+# vsf-board-run
 
-**PRIMARY ENTRY POINT** for AI agent firmware development. INVOKES: `build-firmware` → `flash-board` → `serial-monitor`.
+**PRIMARY ENTRY POINT** for AI agent firmware development. INVOKES: `vsf-build-firmware` → `vsf-flash-board` → `vsf-serial-monitor`.
 
 ## Overview
 
@@ -17,8 +17,8 @@ Build → flash → optionally run test script → return results. Always rebuil
 ## Usage
 
 ```bash
-board-run board/<board>/hardware-map.yml test_script.py
-board-run board/<board>/hardware-map.yml
+vsf-board-run board/<board>/hardware-map.yml test_script.py
+vsf-board-run board/<board>/hardware-map.yml
 ```
 
 Test script — Python file with `run(serial)`:
@@ -46,7 +46,7 @@ def run(serial):
 
 ## Audit log
 
-JSONL per step, final verdict: `{"verdict":"pass"}` or `{"verdict":"fail"}`, written to `logs/<timestamp>-board-run.jsonl`.
+JSONL per step, final verdict: `{"verdict":"pass"}` or `{"verdict":"fail"}`, written to `logs/<timestamp>-vsf-board-run.jsonl`.
 
 ## Prerequisites
 
@@ -57,6 +57,6 @@ JSONL per step, final verdict: `{"verdict":"pass"}` or `{"verdict":"fail"}`, wri
 
 ## Troubleshooting
 
-- **Build fails**: Run `build-firmware` standalone
+- **Build fails**: Run `vsf-build-firmware` standalone
 - **Flash fails**: Check board connection and active runner config
-- **Test timeout**: Debug with `serial-monitor` standalone
+- **Test timeout**: Debug with `vsf-serial-monitor` standalone

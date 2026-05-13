@@ -2,7 +2,7 @@
 name: vsf-hal-usart
 description: |
   USE FOR: porting USART peripheral to VSF HAL, adding a new USART driver for a chip.
-  DO NOT USE FOR: build/flash (use build-firmware), non-USART drivers.
+  DO NOT USE FOR: build/flash (use vsf-build-firmware), non-USART drivers.
 ---
 
 # VSF HAL USART Driver Porting

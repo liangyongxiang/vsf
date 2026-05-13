@@ -1,14 +1,14 @@
 ---
-name: build-firmware
+name: vsf-build-firmware
 type: utility
 description: |
   USE FOR: building VSF firmware for a board, verifying cmake builds, resolving build directory paths.
-  DO NOT USE FOR: flashing firmware (use flash-board), running tests on hardware (use board-run), creating new cmake projects.
+  DO NOT USE FOR: flashing firmware (use vsf-flash-board), running tests on hardware (use vsf-board-run), creating new cmake projects.
 ---
 
-# build-firmware
+# vsf-build-firmware
 
-**UTILITY SKILL** — called by `board-run`. Also usable standalone.
+**UTILITY SKILL** — called by `vsf-board-run`. Also usable standalone.
 
 ## Overview
 

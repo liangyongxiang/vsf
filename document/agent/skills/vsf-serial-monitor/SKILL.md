@@ -1,14 +1,14 @@
 ---
-name: serial-monitor
+name: vsf-serial-monitor
 type: utility
 description: |
   USE FOR: interacting with a board over UART, writing test scripts with send/expect, recording serial communication with audit logging, debugging board output.
-  DO NOT USE FOR: building firmware (use build-firmware), flashing firmware (use flash-board), full workflow (use board-run).
+  DO NOT USE FOR: building firmware (use vsf-build-firmware), flashing firmware (use vsf-flash-board), full workflow (use vsf-board-run).
 ---
 
-# serial-monitor
+# vsf-serial-monitor
 
-**UTILITY SKILL** — used by `board-run` test scripts. Also usable standalone.
+**UTILITY SKILL** — used by `vsf-board-run` test scripts. Also usable standalone.
 
 ## Overview
 

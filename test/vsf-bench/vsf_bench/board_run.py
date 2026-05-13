@@ -1,4 +1,4 @@
-"""board-run — build → flash → run test script → return results."""
+"""vsf-board-run — build → flash → run test script → return results."""
 
 import argparse
 import importlib.util
@@ -27,7 +27,7 @@ def load_test_script(path: str | Path):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(prog="board-run")
+    parser = argparse.ArgumentParser(prog="vsf-board-run")
     parser.add_argument(
         "--project-root",
         type=Path,
@@ -54,46 +54,46 @@ def main():
     validate_runners(board)
 
     # Build
-    print(f"[board-run] Building ({board.build.source_dir})...")
+    print(f"[vsf-board-run] Building ({board.build.source_dir})...")
     cmake = CMakeRunner(board.build, args.project_root.resolve())
     build_dir = cmake.build()
-    print(f"[board-run] Build complete: {build_dir}")
+    print(f"[vsf-board-run] Build complete: {build_dir}")
 
     # Flash
     runner_cfg = board.runners[board.active_runner]
     runner_cls = get_runner_class(runner_cfg.type)
     if runner_cls is None:
-        print(f"[board-run] Unknown runner type: {runner_cfg.type}", file=sys.stderr)
+        print(f"[vsf-board-run] Unknown runner type: {runner_cfg.type}", file=sys.stderr)
         sys.exit(1)
 
     runner = runner_cls(runner_cfg)
-    print(f"[board-run] Flashing via {board.active_runner}...")
+    print(f"[vsf-board-run] Flashing via {board.active_runner}...")
     runner.flash(build_dir)
-    print("[board-run] Flash complete")
+    print("[vsf-board-run] Flash complete")
 
     # Test script is optional — build+flash only when omitted
     if args.test_script is None:
-        print("[board-run] No test script provided — done.")
+        print("[vsf-board-run] No test script provided — done.")
         return
 
     # Open serial before running test script
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    log_path = Path(f"logs/{timestamp}-board-run.jsonl")
+    log_path = Path(f"logs/{timestamp}-vsf-board-run.jsonl")
     log_path.parent.mkdir(parents=True, exist_ok=True)
 
     ser = SerialInstrument(board.serial, board.baud, audit_log=log_path)
     ser.open()
 
     run_fn = load_test_script(args.test_script)
-    print(f"[board-run] Running test script: {args.test_script}")
+    print(f"[vsf-board-run] Running test script: {args.test_script}")
 
     try:
         run_fn(ser)
-        print("\n[board-run] PASS")
+        print("\n[vsf-board-run] PASS")
         with open(log_path, "a") as f:
             f.write(json.dumps({"verdict": "pass"}) + "\n")
     except (TimeoutError, AssertionError) as e:
-        print(f"\n[board-run] FAIL: {e}")
+        print(f"\n[vsf-board-run] FAIL: {e}")
         with open(log_path, "a") as f:
             f.write(json.dumps({"verdict": "fail", "error": str(e)}) + "\n")
         sys.exit(1)

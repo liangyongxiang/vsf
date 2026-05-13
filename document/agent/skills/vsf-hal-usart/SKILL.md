@@ -17,10 +17,10 @@ Copy `source/hal/driver/template/__series_name_a__/common/usart/usart.{h,c}`, th
 
 Both instantiate with IMP_LV0:
 ```c
-#define VSF_USART_CFG_IMP_LV0(ID, OP)                      \
-    vsf_hw_usart_t vsf_hw_usart##ID = {.reg = REG, OP};    \
-    void VSF_HW_USART##ID##_IRQHandler(void) {              \
-        vsf_pl011_usart_irqhandler(&vsf_hw_usart##ID.use);  \
+#define VSF_USART_CFG_IMP_LV0(ID, OP)                     \
+    vsf_hw_usart_t vsf_hw_usart##ID = {.reg = REG, OP};   \
+    void VSF_HW_USART##ID##_IRQHandler(void) {            \
+        vsf_pl011_usart_irqhandler(&vsf_hw_usart##ID.use);\
     }
 #include "hal/driver/common/usart/usart_template.inc"
 ```

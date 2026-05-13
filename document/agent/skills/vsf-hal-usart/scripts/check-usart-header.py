@@ -33,9 +33,17 @@ def check_header(path: str) -> tuple[int, int]:
             print(f"  WARN: {msg}")
             warnings += 1
 
+    # Three roles:
+    #   chip-direct: chip header defining types/enums directly
+    #   chip-ipcore: chip header using IPCore (includes IPCore/ header)
+    #   ipcore:      IPCore implementation itself (in IPCore/ directory)
     is_ipcore = bool(re.search(r'#include\s+.*IPCore/', text))
+    is_ipcore_impl = '/IPCore/' in path.replace('\\', '/')
+
     if is_ipcore:
-        print("  INFO: IPCore-based driver detected, skipping type/enum checks")
+        print("  INFO: chip header using IPCore — type/enum checks delegated")
+    if is_ipcore_impl:
+        print("  INFO: IPCore implementation — DMA/CTRL checks not applicable")
 
     # ── Guard ──
     if has(r"VSF_HAL_USE_USART\s*==\s*ENABLED"):
@@ -70,13 +78,14 @@ def check_header(path: str) -> tuple[int, int]:
             else:
                 say("FAIL", f"{macro} not found")
 
-    # ── IRQ DMA bits (warn only) ──
-    for bit in ("TX_CPL", "RX_CPL"):
-        macro = f"VSF_USART_IRQ_MASK_{bit}"
-        if has(re.escape(macro)):
-            say("OK", f"{macro}")
-        else:
-            say("WARN", f"{macro} not found (add if using DMA/fifo2req)")
+    # ── IRQ DMA bits (skip for IPCore implementation) ──
+    if not is_ipcore_impl:
+        for bit in ("TX_CPL", "RX_CPL"):
+            macro = f"VSF_USART_IRQ_MASK_{bit}"
+            if has(re.escape(macro)):
+                say("OK", f"{macro}")
+            else:
+                say("WARN", f"{macro} not found (add if using DMA/fifo2req)")
 
     # ── Non-mandatory IRQ bits: #define present? ──
     #   For IPCore, the IPCore header provides these #define aliases.
@@ -125,7 +134,7 @@ def check_header(path: str) -> tuple[int, int]:
         say("WARN", "vsf_usart_isr_t not found")
 
     # ── CTRL #define (skip for IPCore — template provides defaults) ──
-    if not is_ipcore:
+    if not (is_ipcore or is_ipcore_impl):
         for ctrl in ("SEND_BREAK", "SET_BREAK", "CLEAR_BREAK"):
             macro = f"VSF_USART_CTRL_{ctrl}"
             if has_define(macro):

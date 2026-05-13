@@ -51,13 +51,11 @@ vsf_err_t vsf_hw_usart_init(vsf_hw_usart_t *hw_usart_ptr, vsf_usart_cfg_t *cfg_p
     VSF_HAL_ASSERT(NULL != hw_usart_ptr);
     VSF_HAL_ASSERT(NULL != cfg_ptr);
 
-    // Take UART out of reset (RP2040 RESETS may hold it)
+    // Take UART out of reset (RP2040 default: all peripherals in reset)
     uint32_t rst_bit = (hw_usart_ptr->irqn == UART1_IRQ_IRQn)
                        ? (1u << RESET_UART1) : (1u << RESET_UART0);
-    if (resets_hw->reset_done & rst_bit) {
-        resets_hw->reset = resets_hw->reset & ~rst_bit;
-        while (!(resets_hw->reset_done & rst_bit));
-    }
+    resets_hw->reset = resets_hw->reset & ~rst_bit;
+    while (!(resets_hw->reset_done & rst_bit));
 
     vsf_err_t err = vsf_pl011_usart_init(&hw_usart_ptr->use_as__vsf_pl011_usart_t, cfg_ptr, clock_get_hz(clk_peri));
 

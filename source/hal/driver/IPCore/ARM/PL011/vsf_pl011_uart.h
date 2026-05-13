@@ -53,19 +53,25 @@ typedef enum vsf_usart_mode_t {
     // UARTLCR_H.WLEN
     VSF_USART_8_BIT_LENGTH              = (0x3ul << 5),
     VSF_USART_7_BIT_LENGTH              = (0x2ul << 5),
+#   define VSF_USART_7_BIT_LENGTH VSF_USART_7_BIT_LENGTH
     VSF_USART_6_BIT_LENGTH              = (0x1ul << 5),
+#   define VSF_USART_6_BIT_LENGTH VSF_USART_6_BIT_LENGTH
     VSF_USART_5_BIT_LENGTH              = (0x0ul << 5),
+#   define VSF_USART_5_BIT_LENGTH VSF_USART_5_BIT_LENGTH
 
     // UARTLCR_H.STP2
     VSF_USART_1_STOPBIT                 = (0x0ul << 3),
     VSF_USART_2_STOPBIT                 = (0x1ul << 3),
+#   define VSF_USART_2_STOPBIT VSF_USART_2_STOPBIT
 
     // UARTLCR_H.PEN / UARTLCR_H.EPS / UARTLCR_H.SPS    PEN     EPS     SPS
     VSF_USART_NO_PARITY                 = 0x0ul,    //  0       X       X
     VSF_USART_ODD_PARITY                = 0x2ul,    //  1       0       0
     VSF_USART_EVEN_PARITY               = 0x6ul,    //  1       1       0
     VSF_USART_FORCE_0_PARITY            = 0xEul,    //  1       1       1
+#   define VSF_USART_FORCE_0_PARITY VSF_USART_FORCE_0_PARITY
     VSF_USART_FORCE_1_PARITY            = 0xAul,    //  1       0       1
+#   define VSF_USART_FORCE_1_PARITY VSF_USART_FORCE_1_PARITY
 
     PL011_USART_BIT_LENGTH_MASK         = VSF_USART_8_BIT_LENGTH
                                         | VSF_USART_7_BIT_LENGTH
@@ -85,16 +91,21 @@ typedef enum vsf_usart_mode_t {
     // UARTCR.TXE
     VSF_USART_TX_ENABLE                 = (0x1ul << (8 + 8)),
     VSF_USART_TX_DISABLE                = (0x0ul << (8 + 8)),
+#   define VSF_USART_TX_DISABLE VSF_USART_TX_DISABLE
 
     // UARTCR.RXE
     VSF_USART_RX_ENABLE                 = (0x1ul << (8 + 9)),
     VSF_USART_RX_DISABLE                = (0x0ul << (8 + 9)),
+#   define VSF_USART_RX_DISABLE VSF_USART_RX_DISABLE
 
     // UARTCR.CTSEN / UARTCR.RTSEN
     VSF_USART_NO_HWCONTROL              = (0x0ul << (8 + 14)),
     VSF_USART_RTS_HWCONTROL             = (0x1ul << (8 + 14)),
+#   define VSF_USART_RTS_HWCONTROL VSF_USART_RTS_HWCONTROL
     VSF_USART_CTS_HWCONTROL             = (0x2ul << (8 + 14)),
+#   define VSF_USART_CTS_HWCONTROL VSF_USART_CTS_HWCONTROL
     VSF_USART_RTS_CTS_HWCONTROL         = (0x3ul << (8 + 14)),
+#   define VSF_USART_RTS_CTS_HWCONTROL VSF_USART_RTS_CTS_HWCONTROL
 
     PL011_USART_ENABLE_MASK             = VSF_USART_TX_ENABLE
                                         | VSF_USART_RX_ENABLE
@@ -109,14 +120,25 @@ typedef enum vsf_usart_mode_t {
     VSF_USART_SYNC_CLOCK_DISABLE        = 0,
     VSF_USART_HALF_DUPLEX_ENABLE        = (0x1ul << 29),
     VSF_USART_HALF_DUPLEX_DISABLE       = 0,
-    // PL011 FIFO threshold not modeled; keep 0 so masks compile
-    VSF_USART_TX_FIFO_THRESHOLD_EMPTY   = 0,
-    VSF_USART_TX_FIFO_THRESHOLD_HALF_EMPTY = 0,
-    VSF_USART_TX_FIFO_THRESHOLD_NOT_FULL   = 0,
-    VSF_USART_RX_FIFO_THRESHOLD_NOT_EMPTY  = 0,
-    VSF_USART_RX_FIFO_THRESHOLD_FULL       = 0,
-    VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL  = 0,
+    // TX FIFO threshold (bits 8-9, mapped to PL011 TXIFLSEL: 0→0, 1→2, 2→3)
+    VSF_USART_TX_FIFO_THRESHOLD_EMPTY      = (0x0ul << 8),
+#   define VSF_USART_TX_FIFO_THRESHOLD_EMPTY VSF_USART_TX_FIFO_THRESHOLD_EMPTY
+    VSF_USART_TX_FIFO_THRESHOLD_HALF_EMPTY = (0x1ul << 8),
+#   define VSF_USART_TX_FIFO_THRESHOLD_HALF_EMPTY VSF_USART_TX_FIFO_THRESHOLD_HALF_EMPTY
+    VSF_USART_TX_FIFO_THRESHOLD_NOT_FULL   = (0x2ul << 8),
+#   define VSF_USART_TX_FIFO_THRESHOLD_NOT_FULL VSF_USART_TX_FIFO_THRESHOLD_NOT_FULL
+
+    // RX FIFO threshold (bits 10-11, mapped to PL011 RXIFLSEL: 0→0, 1→2, 2→3)
+    VSF_USART_RX_FIFO_THRESHOLD_NOT_EMPTY  = (0x0ul << 10),
+#   define VSF_USART_RX_FIFO_THRESHOLD_NOT_EMPTY VSF_USART_RX_FIFO_THRESHOLD_NOT_EMPTY
+    VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL  = (0x1ul << 10),
+#   define VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL
+    VSF_USART_RX_FIFO_THRESHOLD_FULL       = (0x2ul << 10),
+#   define VSF_USART_RX_FIFO_THRESHOLD_FULL VSF_USART_RX_FIFO_THRESHOLD_FULL
 } vsf_usart_mode_t;
+
+#define VSF_USART_TX_FIFO_THRESHOLD_MASK    (0x3ul << 8)
+#define VSF_USART_RX_FIFO_THRESHOLD_MASK    (0x3ul << 10)
 
 typedef enum vsf_usart_irq_mask_t {
     // usart fifo interrupt

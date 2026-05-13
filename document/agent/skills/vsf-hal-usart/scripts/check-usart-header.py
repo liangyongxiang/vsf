@@ -79,13 +79,15 @@ def check_header(path: str) -> tuple[int, int]:
             say("WARN", f"{macro} not found (add if using DMA/fifo2req)")
 
     # ── Non-mandatory IRQ bits: #define present? ──
-    for bit in ("RX_TIMEOUT", "CTS", "FRAME_ERR", "BREAK_ERR",
-                "PARITY_ERR", "RX_OVERFLOW_ERR", "RX_IDLE"):
-        macro = f"VSF_USART_IRQ_MASK_{bit}"
-        if has_define(macro):
-            say("OK", f"{macro} #define present")
-        else:
-            say("WARN", f"{macro} #define not found (VSF treats as unsupported)")
+    #   For IPCore, the IPCore header provides these #define aliases.
+    if not is_ipcore:
+        for bit in ("RX_TIMEOUT", "CTS", "FRAME_ERR", "BREAK_ERR",
+                    "PARITY_ERR", "RX_OVERFLOW_ERR", "RX_IDLE"):
+            macro = f"VSF_USART_IRQ_MASK_{bit}"
+            if has_define(macro):
+                say("OK", f"{macro} #define present")
+            else:
+                say("WARN", f"{macro} #define not found (VSF treats as unsupported)")
 
     # ── Mode bits: skip for IPCore (provided by IPCore header) ──
     if not is_ipcore:
@@ -122,13 +124,14 @@ def check_header(path: str) -> tuple[int, int]:
     elif not is_ipcore:
         say("WARN", "vsf_usart_isr_t not found")
 
-    # ── CTRL #define ──
-    for ctrl in ("SEND_BREAK", "SET_BREAK", "CLEAR_BREAK"):
-        macro = f"VSF_USART_CTRL_{ctrl}"
-        if has_define(macro):
-            say("OK", f"{macro} with #define")
-        else:
-            say("WARN", f"{macro} missing #define")
+    # ── CTRL #define (skip for IPCore — template provides defaults) ──
+    if not is_ipcore:
+        for ctrl in ("SEND_BREAK", "SET_BREAK", "CLEAR_BREAK"):
+            macro = f"VSF_USART_CTRL_{ctrl}"
+            if has_define(macro):
+                say("OK", f"{macro} with #define")
+            else:
+                say("WARN", f"{macro} missing #define")
 
     return errors, warnings
 

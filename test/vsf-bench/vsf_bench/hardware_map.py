@@ -3,7 +3,7 @@
 import yaml
 from pathlib import Path
 
-from vsf_bench.config import ArtifactConfig, BoardConfig, BuildConfig, RunnerConfig
+from vsf_bench.config import ArtifactConfig, BoardConfig, BuildConfig, LogicAnalyzerConfig, RunnerConfig
 
 
 def load(path: str | Path) -> BoardConfig:
@@ -49,6 +49,17 @@ def load(path: str | Path) -> BoardConfig:
                 params=params,
             )
 
+        la_cfg = None
+        la_raw = entry.get("logic_analyzer")
+        if la_raw:
+            la_cfg = LogicAnalyzerConfig(
+                cli=la_raw["cli"],
+                device=la_raw.get("device", "DSLogic"),
+                samplerate=la_raw.get("samplerate", "10M"),
+                capture_duration=float(la_raw.get("capture_duration", 120)),
+                channels=la_raw.get("channels", {}),
+            )
+
         board = BoardConfig(
             platform=entry.get("platform", ""),
             connected=entry.get("connected", True),
@@ -58,6 +69,7 @@ def load(path: str | Path) -> BoardConfig:
             baud=entry.get("baud", 0),
             build=build,
             fixtures=entry.get("fixtures", []),
+            logic_analyzer=la_cfg,
         )
         board.validate()
         return board

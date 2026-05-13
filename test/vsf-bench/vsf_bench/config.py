@@ -28,6 +28,15 @@ class BuildConfig:
 
 
 @dataclass
+class LogicAnalyzerConfig:
+    cli: str
+    device: str
+    samplerate: str
+    capture_duration: float
+    channels: dict[str, str] = field(default_factory=dict)
+
+
+@dataclass
 class BoardConfig:
     platform: str
     active_runner: str
@@ -37,6 +46,7 @@ class BoardConfig:
     build: BuildConfig
     connected: bool = True
     fixtures: list[str] = field(default_factory=list)
+    logic_analyzer: LogicAnalyzerConfig | None = None
 
     def validate(self) -> None:
         missing = []

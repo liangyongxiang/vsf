@@ -2,6 +2,7 @@
 
 import argparse
 import importlib.util
+import inspect
 import json
 import sys
 from datetime import datetime
@@ -11,6 +12,7 @@ from vsf_bench.hardware_map import load as load_hardware_map, validate_runners
 from vsf_bench.runners.cmake_runner import CMakeRunner
 from vsf_bench.runners.registry import get_runner_class
 from vsf_bench.instruments.serial_instrument import SerialInstrument
+from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 
 
 def load_test_script(path: str | Path):
@@ -24,6 +26,15 @@ def load_test_script(path: str | Path):
     if not hasattr(mod, "run"):
         raise AttributeError(f"Test script {p} must define a run(serial) function")
     return mod.run
+
+
+def _call_run(run_fn, ser: SerialInstrument, la: LogicAnalyzerInstrument | None) -> None:
+    """Call run_fn, passing la only if the script's signature accepts it."""
+    sig = inspect.signature(run_fn)
+    if "la" in sig.parameters:
+        run_fn(ser, la=la)
+    else:
+        run_fn(ser)
 
 
 def parse_args():
@@ -42,20 +53,21 @@ def parse_args():
         "test_script",
         nargs="?",
         default=None,
-        help="Optional test script with run(serial) function",
+        help="Optional test script with run(serial[, la]) function",
     )
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
+    project_root = args.project_root.resolve()
 
     board = load_hardware_map(args.hardware_map)
     validate_runners(board)
 
     # Build
     print(f"[vsf-board-run] Building ({board.build.source_dir})...")
-    cmake = CMakeRunner(board.build, args.project_root.resolve())
+    cmake = CMakeRunner(board.build, project_root)
     build_dir = cmake.build()
     print(f"[vsf-board-run] Build complete: {build_dir}")
 
@@ -76,10 +88,24 @@ def main():
         print("[vsf-board-run] No test script provided — done.")
         return
 
-    # Open serial before running test script
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     log_path = Path(f"logs/{timestamp}-vsf-board-run.jsonl")
     log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Create LA instrument if configured
+    la: LogicAnalyzerInstrument | None = None
+    if board.logic_analyzer:
+        la_cfg = board.logic_analyzer
+        capture_path = Path(f"logs/{timestamp}-capture.dsl")
+        la = LogicAnalyzerInstrument(
+            cli_path=project_root / la_cfg.cli,
+            device=la_cfg.device,
+            samplerate=la_cfg.samplerate,
+            channels=la_cfg.channels,
+            capture_path=capture_path,
+        )
+        la.start(la_cfg.capture_duration)
+        print(f"[vsf-board-run] LA capture started ({la_cfg.capture_duration}s → {capture_path})")
 
     ser = SerialInstrument(board.serial, board.baud, audit_log=log_path)
     ser.open()
@@ -88,7 +114,7 @@ def main():
     print(f"[vsf-board-run] Running test script: {args.test_script}")
 
     try:
-        run_fn(ser)
+        _call_run(run_fn, ser, la)
         print("\n[vsf-board-run] PASS")
         with open(log_path, "a") as f:
             f.write(json.dumps({"verdict": "pass"}) + "\n")
@@ -99,6 +125,8 @@ def main():
         sys.exit(1)
     finally:
         ser.close()
+        if la is not None:
+            la.wait()
 
 
 if __name__ == "__main__":

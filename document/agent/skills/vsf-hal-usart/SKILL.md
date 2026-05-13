@@ -7,21 +7,23 @@ description: |
 
 # VSF HAL USART Driver Porting
 
-Copy `source/hal/driver/template/__series_name_a__/common/usart/usart.{h,c}`, then modify. For existing drivers, align header style with template.
+Copy `source/hal/driver/template/__series_name_a__/common/usart/usart.{h,c}`, then modify (existing: align header style).
 
 ## Workflow
 
-**1. Header** (`chip/uart/uart.h`):
-- Direct: set `REIMPLEMENT_TYPE_*=ENABLED`, define mode/irq/status/cfg, include `vsf_template_usart.h`.
-- IPCore: include IPCore header (provides types directly).
+**1. Header** (`chip/uart/uart.h`): Direct: `REIMPLEMENT_TYPE_*=ENABLED`, mode/irq/status/cfg, include `vsf_template_usart.h`. IPCore: include IPCore header (types built-in).
 
-> `#define VSF_USART_IRQ_MASK_<X> VSF_USART_IRQ_MASK_<X>` for non-mandatory bits (RX_TIMEOUT, CTS, FRAME_ERR, BREAK_ERR, PARITY_ERR, RX_OVERFLOW_ERR, RX_IDLE).
+**2. Source** (`chip/uart/uart.c`): Direct: struct `.reg+.isr`, all APIs. IPCore: `implement(vsf_pl011_usart_t)`, IPCore handles baudrate/reg/IRQ, chip needs reset/NVIC/clock. Set `__VSF_HAL_${IP}_USART_CLASS_INHERIT__`.
 
-**2. Source** (`chip/uart/uart.c`):
-- Direct: struct `.reg`+`.isr`, implement all APIs manually.
-- IPCore: struct `implement(vsf_pl011_usart_t)`. IPCore handles types/baudrate/reg/IRQ dispatch. Chip only: reset, NVIC, clock. Set `__VSF_HAL_${IP}_USART_CLASS_INHERIT__` before `#include "hal/vsf_hal.h"`.
-
-Both: DMA stubbable. Instantiate via `IMP_LV0` + `usart_template.inc`.
+Both instantiate with IMP_LV0:
+```c
+#define VSF_USART_CFG_IMP_LV0(ID, OP)                      \
+    vsf_hw_usart_t vsf_hw_usart##ID = {.reg = REG, OP};    \
+    void VSF_HW_USART##ID##_IRQHandler(void) {              \
+        vsf_pl011_usart_irqhandler(&vsf_hw_usart##ID.use);  \
+    }
+#include "hal/driver/common/usart/usart_template.inc"
+```
 
 **3. Board** (`vsf_board.c`): Expose `vsf_usart_t *usart[N]`. Init: pinmux → reset → init → enable → irq.
 

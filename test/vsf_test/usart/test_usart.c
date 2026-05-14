@@ -58,12 +58,17 @@ void vsf_test_usart_init(const vsf_test_usart_cfg_t *cfg)
     test_usart_baudrates = baudrates;
 
     // 场景测试：波特率精度
+    static vsf_test_usart_baud_entry_t __entries[VSF_TEST_USART_BAUD_MAX_COUNT];
     for (uint8_t i = 0; i < baud_count; i++) {
+        __entries[i] = (vsf_test_usart_baud_entry_t){
+            .scenario_idx = i,
+            .baudrate     = baudrates[i],
+        };
         char cfg_str[64];
         snprintf(cfg_str, sizeof(cfg_str),
             "usart_baud_%lu purpose=baud-rate hw_req=uart1+la", (unsigned long)baudrates[i]);
-        vsf_test_add_simple_case_data(vsf_test_usart_baud_scenario,
-            cfg_str, (void *)(uintptr_t)baudrates[i]);
+        vsf_test_add_simple_case(vsf_test_usart_baud_scenario,
+            cfg_str, (void *)&__entries[i]);
     }
 }
 

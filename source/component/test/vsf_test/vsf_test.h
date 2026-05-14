@@ -352,8 +352,8 @@ struct vsf_test_data_t {
     } error;
 };
 
-typedef bool vsf_test_bool_fn_t(void);
-typedef void vsf_test_jmp_fn_t(void);
+typedef bool vsf_test_bool_fn_t(void *arg);
+typedef void vsf_test_jmp_fn_t(void *arg);
 
 typedef struct vsf_test_case_t {
     union {
@@ -384,9 +384,8 @@ typedef struct vsf_test_case_t {
     //! be considered as PASS instead of FAIL.
     uint8_t expect_assert;
 
-    //! User-defined data pointer, passed to the test case.
-    //! Retrieve with vsf_test_get_user_data() inside the test function.
-    void *user_data;
+    //! Argument pointer passed directly to the test function.
+    void *arg;
 } vsf_test_case_t;
 
 //! \brief Test framework configuration structure
@@ -459,9 +458,6 @@ typedef struct vsf_test_t {
     //! Restart from the beginning when test completes or errors occur
     bool restart_on_done;
 
-    //! Current test case user_data (runtime only, not persisted)
-    void *current_user_data;
-
     //! Test case count (number of test cases added)
     uint32_t test_case_count;
     //! Test case array
@@ -529,35 +525,39 @@ extern bool vsf_test_add_ex(vsf_test_case_t *test_case);
  @brief Add a test case of VSF_TEST_TYPE_LONGJMP_FN type (simplified, expect_wdt=0)
  @param[in] jmp_fn: a pointer to function @ref vsf_test_jmp_fn_t
  @param[in] cfg: a string of request information for the test case
+ @param[in] arg: argument passed to the test function
  @return bool: true if add was successfully, or false
  */
-extern bool vsf_test_add_simple_case(vsf_test_jmp_fn_t *jmp_fn, char *cfg);
+extern bool vsf_test_add_simple_case(vsf_test_jmp_fn_t *jmp_fn, char *cfg, void *arg);
 
 /**
  @brief Add to add a test case of VSF_TEST_TYPE_BOOL_FN type
  @param[in] b_fn: a pointer to function @ref vsf_test_bool_fn_t
  @param[in] cfg: a string of request information for the test case
+ @param[in] arg: argument passed to the test function
  @return bool: true if add was successfully, or false
  */
-extern bool vsf_test_add_bool_fn(vsf_test_bool_fn_t *b_fn, char *cfg);
+extern bool vsf_test_add_bool_fn(vsf_test_bool_fn_t *b_fn, char *cfg, void *arg);
 
 /**
  @brief Add a test case of VSF_TEST_TYPE_LONGJMP_FN type
  @param[in] fn: pointer to test function
  @param[in] cfg: request string for test case
  @param[in] expect_wdt: whether to expect a watchdog reset (default: 0)
+ @param[in] arg: argument passed to the test function
  @return bool: true if add was successfully, or false
  */
-extern bool vsf_test_add_case(vsf_test_jmp_fn_t *fn, char *cfg, uint8_t expect_wdt);
+extern bool vsf_test_add_case(vsf_test_jmp_fn_t *fn, char *cfg, uint8_t expect_wdt, void *arg);
 
 /**
  @brief Add a test case of VSF_TEST_TYPE_BOOL_FN type
  @param[in] fn: pointer to test function
  @param[in] cfg: request string for test case
  @param[in] expect_wdt: whether to expect a watchdog reset (default: 0)
+ @param[in] arg: argument passed to the test function
  @return bool: true if add was successfully, or false
  */
-extern bool vsf_test_add_bool_fn_case(vsf_test_bool_fn_t *fn, char *cfg, uint8_t expect_wdt);
+extern bool vsf_test_add_bool_fn_case(vsf_test_bool_fn_t *fn, char *cfg, uint8_t expect_wdt, void *arg);
 
 /**
  @brief Add a test case of any type
@@ -566,40 +566,27 @@ extern bool vsf_test_add_bool_fn_case(vsf_test_bool_fn_t *fn, char *cfg, uint8_t
  @param[in] type: test type @ref vsf_test_type_t
  @param[in] expect_wdt: whether to expect a watchdog reset (default: 0)
  @param[in] expect_assert: whether to expect an assertion (default: 0)
+ @param[in] arg: argument passed to the test function
  @return bool: true if add was successfully, or false
  */
 extern bool vsf_test_add_ex_case(vsf_test_jmp_fn_t *fn, char *cfg,
                                  vsf_test_type_t type,
                                  uint8_t expect_wdt,
-                                 uint8_t expect_assert);
+                                 uint8_t expect_assert,
+                                 void *arg);
 
 /**
  @brief Add a test case that expects an assertion
  @param[in] fn: pointer to test function
  @param[in] cfg: request string for test case
  @param[in] expect_wdt: whether to expect a watchdog reset (default: 0)
+ @param[in] arg: argument passed to the test function
  @return bool: true if add was successfully, or false
  */
 extern bool vsf_test_add_expect_assert_case(vsf_test_jmp_fn_t *fn,
                                             char *cfg,
-                                            uint8_t expect_wdt);
-
-/**
- @brief Add a test case with user data
- @param[in] jmp_fn: a pointer to function @ref vsf_test_jmp_fn_t
- @param[in] cfg: a string of request information for the test case
- @param[in] user_data: user-defined pointer passed to the test function
- @return bool: true if add was successfully, or false
- */
-extern bool vsf_test_add_simple_case_data(vsf_test_jmp_fn_t *jmp_fn,
-                                          char *cfg,
-                                          void *user_data);
-
-/**
- @brief Get the user_data of the currently running test case
- @return void*: user_data pointer, or NULL if no test is running
- */
-extern void *vsf_test_get_user_data(void);
+                                            uint8_t expect_wdt,
+                                            void *arg);
 
 /**
  @brief Run all tests. Should be called after all use cases have been

@@ -24,7 +24,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_usart_baud_scenario(void);
+void vsf_test_usart_baud_scenario(void *arg);
 
 #ifdef __cplusplus
 }

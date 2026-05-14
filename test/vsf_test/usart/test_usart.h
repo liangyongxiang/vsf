@@ -34,6 +34,12 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
+//! \brief USART 波特率测试条目
+typedef struct vsf_test_usart_baud_entry_t {
+    uint8_t  scenario_idx;
+    uint32_t baudrate;
+} vsf_test_usart_baud_entry_t;
+
 //! \brief USART 测试配置结构
 typedef struct vsf_test_usart_cfg_t {
     //! \brief USART 实例指针，用于测试

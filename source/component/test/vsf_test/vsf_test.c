@@ -119,18 +119,19 @@ bool vsf_test_add_ex(vsf_test_case_t *test_case)
     }
 }
 
-bool vsf_test_add_simple_case(vsf_test_jmp_fn_t *jmp_fn, char *cfg_str)
+bool vsf_test_add_simple_case(vsf_test_jmp_fn_t *jmp_fn, char *cfg_str, void *arg)
 {
-    return vsf_test_add_case(jmp_fn, cfg_str, 0);
+    return vsf_test_add_case(jmp_fn, cfg_str, 0, arg);
 }
 
-bool vsf_test_add_bool_fn(vsf_test_bool_fn_t *b_fn, char *cfg_str)
+bool vsf_test_add_bool_fn(vsf_test_bool_fn_t *b_fn, char *cfg_str, void *arg)
 {
     vsf_test_case_t test_case = {
         .b_fn       = b_fn,
         .type       = VSF_TEST_TYPE_BOOL_FN,
         .expect_wdt = 0,
         .cfg_str    = cfg_str,
+        .arg        = arg,
     };
 
     __VSF_TEST_TRACE_DEBUG("vsf_test_add_bool_fn: adding BOOL_FN test case, cfg_str=%s\r\n",
@@ -139,7 +140,7 @@ bool vsf_test_add_bool_fn(vsf_test_bool_fn_t *b_fn, char *cfg_str)
     return vsf_test_add_ex(&test_case);
 }
 
-bool vsf_test_add_case(vsf_test_jmp_fn_t *fn, char *cfg, uint8_t expect_wdt)
+bool vsf_test_add_case(vsf_test_jmp_fn_t *fn, char *cfg, uint8_t expect_wdt, void *arg)
 {
     vsf_test_case_t test_case = {
         .jmp_fn      = fn,
@@ -147,11 +148,12 @@ bool vsf_test_add_case(vsf_test_jmp_fn_t *fn, char *cfg, uint8_t expect_wdt)
         .type        = VSF_TEST_TYPE_LONGJMP_FN,
         .expect_wdt  = expect_wdt,
         .expect_assert = 0,
+        .arg         = arg,
     };
     return vsf_test_add_ex(&test_case);
 }
 
-bool vsf_test_add_bool_fn_case(vsf_test_bool_fn_t *fn, char *cfg, uint8_t expect_wdt)
+bool vsf_test_add_bool_fn_case(vsf_test_bool_fn_t *fn, char *cfg, uint8_t expect_wdt, void *arg)
 {
     vsf_test_case_t test_case = {
         .b_fn       = fn,
@@ -159,6 +161,7 @@ bool vsf_test_add_bool_fn_case(vsf_test_bool_fn_t *fn, char *cfg, uint8_t expect
         .type       = VSF_TEST_TYPE_BOOL_FN,
         .expect_wdt = expect_wdt,
         .expect_assert = 0,
+        .arg        = arg,
     };
     return vsf_test_add_ex(&test_case);
 }
@@ -166,7 +169,8 @@ bool vsf_test_add_bool_fn_case(vsf_test_bool_fn_t *fn, char *cfg, uint8_t expect
 bool vsf_test_add_ex_case(vsf_test_jmp_fn_t *fn, char *cfg,
                           vsf_test_type_t type,
                           uint8_t expect_wdt,
-                          uint8_t expect_assert)
+                          uint8_t expect_assert,
+                          void *arg)
 {
     vsf_test_case_t test_case = {
         .jmp_fn      = fn,
@@ -174,13 +178,15 @@ bool vsf_test_add_ex_case(vsf_test_jmp_fn_t *fn, char *cfg,
         .type        = type,
         .expect_wdt  = expect_wdt,
         .expect_assert = expect_assert,
+        .arg         = arg,
     };
     return vsf_test_add_ex(&test_case);
 }
 
 bool vsf_test_add_expect_assert_case(vsf_test_jmp_fn_t *fn,
                                      char *cfg,
-                                     uint8_t expect_wdt)
+                                     uint8_t expect_wdt,
+                                     void *arg)
 {
     vsf_test_case_t test_case = {
         .jmp_fn      = fn,
@@ -188,28 +194,9 @@ bool vsf_test_add_expect_assert_case(vsf_test_jmp_fn_t *fn,
         .type        = VSF_TEST_TYPE_LONGJMP_FN,
         .expect_wdt  = expect_wdt,
         .expect_assert = 1,
+        .arg         = arg,
     };
     return vsf_test_add_ex(&test_case);
-}
-
-bool vsf_test_add_simple_case_data(vsf_test_jmp_fn_t *jmp_fn,
-                                   char *cfg,
-                                   void *user_data)
-{
-    vsf_test_case_t test_case = {
-        .jmp_fn      = jmp_fn,
-        .cfg_str     = cfg,
-        .type        = VSF_TEST_TYPE_LONGJMP_FN,
-        .expect_wdt  = 0,
-        .expect_assert = 0,
-        .user_data   = user_data,
-    };
-    return vsf_test_add_ex(&test_case);
-}
-
-void *vsf_test_get_user_data(void)
-{
-    return __vsf_test.current_user_data;
 }
 
 void __vsf_test_longjmp(vsf_test_result_t result,
@@ -385,19 +372,17 @@ void vsf_test_run_tests(void)
         const char *test_name = __vsf_test_get_name(test_case, name_buf, sizeof(name_buf));
         __VSF_TEST_TRACE_INFO("[TEST] #%u: Running '%s'\r\n", data->idx, test_name);
 
-        __vsf_test.current_user_data = test_case->user_data;
-
         vsf_test_type_t type = test_case->type;
         switch (type) {
         case VSF_TEST_TYPE_BOOL_FN:
-            data->result = test_case->b_fn();
+            data->result = test_case->b_fn(test_case->arg);
             break;
         case VSF_TEST_TYPE_LONGJMP_FN: {
             jmp_buf buf;
             data->result  = VSF_TEST_RESULT_PASS;
             __vsf_test.jmp_buf = &buf;
             if (0 == setjmp(buf)) {
-                test_case->jmp_fn();
+                test_case->jmp_fn(test_case->arg);
             } else {
                 // 如果通过 setjmp 捕获到断言，检查是否是预期的断言
                 if (test_case->expect_assert) {
@@ -439,60 +424,42 @@ void vsf_test_run_tests(void)
         data->idx = i;
         __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_READ);
 
-        // 读取该测试用例的结果（文件存储实现会根据 idx 返回对应的结果）
         vsf_test_result_t result = (vsf_test_result_t)data->result;
 
-        // 总是从 test case 数组获取测试名字
         static char saved_name[64];
         vsf_test_case_t *test_case = &__vsf_test.test_case_array[i];
         const char *test_name = __vsf_test_get_name(test_case, saved_name, sizeof(saved_name));
 
-        // 统计结果
         const char *result_str = "UNKNOWN";
         switch (result) {
         case VSF_TEST_RESULT_PASS:
-            result_str = "PASS";
             pass_count++;
             break;
+        case VSF_TEST_RESULT_FAIL:
+            fail_count++;
+            break;
         case VSF_TEST_RESULT_SKIP:
-            result_str = "SKIP";
             skip_count++;
             break;
         case VSF_TEST_RESULT_WDT_PASS:
-            result_str = "WDT_PASS";
             wdt_pass_count++;
             break;
         case VSF_TEST_RESULT_WDT_FAIL:
-            result_str = "WDT_FAIL";
             wdt_fail_count++;
-            break;
-        case VSF_TEST_RESULT_FAIL:
-        case VSF_TEST_RESULT_ASSIST_FAIL:
-        case VSF_TEST_RESULT_FAULT_HANDLER_FAIL:
-            result_str = "FAIL";
-            fail_count++;
             break;
         default:
             break;
         }
-
-        __VSF_TEST_TRACE_INFO("[TEST] #%u: %s - %s\r\n", i, test_name, result_str);
     }
-
-    // 恢复原始索引
     data->idx = saved_idx;
 
-    // 输出统计信息
-    __VSF_TEST_TRACE_INFO("[TEST] ------------------------------------\r\n");
-    __VSF_TEST_TRACE_INFO("[TEST] PASS:        %u\r\n", pass_count);
-    __VSF_TEST_TRACE_INFO("[TEST] FAIL:        %u\r\n", fail_count);
-    __VSF_TEST_TRACE_INFO("[TEST] SKIP:        %u\r\n", skip_count);
-    __VSF_TEST_TRACE_INFO("[TEST] WDT_PASS:    %u\r\n", wdt_pass_count);
-    __VSF_TEST_TRACE_INFO("[TEST] WDT_FAIL:    %u\r\n", wdt_fail_count);
-    __VSF_TEST_TRACE_INFO("[TEST] ====================================\r\n");
+    __VSF_TEST_TRACE_INFO("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u\r\n",
+                          pass_count, fail_count, skip_count, wdt_pass_count, wdt_fail_count);
 
+    // 通知辅助设备所有测试已完成
     __vsf_test_data_sync(data, VSF_TEST_DONE);
 
+    // 进入空闲循环，喂看门狗
     while (1) {
         if (__vsf_test.wdt.internal.feed != NULL) {
             __vsf_test.wdt.internal.feed(&__vsf_test.wdt.internal);
@@ -504,3 +471,4 @@ void vsf_test_run_tests(void)
 }
 
 #endif
+/* EOF */

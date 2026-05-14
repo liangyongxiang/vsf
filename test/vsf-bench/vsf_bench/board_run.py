@@ -123,7 +123,7 @@ def main():
         print("\n[vsf-board-run] PASS")
         with open(log_path, "a") as f:
             f.write(json.dumps({"verdict": "pass"}) + "\n")
-    except (TimeoutError, AssertionError) as e:
+    except (TimeoutError, AssertionError, RuntimeError) as e:
         print(f"\n[vsf-board-run] FAIL: {e}")
         with open(log_path, "a") as f:
             f.write(json.dumps({"verdict": "fail", "error": str(e)}) + "\n")

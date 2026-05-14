@@ -47,6 +47,11 @@ class LogicAnalyzerInstrument:
         self._done = threading.Event()
         self._exit_code: int | None = None
 
+    @property
+    def output_dir(self) -> Path:
+        """Directory containing the capture file; suitable for decode outputs."""
+        return self._capture_path.parent
+
     def channel(self, role: str) -> str:
         """Resolve a logical role to a CH label (e.g. 'uart1_rx' → 'CH2')."""
         if role not in self._channels:
@@ -179,7 +184,7 @@ class LogicAnalyzerInstrument:
           Other bytes: stored as [HH] (uppercase hex).
         """
         rows = self._read_csv_rows(csv_path)
-        return bytes(b for _, b in rows)  # type: ignore[arg-type]
+        return bytes(b for _, b in rows)
 
     # ---------------------------------------------------------------- internal
 

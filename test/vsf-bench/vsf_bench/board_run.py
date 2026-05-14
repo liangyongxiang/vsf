@@ -92,14 +92,15 @@ def main():
         return
 
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    log_path = Path(f"logs/{timestamp}-vsf-board-run.jsonl")
-    log_path.parent.mkdir(parents=True, exist_ok=True)
+    run_dir = Path(f"logs/{timestamp}")
+    run_dir.mkdir(parents=True, exist_ok=True)
+    log_path = run_dir / "vsf-board-run.jsonl"
 
     # Create LA instrument if configured
     la: LogicAnalyzerInstrument | None = None
     if board.logic_analyzer:
         la_cfg = board.logic_analyzer
-        capture_path = Path(f"logs/{timestamp}-capture.dsl")
+        capture_path = run_dir / "capture.dsl"
         la = LogicAnalyzerInstrument(
             cli_path=project_root / la_cfg.cli,
             device=la_cfg.device,

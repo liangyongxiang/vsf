@@ -1,4 +1,4 @@
-"""vsf-board-run — build → flash → run test script → return results."""
+"""vsf-board-run — build → flash → run test script(s) → return results."""
 
 import argparse
 import importlib.util
@@ -14,6 +14,27 @@ from vsf_bench.runners.cmake_runner import CMakeRunner
 from vsf_bench.runners.registry import get_runner_class
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
+
+
+class SerialAlreadyCompleted:
+    """Serial wrapper for multi-script runs.
+
+    The orchestrator has already consumed the real serial completion event.
+    This wrapper makes expect() return immediately so scripts can be reused
+    without changing their signatures.
+    """
+
+    def __init__(self, real_serial: SerialInstrument):
+        self._real = real_serial
+
+    def expect(self, pattern: str, timeout: float | None = None) -> str:
+        return pattern
+
+    def close(self) -> None:
+        pass  # orchestrator owns lifecycle
+
+    def __getattr__(self, name: str):
+        return getattr(self._real, name)
 
 
 def load_test_script(path: str | Path):
@@ -40,6 +61,17 @@ def _call_run(run_fn: Callable[..., None], ser: SerialInstrument, la: LogicAnaly
         run_fn(ser)
 
 
+def _derive_run_name(script_paths: list[str]) -> str:
+    if len(script_paths) == 1:
+        return Path(script_paths[0]).stem
+    stems = [Path(p).stem for p in script_paths]
+    prefix = stems[0]
+    for s in stems[1:]:
+        while not s.startswith(prefix) and prefix:
+            prefix = prefix[:-1]
+    return prefix.rstrip("_-") if prefix else "multi"
+
+
 def parse_args():
     parser = argparse.ArgumentParser(prog="vsf-board-run")
     parser.add_argument(
@@ -49,14 +81,20 @@ def parse_args():
         help="Project root directory (default: cwd)",
     )
     parser.add_argument(
+        "--log-dir",
+        type=Path,
+        default=None,
+        help="Explicit log directory. If omitted, auto-generated under logs/",
+    )
+    parser.add_argument(
         "hardware_map",
         help="Path to hardware-map.yml",
     )
     parser.add_argument(
-        "test_script",
-        nargs="?",
+        "test_scripts",
+        nargs="*",
         default=None,
-        help="Optional test script with run(serial[, la]) function",
+        help="One or more test scripts with run(serial[, la]) function",
     )
     return parser.parse_args()
 
@@ -83,16 +121,21 @@ def main():
 
     runner = runner_cls(runner_cfg)
 
-    # Test script is optional — build+flash only when omitted
-    if args.test_script is None:
+    # Test scripts are optional — build+flash only when omitted
+    if not args.test_scripts:
         print(f"[vsf-board-run] Flashing via {board.active_runner}...")
         runner.flash(build_dir)
         print("[vsf-board-run] Flash complete")
         print("[vsf-board-run] No test script provided — done.")
         return
 
-    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    run_dir = Path(f"logs/{timestamp}")
+    # Log directory
+    if args.log_dir:
+        run_dir = args.log_dir.resolve()
+    else:
+        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        run_name = _derive_run_name(args.test_scripts)
+        run_dir = Path(f"logs/{timestamp}-{run_name}")
     run_dir.mkdir(parents=True, exist_ok=True)
     log_path = run_dir / "vsf-board-run.jsonl"
 
@@ -100,7 +143,7 @@ def main():
     la: LogicAnalyzerInstrument | None = None
     if board.logic_analyzer:
         la_cfg = board.logic_analyzer
-        capture_path = run_dir / "capture.dsl"
+        capture_path = run_dir / f"{run_name}-capture.dsl"
         la = LogicAnalyzerInstrument(
             cli_path=project_root / la_cfg.cli,
             device=la_cfg.device,
@@ -119,8 +162,48 @@ def main():
     runner.flash(build_dir)
     print("[vsf-board-run] Flash complete")
 
-    run_fn = load_test_script(args.test_script)
-    print(f"[vsf-board-run] Running test script: {args.test_script}")
+    # Single script: let the script manage serial/la lifecycle (backward compatible)
+    # Multiple scripts: orchestrator waits for completion, then runs each script
+    multi_mode = len(args.test_scripts) > 1
+
+    if multi_mode:
+        # Wait for firmware to complete ALL tests
+        print("[vsf-board-run] Waiting for firmware test completion...")
+        ser.expect("All test cases completed", timeout=120.0)
+        print("[vsf-board-run] Firmware tests completed")
+
+        # Wait for LA capture to finish
+        if la is not None:
+            la.wait()
+            print("[vsf-board-run] LA capture done")
+
+        # Run each script with a serial wrapper that skips expect()
+        wrapped_ser = SerialAlreadyCompleted(ser)
+        overall_pass = True
+        for script_path in args.test_scripts:
+            run_fn = load_test_script(script_path)
+            print(f"\n[vsf-board-run] Running test script: {script_path}")
+            try:
+                _call_run(run_fn, wrapped_ser, la)
+                print(f"[vsf-board-run] PASS: {script_path}")
+            except (TimeoutError, AssertionError, RuntimeError) as e:
+                print(f"[vsf-board-run] FAIL: {script_path}: {e}")
+                overall_pass = False
+
+        ser.close()
+
+        with open(log_path, "a") as f:
+            verdict = "pass" if overall_pass else "fail"
+            f.write(json.dumps({"verdict": verdict}) + "\n")
+        print(f"\n[vsf-board-run] {'PASS' if overall_pass else 'FAIL'}")
+        if not overall_pass:
+            sys.exit(1)
+        return
+
+    # Single-script mode (backward compatible)
+    script_path = args.test_scripts[0]
+    run_fn = load_test_script(script_path)
+    print(f"[vsf-board-run] Running test script: {script_path}")
 
     try:
         _call_run(run_fn, ser, la)

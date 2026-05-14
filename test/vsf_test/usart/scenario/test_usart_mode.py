@@ -1,11 +1,11 @@
-"""Multi-baud UART TX validation via logic analyzer capture.
+"""Multi-mode UART TX validation via logic analyzer capture.
 
 Usage:
     vsf-board-run board/pico/hardware-map.yml \\
-        vsf.demo/vsf/test/vsf_test/usart/scenario/test_usart_baud.py
+        vsf.demo/vsf/test/vsf_test/usart/scenario/test_usart_mode.py
 
-Test parameters are read from application/component/vsf-test/test_params.yml
-so the script does not depend on firmware output for correctness.
+Test parameters are read from application/component/vsf-test/test_params.yml.
+Each case is decoded with matching UART parity, data-bit, and stop-bit settings.
 """
 
 from dataclasses import dataclass
@@ -22,6 +22,9 @@ class Case:
     idx: int
     baud: int
     expect_pass: bool
+    decode_parity: str
+    decode_data: int
+    decode_stop: float
 
 
 def _find_project_root() -> Path:
@@ -42,10 +45,15 @@ def _load_params(yml_path: Path) -> dict:
 def _parse_cases(scenario: dict) -> list[Case]:
     cases: list[Case] = []
     for case in scenario.get("cases", []):
+        host = case.get("host", {}) or {}
+        decode = host.get("decode", {}) or {}
         cases.append(Case(
             idx=int(case["idx"]),
-            baud=int(case["baudrate"]),
-            expect_pass=bool(case["expect_pass"]),
+            baud=int(scenario["common"]["baudrate"]),
+            expect_pass=bool(case.get("expect_pass", True)),
+            decode_parity=decode.get("parity_type", "none"),
+            decode_data=int(decode.get("num_data_bits", 8)),
+            decode_stop=float(decode.get("num_stop_bits", 1.0)),
         ))
     return cases
 
@@ -55,7 +63,7 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     yml_path = project_root / "application" / "component" / "vsf-test" / "test_params.yml"
     params = _load_params(yml_path)
 
-    scenario = params.get("tx_baud", {})
+    scenario = params.get("tx_mode", {})
     cases = _parse_cases(scenario)
     assert len(cases) > 0, f"No cases found in {yml_path}"
 
@@ -63,7 +71,7 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     marker_cfg = params.get("marker", {})
     marker_ch_name = marker_cfg.get("channel", "uart0_tx")
     marker_baud = int(marker_cfg.get("baudrate", 115200))
-    marker_pattern = r"BAUD:CASE:(\d+)"
+    marker_pattern = r"MODE:CASE:(\d+)"
     marker_delay_ms = int(marker_cfg.get("delay_ms", 200))
     marker_delay_ns = marker_delay_ms * 1_000_000
 
@@ -83,11 +91,11 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
         channel=marker_ch,
         baudrate=marker_baud,
         pattern=marker_pattern,
-        output_csv=out_dir / "baud_markers.csv",
+        output_csv=out_dir / "mode_markers.csv",
     )
 
     assert len(markers) == len(cases), (
-        f"Expected {len(cases)} BAUD:CASE markers, got {len(markers)}: {markers}"
+        f"Expected {len(cases)} MODE:CASE markers, got {len(markers)}: {markers}"
     )
 
     markers_by_case = {ev.case_idx: ev for ev in markers}
@@ -97,13 +105,16 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
         start_ns = ev.time_ns + marker_delay_ns
         end_ns = markers_by_case[cases[i + 1].idx].time_ns if i + 1 < len(cases) else None
 
-        if c.expect_pass:
-            csv_path = out_dir / f"baud_{c.idx:02d}_{c.baud}.csv"
-            la.decode_uart(dut_ch, c.baud, start_ns, end_ns, csv_path)
-            got = la.parse_uart_csv(csv_path)
-            assert got == payload, (
-                f"CASE {c.idx} baud={c.baud}: expected {payload!r}, got {got!r}"
-            )
-            print(f"[PASS] CASE {c.idx}  baud={c.baud:>7}  {got!r}")
-        else:
-            print(f"[PASS] CASE {c.idx}  baud={c.baud:>7}  expected fail (init error)")
+        csv_path = out_dir / f"mode_{c.idx:02d}_{c.decode_parity}{c.decode_data}{c.decode_stop}.csv"
+        la.decode_uart(
+            dut_ch, c.baud, start_ns, end_ns, csv_path,
+            parity_type=c.decode_parity,
+            num_data_bits=c.decode_data,
+            num_stop_bits=c.decode_stop,
+        )
+        got = la.parse_uart_csv(csv_path)
+        assert got == payload, (
+            f"CASE {c.idx} mode={c.decode_parity}/{c.decode_data}/{c.decode_stop}: "
+            f"expected {payload!r}, got {got!r}"
+        )
+        print(f"[PASS] CASE {c.idx}  mode={c.decode_parity}/{c.decode_data}/{c.decode_stop}  {got!r}")

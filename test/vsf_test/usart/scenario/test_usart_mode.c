@@ -20,24 +20,24 @@
 #include "vsf.h"
 #include "component/test/vsf_test/vsf_test.h"
 #include "../test_usart.h"
-#include "test_usart_baud.h"
+#include "test_usart_mode.h"
 #include "test_params_generated.h"
 
-#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
+#if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
 
 /*============================ MACROS ========================================*/
 
-#ifndef BAUD_PAYLOAD
-#   define BAUD_PAYLOAD            "Hello VSF\r\n"
+#ifndef MODE_PAYLOAD
+#   define MODE_PAYLOAD            "Hello VSF\r\n"
 #endif
 #ifndef MARKER_DELAY_MS
 #   define MARKER_DELAY_MS         200
 #endif
-#ifndef BAUD_PAYLOAD_DRAIN_MS
-#   define BAUD_PAYLOAD_DRAIN_MS   500
+#ifndef MODE_PAYLOAD_DRAIN_MS
+#   define MODE_PAYLOAD_DRAIN_MS   500
 #endif
-#ifndef BAUD_COMMON_MODE
-#   define BAUD_COMMON_MODE        (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_TX_ENABLE)
+#ifndef MODE_COMMON_BAUDRATE
+#   define MODE_COMMON_BAUDRATE    115200
 #endif
 
 /*============================ IMPLEMENTATION ================================*/
@@ -58,28 +58,29 @@ static void __usart_send_str(vsf_usart_t *usart, const char *str)
 
 /*============================ TEST CASE =====================================*/
 
-void vsf_test_usart_baud_scenario(void *arg)
+void vsf_test_usart_mode_scenario(void *arg)
 {
-    const vsf_test_usart_baud_case_t *c = (const vsf_test_usart_baud_case_t *)arg;
+    const vsf_test_usart_mode_case_t *c = (const vsf_test_usart_mode_case_t *)arg;
 
-    vsf_trace_info("BAUD:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+    vsf_trace_info("MODE:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
     __busy_wait_ms(MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(test_usart_instance, &(vsf_usart_cfg_t){
-        .mode     = BAUD_COMMON_MODE,
-        .baudrate = c->baudrate,
+        .mode     = c->mode,
+        .baudrate = MODE_COMMON_BAUDRATE,
     });
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         while (fsm_rt_cpl != vsf_usart_enable(test_usart_instance));
-        __usart_send_str(test_usart_instance, BAUD_PAYLOAD);
-        __busy_wait_ms(BAUD_PAYLOAD_DRAIN_MS);
+        __usart_send_str(test_usart_instance, MODE_PAYLOAD);
+        __busy_wait_ms(MODE_PAYLOAD_DRAIN_MS);
+        while (fsm_rt_cpl != vsf_usart_disable(test_usart_instance));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
 }
 
-#endif /* VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED */
+#endif /* VSF_TEST_USART_TX_MODE_ENABLE == ENABLED */
 
 /* EOF */

@@ -121,6 +121,7 @@ class LogicAnalyzerInstrument:
         baudrate: int,
         pattern: str,
         output_dir: Path | None = None,
+        output_csv: Path | None = None,
     ) -> list[MarkerEvent]:
         """Decode the marker channel offline and extract case marker events.
 
@@ -129,15 +130,17 @@ class LogicAnalyzerInstrument:
             baudrate: baud rate of that channel (e.g. 115200).
             pattern: regex with one capture group for case index (e.g. r'CASE:(\\d+)').
             output_dir: directory for intermediate CSV; defaults to capture_path dir.
+            output_csv: explicit output CSV path; overrides output_dir if given.
 
         Returns:
             List of MarkerEvent sorted by time_ns.
         """
-        out_dir = output_dir or self._capture_path.parent
-        csv_path = out_dir / f"markers_{channel}.csv"
-        self._offline_decode(channel, baudrate, None, None, csv_path)
+        if output_csv is None:
+            out_dir = output_dir or self._capture_path.parent
+            output_csv = out_dir / f"markers_{channel}.csv"
+        self._offline_decode(channel, baudrate, None, None, output_csv)
 
-        rows = self._read_csv_rows(csv_path)
+        rows = self._read_csv_rows(output_csv)
         text = ""
         timestamps: list[int] = []
         for time_ns, byte_val in rows:
@@ -160,6 +163,9 @@ class LogicAnalyzerInstrument:
         start_ns: int | None,
         end_ns: int | None,
         output_csv: Path,
+        parity_type: str = "none",
+        num_data_bits: int = 8,
+        num_stop_bits: float = 1.0,
     ) -> Path:
         """Decode a time window of a DUT channel offline.
 
@@ -169,11 +175,19 @@ class LogicAnalyzerInstrument:
             start_ns: window start in nanoseconds since capture start (None = from beginning).
             end_ns: window end in nanoseconds (None = to end).
             output_csv: path for the decoded CSV output.
+            parity_type: UART parity type (none | odd | even | zero | one).
+            num_data_bits: number of data bits per frame (default 8).
+            num_stop_bits: number of stop bits (default 1.0).
 
         Returns:
             output_csv path.
         """
-        self._offline_decode(channel, baudrate, start_ns, end_ns, output_csv)
+        self._offline_decode(
+            channel, baudrate, start_ns, end_ns, output_csv,
+            parity_type=parity_type,
+            num_data_bits=num_data_bits,
+            num_stop_bits=num_stop_bits,
+        )
         return output_csv
 
     def parse_uart_csv(self, csv_path: Path) -> bytes:
@@ -200,12 +214,21 @@ class LogicAnalyzerInstrument:
         start_ns: int | None,
         end_ns: int | None,
         output_csv: Path,
+        parity_type: str = "none",
+        num_data_bits: int = 8,
+        num_stop_bits: float = 1.0,
     ) -> None:
         output_csv.parent.mkdir(parents=True, exist_ok=True)
+        protocol = (
+            f"uart:rx={channel}:baudrate={baudrate}"
+            f":parity_type={parity_type}"
+            f":num_data_bits={num_data_bits}"
+            f":num_stop_bits={num_stop_bits}"
+        )
         cmd = [
             str(self._cli),
             "-i", str(self._capture_path),
-            "-P", f"uart:rx={channel}:baudrate={baudrate}",
+            "-P", protocol,
             "--decode-output", str(output_csv),
         ]
         if start_ns is not None:

@@ -32,24 +32,53 @@ extern "C" {
 //! \brief 最大支持的用例数量
 #define VSF_TEST_USART_CASE_MAX_COUNT   16
 
+//! \brief 编译开关：默认启用 baud TX 场景
+#ifndef VSF_TEST_USART_TX_BAUD_ENABLE
+#   define VSF_TEST_USART_TX_BAUD_ENABLE     ENABLED
+#endif
+
+//! \brief 编译开关：默认启用 mode TX 场景
+#ifndef VSF_TEST_USART_TX_MODE_ENABLE
+#   define VSF_TEST_USART_TX_MODE_ENABLE     ENABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
+#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
 //! \brief USART 波特率测试用例配置条目
 typedef struct vsf_test_usart_baud_case_t {
     uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
     uint32_t baudrate;    //! \brief 目标波特率
     bool     expect_pass; //! \brief true=预期初始化成功并发送数据，false=预期初始化失败
 } vsf_test_usart_baud_case_t;
+#endif
 
-//! \brief USART 测试套件配置
-typedef struct vsf_test_usart_cfg_t {
+#if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
+//! \brief USART 模式测试用例配置条目
+typedef struct vsf_test_usart_mode_case_t {
+    uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
+    vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（parity/stop/data/...）
+    bool             expect_pass; //! \brief true=预期初始化成功并发送数据，false=预期初始化失败
+} vsf_test_usart_mode_case_t;
+#endif
+
+//! \brief USART TX 测试套件配置
+typedef struct vsf_test_usart_tx_cfg_t {
     //! \brief USART 实例指针
     vsf_usart_t *usart_instance;
-    //! \brief 波特率测试用例配置数组，NULL 表示使用默认配置
+#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
+    //! \brief 波特率测试用例数组
     const vsf_test_usart_baud_case_t *baud_cases;
-    //! \brief 波特率测试用例数量，0 表示使用默认配置
+    //! \brief 波特率测试用例数量
     uint8_t baud_case_count;
-} vsf_test_usart_cfg_t;
+#endif
+#if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
+    //! \brief 模式测试用例数组
+    const vsf_test_usart_mode_case_t *mode_cases;
+    //! \brief 模式测试用例数量
+    uint8_t mode_case_count;
+#endif
+} vsf_test_usart_tx_cfg_t;
 
 /*============================ GLOBAL VARIABLES ==============================*/
 
@@ -59,10 +88,10 @@ extern vsf_usart_t *test_usart_instance;
 /*============================ PROTOTYPES ====================================*/
 
 /**
- * @brief 初始化 USART 测试并添加测试用例
- * @param cfg USART 测试配置
+ * @brief 初始化 USART TX 测试套件并注册所有启用的场景用例
+ * @param cfg USART TX 测试配置
  */
-void vsf_test_usart_init(const vsf_test_usart_cfg_t *cfg);
+void vsf_test_usart_tx_init(const vsf_test_usart_tx_cfg_t *cfg);
 
 #ifdef __cplusplus
 }

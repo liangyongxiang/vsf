@@ -51,11 +51,11 @@ def _format_value(value) -> str:
 def _format_case(case: dict) -> str:
     """Format one case dict as a C designated initializer.
 
-    Skips the reserved `host` key (host-side only data).
+    Skips reserved keys (`host`, `la`) that hold host-side only data.
     """
     parts = []
     for key, value in case.items():
-        if key == "host":
+        if key in ("host", "la"):
             continue
         parts.append(f".{key} = {_format_value(value)}")
     return "{ " + ", ".join(parts) + " }"

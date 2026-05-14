@@ -45,8 +45,8 @@ def _load_params(yml_path: Path) -> dict:
 def _parse_cases(scenario: dict) -> list[Case]:
     cases: list[Case] = []
     for case in scenario.get("cases", []):
-        host = case.get("host", {}) or {}
-        decode = host.get("decode", {}) or {}
+        la = case.get("la", {}) or {}
+        decode = la.get("decode", {}) or {}
         cases.append(Case(
             idx=int(case["idx"]),
             baud=int(scenario["common"]["baudrate"]),

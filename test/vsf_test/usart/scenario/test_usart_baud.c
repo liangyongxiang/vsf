@@ -71,10 +71,8 @@ static void __run_baud_test(vsf_usart_t *usart, uint8_t case_idx, uint32_t baud)
 void vsf_test_usart_baud_scenario(void)
 {
     uint32_t baud = (uint32_t)(uintptr_t)vsf_test_get_user_data();
-    uint8_t  idx  = (uint8_t)(uintptr_t)vsf_test_get_user_data();  // same value, used as index
 
     // Find our index in the baudrates array to emit the correct CASE marker
-    // The user_data is the baudrate value; we find which slot it occupies
     uint8_t case_idx = 0;
     if (test_usart_baudrates != NULL) {
         for (uint8_t i = 0; i < VSF_TEST_USART_BAUD_MAX_COUNT; i++) {

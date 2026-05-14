@@ -16,8 +16,8 @@ class UF2Runner(FlashRunner):
 
     def __init__(self, config: RunnerConfig):
         super().__init__(config)
-        self.device = config.params.get("device")
-        self.mount_point = config.params.get("mount_point")
+        self.device: str | None = config.params.get("device")
+        self.mount_point: str | None = config.params.get("mount_point")
 
     @classmethod
     def validate_params(cls, params: dict) -> list[str]:
@@ -29,6 +29,7 @@ class UF2Runner(FlashRunner):
 
     def flash(self, build_dir: Path) -> None:
         """Flash firmware via UF2 mass storage copy."""
+        assert self._config.artifact is not None
         uf2 = build_dir / self._config.artifact.name
         if not uf2.exists():
             raise FileNotFoundError(f"UF2 not found: {uf2}")
@@ -39,6 +40,7 @@ class UF2Runner(FlashRunner):
             self._flash_auto_mounted(uf2)
 
     def _flash_manual(self, uf2: Path) -> None:
+        assert self.device is not None
         tmpdir = tempfile.mkdtemp(prefix="vsf-bench-uf2-")
         try:
             subprocess.run(["mount", self.device, tmpdir], check=True, capture_output=True)
@@ -52,6 +54,7 @@ class UF2Runner(FlashRunner):
             os.rmdir(tmpdir)
 
     def _flash_auto_mounted(self, uf2: Path) -> None:
+        assert self.mount_point is not None
         mount = Path(self.mount_point)
         if not mount.is_dir():
             raise FileNotFoundError(

@@ -91,6 +91,7 @@ class LogicAnalyzerInstrument:
         )
 
         def _wait():
+            assert self._proc is not None
             stdout, stderr = self._proc.communicate()
             self._exit_code = self._proc.returncode
             if stdout.strip():

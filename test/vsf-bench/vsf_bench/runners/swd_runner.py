@@ -19,6 +19,7 @@ class SWDRunner(FlashRunner):
 
     def flash(self, build_dir: Path) -> None:
         """Flash firmware via OpenOCD SWD."""
+        assert self._config.artifact is not None
         elf = build_dir / self._config.artifact.name
         if not elf.exists():
             raise FileNotFoundError(f"ELF not found: {elf}")

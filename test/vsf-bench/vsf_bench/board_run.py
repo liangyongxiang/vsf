@@ -5,6 +5,7 @@ import importlib.util
 import inspect
 import json
 import sys
+from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
 
@@ -30,7 +31,7 @@ def load_test_script(path: str | Path):
     return mod.run
 
 
-def _call_run(run_fn: object, ser: SerialInstrument, la: LogicAnalyzerInstrument | None) -> None:
+def _call_run(run_fn: Callable[..., None], ser: SerialInstrument, la: LogicAnalyzerInstrument | None) -> None:
     """Call run_fn, passing la only if the script's signature accepts it."""
     sig = inspect.signature(run_fn)
     if "la" in sig.parameters:

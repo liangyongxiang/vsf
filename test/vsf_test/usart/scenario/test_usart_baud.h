@@ -18,19 +18,13 @@
 #ifndef __TEST_USART_BAUD_H__
 #define __TEST_USART_BAUD_H__
 
-#include "../test_usart.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /*============================ PROTOTYPES ====================================*/
 
-//! \brief 波特率场景测试函数指针类型
-typedef void (*vsf_test_usart_baud_fn_t)(void);
-
-//! \brief 波特率场景测试函数数组，由索引对应波特率数组位置
-extern const vsf_test_usart_baud_fn_t vsf_test_usart_baud_scenarios[VSF_TEST_USART_BAUD_MAX_COUNT];
+void vsf_test_usart_baud_scenario(void);
 
 #ifdef __cplusplus
 }

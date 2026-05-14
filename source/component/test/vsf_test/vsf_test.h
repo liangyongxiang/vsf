@@ -383,6 +383,10 @@ typedef struct vsf_test_case_t {
     //! then set this variable to one. When an assertion is triggered, the test will
     //! be considered as PASS instead of FAIL.
     uint8_t expect_assert;
+
+    //! User-defined data pointer, passed to the test case.
+    //! Retrieve with vsf_test_get_user_data() inside the test function.
+    void *user_data;
 } vsf_test_case_t;
 
 //! \brief Test framework configuration structure
@@ -454,6 +458,9 @@ typedef struct vsf_test_t {
 
     //! Restart from the beginning when test completes or errors occur
     bool restart_on_done;
+
+    //! Current test case user_data (runtime only, not persisted)
+    void *current_user_data;
 
     //! Test case count (number of test cases added)
     uint32_t test_case_count;
@@ -576,6 +583,23 @@ extern bool vsf_test_add_ex_case(vsf_test_jmp_fn_t *fn, char *cfg,
 extern bool vsf_test_add_expect_assert_case(vsf_test_jmp_fn_t *fn,
                                             char *cfg,
                                             uint8_t expect_wdt);
+
+/**
+ @brief Add a test case with user data
+ @param[in] jmp_fn: a pointer to function @ref vsf_test_jmp_fn_t
+ @param[in] cfg: a string of request information for the test case
+ @param[in] user_data: user-defined pointer passed to the test function
+ @return bool: true if add was successfully, or false
+ */
+extern bool vsf_test_add_simple_case_data(vsf_test_jmp_fn_t *jmp_fn,
+                                          char *cfg,
+                                          void *user_data);
+
+/**
+ @brief Get the user_data of the currently running test case
+ @return void*: user_data pointer, or NULL if no test is running
+ */
+extern void *vsf_test_get_user_data(void);
 
 /**
  @brief Run all tests. Should be called after all use cases have been

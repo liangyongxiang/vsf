@@ -192,6 +192,26 @@ bool vsf_test_add_expect_assert_case(vsf_test_jmp_fn_t *fn,
     return vsf_test_add_ex(&test_case);
 }
 
+bool vsf_test_add_simple_case_data(vsf_test_jmp_fn_t *jmp_fn,
+                                   char *cfg,
+                                   void *user_data)
+{
+    vsf_test_case_t test_case = {
+        .jmp_fn      = jmp_fn,
+        .cfg_str     = cfg,
+        .type        = VSF_TEST_TYPE_LONGJMP_FN,
+        .expect_wdt  = 0,
+        .expect_assert = 0,
+        .user_data   = user_data,
+    };
+    return vsf_test_add_ex(&test_case);
+}
+
+void *vsf_test_get_user_data(void)
+{
+    return __vsf_test.current_user_data;
+}
+
 void __vsf_test_longjmp(vsf_test_result_t result,
                         const char *file_name, uint32_t line,
                         const char *function_name, const char *condition)
@@ -364,6 +384,8 @@ void vsf_test_run_tests(void)
         static char name_buf[64];
         const char *test_name = __vsf_test_get_name(test_case, name_buf, sizeof(name_buf));
         __VSF_TEST_TRACE_INFO("[TEST] #%u: Running '%s'\r\n", data->idx, test_name);
+
+        __vsf_test.current_user_data = test_case->user_data;
 
         vsf_test_type_t type = test_case->type;
         switch (type) {

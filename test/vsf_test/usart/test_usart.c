@@ -62,7 +62,8 @@ void vsf_test_usart_init(const vsf_test_usart_cfg_t *cfg)
         char cfg_str[64];
         snprintf(cfg_str, sizeof(cfg_str),
             "usart_baud_%lu purpose=baud-rate hw_req=uart1+la", (unsigned long)baudrates[i]);
-        vsf_test_add_simple_case(vsf_test_usart_baud_scenarios[i], cfg_str);
+        vsf_test_add_simple_case_data(vsf_test_usart_baud_scenario,
+            cfg_str, (void *)(uintptr_t)baudrates[i]);
     }
 }
 

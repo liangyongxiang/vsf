@@ -19,6 +19,7 @@
 
 #include "vsf.h"
 #include "component/test/vsf_test/vsf_test.h"
+#include "../test_usart.h"
 #include "test_usart_baud.h"
 
 /*============================ MACROS ========================================*/
@@ -65,49 +66,26 @@ static void __run_baud_test(vsf_usart_t *usart, uint8_t case_idx, uint32_t baud)
     __busy_wait_ms(PAYLOAD_DRAIN_MS);
 }
 
-/*============================ GENERIC TEST FUNCTIONS ========================*/
+/*============================ TEST CASE =====================================*/
 
-#define __TEST_BAUD_FN(__IDX)                                               \
-    static void __vsf_test_usart_baud_##__IDX(void)                         \
-    {                                                                       \
-        __run_baud_test(test_usart_instance, __IDX,                         \
-                         test_usart_baudrates[__IDX]);                      \
+void vsf_test_usart_baud_scenario(void)
+{
+    uint32_t baud = (uint32_t)(uintptr_t)vsf_test_get_user_data();
+    uint8_t  idx  = (uint8_t)(uintptr_t)vsf_test_get_user_data();  // same value, used as index
+
+    // Find our index in the baudrates array to emit the correct CASE marker
+    // The user_data is the baudrate value; we find which slot it occupies
+    uint8_t case_idx = 0;
+    if (test_usart_baudrates != NULL) {
+        for (uint8_t i = 0; i < VSF_TEST_USART_BAUD_MAX_COUNT; i++) {
+            if (test_usart_baudrates[i] == baud) {
+                case_idx = i;
+                break;
+            }
+        }
     }
 
-__TEST_BAUD_FN(0)
-__TEST_BAUD_FN(1)
-__TEST_BAUD_FN(2)
-__TEST_BAUD_FN(3)
-__TEST_BAUD_FN(4)
-__TEST_BAUD_FN(5)
-__TEST_BAUD_FN(6)
-__TEST_BAUD_FN(7)
-__TEST_BAUD_FN(8)
-__TEST_BAUD_FN(9)
-__TEST_BAUD_FN(10)
-__TEST_BAUD_FN(11)
-__TEST_BAUD_FN(12)
-__TEST_BAUD_FN(13)
-__TEST_BAUD_FN(14)
-__TEST_BAUD_FN(15)
-
-const vsf_test_usart_baud_fn_t vsf_test_usart_baud_scenarios[VSF_TEST_USART_BAUD_MAX_COUNT] = {
-    __vsf_test_usart_baud_0,
-    __vsf_test_usart_baud_1,
-    __vsf_test_usart_baud_2,
-    __vsf_test_usart_baud_3,
-    __vsf_test_usart_baud_4,
-    __vsf_test_usart_baud_5,
-    __vsf_test_usart_baud_6,
-    __vsf_test_usart_baud_7,
-    __vsf_test_usart_baud_8,
-    __vsf_test_usart_baud_9,
-    __vsf_test_usart_baud_10,
-    __vsf_test_usart_baud_11,
-    __vsf_test_usart_baud_12,
-    __vsf_test_usart_baud_13,
-    __vsf_test_usart_baud_14,
-    __vsf_test_usart_baud_15,
-};
+    __run_baud_test(test_usart_instance, case_idx, baud);
+}
 
 /* EOF */

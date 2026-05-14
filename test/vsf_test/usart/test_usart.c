@@ -35,6 +35,15 @@
 #if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
 #   include "scenario/test_usart_rx_mode.h"
 #endif
+#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
+#   include "scenario/test_usart_rx_irq.h"
+#endif
+#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
+#   include "scenario/test_usart_rx_timeout.h"
+#endif
+#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
+#   include "scenario/test_usart_rx_error.h"
+#endif
 
 /*============================ MACROS ========================================*/
 /*============================ TYPES =========================================*/
@@ -136,6 +145,66 @@ void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg)
             (unsigned)cfg->rx_mode_cases[i].idx);
         vsf_test_add_simple_case(vsf_test_usart_rx_mode_scenario,
             __rx_mode_cfg_str_pool[i], (void *)&cfg->rx_mode_cases[i]);
+    }
+#endif
+
+#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
+    VSF_ASSERT(cfg->rx_irq_cases != NULL);
+    VSF_ASSERT(cfg->rx_irq_case_count > 0);
+    VSF_ASSERT(cfg->rx_irq_case_count <= VSF_TEST_USART_CASE_MAX_COUNT);
+
+    static char __rx_irq_cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
+    for (uint8_t i = 0; i < cfg->rx_irq_case_count; i++) {
+        snprintf(__rx_irq_cfg_str_pool[i], sizeof(__rx_irq_cfg_str_pool[i]),
+            "usart_rx_irq_%u purpose=rx-irq hw_req=uart1+la",
+            (unsigned)cfg->rx_irq_cases[i].idx);
+        vsf_test_add_simple_case(vsf_test_usart_rx_irq_scenario,
+            __rx_irq_cfg_str_pool[i], (void *)&cfg->rx_irq_cases[i]);
+    }
+#endif
+
+#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
+    VSF_ASSERT(cfg->rx_timeout_cases != NULL);
+    VSF_ASSERT(cfg->rx_timeout_case_count > 0);
+    VSF_ASSERT(cfg->rx_timeout_case_count <= VSF_TEST_USART_CASE_MAX_COUNT);
+
+    static char __rx_timeout_cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
+    for (uint8_t i = 0; i < cfg->rx_timeout_case_count; i++) {
+        snprintf(__rx_timeout_cfg_str_pool[i], sizeof(__rx_timeout_cfg_str_pool[i]),
+            "usart_rx_timeout_%u purpose=rx-timeout hw_req=uart1+la",
+            (unsigned)cfg->rx_timeout_cases[i].idx);
+        vsf_test_add_simple_case(vsf_test_usart_rx_timeout_scenario,
+            __rx_timeout_cfg_str_pool[i], (void *)&cfg->rx_timeout_cases[i]);
+    }
+#endif
+
+#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
+    VSF_ASSERT(cfg->rx_parity_error_cases != NULL);
+    VSF_ASSERT(cfg->rx_parity_error_case_count > 0);
+    VSF_ASSERT(cfg->rx_parity_error_case_count <= VSF_TEST_USART_CASE_MAX_COUNT);
+
+    static char __rx_parity_cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
+    for (uint8_t i = 0; i < cfg->rx_parity_error_case_count; i++) {
+        snprintf(__rx_parity_cfg_str_pool[i], sizeof(__rx_parity_cfg_str_pool[i]),
+            "usart_rx_parity_%u purpose=rx-parity hw_req=uart1+la",
+            (unsigned)cfg->rx_parity_error_cases[i].idx);
+        vsf_test_add_simple_case(vsf_test_usart_rx_parity_error_scenario,
+            __rx_parity_cfg_str_pool[i], (void *)&cfg->rx_parity_error_cases[i]);
+    }
+#endif
+
+#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
+    VSF_ASSERT(cfg->rx_frame_error_cases != NULL);
+    VSF_ASSERT(cfg->rx_frame_error_case_count > 0);
+    VSF_ASSERT(cfg->rx_frame_error_case_count <= VSF_TEST_USART_CASE_MAX_COUNT);
+
+    static char __rx_frame_cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
+    for (uint8_t i = 0; i < cfg->rx_frame_error_case_count; i++) {
+        snprintf(__rx_frame_cfg_str_pool[i], sizeof(__rx_frame_cfg_str_pool[i]),
+            "usart_rx_frame_%u purpose=rx-frame hw_req=uart1+la",
+            (unsigned)cfg->rx_frame_error_cases[i].idx);
+        vsf_test_add_simple_case(vsf_test_usart_rx_frame_error_scenario,
+            __rx_frame_cfg_str_pool[i], (void *)&cfg->rx_frame_error_cases[i]);
     }
 #endif
 }

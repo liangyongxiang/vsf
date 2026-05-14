@@ -57,6 +57,26 @@ extern "C" {
 #   define VSF_TEST_USART_RX_MODE_ENABLE     ENABLED
 #endif
 
+//! \brief 编译开关：默认启用 IRQ RX 场景
+#ifndef VSF_TEST_USART_RX_IRQ_ENABLE
+#   define VSF_TEST_USART_RX_IRQ_ENABLE      ENABLED
+#endif
+
+//! \brief 编译开关：默认启用 timeout RX 场景
+#ifndef VSF_TEST_USART_RX_TIMEOUT_ENABLE
+#   define VSF_TEST_USART_RX_TIMEOUT_ENABLE  ENABLED
+#endif
+
+//! \brief 编译开关：默认启用 parity error RX 场景
+#ifndef VSF_TEST_USART_RX_PARITY_ERROR_ENABLE
+#   define VSF_TEST_USART_RX_PARITY_ERROR_ENABLE  ENABLED
+#endif
+
+//! \brief 编译开关：默认启用 frame error RX 场景
+#ifndef VSF_TEST_USART_RX_FRAME_ERROR_ENABLE
+#   define VSF_TEST_USART_RX_FRAME_ERROR_ENABLE   ENABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
@@ -126,6 +146,40 @@ typedef struct vsf_test_usart_rx_mode_case_t {
 } vsf_test_usart_rx_mode_case_t;
 #endif
 
+#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
+//! \brief USART RX IRQ 测试用例配置条目
+typedef struct vsf_test_usart_rx_irq_case_t {
+    uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
+    bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
+} vsf_test_usart_rx_irq_case_t;
+#endif
+
+#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
+//! \brief USART RX 超时测试用例配置条目
+typedef struct vsf_test_usart_rx_timeout_case_t {
+    uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
+    bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
+} vsf_test_usart_rx_timeout_case_t;
+#endif
+
+#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
+//! \brief USART RX parity error 测试用例配置条目
+typedef struct vsf_test_usart_rx_parity_error_case_t {
+    uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
+    vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（含 parity 配置）
+    bool             expect_pass; //! \brief true=预期检测到 parity error，false=预期初始化失败
+} vsf_test_usart_rx_parity_error_case_t;
+#endif
+
+#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
+//! \brief USART RX frame error 测试用例配置条目
+typedef struct vsf_test_usart_rx_frame_error_case_t {
+    uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
+    vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（含 stop bit 配置）
+    bool             expect_pass; //! \brief true=预期检测到 frame error，false=预期初始化失败
+} vsf_test_usart_rx_frame_error_case_t;
+#endif
+
 //! \brief USART RX 测试套件配置
 typedef struct vsf_test_usart_rx_cfg_t {
     //! \brief USART 实例指针
@@ -147,6 +201,30 @@ typedef struct vsf_test_usart_rx_cfg_t {
     const vsf_test_usart_rx_mode_case_t *rx_mode_cases;
     //! \brief RX 模式测试用例数量
     uint8_t rx_mode_case_count;
+#endif
+#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
+    //! \brief RX IRQ 测试用例数组
+    const vsf_test_usart_rx_irq_case_t *rx_irq_cases;
+    //! \brief RX IRQ 测试用例数量
+    uint8_t rx_irq_case_count;
+#endif
+#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
+    //! \brief RX 超时测试用例数组
+    const vsf_test_usart_rx_timeout_case_t *rx_timeout_cases;
+    //! \brief RX 超时测试用例数量
+    uint8_t rx_timeout_case_count;
+#endif
+#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
+    //! \brief RX parity error 测试用例数组
+    const vsf_test_usart_rx_parity_error_case_t *rx_parity_error_cases;
+    //! \brief RX parity error 测试用例数量
+    uint8_t rx_parity_error_case_count;
+#endif
+#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
+    //! \brief RX frame error 测试用例数组
+    const vsf_test_usart_rx_frame_error_case_t *rx_frame_error_cases;
+    //! \brief RX frame error 测试用例数量
+    uint8_t rx_frame_error_case_count;
 #endif
 } vsf_test_usart_rx_cfg_t;
 

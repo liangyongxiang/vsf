@@ -53,6 +53,16 @@ void vsf_test_usart_init(const vsf_test_usart_cfg_t *cfg)
         vsf_test_add_simple_case(vsf_test_usart_baud_scenario,
             __cfg_str_pool[i], (void *)&cfg->baud_cases[i]);
     }
+
+    // 输出测试计划，供上位机脚本动态读取用例参数
+    vsf_trace_info("[TEST_PLAN_BEGIN]" VSF_TRACE_CFG_LINEEND);
+    for (uint8_t i = 0; i < cfg->baud_case_count; i++) {
+        vsf_trace_info("[TEST_PLAN] %u %lu %u" VSF_TRACE_CFG_LINEEND,
+            (unsigned)cfg->baud_cases[i].idx,
+            (unsigned long)cfg->baud_cases[i].baudrate,
+            (unsigned)cfg->baud_cases[i].expect_pass);
+    }
+    vsf_trace_info("[TEST_PLAN_END]" VSF_TRACE_CFG_LINEEND);
 }
 
 /* EOF */

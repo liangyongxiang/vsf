@@ -19,28 +19,28 @@
 
 #include "vsf.h"
 #include "component/test/vsf_test/vsf_test.h"
-#include "../test_usart.h"
-#include "test_usart_rx_timeout.h"
+#include "../vsf_test_usart.h"
+#include "vsf_test_usart_rx_timeout.h"
 #include "test_params_generated.h"
 
 #if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
 
 /*============================ MACROS ========================================*/
 
-#ifndef RX_TIMEOUT_PAYLOAD
-#   define RX_TIMEOUT_PAYLOAD          "Hello VSF\r\n"
+#ifndef VSF_TEST_RX_TIMEOUT_PAYLOAD
+#   define VSF_TEST_RX_TIMEOUT_PAYLOAD          "Hello VSF\r\n"
 #endif
-#ifndef MARKER_DELAY_MS
-#   define MARKER_DELAY_MS             200
+#ifndef VSF_TEST_MARKER_DELAY_MS
+#   define VSF_TEST_MARKER_DELAY_MS             200
 #endif
-#ifndef RX_TIMEOUT_PAYLOAD_DRAIN_MS
-#   define RX_TIMEOUT_PAYLOAD_DRAIN_MS 500
+#ifndef VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS
+#   define VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS 500
 #endif
-#ifndef RX_TIMEOUT_COMMON_MODE
-#   define RX_TIMEOUT_COMMON_MODE     (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_RX_ENABLE)
+#ifndef VSF_TEST_RX_TIMEOUT_COMMON_MODE
+#   define VSF_TEST_RX_TIMEOUT_COMMON_MODE     (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_RX_ENABLE)
 #endif
-#ifndef RX_TIMEOUT_COMMON_BAUDRATE
-#   define RX_TIMEOUT_COMMON_BAUDRATE 115200
+#ifndef VSF_TEST_RX_TIMEOUT_COMMON_BAUDRATE
+#   define VSF_TEST_RX_TIMEOUT_COMMON_BAUDRATE 115200
 #endif
 
 /*============================ TYPES =========================================*/
@@ -67,17 +67,16 @@ static void __rx_timeout_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_u
 
 /*============================ TEST CASE =====================================*/
 
-void vsf_test_usart_rx_timeout_scenario(void *arg)
+void vsf_test_usart_rx_timeout_scenario(const vsf_test_usart_rx_timeout_case_t *c)
 {
-    const vsf_test_usart_rx_timeout_case_t *c = (const vsf_test_usart_rx_timeout_case_t *)arg;
     __rx_timeout_ctx_t ctx = { .timeout_triggered = false };
 
     vsf_trace_info("RX_TIMEOUT:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    __busy_wait_ms(MARKER_DELAY_MS);
+    __busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(test_usart_rx_instance, &(vsf_usart_cfg_t){
-        .mode       = RX_TIMEOUT_COMMON_MODE,
-        .baudrate   = RX_TIMEOUT_COMMON_BAUDRATE,
+        .mode       = VSF_TEST_RX_TIMEOUT_COMMON_MODE,
+        .baudrate   = VSF_TEST_RX_TIMEOUT_COMMON_BAUDRATE,
         .rx_timeout = 10000, /* 10ms = 10000us */
         .isr        = {
             .handler_fn = __rx_timeout_handler,
@@ -94,7 +93,7 @@ void vsf_test_usart_rx_timeout_scenario(void *arg)
 
         vsf_trace_info("RX_TIMEOUT:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
-        uint32_t timeout_ticks = vsf_systimer_get_ms() + RX_TIMEOUT_PAYLOAD_DRAIN_MS * 10;
+        uint32_t timeout_ticks = vsf_systimer_get_ms() + VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS * 10;
         while (!ctx.timeout_triggered) {
             if (vsf_systimer_get_ms() > timeout_ticks) {
                 break;

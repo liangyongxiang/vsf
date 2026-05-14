@@ -15,8 +15,8 @@
  *                                                                           *
  *****************************************************************************/
 
-#ifndef __TEST_USART_H__
-#define __TEST_USART_H__
+#ifndef __VSF_TEST_USART_H__
+#define __VSF_TEST_USART_H__
 
 /*============================ INCLUDES ======================================*/
 
@@ -235,5 +235,5 @@ void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg);
 }
 #endif
 
-#endif /* __TEST_USART_H__ */
+#endif /* __VSF_TEST_USART_H__ */
 /* EOF */

@@ -19,25 +19,25 @@
 
 #include "vsf.h"
 #include "component/test/vsf_test/vsf_test.h"
-#include "../test_usart.h"
-#include "test_usart_baud.h"
+#include "../vsf_test_usart.h"
+#include "vsf_test_usart_baud.h"
 #include "test_params_generated.h"
 
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
 
 /*============================ MACROS ========================================*/
 
-#ifndef BAUD_PAYLOAD
-#   define BAUD_PAYLOAD            "Hello VSF\r\n"
+#ifndef VSF_TEST_BAUD_PAYLOAD
+#   define VSF_TEST_BAUD_PAYLOAD            "Hello VSF\r\n"
 #endif
-#ifndef MARKER_DELAY_MS
-#   define MARKER_DELAY_MS         200
+#ifndef VSF_TEST_MARKER_DELAY_MS
+#   define VSF_TEST_MARKER_DELAY_MS         200
 #endif
-#ifndef BAUD_PAYLOAD_DRAIN_MS
-#   define BAUD_PAYLOAD_DRAIN_MS   500
+#ifndef VSF_TEST_BAUD_PAYLOAD_DRAIN_MS
+#   define VSF_TEST_BAUD_PAYLOAD_DRAIN_MS   500
 #endif
-#ifndef BAUD_COMMON_MODE
-#   define BAUD_COMMON_MODE        (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_TX_ENABLE)
+#ifndef VSF_TEST_BAUD_COMMON_MODE
+#   define VSF_TEST_BAUD_COMMON_MODE        (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_TX_ENABLE)
 #endif
 
 /*============================ IMPLEMENTATION ================================*/
@@ -58,23 +58,22 @@ static void __usart_send_str(vsf_usart_t *usart, const char *str)
 
 /*============================ TEST CASE =====================================*/
 
-void vsf_test_usart_baud_scenario(void *arg)
+void vsf_test_usart_baud_scenario(const vsf_test_usart_baud_case_t *c)
 {
-    const vsf_test_usart_baud_case_t *c = (const vsf_test_usart_baud_case_t *)arg;
 
     vsf_trace_info("BAUD:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    __busy_wait_ms(MARKER_DELAY_MS);
+    __busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(test_usart_instance, &(vsf_usart_cfg_t){
-        .mode     = BAUD_COMMON_MODE,
+        .mode     = VSF_TEST_BAUD_COMMON_MODE,
         .baudrate = c->baudrate,
     });
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         while (fsm_rt_cpl != vsf_usart_enable(test_usart_instance));
-        __usart_send_str(test_usart_instance, BAUD_PAYLOAD);
-        __busy_wait_ms(BAUD_PAYLOAD_DRAIN_MS);
+        __usart_send_str(test_usart_instance, VSF_TEST_BAUD_PAYLOAD);
+        __busy_wait_ms(VSF_TEST_BAUD_PAYLOAD_DRAIN_MS);
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }

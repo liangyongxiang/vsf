@@ -18,31 +18,31 @@
 /*============================ INCLUDES ======================================*/
 
 #include "component/test/vsf_test/vsf_test.h"
-#include "test_usart.h"
+#include "vsf_test_usart.h"
 
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
-#   include "scenario/test_usart_baud.h"
+#   include "scenario/vsf_test_usart_baud.h"
 #endif
 #if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
-#   include "scenario/test_usart_mode.h"
+#   include "scenario/vsf_test_usart_mode.h"
 #endif
 #if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
-#   include "scenario/test_usart_rx_data.h"
+#   include "scenario/vsf_test_usart_rx_data.h"
 #endif
 #if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
-#   include "scenario/test_usart_rx_baud.h"
+#   include "scenario/vsf_test_usart_rx_baud.h"
 #endif
 #if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
-#   include "scenario/test_usart_rx_mode.h"
+#   include "scenario/vsf_test_usart_rx_mode.h"
 #endif
 #if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
-#   include "scenario/test_usart_rx_irq.h"
+#   include "scenario/vsf_test_usart_rx_irq.h"
 #endif
 #if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
-#   include "scenario/test_usart_rx_timeout.h"
+#   include "scenario/vsf_test_usart_rx_timeout.h"
 #endif
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-#   include "scenario/test_usart_rx_error.h"
+#   include "scenario/vsf_test_usart_rx_error.h"
 #endif
 
 /*============================ MACROS ========================================*/
@@ -74,7 +74,7 @@ void vsf_test_usart_tx_init(const vsf_test_usart_tx_cfg_t *cfg)
         snprintf(__baud_cfg_str_pool[i], sizeof(__baud_cfg_str_pool[i]),
             "usart_baud_%lu purpose=baud-rate hw_req=uart1+la",
             (unsigned long)cfg->baud_cases[i].baudrate);
-        vsf_test_add_simple_case(vsf_test_usart_baud_scenario,
+        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_baud_scenario,
             __baud_cfg_str_pool[i], (void *)&cfg->baud_cases[i]);
     }
 #endif
@@ -89,7 +89,7 @@ void vsf_test_usart_tx_init(const vsf_test_usart_tx_cfg_t *cfg)
         snprintf(__mode_cfg_str_pool[i], sizeof(__mode_cfg_str_pool[i]),
             "usart_mode_%u purpose=mode hw_req=uart1+la",
             (unsigned)cfg->mode_cases[i].idx);
-        vsf_test_add_simple_case(vsf_test_usart_mode_scenario,
+        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_mode_scenario,
             __mode_cfg_str_pool[i], (void *)&cfg->mode_cases[i]);
     }
 #endif
@@ -114,7 +114,7 @@ void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg)
         snprintf(__rx_data_cfg_str_pool[i], sizeof(__rx_data_cfg_str_pool[i]),
             "usart_rx_data_%u purpose=rx-data hw_req=uart1+la",
             (unsigned)cfg->rx_data_cases[i].idx);
-        vsf_test_add_simple_case(vsf_test_usart_rx_data_scenario,
+        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_data_scenario,
             __rx_data_cfg_str_pool[i], (void *)&cfg->rx_data_cases[i]);
     }
 #endif
@@ -129,7 +129,7 @@ void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg)
         snprintf(__rx_baud_cfg_str_pool[i], sizeof(__rx_baud_cfg_str_pool[i]),
             "usart_rx_baud_%lu purpose=rx-baud hw_req=uart1+la",
             (unsigned long)cfg->rx_baud_cases[i].baudrate);
-        vsf_test_add_simple_case(vsf_test_usart_rx_baud_scenario,
+        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_baud_scenario,
             __rx_baud_cfg_str_pool[i], (void *)&cfg->rx_baud_cases[i]);
     }
 #endif
@@ -144,7 +144,7 @@ void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg)
         snprintf(__rx_mode_cfg_str_pool[i], sizeof(__rx_mode_cfg_str_pool[i]),
             "usart_rx_mode_%u purpose=rx-mode hw_req=uart1+la",
             (unsigned)cfg->rx_mode_cases[i].idx);
-        vsf_test_add_simple_case(vsf_test_usart_rx_mode_scenario,
+        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_mode_scenario,
             __rx_mode_cfg_str_pool[i], (void *)&cfg->rx_mode_cases[i]);
     }
 #endif
@@ -159,7 +159,7 @@ void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg)
         snprintf(__rx_irq_cfg_str_pool[i], sizeof(__rx_irq_cfg_str_pool[i]),
             "usart_rx_irq_%u purpose=rx-irq hw_req=uart1+la",
             (unsigned)cfg->rx_irq_cases[i].idx);
-        vsf_test_add_simple_case(vsf_test_usart_rx_irq_scenario,
+        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_irq_scenario,
             __rx_irq_cfg_str_pool[i], (void *)&cfg->rx_irq_cases[i]);
     }
 #endif
@@ -174,7 +174,7 @@ void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg)
         snprintf(__rx_timeout_cfg_str_pool[i], sizeof(__rx_timeout_cfg_str_pool[i]),
             "usart_rx_timeout_%u purpose=rx-timeout hw_req=uart1+la",
             (unsigned)cfg->rx_timeout_cases[i].idx);
-        vsf_test_add_simple_case(vsf_test_usart_rx_timeout_scenario,
+        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_timeout_scenario,
             __rx_timeout_cfg_str_pool[i], (void *)&cfg->rx_timeout_cases[i]);
     }
 #endif
@@ -189,7 +189,7 @@ void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg)
         snprintf(__rx_parity_cfg_str_pool[i], sizeof(__rx_parity_cfg_str_pool[i]),
             "usart_rx_parity_%u purpose=rx-parity hw_req=uart1+la",
             (unsigned)cfg->rx_parity_error_cases[i].idx);
-        vsf_test_add_simple_case(vsf_test_usart_rx_parity_error_scenario,
+        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_parity_error_scenario,
             __rx_parity_cfg_str_pool[i], (void *)&cfg->rx_parity_error_cases[i]);
     }
 #endif
@@ -204,7 +204,7 @@ void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg)
         snprintf(__rx_frame_cfg_str_pool[i], sizeof(__rx_frame_cfg_str_pool[i]),
             "usart_rx_frame_%u purpose=rx-frame hw_req=uart1+la",
             (unsigned)cfg->rx_frame_error_cases[i].idx);
-        vsf_test_add_simple_case(vsf_test_usart_rx_frame_error_scenario,
+        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_frame_error_scenario,
             __rx_frame_cfg_str_pool[i], (void *)&cfg->rx_frame_error_cases[i]);
     }
 #endif

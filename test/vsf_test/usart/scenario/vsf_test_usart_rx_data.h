@@ -15,8 +15,8 @@
  *                                                                           *
  *****************************************************************************/
 
-#ifndef __TEST_USART_BAUD_H__
-#define __TEST_USART_BAUD_H__
+#ifndef __TEST_USART_RX_DATA_H__
+#define __TEST_USART_RX_DATA_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,11 +24,11 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_usart_baud_scenario(void *arg);
+void vsf_test_usart_rx_data_scenario(const vsf_test_usart_rx_data_case_t *c);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __TEST_USART_BAUD_H__ */
+#endif /* __TEST_USART_RX_DATA_H__ */
 /* EOF */

@@ -19,25 +19,25 @@
 
 #include "vsf.h"
 #include "component/test/vsf_test/vsf_test.h"
-#include "../test_usart.h"
-#include "test_usart_rx_mode.h"
+#include "../vsf_test_usart.h"
+#include "vsf_test_usart_rx_mode.h"
 #include "test_params_generated.h"
 
 #if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
 
 /*============================ MACROS ========================================*/
 
-#ifndef RX_MODE_PAYLOAD
-#   define RX_MODE_PAYLOAD          "0123456789\r\n"
+#ifndef RX_VSF_TEST_MODE_PAYLOAD
+#   define RX_VSF_TEST_MODE_PAYLOAD          "0123456789\r\n"
 #endif
-#ifndef MARKER_DELAY_MS
-#   define MARKER_DELAY_MS          200
+#ifndef VSF_TEST_MARKER_DELAY_MS
+#   define VSF_TEST_MARKER_DELAY_MS          200
 #endif
-#ifndef RX_MODE_PAYLOAD_DRAIN_MS
-#   define RX_MODE_PAYLOAD_DRAIN_MS 500
+#ifndef RX_VSF_TEST_MODE_PAYLOAD_DRAIN_MS
+#   define RX_VSF_TEST_MODE_PAYLOAD_DRAIN_MS 500
 #endif
-#ifndef RX_MODE_COMMON_BAUDRATE
-#   define RX_MODE_COMMON_BAUDRATE  115200
+#ifndef RX_VSF_TEST_MODE_COMMON_BAUDRATE
+#   define RX_VSF_TEST_MODE_COMMON_BAUDRATE  115200
 #endif
 
 /*============================ IMPLEMENTATION ================================*/
@@ -49,16 +49,15 @@ static void __busy_wait_ms(uint32_t ms)
 
 /*============================ TEST CASE =====================================*/
 
-void vsf_test_usart_rx_mode_scenario(void *arg)
+void vsf_test_usart_rx_mode_scenario(const vsf_test_usart_rx_mode_case_t *c)
 {
-    const vsf_test_usart_rx_mode_case_t *c = (const vsf_test_usart_rx_mode_case_t *)arg;
 
     vsf_trace_info("RX_MODE:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    __busy_wait_ms(MARKER_DELAY_MS);
+    __busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(test_usart_rx_instance, &(vsf_usart_cfg_t){
         .mode     = c->mode,
-        .baudrate = RX_MODE_COMMON_BAUDRATE,
+        .baudrate = RX_VSF_TEST_MODE_COMMON_BAUDRATE,
     });
 
     if (c->expect_pass) {
@@ -69,10 +68,10 @@ void vsf_test_usart_rx_mode_scenario(void *arg)
 
         uint8_t rx_buf[32];
         uint16_t rx_len = 0;
-        const char *expected = RX_MODE_PAYLOAD;
+        const char *expected = RX_VSF_TEST_MODE_PAYLOAD;
         uint16_t expected_len = strlen(expected);
 
-        uint32_t timeout_ticks = vsf_systimer_get_ms() + RX_MODE_PAYLOAD_DRAIN_MS * 10;
+        uint32_t timeout_ticks = vsf_systimer_get_ms() + RX_VSF_TEST_MODE_PAYLOAD_DRAIN_MS * 10;
         while (rx_len < expected_len) {
             uint_fast16_t count = vsf_usart_rxfifo_get_data_count(test_usart_rx_instance);
             while (count-- > 0 && rx_len < sizeof(rx_buf)) {

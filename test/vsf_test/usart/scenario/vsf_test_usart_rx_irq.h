@@ -15,8 +15,8 @@
  *                                                                           *
  *****************************************************************************/
 
-#ifndef __TEST_USART_RX_MODE_H__
-#define __TEST_USART_RX_MODE_H__
+#ifndef __TEST_USART_RX_IRQ_H__
+#define __TEST_USART_RX_IRQ_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,11 +24,11 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_usart_rx_mode_scenario(void *arg);
+void vsf_test_usart_rx_irq_scenario(const vsf_test_usart_rx_irq_case_t *c);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __TEST_USART_RX_MODE_H__ */
+#endif /* __TEST_USART_RX_IRQ_H__ */
 /* EOF */

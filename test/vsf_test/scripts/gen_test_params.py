@@ -22,8 +22,8 @@ for host-only data and is excluded from C generation.
 Generated identifiers, given `name: foo`:
     struct: vsf_test_usart_foo_case_t
     array:  __foo_cases
-    count:  FOO_CASE_COUNT
-    common: FOO_COMMON_<KEY>
+    count:  VSF_TEST_FOO_CASE_COUNT
+    common: VSF_TEST_FOO_COMMON_<KEY>
 """
 
 import argparse
@@ -72,16 +72,16 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
     upper = name.upper()
     struct_type = f"vsf_test_usart_{name}_case_t"
     array_name = f"__{name}_cases"
-    count_macro = f"{upper}_CASE_COUNT"
+    count_macro = f"VSF_TEST_{upper}_CASE_COUNT"
 
     lines.append(f"/* === {scenario_key} ({name}) === */")
     lines.append("")
 
-    # common params → #define <NAME>_COMMON_<KEY>
+    # common params → #define VSF_TEST_<NAME>_COMMON_<KEY>
     common = sc.get("common") or {}
     if common:
         for key, value in common.items():
-            macro = f"{upper}_COMMON_{key.upper()}"
+            macro = f"VSF_TEST_{upper}_COMMON_{key.upper()}"
             lines.append(f"#define {macro}  {_format_value(value)}")
         lines.append("")
 
@@ -103,14 +103,14 @@ def generate_header(yml_path: Path, out_path: Path) -> None:
         "#ifndef __TEST_PARAMS_GENERATED_H__",
         "#define __TEST_PARAMS_GENERATED_H__",
         "",
-        '#include "test/vsf_test/usart/test_usart.h"',
+        '#include "test/vsf_test/usart/vsf_test_usart.h"',
         "",
     ]
 
     # Global firmware params from marker section (still needed by scenario code)
     marker = params.get("marker") or {}
     if "delay_ms" in marker:
-        lines.append(f"#define MARKER_DELAY_MS  {marker['delay_ms']}")
+        lines.append(f"#define VSF_TEST_MARKER_DELAY_MS  {marker['delay_ms']}")
 
     for scenario_key, sc in params.items():
         if scenario_key == "marker":
@@ -129,8 +129,8 @@ def generate_header(yml_path: Path, out_path: Path) -> None:
                        .replace('\n', '\\n')
             )
             name = sc.get("name", scenario_key).upper()
-            lines.append(f'#define {name}_PAYLOAD          "{c_payload}"')
-            lines.append(f"#define {name}_PAYLOAD_DRAIN_MS {drain_ms}")
+            lines.append(f'#define VSF_TEST_{name}_PAYLOAD          "{c_payload}"')
+            lines.append(f"#define VSF_TEST_{name}_PAYLOAD_DRAIN_MS {drain_ms}")
     lines.append("")
 
     for scenario_key, sc in params.items():

@@ -19,25 +19,25 @@
 
 #include "vsf.h"
 #include "component/test/vsf_test/vsf_test.h"
-#include "../test_usart.h"
-#include "test_usart_rx_error.h"
+#include "../vsf_test_usart.h"
+#include "vsf_test_usart_rx_error.h"
 #include "test_params_generated.h"
 
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
 
 /*============================ MACROS ========================================*/
 
-#ifndef RX_ERROR_PAYLOAD
-#   define RX_ERROR_PAYLOAD          "Hello VSF\r\n"
+#ifndef VSF_TEST_RX_ERROR_PAYLOAD
+#   define VSF_TEST_RX_ERROR_PAYLOAD          "Hello VSF\r\n"
 #endif
-#ifndef MARKER_DELAY_MS
-#   define MARKER_DELAY_MS           200
+#ifndef VSF_TEST_MARKER_DELAY_MS
+#   define VSF_TEST_MARKER_DELAY_MS           200
 #endif
-#ifndef RX_ERROR_PAYLOAD_DRAIN_MS
-#   define RX_ERROR_PAYLOAD_DRAIN_MS 500
+#ifndef VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS
+#   define VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS 500
 #endif
-#ifndef RX_ERROR_COMMON_BAUDRATE
-#   define RX_ERROR_COMMON_BAUDRATE  115200
+#ifndef VSF_TEST_RX_ERROR_COMMON_BAUDRATE
+#   define VSF_TEST_RX_ERROR_COMMON_BAUDRATE  115200
 #endif
 
 /*============================ TYPES =========================================*/
@@ -75,11 +75,11 @@ void vsf_test_usart_rx_parity_error_scenario(void *arg)
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
 
     vsf_trace_info("RX_PARITY:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    __busy_wait_ms(MARKER_DELAY_MS);
+    __busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(test_usart_rx_instance, &(vsf_usart_cfg_t){
         .mode     = c->mode,
-        .baudrate = RX_ERROR_COMMON_BAUDRATE,
+        .baudrate = VSF_TEST_RX_ERROR_COMMON_BAUDRATE,
         .isr      = {
             .handler_fn = __rx_error_handler,
             .target_ptr = &ctx,
@@ -95,7 +95,7 @@ void vsf_test_usart_rx_parity_error_scenario(void *arg)
 
         vsf_trace_info("RX_PARITY:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
-        uint32_t timeout_ticks = vsf_systimer_get_ms() + RX_ERROR_PAYLOAD_DRAIN_MS * 10;
+        uint32_t timeout_ticks = vsf_systimer_get_ms() + VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;
         while (!ctx.parity_err) {
             if (vsf_systimer_get_ms() > timeout_ticks) {
                 break;
@@ -120,11 +120,11 @@ void vsf_test_usart_rx_frame_error_scenario(void *arg)
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
 
     vsf_trace_info("RX_FRAME:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    __busy_wait_ms(MARKER_DELAY_MS);
+    __busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(test_usart_rx_instance, &(vsf_usart_cfg_t){
         .mode     = c->mode,
-        .baudrate = RX_ERROR_COMMON_BAUDRATE,
+        .baudrate = VSF_TEST_RX_ERROR_COMMON_BAUDRATE,
         .isr      = {
             .handler_fn = __rx_error_handler,
             .target_ptr = &ctx,
@@ -140,7 +140,7 @@ void vsf_test_usart_rx_frame_error_scenario(void *arg)
 
         vsf_trace_info("RX_FRAME:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
-        uint32_t timeout_ticks = vsf_systimer_get_ms() + RX_ERROR_PAYLOAD_DRAIN_MS * 10;
+        uint32_t timeout_ticks = vsf_systimer_get_ms() + VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;
         while (!ctx.frame_err) {
             if (vsf_systimer_get_ms() > timeout_ticks) {
                 break;

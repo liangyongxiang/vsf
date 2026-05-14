@@ -42,6 +42,11 @@ extern "C" {
 #   define VSF_TEST_USART_TX_MODE_ENABLE     ENABLED
 #endif
 
+//! \brief 编译开关：默认启用 data RX 场景
+#ifndef VSF_TEST_USART_RX_DATA_ENABLE
+#   define VSF_TEST_USART_RX_DATA_ENABLE     ENABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
@@ -60,6 +65,14 @@ typedef struct vsf_test_usart_mode_case_t {
     vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（parity/stop/data/...）
     bool             expect_pass; //! \brief true=预期初始化成功并发送数据，false=预期初始化失败
 } vsf_test_usart_mode_case_t;
+#endif
+
+#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
+//! \brief USART RX 数据测试用例配置条目
+typedef struct vsf_test_usart_rx_data_case_t {
+    uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
+    bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
+} vsf_test_usart_rx_data_case_t;
 #endif
 
 //! \brief USART TX 测试套件配置
@@ -85,6 +98,23 @@ typedef struct vsf_test_usart_tx_cfg_t {
 //! \brief 测试使用的 USART 实例（由测试主函数设置）
 extern vsf_usart_t *test_usart_instance;
 
+//! \brief USART RX 测试套件配置
+typedef struct vsf_test_usart_rx_cfg_t {
+    //! \brief USART 实例指针
+    vsf_usart_t *usart_instance;
+#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
+    //! \brief RX 数据测试用例数组
+    const vsf_test_usart_rx_data_case_t *rx_data_cases;
+    //! \brief RX 数据测试用例数量
+    uint8_t rx_data_case_count;
+#endif
+} vsf_test_usart_rx_cfg_t;
+
+/*============================ GLOBAL VARIABLES ==============================*/
+
+//! \brief 测试使用的 USART 实例（由测试主函数设置）
+extern vsf_usart_t *test_usart_instance;
+
 /*============================ PROTOTYPES ====================================*/
 
 /**
@@ -92,6 +122,12 @@ extern vsf_usart_t *test_usart_instance;
  * @param cfg USART TX 测试配置
  */
 void vsf_test_usart_tx_init(const vsf_test_usart_tx_cfg_t *cfg);
+
+/**
+ * @brief 初始化 USART RX 测试套件并注册所有启用的场景用例
+ * @param cfg USART RX 测试配置
+ */
+void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg);
 
 #ifdef __cplusplus
 }

@@ -26,6 +26,9 @@
 #if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
 #   include "scenario/test_usart_mode.h"
 #endif
+#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
+#   include "scenario/test_usart_rx_data.h"
+#endif
 
 /*============================ MACROS ========================================*/
 /*============================ TYPES =========================================*/
@@ -72,6 +75,31 @@ void vsf_test_usart_tx_init(const vsf_test_usart_tx_cfg_t *cfg)
             (unsigned)cfg->mode_cases[i].idx);
         vsf_test_add_simple_case(vsf_test_usart_mode_scenario,
             __mode_cfg_str_pool[i], (void *)&cfg->mode_cases[i]);
+    }
+#endif
+}
+
+/**
+ * @brief 初始化 USART RX 测试套件并注册所有启用的场景用例
+ * @param cfg USART RX 测试配置
+ */
+void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg)
+{
+    VSF_ASSERT(cfg != NULL);
+    test_usart_instance = cfg->usart_instance;
+
+#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
+    VSF_ASSERT(cfg->rx_data_cases != NULL);
+    VSF_ASSERT(cfg->rx_data_case_count > 0);
+    VSF_ASSERT(cfg->rx_data_case_count <= VSF_TEST_USART_CASE_MAX_COUNT);
+
+    static char __rx_data_cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
+    for (uint8_t i = 0; i < cfg->rx_data_case_count; i++) {
+        snprintf(__rx_data_cfg_str_pool[i], sizeof(__rx_data_cfg_str_pool[i]),
+            "usart_rx_data_%u purpose=rx-data hw_req=uart1+la",
+            (unsigned)cfg->rx_data_cases[i].idx);
+        vsf_test_add_simple_case(vsf_test_usart_rx_data_scenario,
+            __rx_data_cfg_str_pool[i], (void *)&cfg->rx_data_cases[i]);
     }
 #endif
 }

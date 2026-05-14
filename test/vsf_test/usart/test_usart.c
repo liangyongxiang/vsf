@@ -27,44 +27,31 @@
 
 vsf_usart_t *test_usart_instance = NULL;
 
-/*============================ LOCAL VARIABLES ===============================*/
-
-static const vsf_test_usart_baud_case_t __default_baud_cases[] = {
-    {0, 9600}, {1, 19200}, {2, 38400}, {3, 57600},
-    {4, 115200}, {5, 230400}, {6, 460800}, {7, 921600},
-};
-
 /*============================ PROTOTYPES ====================================*/
 /*============================ IMPLEMENTATION ================================*/
 
 /**
  * @brief 初始化 USART 测试并添加测试用例
- * @param cfg USART 测试配置
+ * @param cfg USART 测试配置，baud_cases 和 baud_case_count 由调用者提供
  */
 void vsf_test_usart_init(const vsf_test_usart_cfg_t *cfg)
 {
     VSF_ASSERT(cfg != NULL);
+    VSF_ASSERT(cfg->baud_cases != NULL);
+    VSF_ASSERT(cfg->baud_case_count > 0);
     VSF_ASSERT(cfg->baud_case_count <= VSF_TEST_USART_CASE_MAX_COUNT);
 
     // 设置 USART 测试实例
     test_usart_instance = cfg->usart_instance;
 
-    // 确定波特率测试用例配置
-    const vsf_test_usart_baud_case_t *cases = cfg->baud_cases;
-    uint8_t case_count = cfg->baud_case_count;
-    if (cases == NULL || case_count == 0) {
-        cases = __default_baud_cases;
-        case_count = sizeof(__default_baud_cases) / sizeof(__default_baud_cases[0]);
-    }
-
     // 场景测试：波特率精度
-    for (uint8_t i = 0; i < case_count; i++) {
+    for (uint8_t i = 0; i < cfg->baud_case_count; i++) {
         char cfg_str[64];
         snprintf(cfg_str, sizeof(cfg_str),
             "usart_baud_%lu purpose=baud-rate hw_req=uart1+la",
-            (unsigned long)cases[i].baudrate);
+            (unsigned long)cfg->baud_cases[i].baudrate);
         vsf_test_add_simple_case(vsf_test_usart_baud_scenario,
-            cfg_str, (void *)&cases[i]);
+            cfg_str, (void *)&cfg->baud_cases[i]);
     }
 }
 

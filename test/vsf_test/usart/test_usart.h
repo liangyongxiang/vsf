@@ -29,25 +29,25 @@ extern "C" {
 
 /*============================ MACROS ========================================*/
 
-//! \brief 最大支持的波特率测试数量
-#define VSF_TEST_USART_BAUD_MAX_COUNT   16
+//! \brief 最大支持的用例数量
+#define VSF_TEST_USART_CASE_MAX_COUNT   16
 
 /*============================ TYPES =========================================*/
 
-//! \brief USART 波特率测试条目
-typedef struct vsf_test_usart_baud_entry_t {
-    uint8_t  scenario_idx;
-    uint32_t baudrate;
-} vsf_test_usart_baud_entry_t;
+//! \brief USART 波特率测试用例配置条目
+typedef struct vsf_test_usart_baud_case_t {
+    uint8_t  idx;       //! \brief 场景内索引，用于 CASE:marker
+    uint32_t baudrate;  //! \brief 目标波特率
+} vsf_test_usart_baud_case_t;
 
-//! \brief USART 测试配置结构
+//! \brief USART 测试套件配置
 typedef struct vsf_test_usart_cfg_t {
-    //! \brief USART 实例指针，用于测试
+    //! \brief USART 实例指针
     vsf_usart_t *usart_instance;
-    //! \brief 波特率数组，NULL 表示使用默认波特率
-    const uint32_t *baudrates;
-    //! \brief 波特率数量，0 表示使用默认 8 个
-    uint8_t baud_count;
+    //! \brief 波特率测试用例配置数组，NULL 表示使用默认配置
+    const vsf_test_usart_baud_case_t *baud_cases;
+    //! \brief 波特率测试用例数量，0 表示使用默认配置
+    uint8_t baud_case_count;
 } vsf_test_usart_cfg_t;
 
 /*============================ GLOBAL VARIABLES ==============================*/
@@ -55,14 +55,11 @@ typedef struct vsf_test_usart_cfg_t {
 //! \brief 测试使用的 USART 实例（由测试主函数设置）
 extern vsf_usart_t *test_usart_instance;
 
-//! \brief 当前波特率测试数组（由 vsf_test_usart_init 设置）
-extern const uint32_t *test_usart_baudrates;
-
 /*============================ PROTOTYPES ====================================*/
 
 /**
  * @brief 初始化 USART 测试并添加测试用例
- * @param cfg USART 测试配置，包含 USART 实例指针和可选波特率数组
+ * @param cfg USART 测试配置
  */
 void vsf_test_usart_init(const vsf_test_usart_cfg_t *cfg);
 

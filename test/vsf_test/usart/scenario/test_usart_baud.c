@@ -28,10 +28,6 @@
 #define MARKER_DELAY_MS     200
 #define PAYLOAD_DRAIN_MS    500
 
-/*============================ GLOBAL VARIABLES ==============================*/
-
-const uint32_t *test_usart_baudrates = NULL;
-
 /*============================ IMPLEMENTATION ================================*/
 
 static void __busy_wait_ms(uint32_t ms)
@@ -70,8 +66,8 @@ static void __run_baud_test(vsf_usart_t *usart, uint8_t case_idx, uint32_t baud)
 
 void vsf_test_usart_baud_scenario(void *arg)
 {
-    const vsf_test_usart_baud_entry_t *e = (const vsf_test_usart_baud_entry_t *)arg;
-    __run_baud_test(test_usart_instance, e->scenario_idx, e->baudrate);
+    const vsf_test_usart_baud_case_t *c = (const vsf_test_usart_baud_case_t *)arg;
+    __run_baud_test(test_usart_instance, c->idx, c->baudrate);
 }
 
 /* EOF */

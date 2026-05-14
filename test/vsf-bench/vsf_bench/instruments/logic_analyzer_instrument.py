@@ -73,7 +73,7 @@ class LogicAnalyzerInstrument:
             str(self._cli),
             "-d", self._device,
             "-c", f"samplerate={self._samplerate}",
-            "--time", f"{duration_s}s",
+            "--time", f"{int(duration_s)}s",
             "-C", ch_sel,
             "-O", "dsl",
             "-o", str(self._capture_path),
@@ -134,8 +134,8 @@ class LogicAnalyzerInstrument:
         rows = self._read_csv_rows(csv_path)
         text = ""
         timestamps: list[int] = []
-        for time_ns, char in rows:
-            text += char
+        for time_ns, byte_val in rows:
+            text += chr(byte_val)
             timestamps.append(time_ns)
 
         events: list[MarkerEvent] = []
@@ -184,8 +184,8 @@ class LogicAnalyzerInstrument:
     # ---------------------------------------------------------------- internal
 
     def _ns_to_time_str(self, ns: int) -> str:
-        ms = ns / 1_000_000
-        return f"{ms:.3f}ms"
+        ms = ns // 1_000_000
+        return f"{ms}ms"
 
     def _offline_decode(
         self,

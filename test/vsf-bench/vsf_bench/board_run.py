@@ -79,12 +79,12 @@ def main():
         sys.exit(1)
 
     runner = runner_cls(runner_cfg)
-    print(f"[vsf-board-run] Flashing via {board.active_runner}...")
-    runner.flash(build_dir)
-    print("[vsf-board-run] Flash complete")
 
     # Test script is optional — build+flash only when omitted
     if args.test_script is None:
+        print(f"[vsf-board-run] Flashing via {board.active_runner}...")
+        runner.flash(build_dir)
+        print("[vsf-board-run] Flash complete")
         print("[vsf-board-run] No test script provided — done.")
         return
 
@@ -107,8 +107,13 @@ def main():
         la.start(la_cfg.capture_duration)
         print(f"[vsf-board-run] LA capture started ({la_cfg.capture_duration}s → {capture_path})")
 
+    # Open serial BEFORE flashing so no firmware output is missed after reset.
     ser = SerialInstrument(board.serial, board.baud, audit_log=log_path)
     ser.open()
+
+    print(f"[vsf-board-run] Flashing via {board.active_runner}...")
+    runner.flash(build_dir)
+    print("[vsf-board-run] Flash complete")
 
     run_fn = load_test_script(args.test_script)
     print(f"[vsf-board-run] Running test script: {args.test_script}")

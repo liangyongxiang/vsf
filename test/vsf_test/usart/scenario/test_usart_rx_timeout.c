@@ -72,10 +72,10 @@ void vsf_test_usart_rx_timeout_scenario(void *arg)
     const vsf_test_usart_rx_timeout_case_t *c = (const vsf_test_usart_rx_timeout_case_t *)arg;
     __rx_timeout_ctx_t ctx = { .timeout_triggered = false };
 
-    vsf_trace_info("RX:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+    vsf_trace_info("RX_TIMEOUT:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
     __busy_wait_ms(MARKER_DELAY_MS);
 
-    vsf_err_t err = vsf_usart_init(test_usart_instance, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init(test_usart_rx_instance, &(vsf_usart_cfg_t){
         .mode       = RX_TIMEOUT_COMMON_MODE,
         .baudrate   = RX_TIMEOUT_COMMON_BAUDRATE,
         .rx_timeout = 10000, /* 10ms = 10000us */
@@ -88,11 +88,11 @@ void vsf_test_usart_rx_timeout_scenario(void *arg)
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(test_usart_instance));
+        while (fsm_rt_cpl != vsf_usart_enable(test_usart_rx_instance));
 
-        vsf_usart_irq_enable(test_usart_instance, VSF_USART_IRQ_MASK_RX_TIMEOUT);
+        vsf_usart_irq_enable(test_usart_rx_instance, VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
-        vsf_trace_info("RX:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+        vsf_trace_info("RX_TIMEOUT:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t timeout_ticks = vsf_systimer_get_ms() + RX_TIMEOUT_PAYLOAD_DRAIN_MS * 10;
         while (!ctx.timeout_triggered) {
@@ -101,11 +101,11 @@ void vsf_test_usart_rx_timeout_scenario(void *arg)
             }
         }
 
-        vsf_usart_irq_disable(test_usart_instance, VSF_USART_IRQ_MASK_RX_TIMEOUT);
+        vsf_usart_irq_disable(test_usart_rx_instance, VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         VSF_TEST_ASSERT(ctx.timeout_triggered);
 
-        while (fsm_rt_cpl != vsf_usart_disable(test_usart_instance));
+        while (fsm_rt_cpl != vsf_usart_disable(test_usart_rx_instance));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }

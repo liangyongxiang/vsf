@@ -63,13 +63,13 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     aux = serial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
-        serial.expect(f"RX:CASE:{c.idx}:READY", timeout=timeout_s)
+        serial.expect(f"RX_TIMEOUT:CASE:{c.idx}:READY", timeout=timeout_s)
 
         # Send only 2 bytes (partial data) — firmware should timeout
         aux.write(b"AB")
         aux.flush()
 
-        serial._ser.write(f"RX:CASE:{c.idx}:DONE\r\n".encode())
+        serial._ser.write(f"RX_TIMEOUT:CASE:{c.idx}:DONE\r\n".encode())
         serial._ser.flush()
 
     serial.expect("All test cases completed", timeout=timeout_s)

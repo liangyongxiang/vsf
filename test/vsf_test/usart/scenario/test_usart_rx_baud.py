@@ -67,13 +67,13 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
-        serial.expect(f"RX:CASE:{c.idx}:READY", timeout=timeout_s)
+        serial.expect(f"RX_BAUD:CASE:{c.idx}:READY", timeout=timeout_s)
 
         aux.baudrate = c.baud
         aux.write(payload)
         aux.flush()
 
-        serial._ser.write(f"RX:CASE:{c.idx}:DONE\r\n".encode())
+        serial._ser.write(f"RX_BAUD:CASE:{c.idx}:DONE\r\n".encode())
         serial._ser.flush()
 
     serial.expect("All test cases completed", timeout=timeout_s)
@@ -90,13 +90,13 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     ready_markers = la.decode_markers(
         channel=marker_ch_tx,
         baudrate=marker_baud,
-        pattern=r"RX:CASE:(\d+):READY",
+        pattern=r"RX_BAUD:CASE:(\d+):READY",
         output_csv=out_dir / "rx_baud_ready_markers.csv",
     )
     done_markers = la.decode_markers(
         channel=marker_ch_rx,
         baudrate=marker_baud,
-        pattern=r"RX:CASE:(\d+):DONE",
+        pattern=r"RX_BAUD:CASE:(\d+):DONE",
         output_csv=out_dir / "rx_baud_done_markers.csv",
     )
 

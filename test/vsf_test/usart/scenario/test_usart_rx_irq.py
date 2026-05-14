@@ -64,12 +64,12 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     aux = serial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
-        serial.expect(f"RX:CASE:{c.idx}:READY", timeout=timeout_s)
+        serial.expect(f"RX_IRQ:CASE:{c.idx}:READY", timeout=timeout_s)
 
         aux.write(payload)
         aux.flush()
 
-        serial._ser.write(f"RX:CASE:{c.idx}:DONE\r\n".encode())
+        serial._ser.write(f"RX_IRQ:CASE:{c.idx}:DONE\r\n".encode())
         serial._ser.flush()
 
     serial.expect("All test cases completed", timeout=timeout_s)

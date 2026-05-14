@@ -55,7 +55,10 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     aux = None
     total_cases = 0
 
-    for scenario_name in ("rx_parity_error", "rx_frame_error"):
+    for scenario_name, marker_prefix in (
+        ("rx_parity_error", "RX_PARITY"),
+        ("rx_frame_error", "RX_FRAME"),
+    ):
         scenario = params.get(scenario_name, {})
         cases = _parse_cases(scenario)
         if not cases:
@@ -70,12 +73,12 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
             aux = serial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
         for c in cases:
-            serial.expect(f"RX:CASE:{c.idx}:READY", timeout=timeout_s)
+            serial.expect(f"{marker_prefix}:CASE:{c.idx}:READY", timeout=timeout_s)
 
             aux.write(payload)
             aux.flush()
 
-            serial._ser.write(f"RX:CASE:{c.idx}:DONE\r\n".encode())
+            serial._ser.write(f"{marker_prefix}:CASE:{c.idx}:DONE\r\n".encode())
             serial._ser.flush()
 
         total_cases += len(cases)

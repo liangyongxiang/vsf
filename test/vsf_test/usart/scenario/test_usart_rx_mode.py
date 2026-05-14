@@ -73,7 +73,7 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     aux = serial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
-        serial.expect(f"RX:CASE:{c.idx}:READY", timeout=timeout_s)
+        serial.expect(f"RX_MODE:CASE:{c.idx}:READY", timeout=timeout_s)
 
         # Reconfigure aux serial to match case mode
         parity_map = {"none": serial.PARITY_NONE, "even": serial.PARITY_EVEN, "odd": serial.PARITY_ODD}
@@ -83,7 +83,7 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
         aux.write(payload)
         aux.flush()
 
-        serial._ser.write(f"RX:CASE:{c.idx}:DONE\r\n".encode())
+        serial._ser.write(f"RX_MODE:CASE:{c.idx}:DONE\r\n".encode())
         serial._ser.flush()
 
     serial.expect("All test cases completed", timeout=timeout_s)
@@ -99,12 +99,12 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
 
     ready_markers = la.decode_markers(
         channel=marker_ch_tx, baudrate=marker_baud,
-        pattern=r"RX:CASE:(\d+):READY",
+        pattern=r"RX_MODE:CASE:(\d+):READY",
         output_csv=out_dir / "rx_mode_ready_markers.csv",
     )
     done_markers = la.decode_markers(
         channel=marker_ch_rx, baudrate=marker_baud,
-        pattern=r"RX:CASE:(\d+):DONE",
+        pattern=r"RX_MODE:CASE:(\d+):DONE",
         output_csv=out_dir / "rx_mode_done_markers.csv",
     )
 

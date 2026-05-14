@@ -128,6 +128,9 @@ typedef struct vsf_test_usart_tx_cfg_t {
 //! \brief 测试使用的 USART 实例（由测试主函数设置）
 extern vsf_usart_t *test_usart_instance;
 
+//! \brief RX 测试使用的 USART 实例（由测试主函数设置）
+extern vsf_usart_t *test_usart_rx_instance;
+
 #if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
 //! \brief USART RX 波特率测试用例配置条目
 typedef struct vsf_test_usart_rx_baud_case_t {
@@ -227,11 +230,6 @@ typedef struct vsf_test_usart_rx_cfg_t {
     uint8_t rx_frame_error_case_count;
 #endif
 } vsf_test_usart_rx_cfg_t;
-
-/*============================ GLOBAL VARIABLES ==============================*/
-
-//! \brief 测试使用的 USART 实例（由测试主函数设置）
-extern vsf_usart_t *test_usart_instance;
 
 /*============================ PROTOTYPES ====================================*/
 

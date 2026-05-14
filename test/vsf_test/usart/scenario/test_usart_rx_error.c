@@ -74,10 +74,10 @@ void vsf_test_usart_rx_parity_error_scenario(void *arg)
     const vsf_test_usart_rx_parity_error_case_t *c = (const vsf_test_usart_rx_parity_error_case_t *)arg;
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
 
-    vsf_trace_info("RX:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+    vsf_trace_info("RX_PARITY:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
     __busy_wait_ms(MARKER_DELAY_MS);
 
-    vsf_err_t err = vsf_usart_init(test_usart_instance, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init(test_usart_rx_instance, &(vsf_usart_cfg_t){
         .mode     = c->mode,
         .baudrate = RX_ERROR_COMMON_BAUDRATE,
         .isr      = {
@@ -89,11 +89,11 @@ void vsf_test_usart_rx_parity_error_scenario(void *arg)
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(test_usart_instance));
+        while (fsm_rt_cpl != vsf_usart_enable(test_usart_rx_instance));
 
-        vsf_usart_irq_enable(test_usart_instance, VSF_USART_IRQ_MASK_PARITY_ERR);
+        vsf_usart_irq_enable(test_usart_rx_instance, VSF_USART_IRQ_MASK_PARITY_ERR);
 
-        vsf_trace_info("RX:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+        vsf_trace_info("RX_PARITY:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t timeout_ticks = vsf_systimer_get_ms() + RX_ERROR_PAYLOAD_DRAIN_MS * 10;
         while (!ctx.parity_err) {
@@ -102,11 +102,11 @@ void vsf_test_usart_rx_parity_error_scenario(void *arg)
             }
         }
 
-        vsf_usart_irq_disable(test_usart_instance, VSF_USART_IRQ_MASK_PARITY_ERR);
+        vsf_usart_irq_disable(test_usart_rx_instance, VSF_USART_IRQ_MASK_PARITY_ERR);
 
         VSF_TEST_ASSERT(ctx.parity_err);
 
-        while (fsm_rt_cpl != vsf_usart_disable(test_usart_instance));
+        while (fsm_rt_cpl != vsf_usart_disable(test_usart_rx_instance));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
@@ -119,10 +119,10 @@ void vsf_test_usart_rx_frame_error_scenario(void *arg)
     const vsf_test_usart_rx_frame_error_case_t *c = (const vsf_test_usart_rx_frame_error_case_t *)arg;
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
 
-    vsf_trace_info("RX:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+    vsf_trace_info("RX_FRAME:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
     __busy_wait_ms(MARKER_DELAY_MS);
 
-    vsf_err_t err = vsf_usart_init(test_usart_instance, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init(test_usart_rx_instance, &(vsf_usart_cfg_t){
         .mode     = c->mode,
         .baudrate = RX_ERROR_COMMON_BAUDRATE,
         .isr      = {
@@ -134,11 +134,11 @@ void vsf_test_usart_rx_frame_error_scenario(void *arg)
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(test_usart_instance));
+        while (fsm_rt_cpl != vsf_usart_enable(test_usart_rx_instance));
 
-        vsf_usart_irq_enable(test_usart_instance, VSF_USART_IRQ_MASK_FRAME_ERR);
+        vsf_usart_irq_enable(test_usart_rx_instance, VSF_USART_IRQ_MASK_FRAME_ERR);
 
-        vsf_trace_info("RX:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+        vsf_trace_info("RX_FRAME:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t timeout_ticks = vsf_systimer_get_ms() + RX_ERROR_PAYLOAD_DRAIN_MS * 10;
         while (!ctx.frame_err) {
@@ -147,11 +147,11 @@ void vsf_test_usart_rx_frame_error_scenario(void *arg)
             }
         }
 
-        vsf_usart_irq_disable(test_usart_instance, VSF_USART_IRQ_MASK_FRAME_ERR);
+        vsf_usart_irq_disable(test_usart_rx_instance, VSF_USART_IRQ_MASK_FRAME_ERR);
 
         VSF_TEST_ASSERT(ctx.frame_err);
 
-        while (fsm_rt_cpl != vsf_usart_disable(test_usart_instance));
+        while (fsm_rt_cpl != vsf_usart_disable(test_usart_rx_instance));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }

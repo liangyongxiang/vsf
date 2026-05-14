@@ -74,14 +74,14 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
 
     # Interact with firmware case by case
     for c in cases:
-        serial.expect(f"RX:CASE:{c.idx}:READY", timeout=timeout_s)
+        serial.expect(f"RX_DATA:CASE:{c.idx}:READY", timeout=timeout_s)
 
         # Send payload via UART1
         aux.write(payload)
         aux.flush()  # wait for physical transmission
 
         # Send DONE marker via UART0 (for LA timing)
-        serial._ser.write(f"RX:CASE:{c.idx}:DONE\r\n".encode())
+        serial._ser.write(f"RX_DATA:CASE:{c.idx}:DONE\r\n".encode())
         serial._ser.flush()
 
     # Wait for overall completion
@@ -100,7 +100,7 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     ready_markers = la.decode_markers(
         channel=marker_ch_tx,
         baudrate=marker_baud,
-        pattern=r"RX:CASE:(\d+):READY",
+        pattern=r"RX_DATA:CASE:(\d+):READY",
         output_csv=out_dir / "rx_ready_markers.csv",
     )
 
@@ -108,7 +108,7 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     done_markers = la.decode_markers(
         channel=marker_ch_rx,
         baudrate=marker_baud,
-        pattern=r"RX:CASE:(\d+):DONE",
+        pattern=r"RX_DATA:CASE:(\d+):DONE",
         output_csv=out_dir / "rx_done_markers.csv",
     )
 

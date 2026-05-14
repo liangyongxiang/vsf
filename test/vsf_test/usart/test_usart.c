@@ -50,6 +50,7 @@
 /*============================ GLOBAL VARIABLES ==============================*/
 
 vsf_usart_t *test_usart_instance = NULL;
+vsf_usart_t *test_usart_rx_instance = NULL;
 
 /*============================ PROTOTYPES ====================================*/
 /*============================ IMPLEMENTATION ================================*/
@@ -101,7 +102,7 @@ void vsf_test_usart_tx_init(const vsf_test_usart_tx_cfg_t *cfg)
 void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg)
 {
     VSF_ASSERT(cfg != NULL);
-    test_usart_instance = cfg->usart_instance;
+    test_usart_rx_instance = cfg->usart_instance;
 
 #if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
     VSF_ASSERT(cfg->rx_data_cases != NULL);

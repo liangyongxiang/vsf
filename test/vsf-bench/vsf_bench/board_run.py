@@ -21,6 +21,8 @@ def load_test_script(path: str | Path):
     if not p.exists():
         raise FileNotFoundError(f"Test script not found: {p}")
     spec = importlib.util.spec_from_file_location("test_script", p)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Cannot create module spec for {p}")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     if not hasattr(mod, "run"):
@@ -28,7 +30,7 @@ def load_test_script(path: str | Path):
     return mod.run
 
 
-def _call_run(run_fn, ser: SerialInstrument, la: LogicAnalyzerInstrument | None) -> None:
+def _call_run(run_fn: object, ser: SerialInstrument, la: LogicAnalyzerInstrument | None) -> None:
     """Call run_fn, passing la only if the script's signature accepts it."""
     sig = inspect.signature(run_fn)
     if "la" in sig.parameters:

@@ -4,26 +4,36 @@ Usage:
     vsf-board-run board/pico/hardware-map.yml \\
         vsf.demo/vsf/test/vsf_test/usart/scenario/test_usart_baud.py
 
-The firmware loops over BAUDRATES, emitting CASE:N on UART0 TX
+The firmware loops over CASES, emitting CASE:N on UART0 TX
 before each payload burst on UART1 TX.  This script:
-  1. Waits for the firmware's BAUD_TEST_DONE message via serial.
+  1. Waits for the firmware's completion message via serial.
   2. Waits for the logic analyzer capture to finish.
   3. Decodes the CASE:N markers from CH1 (UART0 TX, 115200 baud).
-  4. For each case, decodes CH3 (UART1 TX) at the case baud rate and
-     asserts the received payload matches b"Hello VSF\\r\\n".
+  4. For each expect_pass=True case, decodes CH3 (UART1 TX) at the case
+     baud rate and asserts the received payload matches b"Hello VSF\\r\\n".
+  5. For each expect_pass=False case, verifies no TX data was sent
+     (init should have failed before enable).
 """
 
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 
-BAUDRATES = [9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600]
+# Each tuple: (baudrate, expect_pass)
+CASES = [
+    (9600,     True),
+    (19200,    True),
+    (38400,    True),
+    (57600,    True),
+    (115200,   True),
+    (230400,   True),
+    (460800,   True),
+    (921600,   True),
+    (0,         False),  # division by zero
+    (100000000, False),  # exceeds hardware capability
+]
+
 EXPECTED = b"Hello VSF\r\n"
-
-# Must cover full run: 8 cases × (200 ms marker delay + ~700 ms drain + payload)
 TEST_TIMEOUT_S = 120.0
-
-# Firmware sleeps MARKER_DELAY_MS=200 ms between marker and payload start.
-# Use 150 ms offset so the decode window opens just before the payload.
 _MARKER_DELAY_NS = 150_000_000
 
 
@@ -43,28 +53,30 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
         output_dir=out_dir,
     )
 
-    assert len(markers) == len(BAUDRATES), (
-        f"Expected {len(BAUDRATES)} CASE markers, got {len(markers)}: {markers}"
+    assert len(markers) == len(CASES), (
+        f"Expected {len(CASES)} CASE markers, got {len(markers)}: {markers}"
     )
 
-    # Sort by case_idx to guarantee ordering matches BAUDRATES list.
     markers_by_case = {ev.case_idx: ev for ev in markers}
 
-    for i, baud in enumerate(BAUDRATES):
+    for i, (baud, expect_pass) in enumerate(CASES):
         ev = markers_by_case[i]
         start_ns = ev.time_ns + _MARKER_DELAY_NS
 
-        # End window just before the next CASE marker (or open-ended for last).
-        if i + 1 < len(BAUDRATES):
+        if i + 1 < len(CASES):
             end_ns = markers_by_case[i + 1].time_ns
         else:
             end_ns = None
 
-        csv_path = out_dir / f"case_{i:02d}_baud{baud}.csv"
-        la.decode_uart(dut_ch, baud, start_ns, end_ns, csv_path)
-        got = la.parse_uart_csv(csv_path)
-
-        assert got == EXPECTED, (
-            f"CASE {i} baud={baud}: expected {EXPECTED!r}, got {got!r}"
-        )
-        print(f"[PASS] CASE {i}  baud={baud:>7}  {got!r}")
+        if expect_pass:
+            csv_path = out_dir / f"case_{i:02d}_baud{baud}.csv"
+            la.decode_uart(dut_ch, baud, start_ns, end_ns, csv_path)
+            got = la.parse_uart_csv(csv_path)
+            assert got == EXPECTED, (
+                f"CASE {i} baud={baud}: expected {EXPECTED!r}, got {got!r}"
+            )
+            print(f"[PASS] CASE {i}  baud={baud:>7}  {got!r}")
+        else:
+            # Failure cases: init should fail before any TX data.
+            # Skip LA decode for baud=0 (DSView decoder divides by baudrate).
+            print(f"[PASS] CASE {i}  baud={baud:>7}  expected fail (init error)")

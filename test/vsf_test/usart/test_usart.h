@@ -36,8 +36,9 @@ extern "C" {
 
 //! \brief USART 波特率测试用例配置条目
 typedef struct vsf_test_usart_baud_case_t {
-    uint8_t  idx;       //! \brief 场景内索引，用于 CASE:marker
-    uint32_t baudrate;  //! \brief 目标波特率
+    uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
+    uint32_t baudrate;    //! \brief 目标波特率
+    bool     expect_pass; //! \brief true=预期初始化成功并发送数据，false=预期初始化失败
 } vsf_test_usart_baud_case_t;
 
 //! \brief USART 测试套件配置

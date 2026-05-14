@@ -45,13 +45,13 @@ void vsf_test_usart_init(const vsf_test_usart_cfg_t *cfg)
     test_usart_instance = cfg->usart_instance;
 
     // 场景测试：波特率精度
+    static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
     for (uint8_t i = 0; i < cfg->baud_case_count; i++) {
-        char cfg_str[64];
-        snprintf(cfg_str, sizeof(cfg_str),
+        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
             "usart_baud_%lu purpose=baud-rate hw_req=uart1+la",
             (unsigned long)cfg->baud_cases[i].baudrate);
         vsf_test_add_simple_case(vsf_test_usart_baud_scenario,
-            cfg_str, (void *)&cfg->baud_cases[i]);
+            __cfg_str_pool[i], (void *)&cfg->baud_cases[i]);
     }
 }
 

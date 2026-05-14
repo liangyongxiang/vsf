@@ -44,30 +44,29 @@ static void __usart_send_str(vsf_usart_t *usart, const char *str)
     }
 }
 
-static void __run_baud_test(vsf_usart_t *usart, uint8_t case_idx, uint32_t baud)
-{
-    vsf_trace_info("CASE:%d" VSF_TRACE_CFG_LINEEND, (int)case_idx);
-    __busy_wait_ms(MARKER_DELAY_MS);
-
-    vsf_err_t err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
-        .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
-                  | VSF_USART_NO_PARITY | VSF_USART_TX_ENABLE,
-        .baudrate = baud,
-    });
-    VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-
-    while (fsm_rt_cpl != vsf_usart_enable(usart));
-
-    __usart_send_str(usart, TEST_PAYLOAD);
-    __busy_wait_ms(PAYLOAD_DRAIN_MS);
-}
-
 /*============================ TEST CASE =====================================*/
 
 void vsf_test_usart_baud_scenario(void *arg)
 {
     const vsf_test_usart_baud_case_t *c = (const vsf_test_usart_baud_case_t *)arg;
-    __run_baud_test(test_usart_instance, c->idx, c->baudrate);
+
+    vsf_trace_info("CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+    __busy_wait_ms(MARKER_DELAY_MS);
+
+    vsf_err_t err = vsf_usart_init(test_usart_instance, &(vsf_usart_cfg_t){
+        .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
+                  | VSF_USART_NO_PARITY | VSF_USART_TX_ENABLE,
+        .baudrate = c->baudrate,
+    });
+
+    if (c->expect_pass) {
+        VSF_TEST_ASSERT(err == VSF_ERR_NONE);
+        while (fsm_rt_cpl != vsf_usart_enable(test_usart_instance));
+        __usart_send_str(test_usart_instance, TEST_PAYLOAD);
+        __busy_wait_ms(PAYLOAD_DRAIN_MS);
+    } else {
+        VSF_TEST_ASSERT(err != VSF_ERR_NONE);
+    }
 }
 
 /* EOF */

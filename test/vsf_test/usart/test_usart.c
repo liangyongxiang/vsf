@@ -29,6 +29,12 @@
 #if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
 #   include "scenario/test_usart_rx_data.h"
 #endif
+#if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
+#   include "scenario/test_usart_rx_baud.h"
+#endif
+#if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
+#   include "scenario/test_usart_rx_mode.h"
+#endif
 
 /*============================ MACROS ========================================*/
 /*============================ TYPES =========================================*/
@@ -100,6 +106,36 @@ void vsf_test_usart_rx_init(const vsf_test_usart_rx_cfg_t *cfg)
             (unsigned)cfg->rx_data_cases[i].idx);
         vsf_test_add_simple_case(vsf_test_usart_rx_data_scenario,
             __rx_data_cfg_str_pool[i], (void *)&cfg->rx_data_cases[i]);
+    }
+#endif
+
+#if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
+    VSF_ASSERT(cfg->rx_baud_cases != NULL);
+    VSF_ASSERT(cfg->rx_baud_case_count > 0);
+    VSF_ASSERT(cfg->rx_baud_case_count <= VSF_TEST_USART_CASE_MAX_COUNT);
+
+    static char __rx_baud_cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
+    for (uint8_t i = 0; i < cfg->rx_baud_case_count; i++) {
+        snprintf(__rx_baud_cfg_str_pool[i], sizeof(__rx_baud_cfg_str_pool[i]),
+            "usart_rx_baud_%lu purpose=rx-baud hw_req=uart1+la",
+            (unsigned long)cfg->rx_baud_cases[i].baudrate);
+        vsf_test_add_simple_case(vsf_test_usart_rx_baud_scenario,
+            __rx_baud_cfg_str_pool[i], (void *)&cfg->rx_baud_cases[i]);
+    }
+#endif
+
+#if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
+    VSF_ASSERT(cfg->rx_mode_cases != NULL);
+    VSF_ASSERT(cfg->rx_mode_case_count > 0);
+    VSF_ASSERT(cfg->rx_mode_case_count <= VSF_TEST_USART_CASE_MAX_COUNT);
+
+    static char __rx_mode_cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
+    for (uint8_t i = 0; i < cfg->rx_mode_case_count; i++) {
+        snprintf(__rx_mode_cfg_str_pool[i], sizeof(__rx_mode_cfg_str_pool[i]),
+            "usart_rx_mode_%u purpose=rx-mode hw_req=uart1+la",
+            (unsigned)cfg->rx_mode_cases[i].idx);
+        vsf_test_add_simple_case(vsf_test_usart_rx_mode_scenario,
+            __rx_mode_cfg_str_pool[i], (void *)&cfg->rx_mode_cases[i]);
     }
 #endif
 }

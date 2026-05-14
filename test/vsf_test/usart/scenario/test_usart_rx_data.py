@@ -86,7 +86,7 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
 
     # Wait for overall completion
     serial.expect("All test cases completed", timeout=timeout_s)
-    la.wait(timeout=timeout_s)
+    la.wait(timeout=120.0)
 
     aux.close()
 

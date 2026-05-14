@@ -97,13 +97,11 @@ typedef struct vsf_test_usart_mode_case_t {
 } vsf_test_usart_mode_case_t;
 #endif
 
-#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
 //! \brief USART RX 数据测试用例配置条目
 typedef struct vsf_test_usart_rx_data_case_t {
     uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
     bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
 } vsf_test_usart_rx_data_case_t;
-#endif
 
 //! \brief USART TX 测试套件配置
 typedef struct vsf_test_usart_tx_cfg_t {
@@ -131,57 +129,45 @@ extern vsf_usart_t *test_usart_instance;
 //! \brief RX 测试使用的 USART 实例（由测试主函数设置）
 extern vsf_usart_t *test_usart_rx_instance;
 
-#if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
 //! \brief USART RX 波特率测试用例配置条目
 typedef struct vsf_test_usart_rx_baud_case_t {
     uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
     uint32_t baudrate;    //! \brief 目标波特率
     bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
 } vsf_test_usart_rx_baud_case_t;
-#endif
 
-#if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
 //! \brief USART RX 模式测试用例配置条目
 typedef struct vsf_test_usart_rx_mode_case_t {
     uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
     vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（parity/stop/data/...）
     bool             expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
 } vsf_test_usart_rx_mode_case_t;
-#endif
 
-#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
 //! \brief USART RX IRQ 测试用例配置条目
 typedef struct vsf_test_usart_rx_irq_case_t {
     uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
     bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
 } vsf_test_usart_rx_irq_case_t;
-#endif
 
-#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
 //! \brief USART RX 超时测试用例配置条目
 typedef struct vsf_test_usart_rx_timeout_case_t {
     uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
     bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
 } vsf_test_usart_rx_timeout_case_t;
-#endif
 
-#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
 //! \brief USART RX parity error 测试用例配置条目
 typedef struct vsf_test_usart_rx_parity_error_case_t {
     uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
     vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（含 parity 配置）
     bool             expect_pass; //! \brief true=预期检测到 parity error，false=预期初始化失败
 } vsf_test_usart_rx_parity_error_case_t;
-#endif
 
-#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
 //! \brief USART RX frame error 测试用例配置条目
 typedef struct vsf_test_usart_rx_frame_error_case_t {
     uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
     vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（含 stop bit 配置）
     bool             expect_pass; //! \brief true=预期检测到 frame error，false=预期初始化失败
 } vsf_test_usart_rx_frame_error_case_t;
-#endif
 
 //! \brief USART RX 测试套件配置
 typedef struct vsf_test_usart_rx_cfg_t {

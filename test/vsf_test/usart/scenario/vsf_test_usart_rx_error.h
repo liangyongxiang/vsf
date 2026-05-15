@@ -24,8 +24,8 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_usart_rx_parity_error_scenario(void *arg);
-void vsf_test_usart_rx_frame_error_scenario(void *arg);
+void vsf_test_usart_rx_parity_error_scenario(const vsf_test_usart_rx_parity_error_case_t *c);
+void vsf_test_usart_rx_frame_error_scenario(const vsf_test_usart_rx_frame_error_case_t *c);
 
 #ifdef __cplusplus
 }

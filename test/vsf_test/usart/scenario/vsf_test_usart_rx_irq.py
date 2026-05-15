@@ -61,7 +61,8 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     dut_port = dut.get("port", "/dev/ttyUSB2")
     payload = scenario.get("payload", "Hello VSF\r\n").encode()
 
-    aux = serial.Serial(dut_port, baudrate=marker_baud, timeout=1)
+    import serial as pyserial
+    aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
         serial.expect(f"RX_IRQ:CASE:{c.idx}:READY", timeout=timeout_s)

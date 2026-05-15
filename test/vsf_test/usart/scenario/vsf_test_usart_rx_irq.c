@@ -42,6 +42,12 @@
 #ifndef VSF_TEST_RX_IRQ_COMMON_BAUDRATE
 #   define VSF_TEST_RX_IRQ_COMMON_BAUDRATE 115200
 #endif
+#ifndef VSF_TEST_RX_IRQ_PRIO
+// Must be higher (numerically lower) than PendSV priority — test framework runs
+// scenarios inside PendSV, so a same-priority IRQ cannot preempt and the handler
+// would never run.
+#   define VSF_TEST_RX_IRQ_PRIO            vsf_arch_prio_1
+#endif
 
 /*============================ TYPES =========================================*/
 
@@ -54,20 +60,16 @@ typedef struct __rx_irq_ctx_t {
 
 /*============================ IMPLEMENTATION ================================*/
 
-static void __busy_wait_ms(uint32_t ms)
-{
-    for (volatile uint32_t i = 0; i < ms * 22000; i++);
-}
 
 static void __rx_irq_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart_irq_mask_t irq_mask)
 {
     __rx_irq_ctx_t *ctx = (__rx_irq_ctx_t *)target_ptr;
 
-    if (irq_mask & VSF_USART_IRQ_MASK_RX) {
-        uint_fast16_t avail = vsf_usart_rxfifo_get_data_count(usart_ptr);
-        while (avail-- > 0 && ctx->count < sizeof(ctx->buf)) {
-            vsf_usart_rxfifo_read(usart_ptr, &ctx->buf[ctx->count], 1);
-            ctx->count++;
+    if (irq_mask & (VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT)) {
+        while (vsf_usart_rxfifo_get_data_count(usart_ptr) > 0 && ctx->count < sizeof(ctx->buf)) {
+            uint_fast16_t read = vsf_usart_rxfifo_read(usart_ptr, &ctx->buf[ctx->count], sizeof(ctx->buf) - ctx->count);
+            if (read == 0) break;
+            ctx->count += read;
         }
         if (ctx->count >= ctx->expected_len) {
             ctx->done = true;
@@ -82,7 +84,7 @@ void vsf_test_usart_rx_irq_scenario(const vsf_test_usart_rx_irq_case_t *c)
     __rx_irq_ctx_t ctx = { .count = 0, .expected_len = strlen(VSF_TEST_RX_IRQ_PAYLOAD), .done = false };
 
     vsf_trace_info("RX_IRQ:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    __busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(test_usart_rx_instance, &(vsf_usart_cfg_t){
         .mode     = VSF_TEST_RX_IRQ_COMMON_MODE,
@@ -90,7 +92,7 @@ void vsf_test_usart_rx_irq_scenario(const vsf_test_usart_rx_irq_case_t *c)
         .isr      = {
             .handler_fn = __rx_irq_handler,
             .target_ptr = &ctx,
-            .prio       = vsf_arch_prio_0,
+            .prio       = VSF_TEST_RX_IRQ_PRIO,
         },
     });
 
@@ -98,18 +100,18 @@ void vsf_test_usart_rx_irq_scenario(const vsf_test_usart_rx_irq_case_t *c)
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         while (fsm_rt_cpl != vsf_usart_enable(test_usart_rx_instance));
 
-        vsf_usart_irq_enable(test_usart_rx_instance, VSF_USART_IRQ_MASK_RX);
+        vsf_usart_irq_enable(test_usart_rx_instance, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         vsf_trace_info("RX_IRQ:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
-        uint32_t timeout_ticks = vsf_systimer_get_ms() + VSF_TEST_RX_IRQ_PAYLOAD_DRAIN_MS * 10;
-        while (!ctx.done) {
-            if (vsf_systimer_get_ms() > timeout_ticks) {
-                break;
-            }
+        uint32_t elapsed_ms = 0;
+        const uint32_t max_ms = VSF_TEST_RX_IRQ_PAYLOAD_DRAIN_MS * 10;
+        while (!ctx.done && elapsed_ms < max_ms) {
+            vsf_test_busy_wait_ms(10);
+            elapsed_ms += 10;
         }
 
-        vsf_usart_irq_disable(test_usart_rx_instance, VSF_USART_IRQ_MASK_RX);
+        vsf_usart_irq_disable(test_usart_rx_instance, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         VSF_TEST_ASSERT(ctx.done);
         VSF_TEST_ASSERT(ctx.count == ctx.expected_len);

@@ -45,10 +45,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-static void __busy_wait_ms(uint32_t ms)
-{
-    for (volatile uint32_t i = 0; i < ms * 22000; i++);
-}
 
 /*============================ TEST CASE =====================================*/
 
@@ -56,7 +52,7 @@ void vsf_test_usart_rx_data_scenario(const vsf_test_usart_rx_data_case_t *c)
 {
 
     vsf_trace_info("RX_DATA:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    __busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(test_usart_rx_instance, &(vsf_usart_cfg_t){
         .mode     = VSF_TEST_RX_DATA_COMMON_MODE,
@@ -74,16 +70,16 @@ void vsf_test_usart_rx_data_scenario(const vsf_test_usart_rx_data_case_t *c)
         const char *expected = VSF_TEST_RX_DATA_PAYLOAD;
         uint16_t expected_len = strlen(expected);
 
-        uint32_t timeout_ticks = vsf_systimer_get_ms() + VSF_TEST_RX_DATA_PAYLOAD_DRAIN_MS * 10;
-        while (rx_len < expected_len) {
+        uint32_t elapsed_ms = 0;
+        const uint32_t max_ms = VSF_TEST_RX_DATA_PAYLOAD_DRAIN_MS * 10;
+        while (rx_len < expected_len && elapsed_ms < max_ms) {
             uint_fast16_t count = vsf_usart_rxfifo_get_data_count(test_usart_rx_instance);
             while (count-- > 0 && rx_len < sizeof(rx_buf)) {
                 vsf_usart_rxfifo_read(test_usart_rx_instance, &rx_buf[rx_len], 1);
                 rx_len++;
             }
-            if (vsf_systimer_get_ms() > timeout_ticks) {
-                break;
-            }
+            vsf_test_busy_wait_ms(10);
+            elapsed_ms += 10;
         }
 
         VSF_TEST_ASSERT(rx_len == expected_len);

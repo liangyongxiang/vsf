@@ -278,6 +278,12 @@ void vsf_test_reboot(vsf_test_result_t result,
     while (1);
 }
 
+VSF_CAL_WEAK(vsf_test_busy_wait_ms)
+void vsf_test_busy_wait_ms(uint32_t ms)
+{
+    for (volatile uint32_t i = 0; i < ms * VSF_TEST_CFG_BUSY_WAIT_CYCLES_PER_MS; i++);
+}
+
 void vsf_test_run_tests(void)
 {
     __VSF_TEST_TRACE_INFO("[TEST] Starting test framework\r\n");

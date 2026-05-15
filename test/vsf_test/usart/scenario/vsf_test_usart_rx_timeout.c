@@ -42,6 +42,14 @@
 #ifndef VSF_TEST_RX_TIMEOUT_COMMON_BAUDRATE
 #   define VSF_TEST_RX_TIMEOUT_COMMON_BAUDRATE 115200
 #endif
+#ifndef VSF_TEST_RX_TIMEOUT_PRIO
+// Must preempt PendSV — see note in vsf_test_usart_rx_irq.c.
+#   define VSF_TEST_RX_TIMEOUT_PRIO        vsf_arch_prio_1
+#endif
+#ifndef VSF_TEST_RX_TIMEOUT_US
+// PL011 RX-idle timeout in microseconds.
+#   define VSF_TEST_RX_TIMEOUT_US          10000
+#endif
 
 /*============================ TYPES =========================================*/
 
@@ -51,10 +59,6 @@ typedef struct __rx_timeout_ctx_t {
 
 /*============================ IMPLEMENTATION ================================*/
 
-static void __busy_wait_ms(uint32_t ms)
-{
-    for (volatile uint32_t i = 0; i < ms * 22000; i++);
-}
 
 static void __rx_timeout_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart_irq_mask_t irq_mask)
 {
@@ -72,16 +76,16 @@ void vsf_test_usart_rx_timeout_scenario(const vsf_test_usart_rx_timeout_case_t *
     __rx_timeout_ctx_t ctx = { .timeout_triggered = false };
 
     vsf_trace_info("RX_TIMEOUT:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    __busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(test_usart_rx_instance, &(vsf_usart_cfg_t){
         .mode       = VSF_TEST_RX_TIMEOUT_COMMON_MODE,
         .baudrate   = VSF_TEST_RX_TIMEOUT_COMMON_BAUDRATE,
-        .rx_timeout = 10000, /* 10ms = 10000us */
+        .rx_timeout = VSF_TEST_RX_TIMEOUT_US,
         .isr        = {
             .handler_fn = __rx_timeout_handler,
             .target_ptr = &ctx,
-            .prio       = vsf_arch_prio_0,
+            .prio       = VSF_TEST_RX_TIMEOUT_PRIO,
         },
     });
 
@@ -93,11 +97,11 @@ void vsf_test_usart_rx_timeout_scenario(const vsf_test_usart_rx_timeout_case_t *
 
         vsf_trace_info("RX_TIMEOUT:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
-        uint32_t timeout_ticks = vsf_systimer_get_ms() + VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS * 10;
-        while (!ctx.timeout_triggered) {
-            if (vsf_systimer_get_ms() > timeout_ticks) {
-                break;
-            }
+        uint32_t elapsed_ms = 0;
+        const uint32_t max_ms = VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS * 10;
+        while (!ctx.timeout_triggered && elapsed_ms < max_ms) {
+            vsf_test_busy_wait_ms(10);
+            elapsed_ms += 10;
         }
 
         vsf_usart_irq_disable(test_usart_rx_instance, VSF_USART_IRQ_MASK_RX_TIMEOUT);

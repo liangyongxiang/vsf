@@ -55,6 +55,8 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     aux = None
     total_cases = 0
 
+    import serial as pyserial
+
     for scenario_name, marker_prefix in (
         ("rx_parity_error", "RX_PARITY"),
         ("rx_frame_error", "RX_FRAME"),
@@ -70,7 +72,7 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
         payload = scenario.get("payload", "Hello VSF\r\n").encode()
 
         if aux is None:
-            aux = serial.Serial(dut_port, baudrate=marker_baud, timeout=1)
+            aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
         for c in cases:
             serial.expect(f"{marker_prefix}:CASE:{c.idx}:READY", timeout=timeout_s)

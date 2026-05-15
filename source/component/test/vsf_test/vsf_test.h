@@ -211,6 +211,12 @@
 #            define VSF_TEST_CFG_ARRAY_SIZE 100
 #        endif
 
+//!< Loop iterations per millisecond for vsf_test_busy_wait_ms. CPU-frequency
+//!< dependent; default tuned for RP2040 @ 133MHz. Override per-board if needed.
+#        ifndef VSF_TEST_CFG_BUSY_WAIT_CYCLES_PER_MS
+#            define VSF_TEST_CFG_BUSY_WAIT_CYCLES_PER_MS 22000
+#        endif
+
 /*!
     \def VSF_TEST_ASSERT(__v)
     \brief Add an assertion to the test case
@@ -623,6 +629,14 @@ extern void vsf_test_reboot(vsf_test_result_t result,
                             const char *file_name, uint32_t line,
                             const char *function_name,
                             const char *additional_str);
+
+/**
+ @brief Busy-wait for approximately the given milliseconds. Useful for
+ simple inter-step delays in test scenarios where vsf_systimer is not
+ initialized. Calibrated by VSF_TEST_CFG_BUSY_WAIT_CYCLES_PER_MS.
+ @param[in] ms: milliseconds to wait
+ */
+extern void vsf_test_busy_wait_ms(uint32_t ms);
 
 /*============================ LOCAL VARIABLES ===============================*/
 /*============================ GLOBAL VARIABLES ==============================*/

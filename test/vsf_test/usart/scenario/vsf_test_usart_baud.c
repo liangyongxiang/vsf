@@ -42,10 +42,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-static void __busy_wait_ms(uint32_t ms)
-{
-    for (volatile uint32_t i = 0; i < ms * 22000; i++);
-}
 
 static void __usart_send_str(vsf_usart_t *usart, const char *str)
 {
@@ -62,7 +58,7 @@ void vsf_test_usart_baud_scenario(const vsf_test_usart_baud_case_t *c)
 {
 
     vsf_trace_info("BAUD:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    __busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(test_usart_instance, &(vsf_usart_cfg_t){
         .mode     = VSF_TEST_BAUD_COMMON_MODE,
@@ -73,7 +69,7 @@ void vsf_test_usart_baud_scenario(const vsf_test_usart_baud_case_t *c)
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         while (fsm_rt_cpl != vsf_usart_enable(test_usart_instance));
         __usart_send_str(test_usart_instance, VSF_TEST_BAUD_PAYLOAD);
-        __busy_wait_ms(VSF_TEST_BAUD_PAYLOAD_DRAIN_MS);
+        vsf_test_busy_wait_ms(VSF_TEST_BAUD_PAYLOAD_DRAIN_MS);
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }

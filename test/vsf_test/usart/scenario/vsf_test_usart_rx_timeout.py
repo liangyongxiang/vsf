@@ -60,7 +60,8 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     dut = scenario.get("dut", {})
     dut_port = dut.get("port", "/dev/ttyUSB2")
 
-    aux = serial.Serial(dut_port, baudrate=marker_baud, timeout=1)
+    import serial as pyserial
+    aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
         serial.expect(f"RX_TIMEOUT:CASE:{c.idx}:READY", timeout=timeout_s)

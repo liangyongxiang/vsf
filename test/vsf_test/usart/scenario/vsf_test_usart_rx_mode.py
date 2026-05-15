@@ -70,14 +70,15 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     dut_ch_name = dut.get("channel", "uart1_rx")
     payload = scenario.get("payload", "0123456789\r\n").encode()
 
-    aux = serial.Serial(dut_port, baudrate=marker_baud, timeout=1)
+    import serial as pyserial
+    aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
         serial.expect(f"RX_MODE:CASE:{c.idx}:READY", timeout=timeout_s)
 
         # Reconfigure aux serial to match case mode
-        parity_map = {"none": serial.PARITY_NONE, "even": serial.PARITY_EVEN, "odd": serial.PARITY_ODD}
-        aux.parity = parity_map.get(c.decode_parity, serial.PARITY_NONE)
+        parity_map = {"none": pyserial.PARITY_NONE, "even": pyserial.PARITY_EVEN, "odd": pyserial.PARITY_ODD}
+        aux.parity = parity_map.get(c.decode_parity, pyserial.PARITY_NONE)
         aux.bytesize = c.decode_data
         aux.stopbits = c.decode_stop
         aux.write(payload)

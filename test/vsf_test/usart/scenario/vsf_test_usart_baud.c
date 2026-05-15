@@ -81,12 +81,17 @@ void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
     vsf_trace_info("BAUD:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
     vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
+    vsf_usart_capability_t cap = vsf_usart_capability(c->scenario->usart_instance);
+    bool expect_pass = (c->baudrate >= cap.min_baudrate)
+                    && (c->baudrate <= cap.max_baudrate)
+                    && (c->baudrate != 0);
+
     vsf_err_t err = vsf_usart_init(c->scenario->usart_instance, &(vsf_usart_cfg_t){
         .mode     = VSF_TEST_BAUD_COMMON_MODE,
         .baudrate = c->baudrate,
     });
 
-    if (c->expect_pass) {
+    if (expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         while (fsm_rt_cpl != vsf_usart_enable(c->scenario->usart_instance));
         __usart_send_str(c->scenario->usart_instance, VSF_TEST_BAUD_PAYLOAD);

@@ -13,12 +13,19 @@ import yaml
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 
+RP2040_CLK_PERI = 125_000_000
+MIN_BAUDRATE = RP2040_CLK_PERI // (16 * 65535)
+MAX_BAUDRATE = RP2040_CLK_PERI // 16
+
+
+def _expect_pass(baud: int) -> bool:
+    return baud != 0 and MIN_BAUDRATE <= baud <= MAX_BAUDRATE
+
 
 @dataclass(frozen=True)
 class Case:
     idx: int
     baud: int
-    expect_pass: bool
 
 
 def _find_project_root() -> Path:
@@ -40,7 +47,6 @@ def _parse_cases(scenario: dict) -> list[Case]:
         cases.append(Case(
             idx=int(case["idx"]),
             baud=int(case["baudrate"]),
-            expect_pass=bool(case.get("expect_pass", True)),
         ))
     return cases
 
@@ -66,15 +72,22 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     import serial as pyserial
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
+    pass_cases = [c for c in cases if _expect_pass(c.baud)]
+
     for c in cases:
-        serial.expect(f"RX_BAUD:CASE:{c.idx}:READY", timeout=timeout_s)
+        if _expect_pass(c.baud):
+            serial.expect(f"RX_BAUD:CASE:{c.idx}:READY", timeout=timeout_s)
 
-        aux.baudrate = c.baud
-        aux.write(payload)
-        aux.flush()
+            aux.baudrate = c.baud
+            aux.write(payload)
+            aux.flush()
 
-        serial._ser.write(f"RX_BAUD:CASE:{c.idx}:DONE\r\n".encode())
-        serial._ser.flush()
+            serial._ser.write(f"RX_BAUD:CASE:{c.idx}:DONE\r\n".encode())
+            serial._ser.flush()
+        else:
+            # For cases where firmware should reject the baud rate, no READY
+            # marker is produced — wait for the CASE marker delay only
+            pass
 
     serial.expect("All test cases completed", timeout=timeout_s)
     la.wait(timeout=120.0)
@@ -100,19 +113,18 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
         output_csv=out_dir / "rx_baud_done_markers.csv",
     )
 
-    assert len(ready_markers) == len(cases), f"Expected {len(cases)} READY markers"
-    assert len(done_markers) == len(cases), f"Expected {len(cases)} DONE markers"
+    assert len(ready_markers) == len(pass_cases), f"Expected {len(pass_cases)} READY markers, got {len(ready_markers)}"
+    assert len(done_markers) == len(pass_cases), f"Expected {len(pass_cases)} DONE markers, got {len(done_markers)}"
 
     ready_by_case = {ev.case_idx: ev for ev in ready_markers}
     done_by_case = {ev.case_idx: ev for ev in done_markers}
 
     for c in cases:
-        ready_ev = ready_by_case[c.idx]
-        done_ev = done_by_case[c.idx]
-        start_ns = ready_ev.time_ns
-        end_ns = done_ev.time_ns
-
-        if c.expect_pass:
+        if _expect_pass(c.baud):
+            ready_ev = ready_by_case[c.idx]
+            done_ev = done_by_case[c.idx]
+            start_ns = ready_ev.time_ns
+            end_ns = done_ev.time_ns
             csv_path = out_dir / f"rx_baud_{c.idx:02d}_{c.baud}.csv"
             la.decode_uart(dut_ch, c.baud, start_ns, end_ns, csv_path)
             got = la.parse_uart_csv(csv_path)

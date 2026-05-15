@@ -16,12 +16,19 @@ import yaml
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 
+RP2040_CLK_PERI = 125_000_000
+MIN_BAUDRATE = RP2040_CLK_PERI // (16 * 65535)
+MAX_BAUDRATE = RP2040_CLK_PERI // 16
+
+
+def _expect_pass(baud: int) -> bool:
+    return baud != 0 and MIN_BAUDRATE <= baud <= MAX_BAUDRATE
+
 
 @dataclass(frozen=True)
 class Case:
     idx: int
     baud: int
-    expect_pass: bool
 
 
 def _find_project_root() -> Path:
@@ -45,7 +52,6 @@ def _parse_cases(scenario: dict) -> list[Case]:
         cases.append(Case(
             idx=int(case["idx"]),
             baud=int(case["baudrate"]),
-            expect_pass=bool(case["expect_pass"]),
         ))
     return cases
 
@@ -97,7 +103,7 @@ def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
         start_ns = ev.time_ns + marker_delay_ns
         end_ns = markers_by_case[cases[i + 1].idx].time_ns if i + 1 < len(cases) else None
 
-        if c.expect_pass:
+        if _expect_pass(c.baud):
             csv_path = out_dir / f"baud_{c.idx:02d}_{c.baud}.csv"
             la.decode_uart(dut_ch, c.baud, start_ns, end_ns, csv_path)
             got = la.parse_uart_csv(csv_path)

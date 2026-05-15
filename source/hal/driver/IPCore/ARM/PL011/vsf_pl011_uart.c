@@ -42,6 +42,15 @@ vsf_err_t vsf_pl011_usart_init(vsf_pl011_usart_t *pl011_usart_ptr, vsf_usart_cfg
     vsf_pl011_usart_reg_t *reg = pl011_usart_ptr->reg;
     pl011_usart_ptr->isr = cfg_ptr->isr;
 
+    // baudrate range check: PL011 hardware uses (baud_ibrd + baud_fbrd/64) as divisor,
+    // and baudrate = clk_hz / (16 * divisor). baud_ibrd is 1..65535, so achievable range
+    // is clk_hz/16 (max) down to clk_hz/(16*65535) (min).
+    if ((cfg_ptr->baudrate == 0)
+     || (cfg_ptr->baudrate > clk_hz / 16)
+     || (cfg_ptr->baudrate < clk_hz / (16 * 65535))) {
+        return VSF_ERR_INVALID_RANGE;
+    }
+
     // bardrate
     uint32_t baud_rate_div = (8 * clk_hz / cfg_ptr->baudrate);
     uint32_t baud_ibrd = baud_rate_div >> 7;
@@ -84,8 +93,8 @@ vsf_usart_capability_t vsf_pl011_usart_capability(vsf_pl011_usart_t *pl011_usart
     VSF_HAL_ASSERT(NULL != pl011_usart_ptr);
     return (vsf_usart_capability_t){
         .irq_mask               = PL011_USART_IRQ_MASK,
-        .max_baudrate           = clk_hz / 1,
-        .min_baudrate           = clk_hz / 65535,
+        .max_baudrate           = clk_hz / 16,
+        .min_baudrate           = clk_hz / (16 * 65535),
         .min_data_bits          = 5,
         .max_data_bits          = 8,
         .txfifo_depth           = 32,

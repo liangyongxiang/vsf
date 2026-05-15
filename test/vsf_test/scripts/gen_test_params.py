@@ -70,8 +70,7 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
         return
 
     upper = name.upper()
-    struct_type = f"vsf_test_usart_{name}_case_t"
-    array_name = f"__{name}_cases"
+    init_macro = f"VSF_TEST_{upper}_CASES_INIT"
     count_macro = f"VSF_TEST_{upper}_CASE_COUNT"
 
     lines.append(f"/* === {scenario_key} ({name}) === */")
@@ -85,12 +84,16 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
             lines.append(f"#define {macro}  {_format_value(value)}")
         lines.append("")
 
-    # cases → struct array
-    lines.append(f"static const {struct_type} {array_name}[] = {{")
-    for case in cases:
-        lines.append(f"    {_format_case(case)},")
-    lines.append("};")
-    lines.append(f"#define {count_macro}  (sizeof({array_name}) / sizeof({array_name}[0]))")
+    # cases → INIT macro with .scenario = &s_scenario
+    lines.append(f"#define {init_macro}  \\")
+    for i, case in enumerate(cases):
+        comma = "," if i < len(cases) - 1 else ""
+        suffix = "  \\" if i < len(cases) - 1 else ""
+        init = _format_case(case)
+        # insert .scenario = &s_scenario before the closing "}"
+        init_with_scenario = init.rstrip(" }") + ", .scenario = &s_scenario }"
+        lines.append(f"    {init_with_scenario}{comma}{suffix}")
+    lines.append(f"#define {count_macro}  {len(cases)}")
     lines.append("")
 
 

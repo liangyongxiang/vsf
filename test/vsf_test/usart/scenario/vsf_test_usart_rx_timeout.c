@@ -1,4 +1,4 @@
-/*****************************************************************************
+/******************************************************************************
  *   Copyright(C)2009-2024 by VSF Team                                       *
  *                                                                           *
  *  Licensed under the Apache License, Version 2.0 (the "License");          *
@@ -21,6 +21,9 @@
 #include "component/test/vsf_test/vsf_test.h"
 #include "../vsf_test_usart.h"
 #include "vsf_test_usart_rx_timeout.h"
+
+static vsf_test_usart_scenario_t s_scenario;
+
 #include "test_params_generated.h"
 
 #if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
@@ -57,8 +60,13 @@ typedef struct __rx_timeout_ctx_t {
     bool     timeout_triggered;
 } __rx_timeout_ctx_t;
 
-/*============================ IMPLEMENTATION ================================*/
+/*============================ LOCAL VARIABLES ===============================*/
 
+static const vsf_test_usart_rx_timeout_case_t __rx_timeout_cases[] = {
+    VSF_TEST_RX_TIMEOUT_CASES_INIT
+};
+
+/*============================ IMPLEMENTATION ================================*/
 
 static void __rx_timeout_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart_irq_mask_t irq_mask)
 {
@@ -69,16 +77,27 @@ static void __rx_timeout_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_u
     }
 }
 
-/*============================ TEST CASE =====================================*/
+void vsf_test_usart_rx_timeout_add_cases(vsf_usart_t *usart_instance)
+{
+    s_scenario.usart_instance = usart_instance;
+    for (uint8_t i = 0; i < VSF_TEST_RX_TIMEOUT_CASE_COUNT; i++) {
+        static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
+        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
+            "usart_rx_timeout_%u purpose=rx-timeout hw_req=uart1+la",
+            (unsigned)__rx_timeout_cases[i].idx);
+        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_timeout_run,
+            __cfg_str_pool[i], (void *)&__rx_timeout_cases[i]);
+    }
+}
 
-void vsf_test_usart_rx_timeout_scenario(const vsf_test_usart_rx_timeout_case_t *c)
+void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
 {
     __rx_timeout_ctx_t ctx = { .timeout_triggered = false };
 
     vsf_trace_info("RX_TIMEOUT:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
     vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
-    vsf_err_t err = vsf_usart_init(test_usart_rx_instance, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init(c->scenario->usart_instance, &(vsf_usart_cfg_t){
         .mode       = VSF_TEST_RX_TIMEOUT_COMMON_MODE,
         .baudrate   = VSF_TEST_RX_TIMEOUT_COMMON_BAUDRATE,
         .rx_timeout = VSF_TEST_RX_TIMEOUT_US,
@@ -91,9 +110,9 @@ void vsf_test_usart_rx_timeout_scenario(const vsf_test_usart_rx_timeout_case_t *
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(test_usart_rx_instance));
+        while (fsm_rt_cpl != vsf_usart_enable(c->scenario->usart_instance));
 
-        vsf_usart_irq_enable(test_usart_rx_instance, VSF_USART_IRQ_MASK_RX_TIMEOUT);
+        vsf_usart_irq_enable(c->scenario->usart_instance, VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         vsf_trace_info("RX_TIMEOUT:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
@@ -104,11 +123,11 @@ void vsf_test_usart_rx_timeout_scenario(const vsf_test_usart_rx_timeout_case_t *
             elapsed_ms += 10;
         }
 
-        vsf_usart_irq_disable(test_usart_rx_instance, VSF_USART_IRQ_MASK_RX_TIMEOUT);
+        vsf_usart_irq_disable(c->scenario->usart_instance, VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         VSF_TEST_ASSERT(ctx.timeout_triggered);
 
-        while (fsm_rt_cpl != vsf_usart_disable(test_usart_rx_instance));
+        while (fsm_rt_cpl != vsf_usart_disable(c->scenario->usart_instance));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }

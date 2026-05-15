@@ -1,4 +1,4 @@
-/*****************************************************************************
+/******************************************************************************
  *   Copyright(C)2009-2024 by VSF Team                                       *
  *                                                                           *
  *  Licensed under the Apache License, Version 2.0 (the "License");          *
@@ -24,8 +24,10 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_usart_rx_parity_error_scenario(const vsf_test_usart_rx_parity_error_case_t *c);
-void vsf_test_usart_rx_frame_error_scenario(const vsf_test_usart_rx_frame_error_case_t *c);
+void vsf_test_usart_rx_parity_error_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_case_t *c);
+void vsf_test_usart_rx_frame_error_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c);
 
 #ifdef __cplusplus
 }

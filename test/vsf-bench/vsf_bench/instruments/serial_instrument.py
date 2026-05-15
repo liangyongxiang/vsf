@@ -37,6 +37,7 @@ class SerialInstrument:
     def send(self, data: str) -> None:
         assert self._ser is not None
         self._ser.write(data.encode())
+        self._ser.flush()
         self._log("send", data)
 
     def expect(self, pattern: str, timeout: float = 5.0) -> str:

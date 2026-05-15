@@ -4,6 +4,7 @@ import argparse
 import importlib.util
 import inspect
 import json
+import re
 import sys
 from collections.abc import Callable
 from datetime import datetime
@@ -50,6 +51,65 @@ def load_test_script(path: str | Path):
     if not hasattr(mod, "run"):
         raise AttributeError(f"Test script {p} must define a run(serial) function")
     return mod.run
+
+
+def _load_module(path: str | Path):
+    p = Path(path).resolve()
+    spec = importlib.util.spec_from_file_location("scenario_probe", p)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _gather_scenarios(script_paths: list[str]) -> set[str] | None:
+    """Collect declared scenarios across scripts.
+
+    Returns the union of each script's SCENARIOS list, or None if any
+    script omits the declaration (caller should treat as run-all).
+    """
+    all_scenarios: set[str] = set()
+    for path in script_paths:
+        mod = _load_module(path)
+        scenarios = getattr(mod, "SCENARIOS", None)
+        if scenarios is None:
+            return None
+        all_scenarios.update(scenarios)
+    return all_scenarios
+
+
+def _gateway_dialog(serial: SerialInstrument, scenarios: set[str] | None) -> None:
+    """Respond to firmware's scenario gateway dialog.
+
+    Pre-condition: firmware has just booted; serial buffer may already
+    contain GATEWAY:HELLO. If the firmware doesn't support the protocol
+    (no HELLO within timeout), this is a no-op.
+
+    With scenarios=None, every READY? gets a GO (legacy/run-all).
+    """
+    try:
+        serial.expect(r"GATEWAY:HELLO", timeout=2.0)
+    except TimeoutError:
+        print("[gateway] no GATEWAY:HELLO from firmware — skipping gateway dialog")
+        return
+
+    serial.send("GATEWAY:HELLO\r\n")
+
+    while True:
+        try:
+            line = serial.expect(r"SCENARIO:\w+:READY\?|GATEWAY:DONE", timeout=2.0)
+        except TimeoutError:
+            print("[gateway] no scenario marker after HELLO — firmware likely fell back to run-all")
+            return
+        if "GATEWAY:DONE" in line:
+            return
+        m = re.search(r"SCENARIO:(\w+):READY\?", line)
+        if not m:
+            continue
+        name = m.group(1)
+        if scenarios is None or name in scenarios:
+            serial.send(f"SCENARIO:{name}:GO\r\n")
+        else:
+            serial.send(f"SCENARIO:{name}:SKIP\r\n")
 
 
 def _call_run(run_fn: Callable[..., None], ser: SerialInstrument, la: LogicAnalyzerInstrument | None) -> None:
@@ -161,6 +221,13 @@ def main():
     print(f"[vsf-board-run] Flashing via {board.active_runner}...")
     runner.flash(build_dir)
     print("[vsf-board-run] Flash complete")
+
+    # Scenario gateway: tell firmware which scenarios this run cares about.
+    # If a script omits SCENARIOS, all scenarios get GO (legacy behavior).
+    scenarios = _gather_scenarios(args.test_scripts)
+    if scenarios is not None:
+        print(f"[vsf-board-run] Scenarios: {sorted(scenarios)}")
+    _gateway_dialog(ser, scenarios)
 
     # Single script: let the script manage serial/la lifecycle (backward compatible)
     # Multiple scripts: orchestrator waits for completion, then runs each script

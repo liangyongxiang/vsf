@@ -13,6 +13,8 @@ import yaml
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 
+SCENARIOS = ["usart_rx_baud"]
+
 RP2040_CLK_PERI = 125_000_000
 MIN_BAUDRATE = RP2040_CLK_PERI // (16 * 65535)
 MAX_BAUDRATE = RP2040_CLK_PERI // 16

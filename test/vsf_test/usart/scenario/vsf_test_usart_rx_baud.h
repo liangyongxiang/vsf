@@ -18,6 +18,10 @@
 #ifndef __TEST_USART_RX_BAUD_H__
 #define __TEST_USART_RX_BAUD_H__
 
+#include "../vsf_test_usart.h"
+
+#if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -30,6 +34,8 @@ void vsf_test_usart_rx_baud_run(const vsf_test_usart_rx_baud_case_t *c);
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED */
 
 #endif /* __TEST_USART_RX_BAUD_H__ */
 /* EOF */

@@ -18,6 +18,10 @@
 #ifndef __TEST_USART_MODE_H__
 #define __TEST_USART_MODE_H__
 
+#include "../vsf_test_usart.h"
+
+#if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -30,6 +34,8 @@ void vsf_test_usart_mode_run(const vsf_test_usart_mode_case_t *c);
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* VSF_TEST_USART_TX_MODE_ENABLE == ENABLED */
 
 #endif /* __TEST_USART_MODE_H__ */
 /* EOF */

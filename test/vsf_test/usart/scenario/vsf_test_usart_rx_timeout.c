@@ -39,11 +39,11 @@ static vsf_test_usart_scenario_t s_scenario;
 #ifndef VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS
 #   define VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS 500
 #endif
-#ifndef VSF_TEST_RX_TIMEOUT_COMMON_MODE
-#   define VSF_TEST_RX_TIMEOUT_COMMON_MODE     (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_RX_ENABLE)
+#ifndef VSF_TEST_RX_TIMEOUT_DEFAULT_MODE
+#   define VSF_TEST_RX_TIMEOUT_DEFAULT_MODE     (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_RX_ENABLE)
 #endif
-#ifndef VSF_TEST_RX_TIMEOUT_COMMON_BAUDRATE
-#   define VSF_TEST_RX_TIMEOUT_COMMON_BAUDRATE 115200
+#ifndef VSF_TEST_RX_TIMEOUT_DEFAULT_BAUDRATE
+#   define VSF_TEST_RX_TIMEOUT_DEFAULT_BAUDRATE 115200
 #endif
 #ifndef VSF_TEST_RX_TIMEOUT_PRIO
 // Must preempt PendSV — see note in vsf_test_usart_rx_irq.c.
@@ -98,8 +98,8 @@ void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
     vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(c->scenario->usart_instance, &(vsf_usart_cfg_t){
-        .mode       = VSF_TEST_RX_TIMEOUT_COMMON_MODE,
-        .baudrate   = VSF_TEST_RX_TIMEOUT_COMMON_BAUDRATE,
+        .mode       = VSF_TEST_RX_TIMEOUT_DEFAULT_MODE,
+        .baudrate   = VSF_TEST_RX_TIMEOUT_DEFAULT_BAUDRATE,
         .rx_timeout = VSF_TEST_RX_TIMEOUT_US,
         .isr        = {
             .handler_fn = __rx_timeout_handler,

@@ -39,8 +39,8 @@ static vsf_test_usart_scenario_t s_scenario;
 #ifndef VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS
 #   define VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS 500
 #endif
-#ifndef VSF_TEST_RX_ERROR_COMMON_BAUDRATE
-#   define VSF_TEST_RX_ERROR_COMMON_BAUDRATE  115200
+#ifndef VSF_TEST_RX_ERROR_DEFAULT_BAUDRATE
+#   define VSF_TEST_RX_ERROR_DEFAULT_BAUDRATE  115200
 #endif
 #ifndef VSF_TEST_RX_ERROR_PRIO
 // Must preempt PendSV — see note in vsf_test_usart_rx_irq.c.
@@ -105,7 +105,7 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
 
     vsf_err_t err = vsf_usart_init(c->scenario->usart_instance, &(vsf_usart_cfg_t){
         .mode     = c->mode,
-        .baudrate = VSF_TEST_RX_ERROR_COMMON_BAUDRATE,
+        .baudrate = VSF_TEST_RX_ERROR_DEFAULT_BAUDRATE,
         .isr      = {
             .handler_fn = __rx_error_handler,
             .target_ptr = &ctx,
@@ -162,7 +162,7 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
 
     vsf_err_t err = vsf_usart_init(c->scenario->usart_instance, &(vsf_usart_cfg_t){
         .mode     = c->mode,
-        .baudrate = VSF_TEST_RX_ERROR_COMMON_BAUDRATE,
+        .baudrate = VSF_TEST_RX_ERROR_DEFAULT_BAUDRATE,
         .isr      = {
             .handler_fn = __rx_error_handler,
             .target_ptr = &ctx,

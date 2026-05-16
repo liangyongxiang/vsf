@@ -39,8 +39,8 @@ static vsf_test_usart_scenario_t s_scenario;
 #ifndef VSF_TEST_BAUD_PAYLOAD_DRAIN_MS
 #   define VSF_TEST_BAUD_PAYLOAD_DRAIN_MS   500
 #endif
-#ifndef VSF_TEST_BAUD_COMMON_MODE
-#   define VSF_TEST_BAUD_COMMON_MODE        (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_TX_ENABLE)
+#ifndef VSF_TEST_BAUD_DEFAULT_MODE
+#   define VSF_TEST_BAUD_DEFAULT_MODE        (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_TX_ENABLE)
 #endif
 
 /*============================ LOCAL VARIABLES ===============================*/
@@ -87,7 +87,7 @@ void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
                     && (c->baudrate != 0);
 
     vsf_err_t err = vsf_usart_init(c->scenario->usart_instance, &(vsf_usart_cfg_t){
-        .mode     = VSF_TEST_BAUD_COMMON_MODE,
+        .mode     = VSF_TEST_BAUD_DEFAULT_MODE,
         .baudrate = c->baudrate,
     });
 

@@ -23,6 +23,45 @@ from pathlib import Path
 import yaml
 
 
+def _deep_merge(base: dict, overlay: dict) -> dict:
+    """Deep merge overlay into base. overlay values override base values."""
+    result = {}
+    for key, value in base.items():
+        if key in overlay:
+            if isinstance(value, dict) and isinstance(overlay[key], dict):
+                result[key] = _deep_merge(value, overlay[key])
+            else:
+                result[key] = overlay[key]
+        else:
+            result[key] = value
+    for key, value in overlay.items():
+        if key not in base:
+            result[key] = value
+    return result
+
+
+def _apply_defaults(params: dict) -> dict:
+    """For each scenario, deep-merge scenario-level defaults into each case.
+
+    The `defaults` key is preserved in the scenario dict so that consumers
+    (e.g. gen_test_params.py) can still emit scenario-level macros from it.
+    Only `host` and `la` subtrees are skipped from the C-generation view.
+    """
+    for key, value in params.items():
+        if not isinstance(value, dict):
+            continue
+        defaults = value.get("defaults")
+        if defaults is None:
+            continue
+        cases = value.get("cases")
+        if not isinstance(cases, list):
+            continue
+        for i, case in enumerate(cases):
+            if isinstance(case, dict):
+                cases[i] = _deep_merge(defaults, case)
+    return params
+
+
 def load_yaml_with_includes(yml_path: Path, stack: list[Path] | None = None) -> dict:
     yml_path = Path(yml_path).resolve()
     stack = stack or []
@@ -39,7 +78,7 @@ def load_yaml_with_includes(yml_path: Path, stack: list[Path] | None = None) -> 
 
     includes = params.pop("include", None)
     if includes is None:
-        return params
+        return _apply_defaults(params)
 
     if isinstance(includes, str):
         includes = [includes]
@@ -72,4 +111,4 @@ def load_yaml_with_includes(yml_path: Path, stack: list[Path] | None = None) -> 
             )
         merged[key] = value
 
-    return merged
+    return _apply_defaults(merged)

@@ -14,7 +14,7 @@ YAML structure:
         - gpio.yml
     <scenario_key>:
         name: <c_identifier_stem>     # required: drives generated names
-        common:                        # optional: scenario-level fixed params → #define <NAME>_COMMON_<KEY>
+        defaults:                      # optional: scenario-level default params → #define <NAME>_DEFAULT_<KEY>
             <key>: <scalar|list>
         cases:                         # required: per-case varying params → struct array
             - {<field>: <value>, ..., host: {...}}
@@ -31,7 +31,7 @@ Generated identifiers, given `name: foo`:
     struct: vsf_test_usart_foo_case_t
     array:  __foo_cases
     count:  VSF_TEST_FOO_CASE_COUNT
-    common: VSF_TEST_FOO_COMMON_<KEY>
+    defaults: VSF_TEST_FOO_DEFAULT_<KEY>
 """
 
 import argparse
@@ -58,14 +58,22 @@ def _format_value(value) -> str:
     return str(value)
 
 
-def _format_case(case: dict) -> str:
+def _format_case(case: dict, defaults_keys: set | None = None) -> str:
     """Format one case dict as a C designated initializer.
 
     Skips reserved keys (`host`, `la`) that hold host-side only data.
+    Also skips keys inherited from scenario-level `defaults` (they are
+    emitted as #define macros instead), except `expect_pass` which is
+    present in every case struct.
     """
+    skip = {"host", "la"}
+    if defaults_keys:
+        skip |= defaults_keys
+        skip.discard("expect_pass")
+
     parts = []
     for key, value in case.items():
-        if key in ("host", "la"):
+        if key in skip:
             continue
         parts.append(f".{key} = {_format_value(value)}")
     return "{ " + ", ".join(parts) + " }"
@@ -86,12 +94,16 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
     lines.append(f"/* === {scenario_key} ({name}) === */")
     lines.append("")
 
-    # common params → #define VSF_TEST_<NAME>_COMMON_<KEY>
-    common = sc.get("common") or {}
-    if common:
-        for key, value in common.items():
-            macro = f"VSF_TEST_{upper}_COMMON_{key.upper()}"
+    # defaults params → #define VSF_TEST_<NAME>_DEFAULT_<KEY>
+    defaults = sc.get("defaults") or {}
+    defaults_keys: set[str] = set()
+    if defaults:
+        for key, value in defaults.items():
+            if key in ("host", "la"):
+                continue
+            macro = f"VSF_TEST_{upper}_DEFAULT_{key.upper()}"
             lines.append(f"#define {macro}  {_format_value(value)}")
+            defaults_keys.add(key)
         lines.append("")
 
     # cases → INIT macro with .scenario = &s_scenario
@@ -99,7 +111,7 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
     for i, case in enumerate(cases):
         comma = "," if i < len(cases) - 1 else ""
         suffix = "  \\" if i < len(cases) - 1 else ""
-        init = _format_case(case)
+        init = _format_case(case, defaults_keys)
         # insert .scenario = &s_scenario before the closing "}"
         init_with_scenario = init.rstrip(" }") + ", .scenario = &s_scenario }"
         lines.append(f"    {init_with_scenario}{comma}{suffix}")

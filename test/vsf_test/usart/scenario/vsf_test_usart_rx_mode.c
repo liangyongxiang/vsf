@@ -39,8 +39,8 @@ static vsf_test_usart_scenario_t s_scenario;
 #ifndef VSF_TEST_RX_MODE_PAYLOAD_DRAIN_MS
 #   define VSF_TEST_RX_MODE_PAYLOAD_DRAIN_MS 500
 #endif
-#ifndef VSF_TEST_RX_MODE_COMMON_BAUDRATE
-#   define VSF_TEST_RX_MODE_COMMON_BAUDRATE  115200
+#ifndef VSF_TEST_RX_MODE_DEFAULT_BAUDRATE
+#   define VSF_TEST_RX_MODE_DEFAULT_BAUDRATE  115200
 #endif
 
 /*============================ LOCAL VARIABLES ===============================*/
@@ -72,7 +72,7 @@ void vsf_test_usart_rx_mode_run(const vsf_test_usart_rx_mode_case_t *c)
 
     vsf_err_t err = vsf_usart_init(c->scenario->usart_instance, &(vsf_usart_cfg_t){
         .mode     = c->mode,
-        .baudrate = VSF_TEST_RX_MODE_COMMON_BAUDRATE,
+        .baudrate = VSF_TEST_RX_MODE_DEFAULT_BAUDRATE,
     });
 
     if (c->expect_pass) {

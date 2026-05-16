@@ -39,11 +39,11 @@ static vsf_test_usart_scenario_t s_scenario;
 #ifndef VSF_TEST_RX_DATA_PAYLOAD_DRAIN_MS
 #   define VSF_TEST_RX_DATA_PAYLOAD_DRAIN_MS 500
 #endif
-#ifndef VSF_TEST_RX_DATA_COMMON_MODE
-#   define VSF_TEST_RX_DATA_COMMON_MODE     (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_RX_ENABLE)
+#ifndef VSF_TEST_RX_DATA_DEFAULT_MODE
+#   define VSF_TEST_RX_DATA_DEFAULT_MODE     (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_RX_ENABLE)
 #endif
-#ifndef VSF_TEST_RX_DATA_COMMON_BAUDRATE
-#   define VSF_TEST_RX_DATA_COMMON_BAUDRATE 115200
+#ifndef VSF_TEST_RX_DATA_DEFAULT_BAUDRATE
+#   define VSF_TEST_RX_DATA_DEFAULT_BAUDRATE 115200
 #endif
 
 /*============================ LOCAL VARIABLES ===============================*/
@@ -74,8 +74,8 @@ void vsf_test_usart_rx_data_run(const vsf_test_usart_rx_data_case_t *c)
     vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(c->scenario->usart_instance, &(vsf_usart_cfg_t){
-        .mode     = VSF_TEST_RX_DATA_COMMON_MODE,
-        .baudrate = VSF_TEST_RX_DATA_COMMON_BAUDRATE,
+        .mode     = VSF_TEST_RX_DATA_DEFAULT_MODE,
+        .baudrate = VSF_TEST_RX_DATA_DEFAULT_BAUDRATE,
     });
 
     if (c->expect_pass) {

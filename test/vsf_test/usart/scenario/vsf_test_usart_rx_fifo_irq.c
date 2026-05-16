@@ -21,6 +21,8 @@
 #include "component/test/vsf_test/vsf_test.h"
 #include "../vsf_test_usart.h"
 #include "vsf_test_usart_rx_fifo_irq.h"
+#include "hardware/regs/uart.h"
+#include "hardware/regs/addressmap.h"
 
 static vsf_test_usart_scenario_t s_scenario;
 
@@ -103,6 +105,7 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
     vsf_err_t err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
                   | VSF_USART_NO_PARITY    | VSF_USART_RX_ENABLE
+                  | VSF_USART_TX_ENABLE
                   | VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL,
         .baudrate = 115200,
         .isr      = { .handler_fn = __rx_fifo_isr, .target_ptr = NULL,
@@ -110,12 +113,31 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     while (fsm_rt_cpl != vsf_usart_enable(usart));
+
+    /* Enable PL011 internal loopback so firmware-side TX feeds RX without
+     * needing a host UART connection. The bench's hardware-map only
+     * exposes one host serial port (UART0); UART1 RX has no host writer. */
+    volatile uint32_t *uart1_cr = (volatile uint32_t *)(UART1_BASE + UART_UARTCR_OFFSET);
+    *uart1_cr |= UART_UARTCR_LBE_BITS;
+
     vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_RX);
 
-    /* Wait. Host script must send `total` bytes during this window. */
+    /* Self-supply bytes via TX — loopback feeds them into RX. */
+    static uint8_t txbuf[256];
+    for (uint32_t i = 0; i < total; i++) { txbuf[i] = (uint8_t)(i & 0xFF); }
+    uint32_t tx_remaining = total;
+    uint8_t *tx_src = txbuf;
+
+    /* Wait. Loopback supplies bytes via TX → RX as we push them. */
     uint32_t timeout_ms = (total * 10000 / 115200) + 1000;
     uint32_t waited = 0;
     while (!s_rx_ctx.done && waited < timeout_ms) {
+        if (tx_remaining > 0) {
+            uint_fast16_t want = (tx_remaining > 16) ? 16 : (uint_fast16_t)tx_remaining;
+            uint_fast16_t wrote = vsf_usart_txfifo_write(usart, tx_src, want);
+            tx_src        += wrote;
+            tx_remaining  -= wrote;
+        }
         vsf_test_busy_wait_ms(1);
         waited++;
     }

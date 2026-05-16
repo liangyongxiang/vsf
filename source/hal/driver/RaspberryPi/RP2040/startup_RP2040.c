@@ -70,6 +70,7 @@ VSF_MFOREACH(__imp_unprocessed_weak_handler,
     UART1_IRQHandler,
     I2C0_IRQHandler,
     I2C1_IRQHandler,
+    IO_BANK0_IRQHandler,
 )
 VSF_MFOREACH(__imp_blocked_weak_handler,
     HardFault_Handler,
@@ -111,7 +112,7 @@ VSF_CAL_ROOT const pFunc __VECTOR_TABLE[] __VECTOR_TABLE_ATTRIBUTE = {
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
+    IO_BANK0_IRQHandler,        /* IRQ 13: IO_IRQ_BANK0 */
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,

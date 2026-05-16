@@ -23,6 +23,7 @@
 
 #include "hal/vsf_hal.h"
 
+#include "RP2040.h"   /* for IO_IRQ_BANK0_IRQn + NVIC helpers */
 #include "hardware/structs/io_bank0.h"
 #include "hardware/structs/pads_bank0.h"
 #include "hardware/structs/sio.h"
@@ -79,6 +80,14 @@ typedef struct vsf_hw_gpio_t {
      * clear can emulate OD via SIO.gpio_oe (drive low / float for high).
      */
     vsf_gpio_pin_mask_t     open_drain_mask;
+
+    /* EXTI: store the per-pin trigger bits and the user handler so the
+     * IO_BANK0 ISR can dispatch. */
+    vsf_gpio_exti_irq_cfg_t exti_cfg;
+    /* Per-pin EXTI trigger bits, indexed by pin number. Each entry holds the
+     * 4-bit mask (LEVEL_LOW=0, LEVEL_HIGH=1, EDGE_LOW=2, EDGE_HIGH=3) within
+     * the IO_BANK0 INTR / PROC0_INTE registers. */
+    uint8_t                 exti_trigger[VSF_HW_GPIO_PIN_COUNT];
 } vsf_hw_gpio_t;
 
 /*============================ IMPLEMENTATION ================================*/
@@ -87,6 +96,21 @@ static bool __rp2040_is_af_mode(vsf_gpio_mode_t mode, uint16_t alternate_functio
 {
     return ((mode & VSF_GPIO_MODE_MASK) == __RP2040_VSF_GPIO_AF_VALUE)
         || (alternate_function != 0);
+}
+
+/*============================ IMPLEMENTATION ================================*/
+
+/* Map VSF EXTI mode bits to the 4-bit RP2040 INTR/INTE field for a pin.
+ * The 4 bits are: LEVEL_LOW=0, LEVEL_HIGH=1, EDGE_LOW=2, EDGE_HIGH=3. */
+static uint8_t __rp2040_exti_trigger_from_mode(vsf_gpio_mode_t mode)
+{
+    vsf_gpio_mode_t exti_mode = mode & VSF_GPIO_EXTI_MODE_MASK;
+    if (exti_mode == VSF_GPIO_EXTI_MODE_LOW_LEVEL)        return 0x1;  /* LEVEL_LOW */
+    if (exti_mode == VSF_GPIO_EXTI_MODE_HIGH_LEVEL)       return 0x2;  /* LEVEL_HIGH */
+    if (exti_mode == VSF_GPIO_EXTI_MODE_FALLING)          return 0x4;  /* EDGE_LOW */
+    if (exti_mode == VSF_GPIO_EXTI_MODE_RISING)           return 0x8;  /* EDGE_HIGH */
+    if (exti_mode == VSF_GPIO_EXTI_MODE_RISING_FALLING)   return 0xC;  /* both EDGE bits */
+    return 0;
 }
 
 static uint32_t __rp2040_pads_value(vsf_gpio_mode_t mode)
@@ -98,8 +122,13 @@ static uint32_t __rp2040_pads_value(vsf_gpio_mode_t mode)
     uint32_t pads = 0x16;   /* DRIVE=01, SCHMITT=1 */
 
     vsf_gpio_mode_t base = mode & VSF_GPIO_MODE_MASK;
-    if (base == VSF_GPIO_INPUT || base == VSF_GPIO_EXTI) {
+    if (base == VSF_GPIO_INPUT) {
         pads |= __RP2040_PADS_IE | __RP2040_PADS_OD;
+    } else if (base == VSF_GPIO_EXTI) {
+        /* EXTI: keep input enabled, but DON'T disable output. The user may
+         * combine EXTI with an output (e.g. self-trigger tests, open-drain
+         * loopback). */
+        pads |= __RP2040_PADS_IE;
     } else if (base == VSF_GPIO_OUTPUT_PUSH_PULL || base == VSF_GPIO_OUTPUT_OPEN_DRAIN) {
         /* IE=0 OD=0 — output enabled, input buffer off */
     } else if (base == VSF_GPIO_ANALOG) {
@@ -158,6 +187,22 @@ vsf_err_t vsf_hw_gpio_port_config_pins(vsf_hw_gpio_t *hw_gpio_ptr,
         hw_gpio_ptr->open_drain_mask |= pin_mask;
     } else {
         hw_gpio_ptr->open_drain_mask &= ~pin_mask;
+    }
+
+    /* Track EXTI trigger bits per pin. exti_irq_enable() consumes these. */
+    if (base == VSF_GPIO_EXTI) {
+        uint8_t trig = __rp2040_exti_trigger_from_mode(cfg_ptr->mode);
+        for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
+            if (pin_mask & ((vsf_gpio_pin_mask_t)1u << i)) {
+                hw_gpio_ptr->exti_trigger[i] = trig;
+            }
+        }
+    } else {
+        for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
+            if (pin_mask & ((vsf_gpio_pin_mask_t)1u << i)) {
+                hw_gpio_ptr->exti_trigger[i] = 0;
+            }
+        }
     }
 
     /* For SIO base modes, also set OE per direction. AF leaves OE controlled
@@ -350,7 +395,7 @@ vsf_gpio_capability_t vsf_hw_gpio_capability(vsf_hw_gpio_t *hw_gpio_ptr)
         .is_async                       = 0,
         .support_output_and_set         = 1,
         .support_output_and_clear       = 1,
-        .support_interrupt              = 0,
+        .support_interrupt              = 1,
         .can_read_in_gpio_output_mode   = 1,
         .can_read_in_alternate_mode     = 1,
         .pin_count                      = VSF_HW_GPIO_PIN_COUNT,
@@ -362,32 +407,99 @@ vsf_err_t vsf_hw_gpio_exti_irq_config(vsf_hw_gpio_t *hw_gpio_ptr,
                                       vsf_gpio_exti_irq_cfg_t *cfg_ptr)
 {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
-    return VSF_ERR_NOT_SUPPORT;
+    VSF_HAL_ASSERT(NULL != cfg_ptr);
+    hw_gpio_ptr->exti_cfg = *cfg_ptr;
+    NVIC_SetPriority(IO_IRQ_BANK0_IRQn, (uint32_t)cfg_ptr->prio);
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t vsf_hw_gpio_exti_irq_get_configuration(vsf_hw_gpio_t *hw_gpio_ptr,
                                                  vsf_gpio_exti_irq_cfg_t *cfg_ptr)
 {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
-    return VSF_ERR_NOT_SUPPORT;
+    VSF_HAL_ASSERT(NULL != cfg_ptr);
+    *cfg_ptr = hw_gpio_ptr->exti_cfg;
+    return VSF_ERR_NONE;
 }
+
+/* Map VSF EXTI mode bits to the 4-bit RP2040 INTR/INTE field for a pin.
+ * Used by exti_irq_enable() to compute proc0_irq_ctrl.inte bits.
+ * Definition is at the top of this file. */
 
 vsf_err_t vsf_hw_gpio_exti_irq_enable(vsf_hw_gpio_t *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
 {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
-    return VSF_ERR_NOT_SUPPORT;
+    for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
+        if (!(pin_mask & ((vsf_gpio_pin_mask_t)1u << i))) { continue; }
+        uint8_t trig = hw_gpio_ptr->exti_trigger[i];
+        if (trig == 0) { continue; }
+        uint32_t reg_index = i >> 3;
+        uint32_t bit_shift = (i & 7) * 4;
+        /* Clear any stale edge status before enabling. */
+        io_bank0_hw->intr[reg_index] = (uint32_t)(trig & 0xC) << bit_shift;
+        io_bank0_hw->proc0_irq_ctrl.inte[reg_index] |= (uint32_t)trig << bit_shift;
+    }
+    NVIC_EnableIRQ(IO_IRQ_BANK0_IRQn);
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t vsf_hw_gpio_exti_irq_disable(vsf_hw_gpio_t *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
 {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
-    return VSF_ERR_NOT_SUPPORT;
+    for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
+        if (!(pin_mask & ((vsf_gpio_pin_mask_t)1u << i))) { continue; }
+        uint32_t reg_index = i >> 3;
+        uint32_t bit_shift = (i & 7) * 4;
+        io_bank0_hw->proc0_irq_ctrl.inte[reg_index] &= ~(0xFu << bit_shift);
+    }
+    /* Leave NVIC enabled — other pins may still need IRQs. */
+    return VSF_ERR_NONE;
 }
 
 vsf_gpio_pin_mask_t vsf_hw_gpio_exti_irq_clear(vsf_hw_gpio_t *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
 {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
-    return 0;
+    vsf_gpio_pin_mask_t pending = 0;
+    for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
+        if (!(pin_mask & ((vsf_gpio_pin_mask_t)1u << i))) { continue; }
+        uint32_t reg_index = i >> 3;
+        uint32_t bit_shift = (i & 7) * 4;
+        uint32_t pin_status = (io_bank0_hw->intr[reg_index] >> bit_shift) & 0xFu;
+        if (pin_status) {
+            pending |= (vsf_gpio_pin_mask_t)1u << i;
+        }
+        /* Only edge bits are write-1-to-clear; level bits auto-track. */
+        io_bank0_hw->intr[reg_index] = (uint32_t)(pin_status & 0xC) << bit_shift;
+    }
+    return pending;
+}
+
+/* IO_BANK0 IRQ handler. Aggregates all 30 GPIO interrupts. */
+void IO_BANK0_IRQHandler(void)
+{
+    uintptr_t ctx = vsf_hal_irq_enter();
+    vsf_gpio_pin_mask_t fired = 0;
+    /* Read all 4 INTS words; one bit per (pin, type). Reduce to pin mask
+     * and clear edge bits via INTR (level bits auto-track). */
+    for (uint32_t reg_index = 0; reg_index < 4; reg_index++) {
+        uint32_t status = io_bank0_hw->proc0_irq_ctrl.ints[reg_index];
+        if (!status) { continue; }
+        /* Clear edge bits we observed (level bits self-clear when condition ends). */
+        io_bank0_hw->intr[reg_index] = status & 0xCCCCCCCCu;
+        for (uint32_t slot = 0; slot < 8; slot++) {
+            if (status & (0xFu << (slot * 4))) {
+                uint32_t pin = reg_index * 8 + slot;
+                if (pin < VSF_HW_GPIO_PIN_COUNT) {
+                    fired |= (vsf_gpio_pin_mask_t)1u << pin;
+                }
+            }
+        }
+    }
+    if (fired && vsf_hw_gpio0.exti_cfg.handler_fn != NULL) {
+        vsf_hw_gpio0.exti_cfg.handler_fn(vsf_hw_gpio0.exti_cfg.target_ptr,
+                                         (vsf_gpio_t *)&vsf_hw_gpio0, fired);
+    }
+    vsf_hal_irq_leave(ctx);
 }
 
 vsf_err_t vsf_hw_gpio_ctrl(vsf_hw_gpio_t *hw_gpio_ptr, vsf_gpio_ctrl_t ctrl, void *param)

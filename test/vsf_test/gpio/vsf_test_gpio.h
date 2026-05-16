@@ -64,6 +64,9 @@ extern "C" {
 #ifndef VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE
 #   define VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE  DISABLED
 #endif
+#ifndef VSF_TEST_GPIO_EXTI_ENABLE
+#   define VSF_TEST_GPIO_EXTI_ENABLE             DISABLED
+#endif
 
 /*============================ TYPES =========================================*/
 
@@ -178,6 +181,14 @@ typedef struct vsf_test_gpio_concurrent_prio_case_t {
 } vsf_test_gpio_concurrent_prio_case_t;
 #endif
 
+#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
+typedef struct vsf_test_gpio_exti_case_t {
+    uint8_t idx;
+    uint8_t pin;
+    const vsf_test_gpio_scenario_t *scenario;
+} vsf_test_gpio_exti_case_t;
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
@@ -233,6 +244,11 @@ void vsf_test_gpio_toggle_stress_run(const vsf_test_gpio_toggle_stress_case_t *c
 #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
 void vsf_test_gpio_concurrent_prio_add_cases(vsf_gpio_t *gpio_instance);
 void vsf_test_gpio_concurrent_prio_run(const vsf_test_gpio_concurrent_prio_case_t *c);
+#endif
+
+#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
+void vsf_test_gpio_exti_add_cases(vsf_gpio_t *gpio_instance);
+void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c);
 #endif
 
 #ifdef __cplusplus

@@ -82,7 +82,8 @@ void vsf_test_usart_request_rx_irq_run(const vsf_test_usart_request_rx_irq_case_
 
     vsf_err_t err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
-                  | VSF_USART_NO_PARITY    | VSF_USART_RX_ENABLE,
+                  | VSF_USART_NO_PARITY    | VSF_USART_RX_ENABLE
+                  | VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL,
         .baudrate = 115200,
         .isr      = { .handler_fn = __req_rx_isr, .target_ptr = NULL,
                       .prio       = vsf_arch_prio_highest },

@@ -50,14 +50,15 @@ static void __tx_fifo_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t
 {
     if (!(irq_mask & VSF_USART_IRQ_MASK_TX)) { return; }
     s_tx_ctx.isr_count++;
+    /* Refill in one large request — txfifo_write reports the actual count
+     * written when the FIFO fills, even on PL011 where get_free_count
+     * returns only 0/1. */
     while (s_tx_ctx.remaining > 0) {
-        uint_fast16_t free = vsf_usart_txfifo_get_free_count(usart);
-        if (free == 0) { break; }
-        uint_fast16_t chunk = (free < s_tx_ctx.remaining) ? free : (uint_fast16_t)s_tx_ctx.remaining;
-        uint_fast16_t wrote = vsf_usart_txfifo_write(usart, (void *)s_tx_ctx.src, chunk);
+        uint_fast16_t want = (s_tx_ctx.remaining > 64) ? 64 : (uint_fast16_t)s_tx_ctx.remaining;
+        uint_fast16_t wrote = vsf_usart_txfifo_write(usart, (void *)s_tx_ctx.src, want);
         s_tx_ctx.src       += wrote;
         s_tx_ctx.remaining -= wrote;
-        if (wrote == 0) { break; }
+        if (wrote < want) { break; }  /* FIFO full */
     }
     if (s_tx_ctx.remaining == 0) {
         vsf_usart_irq_disable(usart, VSF_USART_IRQ_MASK_TX);
@@ -110,14 +111,18 @@ void vsf_test_usart_tx_fifo_irq_run(const vsf_test_usart_tx_fifo_irq_case_t *c)
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     while (fsm_rt_cpl != vsf_usart_enable(usart));
 
-    /* Pre-fill above threshold to arm the IRQ. */
-    uint_fast16_t prefill = vsf_usart_txfifo_get_free_count(usart);
-    if (prefill > s_tx_ctx.remaining) { prefill = (uint_fast16_t)s_tx_ctx.remaining; }
-    if (prefill > 0) {
-        uint_fast16_t wrote = vsf_usart_txfifo_write(usart, (void *)s_tx_ctx.src, prefill);
-        s_tx_ctx.src       += wrote;
-        s_tx_ctx.remaining -= wrote;
+    /* Pre-fill the FIFO until it's full (above HALF_EMPTY threshold).
+     * txfifo_get_free_count returns only 0 or 1 on PL011 (UARTFR has empty/
+     * full flags, not a counter — see ADR-0004), so we can't ask the driver
+     * how many slots are free. Instead request `txfifo_depth` bytes and rely
+     * on txfifo_write returning the partial count when the FIFO fills. */
+    uint_fast16_t prefill_request = cap.txfifo_depth;
+    if (prefill_request > s_tx_ctx.remaining) {
+        prefill_request = (uint_fast16_t)s_tx_ctx.remaining;
     }
+    uint_fast16_t wrote = vsf_usart_txfifo_write(usart, (void *)s_tx_ctx.src, prefill_request);
+    s_tx_ctx.src       += wrote;
+    s_tx_ctx.remaining -= wrote;
     vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_TX);
 
     /* Wait for ISR to drain everything. Bound the wait to avoid hang. */

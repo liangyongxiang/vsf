@@ -173,6 +173,13 @@ typedef enum vsf_usart_irq_mask_t {
     PL011_USART_IRQ_MASK                = PL011_USART_IRQ_MASK_FIFO
                                         | VSF_USART_IRQ_MASK_RX_TIMEOUT
                                         | PL011_USART_IRQ_MASK_ERROR,
+
+    /* Chip wrappers may extend this enum with TX_CPL / RX_CPL / DMA-related
+     * masks at high bit positions (e.g. RP2040 uses bits 16-17). Force the
+     * enum's underlying type to a 32-bit signed int so those extra bits
+     * survive an `(vsf_usart_irq_mask_t)` cast under ARM EABI's
+     * -fshort-enums default. */
+    __VSF_USART_IRQ_FORCE_INT32         = 0x7FFFFFFF,
 } vsf_usart_irq_mask_t;
 
 typedef struct vsf_usart_status_t {

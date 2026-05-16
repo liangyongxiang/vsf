@@ -643,6 +643,7 @@ extern void vsf_test_busy_wait_ms(uint32_t ms);
 
 /*============================ INCLUDES ======================================*/
 
+#        include "./scenario_gateway.h"
 #        include "./port/vsf_test_port_hal.h"
 #        include "./port/vsf_test_port_stdio.h"
 #        include "./port/vsf_test_port_file.h"

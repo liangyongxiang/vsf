@@ -67,6 +67,12 @@ extern "C" {
 #ifndef VSF_TEST_GPIO_EXTI_ENABLE
 #   define VSF_TEST_GPIO_EXTI_ENABLE             DISABLED
 #endif
+#ifndef VSF_TEST_GPIO_IRQ_LATENCY_ENABLE
+#   define VSF_TEST_GPIO_IRQ_LATENCY_ENABLE      DISABLED
+#endif
+#ifndef VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE
+#   define VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE    DISABLED
+#endif
 
 /*============================ TYPES =========================================*/
 
@@ -189,6 +195,23 @@ typedef struct vsf_test_gpio_exti_case_t {
 } vsf_test_gpio_exti_case_t;
 #endif
 
+#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
+typedef struct vsf_test_gpio_irq_latency_case_t {
+    uint8_t  idx;
+    uint8_t  pin;
+    uint32_t max_latency_ns;
+    const vsf_test_gpio_scenario_t *scenario;
+} vsf_test_gpio_irq_latency_case_t;
+#endif
+
+#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
+typedef struct vsf_test_gpio_irq_lifecycle_case_t {
+    uint8_t idx;
+    uint8_t pin;
+    const vsf_test_gpio_scenario_t *scenario;
+} vsf_test_gpio_irq_lifecycle_case_t;
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
@@ -249,6 +272,16 @@ void vsf_test_gpio_concurrent_prio_run(const vsf_test_gpio_concurrent_prio_case_
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
 void vsf_test_gpio_exti_add_cases(vsf_gpio_t *gpio_instance);
 void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c);
+#endif
+
+#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
+void vsf_test_gpio_irq_latency_add_cases(vsf_gpio_t *gpio_instance);
+void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c);
+#endif
+
+#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
+void vsf_test_gpio_irq_lifecycle_add_cases(vsf_gpio_t *gpio_instance);
+void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c);
 #endif
 
 #ifdef __cplusplus

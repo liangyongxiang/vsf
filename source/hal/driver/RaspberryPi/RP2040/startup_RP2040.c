@@ -71,6 +71,7 @@ VSF_MFOREACH(__imp_unprocessed_weak_handler,
     I2C0_IRQHandler,
     I2C1_IRQHandler,
     IO_BANK0_IRQHandler,
+    TIMER_IRQ_0_IRQHandler,
 )
 VSF_MFOREACH(__imp_blocked_weak_handler,
     HardFault_Handler,
@@ -99,7 +100,7 @@ VSF_CAL_ROOT const pFunc __VECTOR_TABLE[] __VECTOR_TABLE_ATTRIBUTE = {
     SysTick_Handler,                                    /*  -1 SysTick Handler */
 
     /* Interrupts */
-    __Dummy_Handler_DONOTUSE,
+    TIMER_IRQ_0_IRQHandler,     /* IRQ 0: TIMER_IRQ_0 */
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,

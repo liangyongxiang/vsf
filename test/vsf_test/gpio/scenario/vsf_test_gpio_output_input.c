@@ -76,11 +76,15 @@ void vsf_test_gpio_output_input_run(const vsf_test_gpio_output_input_case_t *c)
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
-    /* Configure pin B as input with no pull (relies on the loopback wire). */
-    err = vsf_gpio_port_config_pins(gpio, in_mask, &(vsf_gpio_cfg_t){
-        .mode = VSF_GPIO_INPUT | VSF_GPIO_NO_PULL_UP_DOWN,
-    });
-    VSF_TEST_ASSERT(err == VSF_ERR_NONE);
+    /* Configure pin B as input only if it's a different pin (otherwise we'd
+     * overwrite the OUTPUT_PUSH_PULL config). Self-loopback exploits the
+     * fact that RP2040 supports simultaneous SIO output + input on one pin. */
+    if (c->in_pin != c->out_pin) {
+        err = vsf_gpio_port_config_pins(gpio, in_mask, &(vsf_gpio_cfg_t){
+            .mode = VSF_GPIO_INPUT | VSF_GPIO_NO_PULL_UP_DOWN,
+        });
+        VSF_TEST_ASSERT(err == VSF_ERR_NONE);
+    }
 
     /* Drive high via write, observe via input pin. */
     vsf_gpio_write(gpio, out_mask, out_mask);

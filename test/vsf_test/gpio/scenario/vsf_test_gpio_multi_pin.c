@@ -69,9 +69,13 @@ void vsf_test_gpio_multi_pin_run(const vsf_test_gpio_multi_pin_case_t *c)
     vsf_gpio_port_config_pins(gpio, out_mask, &(vsf_gpio_cfg_t){
         .mode = VSF_GPIO_OUTPUT_PUSH_PULL | VSF_GPIO_NO_PULL_UP_DOWN,
     });
-    vsf_gpio_port_config_pins(gpio, in_mask, &(vsf_gpio_cfg_t){
-        .mode = VSF_GPIO_INPUT | VSF_GPIO_NO_PULL_UP_DOWN,
-    });
+    /* For self-loopback (same pins for in/out), skip the input config so
+     * the OUTPUT mode survives. */
+    if ((c->in_pin_a != c->out_pin_a) || (c->in_pin_b != c->out_pin_b)) {
+        vsf_gpio_port_config_pins(gpio, in_mask, &(vsf_gpio_cfg_t){
+            .mode = VSF_GPIO_INPUT | VSF_GPIO_NO_PULL_UP_DOWN,
+        });
+    }
 
     /* All 4 patterns 00 / 01 / 10 / 11 */
     struct { vsf_gpio_pin_mask_t out_val; vsf_gpio_pin_mask_t expect_in; } steps[] = {

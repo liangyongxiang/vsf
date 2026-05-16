@@ -63,9 +63,11 @@ void vsf_test_gpio_toggle_run(const vsf_test_gpio_toggle_case_t *c)
     vsf_gpio_port_config_pins(gpio, out_mask, &(vsf_gpio_cfg_t){
         .mode = VSF_GPIO_OUTPUT_PUSH_PULL | VSF_GPIO_NO_PULL_UP_DOWN,
     });
-    vsf_gpio_port_config_pins(gpio, in_mask, &(vsf_gpio_cfg_t){
-        .mode = VSF_GPIO_INPUT | VSF_GPIO_NO_PULL_UP_DOWN,
-    });
+    if (c->in_pin != c->out_pin) {
+        vsf_gpio_port_config_pins(gpio, in_mask, &(vsf_gpio_cfg_t){
+            .mode = VSF_GPIO_INPUT | VSF_GPIO_NO_PULL_UP_DOWN,
+        });
+    }
 
     /* Seed known state: drive low, then verify the toggle pattern */
     vsf_gpio_clear(gpio, out_mask);

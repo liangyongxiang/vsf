@@ -116,21 +116,29 @@ static uint8_t __rp2040_exti_trigger_from_mode(vsf_gpio_mode_t mode)
 static uint32_t __rp2040_pads_value(vsf_gpio_mode_t mode)
 {
     /* Build the PADS_BANK0 GPIOn register value from the mode bits.
-     * Reset default is 0x56 (IE=1, DRIVE=01, SCHMITT=1). We preserve DRIVE,
-     * SCHMITT, SLEWFAST and rewrite OD/IE/PUE/PDE.
+     * Reset default is 0x56 (IE=1, DRIVE=01, SCHMITT=1, PDE=1). We replace
+     * pull and IE/OD from the mode, while keeping DRIVE/SCHMITT/SLEWFAST.
+     * Note: bit 2 (PDE) is intentionally NOT in the base — the user's pull
+     * selection drives PUE/PDE explicitly.
      */
-    uint32_t pads = 0x16;   /* DRIVE=01, SCHMITT=1 */
+    uint32_t pads = 0x12;   /* DRIVE=01 (bit 4), SCHMITT=1 (bit 1) */
 
     vsf_gpio_mode_t base = mode & VSF_GPIO_MODE_MASK;
     if (base == VSF_GPIO_INPUT) {
-        pads |= __RP2040_PADS_IE | __RP2040_PADS_OD;
+        /* Input: enable input buffer. We do NOT set PADS.OD; the SIO.OE
+         * bit alone determines whether the pin drives. This preserves the
+         * ability to switch input→output atomically via SIO. */
+        pads |= __RP2040_PADS_IE;
     } else if (base == VSF_GPIO_EXTI) {
         /* EXTI: keep input enabled, but DON'T disable output. The user may
          * combine EXTI with an output (e.g. self-trigger tests, open-drain
          * loopback). */
         pads |= __RP2040_PADS_IE;
     } else if (base == VSF_GPIO_OUTPUT_PUSH_PULL || base == VSF_GPIO_OUTPUT_OPEN_DRAIN) {
-        /* IE=0 OD=0 — output enabled, input buffer off */
+        /* RP2040 supports simultaneous output+input on the same pin, so
+         * we keep IE=1. This is what backs `can_read_in_gpio_output_mode`
+         * in the capability struct. */
+        pads |= __RP2040_PADS_IE;
     } else if (base == VSF_GPIO_ANALOG) {
         /* Analog: input buffer off, output disabled */
         pads |= __RP2040_PADS_OD;

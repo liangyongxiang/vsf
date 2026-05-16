@@ -63,11 +63,13 @@ void vsf_test_gpio_open_drain_run(const vsf_test_gpio_open_drain_case_t *c)
     /* Use internal pull-up on the input pin as a fallback when no
      * external resistor is wired (the PRD-mandated fixture). */
     vsf_gpio_port_config_pins(gpio, out_mask, &(vsf_gpio_cfg_t){
-        .mode = VSF_GPIO_OUTPUT_OPEN_DRAIN | VSF_GPIO_NO_PULL_UP_DOWN,
+        .mode = VSF_GPIO_OUTPUT_OPEN_DRAIN | VSF_GPIO_PULL_UP,
     });
-    vsf_gpio_port_config_pins(gpio, in_mask, &(vsf_gpio_cfg_t){
-        .mode = VSF_GPIO_INPUT | VSF_GPIO_PULL_UP,
-    });
+    if (c->in_pin != c->out_pin) {
+        vsf_gpio_port_config_pins(gpio, in_mask, &(vsf_gpio_cfg_t){
+            .mode = VSF_GPIO_INPUT | VSF_GPIO_PULL_UP,
+        });
+    }
 
     /* OD writes 0 → actively drives low */
     vsf_gpio_write(gpio, out_mask, 0);

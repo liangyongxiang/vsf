@@ -9,6 +9,9 @@ static const arrays and macros consumed by the firmware.
 
 YAML structure:
     marker:        # ignored by this script (host-side only)
+    include:       # optional: list (or single string) of YAML files to merge
+        - usart.yml
+        - gpio.yml
     <scenario_key>:
         name: <c_identifier_stem>     # required: drives generated names
         common:                        # optional: scenario-level fixed params → #define <NAME>_COMMON_<KEY>
@@ -18,6 +21,11 @@ YAML structure:
 
 Each case dict becomes a C struct initializer; the `host` key is reserved
 for host-only data and is excluded from C generation.
+
+The `include:` directive supports recursive composition. Included files are
+loaded in order; later files override earlier ones on top-level key collision.
+The entry file's own keys are merged on top of all includes. Relative paths
+in `include:` resolve against the directory of the YAML file declaring them.
 
 Generated identifiers, given `name: foo`:
     struct: vsf_test_usart_foo_case_t
@@ -97,9 +105,65 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
     lines.append("")
 
 
-def generate_header(yml_path: Path, out_path: Path) -> None:
+def _load_yaml_with_includes(yml_path: Path, stack: list[Path] | None = None) -> dict:
+    """Recursively load a YAML file, resolving `include:` directives.
+
+    Merge semantics:
+      - Includes are loaded in order; later files override earlier ones on
+        top-level key collision (shallow override).
+      - After all includes are resolved, the entry file's own top-level keys
+        merge on top.
+      - Relative include paths resolve against the directory of the file that
+        declares them.
+      - Cycle detection: a file currently in `stack` cannot be re-included.
+    """
+    yml_path = yml_path.resolve()
+    stack = stack or []
+    if yml_path in stack:
+        cycle = " -> ".join(str(p) for p in stack + [yml_path])
+        print(f"Error: include cycle detected: {cycle}", file=sys.stderr)
+        raise SystemExit(1)
+
     with open(yml_path) as f:
         params = yaml.safe_load(f) or {}
+
+    if not isinstance(params, dict):
+        return params
+
+    includes = params.pop("include", None)
+    if includes is None:
+        return params
+
+    if isinstance(includes, str):
+        includes = [includes]
+    if not isinstance(includes, list):
+        print(f"Error: 'include' in {yml_path} must be a string or list", file=sys.stderr)
+        raise SystemExit(1)
+
+    merged: dict = {}
+    for inc in includes:
+        inc_path = Path(inc)
+        if not inc_path.is_absolute():
+            inc_path = yml_path.parent / inc_path
+        if not inc_path.exists():
+            print(f"Error: include file not found: {inc_path} (from {yml_path})", file=sys.stderr)
+            raise SystemExit(1)
+        sub = _load_yaml_with_includes(inc_path, stack + [yml_path])
+        for key, value in sub.items():
+            if key in merged:
+                print(f"Warning: duplicate key '{key}' in {inc_path} overrides earlier include", file=sys.stderr)
+            merged[key] = value
+
+    for key, value in params.items():
+        if key in merged:
+            print(f"Warning: duplicate key '{key}' in {yml_path} overrides include", file=sys.stderr)
+        merged[key] = value
+
+    return merged
+
+
+def generate_header(yml_path: Path, out_path: Path) -> None:
+    params = _load_yaml_with_includes(yml_path)
 
     lines = [
         "/* Auto-generated from test_params.yml — do not edit manually */",

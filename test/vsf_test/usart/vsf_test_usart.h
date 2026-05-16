@@ -77,6 +77,31 @@ extern "C" {
 #   define VSF_TEST_USART_RX_FRAME_ERROR_ENABLE   ENABLED
 #endif
 
+//! \brief 编译开关：TX FIFO threshold IRQ + ISR refill (gap-fill PRD)
+#ifndef VSF_TEST_USART_TX_FIFO_IRQ_ENABLE
+#   define VSF_TEST_USART_TX_FIFO_IRQ_ENABLE      DISABLED
+#endif
+
+//! \brief 编译开关：pure RX FIFO threshold IRQ (gap-fill PRD)
+#ifndef VSF_TEST_USART_RX_FIFO_IRQ_ENABLE
+#   define VSF_TEST_USART_RX_FIFO_IRQ_ENABLE      DISABLED
+#endif
+
+//! \brief 编译开关：fifo2req_usart adapter request_tx + TX_CPL IRQ (gap-fill PRD)
+#ifndef VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE
+#   define VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE   DISABLED
+#endif
+
+//! \brief 编译开关：fifo2req_usart adapter request_rx + RX_CPL IRQ (gap-fill PRD)
+#ifndef VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE
+#   define VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE   DISABLED
+#endif
+
+//! \brief 编译开关：cancel_tx/cancel_rx + get_count partial (gap-fill PRD)
+#ifndef VSF_TEST_USART_REQUEST_CANCEL_ENABLE
+#   define VSF_TEST_USART_REQUEST_CANCEL_ENABLE   DISABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 //! \brief USART 场景共享运行时状态（实例指针等）
@@ -157,6 +182,49 @@ typedef struct vsf_test_usart_rx_frame_error_case_t {
     const vsf_test_usart_scenario_t *scenario;  //! \brief 指向场景实例
 } vsf_test_usart_rx_frame_error_case_t;
 
+/* ---- Gap-fill PRD: FIFO IRQ + request API + cancel ---- */
+
+#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
+typedef struct vsf_test_usart_tx_fifo_irq_case_t {
+    uint8_t  idx;
+    uint32_t refill_target;       //! data_size = txfifo_depth * refill_target
+    const vsf_test_usart_scenario_t *scenario;
+} vsf_test_usart_tx_fifo_irq_case_t;
+#endif
+
+#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
+typedef struct vsf_test_usart_rx_fifo_irq_case_t {
+    uint8_t  idx;
+    uint32_t refill_target;
+    const vsf_test_usart_scenario_t *scenario;
+} vsf_test_usart_rx_fifo_irq_case_t;
+#endif
+
+#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
+typedef struct vsf_test_usart_request_tx_irq_case_t {
+    uint8_t  idx;
+    uint32_t refill_target;
+    const vsf_test_usart_scenario_t *scenario;
+} vsf_test_usart_request_tx_irq_case_t;
+#endif
+
+#if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
+typedef struct vsf_test_usart_request_rx_irq_case_t {
+    uint8_t  idx;
+    uint32_t refill_target;
+    const vsf_test_usart_scenario_t *scenario;
+} vsf_test_usart_request_rx_irq_case_t;
+#endif
+
+#if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
+typedef struct vsf_test_usart_request_cancel_case_t {
+    uint8_t  idx;
+    uint32_t refill_target;
+    uint32_t cancel_after_us;
+    const vsf_test_usart_scenario_t *scenario;
+} vsf_test_usart_request_cancel_case_t;
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 /* ---- TX scenarios ---- */
@@ -204,6 +272,31 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
 void vsf_test_usart_rx_frame_error_add_cases(vsf_usart_t *usart_instance);
 void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c);
+#endif
+
+#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
+void vsf_test_usart_tx_fifo_irq_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_tx_fifo_irq_run(const vsf_test_usart_tx_fifo_irq_case_t *c);
+#endif
+
+#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
+void vsf_test_usart_rx_fifo_irq_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c);
+#endif
+
+#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
+void vsf_test_usart_request_tx_irq_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_request_tx_irq_run(const vsf_test_usart_request_tx_irq_case_t *c);
+#endif
+
+#if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
+void vsf_test_usart_request_rx_irq_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_request_rx_irq_run(const vsf_test_usart_request_rx_irq_case_t *c);
+#endif
+
+#if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
+void vsf_test_usart_request_cancel_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_t *c);
 #endif
 
 #ifdef __cplusplus

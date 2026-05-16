@@ -80,6 +80,15 @@
 #define VSF_HW_USART1_IRQHandler    UART1_IRQHandler
 #define VSF_HW_USART1_REG           UART1_BASE
 
+// RP2040 has a single GPIO bank (BANK0) with 30 pins (GP0..GP29).
+// EXTI lives inside IO_BANK0 (per-pin INTR/PROC0_INTE), not a separate IP.
+// The minimal driver implements the digital GPIO subset; exti_irq_* return
+// VSF_ERR_NOT_SUPPORT until EXTI support is added.
+#define VSF_HW_GPIO_PORT_COUNT      1
+#define VSF_HW_GPIO_PIN_COUNT       30
+#define VSF_HW_GPIO_PIN_MASK        0x3FFFFFFFu
+#define VSF_HW_GPIO0_IRQN           IO_IRQ_BANK0_IRQn
+
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 /*============================ GLOBAL VARIABLES ==============================*/

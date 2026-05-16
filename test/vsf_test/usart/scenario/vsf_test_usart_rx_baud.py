@@ -40,7 +40,13 @@ def _find_project_root() -> Path:
 
 
 def _load_params(yml_path: Path) -> dict:
-    return yaml.safe_load(yml_path.read_text()) or {}
+    """Load all test parameters from YAML, resolving `include:` directives."""
+    import sys as _sys
+    _loader_dir = (Path(__file__).resolve().parent.parent.parent / "scripts")
+    if str(_loader_dir) not in _sys.path:
+        _sys.path.insert(0, str(_loader_dir))
+    from test_params_loader import load_yaml_with_includes
+    return load_yaml_with_includes(yml_path)
 
 
 def _parse_cases(scenario: dict) -> list[Case]:

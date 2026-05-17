@@ -20,7 +20,7 @@ description: |
 
 **New chip:** L0→L3. `scaffold_chip.py` → copy from template. Verify with vsf-board-run.
 
-**Add periph:** Copy template → `REIMPLEMENT_*` → `IMP_LV0` → board.c.
+**Add periph:** Copy template → `REIMPLEMENT_*` → `IMP_LV0` → board.c. Parameterize instances in `device.h` (base addr, IRQn, IRQ handler) — never hardcode in driver `.c`.
 
 **Migrate old:** Copy template over old, port HW logic, replace names with `VSF_MCONNECT`. Enable `REIMPLEMENT_API_*` for missing APIs (`irq_clear`/`ctrl`/`get_configuration` are common gaps). See REFERENCE.md.
 

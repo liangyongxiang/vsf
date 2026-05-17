@@ -172,9 +172,10 @@ Older drivers (e.g. RP2040 uart.c) use hardcoded names: `vsf_hw_usart_init`, `vs
    - Remove `// IPCore` blocks (keep only `// HW` blocks for chip-level drivers)
    - Remove IPCore `IMP_PREFIX` definitions (`vsf_${IP}`), keep `vsf_hw`
 4. **Fill in hardware logic** from the old driver into each template function body, preserving the template's function signature and structure
-5. **Move old IMP_LV0 fields** (e.g. `.irqn`, `.reg` base address) into the template's IMP_LV0 macro
-6. **Keep template includes** (`vsf_hal_cfg.h` → `vsf_hal.h` → vendor SDK), add any chip-specific vendor headers needed
-7. **Update the header** (`.h` file) to use `VSF_MCONNECT` for the struct type
+5. **Port config macros.** The template's `#include "<periph>_template.inc"` block is preceded by `REIMPLEMENT_API_*`, `CHECK_MODE`, and `IMP_LV0` macros. Migrate the old driver's macro values into the template's corresponding slots — don't copy-paste the entire block from the old file.
+6. **Move old IMP_LV0 fields** (e.g. `.irqn`, `.reg` base address) into the template's IMP_LV0 macro
+7. **Keep template includes** (`vsf_hal_cfg.h` → `vsf_hal.h` → vendor SDK), add any chip-specific vendor headers needed
+8. **Update the header** (`.h` file) to use `VSF_MCONNECT` for the struct type
 
 ### Key replacements
 

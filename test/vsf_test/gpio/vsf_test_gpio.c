@@ -23,11 +23,7 @@
 /*============================ IMPLEMENTATION ================================*/
 
 #define REG_IF(gate, s, field, add_fn)            \
-    do {                                          \
-        if (scenario_gateway(gate)) {             \
-            add_fn(&(s)->field);                  \
-        }                                         \
-    } while (0)
+    VSF_TEST_REGISTER_SCENE(s, field, add_fn)
 
 void vsf_test_gpio_register_all(vsf_test_gpio_scenes_t *s)
 {

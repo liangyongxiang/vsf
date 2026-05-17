@@ -601,6 +601,13 @@ extern bool vsf_test_add_expect_assert_case(vsf_test_jmp_fn_t *fn,
 extern void vsf_test_run_tests(void);
 
 /**
+ @brief Run a single test case by index. Used by vsf-test-shell for selective
+ execution. Does not advance data->idx; the caller manages iteration.
+ @param[in] idx: global test case index to run
+ */
+extern void vsf_test_run_case(uint32_t idx);
+
+/**
  @brief rong jump. the user does not need to directly call this API
  @param[in] result: test result,  @ref vsf_test_result_t
  @param[in] file_name: then name of the file where the assertion occurred
@@ -643,7 +650,7 @@ extern void vsf_test_busy_wait_ms(uint32_t ms);
 
 /*============================ INCLUDES ======================================*/
 
-#        include "./scenario_gateway.h"
+#        include "./vsf_test_shell.h"
 #        include "./port/vsf_test_port_hal.h"
 #        include "./port/vsf_test_port_stdio.h"
 #        include "./port/vsf_test_port_file.h"

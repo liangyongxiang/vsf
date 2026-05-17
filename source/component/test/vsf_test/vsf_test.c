@@ -109,6 +109,7 @@ bool vsf_test_add_ex(vsf_test_case_t *test_case)
         __vsf_test.test_case_array[__vsf_test.test_case_count] = *test_case;
         __VSF_TEST_TRACE_DEBUG("vsf_test_add_ex: added test case at index %u, type=%u\r\n",
                               __vsf_test.test_case_count, test_case->type);
+        vsf_test_shell_register_case(test_case->cfg_str);
         __vsf_test.test_case_count++;
         return false;
     } else {
@@ -284,6 +285,90 @@ void vsf_test_busy_wait_ms(uint32_t ms)
     for (volatile uint32_t i = 0; i < ms * VSF_TEST_CFG_BUSY_WAIT_CYCLES_PER_MS; i++);
 }
 
+void vsf_test_run_case(uint32_t idx)
+{
+    if (idx >= __vsf_test.test_case_count) {
+        return;
+    }
+
+    vsf_test_data_t *data = &__vsf_test.data;
+    vsf_test_case_t *test_case = &__vsf_test.test_case_array[idx];
+
+    data->idx = idx;
+    __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_WRITE);
+
+    __vsf_test_data_sync(data, VSF_TEST_STATUS_READ);
+    if (data->status != VSF_TEST_STATUS_IDLE) {
+        __VSF_TEST_TRACE_INFO("[TEST] #%u: WDT timeout detected\r\n", idx);
+        data->result = test_case->expect_wdt ? VSF_TEST_RESULT_WDT_PASS
+                                             : VSF_TEST_RESULT_WDT_FAIL;
+        __vsf_test_data_sync(data, VSF_TEST_TESTCASE_RESULT_WRITE);
+        data->status = VSF_TEST_STATUS_IDLE;
+        __vsf_test_data_sync(data, VSF_TEST_STATUS_WRITE);
+        return;
+    }
+
+    if (__vsf_test.wdt.internal.feed != NULL) {
+        __vsf_test.wdt.internal.feed(&__vsf_test.wdt.internal);
+    }
+    if (__vsf_test.wdt.external.feed != NULL) {
+        __vsf_test.wdt.external.feed(&__vsf_test.wdt.external);
+    }
+
+    if (test_case->cfg_str != NULL) {
+        data->request_str = test_case->cfg_str;
+        __vsf_test_data_sync(data, VSF_TEST_TESECASE_REQUEST_WRITE);
+        if (data->req_continue == VSF_TEST_REQ_NO_SUPPORT) {
+            __VSF_TEST_TRACE_INFO("[TEST] #%u: Not supported, skipping\r\n", idx);
+            data->result = VSF_TEST_RESULT_SKIP;
+            __vsf_test_data_sync(data, VSF_TEST_TESTCASE_RESULT_WRITE);
+            return;
+        }
+    }
+
+    data->error.function_name = NULL;
+    data->error.file_name     = NULL;
+    data->error.condition     = NULL;
+    data->error.line          = 0;
+
+    data->status = VSF_TEST_STATUS_RUNNING;
+    __vsf_test_data_sync(data, VSF_TEST_STATUS_WRITE);
+
+    static char name_buf[64];
+    const char *test_name = __vsf_test_get_name(test_case, name_buf, sizeof(name_buf));
+    __VSF_TEST_TRACE_INFO("[TEST] #%u: Running '%s'\r\n", idx, test_name);
+
+    vsf_test_type_t type = test_case->type;
+    switch (type) {
+    case VSF_TEST_TYPE_BOOL_FN:
+        data->result = test_case->b_fn(test_case->arg);
+        break;
+    case VSF_TEST_TYPE_LONGJMP_FN: {
+        jmp_buf buf;
+        data->result  = VSF_TEST_RESULT_PASS;
+        __vsf_test.jmp_buf = &buf;
+        if (0 == setjmp(buf)) {
+            test_case->jmp_fn(test_case->arg);
+        } else {
+            if (test_case->expect_assert) {
+                data->result = VSF_TEST_RESULT_PASS;
+                data->error.function_name = NULL;
+                data->error.file_name     = NULL;
+                data->error.condition     = NULL;
+                data->error.line          = 0;
+            }
+        }
+    } break;
+    default:
+        VSF_ASSERT(0);
+        break;
+    }
+
+    __vsf_test_data_sync(data, VSF_TEST_TESTCASE_RESULT_WRITE);
+    data->status = VSF_TEST_STATUS_IDLE;
+    __vsf_test_data_sync(data, VSF_TEST_STATUS_WRITE);
+}
+
 void vsf_test_run_tests(void)
 {
     __VSF_TEST_TRACE_INFO("[TEST] Starting test framework\r\n");
@@ -310,7 +395,6 @@ void vsf_test_run_tests(void)
         data->init(data);
     }
 
-    // 如果设置了完成时重启，重置索引为0
     if (__vsf_test.restart_on_done) {
         data->idx = 0;
         __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_WRITE);
@@ -322,158 +406,38 @@ void vsf_test_run_tests(void)
         }
     }
 
-    while (1) {
-        if (data->idx >= __vsf_test.test_case_count) {
-            break;
-        }
-        __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_WRITE);
-        vsf_test_case_t *test_case = &__vsf_test.test_case_array[data->idx];
-
-        __vsf_test_data_sync(data, VSF_TEST_STATUS_READ);
-        // After powering up, we first check if it was reset before.
-        if (data->status != VSF_TEST_STATUS_IDLE) {
-            // last testing start and wdt timeout
-            __VSF_TEST_TRACE_INFO("[TEST] #%u: WDT timeout detected\r\n", data->idx);
-            data->result = test_case->expect_wdt ? VSF_TEST_RESULT_WDT_PASS
-                                                 : VSF_TEST_RESULT_WDT_FAIL;
-            __vsf_test_data_sync(data, VSF_TEST_TESTCASE_RESULT_WRITE);
-
-            data->status = VSF_TEST_STATUS_IDLE;
-            __vsf_test_data_sync(data, VSF_TEST_STATUS_WRITE);
-            data->idx++;
-
-            continue;
-        }
-
-        if (__vsf_test.wdt.internal.feed != NULL) {
-            __vsf_test.wdt.internal.feed(&__vsf_test.wdt.internal);
-        }
-        if (__vsf_test.wdt.external.feed != NULL) {
-            __vsf_test.wdt.external.feed(&__vsf_test.wdt.external);
-        }
-
-        if (test_case->cfg_str != NULL) {
-            data->request_str = test_case->cfg_str;
-            __vsf_test_data_sync(data, VSF_TEST_TESECASE_REQUEST_WRITE);
-            if (data->req_continue == VSF_TEST_REQ_NO_SUPPORT) {
-                __VSF_TEST_TRACE_INFO("[TEST] #%u: Not supported, skipping\r\n", data->idx);
-                data->result = VSF_TEST_RESULT_SKIP;
-                __vsf_test_data_sync(data, VSF_TEST_TESTCASE_RESULT_WRITE);
-                data->idx++;
-                continue;
-            }
-        }
-
-        data->error.function_name = NULL;
-        data->error.file_name     = NULL;
-        data->error.condition     = NULL;
-        data->error.line          = 0;
-
-        // first test, IDLE -> RUNNING
-        data->status = VSF_TEST_STATUS_RUNNING;
-        __vsf_test_data_sync(data, VSF_TEST_STATUS_WRITE);
-
-        // 提取测试用例名称（从 cfg_str 中）
-        static char name_buf[64];
-        const char *test_name = __vsf_test_get_name(test_case, name_buf, sizeof(name_buf));
-        __VSF_TEST_TRACE_INFO("[TEST] #%u: Running '%s'\r\n", data->idx, test_name);
-
-        vsf_test_type_t type = test_case->type;
-        switch (type) {
-        case VSF_TEST_TYPE_BOOL_FN:
-            data->result = test_case->b_fn(test_case->arg);
-            break;
-        case VSF_TEST_TYPE_LONGJMP_FN: {
-            jmp_buf buf;
-            data->result  = VSF_TEST_RESULT_PASS;
-            __vsf_test.jmp_buf = &buf;
-            if (0 == setjmp(buf)) {
-                test_case->jmp_fn(test_case->arg);
-            } else {
-                // 如果通过 setjmp 捕获到断言，检查是否是预期的断言
-                if (test_case->expect_assert) {
-                    // 预期的断言，测试通过
-                    data->result = VSF_TEST_RESULT_PASS;
-                    // 清除错误信息，因为这是预期的
-                    data->error.function_name = NULL;
-                    data->error.file_name     = NULL;
-                    data->error.condition     = NULL;
-                    data->error.line          = 0;
-                }
-                // 如果不是预期的断言，data->result 保持为 VSF_TEST_RESULT_FAIL
-                // (由 __vsf_test_longjmp 设置)
-            }
-        } break;
-        default:
-            VSF_ASSERT(0);
-            break;
-        }
-
-        __vsf_test_data_sync(data, VSF_TEST_TESTCASE_RESULT_WRITE);
-        data->status = VSF_TEST_STATUS_IDLE;
-        __vsf_test_data_sync(data, VSF_TEST_STATUS_WRITE);
+    while (data->idx < __vsf_test.test_case_count) {
+        vsf_test_run_case(data->idx);
         data->idx++;
     }
 
-    __VSF_TEST_TRACE_INFO("[TEST] All test cases completed, entering idle loop\r\n");
+    __VSF_TEST_TRACE_INFO("[TEST] All test cases completed\r\n");
 
-    // 输出测试汇总信息
     __VSF_TEST_TRACE_INFO("\r\n[TEST] ========== Test Summary ==========\r\n");
     __VSF_TEST_TRACE_INFO("[TEST] Total test cases: %u\r\n", __vsf_test.test_case_count);
 
     uint32_t pass_count = 0, fail_count = 0, skip_count = 0, wdt_pass_count = 0, wdt_fail_count = 0;
 
-    // 遍历所有测试用例，读取结果并统计
-    uint32_t saved_idx = data->idx;
     for (uint32_t i = 0; i < __vsf_test.test_case_count; i++) {
-        // 从持久化存储中读取该测试用例的结果
         data->idx = i;
         __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_READ);
 
         vsf_test_result_t result = (vsf_test_result_t)data->result;
 
-        static char saved_name[64];
-        vsf_test_case_t *test_case = &__vsf_test.test_case_array[i];
-        const char *test_name = __vsf_test_get_name(test_case, saved_name, sizeof(saved_name));
-
-        const char *result_str = "UNKNOWN";
         switch (result) {
-        case VSF_TEST_RESULT_PASS:
-            pass_count++;
-            break;
-        case VSF_TEST_RESULT_FAIL:
-            fail_count++;
-            break;
-        case VSF_TEST_RESULT_SKIP:
-            skip_count++;
-            break;
-        case VSF_TEST_RESULT_WDT_PASS:
-            wdt_pass_count++;
-            break;
-        case VSF_TEST_RESULT_WDT_FAIL:
-            wdt_fail_count++;
-            break;
-        default:
-            break;
+        case VSF_TEST_RESULT_PASS:     pass_count++;      break;
+        case VSF_TEST_RESULT_FAIL:     fail_count++;      break;
+        case VSF_TEST_RESULT_SKIP:     skip_count++;      break;
+        case VSF_TEST_RESULT_WDT_PASS: wdt_pass_count++;  break;
+        case VSF_TEST_RESULT_WDT_FAIL: wdt_fail_count++;  break;
+        default: break;
         }
     }
-    data->idx = saved_idx;
 
     __VSF_TEST_TRACE_INFO("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u\r\n",
                           pass_count, fail_count, skip_count, wdt_pass_count, wdt_fail_count);
 
-    // 通知辅助设备所有测试已完成
     __vsf_test_data_sync(data, VSF_TEST_DONE);
-
-    // 进入空闲循环，喂看门狗
-    while (1) {
-        if (__vsf_test.wdt.internal.feed != NULL) {
-            __vsf_test.wdt.internal.feed(&__vsf_test.wdt.internal);
-        }
-        if (__vsf_test.wdt.external.feed != NULL) {
-            __vsf_test.wdt.external.feed(&__vsf_test.wdt.external);
-        }
-    }
 }
 
 #endif

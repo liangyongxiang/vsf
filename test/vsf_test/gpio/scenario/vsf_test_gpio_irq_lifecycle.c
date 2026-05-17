@@ -17,14 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "vsf.h"
-#include "component/test/vsf_test/vsf_test.h"
-#include "../vsf_test_gpio.h"
 #include "vsf_test_gpio_irq_lifecycle.h"
-
-static vsf_test_gpio_scenario_t s_scenario;
-
-#include "test_params_generated.h"
 
 #if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
 
@@ -32,7 +25,7 @@ static vsf_test_gpio_scenario_t s_scenario;
 #   define VSF_TEST_MARKER_DELAY_MS         200
 #endif
 
-static const vsf_test_gpio_irq_lifecycle_case_t __gpio_irq_lifecycle_cases[] = {
+static vsf_test_gpio_irq_lifecycle_case_t __gpio_irq_lifecycle_cases[] = {
     VSF_TEST_GPIO_IRQ_LIFECYCLE_CASES_INIT
 };
 
@@ -46,9 +39,8 @@ static void __lifecycle_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mas
     }
 }
 
-void vsf_test_gpio_irq_lifecycle_add_cases(vsf_gpio_t *gpio_instance)
+void vsf_test_gpio_irq_lifecycle_add_cases(vsf_test_gpio_irq_lifecycle_scene_t *scene)
 {
-    s_scenario.gpio_instance = gpio_instance;
     for (uint8_t i = 0; i < VSF_TEST_GPIO_IRQ_LIFECYCLE_CASE_COUNT; i++) {
         static char __cfg_str_pool[VSF_TEST_GPIO_CASE_MAX_COUNT][64];
         snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
@@ -57,12 +49,13 @@ void vsf_test_gpio_irq_lifecycle_add_cases(vsf_gpio_t *gpio_instance)
             (unsigned)__gpio_irq_lifecycle_cases[i].pin);
         vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_gpio_irq_lifecycle_run,
             __cfg_str_pool[i], (void *)&__gpio_irq_lifecycle_cases[i]);
+        __gpio_irq_lifecycle_cases[i].scene = scene;
     }
 }
 
 void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scenario->gpio_instance;
+    vsf_gpio_t *gpio = c->scene->gpio;
     vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
 
     vsf_trace_info("GPIO:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);

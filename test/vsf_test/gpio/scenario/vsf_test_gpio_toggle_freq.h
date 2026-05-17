@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_toggle_freq_add_cases(vsf_gpio_t *gpio_instance);
+void vsf_test_gpio_toggle_freq_add_cases(vsf_test_gpio_toggle_freq_scene_t *scene);
 void vsf_test_gpio_toggle_freq_run(const vsf_test_gpio_toggle_freq_case_t *c);
 
 #ifdef __cplusplus

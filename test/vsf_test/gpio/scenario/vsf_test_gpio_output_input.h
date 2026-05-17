@@ -28,7 +28,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_gpio_output_input_add_cases(vsf_gpio_t *gpio_instance);
+void vsf_test_gpio_output_input_add_cases(vsf_test_gpio_output_input_scene_t *scene);
 void vsf_test_gpio_output_input_run(const vsf_test_gpio_output_input_case_t *c);
 
 #ifdef __cplusplus

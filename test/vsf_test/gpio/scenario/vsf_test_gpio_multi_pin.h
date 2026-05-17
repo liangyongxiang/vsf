@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_multi_pin_add_cases(vsf_gpio_t *gpio_instance);
+void vsf_test_gpio_multi_pin_add_cases(vsf_test_gpio_multi_pin_scene_t *scene);
 void vsf_test_gpio_multi_pin_run(const vsf_test_gpio_multi_pin_case_t *c);
 
 #ifdef __cplusplus

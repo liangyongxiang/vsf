@@ -17,14 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "vsf.h"
-#include "component/test/vsf_test/vsf_test.h"
-#include "../vsf_test_usart.h"
 #include "vsf_test_usart_request_cancel.h"
-
-static vsf_test_usart_scenario_t s_scenario;
-
-#include "test_params_generated.h"
 
 #if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
 
@@ -32,13 +25,12 @@ static vsf_test_usart_scenario_t s_scenario;
 #   define VSF_TEST_MARKER_DELAY_MS         200
 #endif
 
-static const vsf_test_usart_request_cancel_case_t __request_cancel_cases[] = {
+static vsf_test_usart_request_cancel_case_t __request_cancel_cases[] = {
     VSF_TEST_REQUEST_CANCEL_CASES_INIT
 };
 
-void vsf_test_usart_request_cancel_add_cases(vsf_usart_t *usart_instance)
+void vsf_test_usart_request_cancel_add_cases(vsf_test_usart_request_cancel_scene_t *scene)
 {
-    s_scenario.usart_instance = usart_instance;
     for (uint8_t i = 0; i < VSF_TEST_REQUEST_CANCEL_CASE_COUNT; i++) {
         static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][96];
         snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
@@ -48,12 +40,13 @@ void vsf_test_usart_request_cancel_add_cases(vsf_usart_t *usart_instance)
             (unsigned long)__request_cancel_cases[i].cancel_after_us);
         vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_request_cancel_run,
             __cfg_str_pool[i], (void *)&__request_cancel_cases[i]);
+        __request_cancel_cases[i].scene = scene;
     }
 }
 
 void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_t *c)
 {
-    vsf_usart_t *usart = c->scenario->usart_instance;
+    vsf_usart_t *usart = c->scene->usart;
 
     vsf_trace_info("USART:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
     vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);

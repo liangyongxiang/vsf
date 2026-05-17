@@ -17,14 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "vsf.h"
-#include "component/test/vsf_test/vsf_test.h"
-#include "../vsf_test_gpio.h"
 #include "vsf_test_gpio_pinmux.h"
-
-static vsf_test_gpio_scenario_t s_scenario;
-
-#include "test_params_generated.h"
 
 #if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
 
@@ -32,15 +25,14 @@ static vsf_test_gpio_scenario_t s_scenario;
 #   define VSF_TEST_MARKER_DELAY_MS         200
 #endif
 
-static const vsf_test_gpio_pinmux_case_t __gpio_pinmux_cases[] = {
+static vsf_test_gpio_pinmux_case_t __gpio_pinmux_cases[] = {
     VSF_TEST_GPIO_PINMUX_CASES_INIT
 };
 
 static vsf_usart_t *s_usart;
 
-void vsf_test_gpio_pinmux_add_cases(vsf_gpio_t *gpio_instance, vsf_usart_t *usart)
+void vsf_test_gpio_pinmux_add_cases(vsf_test_gpio_pinmux_scene_t *scene)
 {
-    s_scenario.gpio_instance = gpio_instance;
     s_usart = usart;
     for (uint8_t i = 0; i < VSF_TEST_GPIO_PINMUX_CASE_COUNT; i++) {
         static char __cfg_str_pool[VSF_TEST_GPIO_CASE_MAX_COUNT][96];
@@ -60,7 +52,7 @@ void vsf_test_gpio_pinmux_add_cases(vsf_gpio_t *gpio_instance, vsf_usart_t *usar
 
 void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scenario->gpio_instance;
+    vsf_gpio_t *gpio = c->scene->gpio;
     vsf_gpio_pin_mask_t tx_mask = (vsf_gpio_pin_mask_t)1u << c->tx_pin;
     vsf_gpio_pin_mask_t rx_mask = (vsf_gpio_pin_mask_t)1u << c->rx_pin;
 

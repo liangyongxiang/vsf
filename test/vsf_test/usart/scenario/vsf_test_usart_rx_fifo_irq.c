@@ -17,16 +17,9 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "vsf.h"
-#include "component/test/vsf_test/vsf_test.h"
-#include "../vsf_test_usart.h"
 #include "vsf_test_usart_rx_fifo_irq.h"
 #include "hardware/regs/uart.h"
 #include "hardware/regs/addressmap.h"
-
-static vsf_test_usart_scenario_t s_scenario;
-
-#include "test_params_generated.h"
 
 #if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
 
@@ -34,7 +27,7 @@ static vsf_test_usart_scenario_t s_scenario;
 #   define VSF_TEST_MARKER_DELAY_MS         200
 #endif
 
-static const vsf_test_usart_rx_fifo_irq_case_t __rx_fifo_irq_cases[] = {
+static vsf_test_usart_rx_fifo_irq_case_t __rx_fifo_irq_cases[] = {
     VSF_TEST_RX_FIFO_IRQ_CASES_INIT
 };
 
@@ -67,9 +60,8 @@ static void __rx_fifo_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t
     }
 }
 
-void vsf_test_usart_rx_fifo_irq_add_cases(vsf_usart_t *usart_instance)
+void vsf_test_usart_rx_fifo_irq_add_cases(vsf_test_usart_rx_fifo_irq_scene_t *scene)
 {
-    s_scenario.usart_instance = usart_instance;
     for (uint8_t i = 0; i < VSF_TEST_RX_FIFO_IRQ_CASE_COUNT; i++) {
         static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][96];
         snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
@@ -78,12 +70,13 @@ void vsf_test_usart_rx_fifo_irq_add_cases(vsf_usart_t *usart_instance)
             (unsigned long)__rx_fifo_irq_cases[i].refill_target);
         vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_fifo_irq_run,
             __cfg_str_pool[i], (void *)&__rx_fifo_irq_cases[i]);
+        __rx_fifo_irq_cases[i].scene = scene;
     }
 }
 
 void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
 {
-    vsf_usart_t *usart = c->scenario->usart_instance;
+    vsf_usart_t *usart = c->scene->usart;
 
     vsf_trace_info("USART:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
     vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);

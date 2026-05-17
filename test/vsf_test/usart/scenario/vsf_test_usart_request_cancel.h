@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-void vsf_test_usart_request_cancel_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_request_cancel_add_cases(vsf_test_usart_request_cancel_scene_t *scene);
 void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_t *c);
 
 #ifdef __cplusplus

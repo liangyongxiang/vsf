@@ -17,14 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "vsf.h"
-#include "component/test/vsf_test/vsf_test.h"
-#include "../vsf_test_gpio.h"
 #include "vsf_test_gpio_output_input.h"
-
-static vsf_test_gpio_scenario_t s_scenario;
-
-#include "test_params_generated.h"
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
 
@@ -36,15 +29,14 @@ static vsf_test_gpio_scenario_t s_scenario;
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static const vsf_test_gpio_output_input_case_t __gpio_output_input_cases[] = {
+static vsf_test_gpio_output_input_case_t __gpio_output_input_cases[] = {
     VSF_TEST_GPIO_OUTPUT_INPUT_CASES_INIT
 };
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_output_input_add_cases(vsf_gpio_t *gpio_instance)
+void vsf_test_gpio_output_input_add_cases(vsf_test_gpio_output_input_scene_t *scene)
 {
-    s_scenario.gpio_instance = gpio_instance;
     for (uint8_t i = 0; i < VSF_TEST_GPIO_OUTPUT_INPUT_CASE_COUNT; i++) {
         static char __cfg_str_pool[VSF_TEST_GPIO_CASE_MAX_COUNT][80];
         snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
@@ -54,12 +46,13 @@ void vsf_test_gpio_output_input_add_cases(vsf_gpio_t *gpio_instance)
             (unsigned)__gpio_output_input_cases[i].in_pin);
         vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_gpio_output_input_run,
             __cfg_str_pool[i], (void *)&__gpio_output_input_cases[i]);
+        __gpio_output_input_cases[i].scene = scene;
     }
 }
 
 void vsf_test_gpio_output_input_run(const vsf_test_gpio_output_input_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scenario->gpio_instance;
+    vsf_gpio_t *gpio = c->scene->gpio;
     vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << c->out_pin;
     vsf_gpio_pin_mask_t in_mask  = (vsf_gpio_pin_mask_t)1u << c->in_pin;
 

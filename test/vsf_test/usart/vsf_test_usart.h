@@ -104,18 +104,13 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-//! \brief USART 场景共享运行时状态（实例指针等）
-typedef struct vsf_test_usart_scenario_t {
-    vsf_usart_t *usart_instance;    //! \brief 本场景使用的 USART 实例
-} vsf_test_usart_scenario_t;
-
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
 //! \brief USART 波特率测试用例配置条目
 typedef struct vsf_test_usart_baud_case_t {
     uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
     uint32_t baudrate;    //! \brief 目标波特率
     bool     expect_pass; //! \brief true=预期初始化成功并发送数据，false=预期初始化失败
-    const vsf_test_usart_scenario_t *scenario;  //! \brief 指向场景实例
+    vsf_test_usart_baud_scene_t *scene;
 } vsf_test_usart_baud_case_t;
 #endif
 
@@ -125,7 +120,7 @@ typedef struct vsf_test_usart_mode_case_t {
     uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
     vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（parity/stop/data/...）
     bool             expect_pass; //! \brief true=预期初始化成功并发送数据，false=预期初始化失败
-    const vsf_test_usart_scenario_t *scenario;  //! \brief 指向场景实例
+    vsf_test_usart_mode_scene_t *scene;
 } vsf_test_usart_mode_case_t;
 #endif
 
@@ -133,7 +128,7 @@ typedef struct vsf_test_usart_mode_case_t {
 typedef struct vsf_test_usart_rx_data_case_t {
     uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
     bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
-    const vsf_test_usart_scenario_t *scenario;  //! \brief 指向场景实例
+    vsf_test_usart_rx_data_scene_t *scene;
 } vsf_test_usart_rx_data_case_t;
 
 //! \brief USART RX 波特率测试用例配置条目
@@ -141,7 +136,7 @@ typedef struct vsf_test_usart_rx_baud_case_t {
     uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
     uint32_t baudrate;    //! \brief 目标波特率
     bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
-    const vsf_test_usart_scenario_t *scenario;  //! \brief 指向场景实例
+    vsf_test_usart_rx_baud_scene_t *scene;
 } vsf_test_usart_rx_baud_case_t;
 
 //! \brief USART RX 模式测试用例配置条目
@@ -149,21 +144,21 @@ typedef struct vsf_test_usart_rx_mode_case_t {
     uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
     vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（parity/stop/data/...）
     bool             expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
-    const vsf_test_usart_scenario_t *scenario;  //! \brief 指向场景实例
+    vsf_test_usart_rx_mode_scene_t *scene;
 } vsf_test_usart_rx_mode_case_t;
 
 //! \brief USART RX IRQ 测试用例配置条目
 typedef struct vsf_test_usart_rx_irq_case_t {
     uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
     bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
-    const vsf_test_usart_scenario_t *scenario;  //! \brief 指向场景实例
+    vsf_test_usart_rx_irq_scene_t *scene;
 } vsf_test_usart_rx_irq_case_t;
 
 //! \brief USART RX 超时测试用例配置条目
 typedef struct vsf_test_usart_rx_timeout_case_t {
     uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
     bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
-    const vsf_test_usart_scenario_t *scenario;  //! \brief 指向场景实例
+    vsf_test_usart_rx_timeout_scene_t *scene;
 } vsf_test_usart_rx_timeout_case_t;
 
 //! \brief USART RX parity error 测试用例配置条目
@@ -171,7 +166,7 @@ typedef struct vsf_test_usart_rx_parity_error_case_t {
     uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
     vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（含 parity 配置）
     bool             expect_pass; //! \brief true=预期检测到 parity error，false=预期初始化失败
-    const vsf_test_usart_scenario_t *scenario;  //! \brief 指向场景实例
+    vsf_test_usart_rx_parity_error_scene_t *scene;
 } vsf_test_usart_rx_parity_error_case_t;
 
 //! \brief USART RX frame error 测试用例配置条目
@@ -179,7 +174,7 @@ typedef struct vsf_test_usart_rx_frame_error_case_t {
     uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
     vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（含 stop bit 配置）
     bool             expect_pass; //! \brief true=预期检测到 frame error，false=预期初始化失败
-    const vsf_test_usart_scenario_t *scenario;  //! \brief 指向场景实例
+    vsf_test_usart_rx_frame_error_scene_t *scene;
 } vsf_test_usart_rx_frame_error_case_t;
 
 /* ---- Gap-fill PRD: FIFO IRQ + request API + cancel ---- */
@@ -188,7 +183,7 @@ typedef struct vsf_test_usart_rx_frame_error_case_t {
 typedef struct vsf_test_usart_tx_fifo_irq_case_t {
     uint8_t  idx;
     uint32_t refill_target;       //! data_size = txfifo_depth * refill_target
-    const vsf_test_usart_scenario_t *scenario;
+    vsf_test_usart_tx_fifo_irq_scene_t *scene;
 } vsf_test_usart_tx_fifo_irq_case_t;
 #endif
 
@@ -196,7 +191,7 @@ typedef struct vsf_test_usart_tx_fifo_irq_case_t {
 typedef struct vsf_test_usart_rx_fifo_irq_case_t {
     uint8_t  idx;
     uint32_t refill_target;
-    const vsf_test_usart_scenario_t *scenario;
+    vsf_test_usart_rx_fifo_irq_scene_t *scene;
 } vsf_test_usart_rx_fifo_irq_case_t;
 #endif
 
@@ -204,7 +199,7 @@ typedef struct vsf_test_usart_rx_fifo_irq_case_t {
 typedef struct vsf_test_usart_request_tx_irq_case_t {
     uint8_t  idx;
     uint32_t refill_target;
-    const vsf_test_usart_scenario_t *scenario;
+    vsf_test_usart_request_tx_irq_scene_t *scene;
 } vsf_test_usart_request_tx_irq_case_t;
 #endif
 
@@ -212,7 +207,7 @@ typedef struct vsf_test_usart_request_tx_irq_case_t {
 typedef struct vsf_test_usart_request_rx_irq_case_t {
     uint8_t  idx;
     uint32_t refill_target;
-    const vsf_test_usart_scenario_t *scenario;
+    vsf_test_usart_request_rx_irq_scene_t *scene;
 } vsf_test_usart_request_rx_irq_case_t;
 #endif
 
@@ -221,7 +216,7 @@ typedef struct vsf_test_usart_request_cancel_case_t {
     uint8_t  idx;
     uint32_t refill_target;
     uint32_t cancel_after_us;
-    const vsf_test_usart_scenario_t *scenario;
+    vsf_test_usart_request_cancel_scene_t *scene;
 } vsf_test_usart_request_cancel_case_t;
 #endif
 
@@ -229,75 +224,77 @@ typedef struct vsf_test_usart_request_cancel_case_t {
 
 /* ---- TX scenarios ---- */
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
-void vsf_test_usart_baud_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_baud_add_cases(vsf_test_usart_baud_scene_t *scene);
 void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c);
 #endif
 
 #if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
-void vsf_test_usart_mode_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_mode_add_cases(vsf_test_usart_mode_scene_t *scene);
 void vsf_test_usart_mode_run(const vsf_test_usart_mode_case_t *c);
 #endif
 
 /* ---- RX scenarios ---- */
 #if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
-void vsf_test_usart_rx_data_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_data_add_cases(vsf_test_usart_rx_data_scene_t *scene);
 void vsf_test_usart_rx_data_run(const vsf_test_usart_rx_data_case_t *c);
 #endif
 
 #if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
-void vsf_test_usart_rx_baud_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_baud_add_cases(vsf_test_usart_rx_baud_scene_t *scene);
 void vsf_test_usart_rx_baud_run(const vsf_test_usart_rx_baud_case_t *c);
 #endif
 
 #if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
-void vsf_test_usart_rx_mode_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_mode_add_cases(vsf_test_usart_rx_mode_scene_t *scene);
 void vsf_test_usart_rx_mode_run(const vsf_test_usart_rx_mode_case_t *c);
 #endif
 
 #if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
-void vsf_test_usart_rx_irq_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_irq_add_cases(vsf_test_usart_rx_irq_scene_t *scene);
 void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c);
 #endif
 
 #if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
-void vsf_test_usart_rx_timeout_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_timeout_add_cases(vsf_test_usart_rx_timeout_scene_t *scene);
 void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c);
 #endif
 
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_parity_error_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_parity_error_add_cases(vsf_test_usart_rx_parity_error_scene_t *scene);
 void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_case_t *c);
 #endif
 
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_frame_error_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_scene_t *scene);
 void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c);
 #endif
 
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
-void vsf_test_usart_tx_fifo_irq_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_tx_fifo_irq_add_cases(vsf_test_usart_tx_fifo_irq_scene_t *scene);
 void vsf_test_usart_tx_fifo_irq_run(const vsf_test_usart_tx_fifo_irq_case_t *c);
 #endif
 
 #if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
-void vsf_test_usart_rx_fifo_irq_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_fifo_irq_add_cases(vsf_test_usart_rx_fifo_irq_scene_t *scene);
 void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c);
 #endif
 
 #if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
-void vsf_test_usart_request_tx_irq_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_request_tx_irq_add_cases(vsf_test_usart_request_tx_irq_scene_t *scene);
 void vsf_test_usart_request_tx_irq_run(const vsf_test_usart_request_tx_irq_case_t *c);
 #endif
 
 #if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
-void vsf_test_usart_request_rx_irq_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_request_rx_irq_add_cases(vsf_test_usart_request_rx_irq_scene_t *scene);
 void vsf_test_usart_request_rx_irq_run(const vsf_test_usart_request_rx_irq_case_t *c);
 #endif
 
 #if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
-void vsf_test_usart_request_cancel_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_request_cancel_add_cases(vsf_test_usart_request_cancel_scene_t *scene);
 void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_t *c);
 #endif
+
+#include "test_params_generated.h"
 
 #ifdef __cplusplus
 }

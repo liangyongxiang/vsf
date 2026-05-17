@@ -29,12 +29,12 @@ extern "C" {
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_parity_error_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_parity_error_add_cases(vsf_test_usart_rx_parity_error_scene_t *scene);
 void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_case_t *c);
 #endif
 
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_frame_error_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_scene_t *scene);
 void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c);
 #endif
 

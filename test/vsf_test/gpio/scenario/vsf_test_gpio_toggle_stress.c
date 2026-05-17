@@ -17,14 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "vsf.h"
-#include "component/test/vsf_test/vsf_test.h"
-#include "../vsf_test_gpio.h"
 #include "vsf_test_gpio_toggle_stress.h"
-
-static vsf_test_gpio_scenario_t s_scenario;
-
-#include "test_params_generated.h"
 
 #if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
 
@@ -32,13 +25,12 @@ static vsf_test_gpio_scenario_t s_scenario;
 #   define VSF_TEST_MARKER_DELAY_MS         200
 #endif
 
-static const vsf_test_gpio_toggle_stress_case_t __gpio_toggle_stress_cases[] = {
+static vsf_test_gpio_toggle_stress_case_t __gpio_toggle_stress_cases[] = {
     VSF_TEST_GPIO_TOGGLE_STRESS_CASES_INIT
 };
 
-void vsf_test_gpio_toggle_stress_add_cases(vsf_gpio_t *gpio_instance)
+void vsf_test_gpio_toggle_stress_add_cases(vsf_test_gpio_toggle_stress_scene_t *scene)
 {
-    s_scenario.gpio_instance = gpio_instance;
     for (uint8_t i = 0; i < VSF_TEST_GPIO_TOGGLE_STRESS_CASE_COUNT; i++) {
         static char __cfg_str_pool[VSF_TEST_GPIO_CASE_MAX_COUNT][96];
         snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
@@ -49,12 +41,13 @@ void vsf_test_gpio_toggle_stress_add_cases(vsf_gpio_t *gpio_instance)
             (unsigned long)__gpio_toggle_stress_cases[i].stress_count);
         vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_gpio_toggle_stress_run,
             __cfg_str_pool[i], (void *)&__gpio_toggle_stress_cases[i]);
+        __gpio_toggle_stress_cases[i].scene = scene;
     }
 }
 
 void vsf_test_gpio_toggle_stress_run(const vsf_test_gpio_toggle_stress_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scenario->gpio_instance;
+    vsf_gpio_t *gpio = c->scene->gpio;
     vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << c->out_pin;
     vsf_gpio_pin_mask_t in_mask  = (vsf_gpio_pin_mask_t)1u << c->in_pin;
 

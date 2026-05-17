@@ -17,14 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "vsf.h"
-#include "component/test/vsf_test/vsf_test.h"
-#include "../vsf_test_usart.h"
 #include "vsf_test_usart_mode.h"
-
-static vsf_test_usart_scenario_t s_scenario;
-
-#include "test_params_generated.h"
 
 #if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
 
@@ -45,7 +38,7 @@ static vsf_test_usart_scenario_t s_scenario;
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static const vsf_test_usart_mode_case_t __mode_cases[] = {
+static vsf_test_usart_mode_case_t __mode_cases[] = {
     VSF_TEST_MODE_CASES_INIT
 };
 
@@ -62,9 +55,8 @@ static void __usart_send_str(vsf_usart_t *usart, const char *str)
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_mode_add_cases(vsf_usart_t *usart_instance)
+void vsf_test_usart_mode_add_cases(vsf_test_usart_mode_scene_t *scene)
 {
-    s_scenario.usart_instance = usart_instance;
     for (uint8_t i = 0; i < VSF_TEST_MODE_CASE_COUNT; i++) {
         static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
         snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
@@ -72,6 +64,7 @@ void vsf_test_usart_mode_add_cases(vsf_usart_t *usart_instance)
             (unsigned)__mode_cases[i].idx);
         vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_mode_run,
             __cfg_str_pool[i], (void *)&__mode_cases[i]);
+        __mode_cases[i].scene = scene;
     }
 }
 
@@ -81,17 +74,17 @@ void vsf_test_usart_mode_run(const vsf_test_usart_mode_case_t *c)
     vsf_trace_info("MODE:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
     vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
-    vsf_err_t err = vsf_usart_init(c->scenario->usart_instance, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
         .mode     = c->mode,
         .baudrate = VSF_TEST_MODE_DEFAULT_BAUDRATE,
     });
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->scenario->usart_instance));
-        __usart_send_str(c->scenario->usart_instance, VSF_TEST_MODE_PAYLOAD);
+        while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
+        __usart_send_str(c->scene->usart, VSF_TEST_MODE_PAYLOAD);
         vsf_test_busy_wait_ms(VSF_TEST_MODE_PAYLOAD_DRAIN_MS);
-        while (fsm_rt_cpl != vsf_usart_disable(c->scenario->usart_instance));
+        while (fsm_rt_cpl != vsf_usart_disable(c->scene->usart));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }

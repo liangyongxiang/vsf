@@ -17,14 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "vsf.h"
-#include "component/test/vsf_test/vsf_test.h"
-#include "../vsf_test_usart.h"
 #include "vsf_test_usart_rx_data.h"
-
-static vsf_test_usart_scenario_t s_scenario;
-
-#include "test_params_generated.h"
 
 #if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
 
@@ -48,15 +41,14 @@ static vsf_test_usart_scenario_t s_scenario;
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static const vsf_test_usart_rx_data_case_t __rx_data_cases[] = {
+static vsf_test_usart_rx_data_case_t __rx_data_cases[] = {
     VSF_TEST_RX_DATA_CASES_INIT
 };
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_rx_data_add_cases(vsf_usart_t *usart_instance)
+void vsf_test_usart_rx_data_add_cases(vsf_test_usart_rx_data_scene_t *scene)
 {
-    s_scenario.usart_instance = usart_instance;
     for (uint8_t i = 0; i < VSF_TEST_RX_DATA_CASE_COUNT; i++) {
         static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
         snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
@@ -64,6 +56,7 @@ void vsf_test_usart_rx_data_add_cases(vsf_usart_t *usart_instance)
             (unsigned)__rx_data_cases[i].idx);
         vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_data_run,
             __cfg_str_pool[i], (void *)&__rx_data_cases[i]);
+        __rx_data_cases[i].scene = scene;
     }
 }
 
@@ -73,14 +66,14 @@ void vsf_test_usart_rx_data_run(const vsf_test_usart_rx_data_case_t *c)
     vsf_trace_info("RX_DATA:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
     vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
-    vsf_err_t err = vsf_usart_init(c->scenario->usart_instance, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
         .mode     = VSF_TEST_RX_DATA_DEFAULT_MODE,
         .baudrate = VSF_TEST_RX_DATA_DEFAULT_BAUDRATE,
     });
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->scenario->usart_instance));
+        while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
 
         vsf_trace_info("RX_DATA:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
@@ -92,9 +85,9 @@ void vsf_test_usart_rx_data_run(const vsf_test_usart_rx_data_case_t *c)
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_DATA_PAYLOAD_DRAIN_MS * 10;
         while (rx_len < expected_len && elapsed_ms < max_ms) {
-            uint_fast16_t count = vsf_usart_rxfifo_get_data_count(c->scenario->usart_instance);
+            uint_fast16_t count = vsf_usart_rxfifo_get_data_count(c->scene->usart);
             while (count-- > 0 && rx_len < sizeof(rx_buf)) {
-                vsf_usart_rxfifo_read(c->scenario->usart_instance, &rx_buf[rx_len], 1);
+                vsf_usart_rxfifo_read(c->scene->usart, &rx_buf[rx_len], 1);
                 rx_len++;
             }
             vsf_test_busy_wait_ms(10);
@@ -104,7 +97,7 @@ void vsf_test_usart_rx_data_run(const vsf_test_usart_rx_data_case_t *c)
         VSF_TEST_ASSERT(rx_len == expected_len);
         VSF_TEST_ASSERT(memcmp(rx_buf, expected, expected_len) == 0);
 
-        while (fsm_rt_cpl != vsf_usart_disable(c->scenario->usart_instance));
+        while (fsm_rt_cpl != vsf_usart_disable(c->scene->usart));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }

@@ -28,7 +28,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_usart_rx_baud_add_cases(vsf_usart_t *usart_instance);
+void vsf_test_usart_rx_baud_add_cases(vsf_test_usart_rx_baud_scene_t *scene);
 void vsf_test_usart_rx_baud_run(const vsf_test_usart_rx_baud_case_t *c);
 
 #ifdef __cplusplus

@@ -1,0 +1,79 @@
+/*****************************************************************************
+ *   Copyright(C)2009-2024 by VSF Team                                       *
+ *                                                                           *
+ *  Licensed under the Apache License, Version 2.0 (the "License");          *
+ *  you may not use this file except in compliance with the License.         *
+ *  You may obtain a copy of the License at                                  *
+ *                                                                           *
+ *     http://www.apache.org/licenses/LICENSE-2.0                            *
+ *                                                                           *
+ *  Unless required by applicable law or agreed to in writing, software      *
+ *  distributed under the License is distributed on an "AS IS" BASIS,        *
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
+ *  See the License for the specific language governing permissions and      *
+ *  limitations under the License.                                           *
+ *                                                                           *
+ *****************************************************************************/
+
+#ifndef __VSF_TEST_I2C_H__
+#define __VSF_TEST_I2C_H__
+
+/*============================ INCLUDES ======================================*/
+
+#include "vsf.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*============================ MACROS ========================================*/
+
+#define VSF_TEST_I2C_CASE_MAX_COUNT     8
+
+#ifndef VSF_TEST_I2C_EEPROM_RW_ENABLE
+#   define VSF_TEST_I2C_EEPROM_RW_ENABLE        DISABLED
+#endif
+
+/*============================ TYPES =========================================*/
+
+// Per-scene context (populated by main.c)
+typedef struct vsf_test_i2c_eeprom_rw_scene_t {
+    vsf_i2c_t *i2c;
+} vsf_test_i2c_eeprom_rw_scene_t;
+
+#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
+typedef struct vsf_test_i2c_eeprom_rw_case_t {
+    uint8_t  idx;
+    uint8_t  i2c_idx;
+    uint8_t  eeprom_addr;
+    uint8_t  mem_addr;
+    uint8_t  data_len;
+    vsf_test_i2c_eeprom_rw_scene_t *scene;
+} vsf_test_i2c_eeprom_rw_case_t;
+#endif
+
+typedef struct vsf_test_i2c_scenes_t {
+    vsf_test_i2c_eeprom_rw_scene_t eeprom_rw;
+} vsf_test_i2c_scenes_t;
+
+void vsf_test_i2c_register_all(vsf_test_i2c_scenes_t *s);
+
+/*============================ PROTOTYPES ====================================*/
+
+#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
+void vsf_test_i2c_eeprom_rw_add_cases(vsf_test_i2c_eeprom_rw_scene_t *scene);
+void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c);
+#endif
+
+#include "test_params_generated.h"
+
+// Framework types — included LAST so this header can be pulled into
+// vsf_test.h (which needs vsf_test_i2c_scenes_t) without circular issues.
+#include "component/test/vsf_test/vsf_test.h"
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* __VSF_TEST_I2C_H__ */
+/* EOF */

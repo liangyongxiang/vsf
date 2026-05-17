@@ -30,6 +30,31 @@ VSF_USART_HALF_DUPLEX_ENABLE = (0x1ul << 29),
 TX_CPL(0), RX_CPL(1), TX(2), RX(3) — template defaults.
 Extra bits (RX_TIMEOUT, CTS, FRAME_ERR, BREAK_ERR, PARITY_ERR, RX_OVERFLOW_ERR, RX_IDLE) need `#define VSF_USART_IRQ_MASK_<X>`.
 
+**Defining extra IRQ masks in the driver header:**
+
+When using an IPCore, hardware-specific IRQ masks are defined in the chip driver header **before** the IPCore header:
+
+```c
+// uart.h
+enum {
+    VSF_USART_IRQ_MASK_TX_CPL = (0x1ul << 16),
+    VSF_USART_IRQ_MASK_RX_CPL = (0x1ul << 17),
+};
+#include "hal/driver/IPCore/ARM/PL011/vsf_pl011_uart.h"
+```
+
+**IRQ mask alias suppression:**
+
+If the IPCore aliases two IRQ masks to the same value (e.g., PL011 `RX_IDLE == RX_TIMEOUT`), suppress the alias before including `usart_template.inc` to avoid `CHECK_UNIQUE` failure, then restore it:
+
+```c
+#undef VSF_USART_IRQ_MASK_RX_IDLE
+#include "hal/driver/common/usart/usart_template.inc"
+#define VSF_USART_IRQ_MASK_RX_IDLE  VSF_USART_IRQ_MASK_RX_IDLE
+```
+
+Also set `VSF_USART_CFG_IRQ_MASK_CHECK_UNIQUE = VSF_HAL_CHECK_MODE_LOOSE` if multiple aliases exist.
+
 ## API
 
 Core: init, fini, enable, disable, capability, get_configuration.

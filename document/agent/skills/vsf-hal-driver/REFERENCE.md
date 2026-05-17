@@ -68,8 +68,8 @@ In driver `.c` files, prefix internal/local macros with `__` to avoid colliding 
 
 ### Architecture: IPCore vs Direct
 
-- **IPCore**: chip reuses existing IP block (e.g. ARM PL011 for USART). Driver calls `implement(vsf_<ip>_<periph>_t)`, IPCore handles register/IQ/baudrate. Chip provides reset, NVIC, clock. Set `__VSF_HAL_${IP}_<PERIPH>_CLASS_INHERIT__`.
-- **Direct**: raw register access. Struct `{.reg, .isr}`, implement all APIs via register ops.
+- **IPCore**: chip reuses existing IP block (e.g. ARM PL011 for USART). Driver calls `implement(vsf_<ip>_<periph>_t)`, IPCore handles register/IQ/baudrate. Chip provides reset, NVIC, clock. Set `__VSF_HAL_${IP}_<PERIPH>_CLASS_INHERIT__` before including `vsf_hal.h`.
+- **Direct**: raw register access. Struct `{.reg, .isr}`, implement all APIs via register ops. **Pure direct drivers do NOT define any `__VSF_HAL_*_CLASS_*` macro** -- they just `#include "hal/vsf_hal.h"` directly. The CLASS macros are only needed when an IPCore struct is embedded via `implement()`.
 
 ### IMP_LV0
 
@@ -101,6 +101,33 @@ void VSF_HW_<PERIPH><N>_IRQHandler(void) {
 }
 ```
 
+### Multi-subunit instantiation with VSF_MREPEAT
+
+Peripherals with internal sub-units (e.g., DMA channels, SDIO functions, USB endpoints) can use `VSF_MREPEAT` inside `IMP_LV0` to generate per-sub-unit IRQ handlers and initializers without manual copy-paste:
+
+```c
+#define VSF_DMA_IMP_IRQHANDLER(__CHANNEL_IDX, __DMA_IDX)                    \
+    void VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX, _DMA, __DMA_IDX,       \
+                      _CH, __CHANNEL_IDX, _IRQHandler)(void) {              \
+        ...                                                                 \
+    }
+
+#define VSF_DMA_IMP_CHANNEL(__CHANNEL_IDX, __DMA_IDX)                       \
+    [__CHANNEL_IDX] = { .irqn = VSF_MCONNECT(..., _CH, __CHANNEL_IDX, _IRQN) },
+
+#define VSF_DMA_CFG_IMP_LV0(__IDX, __HAL_OP)                                \
+    VSF_MREPEAT(VSF_HW_DMA_CHANNEL_NUM, VSF_DMA_IMP_IRQHANDLER, __IDX)      \
+    VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t)                            \
+        VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma, __IDX) = {               \
+        .channels = {                                                         \
+            VSF_MREPEAT(VSF_HW_DMA_CHANNEL_NUM, VSF_DMA_IMP_CHANNEL, __IDX) \
+        },                                                                    \
+        __HAL_OP                                                              \
+    };
+```
+
+Reference: `driver/Artery/AT32F402_405/common/dma/dma.c`.
+
 ### Template file convention
 
 ```
@@ -116,6 +143,25 @@ source/hal/driver/
 ### Board wiring
 
 `vsf_board.c`: pinmux -> reset -> init -> enable -> irq. Expose instance pointer.
+
+### Chip-level initialization (`vsf_driver_init`)
+
+VSF calls `vsf_driver_init()` during `vsf_hal_init()`. This is where the chip driver sets up clocks, resets peripherals to a known state, and performs any silicon-specific bring-up **before** individual peripheral drivers are initialized.
+
+```c
+// driver.c
+VSF_CAL_WEAK(vsf_driver_init)
+bool vsf_driver_init(void)
+{
+    // Example: RP2040 clocks and resets
+    // Example: STM32 RCC clock tree configuration
+    return true;
+}
+```
+
+If an IPCore init API needs the peripheral clock frequency (e.g., `vsf_dw_apb_i2c_init(..., clock_get_hz(clk_sys))`), `clock_get_hz()` must be implemented in `driver.c` and populated by `vsf_driver_init()`.
+
+Some GPIO drivers also require a chip-specific init call inside `vsf_driver_init()` (e.g., AIC8800, BL61X). Check the chip's GPIO header for `__vsf_xxx_gpio_init()` requirements.
 
 ---
 

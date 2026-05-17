@@ -7,6 +7,26 @@ Always Direct mode. Template: `template/.../gpio/gpio.{h,c}`. Common inc: `gpio_
 mandatory: init, fini, capability, set/clear, read, config_pins, get_pin_configuration, set_input/output, exti_irq_enable/disable/clear.
 optional: toggle, output_and_set/clear, switch_direction, read_output_register.
 
+## Capability macros
+
+Define these **before** including `gpio_template.inc` to control optional API support:
+
+| Macro | Effect | Default |
+|---|---|---|
+| `VSF_GPIO_CFG_CAPABILITY_SUPPORT_OUTPUT_AND_SET` | Enable `output_and_set` API | 0 (asserts if called) |
+| `VSF_GPIO_CFG_CAPABILITY_SUPPORT_OUTPUT_AND_CLEAR` | Enable `output_and_clear` API | 0 (asserts if called) |
+| `VSF_GPIO_CFG_CHANGE_DIR_FIRST` | Direction-change order: `ENABLED` = set_output then clear; `DISABLED` = clear then set_output | ENABLED |
+
+```c
+#define VSF_GPIO_CFG_CAPABILITY_SUPPORT_OUTPUT_AND_SET      1
+#define VSF_GPIO_CFG_CAPABILITY_SUPPORT_OUTPUT_AND_CLEAR    1
+#define VSF_GPIO_CFG_CHANGE_DIR_FIRST                       DISABLED
+#define VSF_GPIO_CFG_REIMPLEMENT_API_CAPABILITY             ENABLED
+#include "hal/driver/common/gpio/gpio_template.inc"
+```
+
+Reference: `driver/GigaDevice/GD32H7XX/common/gpio/gpio.c`.
+
 ## Design tips
 
 - **Verify register reset defaults.** Picking a wrong base value for pin configuration registers can cause subtle bugs (e.g. bus-keep vs pull-up). Read the datasheet carefully for reset values.

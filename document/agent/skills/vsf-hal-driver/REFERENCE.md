@@ -135,23 +135,16 @@ Always Direct mode. Template: `template/.../gpio/gpio.{h,c}`. Common inc: `gpio_
 mandatory: init, fini, capability, set/clear, read, config_pins, get_pin_configuration, set_input/output, exti_irq_enable/disable/clear.
 optional: toggle, output_and_set/clear, switch_direction, read_output_register.
 
-### RP2040 lessons learned
+### Design tips
 
-**PADS base matters.** Initial RP2040 driver used PADS base `0x16` (PDE=1). When caller enabled `VSF_GPIO_PULL_UP`, both PUE and PDE were set — RP2040 interprets this as "bus keep", not pull-up. Fix: base = `0x12` (no pull). Always verify PADS reset defaults.
-
-**PADS.OD breaks atomic output.** Setting PADS.OD=1 for input disables output buffer at PADS level. Even after raising SIO.OE, the pin can't drive. Fix: never set PADS.OD; let SIO.OE arbitrate drive vs high-Z.
-
-**Self-loopback.** Chips that allow reading output while driving (RP2040 SIO) should set `capability.can_read_in_gpio_output_mode=1` and keep `PADS.IE=1` for output modes. Enables same-pin loopback testing.
-
-**Open-drain emulation.** HW without OD mode can emulate: track OD pins in driver-side `open_drain_mask`, keep `gpio_out=0`, toggle `gpio_oe`. `get_pin_configuration()` must check driver-side mask before HW registers.
-
-**get_pin_configuration.** Read real hardware registers (PADS + SIO + IO_BANK0), not template defaults. Verify re-derived mode matches original config.
-
-**AF mode detection.** If not reimplementing mode enum, detect AF via: mode base == AF slot value OR `alternate_function != 0`.
-
-**EXTI trigger encoding.** Pre-compute per-pin trigger values during `port_config_pins()`, store in driver array. Level bits are auto-track (read HW status); edge bits are write-1-clear. Don't clear level bits in clear function.
-
-**Single-port IMP_LV0.** Hardcode instance name when `PORT_COUNT=1` (e.g. `vsf_hw_gpio0`).
+- **Verify register reset defaults.** Picking a wrong base value for pin configuration registers can cause subtle bugs (e.g. bus-keep vs pull-up). Read the datasheet carefully for reset values.
+- **Check output-disable bits.** Setting a global output-disable flag (like `PADS.OD`) for input pins can block later atomic output transitions. Prefer per-pin control via the output-enable register.
+- **Self-loopback.** If the chip supports reading output level while driving, set `capability.can_read_in_gpio_output_mode=1`. Enables same-pin testing without external wiring.
+- **OD emulation.** If HW lacks open-drain mode, emulate: track OD pins in driver-side mask, keep output register at 0, toggle output-enable to drive/float.
+- **`get_pin_configuration`** should read real HW registers and re-derive the configured mode — not return template defaults.
+- **AF detection without reimplementing mode enum:** check mode base OR `alternate_function != 0`.
+- **EXTI: level vs edge.** Level bits auto-track HW status (read-only). Edge bits are write-1-clear. Never clear level bits in the clear function.
+- **Single-port IMP_LV0** can hardcode instance name.
 
 ### Reference
 
@@ -195,14 +188,9 @@ Older drivers (e.g. RP2040 uart.c) use hardcoded names: `vsf_hw_usart_init`, `vs
 | `#include "../driver.h"` | `#include "hal/vsf_hal_cfg.h"` |
 | `#include "RP2040.h"` | `#include "hal/driver/vendor_driver.h"` |
 
-### RP2040-specific gotcha
+### IPCore delegation
 
-The RP2040 uses IPCore (PL011) + chip-level add-ons: reset release via `resets_hw`, NVIC interrupt routing via `IRQn_Type irqn`. After migration:
-- `init()` still delegates to `vsf_pl011_usart_init()` + reset + NVIC
-- `capability()` still delegates to `vsf_pl011_usart_capability()` + TX_CPL/RX_CPL
-- IMP_LV0 keeps `.irqn` field and calls `vsf_pl011_usart_irqhandler()`
-
-These IPCore delegation patterns don't change — only the function and type naming changes to the `VSF_MCONNECT` convention.
+If migrating an IPCore-based driver (chip wraps an existing IP like PL011), the delegation patterns don't change — only naming. `init()` still delegates to `vsf_<ip>_<periph>_init()`, `capability()` to `vsf_<ip>_<periph>_capability()`, etc. Move chip-specific add-ons (reset, NVIC, clock, extra IRQ mask bits) into the new template body.
 
 ## Troubleshooting
 

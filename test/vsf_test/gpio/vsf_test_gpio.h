@@ -265,6 +265,25 @@ typedef struct vsf_test_gpio_irq_lifecycle_case_t {
 } vsf_test_gpio_irq_lifecycle_case_t;
 #endif
 
+
+typedef struct vsf_test_gpio_scenes_t {
+    vsf_test_gpio_output_input_scene_t    output_input;
+    vsf_test_gpio_toggle_scene_t          toggle;
+    vsf_test_gpio_direction_scene_t       direction;
+    vsf_test_gpio_atomic_scene_t          atomic;
+    vsf_test_gpio_pinmux_scene_t          pinmux;
+    vsf_test_gpio_multi_pin_scene_t       multi_pin;
+    vsf_test_gpio_open_drain_scene_t      open_drain;
+    vsf_test_gpio_toggle_freq_scene_t     toggle_freq;
+    vsf_test_gpio_write_throughput_scene_t write_throughput;
+    vsf_test_gpio_toggle_stress_scene_t   toggle_stress;
+    vsf_test_gpio_concurrent_prio_scene_t concurrent_prio;
+    vsf_test_gpio_exti_scene_t            exti;
+    vsf_test_gpio_irq_latency_scene_t     irq_latency;
+    vsf_test_gpio_irq_lifecycle_scene_t   irq_lifecycle;
+} vsf_test_gpio_scenes_t;
+
+void vsf_test_gpio_register_all(vsf_test_gpio_scenes_t *s);
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED

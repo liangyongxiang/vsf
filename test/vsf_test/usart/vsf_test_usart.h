@@ -277,6 +277,25 @@ typedef struct vsf_test_usart_request_cancel_case_t {
 } vsf_test_usart_request_cancel_case_t;
 #endif
 
+
+typedef struct vsf_test_usart_scenes_t {
+    vsf_test_usart_baud_scene_t                baud;
+    vsf_test_usart_mode_scene_t                mode;
+    vsf_test_usart_rx_data_scene_t             rx_data;
+    vsf_test_usart_rx_baud_scene_t             rx_baud;
+    vsf_test_usart_rx_mode_scene_t             rx_mode;
+    vsf_test_usart_rx_irq_scene_t              rx_irq;
+    vsf_test_usart_rx_timeout_scene_t          rx_timeout;
+    vsf_test_usart_rx_parity_error_scene_t     rx_parity_error;
+    vsf_test_usart_rx_frame_error_scene_t      rx_frame_error;
+    vsf_test_usart_tx_fifo_irq_scene_t         tx_fifo_irq;
+    vsf_test_usart_rx_fifo_irq_scene_t         rx_fifo_irq;
+    vsf_test_usart_request_tx_irq_scene_t      request_tx_irq;
+    vsf_test_usart_request_rx_irq_scene_t      request_rx_irq;
+    vsf_test_usart_request_cancel_scene_t      request_cancel;
+} vsf_test_usart_scenes_t;
+
+void vsf_test_usart_register_all(vsf_test_usart_scenes_t *s);
 /*============================ PROTOTYPES ====================================*/
 
 /* ---- TX scenarios ---- */

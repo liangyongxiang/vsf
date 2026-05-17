@@ -6,6 +6,7 @@ the test framework summary line and asserts all cases passed.
 Direction round-trip; no external wiring needed.
 """
 
+from pathlib import Path
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 

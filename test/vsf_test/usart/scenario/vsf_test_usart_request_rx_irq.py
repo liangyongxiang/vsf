@@ -6,6 +6,7 @@ the test framework summary line and asserts all cases passed.
 Requires a host-side UART sender.
 """
 
+from pathlib import Path
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 

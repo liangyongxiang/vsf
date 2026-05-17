@@ -11,6 +11,7 @@ The firmware asserts internally via VSF_TEST_ASSERT; this script just
 waits for the test framework summary line and asserts all cases passed.
 """
 
+from pathlib import Path
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 

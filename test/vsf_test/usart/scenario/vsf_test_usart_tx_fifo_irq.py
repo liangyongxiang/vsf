@@ -6,6 +6,7 @@ the test framework summary line and asserts all cases passed.
 TX side only — re-uses UART1 wiring already in hardware-map.
 """
 
+from pathlib import Path
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 

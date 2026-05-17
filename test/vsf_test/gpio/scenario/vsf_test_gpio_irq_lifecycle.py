@@ -5,6 +5,7 @@ disable / re-enable / clear / get_configuration) on a self-triggered
 pin. Firmware asserts internally.
 """
 
+from pathlib import Path
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 

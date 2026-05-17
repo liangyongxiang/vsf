@@ -1,7 +1,7 @@
 ---
 name: vsf-board-run
 description: |
-  USE FOR: building VSF firmware, flashing to hardware, running automated test scripts over UART, the complete build-flash-test loop.
+  USE FOR: building VSF firmware (compile-only), flashing to hardware, running automated test scripts over UART, or the full build-flash-test loop. Can be used for any single step — build, flash, or test — not just the full pipeline.
   DO NOT USE FOR: porting HAL drivers (use vsf-hal-driver).
 ---
 

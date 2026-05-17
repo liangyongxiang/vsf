@@ -112,7 +112,7 @@ def _gateway_dialog(serial: SerialInstrument, scenarios: set[str] | None) -> Non
             serial.send(f"SCENARIO:{name}:SKIP\r\n")
 
 
-def _call_run(run_fn: Callable[..., None], ser: SerialInstrument, la: LogicAnalyzerInstrument | None, project_root: Path) -> None:
+def _call_run(run_fn: Callable[..., None], project_root: Path, ser: SerialInstrument, la: LogicAnalyzerInstrument | None) -> None:
     """Call run_fn with project_root as first positional arg. la is passed only if the script accepts it."""
     sig = inspect.signature(run_fn)
     if "la" in sig.parameters:
@@ -251,7 +251,7 @@ def main():
             run_fn = load_test_script(script_path)
             print(f"\n[vsf-board-run] Running test script: {script_path}")
             try:
-                _call_run(run_fn, wrapped_ser, la, project_root)
+                _call_run(run_fn, project_root, wrapped_ser, la)
                 print(f"[vsf-board-run] PASS: {script_path}")
             except (TimeoutError, AssertionError, RuntimeError) as e:
                 print(f"[vsf-board-run] FAIL: {script_path}: {e}")
@@ -273,7 +273,7 @@ def main():
     print(f"[vsf-board-run] Running test script: {script_path}")
 
     try:
-        _call_run(run_fn, ser, la, project_root)
+        _call_run(run_fn, project_root, ser, la)
         print("\n[vsf-board-run] PASS")
         with open(log_path, "a") as f:
             f.write(json.dumps({"verdict": "pass"}) + "\n")

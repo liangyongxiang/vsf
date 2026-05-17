@@ -260,6 +260,7 @@ static void VSF_MCONNECT(__, VSF_USART_CFG_IMP_PREFIX, _usart_irqhandler)(
 /*============================ MACROFIED FUNCTIONS ===========================*/
 
 #define VSF_USART_CFG_MODE_CHECK_UNIQUE                 VSF_HAL_CHECK_MODE_LOOSE
+#define VSF_USART_CFG_IRQ_MASK_CHECK_UNIQUE             VSF_HAL_CHECK_MODE_LOOSE
 #define VSF_USART_CFG_REIMPLEMENT_API_CAPABILITY        ENABLED
 #define VSF_USART_CFG_REIMPLEMENT_API_REQUEST           ENABLED
 #define VSF_USART_CFG_REIMPLEMENT_API_CTRL              ENABLED
@@ -285,7 +286,11 @@ static void VSF_MCONNECT(__, VSF_USART_CFG_IMP_PREFIX, _usart_irqhandler)(
         vsf_hal_irq_leave(ctx);                                                 \
     }
 
+// PL011 aliases RX_IDLE to RX_TIMEOUT (same value).
+// Suppress RX_IDLE during uniqueness check so the alias doesn't trigger a duplicate-value assertion.
+#undef VSF_USART_IRQ_MASK_RX_IDLE
 #include "hal/driver/common/usart/usart_template.inc"
+#define VSF_USART_IRQ_MASK_RX_IDLE      VSF_USART_IRQ_MASK_RX_IDLE
 
 #endif      // VSF_HAL_USE_USART
 /* EOF */

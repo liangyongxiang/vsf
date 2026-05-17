@@ -193,6 +193,16 @@ Older drivers (e.g. RP2040 uart.c) use hardcoded names: `vsf_hw_usart_init`, `vs
 
 If migrating an IPCore-based driver (chip wraps an existing IP like PL011), the delegation patterns don't change — only naming. `init()` still delegates to `vsf_<ip>_<periph>_init()`, `capability()` to `vsf_<ip>_<periph>_capability()`, etc. Move chip-specific add-ons (reset, NVIC, clock, extra IRQ mask bits) into the new template body.
 
+### IPCore migration pitfalls
+
+| Pitfall | Symptom | Fix |
+|---------|---------|-----|
+| Duplicate base-class member | `duplicate member 'vsf_usart'` | `implement(vsf_pl011_usart_t)` already embeds `vsf_usart` when MULTI_CLASS is on — don't declare it again in the wrapping struct |
+| `IRQ_MASK_CHECK_UNIQUE` with aliased IRQs | `static assertion failed: Enum values must have disjoint bits: VSF_USART_IRQ_MASK_RX_TIMEOUT and VSF_USART_IRQ_MASK_RX_IDLE` | Use `VSF_HAL_CHECK_MODE_LOOSE` (not STRICT) and `#undef` the alias macro (e.g. `VSF_USART_IRQ_MASK_RX_IDLE`) right before `#include "...usart_template.inc"`, then `#define` it back. This keeps the check active for all non-alias bits. |
+| `MODE_CHECK_UNIQUE` with zero-valued mode bits | static assertion on mode values sharing bit 0 | PL011 places several unsupported modes at high bits but `HALF_DUPLEX_DISABLE=0` overlaps `NO_PARITY=0`. Use `VSF_USART_CFG_MODE_CHECK_UNIQUE = VSF_HAL_CHECK_MODE_LOOSE` |
+| `irq_clear` needs IP register access | undefined `reg->UARTICR` | Include the IP's `_reg.h` (e.g. `hal/driver/IPCore/ARM/PL011/vsf_pl011_uart_reg.h`) and cast `usart_ptr->reg` to the register struct type |
+| Type mismatch on FIFO functions | implicit conversion warnings | Template uses `uint_fast32_t` for `rxfifo_read`/`txfifo_write`/`_get_data_count`/`_get_free_count`. IP may use `uint_fast16_t` — cast in the wrapper |
+
 ## Troubleshooting
 
 | Symptom | Fix |
@@ -203,6 +213,8 @@ If migrating an IPCore-based driver (chip wraps an existing IP like PL011), the 
 | Pull-up not working | Check PADS base doesn't set conflicting pull bits |
 | `output_and_set` no effect | Verify PADS.OD not set |
 | Template overwrites existing | `scaffold_chip.py` new chips only; edit existing directly |
+| `duplicate member` in IPCore struct | Remove explicit `vsf_<periph>_t` — `implement(vsf_<ip>_<periph>_t)` already includes it |
+| `CHECK_UNIQUE` failure on mode/IRQ bits | See IPCore migration pitfalls table above |
 
 ## Examples
 

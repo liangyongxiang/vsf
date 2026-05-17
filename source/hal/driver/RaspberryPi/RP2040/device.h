@@ -94,6 +94,11 @@
 #define VSF_HW_RTC0_IRQHandler      RTC_IRQHandler
 #define VSF_HW_RTC0_REG             RTC_BASE
 
+#define VSF_HW_FLASH_COUNT          1
+#define VSF_HW_FLASH0_SIZE          (2 * 1024 * 1024)
+#define VSF_HW_FLASH0_SECTOR_SIZE   4096
+#define VSF_HW_FLASH0_PAGE_SIZE     256
+
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 /*============================ GLOBAL VARIABLES ==============================*/

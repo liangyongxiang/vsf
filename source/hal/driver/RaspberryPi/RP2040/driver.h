@@ -36,6 +36,7 @@
 #   include "i2c/i2c.h"
 #   include "uart/uart.h"
 #   include "rtc/rtc.h"
+#   include "flash/flash.h"
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/

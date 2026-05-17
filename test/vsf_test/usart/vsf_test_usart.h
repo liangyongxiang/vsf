@@ -104,6 +104,63 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
+// Per-scene context (populated by __vsf_test in main.c)
+typedef struct vsf_test_usart_baud_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_baud_scene_t;
+
+typedef struct vsf_test_usart_mode_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_mode_scene_t;
+
+typedef struct vsf_test_usart_rx_data_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_rx_data_scene_t;
+
+typedef struct vsf_test_usart_rx_baud_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_rx_baud_scene_t;
+
+typedef struct vsf_test_usart_rx_mode_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_rx_mode_scene_t;
+
+typedef struct vsf_test_usart_rx_irq_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_rx_irq_scene_t;
+
+typedef struct vsf_test_usart_rx_timeout_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_rx_timeout_scene_t;
+
+typedef struct vsf_test_usart_rx_parity_error_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_rx_parity_error_scene_t;
+
+typedef struct vsf_test_usart_rx_frame_error_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_rx_frame_error_scene_t;
+
+typedef struct vsf_test_usart_tx_fifo_irq_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_tx_fifo_irq_scene_t;
+
+typedef struct vsf_test_usart_rx_fifo_irq_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_rx_fifo_irq_scene_t;
+
+typedef struct vsf_test_usart_request_tx_irq_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_request_tx_irq_scene_t;
+
+typedef struct vsf_test_usart_request_rx_irq_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_request_rx_irq_scene_t;
+
+typedef struct vsf_test_usart_request_cancel_scene_t {
+    vsf_usart_t *usart;
+} vsf_test_usart_request_cancel_scene_t;
+
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
 //! \brief USART 波特率测试用例配置条目
 typedef struct vsf_test_usart_baud_case_t {

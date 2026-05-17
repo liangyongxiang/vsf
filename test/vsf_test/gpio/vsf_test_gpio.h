@@ -76,6 +76,64 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
+// Per-scene context (populated by __vsf_test in main.c)
+typedef struct vsf_test_gpio_output_input_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_output_input_scene_t;
+
+typedef struct vsf_test_gpio_toggle_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_toggle_scene_t;
+
+typedef struct vsf_test_gpio_direction_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_direction_scene_t;
+
+typedef struct vsf_test_gpio_atomic_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_atomic_scene_t;
+
+typedef struct vsf_test_gpio_pinmux_scene_t {
+    vsf_gpio_t *gpio;
+    vsf_usart_t *usart;
+} vsf_test_gpio_pinmux_scene_t;
+
+typedef struct vsf_test_gpio_multi_pin_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_multi_pin_scene_t;
+
+typedef struct vsf_test_gpio_open_drain_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_open_drain_scene_t;
+
+typedef struct vsf_test_gpio_toggle_freq_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_toggle_freq_scene_t;
+
+typedef struct vsf_test_gpio_write_throughput_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_write_throughput_scene_t;
+
+typedef struct vsf_test_gpio_toggle_stress_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_toggle_stress_scene_t;
+
+typedef struct vsf_test_gpio_concurrent_prio_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_concurrent_prio_scene_t;
+
+typedef struct vsf_test_gpio_exti_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_exti_scene_t;
+
+typedef struct vsf_test_gpio_irq_latency_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_irq_latency_scene_t;
+
+typedef struct vsf_test_gpio_irq_lifecycle_scene_t {
+    vsf_gpio_t *gpio;
+} vsf_test_gpio_irq_lifecycle_scene_t;
+
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
 typedef struct vsf_test_gpio_output_input_case_t {
     uint8_t idx;
@@ -230,7 +288,7 @@ void vsf_test_gpio_atomic_run(const vsf_test_gpio_atomic_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
-void vsf_test_gpio_pinmux_add_cases(vsf_gpio_t *gpio_instance, vsf_usart_t *usart);
+void vsf_test_gpio_pinmux_add_cases(vsf_test_gpio_pinmux_scene_t *scene);
 void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c);
 #endif
 

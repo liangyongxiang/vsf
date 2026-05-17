@@ -230,6 +230,10 @@
                 }                                                              \
             } while (0)
 
+/*============================ INCLUDES ======================================*/
+
+#        include "./vsf_test_shell.h"
+
 /*============================ TYPES =========================================*/
 
 typedef enum vsf_test_status_t {
@@ -424,6 +428,7 @@ typedef struct vsf_test_cfg_t {
     bool restart_on_done;
 } vsf_test_cfg_t;
 
+
 typedef struct vsf_test_t {
     //! Without a watchdog, we can still can test.
     //! But the watchdog provides stronger guarantees for tests:
@@ -468,6 +473,11 @@ typedef struct vsf_test_t {
     uint32_t test_case_count;
     //! Test case array
     vsf_test_case_t test_case_array[VSF_TEST_CFG_ARRAY_SIZE];
+
+
+    //! Embedded shell instance — every vsf_test_add_* call also registers
+    //! the case here. vsf_test_shell_init() activates the REPL.
+    vsf_test_shell_t shell;
 } vsf_test_t;
 
 /*============================ INCLUDES ======================================*/
@@ -477,7 +487,7 @@ typedef struct vsf_test_t {
  @brief initialize vsf test
  @param[in] cfg: a pointer to configuration structure @ref vsf_test_cfg_t
  */
-extern void vsf_test_init(const vsf_test_cfg_t *cfg);
+extern void vsf_test_init(vsf_test_t *test, const vsf_test_cfg_t *cfg);
 
 /*============================ API USAGE GUIDE =============================*/
 /**
@@ -650,7 +660,6 @@ extern void vsf_test_busy_wait_ms(uint32_t ms);
 
 /*============================ INCLUDES ======================================*/
 
-#        include "./vsf_test_shell.h"
 #        include "./port/vsf_test_port_hal.h"
 #        include "./port/vsf_test_port_stdio.h"
 #        include "./port/vsf_test_port_file.h"

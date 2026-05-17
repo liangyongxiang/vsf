@@ -1,20 +1,3 @@
-/******************************************************************************
- *   Copyright(C)2009-2024 by VSF Team                                       *
- *                                                                           *
- *  Licensed under the Apache License, Version 2.0 (the "License");          *
- *  you may not use this file except in compliance with the License.         *
- *  You may obtain a copy of the License at                                  *
- *                                                                           *
- *     http://www.apache.org/licenses/LICENSE-2.0                            *
- *                                                                           *
- *  Unless required by applicable law or agreed to in writing, software      *
- *  distributed under the License is distributed on an "AS IS" BASIS,        *
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
- *  See the License for the specific language governing permissions and      *
- *  limitations under the License.                                           *
- *                                                                           *
- ****************************************************************************/
-
 #ifndef __VSF_TEST_SHELL_H__
 #define __VSF_TEST_SHELL_H__
 
@@ -24,32 +7,50 @@
 extern "C" {
 #endif
 
-// Register a scene name. Must be called before its cases are added.
-// Returns the scene index (0-based).
-uint8_t vsf_test_shell_register_scene(const char *name);
+#ifndef VSF_TEST_SHELL_MAX_SCENES
+#   define VSF_TEST_SHELL_MAX_SCENES    16
+#endif
+#ifndef VSF_TEST_SHELL_MAX_CASES
+#   define VSF_TEST_SHELL_MAX_CASES     256
+#endif
 
-// Register a case (cfg_str) in the most recently registered scene.
-// Must be called after vsf_test_shell_register_scene and after
-// vsf_test_add_simple_case (or similar) for the same case.
-void vsf_test_shell_register_case(const char *cfg_str);
+typedef struct vsf_test_shell_scene_t {
+    const char *name;
+    uint16_t    first_case_idx;
+    uint16_t    case_count;
+} vsf_test_shell_scene_t;
 
-// Print welcome banner and initial prompt.
-void vsf_test_shell_init(void);
+typedef struct vsf_test_shell_case_t {
+    const char *cfg_str;
+    uint8_t     scene_idx;
+} vsf_test_shell_case_t;
 
-// Main read-eval-print loop. Blocks forever.
-void vsf_test_shell_run(void);
+typedef struct vsf_test_shell_t {
+    vsf_test_shell_scene_t scenes[VSF_TEST_SHELL_MAX_SCENES];
+    uint8_t                scene_count;
+    vsf_test_shell_case_t  cases[VSF_TEST_SHELL_MAX_CASES];
+    uint16_t               case_count;
+    int8_t cur_scene;
+    int8_t cur_case;
+    bool   auto_case;
+    bool   auto_scene;
+} vsf_test_shell_t;
 
-// Register a scene AND add its cases unconditionally (no gating).
-// Usage in register_all() functions:
-//   VSF_TEST_REGISTER_SCENE(s, baud, vsf_test_usart_baud_add_cases);
-#define VSF_TEST_REGISTER_SCENE(s, field, add_fn)    \
-    do {                                              \
-        vsf_test_shell_register_scene(#field);         \
-        add_fn(&(s)->field);                          \
+uint8_t vsf_test_shell_register_scene(vsf_test_shell_t *shell, const char *name);
+void    vsf_test_shell_register_case(vsf_test_shell_t *shell, const char *cfg_str);
+void    vsf_test_shell_init(vsf_test_shell_t *shell);
+void    vsf_test_shell_run(vsf_test_shell_t *shell);
+
+vsf_test_shell_t *vsf_test_get_shell(void);
+
+#define VSF_TEST_REGISTER_SCENE(s, field, add_fn)                  \
+    do {                                                            \
+        vsf_test_shell_register_scene(vsf_test_get_shell(), #field); \
+        add_fn(&(s)->field);                                        \
     } while (0)
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif // __VSF_TEST_SHELL_H__
+#endif

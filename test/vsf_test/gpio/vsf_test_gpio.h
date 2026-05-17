@@ -21,7 +21,6 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf.h"
-#include "component/test/vsf_test/vsf_test.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -357,6 +356,10 @@ void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c
 #endif
 
 #include "test_params_generated.h"
+
+// Framework types — included LAST so this header can be pulled into
+// vsf_test.h without circular issues.
+#include "component/test/vsf_test/vsf_test.h"
 
 #ifdef __cplusplus
 }

@@ -54,7 +54,7 @@
 /*============================ LOCAL VARIABLES ===============================*/
 /*============================ GLOBAL VARIABLES ==============================*/
 
-static vsf_test_t __vsf_test;
+static vsf_test_t *__vsf_test = NULL;
 
 /*============================ LOCAL FUNCTIONS ===============================*/
 
@@ -73,48 +73,56 @@ static void __vsf_test_data_sync(vsf_test_data_t *data, vsf_test_data_cmd_t cmd)
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_init(const vsf_test_cfg_t *cfg)
+void vsf_test_init(vsf_test_t *test, const vsf_test_cfg_t *cfg)
 {
+    VSF_ASSERT(test != NULL);
+    __vsf_test = test;
+
     VSF_ASSERT(cfg != NULL);
 
     // 配置看门狗
-    __vsf_test.wdt.internal = cfg->wdt.internal;
-    __vsf_test.wdt.external = cfg->wdt.external;
+    __vsf_test->wdt.internal = cfg->wdt.internal;
+    __vsf_test->wdt.external = cfg->wdt.external;
 
     // 配置复位函数
-    __vsf_test.reboot.internal = cfg->reboot.internal;
-    __vsf_test.reboot.external = cfg->reboot.external;
+    __vsf_test->reboot.internal = cfg->reboot.internal;
+    __vsf_test->reboot.external = cfg->reboot.external;
 
     // 配置数据持久化
-    __vsf_test.data.init = cfg->data.init;
-    __vsf_test.data.sync = cfg->data.sync;
+    __vsf_test->data.init = cfg->data.init;
+    __vsf_test->data.sync = cfg->data.sync;
 
     // 配置完成时重启选项
-    __vsf_test.restart_on_done = cfg->restart_on_done;
+    __vsf_test->restart_on_done = cfg->restart_on_done;
 
     // 初始化测试用例计数
-    __vsf_test.test_case_count = 0;
+    __vsf_test->test_case_count = 0;
 
     // 初始化数据同步
-    if (__vsf_test.data.init != NULL) {
-        __vsf_test.data.init(&__vsf_test.data);
+    if (__vsf_test->data.init != NULL) {
+        __vsf_test->data.init(&__vsf_test->data);
     }
 
     __VSF_TEST_TRACE_INFO("[TEST] Initialized with capacity %u\r\n", VSF_TEST_CFG_ARRAY_SIZE);
 }
 
+vsf_test_shell_t *vsf_test_get_shell(void)
+{
+    return &__vsf_test->shell;
+}
+
 bool vsf_test_add_ex(vsf_test_case_t *test_case)
 {
-    if (__vsf_test.test_case_count < VSF_TEST_CFG_ARRAY_SIZE) {
-        __vsf_test.test_case_array[__vsf_test.test_case_count] = *test_case;
+    if (__vsf_test->test_case_count < VSF_TEST_CFG_ARRAY_SIZE) {
+        __vsf_test->test_case_array[__vsf_test->test_case_count] = *test_case;
         __VSF_TEST_TRACE_DEBUG("vsf_test_add_ex: added test case at index %u, type=%u\r\n",
-                              __vsf_test.test_case_count, test_case->type);
-        vsf_test_shell_register_case(test_case->cfg_str);
-        __vsf_test.test_case_count++;
+                              __vsf_test->test_case_count, test_case->type);
+        vsf_test_shell_register_case(&__vsf_test->shell, test_case->cfg_str);
+        __vsf_test->test_case_count++;
         return false;
     } else {
         __VSF_TEST_TRACE_ERROR("vsf_test_add_ex: test case array is full (count=%u, capacity=%u)\r\n",
-                              __vsf_test.test_case_count, VSF_TEST_CFG_ARRAY_SIZE);
+                              __vsf_test->test_case_count, VSF_TEST_CFG_ARRAY_SIZE);
         VSF_ASSERT(0);
         return true;
     }
@@ -204,7 +212,7 @@ void __vsf_test_longjmp(vsf_test_result_t result,
                         const char *file_name, uint32_t line,
                         const char *function_name, const char *condition)
 {
-    vsf_test_data_t *data     = &__vsf_test.data;
+    vsf_test_data_t *data     = &__vsf_test->data;
     data->result              = result;
     data->error.function_name = function_name;
     data->error.file_name     = file_name;
@@ -214,7 +222,7 @@ void __vsf_test_longjmp(vsf_test_result_t result,
     __VSF_TEST_TRACE_ERROR("[TEST] Assertion failed: %s:%u in %s() - %s\r\n",
                           file_name, line, function_name, condition ? condition : "");
 
-    longjmp(*__vsf_test.jmp_buf, 1);
+    longjmp(*__vsf_test->jmp_buf, 1);
 }
 
 //! \brief 从 test case 中提取测试名字
@@ -250,7 +258,7 @@ void vsf_test_reboot(vsf_test_result_t result,
                      const char *file_name, uint32_t line,
                      const char *function_name, const char *condition)
 {
-    vsf_test_data_t *data     = &__vsf_test.data;
+    vsf_test_data_t *data     = &__vsf_test->data;
     data->result              = result;
     data->error.function_name = function_name;
     data->error.file_name     = file_name;
@@ -268,13 +276,13 @@ void vsf_test_reboot(vsf_test_result_t result,
     data->idx++;
     __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_WRITE);
 
-    if (__vsf_test.reboot.external != NULL) {
+    if (__vsf_test->reboot.external != NULL) {
         __VSF_TEST_TRACE_INFO("[TEST] Calling external reboot\r\n");
-        __vsf_test.reboot.external();
+        __vsf_test->reboot.external();
     }
-    if (__vsf_test.reboot.internal != NULL) {
+    if (__vsf_test->reboot.internal != NULL) {
         __VSF_TEST_TRACE_INFO("[TEST] Calling internal reboot\r\n");
-        __vsf_test.reboot.internal();
+        __vsf_test->reboot.internal();
     }
     while (1);
 }
@@ -287,12 +295,12 @@ void vsf_test_busy_wait_ms(uint32_t ms)
 
 void vsf_test_run_case(uint32_t idx)
 {
-    if (idx >= __vsf_test.test_case_count) {
+    if (idx >= __vsf_test->test_case_count) {
         return;
     }
 
-    vsf_test_data_t *data = &__vsf_test.data;
-    vsf_test_case_t *test_case = &__vsf_test.test_case_array[idx];
+    vsf_test_data_t *data = &__vsf_test->data;
+    vsf_test_case_t *test_case = &__vsf_test->test_case_array[idx];
 
     data->idx = idx;
     __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_WRITE);
@@ -308,11 +316,11 @@ void vsf_test_run_case(uint32_t idx)
         return;
     }
 
-    if (__vsf_test.wdt.internal.feed != NULL) {
-        __vsf_test.wdt.internal.feed(&__vsf_test.wdt.internal);
+    if (__vsf_test->wdt.internal.feed != NULL) {
+        __vsf_test->wdt.internal.feed(&__vsf_test->wdt.internal);
     }
-    if (__vsf_test.wdt.external.feed != NULL) {
-        __vsf_test.wdt.external.feed(&__vsf_test.wdt.external);
+    if (__vsf_test->wdt.external.feed != NULL) {
+        __vsf_test->wdt.external.feed(&__vsf_test->wdt.external);
     }
 
     if (test_case->cfg_str != NULL) {
@@ -346,7 +354,7 @@ void vsf_test_run_case(uint32_t idx)
     case VSF_TEST_TYPE_LONGJMP_FN: {
         jmp_buf buf;
         data->result  = VSF_TEST_RESULT_PASS;
-        __vsf_test.jmp_buf = &buf;
+        __vsf_test->jmp_buf = &buf;
         if (0 == setjmp(buf)) {
             test_case->jmp_fn(test_case->arg);
         } else {
@@ -373,29 +381,29 @@ void vsf_test_run_tests(void)
 {
     __VSF_TEST_TRACE_INFO("[TEST] Starting test framework\r\n");
 
-    if (__vsf_test.wdt.internal.init != NULL) {
-        uint32_t timeout_ms = __vsf_test.wdt.internal.timeout_ms;
+    if (__vsf_test->wdt.internal.init != NULL) {
+        uint32_t timeout_ms = __vsf_test->wdt.internal.timeout_ms;
         if (timeout_ms == 0) {
             timeout_ms = VSF_TEST_CFG_INTERNAL_TIMEOUT_MS;
         }
         __VSF_TEST_TRACE_DEBUG("[TEST] Internal WDT: %u ms\r\n", timeout_ms);
-        __vsf_test.wdt.internal.init(&__vsf_test.wdt.internal, timeout_ms);
+        __vsf_test->wdt.internal.init(&__vsf_test->wdt.internal, timeout_ms);
     }
-    if (__vsf_test.wdt.external.init != NULL) {
-        uint32_t timeout_ms = __vsf_test.wdt.external.timeout_ms;
+    if (__vsf_test->wdt.external.init != NULL) {
+        uint32_t timeout_ms = __vsf_test->wdt.external.timeout_ms;
         if (timeout_ms == 0) {
             timeout_ms = VSF_TEST_CFG_EXTERNAL_TIMEOUT_MS;
         }
         __VSF_TEST_TRACE_DEBUG("[TEST] External WDT: %u ms\r\n", timeout_ms);
-        __vsf_test.wdt.external.init(&__vsf_test.wdt.external, timeout_ms);
+        __vsf_test->wdt.external.init(&__vsf_test->wdt.external, timeout_ms);
     }
 
-    vsf_test_data_t *data = &__vsf_test.data;
+    vsf_test_data_t *data = &__vsf_test->data;
     if (data->init != NULL) {
         data->init(data);
     }
 
-    if (__vsf_test.restart_on_done) {
+    if (__vsf_test->restart_on_done) {
         data->idx = 0;
         __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_WRITE);
         __VSF_TEST_TRACE_INFO("[TEST] Restart on done: starting from test case #0\r\n");
@@ -406,7 +414,7 @@ void vsf_test_run_tests(void)
         }
     }
 
-    while (data->idx < __vsf_test.test_case_count) {
+    while (data->idx < __vsf_test->test_case_count) {
         vsf_test_run_case(data->idx);
         data->idx++;
     }
@@ -414,11 +422,11 @@ void vsf_test_run_tests(void)
     __VSF_TEST_TRACE_INFO("[TEST] All test cases completed\r\n");
 
     __VSF_TEST_TRACE_INFO("\r\n[TEST] ========== Test Summary ==========\r\n");
-    __VSF_TEST_TRACE_INFO("[TEST] Total test cases: %u\r\n", __vsf_test.test_case_count);
+    __VSF_TEST_TRACE_INFO("[TEST] Total test cases: %u\r\n", __vsf_test->test_case_count);
 
     uint32_t pass_count = 0, fail_count = 0, skip_count = 0, wdt_pass_count = 0, wdt_fail_count = 0;
 
-    for (uint32_t i = 0; i < __vsf_test.test_case_count; i++) {
+    for (uint32_t i = 0; i < __vsf_test->test_case_count; i++) {
         data->idx = i;
         __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_READ);
 

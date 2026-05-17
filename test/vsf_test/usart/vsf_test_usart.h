@@ -21,7 +21,6 @@
 /*============================ INCLUDES ======================================*/
 
 #   include "vsf.h"
-#   include "component/test/vsf_test/vsf_test.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -371,6 +370,10 @@ void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_
 #endif
 
 #include "test_params_generated.h"
+
+// Framework types — included LAST so this header can be pulled into
+// vsf_test.h without circular issues.
+#include "component/test/vsf_test/vsf_test.h"
 
 #ifdef __cplusplus
 }

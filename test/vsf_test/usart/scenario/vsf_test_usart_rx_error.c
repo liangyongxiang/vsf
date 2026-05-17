@@ -142,6 +142,7 @@ void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_scene
             (unsigned)__rx_frame_error_cases[i].idx);
         vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_frame_error_run,
             __cfg_str_pool[i], (void *)&__rx_frame_error_cases[i]);
+        __rx_frame_error_cases[i].scene = scene;
     }
 }
 

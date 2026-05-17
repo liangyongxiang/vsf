@@ -29,11 +29,8 @@ static vsf_test_gpio_pinmux_case_t __gpio_pinmux_cases[] = {
     VSF_TEST_GPIO_PINMUX_CASES_INIT
 };
 
-static vsf_usart_t *s_usart;
-
 void vsf_test_gpio_pinmux_add_cases(vsf_test_gpio_pinmux_scene_t *scene)
 {
-    s_usart = usart;
     for (uint8_t i = 0; i < VSF_TEST_GPIO_PINMUX_CASE_COUNT; i++) {
         static char __cfg_str_pool[VSF_TEST_GPIO_CASE_MAX_COUNT][96];
         snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
@@ -44,7 +41,7 @@ void vsf_test_gpio_pinmux_add_cases(vsf_test_gpio_pinmux_scene_t *scene)
         /* Inject the usart pointer via a local mutable copy of the case */
         static vsf_test_gpio_pinmux_case_t __pool[VSF_TEST_GPIO_CASE_MAX_COUNT];
         __pool[i] = __gpio_pinmux_cases[i];
-        __pool[i].usart = s_usart;
+        __pool[i].scene = scene;
         vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_gpio_pinmux_run,
             __cfg_str_pool[i], (void *)&__pool[i]);
     }
@@ -79,18 +76,18 @@ void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c)
     /* Step 3: bring up UART and send a small payload. We do not assert
      * loopback receive here because the host script handles the
      * post-condition (UART line bytes captured on LA / serial). */
-    err = vsf_usart_init(c->usart, &(vsf_usart_cfg_t){
+    err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
                   | VSF_USART_NO_PARITY    | VSF_USART_TX_ENABLE,
         .baudrate = c->baudrate,
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-    while (fsm_rt_cpl != vsf_usart_enable(c->usart));
+    while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
 
     const char *payload = "PINMUX\r\n";
     while (*payload) {
-        while (!vsf_usart_txfifo_get_free_count(c->usart));
-        vsf_usart_txfifo_write(c->usart, (uint8_t *)payload, 1);
+        while (!vsf_usart_txfifo_get_free_count(c->scene->usart));
+        vsf_usart_txfifo_write(c->scene->usart, (uint8_t *)payload, 1);
         payload++;
     }
     vsf_test_busy_wait_ms(50);

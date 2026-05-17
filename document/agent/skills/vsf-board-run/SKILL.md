@@ -20,21 +20,23 @@ vsf-board-run --log-dir <dir> <hardware-map.yml> <script>        # explicit log 
 
 ## Test script
 
-Python file with `run(serial)` or `run(serial, la)`:
+Python file with `run(project_root, serial, la=None)`:
 
 ```python
-def run(serial):
+def run(project_root, serial):
     serial.expect("UART echo demo", timeout=3)
     serial.send("hello\r\n")
     serial.expect("hello", timeout=2)
 ```
+
+`project_root` — `Path`, always the first argument, set by CLI (`--project-root` or cwd).
 
 Optional: `SCENARIOS` list for scenario gating. Firmware asks "should I run scenario X?" — only listed scenarios get GO.
 
 ```python
 SCENARIOS = ["uart_echo", "uart_loopback"]
 
-def run(serial):
+def run(project_root, serial):
     ...
 ```
 
@@ -59,9 +61,9 @@ vsf-board-run board/pico/hardware-map.yml test_uart.py test_gpio.py
 
 ## Logic analyzer (optional)
 
-If `hardware-map.yml` configures `logic_analyzer`, the tool starts capture before flash and stops before running scripts. Script receives `la` kwarg:
+If `hardware-map.yml` configures `logic_analyzer`, the tool starts capture before flash and stops before running scripts. Declare `la` parameter to receive it:
 ```python
-def run(serial, la):
+def run(project_root, serial, la):
     ...
 ```
 

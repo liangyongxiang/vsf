@@ -22,26 +22,13 @@ RP2040_CLK_PERI = 125_000_000
 MIN_BAUDRATE = RP2040_CLK_PERI // (16 * 65535)
 MAX_BAUDRATE = RP2040_CLK_PERI // 16
 
-
 def _expect_pass(baud: int) -> bool:
     return baud != 0 and MIN_BAUDRATE <= baud <= MAX_BAUDRATE
-
 
 @dataclass(frozen=True)
 class Case:
     idx: int
     baud: int
-
-
-def _find_project_root() -> Path:
-    """Walk up from script location to find project root (contains application/component/vsf-test/)."""
-    p = Path(__file__).resolve()
-    while p.parent != p:
-        if (p / "application" / "component" / "vsf-test").is_dir():
-            return p
-        p = p.parent
-    raise RuntimeError("Cannot find project root (no application/component/vsf-test/)")
-
 
 def _load_params(yml_path: Path) -> dict:
     """Load all test parameters from YAML, resolving `include:` directives.
@@ -59,7 +46,6 @@ def _load_params(yml_path: Path) -> dict:
     from test_params_loader import load_yaml_with_includes
     return load_yaml_with_includes(yml_path)
 
-
 def _parse_cases(scenario: dict) -> list[Case]:
     cases: list[Case] = []
     for case in scenario.get("cases", []):
@@ -69,9 +55,7 @@ def _parse_cases(scenario: dict) -> list[Case]:
         ))
     return cases
 
-
-def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
-    project_root = _find_project_root()
+def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     yml_path = project_root / "application" / "component" / "vsf-test" / "test_params.yml"
     params = _load_params(yml_path)
 

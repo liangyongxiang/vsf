@@ -30,13 +30,6 @@ class Case:
     baud: int
 
 
-def _find_project_root() -> Path:
-    p = Path(__file__).resolve()
-    while p.parent != p:
-        if (p / "application" / "component" / "vsf-test").is_dir():
-            return p
-        p = p.parent
-    raise RuntimeError("Cannot find project root")
 
 
 def _load_params(yml_path: Path) -> dict:
@@ -59,8 +52,7 @@ def _parse_cases(scenario: dict) -> list[Case]:
     return cases
 
 
-def run(serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
-    project_root = _find_project_root()
+def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
     yml_path = project_root / "application" / "component" / "vsf-test" / "test_params.yml"
     params = _load_params(yml_path)
 

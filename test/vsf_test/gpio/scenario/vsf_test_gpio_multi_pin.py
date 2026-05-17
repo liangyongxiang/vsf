@@ -14,7 +14,7 @@ from vsf_bench.instruments.serial_instrument import SerialInstrument
 SCENARIOS = ["gpio_multi_pin"]
 
 
-def run(serial: SerialInstrument, la: LogicAnalyzerInstrument | None = None) -> None:
+def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument | None = None) -> None:
     serial.expect("All test cases completed", timeout=30.0)
     summary = serial.expect(r"Pass: (\d+), Fail: (\d+), Skip: (\d+)", timeout=5.0)
     m = re.search(r"Pass: (\d+), Fail: (\d+), Skip: (\d+)", summary)

@@ -40,4 +40,4 @@ description: |
 
 Pitfalls: if IP aliases IRQ values (PL011 `RX_IDLE==RX_TIMEOUT`), use `IRQ_MASK_CHECK_UNIQUE=LOOSE` with `#undef <ALIAS>` before template include. Use `MODE_CHECK_UNIQUE=LOOSE` when mode bits overlap zero. Include `_reg.h` for `irq_clear`.
 
-**Board:** pinmux → reset → init → enable → irq. Expose instance ptr.
+**Board:** pinmux must live outside the peripheral driver (typically `vsf_board.c`, but the file is conventional, not mandatory). Reset/clock/NVIC live in the peripheral driver's `init()` — never in the board file. Whether `vsf_board.c` calls `vsf_hw_<periph>_init(...)` is the developer's choice. Per-instance base/IRQn come from `device.h` macros, never from literal addresses in the driver.

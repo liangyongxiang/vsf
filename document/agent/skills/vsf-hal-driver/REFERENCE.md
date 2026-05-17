@@ -128,6 +128,26 @@ Peripherals with internal sub-units (e.g., DMA channels, SDIO functions, USB end
 
 Reference: `driver/Artery/AT32F402_405/common/dma/dma.c`.
 
+### Driver init() responsibilities
+
+The peripheral driver's `init()` (e.g., `vsf_hw_usart_init`) owns **per-instance peripheral setup**. Anything that belongs to the peripheral's own state goes here; anything shared with other peripherals or owned by the board does NOT.
+
+**Belongs in driver init() (cross-module work for the peripheral itself):**
+- Reset deassert for this instance — e.g., `resets_hw->reset & ~(1u << RESET_UART0)`
+- Peripheral clock enable / gate for this instance — e.g., RCC bit, `vsf_hw_peripheral_enable(usart_ptr->en)`
+- IPCore init delegation, passing this instance's clock frequency (`clock_get_hz(clk_peri)`)
+- NVIC priority + enable for this instance's IRQn, gated on `cfg->isr.handler_fn != NULL`
+- Mode / baudrate / addressing register programming
+
+**Does NOT belong in driver init() (board- or chip-level concerns):**
+- **GPIO pinmux** — pin assignment is board-specific. The same chip may route UART0 to different GPIOs on different boards. Pinmux belongs **outside** the peripheral driver — `vsf_board.c` is the conventional home, but it can also live in application init, a project-specific board file, or any board-level setup. `vsf_board.c` is not mandatory; what matters is that the peripheral driver itself never touches pin routing.
+- Chip-wide clock tree (PLL, AHB/APB dividers) — `vsf_driver_init()` owns this
+- DMA channel allocation across peripherals — board/chip level
+
+**Rule of thumb:** if the resource is shared with other peripherals (pins, clock tree, DMA pool), it does not belong in the per-peripheral driver. If it is the peripheral's own state (its reset bit, its clock gate, its IRQ line), `init()` owns it.
+
+Reference: `driver/RaspberryPi/RP2040/uart/uart.c` `vsf_hw_usart_init` deasserts the per-instance UART reset, calls `vsf_pl011_usart_init` with `clock_get_hz(clk_peri)`, and configures NVIC — but does no pinmux. GP0/GP1 (UART0) and GP8/GP9 (UART1) routing is done in `board/pico/vsf_board.c` (the conventional location for this board; not a fixed requirement).
+
 ### Template file convention
 
 ```
@@ -142,11 +162,16 @@ source/hal/driver/
 
 ### Board wiring
 
-`vsf_board.c`: pinmux -> reset -> init -> enable -> irq. Expose instance pointer.
+Board-level setup typically lives in `vsf_board.c` (a convention, not a requirement). At minimum it owns **pinmux** (GPIO function selection) — that part must NOT be in the peripheral driver. Calling `vsf_hw_<periph>_init(...)` itself is up to the user/developer: it can be done from `vsf_board.c`, from the application, or wherever fits the project. The fixed boundary is:
+
+- Peripheral driver `init()`: per-instance reset/clock/NVIC and register programming.
+- Outside the peripheral driver (board file or application): pinmux. Calling `init()` is a user choice — `vsf_board.c` is one place, but not the only one.
+
+If `vsf_board.c` does call peripheral `init()`, it usually also exposes the instance pointer via `vsf_board.<name>` so the application can use it. See "Driver init() responsibilities" above for what `init()` itself does.
 
 ### Chip-level initialization (`vsf_driver_init`)
 
-VSF calls `vsf_driver_init()` during `vsf_hal_init()`. This is where the chip driver sets up clocks, resets peripherals to a known state, and performs any silicon-specific bring-up **before** individual peripheral drivers are initialized.
+VSF calls `vsf_driver_init()` during `vsf_hal_init()`. This is where the chip driver sets up the **chip-wide clock tree** (PLLs, AHB/APB dividers, clock source selection) and any silicon-specific bring-up shared across peripherals — **before** individual peripheral drivers are initialized. Per-instance peripheral reset/clock/NVIC is NOT done here; that belongs to each peripheral's `init()` (see "Driver init() responsibilities" above).
 
 ```c
 // driver.c

@@ -7,16 +7,21 @@ description: |
 
 # vsf-board-run
 
-Build → flash → test loop. Always rebuilds.
+Build → flash → run test script(s) → return results. Always rebuilds.
 
-## Usage
+## CLI
 
 ```bash
-vsf-board-run board/<board>/hardware-map.yml test_script.py
-vsf-board-run board/<board>/hardware-map.yml           # flash only, no test
+vsf-board-run board/<board>/hardware-map.yml [test_script ...]
+vsf-board-run board/<board>/hardware-map.yml                    # build+flash only
+vsf-board-run --project-root <dir> <hardware-map.yml>            # explicit project root
+vsf-board-run --log-dir <dir> <hardware-map.yml> <script>        # explicit log dir
 ```
 
-Test script — Python file with `run(serial)`:
+## Test script
+
+Python file with `run(serial)` or `run(serial, la)`:
+
 ```python
 def run(serial):
     serial.expect("UART echo demo", timeout=3)
@@ -24,102 +29,72 @@ def run(serial):
     serial.expect("hello", timeout=2)
 ```
 
-## Prerequisites
+Optional: `SCENARIOS` list for scenario gating. Firmware asks "should I run scenario X?" — only listed scenarios get GO.
 
-- vsf-bench installed (`pip install -e vsf.demo/vsf/test/vsf-bench`)
-- pyyaml, pyserial installed
-- cmake in PATH
-- Board connected and powered
-- hardware-map.yml configured
-- Firmware must be built before flashing (Step 1 before Step 2)
+```python
+SCENARIOS = ["uart_echo", "uart_loopback"]
+
+def run(serial):
+    ...
+```
+
+## SerialInstrument API
+
+Available inside `run()`:
+
+| Method | Description |
+|--------|-------------|
+| `send(data)` | Send string to board |
+| `expect(pattern, timeout=5)` | Read until regex matches, returns matched line; raises TimeoutError |
+| `read_all(timeout=2)` | Read all until silence, returns string |
+
+`expect()` preserves unconsumed data after matched line — next call consumes it first.
+
+## Multi-script mode
+
+Pass multiple test scripts. Tool flashes once, waits for firmware to print `All test cases completed`, then runs each script:
+```bash
+vsf-board-run board/pico/hardware-map.yml test_uart.py test_gpio.py
+```
+
+## Logic analyzer (optional)
+
+If `hardware-map.yml` configures `logic_analyzer`, the tool starts capture before flash and stops before running scripts. Script receives `la` kwarg:
+```python
+def run(serial, la):
+    ...
+```
+
+## Output
+
+| Signal | Meaning |
+|--------|---------|
+| `[vsf-board-run] PASS` | All scripts passed |
+| `[vsf-board-run] FAIL: <reason>` | Test failure |
 
 ## Exit codes
 
 | Code | Meaning |
 |------|---------|
-| 0    | Success |
-| 1    | FAIL (TimeoutError or AssertionError in test script) |
+| 0 | Success |
+| 1 | FAIL (TimeoutError or AssertionError in test script) |
 
----
+## Audit log
 
-## Step 1 — Build
+Written to `logs/<timestamp>-<run_name>/vsf-board-run.jsonl`. Final line: `{"verdict":"pass"}` or `{"verdict":"fail"}`.
 
-```python
-from vsf_bench.hardware_map import load
-from vsf_bench.runners.cmake_runner import CMakeRunner
+## Prerequisites
 
-board = load("board/<board>/hardware-map.yml")
-cmake = CMakeRunner(board.build, project_root=".")
-build_dir = cmake.build()
-```
-
-1. Reads `build.source_dir` and `build.build_dir` from hardware-map.yml
-2. Creates build directory if needed
-3. Runs `cmake -B <build_dir> -S <source_dir>` if no CMakeCache.txt
-4. Runs `cmake --build <build_dir>`
-
-Returns build directory path (contains `.elf`, `.uf2`, etc.). Non-zero exit on failure.
-
----
-
-## Step 2 — Flash
-
-```python
-from pathlib import Path
-from vsf_bench.runners.registry import get_runner_class
-
-runner_cfg = board.runners[board.active_runner]
-runner_cls = get_runner_class(runner_cfg.type)
-if runner_cls is None:
-    raise RuntimeError(f"Unknown runner type: {runner_cfg.type}")
-runner = runner_cls(runner_cfg)
-runner.flash(Path(board.build.build_dir))
-```
-
-Supported runners:
-
-| type    | Class      | Artifact | Method                    |
-|---------|------------|----------|---------------------------|
-| openocd | SWDRunner  | .elf     | OpenOCD via CMSIS-DAP/SWD |
-| uf2     | UF2Runner  | .uf2     | USB mass storage copy     |
-
----
-
-## Step 3 — Serial / Test
-
-```python
-from vsf_bench.instruments.serial_instrument import SerialInstrument
-
-with SerialInstrument(board.serial, board.baud) as ser:
-    ser.expect("UART echo demo", timeout=3)
-    ser.send("hello\r\n")
-    ser.expect("hello", timeout=2)
-```
-
-### SerialInstrument API
-
-| Method | Description |
-|--------|-------------|
-| `open()` / `close()` | Open/close serial port, drain stale data on open |
-| `send(data)` | Send string to board |
-| `expect(pattern, timeout=5)` | Read until regex matches, returns matched line; raises TimeoutError |
-| `read_all(timeout=2)` | Read all until silence, returns string |
-| `with SerialInstrument(...) as ser:` | Context manager, auto open/close |
-
-`expect()` preserves unconsumed data after matched line — next `expect()` or `read_all()` consumes it first.
-
-### Audit log
-
-When audit_log path is provided, send/recv recorded as JSONL with timestamps. Final verdict: `{"verdict":"pass"}` or `{"verdict":"fail"}` written to `logs/<timestamp>-vsf-board-run.jsonl`.
-
----
+- vsf-bench installed (`pip install -e vsf.demo/vsf/test/vsf-bench`)
+- pyyaml, pyserial, cmake in PATH
+- Board connected and powered, hardware-map.yml configured
 
 ## Troubleshooting
 
 | Symptom | Fix |
 |---------|-----|
-| Build fails | Check cmake, SDK include paths in CMakeLists.txt, `build.source_dir` in hardware-map.yml |
+| Build fails | Check cmake, SDK paths in CMakeLists.txt, `build.source_dir` in hardware-map.yml |
 | Flash fails | Check board connection, debug probe, BOOTSEL mode for UF2 |
 | Test timeout | Verify board outputs expected pattern; check baud rate |
-| No serial data | Verify port path in hardware-map.yml `serial` field and cable |
+| No serial data | Verify port path in hardware-map.yml `serial` field |
 | Garbled output | Verify baud rate matches board config |

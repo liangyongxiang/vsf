@@ -167,6 +167,43 @@ Reference: `driver/ST/STM32H7RSXX/common/` for multi-peripheral working examples
 
 ---
 
+## Style migration (old → template standard)
+
+Older drivers (e.g. RP2040 uart.c) use hardcoded names: `vsf_hw_usart_init`, `vsf_hw_usart_t`. The current standard uses `VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_init)` with a configurable prefix. To migrate:
+
+### Method: backup → copy template → fill logic
+
+1. **Backup** the old `.c` file to e.g. `uart_old.c.bak`
+2. **Copy** the template `.c` file from `template/__series_name_a__/common/<periph>/` over the old file
+3. **Purge** irrelevant sections:
+   - Remove `// IPCore` blocks (keep only `// HW` blocks for chip-level drivers)
+   - Remove IPCore `IMP_PREFIX` definitions (`vsf_${IP}`), keep `vsf_hw`
+4. **Fill in hardware logic** from the old driver into each template function body, preserving the template's function signature and structure
+5. **Move old IMP_LV0 fields** (e.g. `.irqn`, `.reg` base address) into the template's IMP_LV0 macro
+6. **Keep template includes** (`vsf_hal_cfg.h` → `vsf_hal.h` → vendor SDK), add any chip-specific vendor headers needed
+7. **Update the header** (`.h` file) to use `VSF_MCONNECT` for the struct type
+
+### Key replacements
+
+| Old pattern | Template equivalent |
+|---|---|
+| `vsf_hw_usart_init(...)` | `VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_init)(...)` |
+| `vsf_hw_usart_t *hw_usart_ptr` | `VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr` |
+| `typedef struct vsf_hw_usart_t {` | `typedef struct VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) {` |
+| `vsf_hw_usart0` | `VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart, 0)` |
+| `vsf_pl011_usart_init(&ptr->use_as__vsf_pl011_usart_t, ...)` | same — IPCore delegation is fine |
+| `#include "../driver.h"` | `#include "hal/vsf_hal_cfg.h"` |
+| `#include "RP2040.h"` | `#include "hal/driver/vendor_driver.h"` |
+
+### RP2040-specific gotcha
+
+The RP2040 uses IPCore (PL011) + chip-level add-ons: reset release via `resets_hw`, NVIC interrupt routing via `IRQn_Type irqn`. After migration:
+- `init()` still delegates to `vsf_pl011_usart_init()` + reset + NVIC
+- `capability()` still delegates to `vsf_pl011_usart_capability()` + TX_CPL/RX_CPL
+- IMP_LV0 keeps `.irqn` field and calls `vsf_pl011_usart_irqhandler()`
+
+These IPCore delegation patterns don't change — only the function and type naming changes to the `VSF_MCONNECT` convention.
+
 ## Troubleshooting
 
 | Symptom | Fix |

@@ -89,6 +89,11 @@
 #define VSF_HW_GPIO_PIN_MASK        0x3FFFFFFFu
 #define VSF_HW_GPIO0_IRQN           IO_IRQ_BANK0_IRQn
 
+#define VSF_HW_RTC_COUNT            1
+#define VSF_HW_RTC0_IRQN            RTC_IRQ_IRQn
+#define VSF_HW_RTC0_IRQHandler      RTC_IRQHandler
+#define VSF_HW_RTC0_REG             RTC_BASE
+
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 /*============================ GLOBAL VARIABLES ==============================*/

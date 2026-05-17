@@ -17,7 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "../driver.h"
+#include "./uart.h"
 
 #if VSF_HAL_USE_USART == ENABLED
 
@@ -25,177 +25,267 @@
 
 #include "hal/vsf_hal.h"
 
-// for UART IRQn
 #include "RP2040.h"
-// for resets_hw
 #include "hardware/structs/resets.h"
+#include "hal/driver/IPCore/ARM/PL011/vsf_pl011_uart_reg.h"
 
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_HW_USART_CFG_MULTI_CLASS
-#   define VSF_HW_USART_CFG_MULTI_CLASS             VSF_USART_CFG_MULTI_CLASS
+#   define VSF_HW_USART_CFG_MULTI_CLASS         VSF_USART_CFG_MULTI_CLASS
 #endif
+
+#define VSF_USART_CFG_IMP_PREFIX                vsf_hw
+#define VSF_USART_CFG_IMP_UPCASE_PREFIX         VSF_HW
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 
-typedef struct vsf_hw_usart_t {
+typedef struct VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) {
     implement(vsf_pl011_usart_t)
-    IRQn_Type irqn;
-} vsf_hw_usart_t;
+    IRQn_Type               irqn;
+} VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t);
 
 /*============================ IMPLEMENTATION ================================*/
 
-vsf_err_t vsf_hw_usart_init(vsf_hw_usart_t *hw_usart_ptr, vsf_usart_cfg_t *cfg_ptr)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
+vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_init)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr,
+    vsf_usart_cfg_t *cfg_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
     VSF_HAL_ASSERT(NULL != cfg_ptr);
 
-    // Take UART out of reset (RP2040 default: all peripherals in reset)
-    uint32_t rst_bit = (hw_usart_ptr->irqn == UART1_IRQ_IRQn)
+    uint32_t rst_bit = (usart_ptr->irqn == UART1_IRQ_IRQn)
                        ? (1u << RESET_UART1) : (1u << RESET_UART0);
     resets_hw->reset = resets_hw->reset & ~rst_bit;
     while (!(resets_hw->reset_done & rst_bit));
 
-    vsf_err_t err = vsf_pl011_usart_init(&hw_usart_ptr->use_as__vsf_pl011_usart_t, cfg_ptr, clock_get_hz(clk_peri));
+    vsf_err_t err = vsf_pl011_usart_init(
+        &usart_ptr->use_as__vsf_pl011_usart_t, cfg_ptr, clock_get_hz(clk_peri));
 
     vsf_usart_isr_t *isr_ptr = &cfg_ptr->isr;
     if (isr_ptr->handler_fn != NULL) {
-        NVIC_SetPriority(hw_usart_ptr->irqn, (uint32_t)isr_ptr->prio);
-        NVIC_EnableIRQ(hw_usart_ptr->irqn);
+        NVIC_SetPriority(usart_ptr->irqn, (uint32_t)isr_ptr->prio);
+        NVIC_EnableIRQ(usart_ptr->irqn);
     } else {
-        NVIC_DisableIRQ(hw_usart_ptr->irqn);
+        NVIC_DisableIRQ(usart_ptr->irqn);
     }
 
     return err;
 }
 
-void vsf_hw_usart_fini(vsf_hw_usart_t *hw_usart_ptr)
-{
-    VSF_HAL_ASSERT(hw_usart_ptr != NULL);
-    vsf_pl011_usart_fini(&hw_usart_ptr->use_as__vsf_pl011_usart_t);
+void VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_fini)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    vsf_pl011_usart_fini(&usart_ptr->use_as__vsf_pl011_usart_t);
 }
 
-vsf_usart_capability_t vsf_hw_usart_capability(vsf_hw_usart_t *hw_usart_ptr)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    vsf_usart_capability_t cap = vsf_pl011_usart_capability(&hw_usart_ptr->use_as__vsf_pl011_usart_t, clock_get_hz(clk_peri));
+fsm_rt_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_enable)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    return vsf_pl011_usart_enable(&usart_ptr->use_as__vsf_pl011_usart_t);
+}
+
+fsm_rt_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_disable)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    return vsf_pl011_usart_disable(&usart_ptr->use_as__vsf_pl011_usart_t);
+}
+
+void VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_irq_enable)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr,
+    vsf_usart_irq_mask_t irq_mask
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    vsf_pl011_usart_irq_enable(&usart_ptr->use_as__vsf_pl011_usart_t, irq_mask);
+}
+
+void VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_irq_disable)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr,
+    vsf_usart_irq_mask_t irq_mask
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    vsf_pl011_usart_irq_disable(&usart_ptr->use_as__vsf_pl011_usart_t, irq_mask);
+}
+
+vsf_usart_irq_mask_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_irq_clear)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr,
+    vsf_usart_irq_mask_t irq_mask
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    vsf_pl011_usart_reg_t *reg = (vsf_pl011_usart_reg_t *)usart_ptr->reg;
+    reg->UARTICR.VALUE = irq_mask & PL011_USART_IRQ_MASK;
+    return irq_mask & PL011_USART_IRQ_MASK;
+}
+
+vsf_usart_status_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_status)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    return vsf_pl011_usart_status(&usart_ptr->use_as__vsf_pl011_usart_t);
+}
+
+uint_fast32_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_rxfifo_get_data_count)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    return vsf_pl011_usart_rxfifo_get_data_count(
+        &usart_ptr->use_as__vsf_pl011_usart_t);
+}
+
+uint_fast32_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_rxfifo_read)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr,
+    void *buffer_ptr,
+    uint_fast32_t count
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    VSF_HAL_ASSERT(NULL != buffer_ptr);
+    return vsf_pl011_usart_rxfifo_read(
+        &usart_ptr->use_as__vsf_pl011_usart_t, buffer_ptr, (uint_fast16_t)count);
+}
+
+uint_fast32_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_txfifo_get_free_count)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    return vsf_pl011_usart_txfifo_get_free_count(
+        &usart_ptr->use_as__vsf_pl011_usart_t);
+}
+
+uint_fast32_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_txfifo_write)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr,
+    void *buffer_ptr,
+    uint_fast32_t count
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    VSF_HAL_ASSERT(NULL != buffer_ptr);
+    return vsf_pl011_usart_txfifo_write(
+        &usart_ptr->use_as__vsf_pl011_usart_t, buffer_ptr, (uint_fast16_t)count);
+}
+
+vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_request_rx)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr,
+    void *buffer_ptr,
+    uint_fast32_t count
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    vsf_pl011_usart_rxdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, true);
+    // TODO: setup DMA
+    return VSF_ERR_NONE;
+}
+
+vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_request_tx)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr,
+    void *buffer_ptr,
+    uint_fast32_t count
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    vsf_pl011_usart_txdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, true);
+    // TODO: setup DMA
+    return VSF_ERR_NONE;
+}
+
+vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_cancel_rx)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    return VSF_ERR_NONE;
+}
+
+vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_cancel_tx)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    return VSF_ERR_NONE;
+}
+
+int_fast32_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_get_rx_count)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    return 0;
+}
+
+int_fast32_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_get_tx_count)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    return 0;
+}
+
+vsf_usart_capability_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_capability)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    vsf_usart_capability_t cap = vsf_pl011_usart_capability(
+        &usart_ptr->use_as__vsf_pl011_usart_t, clock_get_hz(clk_peri));
     cap.irq_mask |= VSF_USART_IRQ_MASK_TX_CPL | VSF_USART_IRQ_MASK_RX_CPL;
     return cap;
 }
 
-fsm_rt_t vsf_hw_usart_enable(vsf_hw_usart_t *hw_usart_ptr)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    return vsf_pl011_usart_enable(&hw_usart_ptr->use_as__vsf_pl011_usart_t);
+vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_ctrl)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr,
+    vsf_usart_ctrl_t ctrl,
+    void *param
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    return VSF_ERR_NOT_SUPPORT;
 }
 
-fsm_rt_t vsf_hw_usart_disable(vsf_hw_usart_t *hw_usart_ptr)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    return vsf_pl011_usart_disable(&hw_usart_ptr->use_as__vsf_pl011_usart_t);
-}
-
-void vsf_hw_usart_irq_enable(vsf_hw_usart_t *hw_usart_ptr, vsf_usart_irq_mask_t irq_mask)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    vsf_pl011_usart_irq_enable(&hw_usart_ptr->use_as__vsf_pl011_usart_t, irq_mask);
-}
-
-void vsf_hw_usart_irq_disable(vsf_hw_usart_t *hw_usart_ptr, vsf_usart_irq_mask_t irq_mask)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    vsf_pl011_usart_irq_disable(&hw_usart_ptr->use_as__vsf_pl011_usart_t, irq_mask);
-}
-
-vsf_usart_status_t vsf_hw_usart_status(vsf_hw_usart_t *hw_usart_ptr)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    return vsf_pl011_usart_status(&hw_usart_ptr->use_as__vsf_pl011_usart_t);
-}
-
-uint_fast16_t vsf_hw_usart_rxfifo_get_data_count(vsf_hw_usart_t *hw_usart_ptr)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    return vsf_pl011_usart_rxfifo_get_data_count(&hw_usart_ptr->use_as__vsf_pl011_usart_t);
-}
-
-uint_fast16_t vsf_hw_usart_rxfifo_read(vsf_hw_usart_t *hw_usart_ptr, void *buffer_ptr, uint_fast16_t count)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    return vsf_pl011_usart_rxfifo_read(&hw_usart_ptr->use_as__vsf_pl011_usart_t, buffer_ptr, count);
-}
-
-uint_fast16_t vsf_hw_usart_txfifo_get_free_count(vsf_hw_usart_t *hw_usart_ptr)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    return vsf_pl011_usart_txfifo_get_free_count(&hw_usart_ptr->use_as__vsf_pl011_usart_t);
-}
-
-uint_fast16_t vsf_hw_usart_txfifo_write(vsf_hw_usart_t *hw_usart_ptr, void *buffer_ptr, uint_fast16_t count)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    return vsf_pl011_usart_txfifo_write(&hw_usart_ptr->use_as__vsf_pl011_usart_t, buffer_ptr, count);
-}
-
-vsf_err_t vsf_hw_usart_request_rx(vsf_hw_usart_t *hw_usart_ptr, void *buffer_ptr, uint_fast32_t count)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    uintptr_t srcaddr = vsf_pl011_usart_rxdma_config(&hw_usart_ptr->use_as__vsf_pl011_usart_t, true);
-    // TODO: setup DMA
+vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_get_configuration)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr,
+    vsf_usart_cfg_t *cfg_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    VSF_HAL_ASSERT(NULL != cfg_ptr);
+    cfg_ptr->mode       = VSF_USART_8_BIT_LENGTH
+                        | VSF_USART_1_STOPBIT
+                        | VSF_USART_NO_PARITY;
+    cfg_ptr->baudrate   = 115200;
+    cfg_ptr->rx_timeout = 0;
+    cfg_ptr->isr        = usart_ptr->isr;
     return VSF_ERR_NONE;
 }
 
-vsf_err_t vsf_hw_usart_request_tx(vsf_hw_usart_t *hw_usart_ptr, void *buffer_ptr, uint_fast32_t count)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    uintptr_t dstaddr = vsf_pl011_usart_txdma_config(&hw_usart_ptr->use_as__vsf_pl011_usart_t, true);
-    // TODO: setup DMA
-    return VSF_ERR_NONE;
+static void VSF_MCONNECT(__, VSF_USART_CFG_IMP_PREFIX, _usart_irqhandler)(
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
+) {
+    VSF_HAL_ASSERT(NULL != usart_ptr);
+    vsf_pl011_usart_irqhandler(&usart_ptr->use_as__vsf_pl011_usart_t);
 }
 
-vsf_err_t vsf_hw_usart_cancel_rx(vsf_hw_usart_t *hw_usart_ptr)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    return VSF_ERR_NONE;
-}
+/*============================ MACROFIED FUNCTIONS ===========================*/
 
-vsf_err_t vsf_hw_usart_cancel_tx(vsf_hw_usart_t *hw_usart_ptr)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    return VSF_ERR_NONE;
-}
+#define VSF_USART_CFG_MODE_CHECK_UNIQUE                 VSF_HAL_CHECK_MODE_LOOSE
+#define VSF_USART_CFG_REIMPLEMENT_API_CAPABILITY        ENABLED
+#define VSF_USART_CFG_REIMPLEMENT_API_REQUEST           ENABLED
+#define VSF_USART_CFG_REIMPLEMENT_API_CTRL              ENABLED
+#define VSF_USART_CFG_REIMPLEMENT_API_GET_CONFIGURATION ENABLED
+#define VSF_USART_CFG_REIMPLEMENT_API_IRQ_CLEAR         ENABLED
 
-int_fast32_t vsf_hw_usart_get_rx_count(vsf_hw_usart_t *hw_usart_ptr)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    return 0;
-}
-
-int_fast32_t vsf_hw_usart_get_tx_count(vsf_hw_usart_t *hw_usart_ptr)
-{
-    VSF_HAL_ASSERT(NULL != hw_usart_ptr);
-    return 0;
-}
-
-/*============================ INCLUDES ======================================*/
-
-#define VSF_USART_CFG_REIMPLEMENT_API_CAPABILITY    ENABLED
-#define VSF_USART_CFG_REIMPLEMENT_API_REQUEST       ENABLED
-#define VSF_USART_CFG_IMP_PREFIX                vsf_hw
-#define VSF_USART_CFG_IMP_UPCASE_PREFIX         VSF_HW
 #define VSF_USART_CFG_IMP_LV0(__IDX, __HAL_OP)                                  \
-    vsf_hw_usart_t vsf_hw_usart ## __IDX = {                                    \
-        .reg  = (void *)VSF_HW_USART ## __IDX ## _REG,                          \
-        .irqn = VSF_HW_USART ## __IDX ## _IRQN,                                 \
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t)                            \
+        VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart, __IDX) = {               \
+        .reg  = (void *)VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,           \
+                                     _USART, __IDX, _REG),                      \
+        .irqn = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                   \
+                             _USART, __IDX, _IRQN),                             \
         __HAL_OP                                                                \
     };                                                                          \
-    void VSF_HW_USART ## __IDX ## _IRQHandler(void)                             \
+    void VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                          \
+                      _USART, __IDX, _IRQHandler)(void)                         \
     {                                                                           \
         uintptr_t ctx = vsf_hal_irq_enter();                                    \
-        vsf_pl011_usart_irqhandler(&vsf_hw_usart ## __IDX .use_as__vsf_pl011_usart_t);\
+        VSF_MCONNECT(__, VSF_USART_CFG_IMP_PREFIX, _usart_irqhandler)(          \
+            &VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart, __IDX)              \
+        );                                                                      \
         vsf_hal_irq_leave(ctx);                                                 \
     }
+
 #include "hal/driver/common/usart/usart_template.inc"
 
 #endif      // VSF_HAL_USE_USART
+/* EOF */

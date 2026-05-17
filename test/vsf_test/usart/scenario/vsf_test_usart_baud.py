@@ -11,10 +11,9 @@ so the script does not depend on firmware output for correctness.
 from dataclasses import dataclass
 from pathlib import Path
 
-import yaml
-
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
+from vsf_bench.test_params import load_test_params
 
 SCENARIOS = ["usart_baud"]
 
@@ -30,22 +29,6 @@ class Case:
     idx: int
     baud: int
 
-def _load_params(yml_path: Path) -> dict:
-    """Load all test parameters from YAML, resolving `include:` directives.
-
-    The aggregator (`test_params.yml`) lists per-peripheral YAMLs via the
-    `include:` directive. We mirror the C generator's resolution semantics
-    so the host-side scripts read the same flattened view.
-    """
-    # Import the shared loader via sys.path so this stays self-contained
-    # whether the script is invoked from a checkout or an installed wheel.
-    import sys as _sys
-    _loader_dir = (Path(__file__).resolve().parent.parent.parent / "scripts")
-    if str(_loader_dir) not in _sys.path:
-        _sys.path.insert(0, str(_loader_dir))
-    from test_params_loader import load_yaml_with_includes
-    return load_yaml_with_includes(yml_path)
-
 def _parse_cases(scenario: dict) -> list[Case]:
     cases: list[Case] = []
     for case in scenario.get("cases", []):
@@ -56,8 +39,7 @@ def _parse_cases(scenario: dict) -> list[Case]:
     return cases
 
 def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
-    yml_path = project_root / "application" / "component" / "vsf-test" / "test_params.yml"
-    params = _load_params(yml_path)
+    params = load_test_params(project_root)
 
     scenario = params.get("tx_baud", {})
     cases = _parse_cases(scenario)

@@ -113,6 +113,21 @@ class SerialInstrument:
         with open(self._audit_log, "a") as f:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
+    def expect_test_summary(self, name: str, timeout: float = 30.0) -> tuple[int, int, int]:
+        """Wait for firmware test completion and parse Pass/Fail/Skip summary.
+
+        Returns (passed, failed, skipped). Asserts failed==0 and passed>0.
+        """
+        self.expect("All test cases completed", timeout=timeout)
+        summary = self.expect(r"Pass: (\d+), Fail: (\d+), Skip: (\d+)", timeout=5.0)
+        m = re.search(r"Pass: (\d+), Fail: (\d+), Skip: (\d+)", summary)
+        assert m is not None, f"Could not parse test summary: {summary!r}"
+        passed, failed, skipped = int(m.group(1)), int(m.group(2)), int(m.group(3))
+        print(f"[{name}] pass={passed} fail={failed} skip={skipped}")
+        assert failed == 0, f"{failed} assertion(s) failed in firmware"
+        assert passed > 0, "no cases ran"
+        return passed, failed, skipped
+
     def __enter__(self):
         self.open()
         return self

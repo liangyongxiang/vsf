@@ -8,10 +8,9 @@ Usage:
 from dataclasses import dataclass
 from pathlib import Path
 
-import yaml
-
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
+from vsf_bench.test_params import load_test_params
 
 SCENARIOS = ["usart_rx_baud"]
 
@@ -19,28 +18,13 @@ RP2040_CLK_PERI = 125_000_000
 MIN_BAUDRATE = RP2040_CLK_PERI // (16 * 65535)
 MAX_BAUDRATE = RP2040_CLK_PERI // 16
 
-
 def _expect_pass(baud: int) -> bool:
     return baud != 0 and MIN_BAUDRATE <= baud <= MAX_BAUDRATE
-
 
 @dataclass(frozen=True)
 class Case:
     idx: int
     baud: int
-
-
-
-
-def _load_params(yml_path: Path) -> dict:
-    """Load all test parameters from YAML, resolving `include:` directives."""
-    import sys as _sys
-    _loader_dir = (Path(__file__).resolve().parent.parent.parent / "scripts")
-    if str(_loader_dir) not in _sys.path:
-        _sys.path.insert(0, str(_loader_dir))
-    from test_params_loader import load_yaml_with_includes
-    return load_yaml_with_includes(yml_path)
-
 
 def _parse_cases(scenario: dict) -> list[Case]:
     cases: list[Case] = []
@@ -51,10 +35,8 @@ def _parse_cases(scenario: dict) -> list[Case]:
         ))
     return cases
 
-
 def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
-    yml_path = project_root / "application" / "component" / "vsf-test" / "test_params.yml"
-    params = _load_params(yml_path)
+    params = load_test_params(project_root)
 
     scenario = params.get("rx_baud", {})
     cases = _parse_cases(scenario)

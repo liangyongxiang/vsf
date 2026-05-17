@@ -37,6 +37,7 @@
 #   include "uart/uart.h"
 #   include "rtc/rtc.h"
 #   include "flash/flash.h"
+#   include "wdt/wdt.h"
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/

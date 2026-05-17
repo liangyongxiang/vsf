@@ -99,6 +99,9 @@
 #define VSF_HW_FLASH0_SECTOR_SIZE   4096
 #define VSF_HW_FLASH0_PAGE_SIZE     256
 
+#define VSF_HW_WDT_COUNT            1
+#define VSF_HW_WDT0_REG             WATCHDOG_BASE
+
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 /*============================ GLOBAL VARIABLES ==============================*/

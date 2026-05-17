@@ -10,6 +10,7 @@ add_subdirectory(uart)
 add_subdirectory(gpio)
 add_subdirectory(rtc)
 add_subdirectory(flash)
+add_subdirectory(wdt)
 
 vsf_add_include_directories(
     vendor/generated/pico_base

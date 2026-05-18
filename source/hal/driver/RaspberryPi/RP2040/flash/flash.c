@@ -88,7 +88,7 @@ static inline void *__vsf_rom_func_lookup(uint32_t code)
     return rom_table_lookup(func_table, code);
 }
 
-static void __vsf_rp2040_flash_do_erase(uint32_t offset, size_t size)
+static void __attribute__((section(".time_critical"))) __vsf_rp2040_flash_do_erase(uint32_t offset, size_t size)
 {
     rom_connect_internal_flash_fn connect =
         (rom_connect_internal_flash_fn) __vsf_rom_func_lookup(ROM_FUNC_CONNECT_INTERNAL_FLASH);
@@ -110,7 +110,7 @@ static void __vsf_rp2040_flash_do_erase(uint32_t offset, size_t size)
     }
 }
 
-static void __vsf_rp2040_flash_do_program(uint32_t offset, const uint8_t *data, size_t size)
+static void __attribute__((section(".time_critical"))) __vsf_rp2040_flash_do_program(uint32_t offset, const uint8_t *data, size_t size)
 {
     rom_connect_internal_flash_fn connect =
         (rom_connect_internal_flash_fn) __vsf_rom_func_lookup(ROM_FUNC_CONNECT_INTERNAL_FLASH);

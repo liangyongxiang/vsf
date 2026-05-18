@@ -42,6 +42,7 @@
 #   include "pwm/pwm.h"
 #   include "timer/timer.h"
 #   include "spi/spi.h"
+#   include "dma/dma.h"
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
@@ -142,6 +143,14 @@
 #   define VSF_USART_CFG_DEC_PREFIX                         vsf_hw
 #   define VSF_USART_CFG_DEC_UPCASE_PREFIX                  VSF_HW
 #   include "hal/driver/common/usart/usart_template.h"
+#endif
+
+#if VSF_HAL_USE_DMA == ENABLED
+#   include "hal/driver/common/template/vsf_template_dma.h"
+
+#   define VSF_DMA_CFG_DEC_PREFIX                           vsf_hw
+#   define VSF_DMA_CFG_DEC_UPCASE_PREFIX                    VSF_HW
+#   include "hal/driver/common/dma/dma_template.h"
 #endif
 
 #if VSF_HAL_USE_WDT == ENABLED

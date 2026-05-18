@@ -137,6 +137,10 @@
 #define VSF_HW_SPI1_IRQHandler      SPI1_IRQHandler
 #define VSF_HW_SPI1_REG             SPI1_BASE
 
+#define VSF_HW_DMA_COUNT            1
+#define VSF_HW_DMA_CHANNEL_NUM      12
+#define VSF_HW_DMA0_REG             DMA_BASE
+
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 /*============================ GLOBAL VARIABLES ==============================*/

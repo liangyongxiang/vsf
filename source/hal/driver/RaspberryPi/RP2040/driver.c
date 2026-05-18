@@ -25,10 +25,12 @@
 #include "hardware/platform_defs.h"
 #include "hardware/address_mapped.h"
 #include "hardware/regs/resets.h"
+#include "hardware/regs/watchdog.h"
 #include "hardware/structs/xosc.h"
 #include "hardware/structs/clocks.h"
 #include "hardware/structs/pll.h"
 #include "hardware/structs/resets.h"
+#include "hardware/structs/watchdog.h"
 
 
 /*============================ MACROS ========================================*/
@@ -472,6 +474,14 @@ bool vsf_driver_init(void)
                     (USB_CLK_KHZ * KHZ) / 1024);
 
     unreset_block_wait(RESETS_RESET_BITS);
+
+    // Start the watchdog tick generator. On RP2040 this also drives the
+    // timer block's 1MHz time base; without it `timer_hw->timerawl` does not
+    // increment at the expected rate and any busy_wait_us / alarm timing is
+    // wrong by orders of magnitude. clk_ref runs at XOSC_KHZ (12000kHz) on
+    // boot, so divider = XOSC_KHZ / 1000 = 12 produces a 1MHz tick.
+    watchdog_hw->tick = (XOSC_KHZ / 1000) | WATCHDOG_TICK_ENABLE_BITS;
+
     return true;
 }
 

@@ -230,12 +230,23 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_start)(
         break;
     }
 
-    /* Address increment */
-    if (mode & VSF_DMA_SRC_ADDR_INCREMENT) {
+    /* Address increment — INCREMENT has value 0 in VSF mode enum,
+     * so we enable increment when neither DECREMENT nor NO_CHANGE is set. */
+    switch (mode & (0x03u << 2)) {
+    case VSF_DMA_SRC_ADDR_DECREMENT:
+    case VSF_DMA_SRC_ADDR_NO_CHANGE:
+        break;
+    default:
         ctrl |= DMA_CH0_CTRL_TRIG_INCR_READ_BITS;
+        break;
     }
-    if (mode & VSF_DMA_DST_ADDR_INCREMENT) {
+    switch (mode & (0x03u << 4)) {
+    case VSF_DMA_DST_ADDR_DECREMENT:
+    case VSF_DMA_DST_ADDR_NO_CHANGE:
+        break;
+    default:
         ctrl |= DMA_CH0_CTRL_TRIG_INCR_WRITE_BITS;
+        break;
     }
 
     /* TREQ: 0x3F = permanent request (mem2mem) */

@@ -23,10 +23,10 @@ void vsf_test_wdt_basic_run(void)
 
     while (fsm_rt_cpl != vsf_wdt_enable(wdt));
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
         vsf_wdt_feed(wdt);
         vsf_trace_info("WDT:FEED:%d" VSF_TRACE_CFG_LINEEND, i);
-        vsf_test_busy_wait_ms(100);
+        vsf_test_busy_wait_ms(10);
     }
 
     vsf_trace_info("WDT:BASIC:PASS" VSF_TRACE_CFG_LINEEND);

@@ -41,6 +41,7 @@
 #   include "adc/adc.h"
 #   include "pwm/pwm.h"
 #   include "timer/timer.h"
+#   include "spi/spi.h"
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/

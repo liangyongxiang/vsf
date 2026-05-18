@@ -14,6 +14,7 @@ add_subdirectory(wdt)
 add_subdirectory(adc)
 add_subdirectory(pwm)
 add_subdirectory(timer)
+add_subdirectory(spi)
 
 vsf_add_include_directories(
     vendor/generated/pico_base

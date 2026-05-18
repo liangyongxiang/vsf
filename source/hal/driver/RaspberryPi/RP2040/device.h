@@ -129,6 +129,14 @@
 #define VSF_HW_TIMER2_IRQHandler    TIMER_IRQ_2_IRQHandler
 #define VSF_HW_TIMER3_IRQHandler    TIMER_IRQ_3_IRQHandler
 
+#define VSF_HW_SPI_COUNT            2
+#define VSF_HW_SPI0_IRQN            SPI0_IRQ_IRQn
+#define VSF_HW_SPI0_IRQHandler      SPI0_IRQHandler
+#define VSF_HW_SPI0_REG             SPI0_BASE
+#define VSF_HW_SPI1_IRQN            SPI1_IRQ_IRQn
+#define VSF_HW_SPI1_IRQHandler      SPI1_IRQHandler
+#define VSF_HW_SPI1_REG             SPI1_BASE
+
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 /*============================ GLOBAL VARIABLES ==============================*/

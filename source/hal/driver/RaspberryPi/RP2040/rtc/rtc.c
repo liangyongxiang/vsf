@@ -80,6 +80,10 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_init)(
     resets_hw->reset = resets_hw->reset & ~rst_bit;
     while (!(resets_hw->reset_done & rst_bit));
 
+    // Configure 1Hz divider from clk_rtc (pico-sdk default: 46875Hz)
+    #define RP2040_CLK_RTC_FREQ     46875
+    reg->clkdiv_m1 = RP2040_CLK_RTC_FREQ - 1;
+
     // Disable RTC before configuration
     reg->ctrl = 0;
     __rp2040_rtc_wait_not_active(reg);
@@ -175,12 +179,11 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_set)(
 
     rtc_hw_t *reg = rtc_ptr->reg;
 
-    // Disable RTC before writing setup registers
-    bool was_enabled = (reg->ctrl & RTC_CTRL_RTC_ENABLE_BITS) != 0;
-    if (was_enabled) {
-        reg->ctrl = 0;
-        __rp2040_rtc_wait_not_active(reg);
-    }
+    // Match pico-sdk rtc_set_datetime sequence exactly: always disable →
+    // write setup → LOAD → ENABLE → wait active. Anything less risks the
+    // LOAD bit being processed without ENABLE=1 in the slow clock domain.
+    reg->ctrl = 0;
+    __rp2040_rtc_wait_not_active(reg);
 
     reg->setup_0 = ((uint32_t)(rtc_tm->tm_year & 0xFFF) << RTC_SETUP_0_YEAR_LSB)
                  | ((uint32_t)(rtc_tm->tm_mon  & 0xF)   << RTC_SETUP_0_MONTH_LSB)
@@ -191,14 +194,9 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_set)(
                  | ((uint32_t)(rtc_tm->tm_min  & 0x3F)  << RTC_SETUP_1_MIN_LSB)
                  | ((uint32_t)(rtc_tm->tm_sec  & 0x3F)  << RTC_SETUP_1_SEC_LSB);
 
-    // Load the setup value into the RTC counter
     reg->ctrl = RTC_CTRL_LOAD_BITS;
-
-    // Re-enable if it was running
-    if (was_enabled) {
-        reg->ctrl = RTC_CTRL_RTC_ENABLE_BITS;
-        __rp2040_rtc_wait_active(reg);
-    }
+    reg->ctrl = RTC_CTRL_RTC_ENABLE_BITS;
+    __rp2040_rtc_wait_active(reg);
 
     return VSF_ERR_NONE;
 }

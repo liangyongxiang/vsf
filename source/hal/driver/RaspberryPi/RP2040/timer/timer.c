@@ -69,6 +69,18 @@ typedef struct vsf_hw_timer_t {
 /*============================ PROTOTYPES ====================================*/
 /*============================ IMPLEMENTATION ================================*/
 
+static uint8_t __rp2040_timer_idx(VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_t) *timer_ptr)
+{
+    for (uint8_t i = 0; i < VSF_HW_TIMER_COUNT; i++) {
+        extern VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_t)
+            VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer, 0);
+        if (timer_ptr == &VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer, 0) + i) {
+            return i;
+        }
+    }
+    return 0;
+}
+
 static uint8_t __rp2040_timer_alarm_index(uint8_t timer_idx, uint8_t channel)
 {
     /* Map timer instance + channel to alarm number.
@@ -92,10 +104,9 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_init)(
     timer_ptr->channel_enabled = 0;
 
     if (timer_ptr->isr.handler_fn != NULL) {
-        /* NVIC priority is set per timer instance via IRQ number.
-         * We need the timer index to know which IRQ to configure.
-         * The timer instance address gives us the index.
-         */
+        uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
+        NVIC_SetPriority(TIMER_IRQ_0_IRQn + timer_idx,
+                         (uint32_t)timer_ptr->isr.prio);
     }
 
     return VSF_ERR_NONE;
@@ -107,22 +118,13 @@ void VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_fini)(
     VSF_HAL_ASSERT(timer_ptr != NULL);
 
     timer_hw_t *hw = (timer_hw_t *)timer_ptr->reg;
-    /* Disable all interrupts for this timer's alarms */
-    uint8_t timer_idx = 0;
-    /* Determine timer index from the instance pointer */
-    for (uint8_t i = 0; i < VSF_HW_TIMER_COUNT; i++) {
-        extern VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_t)
-            VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer, 0);
-        if (timer_ptr == &VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer, 0) + i) {
-            timer_idx = i;
-            break;
-        }
-    }
+    uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
 
     for (uint8_t ch = 0; ch < RP2040_TIMER_ALARM_PER_INSTANCE; ch++) {
         uint8_t alarm = __rp2040_timer_alarm_index(timer_idx, ch);
         hw->inte &= ~(1u << alarm);
     }
+    NVIC_DisableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
     timer_ptr->channel_enabled = 0;
 }
 
@@ -148,6 +150,9 @@ void VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_enable)(
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
     (void)irq_mask;
+
+    uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
+    NVIC_EnableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
 }
 
 void VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_disable)(
@@ -156,6 +161,9 @@ void VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_disable)(
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
     (void)irq_mask;
+
+    uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
+    NVIC_DisableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
 }
 
 vsf_timer_irq_mask_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_clear)(
@@ -242,18 +250,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_start)(
     VSF_HAL_ASSERT(channel < RP2040_TIMER_ALARM_PER_INSTANCE);
 
     timer_hw_t *hw = (timer_hw_t *)timer_ptr->reg;
-    uint8_t timer_idx = 0;
-
-    /* Determine timer index from instance address */
-    for (uint8_t i = 0; i < VSF_HW_TIMER_COUNT; i++) {
-        extern VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_t)
-            VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer, 0);
-        if (timer_ptr == &VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer, 0) + i) {
-            timer_idx = i;
-            break;
-        }
-    }
-
+    uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
     uint8_t alarm = __rp2040_timer_alarm_index(timer_idx, channel);
     uint32_t period = timer_ptr->channel_cfg[channel].pulse;
     if (period == 0) {
@@ -263,9 +260,15 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_start)(
     /* Compute alarm target: current time + period (in us ticks) */
     uint32_t target = hw->timerawl + period;
 
+    /* Clear any pending interrupt before arming */
+    hw->intr = (1u << alarm);
+
     /* Write alarm value and enable interrupt */
     hw->alarm[alarm] = target;
     hw->inte |= (1u << alarm);
+
+    NVIC_ClearPendingIRQ(TIMER_IRQ_0_IRQn + timer_idx);
+    NVIC_EnableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
 
     timer_ptr->channel_enabled |= (1u << channel);
 
@@ -280,17 +283,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_stop)(
     VSF_HAL_ASSERT(channel < RP2040_TIMER_ALARM_PER_INSTANCE);
 
     timer_hw_t *hw = (timer_hw_t *)timer_ptr->reg;
-    uint8_t timer_idx = 0;
-
-    for (uint8_t i = 0; i < VSF_HW_TIMER_COUNT; i++) {
-        extern VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_t)
-            VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer, 0);
-        if (timer_ptr == &VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer, 0) + i) {
-            timer_idx = i;
-            break;
-        }
-    }
-
+    uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
     uint8_t alarm = __rp2040_timer_alarm_index(timer_idx, channel);
     hw->inte &= ~(1u << alarm);
     /* Disarm the alarm by writing to ARMED register */

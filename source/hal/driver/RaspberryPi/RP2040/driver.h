@@ -38,6 +38,9 @@
 #   include "rtc/rtc.h"
 #   include "flash/flash.h"
 #   include "wdt/wdt.h"
+#   include "adc/adc.h"
+#   include "pwm/pwm.h"
+#   include "timer/timer.h"
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/

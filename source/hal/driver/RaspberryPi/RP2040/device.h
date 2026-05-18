@@ -102,6 +102,33 @@
 #define VSF_HW_WDT_COUNT            1
 #define VSF_HW_WDT0_REG             WATCHDOG_BASE
 
+#define VSF_HW_ADC_COUNT            1
+#define VSF_HW_ADC0_REG             ADC_BASE
+
+#define VSF_HW_PWM_COUNT            8
+#define VSF_HW_PWM0_REG             PWM_BASE
+#define VSF_HW_PWM1_REG             PWM_BASE
+#define VSF_HW_PWM2_REG             PWM_BASE
+#define VSF_HW_PWM3_REG             PWM_BASE
+#define VSF_HW_PWM4_REG             PWM_BASE
+#define VSF_HW_PWM5_REG             PWM_BASE
+#define VSF_HW_PWM6_REG             PWM_BASE
+#define VSF_HW_PWM7_REG             PWM_BASE
+
+#define VSF_HW_TIMER_COUNT          4
+#define VSF_HW_TIMER0_REG           TIMER_BASE
+#define VSF_HW_TIMER1_REG           TIMER_BASE
+#define VSF_HW_TIMER2_REG           TIMER_BASE
+#define VSF_HW_TIMER3_REG           TIMER_BASE
+#define VSF_HW_TIMER0_IRQN          TIMER_IRQ_0_IRQn
+#define VSF_HW_TIMER1_IRQN          TIMER_IRQ_1_IRQn
+#define VSF_HW_TIMER2_IRQN          TIMER_IRQ_2_IRQn
+#define VSF_HW_TIMER3_IRQN          TIMER_IRQ_3_IRQn
+#define VSF_HW_TIMER0_IRQHandler    TIMER_IRQ_0_IRQHandler
+#define VSF_HW_TIMER1_IRQHandler    TIMER_IRQ_1_IRQHandler
+#define VSF_HW_TIMER2_IRQHandler    TIMER_IRQ_2_IRQHandler
+#define VSF_HW_TIMER3_IRQHandler    TIMER_IRQ_3_IRQHandler
+
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 /*============================ GLOBAL VARIABLES ==============================*/

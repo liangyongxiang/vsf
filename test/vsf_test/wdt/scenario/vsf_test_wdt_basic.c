@@ -1,14 +1,45 @@
+/*============================ INCLUDES ======================================*/
+
 #include "vsf_test_wdt_basic.h"
 
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
 
 #include "hal/vsf_hal.h"
 
-void vsf_test_wdt_basic_run(void)
-{
-    vsf_wdt_t *wdt = (vsf_wdt_t *)&vsf_hw_wdt0;
+/*============================ MACROS ========================================*/
 
-    vsf_trace_info("WDT:BASIC:START" VSF_TRACE_CFG_LINEEND);
+#ifndef VSF_TEST_MARKER_DELAY_MS
+#   define VSF_TEST_MARKER_DELAY_MS            200
+#endif
+
+/*============================ LOCAL VARIABLES ===============================*/
+
+static vsf_test_wdt_basic_case_t __wdt_basic_cases[] = {
+    VSF_TEST_WDT_BASIC_CASES_INIT
+};
+
+/*============================ IMPLEMENTATION ================================*/
+
+void vsf_test_wdt_basic_add_cases(vsf_test_wdt_basic_scene_t *scene)
+{
+    for (uint8_t i = 0; i < VSF_TEST_WDT_BASIC_CASE_COUNT; i++) {
+        static char __cfg_str_pool[VSF_TEST_WDT_BASIC_CASE_COUNT][64];
+        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
+            "wdt_basic_%u purpose=wdt_basic hw_req=none",
+            (unsigned)__wdt_basic_cases[i].idx);
+        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_wdt_basic_run,
+            __cfg_str_pool[i], (void *)&__wdt_basic_cases[i]);
+        __wdt_basic_cases[i].scene = scene;
+    }
+}
+
+void vsf_test_wdt_basic_run(void *arg)
+{
+    vsf_test_wdt_basic_case_t *c = (vsf_test_wdt_basic_case_t *)arg;
+    vsf_wdt_t *wdt = c->scene->wdt;
+
+    vsf_trace_info("WDT:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_wdt_capability_t cap = vsf_wdt_capability(wdt);
     VSF_TEST_ASSERT(cap.support_reset_soc == 1);
@@ -32,4 +63,6 @@ void vsf_test_wdt_basic_run(void)
     vsf_trace_info("WDT:BASIC:PASS" VSF_TRACE_CFG_LINEEND);
 }
 
-#endif
+#endif /* VSF_TEST_WDT_BASIC_ENABLE == ENABLED */
+
+/* EOF */

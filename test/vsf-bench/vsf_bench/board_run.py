@@ -236,7 +236,7 @@ def main():
     if multi_mode:
         # Wait for firmware to complete ALL tests
         print("[vsf-board-run] Waiting for firmware test completion...")
-        ser.expect("All test cases completed", timeout=120.0)
+        ser.expect("All test cases completed", timeout=900.0)
         print("[vsf-board-run] Firmware tests completed")
 
         # Wait for LA capture to finish

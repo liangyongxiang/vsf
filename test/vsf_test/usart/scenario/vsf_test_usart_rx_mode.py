@@ -85,11 +85,21 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
         start_ns=decode_start_ns,
         end_ns=decode_end_ns,
     )
+    done_markers = la.decode_markers(
+        channel=marker_ch_tx,
+        baudrate=marker_baud,
+        pattern=r"RX_MODE:CASE:(\d+):DONE",
+        output_csv=out_dir / "rx_mode_done_markers.csv",
+        start_ns=decode_start_ns,
+        end_ns=decode_end_ns,
+    )
     ready_by_case = {ev.case_idx: ev for ev in ready_markers}
+    done_by_case = {ev.case_idx: ev for ev in done_markers}
 
     unique_configs = sorted({(c.decode_parity, c.decode_data, c.decode_stop) for c in cases})
     for c in cases:
         assert c.idx in ready_by_case, f"CASE {c.idx}: READY marker not found in LA decode"
+        assert c.idx in done_by_case, f"CASE {c.idx}: DONE marker not found in LA decode"
     config_to_csv = {
         cfg: out_dir / f"rx_mode_full_{cfg[0]}_{cfg[1]}_{cfg[2]}.csv"
         for cfg in unique_configs
@@ -100,13 +110,9 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
         for (p, d, s) in unique_configs
     ])
 
-    sorted_cases = sorted(cases, key=lambda c: ready_by_case[c.idx].time_ns)
-    for i, c in enumerate(sorted_cases):
+    for c in cases:
         start_ns = ready_by_case[c.idx].time_ns
-        if i + 1 < len(sorted_cases):
-            end_ns = ready_by_case[sorted_cases[i + 1].idx].time_ns
-        else:
-            end_ns = decode_end_ns if decode_end_ns is not None else start_ns + 5_000_000_000
+        end_ns = done_by_case[c.idx].time_ns
         csv_path = config_to_csv[(c.decode_parity, c.decode_data, c.decode_stop)]
         rows = la.read_csv_rows(csv_path)
         got = bytes(b for t, b in rows if start_ns <= t < end_ns)

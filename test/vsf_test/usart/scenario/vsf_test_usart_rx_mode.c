@@ -98,6 +98,8 @@ void vsf_test_usart_rx_mode_run(const vsf_test_usart_rx_mode_case_t *c)
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
+
+    vsf_trace_info("RX_MODE:CASE:%d:DONE" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 }
 
 #endif /* VSF_TEST_USART_RX_MODE_ENABLE == ENABLED */

@@ -1,8 +1,8 @@
 """USART RX data validation: PC sends payload at 115200, firmware verifies via ASSERT.
 
 Two-phase: `run()` per-case handshake (READY → host writes payload, firmware
-reads it via the test channel); `decode()` confirms the on-wire data matches
-`payload`, sliced by consecutive READY markers.
+reads it, emits DONE); `decode()` confirms the on-wire data matches `payload`
+within each case's firmware-emitted READY → DONE window.
 """
 
 from dataclasses import dataclass
@@ -75,7 +75,16 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
         start_ns=decode_start_ns,
         end_ns=decode_end_ns,
     )
+    done_markers = la.decode_markers(
+        channel=marker_ch_tx,
+        baudrate=marker_baud,
+        pattern=r"RX_DATA:CASE:(\d+):DONE",
+        output_csv=out_dir / "rx_data_done_markers.csv",
+        start_ns=decode_start_ns,
+        end_ns=decode_end_ns,
+    )
     ready_by_case = {ev.case_idx: ev for ev in ready_markers}
+    done_by_case = {ev.case_idx: ev for ev in done_markers}
 
     full_csv = out_dir / f"rx_data_full_{marker_baud}.csv"
     la.batch_decode_uart([
@@ -83,21 +92,14 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     ])
     rows = la.read_csv_rows(full_csv)
 
-    pass_cases = [c for c in cases if c.expect_pass]
-    for c in pass_cases:
-        assert c.idx in ready_by_case, f"CASE {c.idx}: READY marker not found in LA decode"
-
-    sorted_cases = sorted(pass_cases, key=lambda c: ready_by_case[c.idx].time_ns)
-    for i, c in enumerate(sorted_cases):
-        start_ns = ready_by_case[c.idx].time_ns
-        if i + 1 < len(sorted_cases):
-            end_ns = ready_by_case[sorted_cases[i + 1].idx].time_ns
-        else:
-            end_ns = decode_end_ns if decode_end_ns is not None else start_ns + 5_000_000_000
-        got = bytes(b for t, b in rows if start_ns <= t < end_ns)
-        assert got == payload, f"CASE {c.idx}: expected {payload!r}, got {got!r}"
-        print(f"[PASS] CASE {c.idx}  rx_data  {got!r}")
-
     for c in cases:
         if not c.expect_pass:
             print(f"[PASS] CASE {c.idx}  rx_data  expected fail")
+            continue
+        assert c.idx in ready_by_case, f"CASE {c.idx}: READY marker not found in LA decode"
+        assert c.idx in done_by_case, f"CASE {c.idx}: DONE marker not found in LA decode"
+        start_ns = ready_by_case[c.idx].time_ns
+        end_ns = done_by_case[c.idx].time_ns
+        got = bytes(b for t, b in rows if start_ns <= t < end_ns)
+        assert got == payload, f"CASE {c.idx}: expected {payload!r}, got {got!r}"
+        print(f"[PASS] CASE {c.idx}  rx_data  {got!r}")

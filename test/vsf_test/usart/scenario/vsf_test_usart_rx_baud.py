@@ -1,9 +1,9 @@
 """USART RX baud-rate validation: PC sends payload at varying baud rates.
 
 Two-phase: `run()` per-case handshakes (READY → host writes payload, firmware
-reads it, prints next READY); `decode()` walks the shared LA capture, slicing
-each case's payload on uart1_rx by the boundary between consecutive READY
-markers.
+reads it, emits DONE, prints next READY); `decode()` walks the shared LA
+capture, slicing each case's payload on uart1_rx by the firmware-emitted
+READY → DONE pair.
 """
 
 from dataclasses import dataclass
@@ -90,11 +90,21 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
         start_ns=decode_start_ns,
         end_ns=decode_end_ns,
     )
+    done_markers = la.decode_markers(
+        channel=marker_ch_tx,
+        baudrate=marker_baud,
+        pattern=r"RX_BAUD:CASE:(\d+):DONE",
+        output_csv=out_dir / "rx_baud_done_markers.csv",
+        start_ns=decode_start_ns,
+        end_ns=decode_end_ns,
+    )
     ready_by_case = {ev.case_idx: ev for ev in ready_markers}
+    done_by_case = {ev.case_idx: ev for ev in done_markers}
 
     pass_baudrates = sorted({c.baud for c in pass_cases})
     for c in pass_cases:
         assert c.idx in ready_by_case, f"CASE {c.idx} baud={c.baud}: READY marker not found in LA decode"
+        assert c.idx in done_by_case, f"CASE {c.idx} baud={c.baud}: DONE marker not found in LA decode"
     config_to_csv = {b: out_dir / f"rx_baud_full_{b}.csv" for b in pass_baudrates}
     la.batch_decode_uart([
         (dut_ch, b, decode_start_ns, decode_end_ns,
@@ -102,15 +112,9 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
         for b in pass_baudrates
     ])
 
-    # Slice each case by the next case's READY (or decode_end_ns for the last).
-    sorted_cases = sorted(pass_cases, key=lambda c: ready_by_case[c.idx].time_ns)
-    for i, c in enumerate(sorted_cases):
+    for c in pass_cases:
         start_ns = ready_by_case[c.idx].time_ns
-        if i + 1 < len(sorted_cases):
-            end_ns = ready_by_case[sorted_cases[i + 1].idx].time_ns
-        else:
-            end_ns = decode_end_ns if decode_end_ns is not None else start_ns + 5_000_000_000
-
+        end_ns = done_by_case[c.idx].time_ns
         rows = la.read_csv_rows(config_to_csv[c.baud])
         got = bytes(b for t, b in rows if start_ns <= t < end_ns)
         assert got == payload, (

@@ -165,6 +165,9 @@ def _run_scene(
             time.sleep(3.0)
 
         cmd = _build_run_cmd(scene_name, case)
+        # Drain any leftover output (e.g. "Unknown command" replies from previous
+        # scene's DONE marker writes) before the trigger so the script sees a clean buffer.
+        ser.read_all(timeout=0.2)
         ser.send(cmd)
         print(f"[vsf-bench] Triggered: {cmd.strip()}")
 

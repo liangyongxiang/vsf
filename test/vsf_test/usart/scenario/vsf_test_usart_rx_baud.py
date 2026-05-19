@@ -55,7 +55,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     for c in cases:
         if not _expect_pass(c.baud):
             continue
-        serial.expect(f"RX_BAUD:CASE:{c.idx}:READY", timeout=timeout_s)
+        serial.expect(f"usart_rx_baud:CASE:{c.idx}:READY", timeout=timeout_s)
         aux.baudrate = c.baud
         aux.write(payload)
         aux.flush()
@@ -85,7 +85,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     ready_markers = la.decode_markers(
         channel=marker_ch_tx,
         baudrate=marker_baud,
-        pattern=r"RX_BAUD:CASE:(\d+):READY",
+        pattern=r"usart_rx_baud:CASE:(\d+):READY",
         output_csv=out_dir / "rx_baud_ready_markers.csv",
         start_ns=decode_start_ns,
         end_ns=decode_end_ns,
@@ -93,7 +93,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     done_markers = la.decode_markers(
         channel=marker_ch_tx,
         baudrate=marker_baud,
-        pattern=r"RX_BAUD:CASE:(\d+):DONE",
+        pattern=r"usart_rx_baud:CASE:(\d+):DONE",
         output_csv=out_dir / "rx_baud_done_markers.csv",
         start_ns=decode_start_ns,
         end_ns=decode_end_ns,

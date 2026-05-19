@@ -365,6 +365,35 @@ struct vsf_test_data_t {
 typedef bool vsf_test_bool_fn_t(void *arg);
 typedef void vsf_test_jmp_fn_t(void *arg);
 
+//! \brief Test Suite — first-class grouping of related Test Cases.
+//!
+//! Each scenario extends vsf_test_suite_t via PLOOC `implement(vsf_test_suite_t)`
+//! and adds its scenario-specific fields (typically a HAL handle).
+//!
+//! The dispatcher (vsf_test_run_case) emits a Capture Marker
+//! "<suite.name>:CASE:<case.case_idx>" before each case and
+//! "<suite.name>:CASE:<case.case_idx>:DONE" after each case, removing the
+//! need for scenario _run functions to print them themselves.
+//!
+//! `setup(suite)` runs once before the first case of the suite; `teardown`
+//! runs once after the last case. Both may be NULL.
+dcl_simple_class(vsf_test_suite_t)
+typedef void vsf_test_suite_hook_fn_t(vsf_test_suite_t *suite);
+
+vsf_class(vsf_test_suite_t) {
+    public_member(
+        const char                *name;          //!< also used as Capture Marker tag
+        const char                *purpose;        //!< short description, e.g. "rx-baud"
+        const char                *hw_req;         //!< hardware requirements, e.g. "uart1+la"
+        vsf_test_suite_hook_fn_t  *setup;          //!< NULL = skip
+        vsf_test_suite_hook_fn_t  *teardown;       //!< NULL = skip
+    )
+    private_member(
+        uint16_t                   first_case_idx; //!< managed by framework
+        uint16_t                   case_count;     //!< managed by framework
+    )
+};
+
 typedef struct vsf_test_case_t {
     union {
         //! The test function uses Boolean return value of function that returns
@@ -393,6 +422,15 @@ typedef struct vsf_test_case_t {
     //! then set this variable to one. When an assertion is triggered, the test will
     //! be considered as PASS instead of FAIL.
     uint8_t expect_assert;
+
+    //! Scene-local case index (0..suite->case_count-1). Used by the dispatcher
+    //! to format the Capture Marker. Ignored when `suite` is NULL.
+    uint8_t case_idx;
+
+    //! Owning Test Suite, or NULL for legacy cases registered without a suite.
+    //! When non-NULL, the dispatcher prints `<suite->name>:CASE:<case_idx>` before
+    //! invoking the test function and `<...>:DONE` after.
+    vsf_test_suite_t *suite;
 
     //! Argument pointer passed directly to the test function.
     void *arg;
@@ -656,6 +694,35 @@ extern void vsf_test_reboot(vsf_test_result_t result,
  @param[in] ms: milliseconds to wait
  */
 extern void vsf_test_busy_wait_ms(uint32_t ms);
+
+/* ========================== Test Suite primitive ========================== */
+/**
+ @brief Register a Test Suite. Optional — only suites that need lifecycle
+ hooks or dispatcher-owned Capture Marker emission need this call. The
+ framework records the suite, then any subsequent cases added via
+ `vsf_test_suite_add_case()` are linked to it (their `case->suite` is set,
+ their `case->case_idx` is auto-numbered 0..N-1 in registration order).
+
+ The suite's `setup` (if non-NULL) is called once before its first case;
+ `teardown` (if non-NULL) is called once after its last case.
+
+ @param[in] suite: pointer to a `vsf_test_suite_t` (typically the base of a
+            PLOOC-extended scenario-specific suite struct)
+ @return true on success; false if suite table is full
+ */
+extern bool vsf_test_register_suite(vsf_test_suite_t *suite);
+
+/**
+ @brief Add a case to the most recently registered suite. The case_idx
+ field of the case is set to the suite-local index automatically.
+ @param[in] suite: same pointer that was passed to `vsf_test_register_suite()`
+ @param[in] jmp_fn: test function (longjmp-style)
+ @param[in] arg: argument passed to the test function
+ @return true on success
+ */
+extern bool vsf_test_suite_add_case(vsf_test_suite_t *suite,
+                                    vsf_test_jmp_fn_t *jmp_fn,
+                                    void *arg);
 
 /*============================ LOCAL VARIABLES ===============================*/
 /*============================ GLOBAL VARIABLES ==============================*/

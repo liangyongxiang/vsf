@@ -46,23 +46,23 @@ static vsf_test_usart_rx_baud_case_t __rx_baud_cases[] = {
 
 void vsf_test_usart_rx_baud_add_cases(vsf_test_usart_rx_baud_scene_t *scene)
 {
+    scene->name    = "usart_rx_baud";
+    scene->purpose = "rx-baud";
+    scene->hw_req  = "uart1+la";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_BAUD_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "usart_rx_baud_%lu purpose=rx-baud hw_req=uart1+la",
-            (unsigned long)__rx_baud_cases[i].baudrate);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_baud_run,
-            __cfg_str_pool[i], (void *)&__rx_baud_cases[i]);
         __rx_baud_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_baud_run,
+            (void *)&__rx_baud_cases[i]);
     }
 }
 
 void vsf_test_usart_rx_baud_run(const vsf_test_usart_rx_baud_case_t *c)
 {
-
-    vsf_trace_info("RX_BAUD:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
-
+    /* Dispatcher (vsf_test_run_case) emits "RX_BAUD:CASE:%d" / ":DONE"
+     * Capture Markers and the settle delay; suite-aware scenarios do
+     * not print them. */
     vsf_usart_capability_t cap = vsf_usart_capability(c->scene->usart);
     bool expect_pass = (c->baudrate >= cap.min_baudrate)
                     && (c->baudrate <= cap.max_baudrate)
@@ -77,7 +77,7 @@ void vsf_test_usart_rx_baud_run(const vsf_test_usart_rx_baud_case_t *c)
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
 
-        vsf_trace_info("RX_BAUD:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+        vsf_trace_info("usart_rx_baud:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint8_t rx_buf[32];
         uint16_t rx_len = 0;
@@ -103,8 +103,6 @@ void vsf_test_usart_rx_baud_run(const vsf_test_usart_rx_baud_case_t *c)
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-
-    vsf_trace_info("RX_BAUD:CASE:%d:DONE" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 }
 
 #endif /* VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED */

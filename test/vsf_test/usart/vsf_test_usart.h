@@ -21,6 +21,7 @@
 /*============================ INCLUDES ======================================*/
 
 #   include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -116,9 +117,12 @@ typedef struct vsf_test_usart_rx_data_scene_t {
     vsf_usart_t *usart;
 } vsf_test_usart_rx_data_scene_t;
 
-typedef struct vsf_test_usart_rx_baud_scene_t {
-    vsf_usart_t *usart;
-} vsf_test_usart_rx_baud_scene_t;
+vsf_class(vsf_test_usart_rx_baud_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_usart_t *usart;
+    )
+};
 
 typedef struct vsf_test_usart_rx_mode_scene_t {
     vsf_usart_t *usart;

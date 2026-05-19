@@ -208,6 +208,41 @@ bool vsf_test_add_expect_assert_case(vsf_test_jmp_fn_t *fn,
     return vsf_test_add_ex(&test_case);
 }
 
+bool vsf_test_register_suite(vsf_test_suite_t *suite)
+{
+    VSF_ASSERT(suite != NULL);
+    VSF_ASSERT(suite->name != NULL);
+    suite->first_case_idx = (uint16_t)__vsf_test->test_case_count;
+    suite->case_count     = 0;
+    // Shell-side registration is handled by REG_IF in the family aggregator;
+    // here we only initialize the suite's case-range bookkeeping.
+    __VSF_TEST_TRACE_DEBUG("[TEST] register suite '%s' at idx %u\r\n",
+                          suite->name, (unsigned)suite->first_case_idx);
+    return true;
+}
+
+bool vsf_test_suite_add_case(vsf_test_suite_t *suite,
+                             vsf_test_jmp_fn_t *jmp_fn,
+                             void *arg)
+{
+    VSF_ASSERT(suite != NULL);
+    vsf_test_case_t test_case = {
+        .jmp_fn        = jmp_fn,
+        .cfg_str       = (char *)suite->name,    // legacy: shown in [TEST] # N: Running '...'
+        .type          = VSF_TEST_TYPE_LONGJMP_FN,
+        .expect_wdt    = 0,
+        .expect_assert = 0,
+        .case_idx      = (uint8_t)suite->case_count,
+        .suite         = suite,
+        .arg           = arg,
+    };
+    bool err = vsf_test_add_ex(&test_case);
+    if (!err) {
+        suite->case_count++;
+    }
+    return err;
+}
+
 void __vsf_test_longjmp(vsf_test_result_t result,
                         const char *file_name, uint32_t line,
                         const char *function_name, const char *condition)
@@ -346,6 +381,22 @@ void vsf_test_run_case(uint32_t idx)
     const char *test_name = __vsf_test_get_name(test_case, name_buf, sizeof(name_buf));
     __VSF_TEST_TRACE_INFO("[TEST] #%u: Running '%s'\r\n", idx, test_name);
 
+    /* Suite-aware dispatch: when a case has been registered through
+     * vsf_test_suite_add_case(), the framework owns the start / DONE Capture
+     * Markers (no per-scenario vsf_trace_info needed) and the setup /
+     * teardown lifecycle hooks. */
+    vsf_test_suite_t *suite = test_case->suite;
+    if (suite != NULL) {
+        if ((uint32_t)idx == suite->first_case_idx) {
+            if (suite->setup != NULL) suite->setup(suite);
+        }
+        __VSF_TEST_TRACE_INFO("%s:CASE:%u\r\n", suite->name, (unsigned)test_case->case_idx);
+        /* Brief settle delay so the marker bytes are fully on the UART line
+         * before any test transmission begins. 2 ms covers a ~17-char marker
+         * at 115200 baud with margin. */
+        vsf_test_busy_wait_ms(2);
+    }
+
     vsf_test_type_t type = test_case->type;
     switch (type) {
     case VSF_TEST_TYPE_BOOL_FN:
@@ -370,6 +421,13 @@ void vsf_test_run_case(uint32_t idx)
     default:
         VSF_ASSERT(0);
         break;
+    }
+
+    if (suite != NULL) {
+        __VSF_TEST_TRACE_INFO("%s:CASE:%u:DONE\r\n", suite->name, (unsigned)test_case->case_idx);
+        if ((uint32_t)idx == (uint32_t)suite->first_case_idx + (uint32_t)suite->case_count - 1) {
+            if (suite->teardown != NULL) suite->teardown(suite);
+        }
     }
 
     __vsf_test_data_sync(data, VSF_TEST_TESTCASE_RESULT_WRITE);

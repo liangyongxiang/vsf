@@ -1,8 +1,9 @@
 """gpio_output_input scenario: drive GP A high/low → read on GP B (loopback).
 
 Usage:
-    python3 -m vsf_bench.board_run board/pico/hardware-map.yml \\
-        vsf.demo/vsf/test/vsf_test/gpio/scenario/vsf_test_gpio_output_input.py
+    vsf-bench-test board/pico/hardware-map.yml \\
+        --script vsf.demo/vsf/test/vsf_test/gpio/scenario/vsf_test_gpio_output_input.py \\
+        --scene gpio_output_input
 
 Requires the GPIO loopback fixture: a jumper between GP4 and GP5 (or
 whichever pins the case lists in application/component/vsf-test/gpio.yml).

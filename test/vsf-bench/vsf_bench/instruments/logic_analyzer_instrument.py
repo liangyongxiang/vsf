@@ -17,7 +17,7 @@ class MarkerEvent:
 class LogicAnalyzerInstrument:
     """Wraps dsview-cli for logic capture and offline UART protocol decode.
 
-    Lifecycle (managed by board_run.py):
+    Lifecycle (managed by pipeline.run_test_phase):
         la.start(duration_s)   → launches dsview-cli capture in background
         la.wait()              → blocks until capture finishes (idempotent)
 

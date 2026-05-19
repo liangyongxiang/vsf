@@ -1,6 +1,6 @@
 """Centralized runner type registry.
 
-Both hardware_map.py (for validation) and board_run.py (for dispatch)
+Both hardware_map.py (for validation) and pipeline.py (for dispatch)
 import from here. Add new built-in runners here.
 """
 

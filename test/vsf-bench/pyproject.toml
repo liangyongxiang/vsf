@@ -8,7 +8,10 @@ dependencies = [
 ]
 
 [project.scripts]
-vsf-bench = "vsf_bench.board_run:main"
+vsf-bench       = "vsf_bench.cli.run:main"
+vsf-bench-build = "vsf_bench.cli.build:main"
+vsf-bench-flash = "vsf_bench.cli.flash:main"
+vsf-bench-test  = "vsf_bench.cli.test:main"
 
 [build-system]
 requires = ["setuptools>=68"]

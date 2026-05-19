@@ -112,6 +112,17 @@ void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c)
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
 
+        // Drain residual bytes left in the RX FIFO by prior scenarios (e.g.
+        // rx_frame_error / rx_parity_error inject framing errors that can
+        // leave garbage in the FIFO across scene boundaries). Without this,
+        // the ISR fires immediately on enable and pollutes ctx.buf.
+        {
+            uint8_t junk[16];
+            while (vsf_usart_rxfifo_get_data_count(c->scene->usart) > 0) {
+                if (vsf_usart_rxfifo_read(c->scene->usart, junk, sizeof(junk)) == 0) break;
+            }
+        }
+
         vsf_usart_irq_enable(c->scene->usart, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         vsf_trace_info("RX_IRQ:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);

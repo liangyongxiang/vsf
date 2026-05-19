@@ -1,0 +1,69 @@
+"""USART RX frame-error validation: PC sends payload at wrong stop-bits, firmware asserts mismatch.
+
+Firmware configures UART1 RX for the case's stop-bit count (e.g. 2), then waits
+for a payload. Host sends at the YAML-specified host send stop bits (typically 1.0),
+so the firmware sees framing errors and asserts via VSF_TEST_ASSERT.
+"""
+
+from dataclasses import dataclass
+from pathlib import Path
+
+from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
+from vsf_bench.instruments.serial_instrument import SerialInstrument
+from vsf_bench.test_params import load_test_params
+
+
+@dataclass(frozen=True)
+class Case:
+    idx: int
+    host_parity: str
+    host_data_bits: int
+    host_stop_bits: float
+    host_baud: int
+
+
+def _parse_cases(scenario: dict) -> list[Case]:
+    defaults = scenario.get("defaults", {}) or {}
+    default_send = (defaults.get("host", {}) or {}).get("send", {}) or {}
+    cases: list[Case] = []
+    for case in scenario.get("cases", []):
+        host_send = (case.get("host", {}) or {}).get("send", {}) or {}
+        cases.append(Case(
+            idx=int(case["idx"]),
+            host_parity=host_send.get("parity_type", default_send.get("parity_type", "none")),
+            host_data_bits=int(host_send.get("num_data_bits", default_send.get("num_data_bits", 8))),
+            host_stop_bits=float(host_send.get("num_stop_bits", default_send.get("num_stop_bits", 1.0))),
+            host_baud=int(host_send.get("baudrate", default_send.get("baudrate", 115200))),
+        ))
+    return cases
+
+
+def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
+    params = load_test_params(project_root)
+    scenario = params.get("rx_frame_error", {})
+    cases = _parse_cases(scenario)
+    assert len(cases) > 0, "No cases found in test_params"
+
+    timeout_s = float(scenario.get("timeout_s", 30.0))
+    dut_port = scenario.get("dut", {}).get("port", "/dev/ttyUSB0")
+    payload = scenario.get("payload", "Hello VSF\r\n").encode()
+
+    import serial as pyserial
+    aux = pyserial.Serial(dut_port, baudrate=115200, timeout=1)
+
+    parity_map = {"none": pyserial.PARITY_NONE, "even": pyserial.PARITY_EVEN, "odd": pyserial.PARITY_ODD}
+
+    for c in cases:
+        serial.expect(f"RX_FRAME:CASE:{c.idx}:READY", timeout=timeout_s)
+        aux.baudrate = c.host_baud
+        aux.parity = parity_map.get(c.host_parity, pyserial.PARITY_NONE)
+        aux.bytesize = c.host_data_bits
+        aux.stopbits = c.host_stop_bits
+        aux.write(payload)
+        aux.flush()
+        serial._ser.write(f"RX_FRAME:CASE:{c.idx}:DONE\r\n".encode())
+        serial._ser.flush()
+
+    serial.expect_test_summary("usart_rx_frame_error", timeout=timeout_s)
+    aux.close()
+    print(f"[PASS] rx_frame_error: {len(cases)} case(s) completed")

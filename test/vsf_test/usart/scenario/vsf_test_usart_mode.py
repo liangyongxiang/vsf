@@ -1,11 +1,8 @@
 """Multi-mode UART TX validation via logic analyzer capture.
 
-Usage:
-    vsf-board-run board/pico/hardware-map.yml \\
-        vsf.demo/vsf/test/vsf_test/usart/scenario/test_usart_mode.py
-
-Test parameters are read from application/component/vsf-test/test_params.yml.
-Each case is decoded with matching UART parity, data-bit, and stop-bit settings.
+Two-phase: `run()` waits for firmware completion; `decode()` walks the shared
+LA capture and validates each case's UART frame at its specific parity / data /
+stop configuration.
 """
 
 from dataclasses import dataclass
@@ -15,6 +12,7 @@ from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrum
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 from vsf_bench.test_params import load_test_params
 
+
 @dataclass(frozen=True)
 class Case:
     idx: int
@@ -23,6 +21,7 @@ class Case:
     decode_parity: str
     decode_data: int
     decode_stop: float
+
 
 def _parse_cases(scenario: dict) -> list[Case]:
     defaults = scenario.get("defaults", {}) or {}
@@ -45,30 +44,30 @@ def _parse_cases(scenario: dict) -> list[Case]:
         ))
     return cases
 
-def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
-    params = load_test_params(project_root)
 
+def run(project_root: Path, serial: SerialInstrument) -> None:
+    params = load_test_params(project_root)
+    scenario = params.get("tx_mode", {})
+    timeout_s = float(scenario.get("timeout_s", 120.0))
+    serial.expect_test_summary("usart_mode", timeout=timeout_s)
+
+
+def decode(project_root: Path, la: LogicAnalyzerInstrument,
+           decode_start_ns: int | None = None,
+           decode_end_ns: int | None = None) -> None:
+    params = load_test_params(project_root)
     scenario = params.get("tx_mode", {})
     cases = _parse_cases(scenario)
     assert len(cases) > 0, "No cases found in test_params"
 
-    # Global marker config
     marker_cfg = params.get("marker", {})
     marker_ch_name = marker_cfg.get("channel", "uart0_tx")
     marker_baud = int(marker_cfg.get("baudrate", 115200))
-    marker_pattern = r"MODE:CASE:(\d+)"
     marker_delay_ms = int(marker_cfg.get("delay_ms", 200))
     marker_delay_ns = marker_delay_ms * 1_000_000
 
-    # Scenario-specific config
     dut_ch_name = scenario.get("dut", {}).get("channel", "uart1_tx")
     payload = scenario.get("payload", "Hello VSF\r\n").encode()
-    timeout_s = float(scenario.get("timeout_s", 120.0))
-
-    # Wait for firmware completion, then finalize the per-scene LA capture.
-    serial.expect_test_summary("usart_mode", timeout=timeout_s)
-    la.stop()
-    la.wait(timeout=120.0)
 
     marker_ch = la.channel(marker_ch_name)
     dut_ch = la.channel(dut_ch_name)
@@ -77,27 +76,35 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
     markers = la.decode_markers(
         channel=marker_ch,
         baudrate=marker_baud,
-        pattern=marker_pattern,
+        pattern=r"MODE:CASE:(\d+)",
         output_csv=out_dir / "mode_markers.csv",
+        start_ns=decode_start_ns,
+        end_ns=decode_end_ns,
     )
-
     markers_by_case = {ev.case_idx: ev for ev in markers}
 
+    unique_configs = sorted({(c.baud, c.decode_parity, c.decode_data, c.decode_stop) for c in cases})
+    for c in cases:
+        assert c.idx in markers_by_case, f"CASE {c.idx}: marker not found in LA decode"
+    config_to_csv = {
+        cfg: out_dir / f"mode_full_{cfg[1]}_{cfg[2]}_{cfg[3]}.csv"
+        for cfg in unique_configs
+    }
+    if unique_configs:
+        la.batch_decode_uart([
+            (dut_ch, baud, decode_start_ns, decode_end_ns,
+             config_to_csv[(baud, par, data, stop)], par, data, stop)
+            for (baud, par, data, stop) in unique_configs
+        ])
+
     for i, c in enumerate(cases):
-        if c.idx not in markers_by_case:
-            continue  # case was not run (e.g. single-case selection)
         ev = markers_by_case[c.idx]
         start_ns = ev.time_ns + marker_delay_ns
         end_ns = markers_by_case[cases[i + 1].idx].time_ns if i + 1 < len(cases) and cases[i + 1].idx in markers_by_case else None
 
-        csv_path = out_dir / f"mode_{c.idx:02d}_{c.decode_parity}{c.decode_data}{c.decode_stop}.csv"
-        la.decode_uart(
-            dut_ch, c.baud, start_ns, end_ns, csv_path,
-            parity_type=c.decode_parity,
-            num_data_bits=c.decode_data,
-            num_stop_bits=c.decode_stop,
-        )
-        got = la.parse_uart_csv(csv_path)
+        csv_path = config_to_csv[(c.baud, c.decode_parity, c.decode_data, c.decode_stop)]
+        rows = la.read_csv_rows(csv_path)
+        got = bytes(b for t, b in rows if start_ns <= t and (end_ns is None or t < end_ns))
         assert got == payload, (
             f"CASE {c.idx} mode={c.decode_parity}/{c.decode_data}/{c.decode_stop}: "
             f"expected {payload!r}, got {got!r}"

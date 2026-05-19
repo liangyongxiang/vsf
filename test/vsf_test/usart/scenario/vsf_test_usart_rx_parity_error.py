@@ -8,7 +8,6 @@ so the firmware sees parity errors and asserts via VSF_TEST_ASSERT.
 from dataclasses import dataclass
 from pathlib import Path
 
-from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 from vsf_bench.test_params import load_test_params
 
@@ -38,7 +37,7 @@ def _parse_cases(scenario: dict) -> list[Case]:
     return cases
 
 
-def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
+def run(project_root: Path, serial: SerialInstrument) -> None:
     params = load_test_params(project_root)
     scenario = params.get("rx_parity_error", {})
     cases = _parse_cases(scenario)
@@ -61,8 +60,6 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
         aux.stopbits = c.host_stop_bits
         aux.write(payload)
         aux.flush()
-        serial._ser.write(f"RX_PARITY:CASE:{c.idx}:DONE\r\n".encode())
-        serial._ser.flush()
 
     serial.expect_test_summary("usart_rx_parity_error", timeout=timeout_s)
     aux.close()

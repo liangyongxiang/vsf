@@ -135,6 +135,8 @@ class LogicAnalyzerInstrument:
         pattern: str,
         output_dir: Path | None = None,
         output_csv: Path | None = None,
+        start_ns: int | None = None,
+        end_ns: int | None = None,
     ) -> list[MarkerEvent]:
         """Decode the marker channel offline and extract case marker events.
 
@@ -144,6 +146,7 @@ class LogicAnalyzerInstrument:
             pattern: regex with one capture group for case index (e.g. r'CASE:(\\d+)').
             output_dir: directory for intermediate CSV; defaults to capture_path dir.
             output_csv: explicit output CSV path; overrides output_dir if given.
+            start_ns / end_ns: optional decode-window bounds (passed to dsview-cli).
 
         Returns:
             List of MarkerEvent sorted by time_ns.
@@ -151,7 +154,7 @@ class LogicAnalyzerInstrument:
         if output_csv is None:
             out_dir = output_dir or self._capture_path.parent
             output_csv = out_dir / f"markers_{channel}.csv"
-        self._offline_decode(channel, baudrate, None, None, output_csv)
+        self._offline_decode(channel, baudrate, start_ns, end_ns, output_csv)
 
         rows = self._read_csv_rows(output_csv)
         text = ""
@@ -213,6 +216,57 @@ class LogicAnalyzerInstrument:
         """
         rows = self._read_csv_rows(csv_path)
         return bytes(b for _, b in rows)
+
+    def read_csv_rows(self, csv_path: Path) -> list[tuple[int, int]]:
+        """Public accessor for decoded UART CSV rows: list of (time_ns, byte_value)."""
+        return self._read_csv_rows(csv_path)
+
+    def batch_decode_uart(
+        self,
+        specs: list,
+    ) -> None:
+        """Decode the capture at multiple UART configurations in one dsview-cli call.
+
+        Each spec is (channel, baudrate, start_ns, end_ns, output_csv,
+        parity_type, num_data_bits, num_stop_bits). dsview-cli applies a single
+        time window to every decoder, so all specs must share the same
+        (start_ns, end_ns); the window comes from the first spec.
+        """
+        if not specs:
+            return
+        first_start, first_end = specs[0][2], specs[0][3]
+        for s in specs:
+            if s[2] != first_start or s[3] != first_end:
+                raise ValueError(
+                    "batch_decode_uart requires all specs to share the same time window; "
+                    "split into multiple batches if they differ"
+                )
+
+        cmd = [str(self._cli), "-i", str(self._capture_path)]
+        for channel, baud, _start, _end, out_csv, parity, data_bits, stop_bits in specs:
+            out_csv.parent.mkdir(parents=True, exist_ok=True)
+            protocol = (
+                f"uart:rx={channel}:baudrate={baud}"
+                f":parity_type={parity}"
+                f":num_data_bits={data_bits}"
+                f":num_stop_bits={stop_bits}"
+            )
+            cmd += ["-P", protocol, "--decode-output", str(out_csv)]
+        if first_start is not None:
+            cmd += ["--decode-start", self._ns_to_time_str(first_start)]
+        if first_end is not None:
+            cmd += ["--decode-end", self._ns_to_time_str(first_end)]
+
+        print(f"[LA] batch decode ({len(specs)} decoders)")
+        result = subprocess.run(
+            cmd, capture_output=True, text=True,
+            encoding="utf-8", errors="replace",
+        )
+        if result.returncode != 0:
+            raise RuntimeError(
+                f"dsview-cli batch decode failed (exit {result.returncode})\n"
+                f"stderr: {result.stderr}"
+            )
 
     # ---------------------------------------------------------------- internal
 

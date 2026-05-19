@@ -165,9 +165,14 @@ def _run_scene(
             time.sleep(3.0)
 
         cmd = _build_run_cmd(scene_name, case)
-        # Drain any leftover output (e.g. "Unknown command" replies from previous
-        # scene's DONE marker writes) before the trigger so the script sees a clean buffer.
-        ser.read_all(timeout=0.2)
+        # Drain stale REPL replies (e.g. "Unknown command" produced by previous
+        # scene's DONE marker writes) so the script sees a clean buffer.
+        # First drain pass: clear pending output.
+        ser.read_all(timeout=0.3)
+        # Settle pass: wait for REPL prompt and drain any final replies.
+        ser.send("\r\n")
+        time.sleep(0.2)
+        ser.read_all(timeout=0.3)
         ser.send(cmd)
         print(f"[vsf-bench] Triggered: {cmd.strip()}")
 

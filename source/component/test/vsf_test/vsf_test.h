@@ -545,6 +545,8 @@ extern bool vsf_test_add_ex(vsf_test_case_t *test_case);
  @return bool: true if add was successfully, or false
  */
 extern bool vsf_test_add_simple_case(vsf_test_jmp_fn_t *jmp_fn, char *cfg, void *arg);
+extern vsf_test_result_t vsf_test_get_case_result(uint32_t idx);
+extern uint32_t vsf_test_get_case_count(void);
 
 /**
  @brief Add to add a test case of VSF_TEST_TYPE_BOOL_FN type

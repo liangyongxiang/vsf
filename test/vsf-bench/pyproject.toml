@@ -8,7 +8,7 @@ dependencies = [
 ]
 
 [project.scripts]
-vsf-board-run = "vsf_bench.board_run:main"
+vsf-bench = "vsf_bench.board_run:main"
 
 [build-system]
 requires = ["setuptools>=68"]

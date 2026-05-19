@@ -66,7 +66,8 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
 
         total_cases += len(cases)
 
-    serial.expect("All test cases completed", timeout=120.0)
+    serial.expect_test_summary("usart_rx_error", timeout=120.0)
+    la.stop()
     la.wait(timeout=120.0)
 
     if aux:

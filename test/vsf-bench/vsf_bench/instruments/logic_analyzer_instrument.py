@@ -46,6 +46,7 @@ class LogicAnalyzerInstrument:
         self._thread: threading.Thread | None = None
         self._done = threading.Event()
         self._exit_code: int | None = None
+        self._stop_requested = False
 
     @property
     def output_dir(self) -> Path:
@@ -68,6 +69,7 @@ class LogicAnalyzerInstrument:
 
         self._capture_path.parent.mkdir(parents=True, exist_ok=True)
         self._done.clear()
+        self._stop_requested = False
 
         ch_sel = ",".join(
             f"{i}={label}"
@@ -102,6 +104,17 @@ class LogicAnalyzerInstrument:
 
         self._thread = threading.Thread(target=_wait, daemon=True)
         self._thread.start()
+
+    def stop(self) -> None:
+        """Gracefully stop an ongoing capture. Idempotent."""
+        if self._proc is None or self._done.is_set():
+            return
+        self._stop_requested = True
+        try:
+            self._proc.terminate()
+        except ProcessLookupError:
+            pass
+        self._done.wait(timeout=10.0)
 
     def wait(self, timeout: float = 300.0) -> None:
         """Block until the capture process exits. Idempotent."""

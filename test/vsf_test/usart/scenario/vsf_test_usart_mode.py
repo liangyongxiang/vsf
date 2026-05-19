@@ -25,14 +25,20 @@ class Case:
     decode_stop: float
 
 def _parse_cases(scenario: dict) -> list[Case]:
+    defaults = scenario.get("defaults", {}) or {}
+    default_baud = int(defaults.get("baudrate", 115200))
+    default_expect = bool(defaults.get("expect_pass", True))
+
     cases: list[Case] = []
     for case in scenario.get("cases", []):
         la = case.get("la", {}) or {}
         decode = la.get("decode", {}) or {}
+        host = case.get("host", {}) or {}
+        send = host.get("send", {}) or {}
         cases.append(Case(
             idx=int(case["idx"]),
-            baud=int(scenario["common"]["baudrate"]),
-            expect_pass=bool(case.get("expect_pass", True)),
+            baud=int(send.get("baudrate", default_baud)),
+            expect_pass=bool(case.get("expect_pass", default_expect)),
             decode_parity=decode.get("parity_type", "none"),
             decode_data=int(decode.get("num_data_bits", 8)),
             decode_stop=float(decode.get("num_stop_bits", 1.0)),
@@ -44,7 +50,7 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
 
     scenario = params.get("tx_mode", {})
     cases = _parse_cases(scenario)
-    assert len(cases) > 0, f"No cases found in {yml_path}"
+    assert len(cases) > 0, "No cases found in test_params"
 
     # Global marker config
     marker_cfg = params.get("marker", {})
@@ -59,8 +65,10 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
     payload = scenario.get("payload", "Hello VSF\r\n").encode()
     timeout_s = float(scenario.get("timeout_s", 120.0))
 
-    serial.expect("All test cases completed", timeout=timeout_s)
-    la.wait(timeout=timeout_s)
+    # Wait for firmware completion, then finalize the per-scene LA capture.
+    serial.expect_test_summary("usart_mode", timeout=timeout_s)
+    la.stop()
+    la.wait(timeout=120.0)
 
     marker_ch = la.channel(marker_ch_name)
     dut_ch = la.channel(dut_ch_name)
@@ -73,16 +81,14 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
         output_csv=out_dir / "mode_markers.csv",
     )
 
-    assert len(markers) == len(cases), (
-        f"Expected {len(cases)} MODE:CASE markers, got {len(markers)}: {markers}"
-    )
-
     markers_by_case = {ev.case_idx: ev for ev in markers}
 
     for i, c in enumerate(cases):
+        if c.idx not in markers_by_case:
+            continue  # case was not run (e.g. single-case selection)
         ev = markers_by_case[c.idx]
         start_ns = ev.time_ns + marker_delay_ns
-        end_ns = markers_by_case[cases[i + 1].idx].time_ns if i + 1 < len(cases) else None
+        end_ns = markers_by_case[cases[i + 1].idx].time_ns if i + 1 < len(cases) and cases[i + 1].idx in markers_by_case else None
 
         csv_path = out_dir / f"mode_{c.idx:02d}_{c.decode_parity}{c.decode_data}{c.decode_stop}.csv"
         la.decode_uart(

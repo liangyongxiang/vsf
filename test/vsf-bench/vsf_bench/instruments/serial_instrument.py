@@ -76,6 +76,7 @@ class SerialInstrument:
 
             time.sleep(0.05)
 
+        self._leftover = buf
         self._log("recv", buf.rstrip(), verdict="fail")
         raise TimeoutError(f"Timeout waiting for pattern '{pattern}' in: {buf!r}")
 

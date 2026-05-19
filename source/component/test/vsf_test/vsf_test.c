@@ -448,5 +448,21 @@ void vsf_test_run_tests(void)
     __vsf_test_data_sync(data, VSF_TEST_DONE);
 }
 
+vsf_test_result_t vsf_test_get_case_result(uint32_t idx)
+{
+    if (__vsf_test == NULL || idx >= __vsf_test->test_case_count) {
+        return VSF_TEST_RESULT_SKIP;
+    }
+    vsf_test_data_t *data = &__vsf_test->data;
+    data->idx = idx;
+    __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_READ);
+    return (vsf_test_result_t)data->result;
+}
+
+uint32_t vsf_test_get_case_count(void)
+{
+    return __vsf_test ? __vsf_test->test_case_count : 0;
+}
+
 #endif
 /* EOF */

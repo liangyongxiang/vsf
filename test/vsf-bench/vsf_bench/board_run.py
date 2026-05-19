@@ -1,12 +1,11 @@
-"""vsf-board-run — build → flash → run test script(s) → return results."""
+"""vsf-bench — build → flash → run tests."""
 
 import argparse
 import importlib.util
 import inspect
 import json
-import re
 import sys
-from collections.abc import Callable
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -15,27 +14,6 @@ from vsf_bench.runners.cmake_runner import CMakeRunner
 from vsf_bench.runners.registry import get_runner_class
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
-
-
-class SerialAlreadyCompleted:
-    """Serial wrapper for multi-script runs.
-
-    The orchestrator has already consumed the real serial completion event.
-    This wrapper makes expect() return immediately so scripts can be reused
-    without changing their signatures.
-    """
-
-    def __init__(self, real_serial: SerialInstrument):
-        self._real = real_serial
-
-    def expect(self, pattern: str, timeout: float | None = None) -> str:
-        return pattern
-
-    def close(self) -> None:
-        pass  # orchestrator owns lifecycle
-
-    def __getattr__(self, name: str):
-        return getattr(self._real, name)
 
 
 def load_test_script(path: str | Path):
@@ -53,87 +31,29 @@ def load_test_script(path: str | Path):
     return mod.run
 
 
-def _load_module(path: str | Path):
-    p = Path(path).resolve()
-    spec = importlib.util.spec_from_file_location("scenario_probe", p)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
+def _discover_scenes(project_root: Path) -> dict[str, Path]:
+    """Scan vsf.demo/vsf/test/vsf_test/*/scenario/ for default scripts.
 
-
-def _gather_scenarios(script_paths: list[str]) -> set[str] | None:
-    """Collect declared scenarios across scripts.
-
-    Returns the union of each script's SCENARIOS list, or None if any
-    script omits the declaration (caller should treat as run-all).
+    Returns: {scene_name: script_path}
     """
-    all_scenarios: set[str] = set()
-    for path in script_paths:
-        mod = _load_module(path)
-        scenarios = getattr(mod, "SCENARIOS", None)
-        if scenarios is None:
-            return None
-        all_scenarios.update(scenarios)
-    return all_scenarios
-
-
-def _gateway_dialog(serial: SerialInstrument, scenarios: set[str] | None) -> None:
-    """Respond to firmware's scenario gateway dialog.
-
-    Pre-condition: firmware has just booted; serial buffer may already
-    contain GATEWAY:HELLO. If the firmware doesn't support the protocol
-    (no HELLO within timeout), this is a no-op.
-
-    With scenarios=None, every READY? gets a GO (legacy/run-all).
-    """
-    try:
-        serial.expect(r"GATEWAY:HELLO", timeout=2.0)
-    except TimeoutError:
-        print("[gateway] no GATEWAY:HELLO from firmware — skipping gateway dialog")
-        return
-
-    serial.send("GATEWAY:HELLO\r\n")
-
-    while True:
-        try:
-            line = serial.expect(r"SCENARIO:\w+:READY\?|GATEWAY:DONE", timeout=2.0)
-        except TimeoutError:
-            print("[gateway] no scenario marker after HELLO — firmware likely fell back to run-all")
-            return
-        if "GATEWAY:DONE" in line:
-            return
-        m = re.search(r"SCENARIO:(\w+):READY\?", line)
-        if not m:
+    scenes: dict[str, Path] = {}
+    base = project_root / "vsf.demo" / "vsf" / "test" / "vsf_test"
+    if not base.exists():
+        return scenes
+    for peripheral_dir in base.iterdir():
+        scenario_dir = peripheral_dir / "scenario"
+        if not scenario_dir.is_dir():
             continue
-        name = m.group(1)
-        if scenarios is None or name in scenarios:
-            serial.send(f"SCENARIO:{name}:GO\r\n")
-        else:
-            serial.send(f"SCENARIO:{name}:SKIP\r\n")
-
-
-def _call_run(run_fn: Callable[..., None], project_root: Path, ser: SerialInstrument, la: LogicAnalyzerInstrument | None) -> None:
-    """Call run_fn with project_root as first positional arg. la is passed only if the script accepts it."""
-    sig = inspect.signature(run_fn)
-    if "la" in sig.parameters:
-        run_fn(project_root, ser, la=la)
-    else:
-        run_fn(project_root, ser)
-
-
-def _derive_run_name(script_paths: list[str]) -> str:
-    if len(script_paths) == 1:
-        return Path(script_paths[0]).stem
-    stems = [Path(p).stem for p in script_paths]
-    prefix = stems[0]
-    for s in stems[1:]:
-        while not s.startswith(prefix) and prefix:
-            prefix = prefix[:-1]
-    return prefix.rstrip("_-") if prefix else "multi"
+        for f in scenario_dir.glob("vsf_test_*.py"):
+            stem = f.stem
+            if stem.startswith("vsf_test_"):
+                scene_name = stem[len("vsf_test_"):]
+                scenes[scene_name] = f
+    return scenes
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(prog="vsf-board-run")
+    parser = argparse.ArgumentParser(prog="vsf-bench")
     parser.add_argument(
         "--project-root",
         type=Path,
@@ -147,145 +67,280 @@ def parse_args():
         help="Explicit log directory. If omitted, auto-generated under logs/",
     )
     parser.add_argument(
+        "--build", action="store_true", help="Build firmware"
+    )
+    parser.add_argument(
+        "--flash", action="store_true", help="Flash firmware"
+    )
+    parser.add_argument(
+        "--test", action="store_true", help="Run tests"
+    )
+    parser.add_argument(
+        "--all", action="store_true", help="Build + flash + test all scenes"
+    )
+    parser.add_argument(
+        "--scene", action="append", default=None, help="Scene name to run (repeatable)"
+    )
+    parser.add_argument(
+        "--case", action="append", default=None, help="Case parameter value (repeatable)"
+    )
+    parser.add_argument(
+        "--case-index", action="append", type=int, default=None, help="Case index (repeatable)"
+    )
+    parser.add_argument(
+        "--script", type=Path, default=None, help="Override default script for the scene"
+    )
+    parser.add_argument(
         "hardware_map",
         help="Path to hardware-map.yml",
     )
-    parser.add_argument(
-        "test_scripts",
-        nargs="*",
-        default=None,
-        help="One or more test scripts with run(serial[, la]) function",
-    )
     return parser.parse_args()
+
+
+def _query_firmware_scenes(ser: SerialInstrument) -> set[str]:
+    """Ask the firmware for its scene list via the REPL."""
+    ser.send("vsf-test scene --list\r\n")
+    time.sleep(0.3)
+    output = ser.read_all(timeout=2.0)
+    scenes: set[str] = set()
+    for line in output.splitlines():
+        line = line.strip()
+        # Format: "  N scene_name"
+        if line and line[0].isdigit():
+            parts = line.split(None, 1)
+            if len(parts) == 2:
+                scenes.add(parts[1])
+    return scenes
+
+
+def _script_needs_la(script_path: Path | None) -> bool:
+    """Heuristic: does the script actually call methods on the la object?"""
+    if script_path is None:
+        return False
+    try:
+        source = script_path.read_text()
+        # Exclude the function signature line which always contains 'la:'
+        return any("la." in line for line in source.splitlines() if "def run(" not in line)
+    except Exception:
+        return False
+
+
+def _build_run_cmd(scene: str, case: str | None) -> str:
+    if case:
+        return f"vsf-test run {scene}.{case}\r\n"
+    return f"vsf-test run {scene}\r\n"
+
+
+def _run_scene(
+    scene_name: str,
+    script_path: Path | None,
+    case_specs: list[str],
+    project_root: Path,
+    ser: SerialInstrument,
+    la_cfg,
+    run_dir: Path,
+    cli_path: Path | None,
+) -> bool:
+    """Run a single scene end-to-end. Returns True on PASS."""
+    cases_to_run = case_specs if case_specs else [None]
+    ok = True
+    for case in cases_to_run:
+        case_tag = f".{case}" if case else ""
+        print(f"\n[vsf-bench] Scene: {scene_name}{case_tag}")
+
+        scene_la: LogicAnalyzerInstrument | None = None
+        needs_la = _script_needs_la(script_path)
+        if la_cfg is not None and cli_path is not None and needs_la:
+            label = f"{scene_name}{('_' + case) if case else ''}"
+            capture_path = run_dir / f"{label}-capture.dsl"
+            scene_la = LogicAnalyzerInstrument(
+                cli_path=cli_path,
+                device=la_cfg.device,
+                samplerate=la_cfg.samplerate,
+                channels=la_cfg.channels,
+                capture_path=capture_path,
+            )
+            scene_la.start(180.0)
+            # dsview-cli needs ~3s to initialize the device before SIGTERM works reliably.
+            time.sleep(3.0)
+
+        cmd = _build_run_cmd(scene_name, case)
+        ser.send(cmd)
+        print(f"[vsf-bench] Triggered: {cmd.strip()}")
+
+        # Detect firmware "Scene not found" immediately.
+        try:
+            ser.expect(r"Scene not found:", timeout=5.0)
+            print(f"[vsf-bench] FAIL: {scene_name}{case_tag}: Scene not found in firmware")
+            return False
+        except TimeoutError:
+            pass  # Normal path – firmware is running the scene.
+
+        try:
+            if script_path is not None:
+                run_fn = load_test_script(script_path)
+                sig = inspect.signature(run_fn)
+                if "la" in sig.parameters:
+                    run_fn(project_root, ser, scene_la)
+                else:
+                    run_fn(project_root, ser)
+            else:
+                ser.expect_test_summary(scene_name, timeout=180.0)
+            print(f"[vsf-bench] PASS: {scene_name}{case_tag}")
+        except (TimeoutError, AssertionError, RuntimeError, KeyError, AttributeError) as e:
+            print(f"[vsf-bench] FAIL: {scene_name}{case_tag}: {e}")
+            ok = False
+        finally:
+            if scene_la is not None:
+                scene_la.stop()
+                try:
+                    scene_la.wait(timeout=10.0)
+                except (TimeoutError, RuntimeError) as cleanup_err:
+                    print(f"[vsf-bench] LA cleanup warning: {cleanup_err}")
+
+    return ok
 
 
 def main():
     args = parse_args()
     project_root = args.project_root.resolve()
 
-    board = load_hardware_map(args.hardware_map)
-    validate_runners(board)
+    do_build = args.build or args.all
+    do_flash = args.flash or args.all
+    do_test = args.test or args.all
 
-    # Build
-    print(f"[vsf-board-run] Building ({board.build.source_dir})...")
-    cmake = CMakeRunner(board.build, project_root)
-    build_dir = cmake.build()
-    print(f"[vsf-board-run] Build complete: {build_dir}")
-
-    # Flash
-    runner_cfg = board.runners[board.active_runner]
-    runner_cls = get_runner_class(runner_cfg.type)
-    if runner_cls is None:
-        print(f"[vsf-board-run] Unknown runner type: {runner_cfg.type}", file=sys.stderr)
+    if not (do_build or do_flash or do_test):
+        print("[vsf-bench] Error: at least one of --build, --flash, --test, --all is required")
         sys.exit(1)
 
-    runner = runner_cls(runner_cfg)
+    hardware_map_path = project_root / args.hardware_map
+    board = load_hardware_map(str(hardware_map_path))
+    validate_runners(board)
 
-    # Test scripts are optional — build+flash only when omitted
-    if not args.test_scripts:
-        print(f"[vsf-board-run] Flashing via {board.active_runner}...")
+    build_dir = None
+    if do_build or do_flash or do_test:
+        print(f"[vsf-bench] Building ({board.build.source_dir})...")
+        cmake = CMakeRunner(board.build, project_root)
+        build_dir = cmake.build()
+        print(f"[vsf-bench] Build complete: {build_dir}")
+
+    if do_flash and not do_test:
+        runner_cfg = board.runners[board.active_runner]
+        runner_cls = get_runner_class(runner_cfg.type)
+        if runner_cls is None:
+            print(f"[vsf-bench] Unknown runner type: {runner_cfg.type}", file=sys.stderr)
+            sys.exit(1)
+        runner = runner_cls(runner_cfg)
+        print(f"[vsf-bench] Flashing via {board.active_runner}...")
         runner.flash(build_dir)
-        print("[vsf-board-run] Flash complete")
-        print("[vsf-board-run] No test script provided — done.")
+        print("[vsf-bench] Flash complete")
         return
 
-    # Log directory
+    if not do_test:
+        return
+
+    # ----- Test mode -----
+    discovered = _discover_scenes(project_root)
+
+    if args.scene:
+        if args.script and len(args.scene) > 1:
+            print("[vsf-bench] Error: --script can only be used with a single --scene")
+            sys.exit(1)
+        ordered_scenes = []
+        for name in args.scene:
+            if args.script:
+                ordered_scenes.append((name, args.script.resolve()))
+            elif name in discovered:
+                ordered_scenes.append((name, discovered[name]))
+            else:
+                print(f"[vsf-bench] Scene not found: {name}. Discovered: {sorted(discovered.keys())}")
+                sys.exit(1)
+    else:
+        ordered_scenes = [(name, discovered[name]) for name in sorted(discovered.keys())]
+
+    if not ordered_scenes:
+        print("[vsf-bench] No scenes discovered")
+        sys.exit(1)
+
+    print(f"[vsf-bench] Scenes: {[s for s, _ in ordered_scenes]}")
+
+    case_specs: list[str] = []
+    if args.case:
+        case_specs.extend(args.case)
+    if args.case_index:
+        case_specs.extend(str(i) for i in args.case_index)
+    if case_specs and len(ordered_scenes) > 1:
+        print("[vsf-bench] Error: --case/--case-index requires exactly one --scene")
+        sys.exit(1)
+
     if args.log_dir:
         run_dir = args.log_dir.resolve()
     else:
         timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        run_name = _derive_run_name(args.test_scripts)
-        run_dir = Path(f"logs/{timestamp}-{run_name}")
+        if len(ordered_scenes) == 1:
+            tag = ordered_scenes[0][0]
+        else:
+            tag = "vsf_test"
+        run_dir = Path(f"logs/{timestamp}-{tag}")
     run_dir.mkdir(parents=True, exist_ok=True)
-    log_path = run_dir / "vsf-board-run.jsonl"
+    log_path = run_dir / "vsf-bench.jsonl"
 
-    # Create LA instrument if configured
-    la: LogicAnalyzerInstrument | None = None
-    if board.logic_analyzer:
-        la_cfg = board.logic_analyzer
-        capture_path = run_dir / f"{run_name}-capture.dsl"
-        la = LogicAnalyzerInstrument(
-            cli_path=project_root / la_cfg.cli,
-            device=la_cfg.device,
-            samplerate=la_cfg.samplerate,
-            channels=la_cfg.channels,
-            capture_path=capture_path,
-        )
-        la.start(la_cfg.capture_duration)
-        print(f"[vsf-board-run] LA capture started ({la_cfg.capture_duration}s → {capture_path})")
-
-    # Open serial BEFORE flashing so no firmware output is missed after reset.
     ser = SerialInstrument(board.serial, board.baud, audit_log=log_path)
     ser.open()
 
-    print(f"[vsf-board-run] Flashing via {board.active_runner}...")
-    runner.flash(build_dir)
-    print("[vsf-board-run] Flash complete")
-
-    # Scenario gateway: tell firmware which scenarios this run cares about.
-    # If a script omits SCENARIOS, all scenarios get GO (legacy behavior).
-    scenarios = _gather_scenarios(args.test_scripts)
-    if scenarios is not None:
-        print(f"[vsf-board-run] Scenarios: {sorted(scenarios)}")
-    _gateway_dialog(ser, scenarios)
-
-    # Single script: let the script manage serial/la lifecycle (backward compatible)
-    # Multiple scripts: orchestrator waits for completion, then runs each script
-    multi_mode = len(args.test_scripts) > 1
-
-    if multi_mode:
-        # Wait for firmware to complete ALL tests
-        print("[vsf-board-run] Waiting for firmware test completion...")
-        ser.expect("All test cases completed", timeout=900.0)
-        print("[vsf-board-run] Firmware tests completed")
-
-        # Wait for LA capture to finish
-        if la is not None:
-            la.wait()
-            print("[vsf-board-run] LA capture done")
-
-        # Run each script with a serial wrapper that skips expect()
-        wrapped_ser = SerialAlreadyCompleted(ser)
-        overall_pass = True
-        for script_path in args.test_scripts:
-            run_fn = load_test_script(script_path)
-            print(f"\n[vsf-board-run] Running test script: {script_path}")
-            try:
-                _call_run(run_fn, project_root, wrapped_ser, la)
-                print(f"[vsf-board-run] PASS: {script_path}")
-            except (TimeoutError, AssertionError, RuntimeError) as e:
-                print(f"[vsf-board-run] FAIL: {script_path}: {e}")
-                overall_pass = False
-
-        ser.close()
-
-        with open(log_path, "a") as f:
-            verdict = "pass" if overall_pass else "fail"
-            f.write(json.dumps({"verdict": verdict}) + "\n")
-        print(f"\n[vsf-board-run] {'PASS' if overall_pass else 'FAIL'}")
-        if not overall_pass:
-            sys.exit(1)
-        return
-
-    # Single-script mode (backward compatible)
-    script_path = args.test_scripts[0]
-    run_fn = load_test_script(script_path)
-    print(f"[vsf-board-run] Running test script: {script_path}")
-
-    try:
-        _call_run(run_fn, project_root, ser, la)
-        print("\n[vsf-board-run] PASS")
-        with open(log_path, "a") as f:
-            f.write(json.dumps({"verdict": "pass"}) + "\n")
-    except (TimeoutError, AssertionError, RuntimeError) as e:
-        print(f"\n[vsf-board-run] FAIL: {e}")
-        with open(log_path, "a") as f:
-            f.write(json.dumps({"verdict": "fail", "error": str(e)}) + "\n")
+    runner_cfg = board.runners[board.active_runner]
+    runner_cls = get_runner_class(runner_cfg.type)
+    if runner_cls is None:
+        print(f"[vsf-bench] Unknown runner type: {runner_cfg.type}", file=sys.stderr)
         sys.exit(1)
-    finally:
-        ser.close()
-        if la is not None:
-            la.wait()
+    runner = runner_cls(runner_cfg)
+    print(f"[vsf-bench] Flashing via {board.active_runner}...")
+    runner.flash(build_dir)
+    print("[vsf-bench] Flash complete")
+
+    la_cfg = board.logic_analyzer
+    cli_path = project_root / la_cfg.cli if la_cfg else None
+
+    # Wait for the REPL banner so the first `vsf-test run …` is not eaten by the boot stream.
+    try:
+        ser.expect("VSF Test Ready", timeout=10.0)
+    except TimeoutError:
+        print("[vsf-bench] Warning: REPL banner not seen, continuing anyway")
+
+    # When running all discovered scenes, intersect with firmware scene list
+    # so disabled scenes don't cause spurious failures.
+    if not args.scene:
+        fw_scenes = _query_firmware_scenes(ser)
+        if fw_scenes:
+            skipped = [s for s, _ in ordered_scenes if s not in fw_scenes]
+            ordered_scenes = [(s, p) for s, p in ordered_scenes if s in fw_scenes]
+            if skipped:
+                print(f"[vsf-bench] Skipped (not in firmware): {skipped}")
+        print(f"[vsf-bench] Effective scenes: {[s for s, _ in ordered_scenes]}")
+
+    overall_pass = True
+    for scene_name, script_path in ordered_scenes:
+        ok = _run_scene(
+            scene_name=scene_name,
+            script_path=script_path,
+            case_specs=case_specs,
+            project_root=project_root,
+            ser=ser,
+            la_cfg=la_cfg,
+            run_dir=run_dir,
+            cli_path=cli_path,
+        )
+        if not ok:
+            overall_pass = False
+
+    ser.close()
+
+    with open(log_path, "a") as f:
+        verdict = "pass" if overall_pass else "fail"
+        f.write(json.dumps({"verdict": verdict}) + "\n")
+    print(f"\n[vsf-bench] {'PASS' if overall_pass else 'FAIL'}")
+    if not overall_pass:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

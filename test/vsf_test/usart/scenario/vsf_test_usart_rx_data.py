@@ -35,7 +35,7 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
 
     scenario = params.get("rx_data", {})
     cases = _parse_cases(scenario)
-    assert len(cases) > 0, f"No cases found in {yml_path}"
+    assert len(cases) > 0, 'No cases found in test_params'
 
     # Marker config (UART0)
     marker_cfg = params.get("marker", {})
@@ -65,7 +65,8 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
         serial._ser.flush()
 
     # Wait for overall completion
-    serial.expect("All test cases completed", timeout=timeout_s)
+    serial.expect_test_summary("usart_rx_data", timeout=timeout_s)
+    la.stop()
     la.wait(timeout=120.0)
 
     aux.close()

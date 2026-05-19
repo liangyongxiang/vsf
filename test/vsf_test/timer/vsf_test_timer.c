@@ -22,7 +22,10 @@
 /*============================ IMPLEMENTATION ================================*/
 
 #define REG_IF(gate, s, field, add_fn)            \
-    VSF_TEST_REGISTER_SCENE(s, field, add_fn)
+    do {                                          \
+        vsf_test_shell_register_scene(vsf_test_get_shell(), gate); \
+        add_fn(&(s)->field);                      \
+    } while (0)
 
 void vsf_test_timer_register_all(vsf_test_timer_scenes_t *s)
 {

@@ -126,6 +126,27 @@ static void __run_selection(vsf_test_shell_t *shell)
         vsf_test_run_case(ci);
         if (shell->auto_case) __advance_case(shell);
     }
+    if (shell->cur_scene >= 0) {
+        uint32_t total = sc->case_count;
+        uint32_t pass = 0, fail = 0, skip = 0, wdt_pass = 0, wdt_fail = 0;
+        for (uint16_t i = 0; i < total; i++) {
+            uint16_t ci = sc->first_case_idx + i;
+            vsf_test_result_t r = vsf_test_get_case_result(ci);
+            switch (r) {
+            case VSF_TEST_RESULT_PASS:     pass++;      break;
+            case VSF_TEST_RESULT_FAIL:     fail++;      break;
+            case VSF_TEST_RESULT_SKIP:     skip++;      break;
+            case VSF_TEST_RESULT_WDT_PASS: wdt_pass++;  break;
+            case VSF_TEST_RESULT_WDT_FAIL: wdt_fail++;  break;
+            default: break;
+            }
+        }
+        vsf_trace_info("[TEST] All test cases completed" VSF_TRACE_CFG_LINEEND);
+        vsf_trace_info("[TEST] ========== Test Summary ==========" VSF_TRACE_CFG_LINEEND);
+        vsf_trace_info("[TEST] Total test cases: %u" VSF_TRACE_CFG_LINEEND, total);
+        vsf_trace_info("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u" VSF_TRACE_CFG_LINEEND,
+                       pass, fail, skip, wdt_pass, wdt_fail);
+    }
 }
 
 static void __cmd_scene(vsf_test_shell_t *shell, char *args)
@@ -171,11 +192,61 @@ static void __cmd_case(vsf_test_shell_t *shell, char *args)
 
 static void __cmd_run(vsf_test_shell_t *shell, char *args)
 {
-    if (args != NULL && strcmp(args, "all") == 0) {
+    if (args == NULL || args[0] == '\0') {
+        __run_selection(shell);
+        return;
+    }
+
+    if (strcmp(args, "all") == 0) {
         shell->cur_scene = -1;
         shell->cur_case  = -1;
+        __run_selection(shell);
+        return;
     }
-    __run_selection(shell);
+
+    char *dot = strchr(args, '.');
+    char *case_spec = NULL;
+    if (dot != NULL) {
+        case_spec = dot + 1;
+        *dot = '\0';
+    }
+
+    for (uint8_t i = 0; i < shell->scene_count; i++) {
+        if (strcmp(shell->scenes[i].name, args) == 0) {
+            shell->cur_scene = (int8_t)i;
+            shell->cur_case = -1;
+            if (case_spec != NULL && case_spec[0] != '\0') {
+                int numeric_idx = atoi(case_spec);
+                bool is_numeric = true;
+                for (char *p = case_spec; *p != '\0'; p++) {
+                    if (*p < '0' || *p > '9') { is_numeric = false; break; }
+                }
+                if (is_numeric && numeric_idx >= 0 && numeric_idx < (int)shell->scenes[i].case_count) {
+                    shell->cur_case = (int8_t)numeric_idx;
+                } else {
+                    for (uint16_t j = 0; j < shell->scenes[i].case_count; j++) {
+                        uint16_t ci = shell->scenes[i].first_case_idx + j;
+                        const char *cfg = shell->cases[ci].cfg_str;
+                        if (cfg != NULL && strcmp(cfg, case_spec) == 0) {
+                            shell->cur_case = (int8_t)j;
+                            break;
+                        }
+                    }
+                    if (shell->cur_case < 0) {
+                        if (dot != NULL) *dot = '.';
+                        vsf_trace_info("Case not found: %s" VSF_TRACE_CFG_LINEEND, case_spec);
+                        return;
+                    }
+                }
+            }
+            if (dot != NULL) *dot = '.';
+            __run_selection(shell);
+            return;
+        }
+    }
+
+    if (dot != NULL) *dot = '.';
+    vsf_trace_info("Scene not found: %s" VSF_TRACE_CFG_LINEEND, args);
 }
 
 static void __cmd_config(vsf_test_shell_t *shell, char *args)

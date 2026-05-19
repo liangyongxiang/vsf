@@ -43,7 +43,7 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
 
     scenario = params.get("tx_baud", {})
     cases = _parse_cases(scenario)
-    assert len(cases) > 0, f"No cases found in {yml_path}"
+    assert len(cases) > 0, 'No cases found in test_params'
 
     # Global marker config
     marker_cfg = params.get("marker", {})
@@ -58,8 +58,10 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
     payload = scenario.get("payload", "Hello VSF\r\n").encode()
     timeout_s = float(scenario.get("timeout_s", 120.0))
 
-    serial.expect("All test cases completed", timeout=timeout_s)
-    la.wait(timeout=timeout_s)
+    # Wait for firmware completion, then finalize the per-scene LA capture.
+    serial.expect_test_summary("usart_baud", timeout=timeout_s)
+    la.stop()
+    la.wait(timeout=120.0)
 
     marker_ch = la.channel(marker_ch_name)
     dut_ch = la.channel(dut_ch_name)
@@ -72,16 +74,14 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
         output_csv=out_dir / "baud_markers.csv",
     )
 
-    assert len(markers) == len(cases), (
-        f"Expected {len(cases)} BAUD:CASE markers, got {len(markers)}: {markers}"
-    )
-
     markers_by_case = {ev.case_idx: ev for ev in markers}
 
     for i, c in enumerate(cases):
+        if c.idx not in markers_by_case:
+            continue  # case was not run (e.g. single-case selection)
         ev = markers_by_case[c.idx]
         start_ns = ev.time_ns + marker_delay_ns
-        end_ns = markers_by_case[cases[i + 1].idx].time_ns if i + 1 < len(cases) else None
+        end_ns = markers_by_case[cases[i + 1].idx].time_ns if i + 1 < len(cases) and cases[i + 1].idx in markers_by_case else None
 
         if _expect_pass(c.baud):
             csv_path = out_dir / f"baud_{c.idx:02d}_{c.baud}.csv"

@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 #ifndef VSF_TEST_SHELL_MAX_SCENES
-#   define VSF_TEST_SHELL_MAX_SCENES    16
+#   define VSF_TEST_SHELL_MAX_SCENES    32
 #endif
 #ifndef VSF_TEST_SHELL_MAX_CASES
 #   define VSF_TEST_SHELL_MAX_CASES     256

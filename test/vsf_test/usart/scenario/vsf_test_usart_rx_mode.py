@@ -40,7 +40,7 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
 
     scenario = params.get("rx_mode", {})
     cases = _parse_cases(scenario)
-    assert len(cases) > 0, f"No cases found in {yml_path}"
+    assert len(cases) > 0, 'No cases found in test_params'
 
     marker_cfg = params.get("marker", {})
     marker_baud = int(marker_cfg.get("baudrate", 115200))
@@ -68,7 +68,8 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
         serial._ser.write(f"RX_MODE:CASE:{c.idx}:DONE\r\n".encode())
         serial._ser.flush()
 
-    serial.expect("All test cases completed", timeout=timeout_s)
+    serial.expect_test_summary("usart_rx_mode", timeout=timeout_s)
+    la.stop()
     la.wait(timeout=120.0)
 
     aux.close()

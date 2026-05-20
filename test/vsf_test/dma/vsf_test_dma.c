@@ -21,16 +21,12 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-#define REG_IF(gate, s, field, add_fn)            \
-    do {                                          \
-        vsf_test_shell_register_scene(vsf_test_get_shell(), gate); \
-        add_fn(&(s)->field);                      \
-    } while (0)
-
+// Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
+// internally, which also opens the matching shell scene.
 void vsf_test_dma_register_all(vsf_test_dma_scenes_t *s)
 {
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-    REG_IF("dma_mem2mem", s, mem2mem, vsf_test_dma_mem2mem_add_cases);
+    vsf_test_dma_mem2mem_add_cases(&s->mem2mem);
 #endif
 }
 

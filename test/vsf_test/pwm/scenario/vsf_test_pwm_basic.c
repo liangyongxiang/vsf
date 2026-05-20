@@ -20,14 +20,15 @@ static vsf_test_pwm_basic_case_t __pwm_basic_cases[] = {
 
 void vsf_test_pwm_basic_add_cases(vsf_test_pwm_basic_scene_t *scene)
 {
+    scene->name    = "pwm_basic";
+    scene->purpose = "pwm_basic";
+    scene->hw_req  = "none";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_PWM_BASIC_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_PWM_BASIC_CASE_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "pwm_basic_%u purpose=pwm_basic hw_req=none",
-            (unsigned)__pwm_basic_cases[i].idx);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_pwm_basic_run,
-            __cfg_str_pool[i], (void *)&__pwm_basic_cases[i]);
         __pwm_basic_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_pwm_basic_run,
+            (void *)&__pwm_basic_cases[i]);
     }
 }
 
@@ -36,8 +37,8 @@ void vsf_test_pwm_basic_run(void *arg)
     vsf_test_pwm_basic_case_t *c = (vsf_test_pwm_basic_case_t *)arg;
     vsf_pwm_t *pwm = c->scene->pwm;
 
-    vsf_trace_info("PWM:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
 
     /* Test capability */
     vsf_pwm_capability_t cap = vsf_pwm_capability(pwm);

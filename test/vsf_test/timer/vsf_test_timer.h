@@ -35,9 +35,12 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-typedef struct vsf_test_timer_oneshot_scene_t {
-    vsf_timer_t *timer;
-} vsf_test_timer_oneshot_scene_t;
+vsf_class(vsf_test_timer_oneshot_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_timer_t *timer;
+    )
+};
 
 typedef struct vsf_test_timer_scenes_t {
     vsf_test_timer_oneshot_scene_t oneshot;

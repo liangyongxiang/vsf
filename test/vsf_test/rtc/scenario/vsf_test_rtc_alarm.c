@@ -34,14 +34,15 @@ static void __rtc_alarm_isr(void *target_ptr, vsf_rtc_t *rtc_ptr,
 
 void vsf_test_rtc_alarm_add_cases(vsf_test_rtc_alarm_scene_t *scene)
 {
+    scene->name    = "rtc_alarm";
+    scene->purpose = "rtc_alarm";
+    scene->hw_req  = "none";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RTC_ALARM_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_RTC_ALARM_CASE_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "rtc_alarm_%u purpose=rtc_alarm hw_req=none",
-            (unsigned)__rtc_alarm_cases[i].idx);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_rtc_alarm_run,
-            __cfg_str_pool[i], (void *)&__rtc_alarm_cases[i]);
         __rtc_alarm_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_rtc_alarm_run,
+            (void *)&__rtc_alarm_cases[i]);
     }
 }
 
@@ -50,8 +51,8 @@ void vsf_test_rtc_alarm_run(void *arg)
     vsf_test_rtc_alarm_case_t *c = (vsf_test_rtc_alarm_case_t *)arg;
     vsf_rtc_t *rtc = c->scene->rtc;
 
-    vsf_trace_info("RTC:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
 
     __alarm_triggered = false;
 

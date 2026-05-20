@@ -70,16 +70,15 @@ static bool __i2c_wait_complete(uint32_t timeout_ms)
 
 void vsf_test_i2c_eeprom_rw_add_cases(vsf_test_i2c_eeprom_rw_scene_t *scene)
 {
+    scene->name    = "i2c_eeprom_rw";
+    scene->purpose = "eeprom";
+    scene->hw_req  = "i2c_eeprom";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_I2C_EEPROM_RW_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_I2C_CASE_MAX_COUNT][80];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "i2c_eeprom_rw_%u purpose=eeprom hw_req=i2c_eeprom addr=0x%02X len=%u",
-            (unsigned)__i2c_eeprom_rw_cases[i].idx,
-            (unsigned)__i2c_eeprom_rw_cases[i].eeprom_addr,
-            (unsigned)__i2c_eeprom_rw_cases[i].data_len);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_i2c_eeprom_rw_run,
-            __cfg_str_pool[i], (void *)&__i2c_eeprom_rw_cases[i]);
         __i2c_eeprom_rw_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_i2c_eeprom_rw_run,
+            (void *)&__i2c_eeprom_rw_cases[i]);
     }
 }
 
@@ -93,8 +92,8 @@ void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c)
     VSF_TEST_ASSERT(data_len > 0);
     VSF_TEST_ASSERT(data_len <= VSF_TEST_I2C_CASE_MAX_COUNT);
 
-    vsf_trace_info("I2C:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
 
     /* Init i2c master at standard 100kHz. */
     vsf_err_t err = vsf_i2c_init(i2c, &(vsf_i2c_cfg_t){

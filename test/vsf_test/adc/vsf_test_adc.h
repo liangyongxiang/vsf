@@ -35,9 +35,12 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-typedef struct vsf_test_adc_oneshot_scene_t {
-    vsf_adc_t *adc;
-} vsf_test_adc_oneshot_scene_t;
+vsf_class(vsf_test_adc_oneshot_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_adc_t *adc;
+    )
+};
 
 typedef struct vsf_test_adc_scenes_t {
     vsf_test_adc_oneshot_scene_t oneshot;

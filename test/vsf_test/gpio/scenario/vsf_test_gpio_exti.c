@@ -44,15 +44,15 @@ static void __exti_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_t p
 
 void vsf_test_gpio_exti_add_cases(vsf_test_gpio_exti_scene_t *scene)
 {
+    scene->name    = "gpio_exti";
+    scene->purpose = "exti";
+    scene->hw_req  = "none";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_EXTI_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_GPIO_CASE_MAX_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "gpio_exti_%u purpose=exti pin=%u",
-            (unsigned)__gpio_exti_cases[i].idx,
-            (unsigned)__gpio_exti_cases[i].pin);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_gpio_exti_run,
-            __cfg_str_pool[i], (void *)&__gpio_exti_cases[i]);
         __gpio_exti_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_gpio_exti_run,
+            (void *)&__gpio_exti_cases[i]);
     }
 }
 
@@ -61,8 +61,8 @@ void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c)
     vsf_gpio_t *gpio = c->scene->gpio;
     vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
 
-    vsf_trace_info("GPIO:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
 
     s_exti_ctx.count = 0;
     s_exti_ctx.expected_pin = pin_mask;

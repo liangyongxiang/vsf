@@ -35,9 +35,12 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-typedef struct vsf_test_spi_loopback_scene_t {
-    vsf_spi_t *spi;
-} vsf_test_spi_loopback_scene_t;
+vsf_class(vsf_test_spi_loopback_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_spi_t *spi;
+    )
+};
 
 typedef struct vsf_test_spi_scenes_t {
     vsf_test_spi_loopback_scene_t loopback;

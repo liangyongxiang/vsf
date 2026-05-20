@@ -31,15 +31,15 @@ static vsf_test_gpio_direction_case_t __gpio_direction_cases[] = {
 
 void vsf_test_gpio_direction_add_cases(vsf_test_gpio_direction_scene_t *scene)
 {
+    scene->name    = "gpio_direction";
+    scene->purpose = "direction";
+    scene->hw_req  = "none";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_DIRECTION_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_GPIO_CASE_MAX_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "gpio_direction_%u purpose=direction pin=%u",
-            (unsigned)__gpio_direction_cases[i].idx,
-            (unsigned)__gpio_direction_cases[i].pin);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_gpio_direction_run,
-            __cfg_str_pool[i], (void *)&__gpio_direction_cases[i]);
         __gpio_direction_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_gpio_direction_run,
+            (void *)&__gpio_direction_cases[i]);
     }
 }
 
@@ -48,8 +48,8 @@ void vsf_test_gpio_direction_run(const vsf_test_gpio_direction_case_t *c)
     vsf_gpio_t *gpio = c->scene->gpio;
     vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
 
-    vsf_trace_info("GPIO:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
 
     /* Configure as output and verify direction reads back as output */
     vsf_err_t err = vsf_gpio_port_config_pins(gpio, pin_mask, &(vsf_gpio_cfg_t){

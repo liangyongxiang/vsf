@@ -21,16 +21,12 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-#define REG_IF(gate, s, field, add_fn)            \
-    do {                                          \
-        vsf_test_shell_register_scene(vsf_test_get_shell(), gate); \
-        add_fn(&(s)->field);                      \
-    } while (0)
-
+// Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
+// internally, which also opens the matching shell scene.
 void vsf_test_adc_register_all(vsf_test_adc_scenes_t *s)
 {
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-    REG_IF("adc_oneshot", s, oneshot, vsf_test_adc_oneshot_add_cases);
+    vsf_test_adc_oneshot_add_cases(&s->oneshot);
 #endif
 }
 

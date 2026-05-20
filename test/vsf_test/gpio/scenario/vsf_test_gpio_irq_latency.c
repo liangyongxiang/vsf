@@ -47,16 +47,15 @@ static void __latency_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_
 
 void vsf_test_gpio_irq_latency_add_cases(vsf_test_gpio_irq_latency_scene_t *scene)
 {
+    scene->name    = "gpio_irq_latency";
+    scene->purpose = "perf-irq";
+    scene->hw_req  = "none";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_IRQ_LATENCY_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_GPIO_CASE_MAX_COUNT][80];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "gpio_irq_latency_%u purpose=perf-irq pin=%u max_ns=%lu",
-            (unsigned)__gpio_irq_latency_cases[i].idx,
-            (unsigned)__gpio_irq_latency_cases[i].pin,
-            (unsigned long)__gpio_irq_latency_cases[i].max_latency_ns);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_gpio_irq_latency_run,
-            __cfg_str_pool[i], (void *)&__gpio_irq_latency_cases[i]);
         __gpio_irq_latency_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_gpio_irq_latency_run,
+            (void *)&__gpio_irq_latency_cases[i]);
     }
 }
 
@@ -65,8 +64,8 @@ void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c)
     vsf_gpio_t *gpio = c->scene->gpio;
     vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
 
-    vsf_trace_info("GPIO:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
 
     s_latency_ctx.expected_pin = pin_mask;
 

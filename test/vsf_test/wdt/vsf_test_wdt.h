@@ -18,9 +18,12 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-typedef struct vsf_test_wdt_basic_scene_t {
-    vsf_wdt_t *wdt;
-} vsf_test_wdt_basic_scene_t;
+vsf_class(vsf_test_wdt_basic_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_wdt_t *wdt;
+    )
+};
 
 typedef struct vsf_test_wdt_scenes_t {
     vsf_test_wdt_basic_scene_t basic;

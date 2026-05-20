@@ -21,6 +21,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf.h"
+#include "component/test/vsf_test/vsf_test.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,9 +37,12 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-typedef struct vsf_test_flash_erase_program_read_scene_t {
-    vsf_flash_t *flash;
-} vsf_test_flash_erase_program_read_scene_t;
+vsf_class(vsf_test_flash_erase_program_read_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_flash_t *flash;
+    )
+};
 
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
 typedef struct vsf_test_flash_erase_program_read_case_t {

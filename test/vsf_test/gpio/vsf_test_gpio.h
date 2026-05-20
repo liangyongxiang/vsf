@@ -21,6 +21,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf.h"
+#include "component/test/vsf_test/vsf_test.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -76,62 +77,104 @@ extern "C" {
 /*============================ TYPES =========================================*/
 
 // Per-scene context (populated by __vsf_test in main.c)
-typedef struct vsf_test_gpio_output_input_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_output_input_scene_t;
+vsf_class(vsf_test_gpio_output_input_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_toggle_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_toggle_scene_t;
+vsf_class(vsf_test_gpio_toggle_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_direction_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_direction_scene_t;
+vsf_class(vsf_test_gpio_direction_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_atomic_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_atomic_scene_t;
+vsf_class(vsf_test_gpio_atomic_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_pinmux_scene_t {
-    vsf_gpio_t *gpio;
-    vsf_usart_t *usart;
-} vsf_test_gpio_pinmux_scene_t;
+vsf_class(vsf_test_gpio_pinmux_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+        vsf_usart_t *usart;
+    )
+};
 
-typedef struct vsf_test_gpio_multi_pin_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_multi_pin_scene_t;
+vsf_class(vsf_test_gpio_multi_pin_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_open_drain_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_open_drain_scene_t;
+vsf_class(vsf_test_gpio_open_drain_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_toggle_freq_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_toggle_freq_scene_t;
+vsf_class(vsf_test_gpio_toggle_freq_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_write_throughput_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_write_throughput_scene_t;
+vsf_class(vsf_test_gpio_write_throughput_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_toggle_stress_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_toggle_stress_scene_t;
+vsf_class(vsf_test_gpio_toggle_stress_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_concurrent_prio_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_concurrent_prio_scene_t;
+vsf_class(vsf_test_gpio_concurrent_prio_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_exti_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_exti_scene_t;
+vsf_class(vsf_test_gpio_exti_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_irq_latency_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_irq_latency_scene_t;
+vsf_class(vsf_test_gpio_irq_latency_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
-typedef struct vsf_test_gpio_irq_lifecycle_scene_t {
-    vsf_gpio_t *gpio;
-} vsf_test_gpio_irq_lifecycle_scene_t;
+vsf_class(vsf_test_gpio_irq_lifecycle_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
 typedef struct vsf_test_gpio_output_input_case_t {

@@ -36,14 +36,15 @@ static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
 
 void vsf_test_timer_oneshot_add_cases(vsf_test_timer_oneshot_scene_t *scene)
 {
+    scene->name    = "timer_oneshot";
+    scene->purpose = "timer_oneshot";
+    scene->hw_req  = "none";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_TIMER_ONESHOT_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_TIMER_ONESHOT_CASE_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "timer_oneshot_%u purpose=timer_oneshot hw_req=none",
-            (unsigned)__timer_oneshot_cases[i].idx);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_timer_oneshot_run,
-            __cfg_str_pool[i], (void *)&__timer_oneshot_cases[i]);
         __timer_oneshot_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_timer_oneshot_run,
+            (void *)&__timer_oneshot_cases[i]);
     }
 }
 
@@ -52,8 +53,8 @@ void vsf_test_timer_oneshot_run(void *arg)
     vsf_test_timer_oneshot_case_t *c = (vsf_test_timer_oneshot_case_t *)arg;
     vsf_timer_t *timer = c->scene->timer;
 
-    vsf_trace_info("TIMER:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
 
     __timer_fired = false;
 

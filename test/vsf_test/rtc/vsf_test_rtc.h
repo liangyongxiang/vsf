@@ -39,13 +39,19 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-typedef struct vsf_test_rtc_set_get_scene_t {
-    vsf_rtc_t *rtc;
-} vsf_test_rtc_set_get_scene_t;
+vsf_class(vsf_test_rtc_set_get_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_rtc_t *rtc;
+    )
+};
 
-typedef struct vsf_test_rtc_alarm_scene_t {
-    vsf_rtc_t *rtc;
-} vsf_test_rtc_alarm_scene_t;
+vsf_class(vsf_test_rtc_alarm_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_rtc_t *rtc;
+    )
+};
 
 typedef struct vsf_test_rtc_scenes_t {
     vsf_test_rtc_set_get_scene_t set_get;

@@ -41,15 +41,15 @@ static void __lifecycle_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mas
 
 void vsf_test_gpio_irq_lifecycle_add_cases(vsf_test_gpio_irq_lifecycle_scene_t *scene)
 {
+    scene->name    = "gpio_irq_lifecycle";
+    scene->purpose = "irq-lifecycle";
+    scene->hw_req  = "none";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_IRQ_LIFECYCLE_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_GPIO_CASE_MAX_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "gpio_irq_lifecycle_%u purpose=irq-lifecycle pin=%u",
-            (unsigned)__gpio_irq_lifecycle_cases[i].idx,
-            (unsigned)__gpio_irq_lifecycle_cases[i].pin);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_gpio_irq_lifecycle_run,
-            __cfg_str_pool[i], (void *)&__gpio_irq_lifecycle_cases[i]);
         __gpio_irq_lifecycle_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_gpio_irq_lifecycle_run,
+            (void *)&__gpio_irq_lifecycle_cases[i]);
     }
 }
 
@@ -58,8 +58,8 @@ void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c
     vsf_gpio_t *gpio = c->scene->gpio;
     vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
 
-    vsf_trace_info("GPIO:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
 
     s_lifecycle_pin = pin_mask;
     s_lifecycle_count = 0;

@@ -23,6 +23,8 @@ Follow `PORTING.md` — a numbered ladder from vendor SDK serial to full periphe
 
 **Fix bug:** Reproduce, compare with template + working reference.
 
+**Check quality:** `scripts/check-driver-quality.py <file>...` flags anti-patterns (instance-index branching, hardcoded IRQ/reset/clock/address, missing `VSF_MCONNECT`, pinmux in driver). Run before opening a PR. Suppress a finding inline with `// quality: allow-<rule-id>`.
+
 ## Template locations
 
 `template/__series_name_a__/common/` under `source/hal/driver/`. Reference: `RaspberryPi/RP2040/`. Inc: `<periph>_template.inc`.

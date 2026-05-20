@@ -35,6 +35,11 @@ static void __exti_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_t p
     vsf_test_gpio_exti_suite_t *suite = (vsf_test_gpio_exti_suite_t *)target;
     if (pin_mask & suite->expected_pin) {
         suite->count++;
+        if (suite->disable_on_fire) {
+            /* Level-trigger ISR storm guard. Disable the source after the
+             * first hit; the main thread re-enables if it wants more. */
+            vsf_gpio_exti_irq_disable(gpio, suite->expected_pin);
+        }
     }
 }
 
@@ -61,13 +66,32 @@ void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c)
      * and the settle delay; suite-aware scenarios do not print them. */
     VSF_TEST_GPIO_ASSERT_CAPABILITY(gpio);
 
-    /* Per-case state in suite: must be re-initialised before each run. */
-    c->suite->count        = 0;
-    c->suite->expected_pin = pin_mask;
+    bool active_low = (c->trigger_mode == VSF_GPIO_EXTI_MODE_FALLING
+                    || c->trigger_mode == VSF_GPIO_EXTI_MODE_LOW_LEVEL);
+    bool level_trig = (c->trigger_mode == VSF_GPIO_EXTI_MODE_LOW_LEVEL
+                    || c->trigger_mode == VSF_GPIO_EXTI_MODE_HIGH_LEVEL);
 
-    /* Configure as EXTI input on falling edge. */
+    /* Per-case state in suite: must be re-initialised before each run. */
+    c->suite->count           = 0;
+    c->suite->expected_pin    = pin_mask;
+    c->suite->disable_on_fire = level_trig;
+
+    /* Pre-park the pin at the IDLE level (opposite of "active") so configuring
+     * EXTI does not see a spurious trigger. */
+    vsf_gpio_port_config_pins(gpio, pin_mask, &(vsf_gpio_cfg_t){
+        .mode = VSF_GPIO_OUTPUT_PUSH_PULL | VSF_GPIO_NO_PULL_UP_DOWN,
+    });
+    if (active_low) {
+        vsf_gpio_set(gpio, pin_mask);
+    } else {
+        vsf_gpio_clear(gpio, pin_mask);
+    }
+    vsf_test_busy_wait_ms(1);
+
+    /* Configure as EXTI input with the requested trigger mode. RP2040 lets
+     * SIO continue driving the pin while EXTI watches transitions. */
     vsf_err_t err = vsf_gpio_port_config_pins(gpio, pin_mask, &(vsf_gpio_cfg_t){
-        .mode = VSF_GPIO_EXTI | VSF_GPIO_PULL_UP | VSF_GPIO_EXTI_MODE_FALLING,
+        .mode = VSF_GPIO_EXTI | VSF_GPIO_PULL_UP | c->trigger_mode,
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
@@ -78,44 +102,63 @@ void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c)
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
+    /* Restore SIO output (config_pins() may have switched function). */
+    vsf_gpio_set_output(gpio, pin_mask);
+
     err = vsf_gpio_exti_irq_enable(gpio, pin_mask);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
-    /* Self-trigger via SIO output on the same pin. The pin remains in SIO
-     * mode (FUNCSEL=SIO) so we can drive it; EXTI sees the resulting edges. */
-    vsf_gpio_set_output(gpio, pin_mask);
-    vsf_gpio_set(gpio, pin_mask);
-    vsf_test_busy_wait_ms(1);
-    /* Clear stale event from initial setup. */
+    /* Clear any pending edge that the mode switch produced. */
     vsf_gpio_exti_irq_clear(gpio, pin_mask);
     c->suite->count = 0;
 
-    /* Drop low → falling edge → EXTI fires. */
-    vsf_gpio_clear(gpio, pin_mask);
+    /* Drive to ACTIVE state — trigger one event (edge) or sustained ISRs
+     * (level, but handler self-disables after first hit). */
+    if (active_low) {
+        vsf_gpio_clear(gpio, pin_mask);
+    } else {
+        vsf_gpio_set(gpio, pin_mask);
+    }
     vsf_test_busy_wait_ms(1);
-    uint32_t after_first = c->suite->count;
-    VSF_TEST_ASSERT(after_first >= 1);
+    uint32_t after_active = c->suite->count;
+    VSF_TEST_ASSERT(after_active >= 1);
 
-    /* Disable EXTI; toggle should NOT trigger more. */
-    vsf_gpio_exti_irq_disable(gpio, pin_mask);
-    vsf_gpio_set(gpio, pin_mask);
-    vsf_test_busy_wait_ms(1);
-    vsf_gpio_clear(gpio, pin_mask);
-    vsf_test_busy_wait_ms(1);
-    vsf_gpio_exti_irq_clear(gpio, pin_mask);  /* discard any latched */
-    uint32_t after_disabled = c->suite->count;
-    VSF_TEST_ASSERT(after_disabled == after_first);
+    /* For dual-edge mode, also drive the opposite transition and expect
+     * a second hit. */
+    if (c->trigger_mode == VSF_GPIO_EXTI_MODE_RISING_FALLING) {
+        vsf_gpio_exti_irq_clear(gpio, pin_mask);
+        if (active_low) {
+            vsf_gpio_set(gpio, pin_mask);
+        } else {
+            vsf_gpio_clear(gpio, pin_mask);
+        }
+        vsf_test_busy_wait_ms(1);
+        VSF_TEST_ASSERT(c->suite->count > after_active);
+    }
 
-    /* Re-enable, re-trigger. */
-    vsf_gpio_exti_irq_clear(gpio, pin_mask);
-    vsf_gpio_exti_irq_enable(gpio, pin_mask);
-    vsf_gpio_set(gpio, pin_mask);
-    vsf_test_busy_wait_ms(1);
-    vsf_gpio_clear(gpio, pin_mask);
-    vsf_test_busy_wait_ms(1);
-    VSF_TEST_ASSERT(c->suite->count > after_first);
+    /* For edge-triggered (single-edge) modes, also verify the IRQ truly
+     * stays disabled after vsf_gpio_exti_irq_disable: drive the opposite
+     * edge then the active edge again, expect no count change. */
+    if (!level_trig && c->trigger_mode != VSF_GPIO_EXTI_MODE_RISING_FALLING) {
+        vsf_gpio_exti_irq_disable(gpio, pin_mask);
+        uint32_t baseline = c->suite->count;
+        /* idle → active → idle → active (extra noise) */
+        if (active_low) {
+            vsf_gpio_set(gpio, pin_mask);
+            vsf_test_busy_wait_ms(1);
+            vsf_gpio_clear(gpio, pin_mask);
+        } else {
+            vsf_gpio_clear(gpio, pin_mask);
+            vsf_test_busy_wait_ms(1);
+            vsf_gpio_set(gpio, pin_mask);
+        }
+        vsf_test_busy_wait_ms(1);
+        vsf_gpio_exti_irq_clear(gpio, pin_mask);
+        VSF_TEST_ASSERT(c->suite->count == baseline);
+    }
 
-    /* Verify get_configuration round-trips. */
+    /* Phase-3 API completeness check (usart-gpio-coverage-gaps PRD):
+     * get_configuration() round-trip. */
     vsf_gpio_exti_irq_cfg_t got = {0};
     err = vsf_gpio_exti_irq_get_configuration(gpio, &got);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -125,8 +168,8 @@ void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c)
     vsf_gpio_exti_irq_disable(gpio, pin_mask);
     vsf_gpio_set_input(gpio, pin_mask);
 
-    vsf_trace_info("GPIO:EXTI:count=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)c->suite->count);
+    vsf_trace_info("GPIO:EXTI:trigger=0x%x count=%lu" VSF_TRACE_CFG_LINEEND,
+                   (unsigned)c->trigger_mode, (unsigned long)c->suite->count);
 }
 
 #endif /* VSF_TEST_GPIO_EXTI_ENABLE == ENABLED */

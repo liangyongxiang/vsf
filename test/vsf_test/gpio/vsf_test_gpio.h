@@ -194,6 +194,10 @@ vsf_class(vsf_test_gpio_exti_suite_t) {
         /* Per-case mutable state (run() MUST re-initialise before each case). */
         volatile uint32_t    count;
         vsf_gpio_pin_mask_t  expected_pin;
+        /* Level-trigger ISR storm guard: when true, the handler disables
+         * its own IRQ source after the first hit so the ISR re-enters at
+         * most once per active-level pulse. */
+        volatile bool        disable_on_fire;
     )
 };
 
@@ -341,8 +345,9 @@ typedef struct vsf_test_gpio_concurrent_prio_case_t {
 
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
 typedef struct vsf_test_gpio_exti_case_t {
-    uint8_t idx;
-    uint8_t pin;
+    uint8_t  idx;
+    uint8_t  pin;
+    uint32_t trigger_mode;       //! one of VSF_GPIO_EXTI_MODE_* (e.g. _FALLING)
     vsf_test_gpio_exti_suite_t *suite;
 } vsf_test_gpio_exti_case_t;
 #endif

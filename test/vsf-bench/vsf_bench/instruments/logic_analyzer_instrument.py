@@ -270,6 +270,66 @@ class LogicAnalyzerInstrument:
         """Public accessor for decoded UART CSV rows: list of (time_ns, byte_value)."""
         return self._read_csv_rows(csv_path)
 
+    def read_digital_edges(
+        self,
+        channel: str,
+        start_ns: int | None = None,
+        end_ns: int | None = None,
+    ) -> list[int]:
+        """Return absolute edge timestamps (ns) on a digital channel.
+
+        Internally invokes dsview-cli with the sigrok ``timing`` protocol
+        decoder, which emits one CSV row per edge with that edge's absolute
+        timestamp. The decoder reports BOTH rising and falling edges; callers
+        that care about period (rather than edge count) can pair consecutive
+        timestamps directly without worrying about which polarity they got.
+
+        Args:
+            channel: channel label (e.g. ``"CH4"``).
+            start_ns: window start in nanoseconds since capture start
+                (``None`` = from beginning).
+            end_ns: window end in nanoseconds (``None`` = to end).
+
+        Returns:
+            Sorted list of edge timestamps in nanoseconds.
+        """
+        output_csv = self.output_dir / f"edges_{channel}.csv"
+        output_csv.parent.mkdir(parents=True, exist_ok=True)
+        cmd = [
+            str(self._cli),
+            "-i", str(self._capture_path),
+            "-P", f"timing:data={channel}",
+            "--decode-output", str(output_csv),
+        ]
+        if start_ns is not None:
+            cmd += ["--decode-start", self._ns_to_time_str(start_ns)]
+        if end_ns is not None:
+            cmd += ["--decode-end", self._ns_to_time_str(end_ns)]
+
+        print(f"[LA] read_digital_edges: {' '.join(cmd)}")
+        result = subprocess.run(
+            cmd, capture_output=True, text=True,
+            encoding="utf-8", errors="replace",
+        )
+        if result.returncode != 0:
+            raise RuntimeError(
+                f"dsview-cli timing decode failed (exit {result.returncode})\n"
+                f"stderr: {result.stderr}"
+            )
+
+        edges: list[int] = []
+        with open(output_csv, newline="", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            next(reader, None)  # skip header
+            for row in reader:
+                if len(row) < 2:
+                    continue
+                try:
+                    edges.append(int(float(row[1])))
+                except (ValueError, IndexError):
+                    continue
+        return edges
+
     def batch_decode_uart(
         self,
         specs: list,

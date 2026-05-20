@@ -80,6 +80,9 @@ extern "C" {
 #ifndef VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE
 #   define VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE    DISABLED
 #endif
+#ifndef VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE
+#   define VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE  DISABLED
+#endif
 
 /*============================ TYPES =========================================*/
 
@@ -209,6 +212,14 @@ vsf_class(vsf_test_gpio_irq_lifecycle_scene_t) {
         /* Per-case mutable state (run() MUST re-initialise before each case). */
         volatile uint32_t    lifecycle_count;
         vsf_gpio_pin_mask_t  lifecycle_pin;
+    )
+};
+
+vsf_class(vsf_test_gpio_systimer_health_scene_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
+        vsf_gpio_t *gpio;
     )
 };
 
@@ -343,6 +354,16 @@ typedef struct vsf_test_gpio_irq_lifecycle_case_t {
 } vsf_test_gpio_irq_lifecycle_case_t;
 #endif
 
+#if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
+typedef struct vsf_test_gpio_systimer_health_case_t {
+    uint8_t  idx;
+    uint8_t  pin;
+    uint32_t interval_ms;
+    uint32_t toggle_count;
+    vsf_test_gpio_systimer_health_scene_t *scene;
+} vsf_test_gpio_systimer_health_case_t;
+#endif
+
 
 typedef struct vsf_test_gpio_scenes_t {
     vsf_test_gpio_output_input_scene_t    output_input;
@@ -359,6 +380,7 @@ typedef struct vsf_test_gpio_scenes_t {
     vsf_test_gpio_exti_scene_t            exti;
     vsf_test_gpio_irq_latency_scene_t     irq_latency;
     vsf_test_gpio_irq_lifecycle_scene_t   irq_lifecycle;
+    vsf_test_gpio_systimer_health_scene_t systimer_health;
 } vsf_test_gpio_scenes_t;
 
 void vsf_test_gpio_register_all(vsf_test_gpio_scenes_t *s);
@@ -432,6 +454,11 @@ void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c);
 #if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
 void vsf_test_gpio_irq_lifecycle_add_cases(vsf_test_gpio_irq_lifecycle_scene_t *scene);
 void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c);
+#endif
+
+#if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
+void vsf_test_gpio_systimer_health_add_cases(vsf_test_gpio_systimer_health_scene_t *scene);
+void vsf_test_gpio_systimer_health_run(const vsf_test_gpio_systimer_health_case_t *c);
 #endif
 
 #include "test_params_generated.h"

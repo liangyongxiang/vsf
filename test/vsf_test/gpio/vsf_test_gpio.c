@@ -68,6 +68,9 @@ void vsf_test_gpio_register_all(vsf_test_gpio_scenes_t *s)
 #if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
     vsf_test_gpio_irq_lifecycle_add_cases(&s->irq_lifecycle);
 #endif
+#if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
+    vsf_test_gpio_systimer_health_add_cases(&s->systimer_health);
+#endif
 }
 
 /* EOF */

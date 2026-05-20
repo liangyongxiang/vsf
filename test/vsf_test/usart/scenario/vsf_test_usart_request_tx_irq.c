@@ -103,6 +103,9 @@ void vsf_test_usart_request_tx_irq_run(const vsf_test_usart_request_tx_irq_case_
     VSF_TEST_ASSERT(cnt == (int_fast32_t)total);
     vsf_trace_info("USART:REQ_TX_IRQ:irq=%lu count=%ld" VSF_TRACE_CFG_LINEEND,
                    (unsigned long)s_req_tx_ctx.irq_count, (long)cnt);
+
+    while (fsm_rt_cpl != vsf_usart_disable(usart));
+    vsf_usart_fini(usart);
 }
 
 #endif /* VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED */

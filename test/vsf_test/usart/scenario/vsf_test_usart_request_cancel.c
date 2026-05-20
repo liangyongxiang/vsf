@@ -84,6 +84,9 @@ void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_
                    (unsigned long)total, (long)cnt);
     VSF_TEST_ASSERT(cnt >= 0);
     VSF_TEST_ASSERT((uint32_t)cnt <= total);
+
+    while (fsm_rt_cpl != vsf_usart_disable(usart));
+    vsf_usart_fini(usart);
 }
 
 #endif /* VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED */

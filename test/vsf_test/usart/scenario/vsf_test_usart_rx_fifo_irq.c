@@ -137,6 +137,9 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
     VSF_TEST_ASSERT(s_rx_ctx.isr_count > 0);
     vsf_trace_info("USART:RX_FIFO_IRQ:isr=%lu got=%lu" VSF_TRACE_CFG_LINEEND,
                    (unsigned long)s_rx_ctx.isr_count, (unsigned long)s_rx_ctx.received);
+
+    while (fsm_rt_cpl != vsf_usart_disable(usart));
+    vsf_usart_fini(usart);
 }
 
 #endif /* VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED */

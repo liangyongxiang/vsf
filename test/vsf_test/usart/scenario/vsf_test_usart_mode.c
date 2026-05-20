@@ -87,6 +87,7 @@ void vsf_test_usart_mode_run(const vsf_test_usart_mode_case_t *c)
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
+    vsf_usart_fini(c->scene->usart);
 }
 
 #endif /* VSF_TEST_USART_TX_MODE_ENABLE == ENABLED */

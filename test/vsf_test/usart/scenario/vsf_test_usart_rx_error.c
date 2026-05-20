@@ -130,6 +130,7 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
+    vsf_usart_fini(c->scene->usart);
 }
 #endif /* VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED */
 
@@ -188,6 +189,7 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
+    vsf_usart_fini(c->scene->usart);
 }
 #endif /* VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED */
 

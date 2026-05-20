@@ -88,9 +88,11 @@ void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
         while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
         __usart_send_str(c->scene->usart, VSF_TEST_BAUD_PAYLOAD);
         vsf_test_busy_wait_ms(VSF_TEST_BAUD_PAYLOAD_DRAIN_MS);
+        while (fsm_rt_cpl != vsf_usart_disable(c->scene->usart));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
+    vsf_usart_fini(c->scene->usart);
 }
 
 #endif /* VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED */

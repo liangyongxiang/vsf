@@ -101,6 +101,7 @@ void vsf_test_usart_rx_data_run(const vsf_test_usart_rx_data_case_t *c)
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
+    vsf_usart_fini(c->scene->usart);
 }
 
 #endif /* VSF_TEST_USART_RX_DATA_ENABLE == ENABLED */

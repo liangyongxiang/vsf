@@ -128,6 +128,9 @@ void vsf_test_usart_tx_fifo_irq_run(const vsf_test_usart_tx_fifo_irq_case_t *c)
     VSF_TEST_ASSERT(s_tx_ctx.isr_count > 0);
     vsf_trace_info("USART:TX_FIFO_IRQ:isr=%lu total=%lu" VSF_TRACE_CFG_LINEEND,
                    (unsigned long)s_tx_ctx.isr_count, (unsigned long)total);
+
+    while (fsm_rt_cpl != vsf_usart_disable(usart));
+    vsf_usart_fini(usart);
 }
 
 #endif /* VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED */

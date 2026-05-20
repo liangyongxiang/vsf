@@ -87,6 +87,12 @@ void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c)
         payload++;
     }
     vsf_test_busy_wait_ms(50);
+
+    /* Tear down so subsequent scenarios get UART1 in a clean state. Without
+     * this, later RX-on-UART1 scenarios (rx_baud, rx_data, ...) fail
+     * because the peripheral is left enabled in TX-only mode. */
+    while (fsm_rt_cpl != vsf_usart_disable(c->scene->usart));
+    vsf_usart_fini(c->scene->usart);
 }
 
 #endif /* VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED */

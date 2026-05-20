@@ -113,6 +113,21 @@ void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
     vsf_usart_fini(c->suite->usart);
+
+    /* Phase-3 API completeness check (usart-gpio-coverage-gaps PRD):
+     * fini/disable lifecycle — after a full disable+fini, a second init+
+     * enable+disable+fini cycle must succeed. Catches drivers that leak
+     * state between init() calls or fail to reset the peripheral on fini. */
+    if (expect_pass) {
+        err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
+            .mode     = VSF_TEST_BAUD_DEFAULT_MODE,
+            .baudrate = c->baudrate,
+        });
+        VSF_TEST_ASSERT(err == VSF_ERR_NONE);
+        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
+        vsf_usart_fini(c->suite->usart);
+    }
 }
 
 #endif /* VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED */

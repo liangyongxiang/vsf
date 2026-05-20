@@ -51,6 +51,7 @@ void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c)
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */
+    VSF_TEST_GPIO_ASSERT_CAPABILITY(gpio);
 
     /* Step 1: drive the pins as plain GPIO output to prove they are
      * controllable before we hand them to the UART peripheral. */

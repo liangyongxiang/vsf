@@ -59,6 +59,7 @@ void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */
+    VSF_TEST_GPIO_ASSERT_CAPABILITY(gpio);
 
     /* Per-case state in suite: must be re-initialised before each run. */
     c->suite->lifecycle_pin   = pin_mask;

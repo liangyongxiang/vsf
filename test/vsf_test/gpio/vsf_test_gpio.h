@@ -38,6 +38,16 @@ extern "C" {
 
 #define VSF_TEST_GPIO_CASE_MAX_COUNT    16
 
+/* Phase-3 API check (usart-gpio-coverage-gaps PRD): capability() must
+ * report a non-empty pin set. Catches drivers that link but never wired
+ * up the capability struct. */
+#define VSF_TEST_GPIO_ASSERT_CAPABILITY(__gpio)                          \
+    do {                                                                 \
+        vsf_gpio_capability_t __cap = vsf_gpio_capability(__gpio);       \
+        VSF_TEST_ASSERT(__cap.pin_count > 0);                            \
+        VSF_TEST_ASSERT(__cap.pin_mask  != 0);                           \
+    } while (0)
+
 #ifndef VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE
 #   define VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE     DISABLED
 #endif

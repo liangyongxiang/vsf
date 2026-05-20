@@ -51,6 +51,7 @@ void vsf_test_gpio_toggle_stress_run(const vsf_test_gpio_toggle_stress_case_t *c
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */
+    VSF_TEST_GPIO_ASSERT_CAPABILITY(gpio);
 
     vsf_gpio_port_config_pins(gpio, out_mask, &(vsf_gpio_cfg_t){
         .mode = VSF_GPIO_OUTPUT_PUSH_PULL | VSF_GPIO_NO_PULL_UP_DOWN,

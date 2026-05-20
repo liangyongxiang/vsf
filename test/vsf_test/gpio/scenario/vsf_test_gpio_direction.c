@@ -50,6 +50,7 @@ void vsf_test_gpio_direction_run(const vsf_test_gpio_direction_case_t *c)
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */
+    VSF_TEST_GPIO_ASSERT_CAPABILITY(gpio);
 
     /* Configure as output and verify direction reads back as output */
     vsf_err_t err = vsf_gpio_port_config_pins(gpio, pin_mask, &(vsf_gpio_cfg_t){

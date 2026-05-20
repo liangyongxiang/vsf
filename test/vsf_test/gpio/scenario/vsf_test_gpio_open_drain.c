@@ -51,6 +51,7 @@ void vsf_test_gpio_open_drain_run(const vsf_test_gpio_open_drain_case_t *c)
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */
+    VSF_TEST_GPIO_ASSERT_CAPABILITY(gpio);
 
     /* Use internal pull-up on the input pin as a fallback when no
      * external resistor is wired (the PRD-mandated fixture). */

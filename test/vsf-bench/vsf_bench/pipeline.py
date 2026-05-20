@@ -78,11 +78,8 @@ def _build_run_cmd(scene: str, case: str | None) -> str:
 
 
 def _drain_repl(ser: SerialInstrument) -> None:
-    """Clear stale REPL output between scenes."""
-    ser.read_all(timeout=0.3)
-    ser.send("\r\n")
-    time.sleep(0.2)
-    ser.read_all(timeout=0.3)
+    """Discard any stale REPL output left from a previous scene."""
+    ser.read_all(timeout=0.1)
 
 
 def _run_script_phase1(
@@ -99,12 +96,17 @@ def _run_script_phase1(
     ser.send(cmd)
     print(f"[vsf-bench] Triggered: {cmd.strip()}")
 
+    # vsf-test-shell emits "Scene ack: <name>" on a successful lookup or
+    # "Scene not found: <name>" / "Case not found: <case>" otherwise. One
+    # of these always fires within ~50 ms of the trigger.
     try:
-        ser.expect(r"Scene not found:", timeout=5.0)
-        print(f"[vsf-bench] FAIL: {scene_name}{case_tag}: Scene not found in firmware")
-        return False
+        ack = ser.expect(r"Scene ack:|Scene not found:|Case not found:", timeout=1.0)
     except TimeoutError:
-        pass
+        print(f"[vsf-bench] FAIL: {scene_name}{case_tag}: no shell ack within 1s")
+        return False
+    if "not found" in ack:
+        print(f"[vsf-bench] FAIL: {scene_name}{case_tag}: {ack.strip()}")
+        return False
 
     try:
         if script_module is not None:

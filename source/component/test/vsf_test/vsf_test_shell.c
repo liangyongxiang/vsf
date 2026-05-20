@@ -226,6 +226,7 @@ static void __cmd_run(vsf_test_shell_t *shell, char *args)
                 }
             }
             if (dot != NULL) *dot = '.';
+            vsf_trace_info("Scene ack: %s" VSF_TRACE_CFG_LINEEND, args);
             __run_selection(shell);
             return;
         }

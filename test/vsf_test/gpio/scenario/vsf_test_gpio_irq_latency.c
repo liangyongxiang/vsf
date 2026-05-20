@@ -17,6 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
+#define __VSF_TEST_GPIO_CLASS_IMPLEMENT
 #include "vsf_test_gpio_irq_latency.h"
 
 #if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
@@ -29,19 +30,12 @@ static vsf_test_gpio_irq_latency_case_t __gpio_irq_latency_cases[] = {
     VSF_TEST_GPIO_IRQ_LATENCY_CASES_INIT
 };
 
-typedef struct {
-    vsf_systimer_tick_t  trigger_tick;
-    volatile vsf_systimer_tick_t isr_tick;
-    volatile bool        fired;
-    vsf_gpio_pin_mask_t  expected_pin;
-} __latency_ctx_t;
-static __latency_ctx_t s_latency_ctx;
-
 static void __latency_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_t pin_mask)
 {
-    if (pin_mask & s_latency_ctx.expected_pin) {
-        s_latency_ctx.isr_tick = vsf_systimer_get();
-        s_latency_ctx.fired = true;
+    vsf_test_gpio_irq_latency_scene_t *scene = (vsf_test_gpio_irq_latency_scene_t *)target;
+    if (pin_mask & scene->expected_pin) {
+        scene->isr_tick = vsf_systimer_get();
+        scene->fired = true;
     }
 }
 
@@ -67,7 +61,11 @@ void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c)
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */
 
-    s_latency_ctx.expected_pin = pin_mask;
+    /* Per-case state in scene: must be re-initialised before each run. */
+    c->scene->expected_pin = pin_mask;
+    c->scene->fired        = false;
+    c->scene->isr_tick     = 0;
+    c->scene->trigger_tick = 0;
 
     /* Configure pin as EXTI rising edge — driven by SIO from the same test
      * (self-trigger; no external wiring needed). */
@@ -78,7 +76,7 @@ void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c)
 
     err = vsf_gpio_exti_irq_config(gpio, &(vsf_gpio_exti_irq_cfg_t){
         .handler_fn = __latency_handler,
-        .target_ptr = NULL,
+        .target_ptr = c->scene,
         .prio       = vsf_arch_prio_highest,
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -95,20 +93,20 @@ void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c)
     uint32_t worst_ticks = 0;
     const uint32_t ITERATIONS = 8;
     for (uint32_t i = 0; i < ITERATIONS; i++) {
-        s_latency_ctx.fired = false;
-        s_latency_ctx.isr_tick = 0;
+        c->scene->fired = false;
+        c->scene->isr_tick = 0;
         vsf_gpio_clear(gpio, pin_mask);
         vsf_test_busy_wait_ms(1);
         vsf_gpio_exti_irq_clear(gpio, pin_mask);
 
-        s_latency_ctx.trigger_tick = vsf_systimer_get();
+        c->scene->trigger_tick = vsf_systimer_get();
         vsf_gpio_set(gpio, pin_mask);   /* rising edge → EXTI fires */
         /* Spin until ISR captures its tick. */
-        for (uint32_t spin = 0; spin < 100000 && !s_latency_ctx.fired; spin++) {
+        for (uint32_t spin = 0; spin < 100000 && !c->scene->fired; spin++) {
             __asm__ volatile("nop");
         }
-        VSF_TEST_ASSERT(s_latency_ctx.fired);
-        uint32_t delta = (uint32_t)(s_latency_ctx.isr_tick - s_latency_ctx.trigger_tick);
+        VSF_TEST_ASSERT(c->scene->fired);
+        uint32_t delta = (uint32_t)(c->scene->isr_tick - c->scene->trigger_tick);
         if (delta > worst_ticks) { worst_ticks = delta; }
     }
 

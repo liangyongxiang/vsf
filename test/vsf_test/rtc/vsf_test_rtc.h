@@ -23,6 +23,13 @@
 #include "vsf.h"
 #include "component/test/vsf_test/vsf_test.h"
 
+#if     defined(__VSF_TEST_RTC_CLASS_IMPLEMENT)
+#   undef __VSF_TEST_RTC_CLASS_IMPLEMENT
+#   define __VSF_CLASS_IMPLEMENT__
+#endif
+
+#include "utilities/ooc_class.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -49,7 +56,12 @@ vsf_class(vsf_test_rtc_set_get_scene_t) {
 vsf_class(vsf_test_rtc_alarm_scene_t) {
     public_member(
         implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
         vsf_rtc_t *rtc;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        volatile bool alarm_triggered;
     )
 };
 

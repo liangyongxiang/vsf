@@ -23,6 +23,13 @@
 #include "vsf.h"
 #include "component/test/vsf_test/vsf_test.h"
 
+#if     defined(__VSF_TEST_GPIO_CLASS_IMPLEMENT)
+#   undef __VSF_TEST_GPIO_CLASS_IMPLEMENT
+#   define __VSF_CLASS_IMPLEMENT__
+#endif
+
+#include "utilities/ooc_class.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -151,28 +158,57 @@ vsf_class(vsf_test_gpio_toggle_stress_scene_t) {
 vsf_class(vsf_test_gpio_concurrent_prio_scene_t) {
     public_member(
         implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
         vsf_gpio_t *gpio;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        vsf_gpio_pin_mask_t  out_mask;
+        uint32_t             period_us;
+        volatile bool        run;
+        volatile uint32_t    callback_toggles;
+        volatile uint32_t    main_toggles;
     )
 };
 
 vsf_class(vsf_test_gpio_exti_scene_t) {
     public_member(
         implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
         vsf_gpio_t *gpio;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        volatile uint32_t    count;
+        vsf_gpio_pin_mask_t  expected_pin;
     )
 };
 
 vsf_class(vsf_test_gpio_irq_latency_scene_t) {
     public_member(
         implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
         vsf_gpio_t *gpio;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        vsf_systimer_tick_t  trigger_tick;
+        volatile vsf_systimer_tick_t isr_tick;
+        volatile bool        fired;
+        vsf_gpio_pin_mask_t  expected_pin;
     )
 };
 
 vsf_class(vsf_test_gpio_irq_lifecycle_scene_t) {
     public_member(
         implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
         vsf_gpio_t *gpio;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        volatile uint32_t    lifecycle_count;
+        vsf_gpio_pin_mask_t  lifecycle_pin;
     )
 };
 

@@ -17,6 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
+#define __VSF_TEST_GPIO_CLASS_IMPLEMENT
 #include "vsf_test_gpio_concurrent_prio.h"
 #include "RP2040.h"
 #include "hardware/structs/timer.h"
@@ -31,16 +32,10 @@ static vsf_test_gpio_concurrent_prio_case_t __gpio_concurrent_prio_cases[] = {
     VSF_TEST_GPIO_CONCURRENT_PRIO_CASES_INIT
 };
 
-/* Shared state between alarm0 ISR (high prio) and main loop (low prio). */
-typedef struct {
-    vsf_gpio_t          *gpio;
-    vsf_gpio_pin_mask_t  out_mask;
-    uint32_t             period_us;
-    volatile uint32_t    callback_toggles;
-    volatile bool        run;
-} __concurrent_ctx_t;
-
-static __concurrent_ctx_t s_ctx;
+/* TIMER_IRQ_0_IRQHandler is the chip's bare-metal vector — no target_ptr.
+ * We bind the active scene here so the ISR can route through it. run() sets
+ * this before enabling the IRQ and clears it after disabling. */
+static vsf_test_gpio_concurrent_prio_scene_t *s_active_scene;
 
 /* Hardware TIMER alarm 0 ISR — independent of the VSF kernel scheduler so
  * it fires even while vsf_test_run_tests is in its synchronous loop. */
@@ -48,11 +43,12 @@ void TIMER_IRQ_0_IRQHandler(void)
 {
     /* Clear the alarm IRQ. */
     timer_hw->intr = (1u << 0);
-    if (!s_ctx.run) { return; }
-    vsf_gpio_toggle(s_ctx.gpio, s_ctx.out_mask);
-    s_ctx.callback_toggles++;
+    vsf_test_gpio_concurrent_prio_scene_t *scene = s_active_scene;
+    if (scene == NULL || !scene->run) { return; }
+    vsf_gpio_toggle(scene->gpio, scene->out_mask);
+    scene->callback_toggles++;
     /* Re-arm. */
-    timer_hw->alarm[0] = timer_hw->timerawl + s_ctx.period_us;
+    timer_hw->alarm[0] = timer_hw->timerawl + scene->period_us;
 }
 
 void vsf_test_gpio_concurrent_prio_add_cases(vsf_test_gpio_concurrent_prio_scene_t *scene)
@@ -82,11 +78,13 @@ void vsf_test_gpio_concurrent_prio_run(const vsf_test_gpio_concurrent_prio_case_
     });
     vsf_gpio_clear(gpio, out_mask);
 
-    s_ctx.gpio = gpio;
-    s_ctx.out_mask = out_mask;
-    s_ctx.period_us = c->callback_period_us;
-    s_ctx.callback_toggles = 0;
-    s_ctx.run = true;
+    /* Per-case state in scene: must be re-initialised before each run. */
+    c->scene->out_mask         = out_mask;
+    c->scene->period_us        = c->callback_period_us;
+    c->scene->callback_toggles = 0;
+    c->scene->main_toggles     = 0;
+    c->scene->run              = true;
+    s_active_scene = c->scene;
 
     /* Configure RP2040 hardware TIMER alarm 0. */
     timer_hw->intr = (1u << 0);       /* clear pending */
@@ -95,28 +93,29 @@ void vsf_test_gpio_concurrent_prio_run(const vsf_test_gpio_concurrent_prio_case_
     NVIC_SetPriority(TIMER_IRQ_0_IRQn, vsf_arch_prio_highest);
     NVIC_EnableIRQ(TIMER_IRQ_0_IRQn);
 
-    uint32_t main_toggles = 0;
     /* Use vsf_test_busy_wait_ms to bound the duration — known-good and
      * doesn't rely on vsf_systimer advancing in tight loops. */
     uint32_t remaining_ms = c->duration_ms;
     while (remaining_ms > 0) {
         for (uint32_t i = 0; i < 1000; i++) {
             vsf_gpio_toggle(gpio, out_mask);
-            main_toggles++;
+            c->scene->main_toggles++;
         }
         vsf_test_busy_wait_ms(1);
         remaining_ms--;
     }
 
-    s_ctx.run = false;
+    c->scene->run = false;
     NVIC_DisableIRQ(TIMER_IRQ_0_IRQn);
     timer_hw->inte = 0;
+    s_active_scene = NULL;
 
     vsf_trace_info("GPIO:CONCURRENT:cb=%lu main=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)s_ctx.callback_toggles, (unsigned long)main_toggles);
+                   (unsigned long)c->scene->callback_toggles,
+                   (unsigned long)c->scene->main_toggles);
     /* Both contexts must have run. */
-    VSF_TEST_ASSERT(s_ctx.callback_toggles > 0);
-    VSF_TEST_ASSERT(main_toggles > 0);
+    VSF_TEST_ASSERT(c->scene->callback_toggles > 0);
+    VSF_TEST_ASSERT(c->scene->main_toggles > 0);
 }
 
 #endif /* VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED */

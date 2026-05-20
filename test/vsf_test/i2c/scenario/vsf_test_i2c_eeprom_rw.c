@@ -17,6 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
+#define __VSF_TEST_I2C_CLASS_IMPLEMENT
 #include "vsf_test_i2c_eeprom_rw.h"
 
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
@@ -42,23 +43,23 @@ static vsf_test_i2c_eeprom_rw_case_t __i2c_eeprom_rw_cases[] = {
     VSF_TEST_I2C_EEPROM_RW_CASES_INIT
 };
 
-static volatile vsf_i2c_irq_mask_t __irq_mask;
-
 /*============================ LOCAL FUNCTIONS ===============================*/
 
 static void __i2c_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
                       vsf_i2c_irq_mask_t irq_mask)
 {
-    __irq_mask |= irq_mask;
+    (void)i2c_ptr;
+    vsf_test_i2c_eeprom_rw_scene_t *scene = (vsf_test_i2c_eeprom_rw_scene_t *)target_ptr;
+    scene->irq_mask |= irq_mask;
 }
 
-static bool __i2c_wait_complete(uint32_t timeout_ms)
+static bool __i2c_wait_complete(vsf_test_i2c_eeprom_rw_scene_t *scene, uint32_t timeout_ms)
 {
     while (timeout_ms-- > 0) {
-        if (__irq_mask & VSF_I2C_IRQ_MASK_MASTER_ERR) {
+        if (scene->irq_mask & VSF_I2C_IRQ_MASK_MASTER_ERR) {
             return false;
         }
-        if (__irq_mask & VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE) {
+        if (scene->irq_mask & VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE) {
             return true;
         }
         vsf_test_busy_wait_ms(1);
@@ -95,13 +96,15 @@ void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c)
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */
 
+    c->scene->irq_mask = 0;
+
     /* Init i2c master at standard 100kHz. */
     vsf_err_t err = vsf_i2c_init(i2c, &(vsf_i2c_cfg_t){
         .mode       = VSF_I2C_MODE_MASTER | VSF_I2C_ADDR_7_BITS,
         .clock_hz   = VSF_TEST_I2C_CLOCK_HZ,
         .isr        = {
             .handler_fn = __i2c_isr,
-            .target_ptr = NULL,
+            .target_ptr = c->scene,
             .prio       = vsf_arch_prio_0,
         },
     });
@@ -117,31 +120,31 @@ void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c)
     }
 
     /* Phase 1: Write [mem_addr, payload] to EEPROM. */
-    __irq_mask = 0;
+    c->scene->irq_mask = 0;
     err = vsf_i2c_master_request(i2c, c->eeprom_addr,
         VSF_I2C_CMD_START | VSF_I2C_CMD_STOP | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_7_BITS,
         data_len + 1, write_buf);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-    VSF_TEST_ASSERT(__i2c_wait_complete(VSF_TEST_I2C_TIMEOUT_MS));
+    VSF_TEST_ASSERT(__i2c_wait_complete(c->scene, VSF_TEST_I2C_TIMEOUT_MS));
 
     /* EEPROM internal write cycle. */
     vsf_test_busy_wait_ms(VSF_TEST_I2C_EEPROM_WRITE_CYCLE_MS);
 
     /* Phase 2a: Set memory address (write phase, no stop). */
-    __irq_mask = 0;
+    c->scene->irq_mask = 0;
     err = vsf_i2c_master_request(i2c, c->eeprom_addr,
         VSF_I2C_CMD_START | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_NO_STOP | VSF_I2C_CMD_7_BITS,
         1, &write_buf[0]);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-    VSF_TEST_ASSERT(__i2c_wait_complete(VSF_TEST_I2C_TIMEOUT_MS));
+    VSF_TEST_ASSERT(__i2c_wait_complete(c->scene, VSF_TEST_I2C_TIMEOUT_MS));
 
     /* Phase 2b: Restart, then read data_len bytes. */
-    __irq_mask = 0;
+    c->scene->irq_mask = 0;
     err = vsf_i2c_master_request(i2c, c->eeprom_addr,
         VSF_I2C_CMD_RESTART | VSF_I2C_CMD_STOP | VSF_I2C_CMD_READ | VSF_I2C_CMD_7_BITS,
         data_len, read_buf);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-    VSF_TEST_ASSERT(__i2c_wait_complete(VSF_TEST_I2C_TIMEOUT_MS));
+    VSF_TEST_ASSERT(__i2c_wait_complete(c->scene, VSF_TEST_I2C_TIMEOUT_MS));
 
     for (uint8_t i = 0; i < data_len; i++) {
         VSF_TEST_ASSERT(read_buf[i] == write_buf[1 + i]);

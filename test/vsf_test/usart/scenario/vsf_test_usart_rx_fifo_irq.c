@@ -17,6 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
+#define __VSF_TEST_USART_CLASS_IMPLEMENT
 #include "vsf_test_usart_rx_fifo_irq.h"
 #include "hardware/regs/uart.h"
 #include "hardware/regs/addressmap.h"
@@ -31,32 +32,23 @@ static vsf_test_usart_rx_fifo_irq_case_t __rx_fifo_irq_cases[] = {
     VSF_TEST_RX_FIFO_IRQ_CASES_INIT
 };
 
-typedef struct {
-    vsf_usart_t        *usart;
-    uint8_t            *dst;
-    uint32_t            received;
-    uint32_t            target;
-    volatile uint32_t   isr_count;
-    volatile bool       done;
-} __rx_fifo_ctx_t;
-static __rx_fifo_ctx_t s_rx_ctx;
-
 static void __rx_fifo_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t irq_mask)
 {
     if (!(irq_mask & VSF_USART_IRQ_MASK_RX)) { return; }
-    s_rx_ctx.isr_count++;
-    while (s_rx_ctx.received < s_rx_ctx.target) {
+    vsf_test_usart_rx_fifo_irq_scene_t *scene = (vsf_test_usart_rx_fifo_irq_scene_t *)target;
+    scene->isr_count++;
+    while (scene->received < scene->target) {
         uint_fast16_t avail = vsf_usart_rxfifo_get_data_count(usart);
         if (avail == 0) { break; }
-        uint_fast16_t want = s_rx_ctx.target - s_rx_ctx.received;
+        uint_fast16_t want = scene->target - scene->received;
         if (want > avail) { want = avail; }
-        uint_fast16_t got = vsf_usart_rxfifo_read(usart, s_rx_ctx.dst + s_rx_ctx.received, want);
-        s_rx_ctx.received += got;
+        uint_fast16_t got = vsf_usart_rxfifo_read(usart, scene->dst + scene->received, want);
+        scene->received += got;
         if (got == 0) { break; }
     }
-    if (s_rx_ctx.received >= s_rx_ctx.target) {
+    if (scene->received >= scene->target) {
         vsf_usart_irq_disable(usart, VSF_USART_IRQ_MASK_RX);
-        s_rx_ctx.done = true;
+        scene->done = true;
     }
 }
 
@@ -86,12 +78,12 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
     static uint8_t buf[256];
     if (total > sizeof(buf)) { total = sizeof(buf); }
 
-    s_rx_ctx.usart     = usart;
-    s_rx_ctx.dst       = buf;
-    s_rx_ctx.received  = 0;
-    s_rx_ctx.target    = total;
-    s_rx_ctx.isr_count = 0;
-    s_rx_ctx.done      = false;
+    /* Per-case state in scene: must be re-initialised before each run. */
+    c->scene->dst       = buf;
+    c->scene->received  = 0;
+    c->scene->target    = total;
+    c->scene->isr_count = 0;
+    c->scene->done      = false;
 
     /* Enable ONLY threshold IRQ (no timeout) — distinguishes from rx_irq. */
     vsf_err_t err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
@@ -100,7 +92,7 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
                   | VSF_USART_TX_ENABLE
                   | VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL,
         .baudrate = 115200,
-        .isr      = { .handler_fn = __rx_fifo_isr, .target_ptr = NULL,
+        .isr      = { .handler_fn = __rx_fifo_isr, .target_ptr = c->scene,
                       .prio       = vsf_arch_prio_highest },
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -123,7 +115,7 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
     /* Wait. Loopback supplies bytes via TX → RX as we push them. */
     uint32_t timeout_ms = (total * 10000 / 115200) + 1000;
     uint32_t waited = 0;
-    while (!s_rx_ctx.done && waited < timeout_ms) {
+    while (!c->scene->done && waited < timeout_ms) {
         if (tx_remaining > 0) {
             uint_fast16_t want = (tx_remaining > 16) ? 16 : (uint_fast16_t)tx_remaining;
             uint_fast16_t wrote = vsf_usart_txfifo_write(usart, tx_src, want);
@@ -133,10 +125,10 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
         vsf_test_busy_wait_ms(1);
         waited++;
     }
-    VSF_TEST_ASSERT(s_rx_ctx.done);
-    VSF_TEST_ASSERT(s_rx_ctx.isr_count > 0);
+    VSF_TEST_ASSERT(c->scene->done);
+    VSF_TEST_ASSERT(c->scene->isr_count > 0);
     vsf_trace_info("USART:RX_FIFO_IRQ:isr=%lu got=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)s_rx_ctx.isr_count, (unsigned long)s_rx_ctx.received);
+                   (unsigned long)c->scene->isr_count, (unsigned long)c->scene->received);
 
     while (fsm_rt_cpl != vsf_usart_disable(usart));
     vsf_usart_fini(usart);

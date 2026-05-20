@@ -23,6 +23,13 @@
 #   include "vsf.h"
 #   include "component/test/vsf_test/vsf_test.h"
 
+#if     defined(__VSF_TEST_USART_CLASS_IMPLEMENT)
+#   undef __VSF_TEST_USART_CLASS_IMPLEMENT
+#   define __VSF_CLASS_IMPLEMENT__
+#endif
+
+#   include "utilities/ooc_class.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -171,28 +178,59 @@ vsf_class(vsf_test_usart_rx_frame_error_scene_t) {
 vsf_class(vsf_test_usart_tx_fifo_irq_scene_t) {
     public_member(
         implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
         vsf_usart_t *usart;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        const uint8_t    *src;
+        uint32_t          remaining;
+        volatile uint32_t isr_count;
+        volatile bool     done;
     )
 };
 
 vsf_class(vsf_test_usart_rx_fifo_irq_scene_t) {
     public_member(
         implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
         vsf_usart_t *usart;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        uint8_t  *dst;
+        uint32_t  received;
+        uint32_t  target;
+        volatile uint32_t isr_count;
+        volatile bool done;
     )
 };
 
 vsf_class(vsf_test_usart_request_tx_irq_scene_t) {
     public_member(
         implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
         vsf_usart_t *usart;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        volatile bool     req_tx_cpl;
+        volatile uint32_t req_tx_irq_count;
     )
 };
 
 vsf_class(vsf_test_usart_request_rx_irq_scene_t) {
     public_member(
         implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
         vsf_usart_t *usart;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        volatile bool     req_rx_cpl;
+        volatile uint32_t req_rx_irq_count;
+        uint8_t  req_rx_buf[256];
+        uint8_t  req_rx_txbuf[256];
     )
 };
 

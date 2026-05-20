@@ -23,6 +23,13 @@
 #include "vsf.h"
 #include "component/test/vsf_test/vsf_test.h"
 
+#if     defined(__VSF_TEST_I2C_CLASS_IMPLEMENT)
+#   undef __VSF_TEST_I2C_CLASS_IMPLEMENT
+#   define __VSF_CLASS_IMPLEMENT__
+#endif
+
+#include "utilities/ooc_class.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -41,7 +48,12 @@ extern "C" {
 vsf_class(vsf_test_i2c_eeprom_rw_scene_t) {
     public_member(
         implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
         vsf_i2c_t *i2c;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        volatile vsf_i2c_irq_mask_t irq_mask;
     )
 };
 

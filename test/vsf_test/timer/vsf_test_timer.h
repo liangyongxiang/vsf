@@ -23,6 +23,13 @@
 #include "vsf.h"
 #include "component/test/vsf_test/vsf_test.h"
 
+#if     defined(__VSF_TEST_TIMER_CLASS_IMPLEMENT)
+#   undef __VSF_TEST_TIMER_CLASS_IMPLEMENT
+#   define __VSF_CLASS_IMPLEMENT__
+#endif
+
+#include "utilities/ooc_class.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -38,7 +45,12 @@ extern "C" {
 vsf_class(vsf_test_timer_oneshot_scene_t) {
     public_member(
         implement(vsf_test_suite_t)
+        /* Immutable scene config (set once by main.c, never modified by run). */
         vsf_timer_t *timer;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        volatile bool fired;
     )
 };
 

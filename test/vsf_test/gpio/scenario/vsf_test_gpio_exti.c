@@ -17,6 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
+#define __VSF_TEST_GPIO_CLASS_IMPLEMENT
 #include "vsf_test_gpio_exti.h"
 
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
@@ -29,16 +30,11 @@ static vsf_test_gpio_exti_case_t __gpio_exti_cases[] = {
     VSF_TEST_GPIO_EXTI_CASES_INIT
 };
 
-typedef struct {
-    volatile uint32_t count;
-    vsf_gpio_pin_mask_t expected_pin;
-} __exti_ctx_t;
-static __exti_ctx_t s_exti_ctx;
-
 static void __exti_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_t pin_mask)
 {
-    if (pin_mask & s_exti_ctx.expected_pin) {
-        s_exti_ctx.count++;
+    vsf_test_gpio_exti_scene_t *scene = (vsf_test_gpio_exti_scene_t *)target;
+    if (pin_mask & scene->expected_pin) {
+        scene->count++;
     }
 }
 
@@ -64,8 +60,9 @@ void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c)
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */
 
-    s_exti_ctx.count = 0;
-    s_exti_ctx.expected_pin = pin_mask;
+    /* Per-case state in scene: must be re-initialised before each run. */
+    c->scene->count        = 0;
+    c->scene->expected_pin = pin_mask;
 
     /* Configure as EXTI input on falling edge. */
     vsf_err_t err = vsf_gpio_port_config_pins(gpio, pin_mask, &(vsf_gpio_cfg_t){
@@ -75,7 +72,7 @@ void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c)
 
     err = vsf_gpio_exti_irq_config(gpio, &(vsf_gpio_exti_irq_cfg_t){
         .handler_fn = __exti_handler,
-        .target_ptr = NULL,
+        .target_ptr = c->scene,
         .prio       = vsf_arch_prio_highest,
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -90,12 +87,12 @@ void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c)
     vsf_test_busy_wait_ms(1);
     /* Clear stale event from initial setup. */
     vsf_gpio_exti_irq_clear(gpio, pin_mask);
-    s_exti_ctx.count = 0;
+    c->scene->count = 0;
 
     /* Drop low → falling edge → EXTI fires. */
     vsf_gpio_clear(gpio, pin_mask);
     vsf_test_busy_wait_ms(1);
-    uint32_t after_first = s_exti_ctx.count;
+    uint32_t after_first = c->scene->count;
     VSF_TEST_ASSERT(after_first >= 1);
 
     /* Disable EXTI; toggle should NOT trigger more. */
@@ -105,7 +102,7 @@ void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c)
     vsf_gpio_clear(gpio, pin_mask);
     vsf_test_busy_wait_ms(1);
     vsf_gpio_exti_irq_clear(gpio, pin_mask);  /* discard any latched */
-    uint32_t after_disabled = s_exti_ctx.count;
+    uint32_t after_disabled = c->scene->count;
     VSF_TEST_ASSERT(after_disabled == after_first);
 
     /* Re-enable, re-trigger. */
@@ -115,7 +112,7 @@ void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c)
     vsf_test_busy_wait_ms(1);
     vsf_gpio_clear(gpio, pin_mask);
     vsf_test_busy_wait_ms(1);
-    VSF_TEST_ASSERT(s_exti_ctx.count > after_first);
+    VSF_TEST_ASSERT(c->scene->count > after_first);
 
     /* Verify get_configuration round-trips. */
     vsf_gpio_exti_irq_cfg_t got = {0};
@@ -128,7 +125,7 @@ void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c)
     vsf_gpio_set_input(gpio, pin_mask);
 
     vsf_trace_info("GPIO:EXTI:count=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)s_exti_ctx.count);
+                   (unsigned long)c->scene->count);
 }
 
 #endif /* VSF_TEST_GPIO_EXTI_ENABLE == ENABLED */

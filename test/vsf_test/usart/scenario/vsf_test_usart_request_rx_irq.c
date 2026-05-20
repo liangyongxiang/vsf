@@ -17,6 +17,7 @@
 
 /*============================ INCLUDES ======================================*/
 
+#define __VSF_TEST_USART_CLASS_IMPLEMENT
 #include "vsf_test_usart_request_rx_irq.h"
 #include "hardware/regs/uart.h"
 #include "hardware/regs/addressmap.h"
@@ -31,17 +32,12 @@ static vsf_test_usart_request_rx_irq_case_t __request_rx_irq_cases[] = {
     VSF_TEST_REQUEST_RX_IRQ_CASES_INIT
 };
 
-typedef struct {
-    volatile bool       cpl;
-    volatile uint32_t   irq_count;
-} __req_rx_ctx_t;
-static __req_rx_ctx_t s_req_rx_ctx;
-
 static void __req_rx_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t irq_mask)
 {
-    s_req_rx_ctx.irq_count++;
+    vsf_test_usart_request_rx_irq_scene_t *scene = (vsf_test_usart_request_rx_irq_scene_t *)target;
+    scene->req_rx_irq_count++;
     if (irq_mask & VSF_USART_IRQ_MASK_RX_CPL) {
-        s_req_rx_ctx.cpl = true;
+        scene->req_rx_cpl = true;
     }
 }
 
@@ -68,11 +64,11 @@ void vsf_test_usart_request_rx_irq_run(const vsf_test_usart_request_rx_irq_case_
     vsf_usart_capability_t cap = vsf_usart_capability(usart);
     uint32_t total = (uint32_t)cap.rxfifo_depth * c->refill_target;
     if (total < 32) { total = 32; }
-    static uint8_t buf[256];
-    if (total > sizeof(buf)) { total = sizeof(buf); }
+    if (total > sizeof(c->scene->req_rx_buf)) { total = sizeof(c->scene->req_rx_buf); }
 
-    s_req_rx_ctx.cpl       = false;
-    s_req_rx_ctx.irq_count = 0;
+    /* Per-case state in scene: must be re-initialised before each run. */
+    c->scene->req_rx_cpl       = false;
+    c->scene->req_rx_irq_count = 0;
 
     vsf_err_t err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
@@ -80,7 +76,7 @@ void vsf_test_usart_request_rx_irq_run(const vsf_test_usart_request_rx_irq_case_
                   | VSF_USART_TX_ENABLE
                   | VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL,
         .baudrate = 115200,
-        .isr      = { .handler_fn = __req_rx_isr, .target_ptr = NULL,
+        .isr      = { .handler_fn = __req_rx_isr, .target_ptr = c->scene,
                       .prio       = vsf_arch_prio_highest },
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -92,20 +88,21 @@ void vsf_test_usart_request_rx_irq_run(const vsf_test_usart_request_rx_irq_case_
 
     vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_RX_CPL);
 
-    err = vsf_usart_request_rx(usart, buf, total);
+    err = vsf_usart_request_rx(usart, c->scene->req_rx_buf, total);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     /* Self-supply bytes via underlying USART TX — loopback delivers them
      * to RX, which the fifo2req adapter drains into the request buffer. */
-    static uint8_t txbuf[256];
-    for (uint32_t i = 0; i < total; i++) { txbuf[i] = (uint8_t)('A' + (i % 26)); }
+    for (uint32_t i = 0; i < total; i++) {
+        c->scene->req_rx_txbuf[i] = (uint8_t)('A' + (i % 26));
+    }
     uint32_t tx_remaining = total;
-    uint8_t *tx_src = txbuf;
+    uint8_t *tx_src = c->scene->req_rx_txbuf;
 
     /* Host script sends `total` bytes during this window. */
     uint32_t timeout_ms = (total * 10000 / 115200) + 2000;
     uint32_t waited = 0;
-    while (!s_req_rx_ctx.cpl && waited < timeout_ms) {
+    while (!c->scene->req_rx_cpl && waited < timeout_ms) {
         if (tx_remaining > 0) {
             /* Write through the underlying hw usart's TX FIFO — bypasses
              * the fifo2req adapter (it owns the RX side via request_rx). */
@@ -118,11 +115,11 @@ void vsf_test_usart_request_rx_irq_run(const vsf_test_usart_request_rx_irq_case_
         vsf_test_busy_wait_ms(1);
         waited++;
     }
-    VSF_TEST_ASSERT(s_req_rx_ctx.cpl);
+    VSF_TEST_ASSERT(c->scene->req_rx_cpl);
     int_fast32_t cnt = vsf_usart_get_rx_count(usart);
     VSF_TEST_ASSERT(cnt == (int_fast32_t)total);
     vsf_trace_info("USART:REQ_RX_IRQ:irq=%lu count=%ld" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)s_req_rx_ctx.irq_count, (long)cnt);
+                   (unsigned long)c->scene->req_rx_irq_count, (long)cnt);
 
     while (fsm_rt_cpl != vsf_usart_disable(usart));
     vsf_usart_fini(usart);

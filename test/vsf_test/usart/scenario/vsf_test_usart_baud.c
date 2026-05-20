@@ -100,6 +100,14 @@ void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
 
         __usart_send_str(c->suite->usart, VSF_TEST_BAUD_PAYLOAD);
         vsf_test_busy_wait_ms(VSF_TEST_BAUD_PAYLOAD_DRAIN_MS);
+
+        /* Phase-3 API completeness check: after TX drain, status() must
+         * report tx-fifo-empty and not-busy. Catches drivers that never
+         * update status() after a TX completes. */
+        vsf_usart_status_t st = vsf_usart_status(c->suite->usart);
+        VSF_TEST_ASSERT(st.txfe);
+        VSF_TEST_ASSERT(!st.is_busy);
+
         while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);

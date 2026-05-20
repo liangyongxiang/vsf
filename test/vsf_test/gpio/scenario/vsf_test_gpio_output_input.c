@@ -68,6 +68,15 @@ void vsf_test_gpio_output_input_run(const vsf_test_gpio_output_input_case_t *c)
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
+    /* Phase-3 API completeness check (usart-gpio-coverage-gaps PRD):
+     * get_pin_configuration() must report the output mode we just set.
+     * Catches drivers that "accept" the cfg without actually applying it. */
+    vsf_gpio_cfg_t got = {0};
+    err = vsf_gpio_get_pin_configuration(gpio, c->out_pin, &got);
+    VSF_TEST_ASSERT(err == VSF_ERR_NONE);
+    VSF_TEST_ASSERT((got.mode & VSF_GPIO_MODE_MASK) ==
+                    (VSF_GPIO_OUTPUT_PUSH_PULL & VSF_GPIO_MODE_MASK));
+
     /* Configure pin B as input only if it's a different pin (otherwise we'd
      * overwrite the OUTPUT_PUSH_PULL config). Self-loopback exploits the
      * fact that RP2040 supports simultaneous SIO output + input on one pin. */

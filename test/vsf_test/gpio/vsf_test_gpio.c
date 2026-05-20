@@ -71,6 +71,9 @@ void vsf_test_gpio_register_all(vsf_test_gpio_suites_t *s)
 #if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
     vsf_test_gpio_systimer_health_add_cases(&s->systimer_health);
 #endif
+#if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
+    vsf_test_gpio_analog_mode_add_cases(&s->analog_mode);
+#endif
 }
 
 /* EOF */

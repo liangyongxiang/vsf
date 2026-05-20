@@ -57,6 +57,11 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_init)(
 
     uint32_t rst_bit = (usart_ptr->irqn == UART1_IRQ_IRQn)
                        ? (1u << RESET_UART1) : (1u << RESET_UART0);
+    /* Cycle the peripheral through reset so re-init from a previously-active
+     * state (e.g. a prior scenario that left UART1 enabled) starts clean.
+     * The earlier "only de-assert" pattern silently no-op'd on re-init. */
+    resets_hw->reset = resets_hw->reset | rst_bit;
+    while (resets_hw->reset_done & rst_bit);
     resets_hw->reset = resets_hw->reset & ~rst_bit;
     while (!(resets_hw->reset_done & rst_bit));
 
@@ -79,6 +84,15 @@ void VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_fini)(
 ) {
     VSF_HAL_ASSERT(NULL != usart_ptr);
     vsf_pl011_usart_fini(&usart_ptr->use_as__vsf_pl011_usart_t);
+
+    /* Hold the UART peripheral in reset so it stays inert until the next
+     * vsf_hw_usart_init() brings it back out. Symmetric with the
+     * set-then-clear cycle init does, and protects scenarios that don't
+     * fini explicitly. */
+    uint32_t rst_bit = (usart_ptr->irqn == UART1_IRQ_IRQn)
+                       ? (1u << RESET_UART1) : (1u << RESET_UART0);
+    NVIC_DisableIRQ(usart_ptr->irqn);
+    resets_hw->reset = resets_hw->reset | rst_bit;
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_enable)(

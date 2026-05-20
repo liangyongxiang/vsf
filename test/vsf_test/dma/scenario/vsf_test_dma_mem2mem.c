@@ -37,15 +37,15 @@ static vsf_test_dma_mem2mem_case_t __dma_mem2mem_cases[] = {
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_scene_t *scene)
+void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_suite_t *suite)
 {
-    scene->name    = "dma_mem2mem";
-    scene->purpose = "dma_mem2mem";
-    scene->hw_req  = "none";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "dma_mem2mem";
+    suite->purpose = "dma_mem2mem";
+    suite->hw_req  = "none";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_DMA_MEM2MEM_CASE_COUNT; i++) {
-        __dma_mem2mem_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __dma_mem2mem_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_dma_mem2mem_run,
             (void *)&__dma_mem2mem_cases[i]);
     }
@@ -54,7 +54,7 @@ void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_scene_t *scene)
 void vsf_test_dma_mem2mem_run(void *arg)
 {
     vsf_test_dma_mem2mem_case_t *c = (vsf_test_dma_mem2mem_case_t *)arg;
-    vsf_dma_t *dma = c->scene->dma;
+    vsf_dma_t *dma = c->suite->dma;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */

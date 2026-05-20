@@ -21,13 +21,13 @@ def parse_args():
     parser = argparse.ArgumentParser(prog="vsf-bench-test")
     parser.add_argument("--project-root", type=Path, default=Path.cwd())
     parser.add_argument("--log-dir", type=Path, default=None)
-    parser.add_argument("--scene", action="append", default=None)
+    parser.add_argument("--suite", action="append", default=None)
     parser.add_argument("--case", action="append", default=None)
     parser.add_argument("--case-index", action="append", type=int, default=None)
     parser.add_argument("--script", type=Path, default=None)
     parser.add_argument(
         "--la-mode",
-        choices=["per-scene", "shared"],
+        choices=["per-suite", "shared"],
         default="shared",
         help="LA capture lifetime",
     )
@@ -56,7 +56,7 @@ def main():
         overall_pass = pipeline.run_test_phase(
             board=board,
             project_root=project_root,
-            scene_names=args.scene,
+            suite_names=args.suite,
             script_override=args.script,
             case_specs=case_specs,
             la_mode=args.la_mode,

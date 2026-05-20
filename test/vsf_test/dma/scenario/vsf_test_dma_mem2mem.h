@@ -35,12 +35,12 @@
 
 typedef struct vsf_test_dma_mem2mem_case_t {
     uint8_t idx;
-    vsf_test_dma_mem2mem_scene_t *scene;
+    vsf_test_dma_mem2mem_suite_t *suite;
 } vsf_test_dma_mem2mem_case_t;
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_scene_t *scene);
+void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_suite_t *suite);
 void vsf_test_dma_mem2mem_run(void *arg);
 
 #endif /* __VSF_TEST_DMA_MEM2MEM_H__ */

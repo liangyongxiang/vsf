@@ -32,21 +32,21 @@ static vsf_test_gpio_irq_lifecycle_case_t __gpio_irq_lifecycle_cases[] = {
 
 static void __lifecycle_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_t pin_mask)
 {
-    vsf_test_gpio_irq_lifecycle_scene_t *scene = (vsf_test_gpio_irq_lifecycle_scene_t *)target;
-    if (pin_mask & scene->lifecycle_pin) {
-        scene->lifecycle_count++;
+    vsf_test_gpio_irq_lifecycle_suite_t *suite = (vsf_test_gpio_irq_lifecycle_suite_t *)target;
+    if (pin_mask & suite->lifecycle_pin) {
+        suite->lifecycle_count++;
     }
 }
 
-void vsf_test_gpio_irq_lifecycle_add_cases(vsf_test_gpio_irq_lifecycle_scene_t *scene)
+void vsf_test_gpio_irq_lifecycle_add_cases(vsf_test_gpio_irq_lifecycle_suite_t *suite)
 {
-    scene->name    = "gpio_irq_lifecycle";
-    scene->purpose = "irq-lifecycle";
-    scene->hw_req  = "none";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "gpio_irq_lifecycle";
+    suite->purpose = "irq-lifecycle";
+    suite->hw_req  = "none";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_IRQ_LIFECYCLE_CASE_COUNT; i++) {
-        __gpio_irq_lifecycle_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __gpio_irq_lifecycle_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_gpio_irq_lifecycle_run,
             (void *)&__gpio_irq_lifecycle_cases[i]);
     }
@@ -54,15 +54,15 @@ void vsf_test_gpio_irq_lifecycle_add_cases(vsf_test_gpio_irq_lifecycle_scene_t *
 
 void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scene->gpio;
+    vsf_gpio_t *gpio = c->suite->gpio;
     vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */
 
-    /* Per-case state in scene: must be re-initialised before each run. */
-    c->scene->lifecycle_pin   = pin_mask;
-    c->scene->lifecycle_count = 0;
+    /* Per-case state in suite: must be re-initialised before each run. */
+    c->suite->lifecycle_pin   = pin_mask;
+    c->suite->lifecycle_count = 0;
 
     /* config rising-edge */
     vsf_err_t err = vsf_gpio_port_config_pins(gpio, pin_mask, &(vsf_gpio_cfg_t){
@@ -72,7 +72,7 @@ void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c
 
     err = vsf_gpio_exti_irq_config(gpio, &(vsf_gpio_exti_irq_cfg_t){
         .handler_fn = __lifecycle_handler,
-        .target_ptr = c->scene,
+        .target_ptr = c->suite,
         .prio       = vsf_arch_prio_highest,
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -88,13 +88,13 @@ void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c
     vsf_gpio_clear(gpio, pin_mask);
     vsf_test_busy_wait_ms(1);
     vsf_gpio_exti_irq_clear(gpio, pin_mask);
-    c->scene->lifecycle_count = 0;
+    c->suite->lifecycle_count = 0;
     err = vsf_gpio_exti_irq_enable(gpio, pin_mask);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     vsf_gpio_set(gpio, pin_mask);          /* rising edge */
     vsf_test_busy_wait_ms(1);
-    VSF_TEST_ASSERT(c->scene->lifecycle_count == 1);
+    VSF_TEST_ASSERT(c->suite->lifecycle_count == 1);
 
     /* Disable → next edge must NOT increment. */
     vsf_gpio_exti_irq_disable(gpio, pin_mask);
@@ -102,7 +102,7 @@ void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c
     vsf_test_busy_wait_ms(1);
     vsf_gpio_set(gpio, pin_mask);
     vsf_test_busy_wait_ms(1);
-    VSF_TEST_ASSERT(c->scene->lifecycle_count == 1);
+    VSF_TEST_ASSERT(c->suite->lifecycle_count == 1);
 
     /* Re-enable → next edge increments to 2. */
     vsf_gpio_clear(gpio, pin_mask);
@@ -112,7 +112,7 @@ void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     vsf_gpio_set(gpio, pin_mask);
     vsf_test_busy_wait_ms(1);
-    VSF_TEST_ASSERT(c->scene->lifecycle_count == 2);
+    VSF_TEST_ASSERT(c->suite->lifecycle_count == 2);
 
     /* Clear API: write 1 to any pending bits, returns pre-clear mask. */
     vsf_gpio_exti_irq_disable(gpio, pin_mask);
@@ -121,7 +121,7 @@ void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c
     (void)vsf_gpio_exti_irq_clear(gpio, pin_mask);
 
     vsf_trace_info("GPIO:IRQ_LIFECYCLE:count=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)c->scene->lifecycle_count);
+                   (unsigned long)c->suite->lifecycle_count);
 }
 
 #endif /* VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED */

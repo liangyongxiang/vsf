@@ -7,9 +7,9 @@ the same underlying functions, so behavior stays consistent.
 
 LA capture supports two modes (see `--la-mode`):
   * `shared` (default): a single LA capture for the entire run; uses
-    --decode-start / --decode-end so each scene's decode only scans its
+    --decode-start / --decode-end so each suite's decode only scans its
     own window.
-  * `per-scene`: one LA capture per scene; small files decode fast.
+  * `per-suite`: one LA capture per suite; small files decode fast.
 """
 
 import argparse
@@ -27,13 +27,13 @@ def parse_args():
     parser.add_argument("--flash", action="store_true")
     parser.add_argument("--test", action="store_true")
     parser.add_argument("--all", action="store_true")
-    parser.add_argument("--scene", action="append", default=None)
+    parser.add_argument("--suite", action="append", default=None)
     parser.add_argument("--case", action="append", default=None)
     parser.add_argument("--case-index", action="append", type=int, default=None)
     parser.add_argument("--script", type=Path, default=None)
     parser.add_argument(
         "--la-mode",
-        choices=["per-scene", "shared"],
+        choices=["per-suite", "shared"],
         default="shared",
         help="LA capture lifetime",
     )
@@ -93,7 +93,7 @@ def main():
         overall_pass = pipeline.run_test_phase(
             board=board,
             project_root=project_root,
-            scene_names=args.scene,
+            suite_names=args.suite,
             script_override=args.script,
             case_specs=case_specs,
             la_mode=args.la_mode,

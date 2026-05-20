@@ -1,4 +1,4 @@
-"""Scene discovery, script loading, and resolution.
+"""Suite discovery, script loading, and resolution.
 
 Pure functions — no hardware interaction. Testable without a board.
 """
@@ -8,16 +8,16 @@ import sys
 from pathlib import Path
 
 
-def discover_scenes(project_root: Path) -> dict[str, Path]:
-    """Walk the test tree and return {scene_name: script_path}.
+def discover_suites(project_root: Path) -> dict[str, Path]:
+    """Walk the test tree and return {suite_name: script_path}.
 
-    Each `vsf.demo/vsf/test/vsf_test/<peripheral>/scenario/vsf_test_<scene>.py`
-    file is registered under `<scene>`.
+    Each `vsf.demo/vsf/test/vsf_test/<peripheral>/scenario/vsf_test_<suite>.py`
+    file is registered under `<suite>`.
     """
-    scenes: dict[str, Path] = {}
+    suites: dict[str, Path] = {}
     base = project_root / "vsf.demo" / "vsf" / "test" / "vsf_test"
     if not base.exists():
-        return scenes
+        return suites
     for peripheral_dir in base.iterdir():
         scenario_dir = peripheral_dir / "scenario"
         if not scenario_dir.is_dir():
@@ -25,9 +25,9 @@ def discover_scenes(project_root: Path) -> dict[str, Path]:
         for f in scenario_dir.glob("vsf_test_*.py"):
             stem = f.stem
             if stem.startswith("vsf_test_"):
-                scene_name = stem[len("vsf_test_"):]
-                scenes[scene_name] = f
-    return scenes
+                suite_name = stem[len("vsf_test_"):]
+                suites[suite_name] = f
+    return suites
 
 
 def load_script_module(path: Path):
@@ -64,20 +64,20 @@ def script_needs_la(script_path: Path | None, mod=None) -> bool:
         return False
 
 
-def resolve_scenes(
+def resolve_suites(
     requested: list[str] | None,
     script_override: Path | None,
     discovered: dict[str, Path],
 ) -> list[tuple[str, Path | None]]:
-    """Apply --scene / --script arguments to the discovered scene map.
+    """Apply --suite / --script arguments to the discovered suite map.
 
-    * No --scene → run every discovered scene in alphabetical order.
-    * One or more --scene names → run those, in given order.
-    * --script overrides the script path for a single --scene.
+    * No --suite → run every discovered suite in alphabetical order.
+    * One or more --suite names → run those, in given order.
+    * --script overrides the script path for a single --suite.
     """
     if requested:
         if script_override and len(requested) > 1:
-            raise ValueError("--script can only be used with a single --scene")
+            raise ValueError("--script can only be used with a single --suite")
         ordered: list[tuple[str, Path | None]] = []
         for name in requested:
             if script_override:
@@ -86,7 +86,7 @@ def resolve_scenes(
                 ordered.append((name, discovered[name]))
             else:
                 raise KeyError(
-                    f"Scene not found: {name}. Discovered: {sorted(discovered.keys())}"
+                    f"Suite not found: {name}. Discovered: {sorted(discovered.keys())}"
                 )
         return ordered
     return [(name, discovered[name]) for name in sorted(discovered.keys())]

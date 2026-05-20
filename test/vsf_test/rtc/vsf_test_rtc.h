@@ -46,17 +46,17 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_rtc_set_get_scene_t) {
+vsf_class(vsf_test_rtc_set_get_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_rtc_t *rtc;
     )
 };
 
-vsf_class(vsf_test_rtc_alarm_scene_t) {
+vsf_class(vsf_test_rtc_alarm_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
-        /* Immutable scene config (set once by main.c, never modified by run). */
+        /* Immutable suite config (set once by main.c, never modified by run). */
         vsf_rtc_t *rtc;
     )
     private_member(
@@ -65,22 +65,22 @@ vsf_class(vsf_test_rtc_alarm_scene_t) {
     )
 };
 
-typedef struct vsf_test_rtc_scenes_t {
-    vsf_test_rtc_set_get_scene_t set_get;
-    vsf_test_rtc_alarm_scene_t   alarm;
-} vsf_test_rtc_scenes_t;
+typedef struct vsf_test_rtc_suites_t {
+    vsf_test_rtc_set_get_suite_t set_get;
+    vsf_test_rtc_alarm_suite_t   alarm;
+} vsf_test_rtc_suites_t;
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_rtc_register_all(vsf_test_rtc_scenes_t *s);
+void vsf_test_rtc_register_all(vsf_test_rtc_suites_t *s);
 
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-void vsf_test_rtc_set_get_add_cases(vsf_test_rtc_set_get_scene_t *scene);
+void vsf_test_rtc_set_get_add_cases(vsf_test_rtc_set_get_suite_t *suite);
 void vsf_test_rtc_set_get_run(void *arg);
 #endif
 
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-void vsf_test_rtc_alarm_add_cases(vsf_test_rtc_alarm_scene_t *scene);
+void vsf_test_rtc_alarm_add_cases(vsf_test_rtc_alarm_suite_t *suite);
 void vsf_test_rtc_alarm_run(void *arg);
 #endif
 

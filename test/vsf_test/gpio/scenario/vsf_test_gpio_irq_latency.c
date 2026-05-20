@@ -32,22 +32,22 @@ static vsf_test_gpio_irq_latency_case_t __gpio_irq_latency_cases[] = {
 
 static void __latency_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_t pin_mask)
 {
-    vsf_test_gpio_irq_latency_scene_t *scene = (vsf_test_gpio_irq_latency_scene_t *)target;
-    if (pin_mask & scene->expected_pin) {
-        scene->isr_tick = vsf_systimer_get();
-        scene->fired = true;
+    vsf_test_gpio_irq_latency_suite_t *suite = (vsf_test_gpio_irq_latency_suite_t *)target;
+    if (pin_mask & suite->expected_pin) {
+        suite->isr_tick = vsf_systimer_get();
+        suite->fired = true;
     }
 }
 
-void vsf_test_gpio_irq_latency_add_cases(vsf_test_gpio_irq_latency_scene_t *scene)
+void vsf_test_gpio_irq_latency_add_cases(vsf_test_gpio_irq_latency_suite_t *suite)
 {
-    scene->name    = "gpio_irq_latency";
-    scene->purpose = "perf-irq";
-    scene->hw_req  = "none";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "gpio_irq_latency";
+    suite->purpose = "perf-irq";
+    suite->hw_req  = "none";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_IRQ_LATENCY_CASE_COUNT; i++) {
-        __gpio_irq_latency_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __gpio_irq_latency_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_gpio_irq_latency_run,
             (void *)&__gpio_irq_latency_cases[i]);
     }
@@ -55,17 +55,17 @@ void vsf_test_gpio_irq_latency_add_cases(vsf_test_gpio_irq_latency_scene_t *scen
 
 void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scene->gpio;
+    vsf_gpio_t *gpio = c->suite->gpio;
     vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */
 
-    /* Per-case state in scene: must be re-initialised before each run. */
-    c->scene->expected_pin = pin_mask;
-    c->scene->fired        = false;
-    c->scene->isr_tick     = 0;
-    c->scene->trigger_tick = 0;
+    /* Per-case state in suite: must be re-initialised before each run. */
+    c->suite->expected_pin = pin_mask;
+    c->suite->fired        = false;
+    c->suite->isr_tick     = 0;
+    c->suite->trigger_tick = 0;
 
     /* Configure pin as EXTI rising edge — driven by SIO from the same test
      * (self-trigger; no external wiring needed). */
@@ -76,7 +76,7 @@ void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c)
 
     err = vsf_gpio_exti_irq_config(gpio, &(vsf_gpio_exti_irq_cfg_t){
         .handler_fn = __latency_handler,
-        .target_ptr = c->scene,
+        .target_ptr = c->suite,
         .prio       = vsf_arch_prio_highest,
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -93,20 +93,20 @@ void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c)
     uint32_t worst_ticks = 0;
     const uint32_t ITERATIONS = 8;
     for (uint32_t i = 0; i < ITERATIONS; i++) {
-        c->scene->fired = false;
-        c->scene->isr_tick = 0;
+        c->suite->fired = false;
+        c->suite->isr_tick = 0;
         vsf_gpio_clear(gpio, pin_mask);
         vsf_test_busy_wait_ms(1);
         vsf_gpio_exti_irq_clear(gpio, pin_mask);
 
-        c->scene->trigger_tick = vsf_systimer_get();
+        c->suite->trigger_tick = vsf_systimer_get();
         vsf_gpio_set(gpio, pin_mask);   /* rising edge → EXTI fires */
         /* Spin until ISR captures its tick. */
-        for (uint32_t spin = 0; spin < 100000 && !c->scene->fired; spin++) {
+        for (uint32_t spin = 0; spin < 100000 && !c->suite->fired; spin++) {
             __asm__ volatile("nop");
         }
-        VSF_TEST_ASSERT(c->scene->fired);
-        uint32_t delta = (uint32_t)(c->scene->isr_tick - c->scene->trigger_tick);
+        VSF_TEST_ASSERT(c->suite->fired);
+        uint32_t delta = (uint32_t)(c->suite->isr_tick - c->suite->trigger_tick);
         if (delta > worst_ticks) { worst_ticks = delta; }
     }
 

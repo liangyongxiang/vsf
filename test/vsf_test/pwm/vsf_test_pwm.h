@@ -18,23 +18,23 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_pwm_basic_scene_t) {
+vsf_class(vsf_test_pwm_basic_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_pwm_t *pwm;
     )
 };
 
-typedef struct vsf_test_pwm_scenes_t {
-    vsf_test_pwm_basic_scene_t basic;
-} vsf_test_pwm_scenes_t;
+typedef struct vsf_test_pwm_suites_t {
+    vsf_test_pwm_basic_suite_t basic;
+} vsf_test_pwm_suites_t;
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_pwm_register_all(vsf_test_pwm_scenes_t *s);
+void vsf_test_pwm_register_all(vsf_test_pwm_suites_t *s);
 
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-void vsf_test_pwm_basic_add_cases(vsf_test_pwm_basic_scene_t *scene);
+void vsf_test_pwm_basic_add_cases(vsf_test_pwm_basic_suite_t *suite);
 void vsf_test_pwm_basic_run(void *arg);
 #endif
 

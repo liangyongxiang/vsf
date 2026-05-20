@@ -35,23 +35,23 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_adc_oneshot_scene_t) {
+vsf_class(vsf_test_adc_oneshot_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_adc_t *adc;
     )
 };
 
-typedef struct vsf_test_adc_scenes_t {
-    vsf_test_adc_oneshot_scene_t oneshot;
-} vsf_test_adc_scenes_t;
+typedef struct vsf_test_adc_suites_t {
+    vsf_test_adc_oneshot_suite_t oneshot;
+} vsf_test_adc_suites_t;
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_adc_register_all(vsf_test_adc_scenes_t *s);
+void vsf_test_adc_register_all(vsf_test_adc_suites_t *s);
 
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-void vsf_test_adc_oneshot_add_cases(vsf_test_adc_oneshot_scene_t *scene);
+void vsf_test_adc_oneshot_add_cases(vsf_test_adc_oneshot_suite_t *suite);
 void vsf_test_adc_oneshot_run(void *arg);
 #endif
 

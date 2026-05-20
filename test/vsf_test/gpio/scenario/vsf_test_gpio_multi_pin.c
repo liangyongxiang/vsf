@@ -29,15 +29,15 @@ static vsf_test_gpio_multi_pin_case_t __gpio_multi_pin_cases[] = {
     VSF_TEST_GPIO_MULTI_PIN_CASES_INIT
 };
 
-void vsf_test_gpio_multi_pin_add_cases(vsf_test_gpio_multi_pin_scene_t *scene)
+void vsf_test_gpio_multi_pin_add_cases(vsf_test_gpio_multi_pin_suite_t *suite)
 {
-    scene->name    = "gpio_multi_pin";
-    scene->purpose = "multi-pair";
-    scene->hw_req  = "gpio_loopback(>=4)";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "gpio_multi_pin";
+    suite->purpose = "multi-pair";
+    suite->hw_req  = "gpio_loopback(>=4)";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_MULTI_PIN_CASE_COUNT; i++) {
-        __gpio_multi_pin_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __gpio_multi_pin_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_gpio_multi_pin_run,
             (void *)&__gpio_multi_pin_cases[i]);
     }
@@ -45,7 +45,7 @@ void vsf_test_gpio_multi_pin_add_cases(vsf_test_gpio_multi_pin_scene_t *scene)
 
 void vsf_test_gpio_multi_pin_run(const vsf_test_gpio_multi_pin_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scene->gpio;
+    vsf_gpio_t *gpio = c->suite->gpio;
     vsf_gpio_pin_mask_t oa = (vsf_gpio_pin_mask_t)1u << c->out_pin_a;
     vsf_gpio_pin_mask_t ob = (vsf_gpio_pin_mask_t)1u << c->out_pin_b;
     vsf_gpio_pin_mask_t ia = (vsf_gpio_pin_mask_t)1u << c->in_pin_a;

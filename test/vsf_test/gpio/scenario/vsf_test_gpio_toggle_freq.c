@@ -29,15 +29,15 @@ static vsf_test_gpio_toggle_freq_case_t __gpio_toggle_freq_cases[] = {
     VSF_TEST_GPIO_TOGGLE_FREQ_CASES_INIT
 };
 
-void vsf_test_gpio_toggle_freq_add_cases(vsf_test_gpio_toggle_freq_scene_t *scene)
+void vsf_test_gpio_toggle_freq_add_cases(vsf_test_gpio_toggle_freq_suite_t *suite)
 {
-    scene->name    = "gpio_toggle_freq";
-    scene->purpose = "perf-freq";
-    scene->hw_req  = "none";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "gpio_toggle_freq";
+    suite->purpose = "perf-freq";
+    suite->hw_req  = "none";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_TOGGLE_FREQ_CASE_COUNT; i++) {
-        __gpio_toggle_freq_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __gpio_toggle_freq_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_gpio_toggle_freq_run,
             (void *)&__gpio_toggle_freq_cases[i]);
     }
@@ -45,7 +45,7 @@ void vsf_test_gpio_toggle_freq_add_cases(vsf_test_gpio_toggle_freq_scene_t *scen
 
 void vsf_test_gpio_toggle_freq_run(const vsf_test_gpio_toggle_freq_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scene->gpio;
+    vsf_gpio_t *gpio = c->suite->gpio;
     vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers

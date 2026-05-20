@@ -18,7 +18,7 @@
 
 typedef struct vsf_test_pwm_basic_case_t {
     uint8_t idx;
-    vsf_test_pwm_basic_scene_t *scene;
+    vsf_test_pwm_basic_suite_t *suite;
 } vsf_test_pwm_basic_case_t;
 
 #endif /* __VSF_TEST_PWM_BASIC_H__ */

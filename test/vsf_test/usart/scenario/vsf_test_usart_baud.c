@@ -55,15 +55,15 @@ static void __usart_send_str(vsf_usart_t *usart, const char *str)
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_baud_add_cases(vsf_test_usart_baud_scene_t *scene)
+void vsf_test_usart_baud_add_cases(vsf_test_usart_baud_suite_t *suite)
 {
-    scene->name    = "usart_baud";
-    scene->purpose = "tx-baud";
-    scene->hw_req  = "uart1+la";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "usart_baud";
+    suite->purpose = "tx-baud";
+    suite->hw_req  = "uart1+la";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_BAUD_CASE_COUNT; i++) {
-        __baud_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __baud_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_baud_run,
             (void *)&__baud_cases[i]);
     }
@@ -73,26 +73,26 @@ void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
 {
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */
-    vsf_usart_capability_t cap = vsf_usart_capability(c->scene->usart);
+    vsf_usart_capability_t cap = vsf_usart_capability(c->suite->usart);
     bool expect_pass = (c->baudrate >= cap.min_baudrate)
                     && (c->baudrate <= cap.max_baudrate)
                     && (c->baudrate != 0);
 
-    vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
         .mode     = VSF_TEST_BAUD_DEFAULT_MODE,
         .baudrate = c->baudrate,
     });
 
     if (expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
-        __usart_send_str(c->scene->usart, VSF_TEST_BAUD_PAYLOAD);
+        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
+        __usart_send_str(c->suite->usart, VSF_TEST_BAUD_PAYLOAD);
         vsf_test_busy_wait_ms(VSF_TEST_BAUD_PAYLOAD_DRAIN_MS);
-        while (fsm_rt_cpl != vsf_usart_disable(c->scene->usart));
+        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-    vsf_usart_fini(c->scene->usart);
+    vsf_usart_fini(c->suite->usart);
 }
 
 #endif /* VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED */

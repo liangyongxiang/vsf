@@ -28,7 +28,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_flash_erase_program_read_add_cases(vsf_test_flash_erase_program_read_scene_t *scene);
+void vsf_test_flash_erase_program_read_add_cases(vsf_test_flash_erase_program_read_suite_t *suite);
 void vsf_test_flash_erase_program_read_run(const vsf_test_flash_erase_program_read_case_t *c);
 
 #ifdef __cplusplus

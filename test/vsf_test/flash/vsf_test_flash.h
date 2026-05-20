@@ -37,7 +37,7 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_flash_erase_program_read_scene_t) {
+vsf_class(vsf_test_flash_erase_program_read_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_flash_t *flash;
@@ -49,20 +49,20 @@ typedef struct vsf_test_flash_erase_program_read_case_t {
     uint8_t  idx;
     uint32_t offset;
     uint32_t size;
-    vsf_test_flash_erase_program_read_scene_t *scene;
+    vsf_test_flash_erase_program_read_suite_t *suite;
 } vsf_test_flash_erase_program_read_case_t;
 #endif
 
-typedef struct vsf_test_flash_scenes_t {
-    vsf_test_flash_erase_program_read_scene_t erase_program_read;
-} vsf_test_flash_scenes_t;
+typedef struct vsf_test_flash_suites_t {
+    vsf_test_flash_erase_program_read_suite_t erase_program_read;
+} vsf_test_flash_suites_t;
 
-void vsf_test_flash_register_all(vsf_test_flash_scenes_t *s);
+void vsf_test_flash_register_all(vsf_test_flash_suites_t *s);
 
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-void vsf_test_flash_erase_program_read_add_cases(vsf_test_flash_erase_program_read_scene_t *scene);
+void vsf_test_flash_erase_program_read_add_cases(vsf_test_flash_erase_program_read_suite_t *suite);
 void vsf_test_flash_erase_program_read_run(const vsf_test_flash_erase_program_read_case_t *c);
 #endif
 

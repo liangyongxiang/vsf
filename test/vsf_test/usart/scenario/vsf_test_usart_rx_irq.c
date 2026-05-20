@@ -78,15 +78,15 @@ static void __rx_irq_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart
     }
 }
 
-void vsf_test_usart_rx_irq_add_cases(vsf_test_usart_rx_irq_scene_t *scene)
+void vsf_test_usart_rx_irq_add_cases(vsf_test_usart_rx_irq_suite_t *suite)
 {
-    scene->name    = "usart_rx_irq";
-    scene->purpose = "rx-irq";
-    scene->hw_req  = "uart1+la";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "usart_rx_irq";
+    suite->purpose = "rx-irq";
+    suite->hw_req  = "uart1+la";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_IRQ_CASE_COUNT; i++) {
-        __rx_irq_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __rx_irq_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_irq_run,
             (void *)&__rx_irq_cases[i]);
     }
@@ -99,7 +99,7 @@ void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c)
      * RX scenario's own marker. */
     __rx_irq_ctx_t ctx = { .count = 0, .expected_len = strlen(VSF_TEST_RX_IRQ_PAYLOAD), .done = false };
 
-    vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
         .mode     = VSF_TEST_RX_IRQ_DEFAULT_MODE,
         .baudrate = VSF_TEST_RX_IRQ_DEFAULT_BAUDRATE,
         .isr      = {
@@ -111,20 +111,20 @@ void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c)
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
+        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
 
         // Drain residual bytes left in the RX FIFO by prior scenarios (e.g.
         // rx_frame_error / rx_parity_error inject framing errors that can
-        // leave garbage in the FIFO across scene boundaries). Without this,
+        // leave garbage in the FIFO across suite boundaries). Without this,
         // the ISR fires immediately on enable and pollutes ctx.buf.
         {
             uint8_t junk[16];
-            while (vsf_usart_rxfifo_get_data_count(c->scene->usart) > 0) {
-                if (vsf_usart_rxfifo_read(c->scene->usart, junk, sizeof(junk)) == 0) break;
+            while (vsf_usart_rxfifo_get_data_count(c->suite->usart) > 0) {
+                if (vsf_usart_rxfifo_read(c->suite->usart, junk, sizeof(junk)) == 0) break;
             }
         }
 
-        vsf_usart_irq_enable(c->scene->usart, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
+        vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         vsf_trace_info("usart_rx_irq:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
@@ -135,17 +135,17 @@ void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c)
             elapsed_ms += 10;
         }
 
-        vsf_usart_irq_disable(c->scene->usart, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
+        vsf_usart_irq_disable(c->suite->usart, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         VSF_TEST_ASSERT(ctx.done);
         VSF_TEST_ASSERT(ctx.count == ctx.expected_len);
         VSF_TEST_ASSERT(memcmp(ctx.buf, VSF_TEST_RX_IRQ_PAYLOAD, ctx.expected_len) == 0);
 
-        while (fsm_rt_cpl != vsf_usart_disable(c->scene->usart));
+        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-    vsf_usart_fini(c->scene->usart);
+    vsf_usart_fini(c->suite->usart);
 }
 
 #endif /* VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED */

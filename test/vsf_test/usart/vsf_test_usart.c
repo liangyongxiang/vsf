@@ -23,9 +23,9 @@
 /*============================ IMPLEMENTATION ================================*/
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
-// internally, which also opens the matching shell scene. No REG_IF wrapper
+// internally, which also opens the matching shell suite. No REG_IF wrapper
 // needed.
-void vsf_test_usart_register_all(vsf_test_usart_scenes_t *s)
+void vsf_test_usart_register_all(vsf_test_usart_suites_t *s)
 {
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
     vsf_test_usart_baud_add_cases(&s->baud);

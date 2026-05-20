@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_atomic_add_cases(vsf_test_gpio_atomic_scene_t *scene);
+void vsf_test_gpio_atomic_add_cases(vsf_test_gpio_atomic_suite_t *suite);
 void vsf_test_gpio_atomic_run(const vsf_test_gpio_atomic_case_t *c);
 
 #ifdef __cplusplus

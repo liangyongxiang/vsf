@@ -28,7 +28,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_i2c_eeprom_rw_add_cases(vsf_test_i2c_eeprom_rw_scene_t *scene);
+void vsf_test_i2c_eeprom_rw_add_cases(vsf_test_i2c_eeprom_rw_suite_t *suite);
 void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c);
 
 #ifdef __cplusplus

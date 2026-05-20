@@ -4,7 +4,7 @@ Each phase function does one thing and is called by exactly one CLI entry:
   * `load_board()`   — YAML → BoardConfig (used by all)
   * `build_phase()`  — cmake build (vsf-bench-build)
   * `flash_phase()`  — runner flash (vsf-bench-flash)
-  * `run_test_phase()` — multi-scene LA-aware test orchestration (vsf-bench-test)
+  * `run_test_phase()` — multi-suite LA-aware test orchestration (vsf-bench-test)
 
 The unified `vsf-bench` entry (`cli/run.py`) composes these in order based on
 the `--build/--flash/--test/--all` flags.
@@ -22,7 +22,7 @@ from vsf_bench.runners.cmake_runner import CMakeRunner
 from vsf_bench.runners.registry import get_runner_class
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
-from vsf_bench.scene import discover_scenes, load_script_module, script_needs_la, resolve_scenes
+from vsf_bench.suite import discover_suites, load_script_module, script_needs_la, resolve_suites
 
 
 def load_board(hardware_map_path: Path):
@@ -57,33 +57,33 @@ def flash_phase(board, build_dir: Path) -> None:
 # Test phase
 # ---------------------------------------------------------------------------
 
-def _query_firmware_scenes(ser: SerialInstrument) -> set[str]:
-    ser.send("vsf-test scene --list\r\n")
+def _query_firmware_suites(ser: SerialInstrument) -> set[str]:
+    ser.send("vsf-test suite --list\r\n")
     time.sleep(0.3)
     output = ser.read_all(timeout=2.0)
-    scenes: set[str] = set()
+    suites: set[str] = set()
     for line in output.splitlines():
         line = line.strip()
         if line and line[0].isdigit():
             parts = line.split(None, 1)
             if len(parts) == 2:
-                scenes.add(parts[1])
-    return scenes
+                suites.add(parts[1])
+    return suites
 
 
-def _build_run_cmd(scene: str, case: str | None) -> str:
+def _build_run_cmd(suite: str, case: str | None) -> str:
     if case:
-        return f"vsf-test run {scene}.{case}\r\n"
-    return f"vsf-test run {scene}\r\n"
+        return f"vsf-test run {suite}.{case}\r\n"
+    return f"vsf-test run {suite}\r\n"
 
 
 def _drain_repl(ser: SerialInstrument) -> None:
-    """Discard any stale REPL output left from a previous scene."""
+    """Discard any stale REPL output left from a previous suite."""
     ser.read_all(timeout=0.1)
 
 
 def _run_script_phase1(
-    scene_name: str,
+    suite_name: str,
     case: str | None,
     script_module,
     project_root: Path,
@@ -91,21 +91,21 @@ def _run_script_phase1(
 ) -> bool:
     """Send trigger, run script.run(). Returns True on PASS."""
     case_tag = f".{case}" if case else ""
-    cmd = _build_run_cmd(scene_name, case)
+    cmd = _build_run_cmd(suite_name, case)
     _drain_repl(ser)
     ser.send(cmd)
     print(f"[vsf-bench] Triggered: {cmd.strip()}")
 
-    # vsf-test-shell emits "Scene ack: <name>" on a successful lookup or
-    # "Scene not found: <name>" / "Case not found: <case>" otherwise. One
+    # vsf-test-shell emits "Suite ack: <name>" on a successful lookup or
+    # "Suite not found: <name>" / "Case not found: <case>" otherwise. One
     # of these always fires within ~50 ms of the trigger.
     try:
-        ack = ser.expect(r"Scene ack:|Scene not found:|Case not found:", timeout=1.0)
+        ack = ser.expect(r"Suite ack:|Suite not found:|Case not found:", timeout=1.0)
     except TimeoutError:
-        print(f"[vsf-bench] FAIL: {scene_name}{case_tag}: no shell ack within 1s")
+        print(f"[vsf-bench] FAIL: {suite_name}{case_tag}: no shell ack within 1s")
         return False
     if "not found" in ack:
-        print(f"[vsf-bench] FAIL: {scene_name}{case_tag}: {ack.strip()}")
+        print(f"[vsf-bench] FAIL: {suite_name}{case_tag}: {ack.strip()}")
         return False
 
     try:
@@ -117,11 +117,11 @@ def _run_script_phase1(
             else:
                 run_fn(project_root, ser)
         else:
-            ser.expect_test_summary(scene_name, timeout=1.5)
-        print(f"[vsf-bench] PASS phase1: {scene_name}{case_tag}")
+            ser.expect_test_summary(suite_name, timeout=1.5)
+        print(f"[vsf-bench] PASS phase1: {suite_name}{case_tag}")
         return True
     except (TimeoutError, AssertionError, RuntimeError, KeyError, AttributeError) as e:
-        print(f"[vsf-bench] FAIL: {scene_name}{case_tag}: {e}")
+        print(f"[vsf-bench] FAIL: {suite_name}{case_tag}: {e}")
         return False
 
 
@@ -148,12 +148,12 @@ def _new_la(la_cfg, cli_path: Path, capture_path: Path) -> LogicAnalyzerInstrume
     )
 
 
-def _mk_log_dir(log_dir: Path | None, ordered_scenes: list[tuple[str, Path | None]]) -> Path:
+def _mk_log_dir(log_dir: Path | None, ordered_suites: list[tuple[str, Path | None]]) -> Path:
     if log_dir:
         run_dir = log_dir.resolve()
     else:
         timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        tag = ordered_scenes[0][0] if len(ordered_scenes) == 1 else "vsf_test"
+        tag = ordered_suites[0][0] if len(ordered_suites) == 1 else "vsf_test"
         run_dir = Path(f"logs/{timestamp}-{tag}")
     run_dir.mkdir(parents=True, exist_ok=True)
     return run_dir
@@ -162,29 +162,29 @@ def _mk_log_dir(log_dir: Path | None, ordered_scenes: list[tuple[str, Path | Non
 def run_test_phase(
     board,
     project_root: Path,
-    scene_names: list[str] | None,
+    suite_names: list[str] | None,
     script_override: Path | None,
     case_specs: list[str],
     la_mode: str,
     log_dir: Path | None,
 ) -> bool:
-    """Run scenes against firmware that is already flashed and running.
+    """Run suites against firmware that is already flashed and running.
 
-    Returns True if every scene/case passed (phase1 + decode), False otherwise.
+    Returns True if every suite/case passed (phase1 + decode), False otherwise.
     Does NOT build or flash — that is the caller's responsibility.
     """
-    discovered = discover_scenes(project_root)
-    ordered_scenes = resolve_scenes(scene_names, script_override, discovered)
-    if not ordered_scenes:
-        raise RuntimeError("No scenes discovered")
+    discovered = discover_suites(project_root)
+    ordered_suites = resolve_suites(suite_names, script_override, discovered)
+    if not ordered_suites:
+        raise RuntimeError("No suites discovered")
 
-    print(f"[vsf-bench] Scenes: {[s for s, _ in ordered_scenes]}")
+    print(f"[vsf-bench] Suites: {[s for s, _ in ordered_suites]}")
     print(f"[vsf-bench] LA mode: {la_mode}")
 
-    if case_specs and len(ordered_scenes) > 1:
-        raise ValueError("--case/--case-index requires exactly one --scene")
+    if case_specs and len(ordered_suites) > 1:
+        raise ValueError("--case/--case-index requires exactly one --suite")
 
-    run_dir = _mk_log_dir(log_dir, ordered_scenes)
+    run_dir = _mk_log_dir(log_dir, ordered_suites)
     log_path = run_dir / "vsf-bench.jsonl"
 
     ser = SerialInstrument(board.serial, board.baud, audit_log=log_path)
@@ -198,23 +198,23 @@ def run_test_phase(
     except TimeoutError:
         print("[vsf-bench] Warning: REPL banner not seen, continuing anyway")
 
-    # When no explicit --scene filter, intersect with what the firmware reports.
-    if not scene_names:
-        fw_scenes = _query_firmware_scenes(ser)
-        if fw_scenes:
-            skipped = [s for s, _ in ordered_scenes if s not in fw_scenes]
-            ordered_scenes = [(s, p) for s, p in ordered_scenes if s in fw_scenes]
+    # When no explicit --suite filter, intersect with what the firmware reports.
+    if not suite_names:
+        fw_suites = _query_firmware_suites(ser)
+        if fw_suites:
+            skipped = [s for s, _ in ordered_suites if s not in fw_suites]
+            ordered_suites = [(s, p) for s, p in ordered_suites if s in fw_suites]
             if skipped:
                 print(f"[vsf-bench] Skipped (not in firmware): {skipped}")
-        print(f"[vsf-bench] Effective scenes: {[s for s, _ in ordered_scenes]}")
+        print(f"[vsf-bench] Effective suites: {[s for s, _ in ordered_suites]}")
 
     loaded: list[tuple[str, Path | None, object | None, bool]] = []
-    for scene_name, script_path in ordered_scenes:
+    for suite_name, script_path in ordered_suites:
         if script_path is None:
-            loaded.append((scene_name, None, None, False))
+            loaded.append((suite_name, None, None, False))
             continue
         mod = load_script_module(script_path)
-        loaded.append((scene_name, script_path, mod, script_needs_la(script_path, mod)))
+        loaded.append((suite_name, script_path, mod, script_needs_la(script_path, mod)))
 
     any_needs_la = any(needs for _, _, _, needs in loaded) and la_cfg is not None and cli_path is not None
     overall_pass = True
@@ -224,7 +224,7 @@ def run_test_phase(
             loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs
         )
     else:
-        overall_pass = _test_loop_per_scene(
+        overall_pass = _test_loop_per_suite(
             loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs
         )
 
@@ -243,7 +243,7 @@ def _test_loop_shared_la(
     """Shared LA mode: one capture spans the contiguous LA-needing block.
 
     `la_start_t` is recorded AFTER `wait_until_started()` returns, so it
-    aligns tightly with the dsview-cli capture file's t=0. Each scene's
+    aligns tightly with the dsview-cli capture file's t=0. Each suite's
     decode window is padded by SHARED_WINDOW_PAD_NS on both sides as a
     small safety margin for residual scheduler / USB jitter.
     """
@@ -256,10 +256,10 @@ def _test_loop_shared_la(
     shared_capture = run_dir / "shared-capture.dsl"
     shared_la: LogicAnalyzerInstrument | None = None
     la_start_t: float | None = None
-    scene_windows: list[tuple[str, object, int, int]] = []
+    suite_windows: list[tuple[str, object, int, int]] = []
     overall_pass = True
 
-    for i, (scene_name, _script_path, mod, _needs) in enumerate(loaded):
+    for i, (suite_name, _script_path, mod, _needs) in enumerate(loaded):
         if i == first_la_idx:
             shared_la = _new_la(la_cfg, cli_path, shared_capture)
             shared_la.start(300.0)
@@ -270,12 +270,12 @@ def _test_loop_shared_la(
         cases_to_run = case_specs if case_specs else [None]
         for case in cases_to_run:
             t_start = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
-            ok = _run_script_phase1(scene_name, case, mod, project_root, ser)
+            ok = _run_script_phase1(suite_name, case, mod, project_root, ser)
             t_end = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
             if not ok:
                 overall_pass = False
             if mod is not None and hasattr(mod, "decode") and shared_la is not None:
-                scene_windows.append((scene_name, mod, t_start, t_end))
+                suite_windows.append((suite_name, mod, t_start, t_end))
 
         if i == last_la_idx and shared_la is not None:
             print("[vsf-bench] Stopping shared LA...")
@@ -285,41 +285,41 @@ def _test_loop_shared_la(
             except (TimeoutError, RuntimeError) as e:
                 print(f"[vsf-bench] LA wait warning: {e}")
 
-    for scene_name, mod, t_start, t_end in scene_windows:
+    for suite_name, mod, t_start, t_end in suite_windows:
         decode_start = max(0, t_start - SHARED_WINDOW_PAD_NS)
         decode_end = t_end + SHARED_WINDOW_PAD_NS
-        print(f"\n[vsf-bench] Decoding (shared): {scene_name}  window=[{decode_start/1e9:.2f}s,{decode_end/1e9:.2f}s]")
+        print(f"\n[vsf-bench] Decoding (shared): {suite_name}  window=[{decode_start/1e9:.2f}s,{decode_end/1e9:.2f}s]")
         try:
             _call_decode(mod, project_root, shared_la, decode_start, decode_end)
-            print(f"[vsf-bench] PASS decode: {scene_name}")
+            print(f"[vsf-bench] PASS decode: {suite_name}")
         except (AssertionError, RuntimeError, KeyError, AttributeError, FileNotFoundError) as e:
-            print(f"[vsf-bench] FAIL decode: {scene_name}: {e}")
+            print(f"[vsf-bench] FAIL decode: {suite_name}: {e}")
             overall_pass = False
 
     return overall_pass
 
 
-def _test_loop_per_scene(
+def _test_loop_per_suite(
     loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs
 ) -> bool:
-    """Per-scene LA mode: one capture per scene (or no LA at all)."""
+    """Per-suite LA mode: one capture per suite (or no LA at all)."""
     overall_pass = True
 
-    for scene_name, _script_path, mod, needs_la in loaded:
+    for suite_name, _script_path, mod, needs_la in loaded:
         cases_to_run = case_specs if case_specs else [None]
         for case in cases_to_run:
             case_tag = f".{case}" if case else ""
-            print(f"\n[vsf-bench] Scene: {scene_name}{case_tag}")
+            print(f"\n[vsf-bench] Scene: {suite_name}{case_tag}")
 
             scene_la: LogicAnalyzerInstrument | None = None
             if needs_la and la_cfg is not None and cli_path is not None:
-                label = f"{scene_name}{('_' + case) if case else ''}"
+                label = f"{suite_name}{('_' + case) if case else ''}"
                 capture_path = run_dir / f"{label}-capture.dsl"
                 scene_la = _new_la(la_cfg, cli_path, capture_path)
                 scene_la.start(180.0)
                 scene_la.wait_until_started(timeout=5.0)
 
-            ok = _run_script_phase1(scene_name, case, mod, project_root, ser)
+            ok = _run_script_phase1(suite_name, case, mod, project_root, ser)
             if not ok:
                 overall_pass = False
 
@@ -333,9 +333,9 @@ def _test_loop_per_scene(
             if ok and mod is not None and hasattr(mod, "decode") and scene_la is not None:
                 try:
                     _call_decode(mod, project_root, scene_la, None, None)
-                    print(f"[vsf-bench] PASS decode: {scene_name}{case_tag}")
+                    print(f"[vsf-bench] PASS decode: {suite_name}{case_tag}")
                 except (AssertionError, RuntimeError, KeyError, AttributeError, FileNotFoundError) as e:
-                    print(f"[vsf-bench] FAIL decode: {scene_name}{case_tag}: {e}")
+                    print(f"[vsf-bench] FAIL decode: {suite_name}{case_tag}: {e}")
                     overall_pass = False
 
     return overall_pass

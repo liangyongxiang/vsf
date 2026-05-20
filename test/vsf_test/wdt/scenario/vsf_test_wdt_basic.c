@@ -20,15 +20,15 @@ static vsf_test_wdt_basic_case_t __wdt_basic_cases[] = {
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_wdt_basic_add_cases(vsf_test_wdt_basic_scene_t *scene)
+void vsf_test_wdt_basic_add_cases(vsf_test_wdt_basic_suite_t *suite)
 {
-    scene->name    = "wdt_basic";
-    scene->purpose = "wdt_basic";
-    scene->hw_req  = "none";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "wdt_basic";
+    suite->purpose = "wdt_basic";
+    suite->hw_req  = "none";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_WDT_BASIC_CASE_COUNT; i++) {
-        __wdt_basic_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __wdt_basic_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_wdt_basic_run,
             (void *)&__wdt_basic_cases[i]);
     }
@@ -37,7 +37,7 @@ void vsf_test_wdt_basic_add_cases(vsf_test_wdt_basic_scene_t *scene)
 void vsf_test_wdt_basic_run(void *arg)
 {
     vsf_test_wdt_basic_case_t *c = (vsf_test_wdt_basic_case_t *)arg;
-    vsf_wdt_t *wdt = c->scene->wdt;
+    vsf_wdt_t *wdt = c->suite->wdt;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */

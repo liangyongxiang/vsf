@@ -35,23 +35,23 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_spi_loopback_scene_t) {
+vsf_class(vsf_test_spi_loopback_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_spi_t *spi;
     )
 };
 
-typedef struct vsf_test_spi_scenes_t {
-    vsf_test_spi_loopback_scene_t loopback;
-} vsf_test_spi_scenes_t;
+typedef struct vsf_test_spi_suites_t {
+    vsf_test_spi_loopback_suite_t loopback;
+} vsf_test_spi_suites_t;
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_spi_register_all(vsf_test_spi_scenes_t *s);
+void vsf_test_spi_register_all(vsf_test_spi_suites_t *s);
 
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-void vsf_test_spi_loopback_add_cases(vsf_test_spi_loopback_scene_t *scene);
+void vsf_test_spi_loopback_add_cases(vsf_test_spi_loopback_suite_t *suite);
 void vsf_test_spi_loopback_run(void *arg);
 #endif
 

@@ -18,7 +18,7 @@
 
 typedef struct vsf_test_rtc_alarm_case_t {
     uint8_t idx;
-    vsf_test_rtc_alarm_scene_t *scene;
+    vsf_test_rtc_alarm_suite_t *suite;
 } vsf_test_rtc_alarm_case_t;
 
 #endif /* __VSF_TEST_RTC_ALARM_H__ */

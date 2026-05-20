@@ -18,15 +18,15 @@ static vsf_test_rtc_set_get_case_t __rtc_set_get_cases[] = {
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_rtc_set_get_add_cases(vsf_test_rtc_set_get_scene_t *scene)
+void vsf_test_rtc_set_get_add_cases(vsf_test_rtc_set_get_suite_t *suite)
 {
-    scene->name    = "rtc_set_get";
-    scene->purpose = "rtc_set_get";
-    scene->hw_req  = "none";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "rtc_set_get";
+    suite->purpose = "rtc_set_get";
+    suite->hw_req  = "none";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RTC_SET_GET_CASE_COUNT; i++) {
-        __rtc_set_get_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __rtc_set_get_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_rtc_set_get_run,
             (void *)&__rtc_set_get_cases[i]);
     }
@@ -35,7 +35,7 @@ void vsf_test_rtc_set_get_add_cases(vsf_test_rtc_set_get_scene_t *scene)
 void vsf_test_rtc_set_get_run(void *arg)
 {
     vsf_test_rtc_set_get_case_t *c = (vsf_test_rtc_set_get_case_t *)arg;
-    vsf_rtc_t *rtc = c->scene->rtc;
+    vsf_rtc_t *rtc = c->suite->rtc;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */

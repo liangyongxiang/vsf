@@ -106,7 +106,7 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
             defaults_keys.add(key)
         lines.append("")
 
-    # cases → INIT macro (scene pointer filled at runtime by add_cases)
+    # cases → INIT macro (suite pointer filled at runtime by add_cases)
     lines.append(f"#define {init_macro}  \\")
     for i, case in enumerate(cases):
         comma = "," if i < len(cases) - 1 else ""

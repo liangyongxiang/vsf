@@ -29,15 +29,15 @@ static vsf_test_gpio_pinmux_case_t __gpio_pinmux_cases[] = {
     VSF_TEST_GPIO_PINMUX_CASES_INIT
 };
 
-void vsf_test_gpio_pinmux_add_cases(vsf_test_gpio_pinmux_scene_t *scene)
+void vsf_test_gpio_pinmux_add_cases(vsf_test_gpio_pinmux_suite_t *suite)
 {
-    scene->name    = "gpio_pinmux";
-    scene->purpose = "pinmux";
-    scene->hw_req  = "uart1";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "gpio_pinmux";
+    suite->purpose = "pinmux";
+    suite->hw_req  = "uart1";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_PINMUX_CASE_COUNT; i++) {
-        __gpio_pinmux_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __gpio_pinmux_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_gpio_pinmux_run,
             (void *)&__gpio_pinmux_cases[i]);
     }
@@ -45,7 +45,7 @@ void vsf_test_gpio_pinmux_add_cases(vsf_test_gpio_pinmux_scene_t *scene)
 
 void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scene->gpio;
+    vsf_gpio_t *gpio = c->suite->gpio;
     vsf_gpio_pin_mask_t tx_mask = (vsf_gpio_pin_mask_t)1u << c->tx_pin;
     vsf_gpio_pin_mask_t rx_mask = (vsf_gpio_pin_mask_t)1u << c->rx_pin;
 
@@ -72,18 +72,18 @@ void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c)
     /* Step 3: bring up UART and send a small payload. We do not assert
      * loopback receive here because the host script handles the
      * post-condition (UART line bytes captured on LA / serial). */
-    err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
+    err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
                   | VSF_USART_NO_PARITY    | VSF_USART_TX_ENABLE,
         .baudrate = c->baudrate,
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-    while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
+    while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
 
     const char *payload = "PINMUX\r\n";
     while (*payload) {
-        while (!vsf_usart_txfifo_get_free_count(c->scene->usart));
-        vsf_usart_txfifo_write(c->scene->usart, (uint8_t *)payload, 1);
+        while (!vsf_usart_txfifo_get_free_count(c->suite->usart));
+        vsf_usart_txfifo_write(c->suite->usart, (uint8_t *)payload, 1);
         payload++;
     }
     vsf_test_busy_wait_ms(50);
@@ -91,8 +91,8 @@ void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c)
     /* Tear down so subsequent scenarios get UART1 in a clean state. Without
      * this, later RX-on-UART1 scenarios (rx_baud, rx_data, ...) fail
      * because the peripheral is left enabled in TX-only mode. */
-    while (fsm_rt_cpl != vsf_usart_disable(c->scene->usart));
-    vsf_usart_fini(c->scene->usart);
+    while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
+    vsf_usart_fini(c->suite->usart);
 }
 
 #endif /* VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED */

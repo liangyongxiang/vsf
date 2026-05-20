@@ -35,23 +35,23 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_dma_mem2mem_scene_t) {
+vsf_class(vsf_test_dma_mem2mem_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_dma_t *dma;
     )
 };
 
-typedef struct vsf_test_dma_scenes_t {
-    vsf_test_dma_mem2mem_scene_t mem2mem;
-} vsf_test_dma_scenes_t;
+typedef struct vsf_test_dma_suites_t {
+    vsf_test_dma_mem2mem_suite_t mem2mem;
+} vsf_test_dma_suites_t;
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_dma_register_all(vsf_test_dma_scenes_t *s);
+void vsf_test_dma_register_all(vsf_test_dma_suites_t *s);
 
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_scene_t *scene);
+void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_suite_t *suite);
 void vsf_test_dma_mem2mem_run(void *arg);
 #endif
 

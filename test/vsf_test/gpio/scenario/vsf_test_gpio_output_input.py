@@ -3,7 +3,7 @@
 Usage:
     vsf-bench-test board/pico/hardware-map.yml \\
         --script vsf.demo/vsf/test/vsf_test/gpio/scenario/vsf_test_gpio_output_input.py \\
-        --scene gpio_output_input
+        --suite gpio_output_input
 
 Requires the GPIO loopback fixture: a jumper between GP4 and GP5 (or
 whichever pins the case lists in application/component/vsf-test/gpio.yml).

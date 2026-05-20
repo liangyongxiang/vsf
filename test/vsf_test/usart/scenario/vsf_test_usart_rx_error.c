@@ -76,15 +76,15 @@ static void __rx_error_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usa
 }
 
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_parity_error_add_cases(vsf_test_usart_rx_parity_error_scene_t *scene)
+void vsf_test_usart_rx_parity_error_add_cases(vsf_test_usart_rx_parity_error_suite_t *suite)
 {
-    scene->name    = "usart_rx_parity_error";
-    scene->purpose = "rx-parity";
-    scene->hw_req  = "uart1+la";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "usart_rx_parity_error";
+    suite->purpose = "rx-parity";
+    suite->hw_req  = "uart1+la";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_PARITY_ERROR_CASE_COUNT; i++) {
-        __rx_parity_error_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __rx_parity_error_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_parity_error_run,
             (void *)&__rx_parity_error_cases[i]);
     }
@@ -97,7 +97,7 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
      * RX scenario's own marker. */
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
 
-    vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
         .mode     = c->mode,
         .baudrate = VSF_TEST_RX_ERROR_DEFAULT_BAUDRATE,
         .isr      = {
@@ -109,9 +109,9 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
+        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
 
-        vsf_usart_irq_enable(c->scene->usart, VSF_USART_IRQ_MASK_PARITY_ERR);
+        vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_PARITY_ERR);
 
         vsf_trace_info("usart_rx_parity_error:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
@@ -122,28 +122,28 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
             elapsed_ms += 10;
         }
 
-        vsf_usart_irq_disable(c->scene->usart, VSF_USART_IRQ_MASK_PARITY_ERR);
+        vsf_usart_irq_disable(c->suite->usart, VSF_USART_IRQ_MASK_PARITY_ERR);
 
         VSF_TEST_ASSERT(ctx.parity_err);
 
-        while (fsm_rt_cpl != vsf_usart_disable(c->scene->usart));
+        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-    vsf_usart_fini(c->scene->usart);
+    vsf_usart_fini(c->suite->usart);
 }
 #endif /* VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED */
 
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_scene_t *scene)
+void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_suite_t *suite)
 {
-    scene->name    = "usart_rx_frame_error";
-    scene->purpose = "rx-frame";
-    scene->hw_req  = "uart1+la";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "usart_rx_frame_error";
+    suite->purpose = "rx-frame";
+    suite->hw_req  = "uart1+la";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_FRAME_ERROR_CASE_COUNT; i++) {
-        __rx_frame_error_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __rx_frame_error_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_frame_error_run,
             (void *)&__rx_frame_error_cases[i]);
     }
@@ -156,7 +156,7 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
      * RX scenario's own marker. */
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
 
-    vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
         .mode     = c->mode,
         .baudrate = VSF_TEST_RX_ERROR_DEFAULT_BAUDRATE,
         .isr      = {
@@ -168,9 +168,9 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
+        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
 
-        vsf_usart_irq_enable(c->scene->usart, VSF_USART_IRQ_MASK_FRAME_ERR);
+        vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_FRAME_ERR);
 
         vsf_trace_info("usart_rx_frame_error:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
@@ -181,15 +181,15 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
             elapsed_ms += 10;
         }
 
-        vsf_usart_irq_disable(c->scene->usart, VSF_USART_IRQ_MASK_FRAME_ERR);
+        vsf_usart_irq_disable(c->suite->usart, VSF_USART_IRQ_MASK_FRAME_ERR);
 
         VSF_TEST_ASSERT(ctx.frame_err);
 
-        while (fsm_rt_cpl != vsf_usart_disable(c->scene->usart));
+        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-    vsf_usart_fini(c->scene->usart);
+    vsf_usart_fini(c->suite->usart);
 }
 #endif /* VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED */
 

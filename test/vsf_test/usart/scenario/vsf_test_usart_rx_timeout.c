@@ -70,15 +70,15 @@ static void __rx_timeout_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_u
     }
 }
 
-void vsf_test_usart_rx_timeout_add_cases(vsf_test_usart_rx_timeout_scene_t *scene)
+void vsf_test_usart_rx_timeout_add_cases(vsf_test_usart_rx_timeout_suite_t *suite)
 {
-    scene->name    = "usart_rx_timeout";
-    scene->purpose = "rx-timeout";
-    scene->hw_req  = "uart1+la";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "usart_rx_timeout";
+    suite->purpose = "rx-timeout";
+    suite->hw_req  = "uart1+la";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_TIMEOUT_CASE_COUNT; i++) {
-        __rx_timeout_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __rx_timeout_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_timeout_run,
             (void *)&__rx_timeout_cases[i]);
     }
@@ -91,7 +91,7 @@ void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
      * RX scenario's own marker. */
     __rx_timeout_ctx_t ctx = { .timeout_triggered = false };
 
-    vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
         .mode       = VSF_TEST_RX_TIMEOUT_DEFAULT_MODE,
         .baudrate   = VSF_TEST_RX_TIMEOUT_DEFAULT_BAUDRATE,
         .rx_timeout = VSF_TEST_RX_TIMEOUT_US,
@@ -104,9 +104,9 @@ void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
 
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
+        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
 
-        vsf_usart_irq_enable(c->scene->usart, VSF_USART_IRQ_MASK_RX_TIMEOUT);
+        vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         vsf_trace_info("usart_rx_timeout:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
@@ -117,15 +117,15 @@ void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
             elapsed_ms += 10;
         }
 
-        vsf_usart_irq_disable(c->scene->usart, VSF_USART_IRQ_MASK_RX_TIMEOUT);
+        vsf_usart_irq_disable(c->suite->usart, VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         VSF_TEST_ASSERT(ctx.timeout_triggered);
 
-        while (fsm_rt_cpl != vsf_usart_disable(c->scene->usart));
+        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-    vsf_usart_fini(c->scene->usart);
+    vsf_usart_fini(c->suite->usart);
 }
 
 #endif /* VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED */

@@ -22,8 +22,8 @@
 /*============================ IMPLEMENTATION ================================*/
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
-// internally, which also opens the matching shell scene.
-void vsf_test_flash_register_all(vsf_test_flash_scenes_t *s)
+// internally, which also opens the matching shell suite.
+void vsf_test_flash_register_all(vsf_test_flash_suites_t *s)
 {
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
     vsf_test_flash_erase_program_read_add_cases(&s->erase_program_read);

@@ -29,15 +29,15 @@ static vsf_test_gpio_toggle_case_t __gpio_toggle_cases[] = {
     VSF_TEST_GPIO_TOGGLE_CASES_INIT
 };
 
-void vsf_test_gpio_toggle_add_cases(vsf_test_gpio_toggle_scene_t *scene)
+void vsf_test_gpio_toggle_add_cases(vsf_test_gpio_toggle_suite_t *suite)
 {
-    scene->name    = "gpio_toggle";
-    scene->purpose = "toggle";
-    scene->hw_req  = "gpio_loopback";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "gpio_toggle";
+    suite->purpose = "toggle";
+    suite->hw_req  = "gpio_loopback";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_TOGGLE_CASE_COUNT; i++) {
-        __gpio_toggle_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __gpio_toggle_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_gpio_toggle_run,
             (void *)&__gpio_toggle_cases[i]);
     }
@@ -45,7 +45,7 @@ void vsf_test_gpio_toggle_add_cases(vsf_test_gpio_toggle_scene_t *scene)
 
 void vsf_test_gpio_toggle_run(const vsf_test_gpio_toggle_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scene->gpio;
+    vsf_gpio_t *gpio = c->suite->gpio;
     vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << c->out_pin;
     vsf_gpio_pin_mask_t in_mask  = (vsf_gpio_pin_mask_t)1u << c->in_pin;
 

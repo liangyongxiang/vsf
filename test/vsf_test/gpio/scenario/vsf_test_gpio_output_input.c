@@ -35,15 +35,15 @@ static vsf_test_gpio_output_input_case_t __gpio_output_input_cases[] = {
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_output_input_add_cases(vsf_test_gpio_output_input_scene_t *scene)
+void vsf_test_gpio_output_input_add_cases(vsf_test_gpio_output_input_suite_t *suite)
 {
-    scene->name    = "gpio_output_input";
-    scene->purpose = "loopback";
-    scene->hw_req  = "gpio_loopback";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "gpio_output_input";
+    suite->purpose = "loopback";
+    suite->hw_req  = "gpio_loopback";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_OUTPUT_INPUT_CASE_COUNT; i++) {
-        __gpio_output_input_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __gpio_output_input_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_gpio_output_input_run,
             (void *)&__gpio_output_input_cases[i]);
     }
@@ -51,7 +51,7 @@ void vsf_test_gpio_output_input_add_cases(vsf_test_gpio_output_input_scene_t *sc
 
 void vsf_test_gpio_output_input_run(const vsf_test_gpio_output_input_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scene->gpio;
+    vsf_gpio_t *gpio = c->suite->gpio;
     vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << c->out_pin;
     vsf_gpio_pin_mask_t in_mask  = (vsf_gpio_pin_mask_t)1u << c->in_pin;
 

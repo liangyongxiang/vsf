@@ -42,10 +42,10 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_timer_oneshot_scene_t) {
+vsf_class(vsf_test_timer_oneshot_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
-        /* Immutable scene config (set once by main.c, never modified by run). */
+        /* Immutable suite config (set once by main.c, never modified by run). */
         vsf_timer_t *timer;
     )
     private_member(
@@ -54,16 +54,16 @@ vsf_class(vsf_test_timer_oneshot_scene_t) {
     )
 };
 
-typedef struct vsf_test_timer_scenes_t {
-    vsf_test_timer_oneshot_scene_t oneshot;
-} vsf_test_timer_scenes_t;
+typedef struct vsf_test_timer_suites_t {
+    vsf_test_timer_oneshot_suite_t oneshot;
+} vsf_test_timer_suites_t;
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_timer_register_all(vsf_test_timer_scenes_t *s);
+void vsf_test_timer_register_all(vsf_test_timer_suites_t *s);
 
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-void vsf_test_timer_oneshot_add_cases(vsf_test_timer_oneshot_scene_t *scene);
+void vsf_test_timer_oneshot_add_cases(vsf_test_timer_oneshot_suite_t *suite);
 void vsf_test_timer_oneshot_run(void *arg);
 #endif
 

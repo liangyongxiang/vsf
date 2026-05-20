@@ -7,35 +7,35 @@
 extern "C" {
 #endif
 
-#ifndef VSF_TEST_SHELL_MAX_SCENES
-#   define VSF_TEST_SHELL_MAX_SCENES    48
+#ifndef VSF_TEST_SHELL_MAX_SUITES
+#   define VSF_TEST_SHELL_MAX_SUITES    48
 #endif
 
-typedef struct vsf_test_shell_scene_t {
+typedef struct vsf_test_shell_suite_t {
     const char *name;
     uint16_t    first_case_idx;
     uint16_t    case_count;
-} vsf_test_shell_scene_t;
+} vsf_test_shell_suite_t;
 
 typedef struct vsf_test_shell_t {
-    vsf_test_shell_scene_t scenes[VSF_TEST_SHELL_MAX_SCENES];
-    uint8_t                scene_count;
-    int8_t cur_scene;
+    vsf_test_shell_suite_t suites[VSF_TEST_SHELL_MAX_SUITES];
+    uint8_t                suite_count;
+    int8_t cur_suite;
     int8_t cur_case;
     bool   auto_case;
-    bool   auto_scene;
+    bool   auto_suite;
 } vsf_test_shell_t;
 
-uint8_t vsf_test_shell_register_scene(vsf_test_shell_t *shell, const char *name);
+uint8_t vsf_test_shell_register_suite(vsf_test_shell_t *shell, const char *name);
 void    vsf_test_shell_inc_case_count(vsf_test_shell_t *shell);
 void    vsf_test_shell_init(vsf_test_shell_t *shell);
 void    vsf_test_shell_run(vsf_test_shell_t *shell);
 
 vsf_test_shell_t *vsf_test_get_shell(void);
 
-#define VSF_TEST_REGISTER_SCENE(s, field, add_fn)                  \
+#define VSF_TEST_REGISTER_SUITE(s, field, add_fn)                  \
     do {                                                            \
-        vsf_test_shell_register_scene(vsf_test_get_shell(), #field); \
+        vsf_test_shell_register_suite(vsf_test_get_shell(), #field); \
         add_fn(&(s)->field);                                        \
     } while (0)
 

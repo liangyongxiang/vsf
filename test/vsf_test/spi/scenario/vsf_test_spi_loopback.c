@@ -37,15 +37,15 @@ static vsf_test_spi_loopback_case_t __spi_loopback_cases[] = {
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_spi_loopback_add_cases(vsf_test_spi_loopback_scene_t *scene)
+void vsf_test_spi_loopback_add_cases(vsf_test_spi_loopback_suite_t *suite)
 {
-    scene->name    = "spi_loopback";
-    scene->purpose = "spi_loopback";
-    scene->hw_req  = "mosi-miso-jumper";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "spi_loopback";
+    suite->purpose = "spi_loopback";
+    suite->hw_req  = "mosi-miso-jumper";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_SPI_LOOPBACK_CASE_COUNT; i++) {
-        __spi_loopback_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __spi_loopback_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_spi_loopback_run,
             (void *)&__spi_loopback_cases[i]);
     }
@@ -54,7 +54,7 @@ void vsf_test_spi_loopback_add_cases(vsf_test_spi_loopback_scene_t *scene)
 void vsf_test_spi_loopback_run(void *arg)
 {
     vsf_test_spi_loopback_case_t *c = (vsf_test_spi_loopback_case_t *)arg;
-    vsf_spi_t *spi = c->scene->spi;
+    vsf_spi_t *spi = c->suite->spi;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware scenarios do not print them. */

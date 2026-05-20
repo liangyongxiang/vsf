@@ -134,11 +134,11 @@ bool vsf_test_register_suite(vsf_test_suite_t *suite)
     VSF_ASSERT(suite->name != NULL);
     suite->first_case_idx = (uint16_t)__vsf_test->test_case_count;
     suite->case_count     = 0;
-    // Open a shell-side scene under the same name so `vsf-test scene --list`
+    // Open a shell-side suite under the same name so `vsf-test suite --list`
     // / `vsf-test run <name>` see the suite without a second registration
     // call. The next vsf_test_add_ex() (via vsf_test_suite_add_case) will
-    // attribute its case to this scene.
-    vsf_test_shell_register_scene(&__vsf_test->shell, suite->name);
+    // attribute its case to this suite.
+    vsf_test_shell_register_suite(&__vsf_test->shell, suite->name);
     __VSF_TEST_TRACE_DEBUG("[TEST] register suite '%s' at idx %u\r\n",
                           suite->name, (unsigned)suite->first_case_idx);
     return true;
@@ -334,7 +334,7 @@ void vsf_test_run_case(uint32_t idx)
             /* Scenario-level boundary marker. Host decoders use this to bound
              * the last case's payload window; without it, the last case has
              * no upper bound and decode would extend to end-of-capture,
-             * picking up unrelated bytes from later scenes. */
+             * picking up unrelated bytes from later suites. */
             __VSF_TEST_TRACE_INFO("%s:END\r\n", suite->name);
         }
     }

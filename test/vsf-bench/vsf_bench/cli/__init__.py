@@ -6,6 +6,6 @@
 * `cli.test`  — vsf-bench-test (standalone test, assumes firmware already running)
 
 The standalone scripts and the unified pipeline share their phase logic
-through `vsf_bench.pipeline` and `vsf_bench.scene` modules — there is one
+through `vsf_bench.pipeline` and `vsf_bench.suite` modules — there is one
 implementation per concern, two entry surfaces.
 """

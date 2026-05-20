@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_direction_add_cases(vsf_test_gpio_direction_scene_t *scene);
+void vsf_test_gpio_direction_add_cases(vsf_test_gpio_direction_suite_t *suite);
 void vsf_test_gpio_direction_run(const vsf_test_gpio_direction_case_t *c);
 
 #ifdef __cplusplus

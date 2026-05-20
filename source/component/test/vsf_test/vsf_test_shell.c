@@ -31,47 +31,47 @@ static void __read_line(char *buf, size_t buf_size)
     }
 }
 
-static void __print_scene_list(vsf_test_shell_t *shell)
+static void __print_suite_list(vsf_test_shell_t *shell)
 {
     vsf_trace_info("Scenes:" VSF_TRACE_CFG_LINEEND);
-    for (uint8_t i = 0; i < shell->scene_count; i++) {
-        vsf_trace_info("  %u %s" VSF_TRACE_CFG_LINEEND, i, shell->scenes[i].name);
+    for (uint8_t i = 0; i < shell->suite_count; i++) {
+        vsf_trace_info("  %u %s" VSF_TRACE_CFG_LINEEND, i, shell->suites[i].name);
     }
 }
 
 static void __print_case_list(vsf_test_shell_t *shell)
 {
-    if (shell->cur_scene < 0) {
-        vsf_trace_info("No scene selected. Use 'vsf-test scene <n>' first." VSF_TRACE_CFG_LINEEND);
+    if (shell->cur_suite < 0) {
+        vsf_trace_info("No suite selected. Use 'vsf-test suite <n>' first." VSF_TRACE_CFG_LINEEND);
         return;
     }
-    vsf_test_shell_scene_t *sc = &shell->scenes[shell->cur_scene];
+    vsf_test_shell_suite_t *sc = &shell->suites[shell->cur_suite];
     vsf_trace_info("Cases in '%s':" VSF_TRACE_CFG_LINEEND, sc->name);
     for (uint16_t i = 0; i < sc->case_count; i++) {
         vsf_trace_info("  %u" VSF_TRACE_CFG_LINEEND, i);
     }
 }
 
-static void __print_current_scene(vsf_test_shell_t *shell)
+static void __print_current_suite(vsf_test_shell_t *shell)
 {
-    if (shell->cur_scene < 0) {
-        vsf_trace_info("Current scene: all" VSF_TRACE_CFG_LINEEND);
+    if (shell->cur_suite < 0) {
+        vsf_trace_info("Current suite: all" VSF_TRACE_CFG_LINEEND);
     } else {
-        vsf_trace_info("Current scene: %s" VSF_TRACE_CFG_LINEEND,
-                       shell->scenes[shell->cur_scene].name);
+        vsf_trace_info("Current suite: %s" VSF_TRACE_CFG_LINEEND,
+                       shell->suites[shell->cur_suite].name);
     }
 }
 
 static void __print_current_case(vsf_test_shell_t *shell)
 {
-    if (shell->cur_scene < 0 && shell->cur_case < 0) {
+    if (shell->cur_suite < 0 && shell->cur_case < 0) {
         vsf_trace_info("Current case: all" VSF_TRACE_CFG_LINEEND);
-    } else if (shell->cur_scene >= 0 && shell->cur_case < 0) {
-        vsf_trace_info("Current case: all (in scene '%s')" VSF_TRACE_CFG_LINEEND,
-                       shell->scenes[shell->cur_scene].name);
-    } else if (shell->cur_scene >= 0) {
+    } else if (shell->cur_suite >= 0 && shell->cur_case < 0) {
+        vsf_trace_info("Current case: all (in suite '%s')" VSF_TRACE_CFG_LINEEND,
+                       shell->suites[shell->cur_suite].name);
+    } else if (shell->cur_suite >= 0) {
         vsf_trace_info("Current case: %s.%d" VSF_TRACE_CFG_LINEEND,
-                       shell->scenes[shell->cur_scene].name,
+                       shell->suites[shell->cur_suite].name,
                        (int)shell->cur_case);
     }
 }
@@ -79,31 +79,31 @@ static void __print_current_case(vsf_test_shell_t *shell)
 static void __print_config(vsf_test_shell_t *shell)
 {
     vsf_trace_info("auto-case: %s" VSF_TRACE_CFG_LINEEND, shell->auto_case ? "on" : "off");
-    vsf_trace_info("auto-scene: %s" VSF_TRACE_CFG_LINEEND, shell->auto_scene ? "on" : "off");
-    __print_current_scene(shell);
+    vsf_trace_info("auto-suite: %s" VSF_TRACE_CFG_LINEEND, shell->auto_suite ? "on" : "off");
+    __print_current_suite(shell);
     __print_current_case(shell);
 }
 
 static void __advance_case(vsf_test_shell_t *shell)
 {
-    vsf_test_shell_scene_t *sc = &shell->scenes[shell->cur_scene];
+    vsf_test_shell_suite_t *sc = &shell->suites[shell->cur_suite];
     shell->cur_case++;
     if (shell->cur_case >= (int8_t)sc->case_count) {
         shell->cur_case = -1;
-        if (shell->auto_scene) {
-            shell->cur_scene++;
-            if (shell->cur_scene >= (int8_t)shell->scene_count) shell->cur_scene = -1;
+        if (shell->auto_suite) {
+            shell->cur_suite++;
+            if (shell->cur_suite >= (int8_t)shell->suite_count) shell->cur_suite = -1;
         }
     }
 }
 
 static void __run_selection(vsf_test_shell_t *shell)
 {
-    if (shell->cur_scene < 0) {
+    if (shell->cur_suite < 0) {
         vsf_test_run_tests();
         return;
     }
-    vsf_test_shell_scene_t *sc = &shell->scenes[shell->cur_scene];
+    vsf_test_shell_suite_t *sc = &shell->suites[shell->cur_suite];
     if (shell->cur_case < 0) {
         for (uint16_t i = 0; i < sc->case_count; i++) {
             uint16_t ci = sc->first_case_idx + i;
@@ -112,9 +112,9 @@ static void __run_selection(vsf_test_shell_t *shell)
                 shell->cur_case = (int8_t)(i + 1);
                 if (shell->cur_case >= (int8_t)sc->case_count) {
                     shell->cur_case = -1;
-                    if (shell->auto_scene) {
-                        shell->cur_scene++;
-                        if (shell->cur_scene >= (int8_t)shell->scene_count) shell->cur_scene = -1;
+                    if (shell->auto_suite) {
+                        shell->cur_suite++;
+                        if (shell->cur_suite >= (int8_t)shell->suite_count) shell->cur_suite = -1;
                     }
                 }
             }
@@ -124,7 +124,7 @@ static void __run_selection(vsf_test_shell_t *shell)
         vsf_test_run_case(ci);
         if (shell->auto_case) __advance_case(shell);
     }
-    if (shell->cur_scene >= 0) {
+    if (shell->cur_suite >= 0) {
         uint32_t total = sc->case_count;
         uint32_t pass = 0, fail = 0, skip = 0, wdt_pass = 0, wdt_fail = 0;
         for (uint16_t i = 0; i < total; i++) {
@@ -147,20 +147,20 @@ static void __run_selection(vsf_test_shell_t *shell)
     }
 }
 
-static void __cmd_scene(vsf_test_shell_t *shell, char *args)
+static void __cmd_suite(vsf_test_shell_t *shell, char *args)
 {
     if (args == NULL || args[0] == '\0') {
-        __print_current_scene(shell);
+        __print_current_suite(shell);
     } else if (strcmp(args, "--list") == 0) {
-        __print_scene_list(shell);
+        __print_suite_list(shell);
     } else {
         int n = atoi(args);
-        if (n >= 0 && n < shell->scene_count) {
-            shell->cur_scene = (int8_t)n;
+        if (n >= 0 && n < shell->suite_count) {
+            shell->cur_suite = (int8_t)n;
             shell->cur_case  = -1;
-            vsf_trace_info("Scene %d: %s" VSF_TRACE_CFG_LINEEND, n, shell->scenes[n].name);
+            vsf_trace_info("Scene %d: %s" VSF_TRACE_CFG_LINEEND, n, shell->suites[n].name);
         } else {
-            vsf_trace_info("Invalid scene index" VSF_TRACE_CFG_LINEEND);
+            vsf_trace_info("Invalid suite index" VSF_TRACE_CFG_LINEEND);
         }
     }
 }
@@ -172,12 +172,12 @@ static void __cmd_case(vsf_test_shell_t *shell, char *args)
     } else if (strcmp(args, "--list") == 0) {
         __print_case_list(shell);
     } else {
-        if (shell->cur_scene < 0) {
-            vsf_trace_info("Select a scene first" VSF_TRACE_CFG_LINEEND);
+        if (shell->cur_suite < 0) {
+            vsf_trace_info("Select a suite first" VSF_TRACE_CFG_LINEEND);
             return;
         }
         int n = atoi(args);
-        if (n >= 0 && n < (int)shell->scenes[shell->cur_scene].case_count) {
+        if (n >= 0 && n < (int)shell->suites[shell->cur_suite].case_count) {
             shell->cur_case = (int8_t)n;
             vsf_trace_info("Case %d" VSF_TRACE_CFG_LINEEND, n);
         } else {
@@ -194,7 +194,7 @@ static void __cmd_run(vsf_test_shell_t *shell, char *args)
     }
 
     if (strcmp(args, "all") == 0) {
-        shell->cur_scene = -1;
+        shell->cur_suite = -1;
         shell->cur_case  = -1;
         __run_selection(shell);
         return;
@@ -207,9 +207,9 @@ static void __cmd_run(vsf_test_shell_t *shell, char *args)
         *dot = '\0';
     }
 
-    for (uint8_t i = 0; i < shell->scene_count; i++) {
-        if (strcmp(shell->scenes[i].name, args) == 0) {
-            shell->cur_scene = (int8_t)i;
+    for (uint8_t i = 0; i < shell->suite_count; i++) {
+        if (strcmp(shell->suites[i].name, args) == 0) {
+            shell->cur_suite = (int8_t)i;
             shell->cur_case = -1;
             if (case_spec != NULL && case_spec[0] != '\0') {
                 int numeric_idx = atoi(case_spec);
@@ -217,7 +217,7 @@ static void __cmd_run(vsf_test_shell_t *shell, char *args)
                 for (char *p = case_spec; *p != '\0'; p++) {
                     if (*p < '0' || *p > '9') { is_numeric = false; break; }
                 }
-                if (is_numeric && numeric_idx >= 0 && numeric_idx < (int)shell->scenes[i].case_count) {
+                if (is_numeric && numeric_idx >= 0 && numeric_idx < (int)shell->suites[i].case_count) {
                     shell->cur_case = (int8_t)numeric_idx;
                 } else {
                     if (dot != NULL) *dot = '.';
@@ -226,14 +226,14 @@ static void __cmd_run(vsf_test_shell_t *shell, char *args)
                 }
             }
             if (dot != NULL) *dot = '.';
-            vsf_trace_info("Scene ack: %s" VSF_TRACE_CFG_LINEEND, args);
+            vsf_trace_info("Suite ack: %s" VSF_TRACE_CFG_LINEEND, args);
             __run_selection(shell);
             return;
         }
     }
 
     if (dot != NULL) *dot = '.';
-    vsf_trace_info("Scene not found: %s" VSF_TRACE_CFG_LINEEND, args);
+    vsf_trace_info("Suite not found: %s" VSF_TRACE_CFG_LINEEND, args);
 }
 
 static void __cmd_config(vsf_test_shell_t *shell, char *args)
@@ -249,9 +249,9 @@ static void __cmd_config(vsf_test_shell_t *shell, char *args)
     bool *target = NULL;
     const char *key_name = NULL;
     if (strcmp(sub, "auto-case") == 0)       { target = &shell->auto_case;  key_name = "auto-case"; }
-    else if (strcmp(sub, "auto-scene") == 0) { target = &shell->auto_scene; key_name = "auto-scene"; }
+    else if (strcmp(sub, "auto-suite") == 0) { target = &shell->auto_suite; key_name = "auto-suite"; }
     else {
-        vsf_trace_info("Unknown config key. Valid: auto-case, auto-scene" VSF_TRACE_CFG_LINEEND);
+        vsf_trace_info("Unknown config key. Valid: auto-case, auto-suite" VSF_TRACE_CFG_LINEEND);
         return;
     }
     if (strcmp(val, "on") == 0)       *target = true;
@@ -268,7 +268,7 @@ static void __dispatch(vsf_test_shell_t *shell, char *line)
     const char *prefix = "vsf-test ";
     size_t prefix_len = strlen(prefix);
     if (strncmp(line, prefix, prefix_len) != 0) {
-        vsf_trace_info("Unknown command. Try 'vsf-test scene --list'" VSF_TRACE_CFG_LINEEND);
+        vsf_trace_info("Unknown command. Try 'vsf-test suite --list'" VSF_TRACE_CFG_LINEEND);
         return;
     }
     char *rest = line + prefix_len;
@@ -280,36 +280,36 @@ static void __dispatch(vsf_test_shell_t *shell, char *line)
         while (*args == ' ') args++;
         if (*args == '\0') args = NULL;
     }
-    if (strcmp(cmd, "scene") == 0)       __cmd_scene(shell, args);
+    if (strcmp(cmd, "suite") == 0)       __cmd_suite(shell, args);
     else if (strcmp(cmd, "case") == 0)   __cmd_case(shell, args);
     else if (strcmp(cmd, "run") == 0)    __cmd_run(shell, args);
     else if (strcmp(cmd, "config") == 0) __cmd_config(shell, args);
-    else vsf_trace_info("Unknown command. Try 'vsf-test scene --list'" VSF_TRACE_CFG_LINEEND);
+    else vsf_trace_info("Unknown command. Try 'vsf-test suite --list'" VSF_TRACE_CFG_LINEEND);
 }
 
-uint8_t vsf_test_shell_register_scene(vsf_test_shell_t *shell, const char *name)
+uint8_t vsf_test_shell_register_suite(vsf_test_shell_t *shell, const char *name)
 {
-    if (shell == NULL || shell->scene_count >= VSF_TEST_SHELL_MAX_SCENES) return 0;
-    uint8_t idx = shell->scene_count;
-    shell->scenes[idx].name           = name;
+    if (shell == NULL || shell->suite_count >= VSF_TEST_SHELL_MAX_SUITES) return 0;
+    uint8_t idx = shell->suite_count;
+    shell->suites[idx].name           = name;
     // first_case_idx is the framework's current total case count (i.e. the
     // index that the next vsf_test_add_ex() call will populate).
-    shell->scenes[idx].first_case_idx = (uint16_t)vsf_test_get_case_count();
-    shell->scenes[idx].case_count     = 0;
-    shell->scene_count++;
+    shell->suites[idx].first_case_idx = (uint16_t)vsf_test_get_case_count();
+    shell->suites[idx].case_count     = 0;
+    shell->suite_count++;
     return idx;
 }
 
 void vsf_test_shell_inc_case_count(vsf_test_shell_t *shell)
 {
-    if (shell == NULL || shell->scene_count == 0) return;
-    shell->scenes[shell->scene_count - 1].case_count++;
+    if (shell == NULL || shell->suite_count == 0) return;
+    shell->suites[shell->suite_count - 1].case_count++;
 }
 
 void vsf_test_shell_init(vsf_test_shell_t *shell)
 {
     memset(shell, 0, sizeof(*shell));
-    shell->cur_scene = -1;
+    shell->cur_suite = -1;
     shell->cur_case  = -1;
     vsf_stream_connect_rx(&VSF_DEBUG_STREAM_RX.use_as__vsf_stream_t);
     vsf_trace_info("VSF Test Ready" VSF_TRACE_CFG_LINEEND);

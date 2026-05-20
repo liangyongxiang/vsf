@@ -29,15 +29,15 @@ static vsf_test_gpio_systimer_health_case_t __gpio_systimer_health_cases[] = {
     VSF_TEST_GPIO_SYSTIMER_HEALTH_CASES_INIT
 };
 
-void vsf_test_gpio_systimer_health_add_cases(vsf_test_gpio_systimer_health_scene_t *scene)
+void vsf_test_gpio_systimer_health_add_cases(vsf_test_gpio_systimer_health_suite_t *suite)
 {
-    scene->name    = "gpio_systimer_health";
-    scene->purpose = "health";
-    scene->hw_req  = "la";
-    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
+    suite->name    = "gpio_systimer_health";
+    suite->purpose = "health";
+    suite->hw_req  = "la";
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_GPIO_SYSTIMER_HEALTH_CASE_COUNT; i++) {
-        __gpio_systimer_health_cases[i].scene = scene;
-        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+        __gpio_systimer_health_cases[i].suite = suite;
+        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_gpio_systimer_health_run,
             (void *)&__gpio_systimer_health_cases[i]);
     }
@@ -54,7 +54,7 @@ void vsf_test_gpio_systimer_health_add_cases(vsf_test_gpio_systimer_health_scene
  */
 void vsf_test_gpio_systimer_health_run(const vsf_test_gpio_systimer_health_case_t *c)
 {
-    vsf_gpio_t *gpio = c->scene->gpio;
+    vsf_gpio_t *gpio = c->suite->gpio;
     vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
 
     vsf_gpio_port_config_pins(gpio, pin_mask, &(vsf_gpio_cfg_t){

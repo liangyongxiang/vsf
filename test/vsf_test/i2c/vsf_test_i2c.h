@@ -44,11 +44,11 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-// Per-scene context (populated by main.c)
-vsf_class(vsf_test_i2c_eeprom_rw_scene_t) {
+// Per-suite context (populated by main.c)
+vsf_class(vsf_test_i2c_eeprom_rw_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
-        /* Immutable scene config (set once by main.c, never modified by run). */
+        /* Immutable suite config (set once by main.c, never modified by run). */
         vsf_i2c_t *i2c;
     )
     private_member(
@@ -64,27 +64,27 @@ typedef struct vsf_test_i2c_eeprom_rw_case_t {
     uint8_t  eeprom_addr;
     uint8_t  mem_addr;
     uint8_t  data_len;
-    vsf_test_i2c_eeprom_rw_scene_t *scene;
+    vsf_test_i2c_eeprom_rw_suite_t *suite;
 } vsf_test_i2c_eeprom_rw_case_t;
 #endif
 
-typedef struct vsf_test_i2c_scenes_t {
-    vsf_test_i2c_eeprom_rw_scene_t eeprom_rw;
-} vsf_test_i2c_scenes_t;
+typedef struct vsf_test_i2c_suites_t {
+    vsf_test_i2c_eeprom_rw_suite_t eeprom_rw;
+} vsf_test_i2c_suites_t;
 
-void vsf_test_i2c_register_all(vsf_test_i2c_scenes_t *s);
+void vsf_test_i2c_register_all(vsf_test_i2c_suites_t *s);
 
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-void vsf_test_i2c_eeprom_rw_add_cases(vsf_test_i2c_eeprom_rw_scene_t *scene);
+void vsf_test_i2c_eeprom_rw_add_cases(vsf_test_i2c_eeprom_rw_suite_t *suite);
 void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c);
 #endif
 
 #include "test_params_generated.h"
 
 // Framework types — included LAST so this header can be pulled into
-// vsf_test.h (which needs vsf_test_i2c_scenes_t) without circular issues.
+// vsf_test.h (which needs vsf_test_i2c_suites_t) without circular issues.
 #include "component/test/vsf_test/vsf_test.h"
 
 #ifdef __cplusplus

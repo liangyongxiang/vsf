@@ -42,6 +42,7 @@
 
 // for XXXX_BASE
 #include "hardware/regs/addressmap.h"
+#include "hardware/regs/resets.h"
 
 //#include "common.h"
 
@@ -76,9 +77,11 @@
 #define VSF_HW_USART0_IRQN          UART0_IRQ_IRQn
 #define VSF_HW_USART0_IRQHandler    UART0_IRQHandler
 #define VSF_HW_USART0_REG           UART0_BASE
+#define VSF_HW_USART0_RST_BIT       (1u << RESET_UART0)
 #define VSF_HW_USART1_IRQN          UART1_IRQ_IRQn
 #define VSF_HW_USART1_IRQHandler    UART1_IRQHandler
 #define VSF_HW_USART1_REG           UART1_BASE
+#define VSF_HW_USART1_RST_BIT       (1u << RESET_UART1)
 
 // RP2040 has a single GPIO bank (BANK0) with 30 pins (GP0..GP29).
 // EXTI lives inside IO_BANK0 (per-pin INTR/PROC0_INTE), not a separate IP.

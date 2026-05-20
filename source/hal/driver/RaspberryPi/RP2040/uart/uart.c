@@ -44,6 +44,7 @@
 typedef struct VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) {
     implement(vsf_pl011_usart_t)
     IRQn_Type               irqn;
+    uint32_t                rst_bit;
 } VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t);
 
 /*============================ IMPLEMENTATION ================================*/
@@ -55,8 +56,7 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_init)(
     VSF_HAL_ASSERT(NULL != usart_ptr);
     VSF_HAL_ASSERT(NULL != cfg_ptr);
 
-    uint32_t rst_bit = (usart_ptr->irqn == UART1_IRQ_IRQn)
-                       ? (1u << RESET_UART1) : (1u << RESET_UART0);
+    uint32_t rst_bit = usart_ptr->rst_bit;
     /* Cycle the peripheral through reset so re-init from a previously-active
      * state (e.g. a prior scenario that left UART1 enabled) starts clean.
      * The earlier "only de-assert" pattern silently no-op'd on re-init. */
@@ -89,10 +89,8 @@ void VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_fini)(
      * vsf_hw_usart_init() brings it back out. Symmetric with the
      * set-then-clear cycle init does, and protects scenarios that don't
      * fini explicitly. */
-    uint32_t rst_bit = (usart_ptr->irqn == UART1_IRQ_IRQn)
-                       ? (1u << RESET_UART1) : (1u << RESET_UART0);
     NVIC_DisableIRQ(usart_ptr->irqn);
-    resets_hw->reset = resets_hw->reset | rst_bit;
+    resets_hw->reset = resets_hw->reset | usart_ptr->rst_bit;
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_enable)(
@@ -284,10 +282,12 @@ static void VSF_MCONNECT(__, VSF_USART_CFG_IMP_PREFIX, _usart_irqhandler)(
 #define VSF_USART_CFG_IMP_LV0(__IDX, __HAL_OP)                                  \
     VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t)                            \
         VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart, __IDX) = {               \
-        .reg  = (void *)VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,           \
-                                     _USART, __IDX, _REG),                      \
-        .irqn = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                   \
-                             _USART, __IDX, _IRQN),                             \
+        .reg     = (void *)VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,        \
+                                        _USART, __IDX, _REG),                   \
+        .irqn    = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                \
+                                _USART, __IDX, _IRQN),                          \
+        .rst_bit = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                \
+                                _USART, __IDX, _RST_BIT),                       \
         __HAL_OP                                                                \
     };                                                                          \
     void VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                          \

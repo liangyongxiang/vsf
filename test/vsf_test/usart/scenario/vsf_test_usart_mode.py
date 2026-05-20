@@ -49,7 +49,7 @@ def _parse_cases(scenario: dict) -> list[Case]:
 def run(project_root: Path, serial: SerialInstrument) -> None:
     params = load_test_params(project_root)
     scenario = params.get("tx_mode", {})
-    timeout_s = float(scenario.get("timeout_s", 120.0))
+    timeout_s = float(scenario.get("timeout_s", 30.0))
     serial.expect_test_summary("usart_mode", timeout=timeout_s)
 
 

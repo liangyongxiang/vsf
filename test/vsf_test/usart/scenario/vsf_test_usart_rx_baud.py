@@ -45,7 +45,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     cases = _parse_cases(scenario)
     assert len(cases) > 0, "No cases found in test_params"
 
-    timeout_s = float(scenario.get("timeout_s", 120.0))
+    timeout_s = float(scenario.get("timeout_s", 30.0))
     marker_baud = int((params.get("marker", {}) or {}).get("baudrate", 115200))
     dut_port = scenario.get("dut", {}).get("port", "/dev/ttyUSB0")
     payload = scenario.get("payload", "Hello VSF\r\n").encode()

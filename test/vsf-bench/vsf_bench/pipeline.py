@@ -117,7 +117,7 @@ def _run_script_phase1(
             else:
                 run_fn(project_root, ser)
         else:
-            ser.expect_test_summary(scene_name, timeout=180.0)
+            ser.expect_test_summary(scene_name, timeout=60.0)
         print(f"[vsf-bench] PASS phase1: {scene_name}{case_tag}")
         return True
     except (TimeoutError, AssertionError, RuntimeError, KeyError, AttributeError) as e:

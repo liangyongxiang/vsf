@@ -7,14 +7,9 @@ description: |
 
 # VSF HAL Driver
 
-## Workflow
+## Porting a new chip
 
-| Step | Goal | How |
-|---|------|-----|
-| 0 | SDK UART echo | Vendor SDK, serial must work |
-| 1 | VSF skeleton | `scaffold_chip.py`, `device.h`, clock init in `driver.c` |
-| 2 | First UART | Copy template, IMP_LV0 + IRQ, pinmux in board.c |
-| 3 | Other periph | Repeat L2 per peripheral |
+Follow `PORTING.md` — a numbered ladder from vendor SDK serial to full peripheral suite. Each rung has a concrete pass criterion. Read it sequentially.
 
 ## Operations
 

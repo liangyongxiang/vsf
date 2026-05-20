@@ -85,6 +85,15 @@ void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_
     VSF_TEST_ASSERT(cnt >= 0);
     VSF_TEST_ASSERT((uint32_t)cnt <= total);
 
+    /* Phase-3 API completeness check (usart-gpio-coverage-gaps PRD): once the
+     * outstanding bytes have clocked out (no flush API on PL011, so we wait
+     * for natural drain), status().txfe must report empty. Confirms the
+     * status struct tracks reality after a cancel + drain sequence. */
+    vsf_test_busy_wait_ms(50);
+    vsf_usart_status_t st = vsf_usart_status(usart);
+    VSF_TEST_ASSERT(st.txfe);
+    VSF_TEST_ASSERT(!st.is_busy);
+
     while (fsm_rt_cpl != vsf_usart_disable(usart));
     vsf_usart_fini(usart);
 }

@@ -45,6 +45,7 @@ class LogicAnalyzerInstrument:
         self._proc: subprocess.Popen | None = None
         self._thread: threading.Thread | None = None
         self._done = threading.Event()
+        self._started = threading.Event()
         self._exit_code: int | None = None
         self._stop_requested = False
 
@@ -69,6 +70,7 @@ class LogicAnalyzerInstrument:
 
         self._capture_path.parent.mkdir(parents=True, exist_ok=True)
         self._done.clear()
+        self._started.clear()
         self._stop_requested = False
 
         ch_sel = ",".join(
@@ -90,20 +92,58 @@ class LogicAnalyzerInstrument:
         self._proc = subprocess.Popen(
             cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
             text=True, encoding="utf-8", errors="replace",
+            bufsize=1,
         )
+
+        def _drain_stdout(stream):
+            """Consume stdout line-by-line so we can see the sampling-started
+            tag in real time. Lines are accumulated and printed at the end so
+            the existing post-run log shape is preserved.
+            """
+            assert self._proc is not None
+            lines: list[str] = []
+            for line in iter(stream.readline, ""):
+                lines.append(line)
+                if "[CAPTURE] sampling-started" in line and not self._started.is_set():
+                    self._started.set()
+            return "".join(lines)
 
         def _wait():
             assert self._proc is not None
-            stdout, stderr = self._proc.communicate()
+            # Read stdout in this thread so we can detect the start tag as it
+            # arrives; stderr only matters at the end so .read() is fine.
+            stdout = _drain_stdout(self._proc.stdout)
+            stderr = self._proc.stderr.read() if self._proc.stderr else ""
+            self._proc.wait()
             self._exit_code = self._proc.returncode
             if stdout.strip():
                 print(f"[LA] stdout: {stdout.strip()}")
             if stderr.strip():
                 print(f"[LA] stderr: {stderr.strip()}")
+            # Unblock any waiter even if dsview-cli never emitted the tag
+            # (older binaries, immediate failure, …).
+            self._started.set()
             self._done.set()
 
         self._thread = threading.Thread(target=_wait, daemon=True)
         self._thread.start()
+
+    def wait_until_started(self, timeout: float = 5.0) -> None:
+        """Block until dsview-cli prints `[CAPTURE] sampling-started`.
+
+        Replaces the fixed 3s sleep that used to follow `start()`.
+        Typical wait on the DSLogic is ~1s. If the binary is older and
+        never emits the tag, the helper still unblocks when the capture
+        process exits (`_wait` sets the flag on cleanup) — at which point
+        the next test step will fail loudly on its own, which is the right
+        failure mode.
+        """
+        if self._proc is None:
+            raise RuntimeError("LA capture not running; call start() first")
+        if not self._started.wait(timeout=timeout):
+            raise TimeoutError(
+                f"LA did not signal sampling-started within {timeout}s"
+            )
 
     def stop(self) -> None:
         """Gracefully stop an ongoing capture. Idempotent."""

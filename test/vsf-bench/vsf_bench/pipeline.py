@@ -240,13 +240,12 @@ def _test_loop_shared_la(
 ) -> bool:
     """Shared LA mode: one capture spans the contiguous LA-needing block.
 
-    `la_start_t` is recorded BEFORE the 3s warmup so it sits close to the
-    dsview-cli capture file's t=0 (dsview takes ~0.5–1s to actually start
-    sampling). Each scene's window is padded by SHARED_WINDOW_PAD_NS on both
-    sides so dsview-cli's --decode-start/--decode-end cover the full scene
-    regardless of residual la_start_t ↔ capture_t0 skew.
+    `la_start_t` is recorded AFTER `wait_until_started()` returns, so it
+    aligns tightly with the dsview-cli capture file's t=0. Each scene's
+    decode window is padded by SHARED_WINDOW_PAD_NS on both sides as a
+    small safety margin for residual scheduler / USB jitter.
     """
-    SHARED_WINDOW_PAD_NS = 3_000_000_000
+    SHARED_WINDOW_PAD_NS = 500_000_000  # 500 ms each side
 
     la_indices = [i for i, (_, _, _, n) in enumerate(loaded) if n]
     first_la_idx = la_indices[0]
@@ -261,9 +260,9 @@ def _test_loop_shared_la(
     for i, (scene_name, _script_path, mod, _needs) in enumerate(loaded):
         if i == first_la_idx:
             shared_la = _new_la(la_cfg, cli_path, shared_capture)
-            la_start_t = time.monotonic()
             shared_la.start(300.0)
-            time.sleep(3.0)
+            shared_la.wait_until_started(timeout=5.0)
+            la_start_t = time.monotonic()
             print(f"[vsf-bench] Shared LA started -> {shared_capture}")
 
         cases_to_run = case_specs if case_specs else [None]
@@ -316,7 +315,7 @@ def _test_loop_per_scene(
                 capture_path = run_dir / f"{label}-capture.dsl"
                 scene_la = _new_la(la_cfg, cli_path, capture_path)
                 scene_la.start(180.0)
-                time.sleep(3.0)
+                scene_la.wait_until_started(timeout=5.0)
 
             ok = _run_script_phase1(scene_name, case, mod, project_root, ser)
             if not ok:

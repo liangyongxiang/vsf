@@ -51,7 +51,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     parity_map = {"none": pyserial.PARITY_NONE, "even": pyserial.PARITY_EVEN, "odd": pyserial.PARITY_ODD}
 
     for c in cases:
-        serial.expect(f"RX_MODE:CASE:{c.idx}:READY", timeout=timeout_s)
+        serial.expect(f"usart_rx_mode:CASE:{c.idx}:READY", timeout=timeout_s)
         aux.parity = parity_map.get(c.decode_parity, pyserial.PARITY_NONE)
         aux.bytesize = c.decode_data
         aux.stopbits = c.decode_stop
@@ -80,7 +80,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     ready_markers = la.decode_markers(
         channel=marker_ch_tx,
         baudrate=marker_baud,
-        pattern=r"RX_MODE:CASE:(\d+):READY",
+        pattern=r"usart_rx_mode:CASE:(\d+):READY",
         output_csv=out_dir / "rx_mode_ready_markers.csv",
         start_ns=decode_start_ns,
         end_ns=decode_end_ns,
@@ -88,7 +88,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     done_markers = la.decode_markers(
         channel=marker_ch_tx,
         baudrate=marker_baud,
-        pattern=r"RX_MODE:CASE:(\d+):DONE",
+        pattern=r"usart_rx_mode:CASE:(\d+):DONE",
         output_csv=out_dir / "rx_mode_done_markers.csv",
         start_ns=decode_start_ns,
         end_ns=decode_end_ns,

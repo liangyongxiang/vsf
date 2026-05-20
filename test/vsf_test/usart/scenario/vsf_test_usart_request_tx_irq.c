@@ -49,24 +49,23 @@ void vsf_test_usart_request_tx_irq_add_cases(vsf_test_usart_request_tx_irq_scene
      * underlying hardware. Application code is responsible for declaring it
      * via describe_fifo2req_usart() and passing the adapter as usart_instance.
      */
+    scene->name    = "usart_request_tx_irq";
+    scene->purpose = "request-tx";
+    scene->hw_req  = "uart1+la";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_REQUEST_TX_IRQ_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][96];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "usart_request_tx_irq_%u purpose=request-tx hw_req=uart1+la refill=%lu",
-            (unsigned)__request_tx_irq_cases[i].idx,
-            (unsigned long)__request_tx_irq_cases[i].refill_target);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_request_tx_irq_run,
-            __cfg_str_pool[i], (void *)&__request_tx_irq_cases[i]);
         __request_tx_irq_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_usart_request_tx_irq_run,
+            (void *)&__request_tx_irq_cases[i]);
     }
 }
 
 void vsf_test_usart_request_tx_irq_run(const vsf_test_usart_request_tx_irq_case_t *c)
 {
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
     vsf_usart_t *usart = c->scene->usart;
-
-    vsf_trace_info("USART:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_usart_capability_t cap = vsf_usart_capability(usart);
     uint32_t total = (uint32_t)cap.txfifo_depth * c->refill_target;

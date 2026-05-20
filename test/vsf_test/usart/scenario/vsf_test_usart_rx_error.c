@@ -78,23 +78,24 @@ static void __rx_error_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usa
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
 void vsf_test_usart_rx_parity_error_add_cases(vsf_test_usart_rx_parity_error_scene_t *scene)
 {
+    scene->name    = "usart_rx_parity_error";
+    scene->purpose = "rx-parity";
+    scene->hw_req  = "uart1+la";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_PARITY_ERROR_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "usart_rx_parity_%u purpose=rx-parity hw_req=uart1+la",
-            (unsigned)__rx_parity_error_cases[i].idx);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_parity_error_run,
-            __cfg_str_pool[i], (void *)&__rx_parity_error_cases[i]);
         __rx_parity_error_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_parity_error_run,
+            (void *)&__rx_parity_error_cases[i]);
     }
 }
 
 void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_case_t *c)
 {
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; the per-case ":READY" handshake below is the
+     * RX scenario's own marker. */
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
-
-    vsf_trace_info("RX_PARITY:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
         .mode     = c->mode,
@@ -112,7 +113,7 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
 
         vsf_usart_irq_enable(c->scene->usart, VSF_USART_IRQ_MASK_PARITY_ERR);
 
-        vsf_trace_info("RX_PARITY:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+        vsf_trace_info("usart_rx_parity_error:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;
@@ -129,31 +130,30 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-
-    vsf_trace_info("RX_PARITY:CASE:%d:DONE" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 }
 #endif /* VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED */
 
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
 void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_scene_t *scene)
 {
+    scene->name    = "usart_rx_frame_error";
+    scene->purpose = "rx-frame";
+    scene->hw_req  = "uart1+la";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_FRAME_ERROR_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "usart_rx_frame_%u purpose=rx-frame hw_req=uart1+la",
-            (unsigned)__rx_frame_error_cases[i].idx);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_frame_error_run,
-            __cfg_str_pool[i], (void *)&__rx_frame_error_cases[i]);
         __rx_frame_error_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_frame_error_run,
+            (void *)&__rx_frame_error_cases[i]);
     }
 }
 
 void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c)
 {
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; the per-case ":READY" handshake below is the
+     * RX scenario's own marker. */
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
-
-    vsf_trace_info("RX_FRAME:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
         .mode     = c->mode,
@@ -171,7 +171,7 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
 
         vsf_usart_irq_enable(c->scene->usart, VSF_USART_IRQ_MASK_FRAME_ERR);
 
-        vsf_trace_info("RX_FRAME:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+        vsf_trace_info("usart_rx_frame_error:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;
@@ -188,8 +188,6 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-
-    vsf_trace_info("RX_FRAME:CASE:%d:DONE" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 }
 #endif /* VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED */
 

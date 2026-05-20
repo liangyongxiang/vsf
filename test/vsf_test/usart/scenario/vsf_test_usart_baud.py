@@ -70,7 +70,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     markers = la.decode_markers(
         channel=marker_ch,
         baudrate=marker_baud,
-        pattern=r"BAUD:CASE:(\d+)",
+        pattern=r"usart_baud:CASE:(\d+)(?!:)",
         output_csv=out_dir / "baud_markers.csv",
         start_ns=decode_start_ns,
         end_ns=decode_end_ns,

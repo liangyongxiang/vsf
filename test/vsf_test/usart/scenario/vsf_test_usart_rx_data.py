@@ -44,7 +44,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
-        serial.expect(f"RX_DATA:CASE:{c.idx}:READY", timeout=timeout_s)
+        serial.expect(f"usart_rx_data:CASE:{c.idx}:READY", timeout=timeout_s)
         aux.write(payload)
         aux.flush()
 
@@ -70,7 +70,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     ready_markers = la.decode_markers(
         channel=marker_ch_tx,
         baudrate=marker_baud,
-        pattern=r"RX_DATA:CASE:(\d+):READY",
+        pattern=r"usart_rx_data:CASE:(\d+):READY",
         output_csv=out_dir / "rx_data_ready_markers.csv",
         start_ns=decode_start_ns,
         end_ns=decode_end_ns,
@@ -78,7 +78,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     done_markers = la.decode_markers(
         channel=marker_ch_tx,
         baudrate=marker_baud,
-        pattern=r"RX_DATA:CASE:(\d+):DONE",
+        pattern=r"usart_rx_data:CASE:(\d+):DONE",
         output_csv=out_dir / "rx_data_done_markers.csv",
         start_ns=decode_start_ns,
         end_ns=decode_end_ns,

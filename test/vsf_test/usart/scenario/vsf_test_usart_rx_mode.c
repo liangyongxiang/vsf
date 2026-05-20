@@ -46,23 +46,23 @@ static vsf_test_usart_rx_mode_case_t __rx_mode_cases[] = {
 
 void vsf_test_usart_rx_mode_add_cases(vsf_test_usart_rx_mode_scene_t *scene)
 {
+    scene->name    = "usart_rx_mode";
+    scene->purpose = "rx-mode";
+    scene->hw_req  = "uart1+la";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_MODE_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "usart_rx_mode_%u purpose=rx-mode hw_req=uart1+la",
-            (unsigned)__rx_mode_cases[i].idx);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_mode_run,
-            __cfg_str_pool[i], (void *)&__rx_mode_cases[i]);
         __rx_mode_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_mode_run,
+            (void *)&__rx_mode_cases[i]);
     }
 }
 
 void vsf_test_usart_rx_mode_run(const vsf_test_usart_rx_mode_case_t *c)
 {
-
-    vsf_trace_info("RX_MODE:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
-
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; the per-case ":READY" handshake below is the
+     * RX scenario's own marker. */
     vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
         .mode     = c->mode,
         .baudrate = VSF_TEST_RX_MODE_DEFAULT_BAUDRATE,
@@ -72,7 +72,7 @@ void vsf_test_usart_rx_mode_run(const vsf_test_usart_rx_mode_case_t *c)
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         while (fsm_rt_cpl != vsf_usart_enable(c->scene->usart));
 
-        vsf_trace_info("RX_MODE:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+        vsf_trace_info("usart_rx_mode:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint8_t rx_buf[32];
         uint16_t rx_len = 0;
@@ -98,8 +98,6 @@ void vsf_test_usart_rx_mode_run(const vsf_test_usart_rx_mode_case_t *c)
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-
-    vsf_trace_info("RX_MODE:CASE:%d:DONE" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 }
 
 #endif /* VSF_TEST_USART_RX_MODE_ENABLE == ENABLED */

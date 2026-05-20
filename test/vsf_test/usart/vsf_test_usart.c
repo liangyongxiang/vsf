@@ -22,55 +22,52 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-#define REG_IF(gate, s, field, add_fn)            \
-    do {                                          \
-        vsf_test_shell_register_scene(vsf_test_get_shell(), gate); \
-        add_fn(&(s)->field);                      \
-    } while (0)
-
+// Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
+// internally, which also opens the matching shell scene. No REG_IF wrapper
+// needed.
 void vsf_test_usart_register_all(vsf_test_usart_scenes_t *s)
 {
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
-    REG_IF("usart_baud",                s, baud,              vsf_test_usart_baud_add_cases);
+    vsf_test_usart_baud_add_cases(&s->baud);
 #endif
 #if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
-    REG_IF("usart_mode",                s, mode,              vsf_test_usart_mode_add_cases);
+    vsf_test_usart_mode_add_cases(&s->mode);
 #endif
 #if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
-    REG_IF("usart_rx_data",             s, rx_data,           vsf_test_usart_rx_data_add_cases);
+    vsf_test_usart_rx_data_add_cases(&s->rx_data);
 #endif
 #if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
-    REG_IF("usart_rx_baud",             s, rx_baud,           vsf_test_usart_rx_baud_add_cases);
+    vsf_test_usart_rx_baud_add_cases(&s->rx_baud);
 #endif
 #if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
-    REG_IF("usart_rx_mode",             s, rx_mode,           vsf_test_usart_rx_mode_add_cases);
+    vsf_test_usart_rx_mode_add_cases(&s->rx_mode);
 #endif
 #if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
-    REG_IF("usart_rx_irq",              s, rx_irq,            vsf_test_usart_rx_irq_add_cases);
+    vsf_test_usart_rx_irq_add_cases(&s->rx_irq);
 #endif
 #if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
-    REG_IF("usart_rx_timeout",          s, rx_timeout,        vsf_test_usart_rx_timeout_add_cases);
+    vsf_test_usart_rx_timeout_add_cases(&s->rx_timeout);
 #endif
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-    REG_IF("usart_rx_parity_error",     s, rx_parity_error,   vsf_test_usart_rx_parity_error_add_cases);
+    vsf_test_usart_rx_parity_error_add_cases(&s->rx_parity_error);
 #endif
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-    REG_IF("usart_rx_frame_error",      s, rx_frame_error,    vsf_test_usart_rx_frame_error_add_cases);
+    vsf_test_usart_rx_frame_error_add_cases(&s->rx_frame_error);
 #endif
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
-    REG_IF("usart_tx_fifo_irq",         s, tx_fifo_irq,       vsf_test_usart_tx_fifo_irq_add_cases);
+    vsf_test_usart_tx_fifo_irq_add_cases(&s->tx_fifo_irq);
 #endif
 #if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
-    REG_IF("usart_rx_fifo_irq",         s, rx_fifo_irq,       vsf_test_usart_rx_fifo_irq_add_cases);
+    vsf_test_usart_rx_fifo_irq_add_cases(&s->rx_fifo_irq);
 #endif
 #if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
-    REG_IF("usart_request_tx_irq",      s, request_tx_irq,    vsf_test_usart_request_tx_irq_add_cases);
+    vsf_test_usart_request_tx_irq_add_cases(&s->request_tx_irq);
 #endif
 #if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
-    REG_IF("usart_request_rx_irq",      s, request_rx_irq,    vsf_test_usart_request_rx_irq_add_cases);
+    vsf_test_usart_request_rx_irq_add_cases(&s->request_rx_irq);
 #endif
 #if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
-    REG_IF("usart_request_cancel",      s, request_cancel,    vsf_test_usart_request_cancel_add_cases);
+    vsf_test_usart_request_cancel_add_cases(&s->request_cancel);
 #endif
 }
 

@@ -41,7 +41,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
-        serial.expect(f"RX_TIMEOUT:CASE:{c.idx}:READY", timeout=timeout_s)
+        serial.expect(f"usart_rx_timeout:CASE:{c.idx}:READY", timeout=timeout_s)
         # Send only 2 bytes (partial data) — firmware should timeout.
         aux.write(b"AB")
         aux.flush()

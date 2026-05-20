@@ -53,7 +53,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     parity_map = {"none": pyserial.PARITY_NONE, "even": pyserial.PARITY_EVEN, "odd": pyserial.PARITY_ODD}
 
     for c in cases:
-        serial.expect(f"RX_FRAME:CASE:{c.idx}:READY", timeout=timeout_s)
+        serial.expect(f"usart_rx_frame_error:CASE:{c.idx}:READY", timeout=timeout_s)
         aux.baudrate = c.host_baud
         aux.parity = parity_map.get(c.host_parity, pyserial.PARITY_NONE)
         aux.bytesize = c.host_data_bits

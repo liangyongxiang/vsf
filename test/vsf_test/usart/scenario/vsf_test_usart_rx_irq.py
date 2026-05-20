@@ -42,7 +42,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
-        serial.expect(f"RX_IRQ:CASE:{c.idx}:READY", timeout=timeout_s)
+        serial.expect(f"usart_rx_irq:CASE:{c.idx}:READY", timeout=timeout_s)
         aux.write(payload)
         aux.flush()
 

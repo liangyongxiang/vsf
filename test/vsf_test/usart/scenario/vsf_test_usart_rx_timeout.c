@@ -72,23 +72,24 @@ static void __rx_timeout_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_u
 
 void vsf_test_usart_rx_timeout_add_cases(vsf_test_usart_rx_timeout_scene_t *scene)
 {
+    scene->name    = "usart_rx_timeout";
+    scene->purpose = "rx-timeout";
+    scene->hw_req  = "uart1+la";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_TIMEOUT_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "usart_rx_timeout_%u purpose=rx-timeout hw_req=uart1+la",
-            (unsigned)__rx_timeout_cases[i].idx);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_timeout_run,
-            __cfg_str_pool[i], (void *)&__rx_timeout_cases[i]);
         __rx_timeout_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_timeout_run,
+            (void *)&__rx_timeout_cases[i]);
     }
 }
 
 void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
 {
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; the per-case ":READY" handshake below is the
+     * RX scenario's own marker. */
     __rx_timeout_ctx_t ctx = { .timeout_triggered = false };
-
-    vsf_trace_info("RX_TIMEOUT:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
         .mode       = VSF_TEST_RX_TIMEOUT_DEFAULT_MODE,
@@ -107,7 +108,7 @@ void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
 
         vsf_usart_irq_enable(c->scene->usart, VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
-        vsf_trace_info("RX_TIMEOUT:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+        vsf_trace_info("usart_rx_timeout:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS * 10;
@@ -124,8 +125,6 @@ void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-
-    vsf_trace_info("RX_TIMEOUT:CASE:%d:DONE" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 }
 
 #endif /* VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED */

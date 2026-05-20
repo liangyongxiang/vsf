@@ -57,23 +57,22 @@ static void __usart_send_str(vsf_usart_t *usart, const char *str)
 
 void vsf_test_usart_baud_add_cases(vsf_test_usart_baud_scene_t *scene)
 {
+    scene->name    = "usart_baud";
+    scene->purpose = "tx-baud";
+    scene->hw_req  = "uart1+la";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_BAUD_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "usart_baud_%lu purpose=baud-rate hw_req=uart1+la",
-            (unsigned long)__baud_cases[i].baudrate);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_baud_run,
-            __cfg_str_pool[i], (void *)&__baud_cases[i]);
         __baud_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_usart_baud_run,
+            (void *)&__baud_cases[i]);
     }
 }
 
 void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
 {
-
-    vsf_trace_info("BAUD:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
-
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
     vsf_usart_capability_t cap = vsf_usart_capability(c->scene->usart);
     bool expect_pass = (c->baudrate >= cap.min_baudrate)
                     && (c->baudrate <= cap.max_baudrate)

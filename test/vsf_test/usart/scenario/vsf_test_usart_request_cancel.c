@@ -31,25 +31,23 @@ static vsf_test_usart_request_cancel_case_t __request_cancel_cases[] = {
 
 void vsf_test_usart_request_cancel_add_cases(vsf_test_usart_request_cancel_scene_t *scene)
 {
+    scene->name    = "usart_request_cancel";
+    scene->purpose = "cancel";
+    scene->hw_req  = "uart1+la";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_REQUEST_CANCEL_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][96];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "usart_request_cancel_%u purpose=cancel hw_req=uart1+la refill=%lu after_us=%lu",
-            (unsigned)__request_cancel_cases[i].idx,
-            (unsigned long)__request_cancel_cases[i].refill_target,
-            (unsigned long)__request_cancel_cases[i].cancel_after_us);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_request_cancel_run,
-            __cfg_str_pool[i], (void *)&__request_cancel_cases[i]);
         __request_cancel_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_usart_request_cancel_run,
+            (void *)&__request_cancel_cases[i]);
     }
 }
 
 void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_t *c)
 {
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
     vsf_usart_t *usart = c->scene->usart;
-
-    vsf_trace_info("USART:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_usart_capability_t cap = vsf_usart_capability(usart);
     uint32_t total = (uint32_t)cap.txfifo_depth * c->refill_target;

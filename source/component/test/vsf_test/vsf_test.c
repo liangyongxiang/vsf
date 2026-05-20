@@ -214,8 +214,11 @@ bool vsf_test_register_suite(vsf_test_suite_t *suite)
     VSF_ASSERT(suite->name != NULL);
     suite->first_case_idx = (uint16_t)__vsf_test->test_case_count;
     suite->case_count     = 0;
-    // Shell-side registration is handled by REG_IF in the family aggregator;
-    // here we only initialize the suite's case-range bookkeeping.
+    // Open a shell-side scene under the same name so `vsf-test scene --list`
+    // / `vsf-test run <name>` see the suite without a second registration
+    // call. The next vsf_test_add_ex() (via vsf_test_suite_add_case) will
+    // attribute its case to this scene.
+    vsf_test_shell_register_scene(&__vsf_test->shell, suite->name);
     __VSF_TEST_TRACE_DEBUG("[TEST] register suite '%s' at idx %u\r\n",
                           suite->name, (unsigned)suite->first_case_idx);
     return true;

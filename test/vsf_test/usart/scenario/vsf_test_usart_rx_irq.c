@@ -80,23 +80,24 @@ static void __rx_irq_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart
 
 void vsf_test_usart_rx_irq_add_cases(vsf_test_usart_rx_irq_scene_t *scene)
 {
+    scene->name    = "usart_rx_irq";
+    scene->purpose = "rx-irq";
+    scene->hw_req  = "uart1+la";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_IRQ_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "usart_rx_irq_%u purpose=rx-irq hw_req=uart1+la",
-            (unsigned)__rx_irq_cases[i].idx);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_rx_irq_run,
-            __cfg_str_pool[i], (void *)&__rx_irq_cases[i]);
         __rx_irq_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_irq_run,
+            (void *)&__rx_irq_cases[i]);
     }
 }
 
 void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c)
 {
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; the per-case ":READY" handshake below is the
+     * RX scenario's own marker. */
     __rx_irq_ctx_t ctx = { .count = 0, .expected_len = strlen(VSF_TEST_RX_IRQ_PAYLOAD), .done = false };
-
-    vsf_trace_info("RX_IRQ:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
     vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
         .mode     = VSF_TEST_RX_IRQ_DEFAULT_MODE,
@@ -125,7 +126,7 @@ void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c)
 
         vsf_usart_irq_enable(c->scene->usart, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
-        vsf_trace_info("RX_IRQ:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
+        vsf_trace_info("usart_rx_irq:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_IRQ_PAYLOAD_DRAIN_MS * 10;
@@ -144,8 +145,6 @@ void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c)
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-
-    vsf_trace_info("RX_IRQ:CASE:%d:DONE" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 }
 
 #endif /* VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED */

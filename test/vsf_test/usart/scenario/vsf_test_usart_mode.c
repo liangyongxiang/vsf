@@ -57,23 +57,22 @@ static void __usart_send_str(vsf_usart_t *usart, const char *str)
 
 void vsf_test_usart_mode_add_cases(vsf_test_usart_mode_scene_t *scene)
 {
+    scene->name    = "usart_mode";
+    scene->purpose = "tx-mode";
+    scene->hw_req  = "uart1+la";
+    vsf_test_register_suite(&scene->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_MODE_CASE_COUNT; i++) {
-        static char __cfg_str_pool[VSF_TEST_USART_CASE_MAX_COUNT][64];
-        snprintf(__cfg_str_pool[i], sizeof(__cfg_str_pool[i]),
-            "usart_mode_%u purpose=mode hw_req=uart1+la",
-            (unsigned)__mode_cases[i].idx);
-        vsf_test_add_simple_case((vsf_test_jmp_fn_t *)vsf_test_usart_mode_run,
-            __cfg_str_pool[i], (void *)&__mode_cases[i]);
         __mode_cases[i].scene = scene;
+        vsf_test_suite_add_case(&scene->use_as__vsf_test_suite_t,
+            (vsf_test_jmp_fn_t *)vsf_test_usart_mode_run,
+            (void *)&__mode_cases[i]);
     }
 }
 
 void vsf_test_usart_mode_run(const vsf_test_usart_mode_case_t *c)
 {
-
-    vsf_trace_info("MODE:CASE:%d" VSF_TRACE_CFG_LINEEND, (int)c->idx);
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
-
+    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
+     * and the settle delay; suite-aware scenarios do not print them. */
     vsf_err_t err = vsf_usart_init(c->scene->usart, &(vsf_usart_cfg_t){
         .mode     = c->mode,
         .baudrate = VSF_TEST_MODE_DEFAULT_BAUDRATE,

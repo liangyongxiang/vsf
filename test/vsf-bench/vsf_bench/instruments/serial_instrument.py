@@ -114,7 +114,7 @@ class SerialInstrument:
         with open(self._audit_log, "a") as f:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
-    def expect_test_summary(self, name: str, timeout: float = 30.0) -> tuple[int, int, int]:
+    def expect_test_summary(self, name: str, timeout: float = 1.5) -> tuple[int, int, int]:
         """Wait for firmware test completion and parse Pass/Fail/Skip summary.
 
         Returns (passed, failed, skipped). Asserts failed==0 and passed>0.

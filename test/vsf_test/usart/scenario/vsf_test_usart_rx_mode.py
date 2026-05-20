@@ -43,7 +43,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     assert len(cases) > 0, "No cases found in test_params"
 
     marker_baud = int((params.get("marker", {}) or {}).get("baudrate", 115200))
-    timeout_s = float(scenario.get("timeout_s", 30.0))
+    timeout_s = float(scenario.get("timeout_s", 1.5))
     dut_port = scenario.get("dut", {}).get("port", "/dev/ttyUSB0")
     payload = scenario.get("payload", "0123456789\r\n").encode()
 

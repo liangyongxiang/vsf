@@ -105,8 +105,42 @@ static void __run_selection(vsf_test_shell_t *shell)
     }
     vsf_test_shell_suite_t *sc = &shell->suites[shell->cur_suite];
     if (shell->cur_case < 0) {
-        for (uint16_t i = 0; i < sc->case_count; i++) {
-            uint16_t ci = sc->first_case_idx + i;
+        /* Default: sequential order. If shuffle_seed != 0 and the suite
+         * fits in the stack buffer, shuffle via Fisher-Yates seeded with
+         * the host-provided value. The seed is single-use: each
+         * __run_selection consumes it and the host re-issues for the
+         * next suite. */
+        uint16_t order[VSF_TEST_SHELL_MAX_CASES_PER_SUITE];
+        uint16_t n = sc->case_count;
+        bool shuffled = false;
+        if (shell->shuffle_seed != 0 && n <= VSF_TEST_SHELL_MAX_CASES_PER_SUITE) {
+            for (uint16_t i = 0; i < n; i++) { order[i] = i; }
+            /* glibc-equivalent LCG: state = state * 1103515245 + 12345.
+             * Self-contained so the same seed produces the same order
+             * across toolchains, in contrast to libc rand(). */
+            uint32_t state = shell->shuffle_seed;
+            for (uint16_t i = n - 1; i > 0; i--) {
+                state = state * 1103515245u + 12345u;
+                uint16_t j = (uint16_t)((state >> 16) % (uint32_t)(i + 1));
+                uint16_t tmp = order[i];
+                order[i] = order[j];
+                order[j] = tmp;
+            }
+            shuffled = true;
+            /* Echo the shuffled order so it lands in the serial audit log. */
+            vsf_trace_info("[TEST] Shuffle seed: %lu, order:",
+                           (unsigned long)shell->shuffle_seed);
+            for (uint16_t i = 0; i < n; i++) {
+                vsf_trace_info(" %u", (unsigned)order[i]);
+            }
+            vsf_trace_info(VSF_TRACE_CFG_LINEEND);
+            /* Single-use: clear so the next suite reverts to sequential
+             * unless the host re-seeds. */
+            shell->shuffle_seed = 0;
+        }
+        for (uint16_t i = 0; i < n; i++) {
+            uint16_t local = shuffled ? order[i] : i;
+            uint16_t ci = sc->first_case_idx + local;
             vsf_test_run_case(ci);
             if (shell->auto_case) {
                 shell->cur_case = (int8_t)(i + 1);
@@ -243,7 +277,16 @@ static void __cmd_config(vsf_test_shell_t *shell, char *args)
     char *sub = args, *val = NULL;
     if (space != NULL) { *space = '\0'; val = space + 1; }
     if (val == NULL) {
-        vsf_trace_info("Usage: vsf-test config <key> <on|off>" VSF_TRACE_CFG_LINEEND);
+        vsf_trace_info("Usage: vsf-test config <key> <on|off|N>" VSF_TRACE_CFG_LINEEND);
+        return;
+    }
+    /* `shuffle <N>` is numeric, not on|off — N=0 disables, N>0 seeds the
+     * Fisher-Yates shuffle for the next `vsf-test run <suite>`. */
+    if (strcmp(sub, "shuffle") == 0) {
+        unsigned long seed = strtoul(val, NULL, 10);
+        shell->shuffle_seed = (uint32_t)seed;
+        vsf_trace_info("shuffle %s (seed=%lu)" VSF_TRACE_CFG_LINEEND,
+                       seed ? "on" : "off", seed);
         return;
     }
     bool *target = NULL;
@@ -251,7 +294,7 @@ static void __cmd_config(vsf_test_shell_t *shell, char *args)
     if (strcmp(sub, "auto-case") == 0)       { target = &shell->auto_case;  key_name = "auto-case"; }
     else if (strcmp(sub, "auto-suite") == 0) { target = &shell->auto_suite; key_name = "auto-suite"; }
     else {
-        vsf_trace_info("Unknown config key. Valid: auto-case, auto-suite" VSF_TRACE_CFG_LINEEND);
+        vsf_trace_info("Unknown config key. Valid: auto-case, auto-suite, shuffle" VSF_TRACE_CFG_LINEEND);
         return;
     }
     if (strcmp(val, "on") == 0)       *target = true;

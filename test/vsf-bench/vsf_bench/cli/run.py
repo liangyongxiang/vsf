@@ -37,6 +37,17 @@ def parse_args():
         default="shared",
         help="LA capture lifetime",
     )
+    parser.add_argument(
+        "--random",
+        action="store_true",
+        help="Shuffle case execution order within each suite",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Fixed shuffle seed for reproducibility (implies --random)",
+    )
     parser.add_argument("hardware_map")
     return parser.parse_args()
 
@@ -89,6 +100,18 @@ def main():
     if args.case_index:
         case_specs.extend(str(i) for i in args.case_index)
 
+    if (args.random or args.seed is not None) and case_specs:
+        print("[vsf-bench] Config error: --case/--case-index cannot combine with --random/--seed",
+              file=sys.stderr)
+        sys.exit(2)
+
+    shuffle_seed = None
+    if args.random or args.seed is not None:
+        import os
+        shuffle_seed = (args.seed
+                        if args.seed is not None
+                        else int.from_bytes(os.urandom(4), "little") or 1)
+
     try:
         overall_pass = pipeline.run_test_phase(
             board=board,
@@ -98,6 +121,7 @@ def main():
             case_specs=case_specs,
             la_mode=args.la_mode,
             log_dir=args.log_dir,
+            shuffle_seed=shuffle_seed,
         )
     except Exception as e:
         print(f"[vsf-bench] Test phase error: {e}", file=sys.stderr)

@@ -11,6 +11,10 @@ extern "C" {
 #   define VSF_TEST_SHELL_MAX_SUITES    48
 #endif
 
+#ifndef VSF_TEST_SHELL_MAX_CASES_PER_SUITE
+#   define VSF_TEST_SHELL_MAX_CASES_PER_SUITE    32
+#endif
+
 typedef struct vsf_test_shell_suite_t {
     const char *name;
     uint16_t    first_case_idx;
@@ -24,6 +28,11 @@ typedef struct vsf_test_shell_t {
     int8_t cur_case;
     bool   auto_case;
     bool   auto_suite;
+    /* When non-zero, __run_selection shuffles case order within the
+     * selected suite via Fisher-Yates seeded with this value. Host sets
+     * via `vsf-test config shuffle <N>` before each suite run; sequential
+     * order is preserved at zero. */
+    uint32_t shuffle_seed;
 } vsf_test_shell_t;
 
 uint8_t vsf_test_shell_register_suite(vsf_test_shell_t *shell, const char *name);

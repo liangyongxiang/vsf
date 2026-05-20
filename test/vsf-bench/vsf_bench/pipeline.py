@@ -167,6 +167,7 @@ def run_test_phase(
     case_specs: list[str],
     la_mode: str,
     log_dir: Path | None,
+    shuffle_seed: int | None = None,
 ) -> bool:
     """Run suites against firmware that is already flashed and running.
 
@@ -221,11 +222,13 @@ def run_test_phase(
 
     if la_mode == "shared" and any_needs_la:
         overall_pass = _test_loop_shared_la(
-            loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs
+            loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs,
+            shuffle_seed=shuffle_seed,
         )
     else:
         overall_pass = _test_loop_per_suite(
-            loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs
+            loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs,
+            shuffle_seed=shuffle_seed,
         )
 
     ser.close()
@@ -238,7 +241,8 @@ def run_test_phase(
 
 
 def _test_loop_shared_la(
-    loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs
+    loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs,
+    shuffle_seed: int | None = None,
 ) -> bool:
     """Shared LA mode: one capture spans the contiguous LA-needing block.
 
@@ -269,6 +273,30 @@ def _test_loop_shared_la(
 
         cases_to_run = case_specs if case_specs else [None]
         for case in cases_to_run:
+            # When the host asked for random ordering, send the seed BEFORE
+            # the run trigger. Firmware consumes shuffle_seed once per
+            # `vsf-test run <suite>` (it clears the field after applying
+            # Fisher-Yates), so we re-seed for every suite.
+            if shuffle_seed is not None and case is None:
+                ser.send(f"vsf-test config shuffle {shuffle_seed}\r\n")
+                try:
+                    ack = ser.expect(r"shuffle on \(seed=|Unknown config key",
+                                     timeout=1.0)
+                except TimeoutError:
+                    print(f"[vsf-bench] FAIL: {suite_name}: shuffle config ack "
+                          f"not received within 1 s — firmware likely lacks "
+                          f"shuffle support (update firmware or drop --random)")
+                    overall_pass = False
+                    continue
+                if "Unknown" in ack:
+                    print(f"[vsf-bench] FAIL: {suite_name}: firmware does not "
+                          f"support shuffle. Drop --random or rebuild firmware.")
+                    overall_pass = False
+                    continue
+                # Drain any residual REPL chars (prompt etc.) so the run
+                # command's Suite ack: lands in a clean buffer.
+                ser.read_all(timeout=0.1)
+                print(f"[vsf-bench] {suite_name}: shuffle seed={shuffle_seed}")
             t_start = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
             ok = _run_script_phase1(suite_name, case, mod, project_root, ser)
             t_end = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
@@ -300,7 +328,8 @@ def _test_loop_shared_la(
 
 
 def _test_loop_per_suite(
-    loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs
+    loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs,
+    shuffle_seed: int | None = None,
 ) -> bool:
     """Per-suite LA mode: one capture per suite (or no LA at all)."""
     overall_pass = True
@@ -309,7 +338,24 @@ def _test_loop_per_suite(
         cases_to_run = case_specs if case_specs else [None]
         for case in cases_to_run:
             case_tag = f".{case}" if case else ""
-            print(f"\n[vsf-bench] Scene: {suite_name}{case_tag}")
+            print(f"\n[vsf-bench] Suite: {suite_name}{case_tag}")
+            if shuffle_seed is not None and case is None:
+                ser.send(f"vsf-test config shuffle {shuffle_seed}\r\n")
+                try:
+                    ack = ser.expect(r"shuffle on \(seed=|Unknown config key",
+                                     timeout=1.0)
+                except TimeoutError:
+                    print(f"[vsf-bench] FAIL: {suite_name}: shuffle config ack "
+                          f"not received within 1 s — firmware likely lacks "
+                          f"shuffle support (update firmware or drop --random)")
+                    overall_pass = False
+                    continue
+                if "Unknown" in ack:
+                    print(f"[vsf-bench] FAIL: {suite_name}: firmware does not "
+                          f"support shuffle. Drop --random or rebuild firmware.")
+                    overall_pass = False
+                    continue
+                print(f"[vsf-bench] {suite_name}: shuffle seed={shuffle_seed}")
 
             scene_la: LogicAnalyzerInstrument | None = None
             if needs_la and la_cfg is not None and cli_path is not None:

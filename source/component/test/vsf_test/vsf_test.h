@@ -406,7 +406,6 @@ typedef struct vsf_test_case_t {
         //! succeeds
         vsf_test_jmp_fn_t *jmp_fn;
     };
-    char *cfg_str; // json or other configuration format
 
     //! Use different test function prototypes depending on the type.
     //! @ref vsf_test_type_t
@@ -424,12 +423,11 @@ typedef struct vsf_test_case_t {
     uint8_t expect_assert;
 
     //! Scene-local case index (0..suite->case_count-1). Used by the dispatcher
-    //! to format the Capture Marker. Ignored when `suite` is NULL.
+    //! to format the Capture Marker and the [TEST] # N: Running '<name>' line.
     uint8_t case_idx;
 
-    //! Owning Test Suite, or NULL for legacy cases registered without a suite.
-    //! When non-NULL, the dispatcher prints `<suite->name>:CASE:<case_idx>` before
-    //! invoking the test function and `<...>:DONE` after.
+    //! Owning Test Suite. The dispatcher prints `<suite->name>:CASE:<case_idx>`
+    //! before invoking the test function and `<...>:DONE` after.
     vsf_test_suite_t *suite;
 
     //! Argument pointer passed directly to the test function.
@@ -527,122 +525,16 @@ typedef struct vsf_test_t {
  */
 extern void vsf_test_init(vsf_test_t *test, const vsf_test_cfg_t *cfg);
 
-/*============================ API USAGE GUIDE =============================*/
 /**
- * @brief API Selection Guide
- *
- * Choose the appropriate API based on your test case requirements:
- *
- * 1. vsf_test_add_simple_case() - Use for simple LONGJMP_FN test cases
- *    - No watchdog reset expected (expect_wdt=0)
- *    - No assertion expected (expect_assert=0)
- *    - Example: vsf_test_add_simple_case(__test_func, "cfg_string");
- *
- * 2. vsf_test_add_case() - Use for LONGJMP_FN test cases with watchdog option
- *    - Can specify expect_wdt
- *    - No assertion expected (expect_assert=0)
- *    - Example: vsf_test_add_case(__test_func, "cfg_string", 1);
- *
- * 3. vsf_test_add_bool_fn() - Use for simple BOOL_FN test cases
- *    - No watchdog reset expected (expect_wdt=0)
- *    - Returns bool instead of using VSF_TEST_ASSERT
- *    - Example: vsf_test_add_bool_fn(__test_func, "cfg_string");
- *
- * 4. vsf_test_add_bool_fn_case() - Use for BOOL_FN test cases with watchdog option
- *    - Can specify expect_wdt
- *    - Returns bool instead of using VSF_TEST_ASSERT
- *    - Example: vsf_test_add_bool_fn_case(__test_func, "cfg_string", 1);
- *
- * 5. vsf_test_add_expect_assert_case() - Use when test expects an assertion
- *    - expect_assert=1 (test passes if assertion occurs)
- *    - Can specify expect_wdt
- *    - Example: vsf_test_add_expect_assert_case(__test_func, "cfg_string", 0);
- *
- * 6. vsf_test_add_ex_case() - Use for full control over all parameters
- *    - Can specify type, expect_wdt, and expect_assert
- *    - Most flexible but more verbose
- *    - Example: vsf_test_add_ex_case(__test_func, "cfg_string", VSF_TEST_TYPE_LONGJMP_FN, 0, 1);
- *
- * 7. vsf_test_add_ex() - Use when you already have a vsf_test_case_t structure
- *    - For advanced use cases or when building test cases dynamically
- *    - Example: vsf_test_add_ex(&my_test_case);
- */
-
-/**
- @brief Add to add a test case of any type
- @param[in] test_case: a pointer to array @ref vsf_test_case_t
+ @brief Add a populated test case to the framework. Used internally by
+ `vsf_test_suite_add_case()`; scenarios should not call this directly.
+ @param[in] test_case: a pointer to a `vsf_test_case_t` value
  @return bool: true if add was successfully, or false
  */
 extern bool vsf_test_add_ex(vsf_test_case_t *test_case);
 
-/**
- @brief Add a test case of VSF_TEST_TYPE_LONGJMP_FN type (simplified, expect_wdt=0)
- @param[in] jmp_fn: a pointer to function @ref vsf_test_jmp_fn_t
- @param[in] cfg: a string of request information for the test case
- @param[in] arg: argument passed to the test function
- @return bool: true if add was successfully, or false
- */
-extern bool vsf_test_add_simple_case(vsf_test_jmp_fn_t *jmp_fn, char *cfg, void *arg);
 extern vsf_test_result_t vsf_test_get_case_result(uint32_t idx);
 extern uint32_t vsf_test_get_case_count(void);
-
-/**
- @brief Add to add a test case of VSF_TEST_TYPE_BOOL_FN type
- @param[in] b_fn: a pointer to function @ref vsf_test_bool_fn_t
- @param[in] cfg: a string of request information for the test case
- @param[in] arg: argument passed to the test function
- @return bool: true if add was successfully, or false
- */
-extern bool vsf_test_add_bool_fn(vsf_test_bool_fn_t *b_fn, char *cfg, void *arg);
-
-/**
- @brief Add a test case of VSF_TEST_TYPE_LONGJMP_FN type
- @param[in] fn: pointer to test function
- @param[in] cfg: request string for test case
- @param[in] expect_wdt: whether to expect a watchdog reset (default: 0)
- @param[in] arg: argument passed to the test function
- @return bool: true if add was successfully, or false
- */
-extern bool vsf_test_add_case(vsf_test_jmp_fn_t *fn, char *cfg, uint8_t expect_wdt, void *arg);
-
-/**
- @brief Add a test case of VSF_TEST_TYPE_BOOL_FN type
- @param[in] fn: pointer to test function
- @param[in] cfg: request string for test case
- @param[in] expect_wdt: whether to expect a watchdog reset (default: 0)
- @param[in] arg: argument passed to the test function
- @return bool: true if add was successfully, or false
- */
-extern bool vsf_test_add_bool_fn_case(vsf_test_bool_fn_t *fn, char *cfg, uint8_t expect_wdt, void *arg);
-
-/**
- @brief Add a test case of any type
- @param[in] fn: pointer to test function
- @param[in] cfg: request string for test case
- @param[in] type: test type @ref vsf_test_type_t
- @param[in] expect_wdt: whether to expect a watchdog reset (default: 0)
- @param[in] expect_assert: whether to expect an assertion (default: 0)
- @param[in] arg: argument passed to the test function
- @return bool: true if add was successfully, or false
- */
-extern bool vsf_test_add_ex_case(vsf_test_jmp_fn_t *fn, char *cfg,
-                                 vsf_test_type_t type,
-                                 uint8_t expect_wdt,
-                                 uint8_t expect_assert,
-                                 void *arg);
-
-/**
- @brief Add a test case that expects an assertion
- @param[in] fn: pointer to test function
- @param[in] cfg: request string for test case
- @param[in] expect_wdt: whether to expect a watchdog reset (default: 0)
- @param[in] arg: argument passed to the test function
- @return bool: true if add was successfully, or false
- */
-extern bool vsf_test_add_expect_assert_case(vsf_test_jmp_fn_t *fn,
-                                            char *cfg,
-                                            uint8_t expect_wdt,
-                                            void *arg);
 
 /**
  @brief Run all tests. Should be called after all use cases have been

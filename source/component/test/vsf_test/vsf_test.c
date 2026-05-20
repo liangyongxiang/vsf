@@ -117,7 +117,7 @@ bool vsf_test_add_ex(vsf_test_case_t *test_case)
         __vsf_test->test_case_array[__vsf_test->test_case_count] = *test_case;
         __VSF_TEST_TRACE_DEBUG("vsf_test_add_ex: added test case at index %u, type=%u\r\n",
                               __vsf_test->test_case_count, test_case->type);
-        vsf_test_shell_register_case(&__vsf_test->shell, test_case->cfg_str);
+        vsf_test_shell_inc_case_count(&__vsf_test->shell);
         __vsf_test->test_case_count++;
         return false;
     } else {
@@ -126,86 +126,6 @@ bool vsf_test_add_ex(vsf_test_case_t *test_case)
         VSF_ASSERT(0);
         return true;
     }
-}
-
-bool vsf_test_add_simple_case(vsf_test_jmp_fn_t *jmp_fn, char *cfg_str, void *arg)
-{
-    return vsf_test_add_case(jmp_fn, cfg_str, 0, arg);
-}
-
-bool vsf_test_add_bool_fn(vsf_test_bool_fn_t *b_fn, char *cfg_str, void *arg)
-{
-    vsf_test_case_t test_case = {
-        .b_fn       = b_fn,
-        .type       = VSF_TEST_TYPE_BOOL_FN,
-        .expect_wdt = 0,
-        .cfg_str    = cfg_str,
-        .arg        = arg,
-    };
-
-    __VSF_TEST_TRACE_DEBUG("vsf_test_add_bool_fn: adding BOOL_FN test case, cfg_str=%s\r\n",
-                          cfg_str ? cfg_str : "NULL");
-
-    return vsf_test_add_ex(&test_case);
-}
-
-bool vsf_test_add_case(vsf_test_jmp_fn_t *fn, char *cfg, uint8_t expect_wdt, void *arg)
-{
-    vsf_test_case_t test_case = {
-        .jmp_fn      = fn,
-        .cfg_str     = cfg,
-        .type        = VSF_TEST_TYPE_LONGJMP_FN,
-        .expect_wdt  = expect_wdt,
-        .expect_assert = 0,
-        .arg         = arg,
-    };
-    return vsf_test_add_ex(&test_case);
-}
-
-bool vsf_test_add_bool_fn_case(vsf_test_bool_fn_t *fn, char *cfg, uint8_t expect_wdt, void *arg)
-{
-    vsf_test_case_t test_case = {
-        .b_fn       = fn,
-        .cfg_str    = cfg,
-        .type       = VSF_TEST_TYPE_BOOL_FN,
-        .expect_wdt = expect_wdt,
-        .expect_assert = 0,
-        .arg        = arg,
-    };
-    return vsf_test_add_ex(&test_case);
-}
-
-bool vsf_test_add_ex_case(vsf_test_jmp_fn_t *fn, char *cfg,
-                          vsf_test_type_t type,
-                          uint8_t expect_wdt,
-                          uint8_t expect_assert,
-                          void *arg)
-{
-    vsf_test_case_t test_case = {
-        .jmp_fn      = fn,
-        .cfg_str     = cfg,
-        .type        = type,
-        .expect_wdt  = expect_wdt,
-        .expect_assert = expect_assert,
-        .arg         = arg,
-    };
-    return vsf_test_add_ex(&test_case);
-}
-
-bool vsf_test_add_expect_assert_case(vsf_test_jmp_fn_t *fn,
-                                     char *cfg,
-                                     uint8_t expect_wdt,
-                                     void *arg)
-{
-    vsf_test_case_t test_case = {
-        .jmp_fn      = fn,
-        .cfg_str     = cfg,
-        .type        = VSF_TEST_TYPE_LONGJMP_FN,
-        .expect_wdt  = expect_wdt,
-        .expect_assert = 1,
-        .arg         = arg,
-    };
-    return vsf_test_add_ex(&test_case);
 }
 
 bool vsf_test_register_suite(vsf_test_suite_t *suite)
@@ -231,7 +151,6 @@ bool vsf_test_suite_add_case(vsf_test_suite_t *suite,
     VSF_ASSERT(suite != NULL);
     vsf_test_case_t test_case = {
         .jmp_fn        = jmp_fn,
-        .cfg_str       = (char *)suite->name,    // legacy: shown in [TEST] # N: Running '...'
         .type          = VSF_TEST_TYPE_LONGJMP_FN,
         .expect_wdt    = 0,
         .expect_assert = 0,
@@ -266,30 +185,12 @@ void __vsf_test_longjmp(vsf_test_result_t result,
 //! \brief 从 test case 中提取测试名字
 static const char *__vsf_test_get_name(vsf_test_case_t *test_case, char *name_buf, size_t name_buf_size)
 {
-    if (test_case->cfg_str != NULL) {
-        // cfg_str 格式通常是 "test_name purpose=... hw_req=..."
-        const char *space = strchr(test_case->cfg_str, ' ');
-        if (space != NULL) {
-            size_t len = space - test_case->cfg_str;
-            if (len < name_buf_size) {
-                strncpy(name_buf, test_case->cfg_str, len);
-                name_buf[len] = '\0';
-                return name_buf;
-            } else {
-                strncpy(name_buf, test_case->cfg_str, name_buf_size - 1);
-                name_buf[name_buf_size - 1] = '\0';
-                return name_buf;
-            }
-        } else {
-            strncpy(name_buf, test_case->cfg_str, name_buf_size - 1);
-            name_buf[name_buf_size - 1] = '\0';
-            return name_buf;
-        }
-    } else {
-        strncpy(name_buf, "unknown", name_buf_size - 1);
-        name_buf[name_buf_size - 1] = '\0';
-        return name_buf;
+    (void)name_buf;
+    (void)name_buf_size;
+    if (test_case->suite != NULL && test_case->suite->name != NULL) {
+        return test_case->suite->name;
     }
+    return "unknown";
 }
 
 void vsf_test_reboot(vsf_test_result_t result,
@@ -361,8 +262,8 @@ void vsf_test_run_case(uint32_t idx)
         __vsf_test->wdt.external.feed(&__vsf_test->wdt.external);
     }
 
-    if (test_case->cfg_str != NULL) {
-        data->request_str = test_case->cfg_str;
+    if (test_case->suite != NULL && test_case->suite->name != NULL) {
+        data->request_str = (char *)test_case->suite->name;
         __vsf_test_data_sync(data, VSF_TEST_TESECASE_REQUEST_WRITE);
         if (data->req_continue == VSF_TEST_REQ_NO_SUPPORT) {
             __VSF_TEST_TRACE_INFO("[TEST] #%u: Not supported, skipping\r\n", idx);

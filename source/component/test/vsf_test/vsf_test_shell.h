@@ -10,9 +10,6 @@ extern "C" {
 #ifndef VSF_TEST_SHELL_MAX_SCENES
 #   define VSF_TEST_SHELL_MAX_SCENES    48
 #endif
-#ifndef VSF_TEST_SHELL_MAX_CASES
-#   define VSF_TEST_SHELL_MAX_CASES     256
-#endif
 
 typedef struct vsf_test_shell_scene_t {
     const char *name;
@@ -20,16 +17,9 @@ typedef struct vsf_test_shell_scene_t {
     uint16_t    case_count;
 } vsf_test_shell_scene_t;
 
-typedef struct vsf_test_shell_case_t {
-    const char *cfg_str;
-    uint8_t     scene_idx;
-} vsf_test_shell_case_t;
-
 typedef struct vsf_test_shell_t {
     vsf_test_shell_scene_t scenes[VSF_TEST_SHELL_MAX_SCENES];
     uint8_t                scene_count;
-    vsf_test_shell_case_t  cases[VSF_TEST_SHELL_MAX_CASES];
-    uint16_t               case_count;
     int8_t cur_scene;
     int8_t cur_case;
     bool   auto_case;
@@ -37,7 +27,7 @@ typedef struct vsf_test_shell_t {
 } vsf_test_shell_t;
 
 uint8_t vsf_test_shell_register_scene(vsf_test_shell_t *shell, const char *name);
-void    vsf_test_shell_register_case(vsf_test_shell_t *shell, const char *cfg_str);
+void    vsf_test_shell_inc_case_count(vsf_test_shell_t *shell);
 void    vsf_test_shell_init(vsf_test_shell_t *shell);
 void    vsf_test_shell_run(vsf_test_shell_t *shell);
 

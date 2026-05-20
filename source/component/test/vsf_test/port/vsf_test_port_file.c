@@ -113,24 +113,12 @@ static void __vsf_test_file_read_data(vsf_test_data_t *data)
     }
 }
 
-//! \brief 提取测试名字（从 cfg_str 中）
-static void __vsf_test_file_extract_name(const char *cfg_str, char *name, size_t name_size)
+//! \brief 拷贝测试名字（来自 suite->name，通过 request_str 传入）
+static void __vsf_test_file_extract_name(const char *suite_name, char *name, size_t name_size)
 {
-    if (cfg_str != NULL) {
-        const char *space = strchr(cfg_str, ' ');
-        if (space != NULL) {
-            size_t len = space - cfg_str;
-            if (len < name_size) {
-                strncpy(name, cfg_str, len);
-                name[len] = '\0';
-            } else {
-                strncpy(name, cfg_str, name_size - 1);
-                name[name_size - 1] = '\0';
-            }
-        } else {
-            strncpy(name, cfg_str, name_size - 1);
-            name[name_size - 1] = '\0';
-        }
+    if (suite_name != NULL) {
+        strncpy(name, suite_name, name_size - 1);
+        name[name_size - 1] = '\0';
     } else {
         strncpy(name, "unknown", name_size - 1);
         name[name_size - 1] = '\0';
@@ -248,7 +236,7 @@ void vsf_test_file_data_sync(vsf_test_data_t *data, vsf_test_data_cmd_t index)
             // 测试名字应该总是从 test case 数组获取，不应该和 data port 关联
             // 这里只负责保存测试结果到文件
 
-            // 提取测试名字（从 request_str 中，因为 request_str 就是 cfg_str）
+            // 拷贝测试名字（request_str 由 dispatcher 设为 suite->name）
             char test_name[64] = "unknown";
             if (data->request_str != NULL) {
                 __vsf_test_file_extract_name(data->request_str, test_name, sizeof(test_name));

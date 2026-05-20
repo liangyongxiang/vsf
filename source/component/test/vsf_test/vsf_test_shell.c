@@ -48,9 +48,7 @@ static void __print_case_list(vsf_test_shell_t *shell)
     vsf_test_shell_scene_t *sc = &shell->scenes[shell->cur_scene];
     vsf_trace_info("Cases in '%s':" VSF_TRACE_CFG_LINEEND, sc->name);
     for (uint16_t i = 0; i < sc->case_count; i++) {
-        uint16_t ci = sc->first_case_idx + i;
-        vsf_trace_info("  %u %s" VSF_TRACE_CFG_LINEEND, i,
-                       shell->cases[ci].cfg_str ? shell->cases[ci].cfg_str : "(null)");
+        vsf_trace_info("  %u" VSF_TRACE_CFG_LINEEND, i);
     }
 }
 
@@ -72,9 +70,9 @@ static void __print_current_case(vsf_test_shell_t *shell)
         vsf_trace_info("Current case: all (in scene '%s')" VSF_TRACE_CFG_LINEEND,
                        shell->scenes[shell->cur_scene].name);
     } else if (shell->cur_scene >= 0) {
-        uint16_t ci = shell->scenes[shell->cur_scene].first_case_idx + shell->cur_case;
-        vsf_trace_info("Current case: %s" VSF_TRACE_CFG_LINEEND,
-                       shell->cases[ci].cfg_str ? shell->cases[ci].cfg_str : "(null)");
+        vsf_trace_info("Current case: %s.%d" VSF_TRACE_CFG_LINEEND,
+                       shell->scenes[shell->cur_scene].name,
+                       (int)shell->cur_case);
     }
 }
 
@@ -181,9 +179,7 @@ static void __cmd_case(vsf_test_shell_t *shell, char *args)
         int n = atoi(args);
         if (n >= 0 && n < (int)shell->scenes[shell->cur_scene].case_count) {
             shell->cur_case = (int8_t)n;
-            uint16_t ci = shell->scenes[shell->cur_scene].first_case_idx + n;
-            vsf_trace_info("Case %d: %s" VSF_TRACE_CFG_LINEEND, n,
-                           shell->cases[ci].cfg_str ? shell->cases[ci].cfg_str : "(null)");
+            vsf_trace_info("Case %d" VSF_TRACE_CFG_LINEEND, n);
         } else {
             vsf_trace_info("Invalid case index" VSF_TRACE_CFG_LINEEND);
         }
@@ -224,19 +220,9 @@ static void __cmd_run(vsf_test_shell_t *shell, char *args)
                 if (is_numeric && numeric_idx >= 0 && numeric_idx < (int)shell->scenes[i].case_count) {
                     shell->cur_case = (int8_t)numeric_idx;
                 } else {
-                    for (uint16_t j = 0; j < shell->scenes[i].case_count; j++) {
-                        uint16_t ci = shell->scenes[i].first_case_idx + j;
-                        const char *cfg = shell->cases[ci].cfg_str;
-                        if (cfg != NULL && strcmp(cfg, case_spec) == 0) {
-                            shell->cur_case = (int8_t)j;
-                            break;
-                        }
-                    }
-                    if (shell->cur_case < 0) {
-                        if (dot != NULL) *dot = '.';
-                        vsf_trace_info("Case not found: %s" VSF_TRACE_CFG_LINEEND, case_spec);
-                        return;
-                    }
+                    if (dot != NULL) *dot = '.';
+                    vsf_trace_info("Case not found: %s" VSF_TRACE_CFG_LINEEND, case_spec);
+                    return;
                 }
             }
             if (dot != NULL) *dot = '.';
@@ -305,21 +291,18 @@ uint8_t vsf_test_shell_register_scene(vsf_test_shell_t *shell, const char *name)
     if (shell == NULL || shell->scene_count >= VSF_TEST_SHELL_MAX_SCENES) return 0;
     uint8_t idx = shell->scene_count;
     shell->scenes[idx].name           = name;
-    shell->scenes[idx].first_case_idx = shell->case_count;
+    // first_case_idx is the framework's current total case count (i.e. the
+    // index that the next vsf_test_add_ex() call will populate).
+    shell->scenes[idx].first_case_idx = (uint16_t)vsf_test_get_case_count();
     shell->scenes[idx].case_count     = 0;
     shell->scene_count++;
     return idx;
 }
 
-void vsf_test_shell_register_case(vsf_test_shell_t *shell, const char *cfg_str)
+void vsf_test_shell_inc_case_count(vsf_test_shell_t *shell)
 {
-    if (shell == NULL || shell->case_count >= VSF_TEST_SHELL_MAX_CASES
-     || shell->scene_count == 0) return;
-    uint16_t case_idx = shell->case_count;
-    shell->cases[case_idx].cfg_str   = cfg_str;
-    shell->cases[case_idx].scene_idx = shell->scene_count - 1;
+    if (shell == NULL || shell->scene_count == 0) return;
     shell->scenes[shell->scene_count - 1].case_count++;
-    shell->case_count++;
 }
 
 void vsf_test_shell_init(vsf_test_shell_t *shell)

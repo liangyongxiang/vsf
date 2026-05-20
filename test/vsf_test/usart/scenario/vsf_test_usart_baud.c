@@ -86,6 +86,18 @@ void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
     if (expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
+
+        /* Phase-3 API completeness check (usart-gpio-coverage-gaps PRD):
+         * get_configuration() must round-trip the values we passed to init().
+         * Catches drivers that "accept" a baudrate but quietly clamp or drop
+         * mode bits without telling the caller. */
+        vsf_usart_cfg_t got = {0};
+        vsf_err_t cfg_err = vsf_usart_get_configuration(c->suite->usart, &got);
+        if (cfg_err == VSF_ERR_NONE) {
+            VSF_TEST_ASSERT(got.baudrate == c->baudrate);
+            VSF_TEST_ASSERT(got.mode == VSF_TEST_BAUD_DEFAULT_MODE);
+        }
+
         __usart_send_str(c->suite->usart, VSF_TEST_BAUD_PAYLOAD);
         vsf_test_busy_wait_ms(VSF_TEST_BAUD_PAYLOAD_DRAIN_MS);
         while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));

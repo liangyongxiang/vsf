@@ -7,6 +7,7 @@ payload; `decode()` confirms on-wire bytes match.
 from dataclasses import dataclass
 from pathlib import Path
 
+from vsf_bench.capture_marker import read_handshake_windows
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 from vsf_bench.test_params import load_test_params
@@ -70,36 +71,19 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     cases = _parse_cases(scenario)
 
     marker_baud = int((params.get("marker", {}) or {}).get("baudrate", 115200))
-    dut_ch_name = scenario.get("dut", {}).get("channel", "uart1_rx")
+    dut_ch = la.channel(scenario.get("dut", {}).get("channel", "uart1_rx"))
     payload = scenario.get("payload", "0123456789\r\n").encode()
-
-    marker_ch_tx = la.channel("uart0_tx")
-    dut_ch = la.channel(dut_ch_name)
     out_dir = la.output_dir
 
-    ready_markers = la.decode_markers(
-        channel=marker_ch_tx,
-        baudrate=marker_baud,
-        pattern=r"usart_rx_mode:CASE:(\d+):READY",
-        output_csv=out_dir / "rx_mode_ready_markers.csv",
-        start_ns=decode_start_ns,
-        end_ns=decode_end_ns,
+    windows = read_handshake_windows(
+        la, "usart_rx_mode", project_root,
+        decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
     )
-    done_markers = la.decode_markers(
-        channel=marker_ch_tx,
-        baudrate=marker_baud,
-        pattern=r"usart_rx_mode:CASE:(\d+):DONE",
-        output_csv=out_dir / "rx_mode_done_markers.csv",
-        start_ns=decode_start_ns,
-        end_ns=decode_end_ns,
-    )
-    ready_by_case = {ev.case_idx: ev for ev in ready_markers}
-    done_by_case = {ev.case_idx: ev for ev in done_markers}
+    window_by_idx = {w.case_idx: w for w in windows}
+    for c in cases:
+        assert c.idx in window_by_idx, f"CASE {c.idx}: window missing"
 
     unique_configs = sorted({(c.decode_parity, c.decode_data, c.decode_stop) for c in cases})
-    for c in cases:
-        assert c.idx in ready_by_case, f"CASE {c.idx}: READY marker not found in LA decode"
-        assert c.idx in done_by_case, f"CASE {c.idx}: DONE marker not found in LA decode"
     config_to_csv = {
         cfg: out_dir / f"rx_mode_full_{cfg[0]}_{cfg[1]}_{cfg[2]}.csv"
         for cfg in unique_configs
@@ -111,11 +95,9 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     ])
 
     for c in cases:
-        start_ns = ready_by_case[c.idx].time_ns
-        end_ns = done_by_case[c.idx].time_ns
-        csv_path = config_to_csv[(c.decode_parity, c.decode_data, c.decode_stop)]
-        rows = la.read_csv_rows(csv_path)
-        got = bytes(b for t, b in rows if start_ns <= t < end_ns)
+        w = window_by_idx[c.idx]
+        rows = la.read_csv_rows(config_to_csv[(c.decode_parity, c.decode_data, c.decode_stop)])
+        got = bytes(b for t, b in rows if w.start_ns <= t < w.end_ns)
         assert got == payload, (
             f"CASE {c.idx} mode={c.decode_parity}/{c.decode_data}/{c.decode_stop}: "
             f"expected {payload!r}, got {got!r}"

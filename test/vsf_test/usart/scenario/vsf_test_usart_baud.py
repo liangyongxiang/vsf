@@ -10,6 +10,7 @@ after the shared LA capture is stopped and validates per-case payloads.
 from dataclasses import dataclass
 from pathlib import Path
 
+from vsf_bench.capture_marker import read_framework_windows
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 from vsf_bench.test_params import load_test_params
@@ -54,53 +55,34 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     cases = _parse_cases(scenario)
     assert len(cases) > 0, "No cases found in test_params"
 
-    marker_cfg = params.get("marker", {})
-    marker_ch_name = marker_cfg.get("channel", "uart0_tx")
-    marker_baud = int(marker_cfg.get("baudrate", 115200))
-    marker_delay_ms = int(marker_cfg.get("delay_ms", 200))
-    marker_delay_ns = marker_delay_ms * 1_000_000
-
-    dut_ch_name = scenario.get("dut", {}).get("channel", "uart1_tx")
+    dut_ch = la.channel(scenario.get("dut", {}).get("channel", "uart1_tx"))
     payload = scenario.get("payload", "Hello VSF\r\n").encode()
-
-    marker_ch = la.channel(marker_ch_name)
-    dut_ch = la.channel(dut_ch_name)
     out_dir = la.output_dir
 
-    markers = la.decode_markers(
-        channel=marker_ch,
-        baudrate=marker_baud,
-        pattern=r"usart_baud:CASE:(\d+)(?!:)",
-        output_csv=out_dir / "baud_markers.csv",
-        start_ns=decode_start_ns,
-        end_ns=decode_end_ns,
+    windows = read_framework_windows(
+        la, "usart_baud", project_root,
+        decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
     )
-    markers_by_case = {ev.case_idx: ev for ev in markers}
+    window_by_idx = {w.case_idx: w for w in windows}
 
-    pass_baudrates = sorted({c.baud for c in cases if _expect_pass(c.baud)})
     for c in cases:
         if _expect_pass(c.baud):
-            assert c.idx in markers_by_case, f"CASE {c.idx} baud={c.baud}: marker not found in LA decode"
-    batch_specs = [
+            assert c.idx in window_by_idx, f"CASE {c.idx} baud={c.baud}: window missing"
+
+    pass_baudrates = sorted({c.baud for c in cases if _expect_pass(c.baud)})
+    la.batch_decode_uart([
         (dut_ch, baud, decode_start_ns, decode_end_ns,
          out_dir / f"baud_full_{baud}.csv", "none", 8, 1.0)
         for baud in pass_baudrates
-    ]
-    if batch_specs:
-        la.batch_decode_uart(batch_specs)
+    ])
 
-    for i, c in enumerate(cases):
+    for c in cases:
         if not _expect_pass(c.baud):
             print(f"[PASS] CASE {c.idx}  baud={c.baud:>7}  expected fail (init error)")
             continue
-        assert c.idx in markers_by_case, f"CASE {c.idx} baud={c.baud}: marker not found in LA decode"
-
-        ev = markers_by_case[c.idx]
-        start_ns = ev.time_ns + marker_delay_ns
-        end_ns = markers_by_case[cases[i + 1].idx].time_ns if i + 1 < len(cases) and cases[i + 1].idx in markers_by_case else None
-
+        w = window_by_idx[c.idx]
         rows = la.read_csv_rows(out_dir / f"baud_full_{c.baud}.csv")
-        got = bytes(b for t, b in rows if start_ns <= t and (end_ns is None or t < end_ns))
+        got = bytes(b for t, b in rows if w.start_ns <= t < w.end_ns)
         assert got == payload, (
             f"CASE {c.idx} baud={c.baud}: expected {payload!r}, got {got!r}"
         )

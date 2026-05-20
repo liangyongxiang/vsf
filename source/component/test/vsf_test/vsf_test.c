@@ -331,6 +331,11 @@ void vsf_test_run_case(uint32_t idx)
         __VSF_TEST_TRACE_INFO("%s:CASE:%u:DONE\r\n", suite->name, (unsigned)test_case->case_idx);
         if ((uint32_t)idx == (uint32_t)suite->first_case_idx + (uint32_t)suite->case_count - 1) {
             if (suite->teardown != NULL) suite->teardown(suite);
+            /* Scenario-level boundary marker. Host decoders use this to bound
+             * the last case's payload window; without it, the last case has
+             * no upper bound and decode would extend to end-of-capture,
+             * picking up unrelated bytes from later scenes. */
+            __VSF_TEST_TRACE_INFO("%s:END\r\n", suite->name);
         }
     }
 

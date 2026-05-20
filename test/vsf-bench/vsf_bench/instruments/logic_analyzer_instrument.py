@@ -205,7 +205,16 @@ class LogicAnalyzerInstrument:
 
         events: list[MarkerEvent] = []
         for m in re.finditer(pattern, text):
-            case_idx = int(m.group(1))
+            # case_idx is captured by group(1) when the pattern targets a
+            # per-case marker like "CASE:(\d+)"; suite-level markers like
+            # "<suite>:END" carry no capture group and get case_idx=-1.
+            if m.groups():
+                try:
+                    case_idx = int(m.group(1))
+                except (ValueError, IndexError):
+                    case_idx = -1
+            else:
+                case_idx = -1
             time_ns = timestamps[m.start()]
             events.append(MarkerEvent(case_idx=case_idx, time_ns=time_ns))
 

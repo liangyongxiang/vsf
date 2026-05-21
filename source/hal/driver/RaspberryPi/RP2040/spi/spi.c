@@ -271,6 +271,7 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_request_transfer)(
     (void)out_buffer_ptr;
     (void)in_buffer_ptr;
     (void)count;
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 
@@ -278,6 +279,7 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_cancel_transfer)(
     VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_t) *spi_ptr)
 {
     VSF_HAL_ASSERT(spi_ptr != NULL);
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 
@@ -390,6 +392,7 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_ctrl)(
     VSF_HAL_ASSERT(spi_ptr != NULL);
     (void)ctrl;
     (void)param;
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 

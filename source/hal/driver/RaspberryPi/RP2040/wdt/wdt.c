@@ -156,6 +156,7 @@ vsf_err_t VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt_ctrl)(
     void *param
 ) {
     VSF_HAL_ASSERT(wdt_ptr != NULL);
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 

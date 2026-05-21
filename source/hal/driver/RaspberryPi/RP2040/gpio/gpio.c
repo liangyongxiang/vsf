@@ -513,6 +513,7 @@ void IO_BANK0_IRQHandler(void)
 vsf_err_t vsf_hw_gpio_ctrl(vsf_hw_gpio_t *hw_gpio_ptr, vsf_gpio_ctrl_t ctrl, void *param)
 {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 

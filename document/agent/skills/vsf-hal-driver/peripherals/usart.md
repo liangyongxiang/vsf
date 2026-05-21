@@ -65,17 +65,17 @@ Control: ctrl.
 
 ### Break control (`ctrl` operations)
 
-Three `ctrl` operations exist for break signalling, to support different hardware capabilities:
+Three `ctrl` operations exist to cover different hardware capabilities. The HAL is a **thin wrapper** — each driver implements only the operations the hardware natively supports, without software emulation.
 
-| Operation | Behavior | Use case |
-|-----------|----------|----------|
-| `VSF_USART_CTRL_SET_BREAK` | Assert break (TX line low). Returns immediately. | Hardware that only supports manual break control. Caller manages timing with its own timer/thread, then calls `CLEAR_BREAK`. |
-| `VSF_USART_CTRL_CLEAR_BREAK` | De-assert break (TX line released). Returns immediately. | Paired with `SET_BREAK`. |
-| `VSF_USART_CTRL_SEND_BREAK` | Send a complete break signal — assert, hold for >= one character frame, de-assert. Must be **non-blocking**. | Hardware that can auto-time the break in hardware (single register write, peripheral holds and releases automatically). |
+| Operation | What hardware must provide | Example |
+|-----------|---------------------------|---------|
+| `VSF_USART_CTRL_SET_BREAK` | A register bit to assert break (TX line low). Write-only, returns immediately. | PL011 `UARTLCR_H.BRK = 1` |
+| `VSF_USART_CTRL_CLEAR_BREAK` | A register bit to de-assert break. Write-only, returns immediately. | PL011 `UARTLCR_H.BRK = 0` |
+| `VSF_USART_CTRL_SEND_BREAK` | Hardware auto-timed break — a single register write asserts break and hardware auto-clears after >= 1 frame time, raising an IRQ on completion. Non-blocking. | STM32 `USART_CR1.SBK` or `USART_RQR.SBKRQ` |
 
-**Implementation rule:** `SEND_BREAK` must be non-blocking (see REFERENCE.md "Non-blocking API requirement"). If the hardware cannot auto-time the break — i.e., it only has a BRK bit that must be set and cleared manually — do NOT implement `SEND_BREAK`. Return `VSF_ERR_NOT_SUPPORT` and let the caller use `SET_BREAK` + timer + `CLEAR_BREAK`. Never busy-wait inside `SEND_BREAK`.
+**Implementation rule:** If the hardware does not natively support an operation, return `VSF_ERR_NOT_SUPPORT`. Do NOT emulate it in software. PL011 only supports `SET_BREAK` / `CLEAR_BREAK` — it has no auto-timed break, so `SEND_BREAK` returns `VSF_ERR_NOT_SUPPORT`. A caller that needs a timed break on PL011 uses `SET_BREAK` + its own timer + `CLEAR_BREAK`.
 
-**Why three APIs instead of one:** Some UART IPs (e.g., some STM32 families) have a hardware break timer — writing to a register asserts break for exactly one frame and auto-clears. On these chips, `SEND_BREAK` is a single non-blocking register write. On chips without this feature (e.g., RP2040 PL011), only `SET_BREAK` and `CLEAR_BREAK` should be implemented, and the caller uses a software timer to manage the break duration. Providing all three as separate `ctrl` operations lets the caller write portable code: call `SEND_BREAK` if available (check capability), fall back to `SET_BREAK`/`CLEAR_BREAK` otherwise.
+**Rationale:** The HAL exposes hardware capability directly. Emulating missing features inside the driver (busy-wait loops, software timers) adds complexity, hides the true hardware capability from the caller, and creates blocking code paths. If the caller needs a higher-level abstraction (e.g., "send a complete break signal"), it can build that on top of `SET_BREAK` / `CLEAR_BREAK` using application-level timers.
 
 ## IPCore IMP_LV0
 

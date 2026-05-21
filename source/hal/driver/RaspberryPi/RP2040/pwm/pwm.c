@@ -263,6 +263,7 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_ctrl)(
 ) {
     VSF_HAL_ASSERT(pwm_ptr != NULL);
 
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 

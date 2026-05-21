@@ -209,6 +209,7 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_get_time)(
     VSF_HAL_ASSERT(NULL != rtc_ptr);
     (void)second_ptr;
     (void)millisecond_ptr;
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 
@@ -220,6 +221,7 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_set_time)(
     VSF_HAL_ASSERT(NULL != rtc_ptr);
     (void)seconds;
     (void)milliseconds;
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 

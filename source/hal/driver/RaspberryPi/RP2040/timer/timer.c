@@ -228,6 +228,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_ctrl)(
     VSF_HAL_ASSERT(timer_ptr != NULL);
     (void)ctrl;
     (void)param;
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 
@@ -301,6 +302,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_request_start)(
     VSF_HAL_ASSERT((timer_ptr != NULL) && (request_ptr != NULL));
     (void)channel;
     (void)request_ptr;
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 
@@ -310,6 +312,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_request_stop)(
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
     (void)channel;
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 
@@ -321,6 +324,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_ctrl)(
     (void)channel;
     (void)ctrl;
     (void)param;
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 

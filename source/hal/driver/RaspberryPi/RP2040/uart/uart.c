@@ -263,26 +263,13 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_ctrl)(
         reg->UARTLCR_H.BRK = 0;
         return VSF_ERR_NONE;
     case VSF_USART_CTRL_SEND_BREAK:
-        /* FIXME: Busy-wait violates the HAL non-blocking rule (see
-         * vsf-hal-driver REFERENCE.md "Non-blocking API requirement").
-         * At 115200 baud the delay is ~104 us (marginal); at 9600 baud
-         * it is ~1.25 ms (unacceptable). PL011 has no auto-timed break
-         * hardware, so SEND_BREAK must use a hardware timer or IRQ.
-         *
-         * Drive line low for >= one character frame, then release.
-         * Cortex-M0+ at 125 MHz, empty volatile loop runs ~3 cycles/iter
-         * after -O3 (load/compare/branch), i.e. ~42 iters per us. Use
-         * 64 iters/us so we always land somewhat above one frame even on
-         * faster cores or with cache misses. */
-        reg->UARTLCR_H.BRK = 1;
-        if (usart_ptr->cached_cfg.baudrate > 0) {
-            /* 12 bit-times in us, ceiling rounded. */
-            uint32_t us = (12u * 1000000u + usart_ptr->cached_cfg.baudrate - 1)
-                        / usart_ptr->cached_cfg.baudrate;
-            for (volatile uint32_t i = 0; i < us * 64u; i++);
-        }
-        reg->UARTLCR_H.BRK = 0;
-        return VSF_ERR_NONE;
+        /* PL011 only supports manual break via the BRK bit (SET_BREAK /
+         * CLEAR_BREAK). There is no hardware auto-timed break. The HAL
+         * is a thin wrapper that exposes hardware capability as-is — it
+         * does not emulate SEND_BREAK in software. Callers that need a
+         * timed break should use SET_BREAK + timer + CLEAR_BREAK. */
+        VSF_HAL_ASSERT(0);
+        return VSF_ERR_NOT_SUPPORT;
     default:
         return VSF_ERR_NOT_SUPPORT;
     }

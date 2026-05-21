@@ -293,6 +293,7 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_ctrl)(
     void *param
 ) {
     VSF_HAL_ASSERT(flash_ptr != NULL);
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 

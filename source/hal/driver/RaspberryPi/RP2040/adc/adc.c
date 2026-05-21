@@ -306,6 +306,7 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_request)(
     VSF_HAL_ASSERT(NULL != buffer_ptr);
     VSF_HAL_ASSERT(count > 0);
 
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 

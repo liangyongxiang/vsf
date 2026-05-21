@@ -313,6 +313,7 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_ctrl)(
     VSF_HAL_ASSERT(dma_ptr != NULL);
     (void)ctrl;
     (void)param;
+    VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
 

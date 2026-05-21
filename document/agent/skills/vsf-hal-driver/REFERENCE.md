@@ -107,7 +107,7 @@ Two categories in `<periph>.h`:
 
 ### Unimplemented API convention
 
-Every function body that has not been implemented — for a peripheral capability the hardware doesn't support, or a stub the porter hasn't filled in yet — must **both assert AND return an error**:
+For **chip-specific driver `.c` files** (e.g. `RaspberryPi/RP2040/<periph>/<periph>.c`), every function body that exists only because the API contract requires it — for a peripheral capability the hardware doesn't support, or because the chip didn't implement it yet — must **both assert AND return an error**:
 
 ```c
 vsf_err_t VSF_MCONNECT(VSF_<PERIPH>_CFG_IMP_PREFIX, _<periph>_<api>)(...)
@@ -146,6 +146,12 @@ vsf_err_t VSF_MCONNECT(..., _<periph>_config)(...)
 ```
 
 If a stub like this gets called during a port (because the developer forgot to implement that API), the caller proceeds as if hardware was configured, then fails later in a way that's far from the root cause. Add `VSF_HAL_ASSERT(0);` immediately before the return so the failure surfaces at the offending call.
+
+**Does NOT apply to**:
+
+- `template/__series_name_a__/common/**/*.c` — these are starter skeletons that the porter copies and edits. They intentionally return `VSF_ERR_NONE` / `0` because they're scaffolding: the porter replaces each stub body with real logic during a port, and may want to leave some unfilled while testing others. Once the file lands as a chip-specific driver (e.g. `RaspberryPi/<Chip>/<periph>/<periph>.c`), the rule above kicks in.
+- Switch-case `default:` branches in real `_ctrl` implementations — the caller may legitimately probe support by trying a ctrl value, so silently returning `VSF_ERR_NOT_SUPPORT` is the contract there.
+- Conditional `if (...) return VSF_ERR_NOT_SUPPORT;` inside otherwise-real functions (e.g. clock-divider out-of-range checks) — these are error paths in a real function, not stubs.
 
 ### Mode and IRQ definitions
 
@@ -249,17 +255,21 @@ The peripheral driver's `init()` (e.g., `vsf_hw_usart_init`) owns **per-instance
 
 Reference: `driver/RaspberryPi/RP2040/uart/uart.c` `vsf_hw_usart_init` deasserts the per-instance UART reset, calls `vsf_pl011_usart_init` with `clock_get_hz(clk_peri)`, and configures NVIC — but does no pinmux. GP0/GP1 (UART0) and GP8/GP9 (UART1) routing is done in `board/pico/vsf_board.c` (the conventional location for this board; not a fixed requirement).
 
+### Thin wrapper philosophy
+
+The HAL is a **thin wrapper** — each driver exposes exactly what the hardware natively supports, without software emulation. If the hardware cannot do an operation, the driver returns `VSF_ERR_NOT_SUPPORT` (with `VSF_HAL_ASSERT(0)`). The driver never emulates missing features in software (busy-wait loops, software timers, state machines).
+
+**Rationale:** Emulating hardware features inside the driver adds complexity, hides the true hardware capability from the caller, creates blocking code paths, and blurs the line between HAL and application logic. If a caller needs a higher-level abstraction, it builds it on top of the HAL using application-level primitives (timers, threads, IRQs).
+
+**Example — break signalling:** PL011 only supports `SET_BREAK` / `CLEAR_BREAK` (a manual BRK bit). It has no auto-timed break hardware. The RP2040 UART driver implements `SET_BREAK` and `CLEAR_BREAK` as single register writes; `SEND_BREAK` returns `VSF_ERR_NOT_SUPPORT`. A caller that needs a timed break uses `SET_BREAK` + its own timer + `CLEAR_BREAK`. See [peripherals/usart.md](peripherals/usart.md).
+
 ### Non-blocking API requirement
 
-All HAL API functions must be **non-blocking**. A function initiates a hardware operation and returns immediately; it must not busy-wait (spin-loop, volatile delay counter) for the operation to complete. Long-running operations use interrupts / DMA / timer callbacks to signal completion.
+All HAL API functions must be **non-blocking**. A function initiates a hardware operation and returns immediately; it must not busy-wait (spin-loop, volatile delay counter) for the operation to complete.
 
-**Rationale:** A busy-wait inside a driver steals the CPU from the caller. The caller may be an RTOS thread that should yield, an interrupt handler that must return quickly, or a test scenario that polls multiple peripherals. Even a "short" busy-wait at 115200 baud (104 us for one character frame) is ~13,000 CPU cycles on a 125 MHz Cortex-M0+ — cycles the caller could use for other work.
+**Rationale:** A busy-wait steals the CPU from the caller — which may be an RTOS thread that should yield, an interrupt handler that must return quickly, or a test scenario polling multiple peripherals.
 
-**Exception — negligible delay only:** A short busy-wait is acceptable ONLY when the driver developer confirms the delay is negligible in all configurations, AND adds a comment explaining *why*. "Negligible" means a few microseconds at most, independent of runtime configuration (baud rate, clock speed). If the delay grows with baud rate or other caller-controlled parameters, it is not negligible.
-
-**Anti-pattern** — `VSF_USART_CTRL_SEND_BREAK` in RP2040 `uart.c`: busy-waits 12 bit-times via a volatile counter loop. At 115200 baud this is ~104 us; at 9600 baud it is ~1.25 ms; at 300 baud it is ~40 ms. This violates the non-blocking rule because the delay scales inversely with baud rate — the caller cannot predict how long `ctrl()` will block.
-
-**Correct design for SEND_BREAK:** The API exists so callers can request "send a break now" without knowing the hardware details. If the hardware can auto-time the break (single register write, hardware clears after one frame), implement `SEND_BREAK` as a non-blocking register write. If the hardware only supports manual set/clear, do NOT implement `SEND_BREAK` — return `VSF_ERR_NOT_SUPPORT` — and let the caller use `SET_BREAK` / `CLEAR_BREAK` with their own timer. See [peripherals/usart.md](peripherals/usart.md) for details on the three break APIs.
+**Exception — negligible delay only:** A short busy-wait is acceptable ONLY when the driver developer confirms the delay is negligible in all configurations, AND adds a comment explaining *why*. "Negligible" means a few microseconds at most, independent of runtime configuration (baud rate, clock speed). Delay must not grow with caller-controlled parameters.
 
 ### Template file convention
 

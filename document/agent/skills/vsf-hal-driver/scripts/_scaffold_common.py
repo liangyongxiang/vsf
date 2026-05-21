@@ -15,13 +15,28 @@ RawMap: TypeAlias = dict[str, Any]
 
 REQUIRED_TOP = ("vendor", "series", "device", "cpu", "arch_pri_num", "arch_pri_bit")
 
+_REGISTRY: dict[str, dict] | None = None
+
+
+def _load_registry() -> dict[str, dict]:
+    global _REGISTRY
+    if _REGISTRY is None:
+        reg_file = Path(__file__).parent / "peripheral-registry.yml"
+        if reg_file.is_file():
+            _REGISTRY = yaml.safe_load(reg_file.read_text(encoding="utf-8")) or {}
+        else:
+            _REGISTRY = {}
+    return _REGISTRY
+
 
 def api_prefix(name: str) -> str:
-    return "usart" if name in ("uart", "usart") else name
+    reg = _load_registry()
+    return reg.get(name, {}).get("template_dir", name)
 
 
 def api_upper(name: str) -> str:
-    return api_prefix(name).upper()
+    reg = _load_registry()
+    return reg.get(name, {}).get("macro_suffix", name.upper())
 
 
 def text(value: Any, default: str = "") -> str:

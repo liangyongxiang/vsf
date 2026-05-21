@@ -30,6 +30,18 @@ warn_modes:
   - VSF_USART_HALF_DUPLEX_ENABLE
   - VSF_USART_HALF_DUPLEX_DISABLE
 isr_t: vsf_usart_isr_t
+warn_irq_defines:
+  - VSF_USART_IRQ_MASK_RX_TIMEOUT
+  - VSF_USART_IRQ_MASK_CTS
+  - VSF_USART_IRQ_MASK_FRAME_ERR
+  - VSF_USART_IRQ_MASK_BREAK_ERR
+  - VSF_USART_IRQ_MASK_PARITY_ERR
+  - VSF_USART_IRQ_MASK_RX_OVERFLOW_ERR
+  - VSF_USART_IRQ_MASK_RX_IDLE
+warn_ctrl_defines:
+  - VSF_USART_CTRL_SEND_BREAK
+  - VSF_USART_CTRL_SET_BREAK
+  - VSF_USART_CTRL_CLEAR_BREAK
 source:
   struct_pattern: "typedef\\s+struct\\s+\\w*.*_usart_t"
   required_apis:
@@ -49,3 +61,13 @@ source:
   prefix_macros:
     - VSF_USART_CFG_IMP_PREFIX
     - VSF_USART_CFG_IMP_UPCASE_PREFIX
+  optional_api_groups:
+    - name: DMA
+      apis:
+        - usart_request_rx
+        - usart_request_tx
+        - usart_cancel_rx
+        - usart_cancel_tx
+        - usart_get_rx_count
+        - usart_get_tx_count
+      level: WARN

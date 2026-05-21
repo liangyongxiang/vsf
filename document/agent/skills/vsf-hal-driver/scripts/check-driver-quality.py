@@ -22,95 +22,17 @@ from __future__ import annotations
 
 import re
 import sys
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
-
-@dataclass
-class Finding:
-    file: Path
-    line: int
-    rule_id: str
-    message: str
-    reference: str | None = None
-
-    def render(self) -> str:
-        ref = f"  (see REFERENCE.md: {self.reference})" if self.reference else ""
-        return f"{self.file}:{self.line}: [{self.rule_id}] {self.message}{ref}"
-
-
-# A "scannable line" carries enough context for the rules.
-@dataclass
-class ScanLine:
-    lineno: int
-    text: str
-    in_imp_lv0: bool       # inside a #define ..._IMP_LV0 multi-line macro
-    in_comment: bool       # inside a /* ... */ block comment
-    suppress: set[str]     # rule ids suppressed for this line
-
-
-_SUPPRESS_RE = re.compile(r"//\s*quality:\s*allow-([a-z][a-z0-9-]*)")
-
-
-def preprocess(text: str) -> list[ScanLine]:
-    """Walk the file and tag each line with context relevant to rules.
-
-    The two important contexts are: (a) inside a multi-line `_IMP_LV0`
-    macro definition — that is precisely where per-instance literals are
-    *meant* to be — and (b) inside a `/* */` block comment, where any
-    identifier is documentation, not code.
-    """
-    lines: list[ScanLine] = []
-    in_imp_lv0 = False
-    in_comment = False
-    macro_continues = False
-
-    for idx, raw in enumerate(text.splitlines(), start=1):
-        stripped = raw.strip()
-
-        # Block-comment tracking (rough: doesn't handle /* */ on the same line
-        # opening a new one, but the cases we care about don't do that).
-        if in_comment:
-            line_in_comment = True
-            if "*/" in raw:
-                in_comment = False
-        else:
-            line_in_comment = False
-            if "/*" in raw and "*/" not in raw[raw.find("/*"):]:
-                in_comment = True
-
-        # IMP_LV0 macro definition tracking.
-        if not macro_continues and re.search(r"#\s*define\s+\w*_IMP_LV0\b", raw):
-            in_imp_lv0 = True
-        if in_imp_lv0:
-            macro_continues = raw.rstrip().endswith("\\")
-            line_in_imp_lv0 = True
-            if not macro_continues:
-                in_imp_lv0 = False
-        else:
-            line_in_imp_lv0 = False
-
-        suppress = set(_SUPPRESS_RE.findall(raw))
-        lines.append(ScanLine(idx, raw, line_in_imp_lv0, line_in_comment, suppress))
-
-    return lines
-
-
-# ---------------------------------------------------------------- rule helpers
-
-
-def _emit(lines: Iterable[ScanLine], rule_id: str, message: str,
-          predicate, reference: str | None = None) -> list[Finding]:
-    """Yield a finding for every line where `predicate(line)` is truthy and the
-    rule is not inline-suppressed."""
-    out: list[Finding] = []
-    for sl in lines:
-        if sl.in_comment or rule_id in sl.suppress:
-            continue
-        if predicate(sl):
-            out.append(Finding(Path(""), sl.lineno, rule_id, message, reference))
-    return out
+from checker_base import (
+    EXIT_PASS,
+    EXIT_ERROR,
+    Finding,
+    ScanLine,
+    preprocess,
+    emit,
+)
 
 
 # ---------------------------------------------------------------- rules
@@ -126,7 +48,7 @@ def check_hardcoded_instance_name(lines: list[ScanLine]) -> list[Finding]:
         if sl.in_imp_lv0:
             return False
         return bool(_INSTANCE_NAME_RE.search(sl.text))
-    return _emit(lines, "hardcoded-instance-name",
+    return emit(lines, "hardcoded-instance-name",
                  "per-instance literal (VSF_HW_<P><N>_*) outside IMP_LV0 — "
                  "should expand via VSF_MCONNECT(..., __IDX, ...)",
                  predicate, reference="Per-instance parameterization in device.h")
@@ -151,7 +73,7 @@ def check_instance_index_branch(lines: list[ScanLine]) -> list[Finding]:
         return bool(_INDEX_BRANCH_IF_RE.search(sl.text)
                     or _INDEX_BRANCH_SWITCH_RE.search(sl.text)
                     or _INDEX_BRANCH_PTR_RE.search(sl.text))
-    return _emit(lines, "instance-index-branch",
+    return emit(lines, "instance-index-branch",
                  "branching on instance index — parameterize the difference "
                  "in device.h as a per-instance macro instead",
                  predicate, reference="Per-instance parameterization in device.h")
@@ -183,7 +105,7 @@ def check_hardcoded_irq(lines: list[ScanLine]) -> list[Finding]:
         if tail.startswith("+"):
             return False
         return True
-    return _emit(lines, "hardcoded-irq",
+    return emit(lines, "hardcoded-irq",
                  "literal IRQ name (e.g. UART0_IRQn) — should come from "
                  "VSF_HW_<P><N>_IRQN macro and reach the driver via IMP_LV0",
                  predicate, reference="Per-instance parameterization in device.h")
@@ -206,7 +128,7 @@ def check_hardcoded_reset(lines: list[ScanLine]) -> list[Finding]:
         if sl.in_imp_lv0:
             return False
         return bool(_RESET_NAME_RE.search(sl.text))
-    return _emit(lines, "hardcoded-reset",
+    return emit(lines, "hardcoded-reset",
                  "literal reset bit / register — pass it through as a "
                  "per-instance macro (VSF_HW_<P><N>_RST_BIT)",
                  predicate, reference="Per-instance parameterization in device.h")
@@ -223,7 +145,7 @@ def check_hardcoded_clock(lines: list[ScanLine]) -> list[Finding]:
         if sl.in_imp_lv0:
             return False
         return bool(_CLOCK_NAME_RE.search(sl.text))
-    return _emit(lines, "hardcoded-clock",
+    return emit(lines, "hardcoded-clock",
                  "literal clock gate / bit — parameterize as a per-instance "
                  "macro (VSF_HW_<P><N>_CLK_BIT or similar)",
                  predicate, reference="Per-instance parameterization in device.h")
@@ -266,7 +188,7 @@ def check_hardcoded_address(lines: list[ScanLine]) -> list[Finding]:
         if _looks_like_mask(m.group(1)):
             return False
         return True
-    return _emit(lines, "hardcoded-address",
+    return emit(lines, "hardcoded-address",
                  "literal hex address in driver body — wire it through "
                  "device.h instead",
                  predicate, reference="Per-instance parameterization in device.h")
@@ -291,7 +213,7 @@ def check_missing_vsf_mconnect(lines: list[ScanLine]) -> list[Finding]:
         if "VSF_MCONNECT" in sl.text:
             return False
         return bool(_PLAIN_PREFIX_DEF_RE.search(sl.text))
-    return _emit(lines, "missing-vsf-mconnect",
+    return emit(lines, "missing-vsf-mconnect",
                  "function definition uses hardcoded `vsf_hw_<periph>_` "
                  "prefix — wrap with VSF_MCONNECT(VSF_..._CFG_IMP_PREFIX, _<api>)",
                  predicate, reference="Macro prefix convention")
@@ -312,7 +234,7 @@ def check_pinmux_in_driver(lines: list[ScanLine]) -> list[Finding]:
     def predicate(sl: ScanLine) -> bool:
         # We don't skip in_imp_lv0 here — pinmux in IMP_LV0 would be just as wrong.
         return bool(_PINMUX_API_RE.search(sl.text))
-    return _emit(lines, "pinmux-in-driver",
+    return emit(lines, "pinmux-in-driver",
                  "pinmux call in peripheral driver — move to board file",
                  predicate, reference="Board wiring")
 
@@ -333,7 +255,7 @@ def check_macro_backslash_align(lines: list[ScanLine]) -> list[Finding]:
         if content_len > _BACKSLASH_TARGET_COL - 1:
             return True
         return backslash_col != _BACKSLASH_TARGET_COL
-    return _emit(lines, "macro-backslash-align",
+    return emit(lines, "macro-backslash-align",
                  "multi-line #define continuation backslash not at column 81 — "
                  "run fix-macro-align.py to auto-fix",
                  predicate, reference="Macro formatting convention")
@@ -394,14 +316,14 @@ def check_file(path: Path) -> list[Finding]:
 def main(argv: list[str]) -> int:
     if len(argv) < 2:
         print(f"Usage: {argv[0]} <file> [<file> ...]", file=sys.stderr)
-        return 2
+        return EXIT_ERROR
 
     paths: list[Path] = []
     for raw in argv[1:]:
         p = Path(raw)
         if not p.is_file():
             print(f"error: not a file: {raw}", file=sys.stderr)
-            return 2
+            return EXIT_ERROR
         paths.append(p)
 
     all_findings: list[Finding] = []
@@ -413,9 +335,9 @@ def main(argv: list[str]) -> int:
 
     if all_findings:
         print(f"\nFAIL: {len(all_findings)} finding(s) in {len(paths)} file(s)")
-        return 1
+        return EXIT_ERROR
     print(f"PASS: {len(paths)} file(s) clean")
-    return 0
+    return EXIT_PASS
 
 
 if __name__ == "__main__":

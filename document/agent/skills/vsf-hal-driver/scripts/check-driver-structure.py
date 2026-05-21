@@ -21,6 +21,8 @@ except ImportError:
     print("Error: pyyaml required. Install with: pip install pyyaml", file=sys.stderr)
     sys.exit(1)
 
+from checker_base import ResultAccumulator, EXIT_PASS, EXIT_ERROR, EXIT_WARNING
+
 
 def load_spec(periph: str, script_dir: Path) -> dict:
     spec_dir = script_dir / "check-specs"
@@ -35,24 +37,12 @@ def load_spec(periph: str, script_dir: Path) -> dict:
     return yaml.safe_load(spec_file.read_text(encoding="utf-8"))
 
 
-def check_header(path: str, spec: dict) -> tuple[int, int]:
-    errors = 0
-    warnings = 0
+def check_header(path: str, spec: dict) -> ResultAccumulator:
     text = Path(path).read_text(encoding="utf-8")
+    r = ResultAccumulator()
 
     def has(pattern: str) -> bool:
         return bool(re.search(pattern, text, re.MULTILINE))
-
-    def say(kind: str, msg: str):
-        nonlocal errors, warnings
-        if kind == "OK":
-            print(f"  OK: {msg}")
-        elif kind == "FAIL":
-            print(f"  FAIL: {msg}")
-            errors += 1
-        else:
-            print(f"  WARN: {msg}")
-            warnings += 1
 
     is_ipcore = bool(re.search(r'#include\s+.*IPCore/', text))
     is_ipcore_impl = '/IPCore/' in path.replace('\\', '/')
@@ -66,120 +56,127 @@ def check_header(path: str, spec: dict) -> tuple[int, int]:
     guard = spec.get("guard", "")
     if guard:
         if has(rf"{re.escape(guard)}\s*==\s*ENABLED"):
-            say("OK", f"{guard} guard")
+            r.say("OK", f"{guard} guard")
         else:
-            say("FAIL", f"missing {guard} == ENABLED guard")
+            r.say("FAIL", f"missing {guard} == ENABLED guard")
 
     # ── Template include ──
     tpl = spec.get("template_include", "")
     if tpl:
         if has(rf'#include.*{re.escape(tpl)}'):
-            say("OK", f"{tpl} included")
+            r.say("OK", f"{tpl} included")
         elif is_ipcore:
-            say("OK", "types provided by IPCore header include")
+            r.say("OK", "types provided by IPCore header include")
         else:
-            say("WARN", f"missing #include {tpl} (OK if types from driver.h)")
+            r.say("WARN", f"missing #include {tpl} (OK if types from driver.h)")
 
     # ── irq_mask_t ──
     irq_mask = spec.get("irq_mask_t", "")
     if irq_mask:
         if has(re.escape(irq_mask)):
-            say("OK", f"{irq_mask} defined")
+            r.say("OK", f"{irq_mask} defined")
         elif is_ipcore:
             pass
         else:
-            say("WARN", f"{irq_mask} not found (OK if from driver.h)")
+            r.say("WARN", f"{irq_mask} not found (OK if from driver.h)")
 
     # ── IRQ bits ──
     if not is_ipcore:
         for bit in spec.get("required_irq_bits", []):
             macro = spec.get("irq_prefix", f"VSF_{spec.get('api_prefix', spec['periph']).upper()}_IRQ_MASK_{bit}")
             if has(re.escape(macro)):
-                say("OK", f"{macro}")
+                r.say("OK", f"{macro}")
             else:
-                say("FAIL", f"{macro} not found")
+                r.say("FAIL", f"{macro} not found")
         for bit in spec.get("warn_irq_bits", []):
             macro = spec.get("irq_prefix", f"VSF_{spec.get('api_prefix', spec['periph']).upper()}_IRQ_MASK_{bit}")
             if has(re.escape(macro)):
-                say("OK", f"{macro}")
+                r.say("OK", f"{macro}")
             else:
-                say("WARN", f"{macro} not found")
+                r.say("WARN", f"{macro} not found")
 
     # ── Mode bits ──
     if not is_ipcore:
         for bit in spec.get("required_modes", []):
             if has(re.escape(bit)):
-                say("OK", f"{bit}")
+                r.say("OK", f"{bit}")
             else:
-                say("FAIL", f"mandatory mode bit {bit} not found")
+                r.say("FAIL", f"mandatory mode bit {bit} not found")
         for bit in spec.get("warn_modes", []):
             if has(re.escape(bit)):
-                say("OK", f"{bit}")
+                r.say("OK", f"{bit}")
             else:
-                say("WARN", f"{bit} not found")
+                r.say("WARN", f"{bit} not found")
 
     # ── isr_t ──
     isr = spec.get("isr_t", "")
     if isr:
         if has(re.escape(isr)):
-            say("OK", f"{isr} defined")
+            r.say("OK", f"{isr} defined")
         elif not is_ipcore:
-            say("WARN", f"{isr} not found")
+            r.say("WARN", f"{isr} not found")
 
-    return errors, warnings
+    def has_define(macro: str) -> bool:
+        return bool(re.search(rf'^\s*#\s*define\s+{re.escape(macro)}\b', text, re.MULTILINE))
+
+    # ── Non-mandatory IRQ #defines (skip for IPCore) ──
+    if not is_ipcore:
+        for macro in spec.get("warn_irq_defines", []):
+            if has_define(macro):
+                r.say("OK", f"{macro} #define present")
+            else:
+                r.say("WARN", f"{macro} #define not found (VSF treats as unsupported)")
+
+    # ── CTRL #defines (skip for IPCore) ──
+    if not (is_ipcore or is_ipcore_impl):
+        for macro in spec.get("warn_ctrl_defines", []):
+            if has_define(macro):
+                r.say("OK", f"{macro} with #define")
+            else:
+                r.say("WARN", f"{macro} missing #define")
+
+    return r
 
 
-def check_source(path: str, spec: dict) -> tuple[int, int]:
-    errors = 0
-    warnings = 0
+def check_source(path: str, spec: dict) -> ResultAccumulator:
     text = Path(path).read_text(encoding="utf-8")
     src = spec.get("source", {})
+    r = ResultAccumulator()
 
     def has(pattern: str) -> bool:
         return bool(re.search(pattern, text, re.MULTILINE))
-
-    def say(kind: str, msg: str):
-        nonlocal errors, warnings
-        if kind == "OK":
-            print(f"  OK: {msg}")
-        elif kind == "FAIL":
-            print(f"  FAIL: {msg}")
-            errors += 1
-        else:
-            print(f"  WARN: {msg}")
-            warnings += 1
 
     # ── Guard ──
     guard = spec.get("guard", "")
     if guard:
         if has(rf"{re.escape(guard)}\s*==\s*ENABLED"):
-            say("OK", f"{guard} guard")
+            r.say("OK", f"{guard} guard")
         else:
-            say("FAIL", f"missing {guard} == ENABLED guard")
+            r.say("FAIL", f"missing {guard} == ENABLED guard")
 
     # ── HW struct ──
     struct_pat = src.get("struct_pattern", "")
     if struct_pat:
         if has(struct_pat):
-            say("OK", f"HW {spec['periph']} struct defined")
+            r.say("OK", f"HW {spec['periph']} struct defined")
         elif has(rf"implement\(vsf_\w+_{re.escape(spec['periph'])}_t\)"):
-            say("OK", "IPCore-based struct (implement pattern)")
+            r.say("OK", "IPCore-based struct (implement pattern)")
         else:
-            say("FAIL", f"missing {spec['periph']} struct or IPCore implement pattern")
+            r.say("FAIL", f"missing {spec['periph']} struct or IPCore implement pattern")
 
     # ── Required APIs ──
     for api in src.get("required_apis", []):
         if has(re.escape(api)):
-            say("OK", f"implements _{api}")
+            r.say("OK", f"implements _{api}")
         else:
-            say("FAIL", f"missing _{api}")
+            r.say("FAIL", f"missing _{api}")
 
     # ── Lifecycle APIs (template may provide defaults) ──
     for api in src.get("lifecycle_apis", []):
         if has(re.escape(api)):
-            say("OK", f"implements _{api}")
+            r.say("OK", f"implements _{api}")
         else:
-            say("WARN", f"missing _{api} (OK if template default used)")
+            r.say("WARN", f"missing _{api} (OK if template default used)")
 
     # ── Optional API groups ──
     for group in src.get("optional_api_groups", []):
@@ -187,40 +184,40 @@ def check_source(path: str, spec: dict) -> tuple[int, int]:
         apis = group["apis"]
         found = [a for a in apis if has(re.escape(a))]
         if found:
-            say("OK", f"{group_name} API present ({', '.join(found)})")
+            r.say("OK", f"{group_name} API present ({', '.join(found)})")
         else:
             level = group.get("level", "WARN")
-            say(level, f"no {group_name} API found")
+            r.say(level, f"no {group_name} API found")
 
     # ── Instance instantiation ──
     imp_lv0 = src.get("imp_lv0", "")
     if imp_lv0:
         if has(re.escape(imp_lv0)):
-            say("OK", f"{imp_lv0} defined")
+            r.say("OK", f"{imp_lv0} defined")
         else:
-            say("FAIL", f"missing {imp_lv0} instance instantiation")
+            r.say("FAIL", f"missing {imp_lv0} instance instantiation")
 
     # ── Template include ──
     tpl_inc = src.get("template_inc", "")
     if tpl_inc:
         if has(re.escape(tpl_inc)):
-            say("OK", f"{tpl_inc} included")
+            r.say("OK", f"{tpl_inc} included")
         else:
-            say("FAIL", f'missing #include "...{tpl_inc}"')
+            r.say("FAIL", f'missing #include "...{tpl_inc}"')
 
     # ── Prefix config ──
     for pref in src.get("prefix_macros", []):
         if has(re.escape(pref)):
-            say("OK", f"{pref} defined")
+            r.say("OK", f"{pref} defined")
         else:
-            say("FAIL", f"missing {pref}")
+            r.say("FAIL", f"missing {pref}")
 
     # ── IRQHandler ──
     count = len(re.findall(r"_IRQHandler", text))
     if count:
-        say("OK", f"{count} IRQHandler(s) defined")
+        r.say("OK", f"{count} IRQHandler(s) defined")
     else:
-        say("WARN", "no IRQHandler found (OK if IPCore dispatch used)")
+        r.say("WARN", "no IRQHandler found (OK if IPCore dispatch used)")
 
     # ── Unimplemented API convention ──
     api_prefix = spec.get("api_prefix", spec["periph"])
@@ -232,7 +229,7 @@ def check_source(path: str, spec: dict) -> tuple[int, int]:
         if "VSF_HAL_ASSERT(0)" not in stub:
             func_name = re.search(rf"\w*{re.escape(api_prefix)}_\w+", stub)
             if func_name:
-                say("WARN", f"stub {func_name.group()} returns VSF_ERR_NONE without VSF_HAL_ASSERT(0)")
+                r.say("WARN", f"stub {func_name.group()} returns VSF_ERR_NONE without VSF_HAL_ASSERT(0)")
 
     # ── Peripheral-specific checks ──
     if spec.get("periph") == "gpio":
@@ -240,9 +237,9 @@ def check_source(path: str, spec: dict) -> tuple[int, int]:
         if not is_gpio_driver:
             for pat in [r"gpio_set_function\b", r"io_bank0_hw\s*->", r"pads_bank0_hw\s*->"]:
                 if has(pat):
-                    say("WARN", f"pinmux register access in non-GPIO file: {pat}")
+                    r.say("WARN", f"pinmux register access in non-GPIO file: {pat}")
 
-    return errors, warnings
+    return r
 
 
 def main() -> int:
@@ -271,20 +268,11 @@ def main() -> int:
     print(f"=== Checking {path} ({args.periph} {args.side}) ===")
 
     if args.side == "header":
-        errors, warnings = check_header(path, spec)
+        result = check_header(path, spec)
     else:
-        errors, warnings = check_source(path, spec)
+        result = check_source(path, spec)
 
-    print()
-    if errors:
-        print(f"FAIL: {errors} essential check(s) failed")
-        sys.exit(1)
-    elif warnings:
-        print(f"PASS: all essential checks passed ({warnings} warnings)")
-        sys.exit(2)
-    else:
-        print("PASS: all checks passed")
-        sys.exit(0)
+    sys.exit(result.finalize())
 
 
 if __name__ == "__main__":

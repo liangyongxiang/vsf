@@ -24,33 +24,34 @@ import re
 import sys
 from pathlib import Path
 
+try:
+    import yaml  # type: ignore[reportMissingModuleSource]
+except ImportError:
+    print("Error: pyyaml required. Install with: pip install pyyaml", file=sys.stderr)
+    sys.exit(3)
 
-# Map: peripheral short name -> VSF_HAL_USE_* macro name
-PERIPH_MAP = {
-    "adc": "ADC",
-    "dac": "DAC",
-    "dma": "DMA",
-    "eth": "ETH",
-    "flash": "FLASH",
-    "gpio": "GPIO",
-    "i2c": "I2C",
-    "i2s": "I2S",
-    "pwm": "PWM",
-    "rng": "RNG",
-    "rtc": "RTC",
-    "sdio": "SDIO",
-    "spi": "SPI",
-    "timer": "TIMER",
-    "uart": "USART",   # VSF uses USART for both UART and USART
-    "usart": "USART",
-    "usb": "USB",
-    "wdt": "WDT",
-}
+_SCRIPT_DIR = Path(__file__).parent.resolve()
 
-# Reverse: upper -> canonical short name
-UPPER_TO_SHORT = {
-    "USART": "uart",  # prefer uart as canonical
-}
+
+def _load_registry() -> dict[str, dict]:
+    reg_file = _SCRIPT_DIR / "peripheral-registry.yml"
+    if reg_file.is_file():
+        return yaml.safe_load(reg_file.read_text(encoding="utf-8")) or {}
+    return {}
+
+
+_REGISTRY = _load_registry()
+
+
+def _macro_suffix(short: str) -> str:
+    return _REGISTRY.get(short, {}).get("macro_suffix", short.upper())
+
+
+def _short_from_upper(upper: str) -> str | None:
+    for short, info in _REGISTRY.items():
+        if info.get("macro_suffix") == upper:
+            return short
+    return None
 
 
 def scan_device_h(device_h: Path) -> dict[str, dict]:
@@ -67,7 +68,7 @@ def scan_device_h(device_h: Path) -> dict[str, dict]:
         upper = m.group(1)
         kind = m.group(2)
         count = int(m.group(3))
-        short = UPPER_TO_SHORT.get(upper, upper.lower())
+        short = _short_from_upper(upper) or upper.lower()
         results[short] = {"count": count, "kind": kind, "upper": upper}
 
     # Also look for instance macros to detect peripherals without COUNT
@@ -77,7 +78,7 @@ def scan_device_h(device_h: Path) -> dict[str, dict]:
     )
     for m in inst_re.finditer(text):
         upper = m.group(1)
-        short = UPPER_TO_SHORT.get(upper, upper.lower())
+        short = _short_from_upper(upper) or upper.lower()
         if short not in results:
             results[short] = {"count": 1, "kind": "instance", "upper": upper}
 
@@ -88,15 +89,10 @@ def scan_driver_h(driver_h: Path) -> set[str]:
     """Find which peripherals have template blocks in driver.h."""
     text = driver_h.read_text(encoding="utf-8")
     found: set[str] = set()
-    for short, upper in PERIPH_MAP.items():
-        # Look for: #if VSF_HAL_USE_UPPER == ENABLED ... #include ".../vsf_template_<periph>.h"
-        pat = rf'#if\s+VSF_HAL_USE_{upper}\s*==\s*ENABLED.*?#\s*include\s+"hal/driver/common/template/vsf_template_{short}'
-        if re.search(pat, text, re.DOTALL):
-            found.add(short)
-        # Also match usart template block for uart peripheral
-        if short == "uart" and re.search(rf'#if\s+VSF_HAL_USE_USART\s*==\s*ENABLED', text):
-            found.add("uart")
-            found.add("usart")
+    for m in re.finditer(r'#if\s+VSF_HAL_USE_([A-Z0-9_]+)\s*==\s*ENABLED', text):
+        upper = m.group(1)
+        short = _short_from_upper(upper) or upper.lower()
+        found.add(short)
     return found
 
 
@@ -104,9 +100,10 @@ def scan_vsf_usr_cfg(cfg_path: Path) -> set[str]:
     """Find which VSF_HAL_USE_* are ENABLED in vsf_usr_cfg.h."""
     text = cfg_path.read_text(encoding="utf-8")
     enabled: set[str] = set()
-    for short, upper in PERIPH_MAP.items():
-        if re.search(rf'^\s*#\s*define\s+VSF_HAL_USE_{upper}\s+ENABLED', text, re.MULTILINE):
-            enabled.add(short)
+    for m in re.finditer(r'^\s*#\s*define\s+VSF_HAL_USE_([A-Z0-9_]+)\s+ENABLED', text, re.MULTILINE):
+        upper = m.group(1)
+        short = _short_from_upper(upper) or upper.lower()
+        enabled.add(short)
     return enabled
 
 
@@ -154,13 +151,19 @@ def check_init_wiring(
         if short in _no_init_wiring_check:
             continue
 
-        # Heuristic instance names: vsf_hw_gpio0, vsf_hw_usart0, vsf_hw_usart_t
-        # UART uses USART prefix in VSF
+        # Collect all names that share the same macro_suffix (e.g. uart/usart)
         api_names = [short]
-        if short == "uart":
-            api_names.append("usart")
-        elif short == "usart":
-            api_names.append("uart")
+        my_info = _REGISTRY.get(short, {})
+        my_tpl = my_info.get("template_dir", short)
+        if my_tpl != short:
+            api_names.append(my_tpl)
+        my_suffix = _macro_suffix(short)
+        for other_short, info in _REGISTRY.items():
+            if other_short != short and info.get("macro_suffix") == my_suffix:
+                api_names.append(other_short)
+                other_tpl = info.get("template_dir", other_short)
+                if other_tpl != other_short:
+                    api_names.append(other_tpl)
 
         candidates = []
         for name in api_names:
@@ -253,9 +256,6 @@ def audit(
     # 1. Declaration gaps: declared in device.h but no files
     for short, info in sorted(declarations.items()):
         if info["count"] > 0 and short not in files:
-            # Exception: some peripherals share a directory (uart/usart)
-            if short == "usart" and "uart" in files:
-                continue
             print(f"[declaration-gap] {short}: VSF_HW_{info['upper']}_COUNT={info['count']} but no {short}/ directory")
             errors += 1
 
@@ -263,7 +263,7 @@ def audit(
     if cfg_path and cfg_path.is_file():
         for short, info in sorted(declarations.items()):
             if info["count"] > 0:
-                mapped = PERIPH_MAP.get(short, short.upper())
+                mapped = _macro_suffix(short)
                 # Check if enabled in cfg
                 cfg_text = cfg_path.read_text(encoding="utf-8")
                 cfg_enabled = bool(
@@ -278,7 +278,7 @@ def audit(
         for short in sorted(enabled):
             if short not in template_blocks:
                 # Check if there are files for this peripheral
-                has_files = short in files or (short == "usart" and "uart" in files)
+                has_files = short in files
                 if has_files:
                     print(f"[template-block-gap] {short}: enabled in vsf_usr_cfg.h but no template block in driver.h")
                     errors += 1

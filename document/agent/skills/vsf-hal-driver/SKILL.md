@@ -15,9 +15,9 @@ description: |
 
 **Add peripheral:**
 ```bash
+check-usart-header.py source/hal/driver/MyChip/uart/uart.h
+check-usart-source.py source/hal/driver/MyChip/uart/uart.c
 check-driver-quality.py source/hal/driver/MyChip/uart/uart.c
-check-driver-structure.py --periph usart --side header  source/hal/driver/MyChip/uart/uart.h
-check-driver-structure.py --periph usart --side source  source/hal/driver/MyChip/uart/uart.c
 vsf-bench --all board/pico/hardware-map.yml --scene usart_baud
 ```
 
@@ -37,7 +37,8 @@ See `REFERENCE.md` for conventions (parameterization, includes, stubs, register 
 | `scaffold_chip.py` | Starting a brand-new chip port | YAML chip config | Skeleton directory created |
 | `scaffold_peripheral.py` | Adding a peripheral to an existing chip | `--periph <name> --chip Vendor/Chip` | Template files copied and renamed |
 | `generate-device-peripheral-macros.py` | Adding/editing peripheral instances in device.h | YAML instance map | Macros written to device.h zone |
-| `check-driver-structure.py` | Verifying a driver file is structurally complete | `--periph <name> --side header\|source <file>` | All mandatory checks pass |
+| `check-<periph>-header.py` | Verifying a driver header is structurally complete | `<periph>.h` (periph = gpio, i2c, spi, adc, pwm, usart) | All mandatory checks pass |
+| `check-<periph>-source.py` | Verifying a driver source is structurally complete | `<periph>.c` (periph = gpio, i2c, spi, adc, pwm, usart) | All mandatory checks pass |
 | `check-driver-quality.py` | Checking for anti-patterns (hardcoded instances, pinmux-in-driver, etc.) | One or more `.c`/`.h` files | Zero quality findings |
 | `audit-port.py` | Cross-file consistency check across device.h, vsf_usr_cfg.h, driver files | `--chip Vendor/Chip` | No wiring gaps found |
 | `enable-periph.py` | Toggling `VSF_HAL_USE_*` in vsf_usr_cfg.h | `--enable usart,spi --disable i2c` | All requested toggles applied |
@@ -51,15 +52,15 @@ See `REFERENCE.md` for conventions (parameterization, includes, stubs, register 
 3. scaffold_peripheral.py     ← one per peripheral (R3a/R3b/R5)
 4. [edit driver .c / .h]      ← LLM: implement register logic
 5. enable-periph.py           ← enable the peripheral (R2)
-6. check-driver-structure.py  ← verify structural completeness
+6. check-<periph>-header.py + check-<periph>-source.py  ← verify structural completeness
 7. check-driver-quality.py    ← verify no anti-patterns
 8. audit-port.py              ← verify cross-file consistency
 9. vsf-bench                  ← build+flash+test on hardware
 ```
 
-**Structure vs quality checkers** — `check-driver-structure.py` verifies the driver *has the right shape* (guard macros present, all mandatory APIs exist, template includes correct). `check-driver-quality.py` verifies the driver *doesn't have the wrong content* (no hardcoded instances, no pinmux-in-driver, no bare IRQ names). Run structure first (cheap, catches mechanical omissions), then quality.
+**Structure vs quality checkers** — `check-<periph>-header.py` and `check-<periph>-source.py` verify the driver *has the right shape* (guard macros present, all mandatory APIs exist, template includes correct, IMP_LV0 defined). `check-driver-quality.py` verifies the driver *doesn't have the wrong content* (no hardcoded instances, no pinmux-in-driver, no bare IRQ names). Run structure first (cheap, catches mechanical omissions), then quality.
 
-**Peripheral specs** for the structure checker live in `scripts/check-specs/<periph>.yml`. Adding support for a new peripheral = adding a YAML file, not writing Python.
+Each peripheral has its own header/source checker pair (`check-gpio-header.py`, `check-gpio-source.py`, etc.) following the `check-usart-*.py` pattern. Adding support for a new peripheral = copying the USART checker and adapting the peripheral-specific checks (~100–200 lines).
 
 ## Template locations
 
@@ -67,7 +68,7 @@ See `REFERENCE.md` for conventions (parameterization, includes, stubs, register 
 
 ## Examples
 
-**New chip USART (IPCore):** `scaffold_chip.py` → copy uart template → `implement(vsf_pl011_usart_t)` → `IMP_LV0` → board.c pinmux → verify with `check-driver-structure.py` + `vsf-bench`.
+**New chip USART (IPCore):** `scaffold_chip.py` → `scaffold_peripheral.py --periph uart` → `implement(vsf_pl011_usart_t)` → `IMP_LV0` → board.c pinmux → verify with `check-usart-header.py` + `check-usart-source.py` + `vsf-bench`.
 
 **Fix bug:** reproduce → compare with template + working reference driver.
 
@@ -77,5 +78,5 @@ See `REFERENCE.md` for conventions (parameterization, includes, stubs, register 
 |---|---|
 | No output after init | Deassert reset in `init()`, verify `IMP_LV0` IRQ wiring. |
 | Check script flags anti-pattern | Fix or suppress with `// quality: allow-<rule-id>`. |
-| `check-driver-structure.py` reports missing API | Add the API stub with `VSF_HAL_ASSERT(0); return VSF_ERR_NOT_SUPPORT;` per REFERENCE.md. |
+| `check-<periph>-header.py` / `check-<periph>-source.py` reports missing API | Add the API stub with `VSF_HAL_ASSERT(0); return VSF_ERR_NOT_SUPPORT;` per REFERENCE.md. |
 | `audit-port.py` reports enable gap | Run `enable-periph.py --enable <periph>`. |

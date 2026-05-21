@@ -35,8 +35,8 @@ Read sequentially. Do not skim — verification gates exist because every later 
 
 **How to achieve.**
 
-1. Run `scripts/scaffold_chip.py <Vendor>/<Chip>` to copy the template skeleton into `source/hal/driver/<Vendor>/<Chip>/`.
-2. Open `device.h`. Per the convention in REFERENCE.md "Per-instance parameterization in device.h", add `VSF_HW_<PERIPH>_COUNT` and `VSF_HW_<PERIPH><N>_REG / _IRQN / _IRQHandler` macros for every instance you expect to use.
+1. Run `scaffold_chip.py --driver-dir source/hal/driver --config chip.yaml` to copy the template skeleton into `source/hal/driver/<Vendor>/<Chip>/`.
+2. Write a YAML instance map and run `generate-device-peripheral-macros.py --in-place source/hal/driver/<Vendor>/<Chip>/device.h instances.yaml`. Per REFERENCE.md "Per-instance parameterization in device.h", the generated macros are `VSF_HW_<PERIPH>_COUNT` and `VSF_HW_<PERIPH><N>_REG / _IRQN / _IRQHandler` for every instance.
 3. In `driver.c`'s `vsf_driver_init()`, port the vendor SDK's clock setup (PLL bring-up, peripheral clock gates). If your chip has a watchdog tick required for the system timer (see RP2040 example), enable it here.
 4. Add the chip's CMake fragment so `vsf_demo.elf` links.
 
@@ -76,11 +76,11 @@ Read sequentially. Do not skim — verification gates exist because every later 
 
 **How to achieve.**
 
-1. Copy `template/__series_name_a__/common/uart/` into your chip's driver tree (`source/hal/driver/<Vendor>/<Chip>/uart/`). See REFERENCE.md "Style migration".
+1. Run `scaffold_peripheral.py --driver-dir source/hal/driver --chip <Vendor>/<Chip> --periph uart` to copy the template into your chip's tree. See REFERENCE.md "Style migration".
 2. Replace template placeholders with your chip's IP details (PL011, DW APB UART, USART, etc.). Use `VSF_MCONNECT` for instance prefixing — never write `vsf_hw_uart0` directly in the `.c` file.
 3. Add `IMP_LV0` invocations for each UART instance. The struct's per-instance fields (`reg`, `irq`, `rst_bit`, etc.) come from the macros you defined in R1.
 4. Add the UART pinmux to `board/<your_board>/vsf_board.c`. Use `vsf_gpio_port_config_pins()` — **not** raw vendor register writes. See [[pico-board-init-cleanup]] for the canonical pattern.
-5. Run `scripts/check-driver-quality.py <your_uart.c>` (when [[hal-driver-quality-check]] lands). Findings must be zero before moving on.
+5. Run `check-usart-header.py <your_uart.h>`, `check-usart-source.py <your_uart.c>`, and `check-driver-quality.py <your_uart.c>`. All three must exit 0 (or 2 with only known-acceptable warnings) before moving on.
 
 **Verification.** `vsf-bench-test <hardware-map.yml> --scene usart_baud` reports all cases pass.
 
@@ -98,9 +98,10 @@ Read sequentially. Do not skim — verification gates exist because every later 
 
 **How to achieve.**
 
-1. Copy `template/__series_name_a__/common/gpio/` into your chip's tree.
+1. Run `scaffold_peripheral.py --driver-dir source/hal/driver --chip <Vendor>/<Chip> --periph gpio` to copy the template into your chip's tree.
 2. Implement set, clear, read, and `port_config_pins`. The `alternate_function` field of `vsf_gpio_cfg_t` writes the chip's pin-function selector.
 3. Add the GPIO instance via `IMP_LV0`. Per-port base addresses go in `device.h`.
+4. Run `check-gpio-header.py` and `check-gpio-source.py` on the generated files. Exit 0 (or 2 with known-acceptable warnings) before moving on.
 
 **Verification.** Wire a GPIO pin to a logic analyzer channel. Run `vsf-bench-test --scene gpio_toggle`. LA confirms the configured-rate toggle.
 
@@ -139,11 +140,14 @@ Read sequentially. Do not skim — verification gates exist because every later 
 **How to achieve.** For each peripheral (I2C, SPI, ADC, PWM, DMA, RTC, Flash, WDT, Timer):
 
 1. Read `peripherals/<periph>.md` in this skill.
-2. Copy the matching template directory.
-3. Fill in IP-specific register manipulation. Use `IMP_LV0` and `VSF_MCONNECT` per R3a.
-4. Add the peripheral's pinmux to `vsf_board.c` if it needs alternate-function pins.
-5. Run `scripts/check-driver-quality.py` (when available). Findings must be zero.
-6. Run the peripheral's `vsf-bench-test` scenario.
+2. Run `scaffold_peripheral.py --driver-dir source/hal/driver --chip <Vendor>/<Chip> --periph <periph>` to copy the matching template directory.
+3. If the peripheral requires new instance macros in `device.h`, write a YAML instance map and run `generate-device-peripheral-macros.py --in-place device.h instances.yaml`.
+4. Fill in IP-specific register manipulation. Use `IMP_LV0` and `VSF_MCONNECT` per R3a.
+5. Add the peripheral's pinmux to `vsf_board.c` if it needs alternate-function pins.
+6. Run `enable-periph.py --enable <periph> <vsf_usr_cfg.h>` to enable the peripheral.
+7. Run `check-<periph>-header.py`, `check-<periph>-source.py`, and `check-driver-quality.py`. All three must exit 0 (or 2 with only known-acceptable warnings).
+8. Run `audit-port.py --chip <Vendor>/<Chip>` to verify cross-file consistency. Must exit 0 (or 2 with only known-acceptable warnings).
+9. Run the peripheral's `vsf-bench-test` scenario.
 
 **Verification.** Each peripheral's scenario passes.
 

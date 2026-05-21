@@ -157,7 +157,7 @@ typedef enum vsf_usart_irq_mask_t {
 #   define VSF_USART_IRQ_MASK_BREAK_ERR VSF_USART_IRQ_MASK_BREAK_ERR
     VSF_USART_IRQ_MASK_RX_OVERFLOW_ERR  = (0x1ul << 10),
 #   define VSF_USART_IRQ_MASK_RX_OVERFLOW_ERR VSF_USART_IRQ_MASK_RX_OVERFLOW_ERR
-    VSF_USART_IRQ_MASK_CTS              = (0x1ul << 11),
+    VSF_USART_IRQ_MASK_CTS              = (0x1ul << 1),
 #   define VSF_USART_IRQ_MASK_CTS VSF_USART_IRQ_MASK_CTS
 
     // PL011 has no native idle detection; VSF maps RX_IDLE to RX_TIMEOUT
@@ -172,7 +172,8 @@ typedef enum vsf_usart_irq_mask_t {
                                         | VSF_USART_IRQ_MASK_TX,
     PL011_USART_IRQ_MASK                = PL011_USART_IRQ_MASK_FIFO
                                         | VSF_USART_IRQ_MASK_RX_TIMEOUT
-                                        | PL011_USART_IRQ_MASK_ERROR,
+                                        | PL011_USART_IRQ_MASK_ERROR
+                                        | VSF_USART_IRQ_MASK_CTS,
 
     /* Chip wrappers may extend this enum with TX_CPL / RX_CPL / DMA-related
      * masks at high bit positions (e.g. RP2040 uses bits 16-17). Force the

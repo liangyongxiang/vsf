@@ -92,6 +92,9 @@ extern "C" {
 #ifndef VSF_TEST_USART_BREAK_SIGNAL_ENABLE
 #   define VSF_TEST_USART_BREAK_SIGNAL_ENABLE     DISABLED
 #endif
+#ifndef VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE
+#   define VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE  DISABLED
+#endif
 
 //! \brief 编译开关：TX FIFO threshold IRQ + ISR refill (gap-fill PRD)
 #ifndef VSF_TEST_USART_TX_FIFO_IRQ_ENABLE
@@ -202,6 +205,16 @@ vsf_class(vsf_test_usart_break_signal_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_usart_t *usart;
+    )
+};
+
+vsf_class(vsf_test_usart_hw_flow_control_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_usart_t *usart;
+    )
+    private_member(
+        volatile uint32_t cts_count;
     )
 };
 
@@ -368,6 +381,13 @@ typedef struct vsf_test_usart_break_signal_case_t {
     vsf_test_usart_break_signal_suite_t *suite;
 } vsf_test_usart_break_signal_case_t;
 
+//! \brief USART hardware flow control 测试用例配置条目
+typedef struct vsf_test_usart_hw_flow_control_case_t {
+    uint8_t          idx;
+    vsf_usart_mode_t flow_mode;     //! one of VSF_USART_RTS_HWCONTROL etc.
+    vsf_test_usart_hw_flow_control_suite_t *suite;
+} vsf_test_usart_hw_flow_control_case_t;
+
 /* ---- Gap-fill PRD: FIFO IRQ + request API + cancel ---- */
 
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
@@ -426,6 +446,7 @@ typedef struct vsf_test_usart_suites_t {
     vsf_test_usart_rx_break_error_suite_t      rx_break_error;
     vsf_test_usart_rx_overflow_error_suite_t   rx_overflow_error;
     vsf_test_usart_break_signal_suite_t        break_signal;
+    vsf_test_usart_hw_flow_control_suite_t     hw_flow_control;
     vsf_test_usart_tx_fifo_irq_suite_t         tx_fifo_irq;
     vsf_test_usart_rx_fifo_irq_suite_t         rx_fifo_irq;
     vsf_test_usart_request_tx_irq_suite_t      request_tx_irq;
@@ -496,6 +517,11 @@ void vsf_test_usart_rx_overflow_error_run(const vsf_test_usart_rx_overflow_error
 #if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
 void vsf_test_usart_break_signal_add_cases(vsf_test_usart_break_signal_suite_t *suite);
 void vsf_test_usart_break_signal_run(const vsf_test_usart_break_signal_case_t *c);
+#endif
+
+#if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
+void vsf_test_usart_hw_flow_control_add_cases(vsf_test_usart_hw_flow_control_suite_t *suite);
+void vsf_test_usart_hw_flow_control_run(const vsf_test_usart_hw_flow_control_case_t *c);
 #endif
 
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED

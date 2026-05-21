@@ -63,6 +63,9 @@ void vsf_test_usart_register_all(vsf_test_usart_suites_t *s)
 #if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
     vsf_test_usart_break_signal_add_cases(&s->break_signal);
 #endif
+#if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
+    vsf_test_usart_hw_flow_control_add_cases(&s->hw_flow_control);
+#endif
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
     vsf_test_usart_tx_fifo_irq_add_cases(&s->tx_fifo_irq);
 #endif

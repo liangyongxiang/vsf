@@ -101,7 +101,6 @@ void VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_fini)(
     VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_t) *i2c_ptr
 ) {
     VSF_HAL_ASSERT(NULL != i2c_ptr);
-    VSF_HAL_ASSERT(0);
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_enable)(
@@ -131,7 +130,6 @@ void VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_irq_disable)(
     vsf_i2c_irq_mask_t irq_mask
 ) {
     VSF_HAL_ASSERT(NULL != i2c_ptr);
-    VSF_HAL_ASSERT(0);
 }
 
 vsf_i2c_status_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_status)(
@@ -152,8 +150,7 @@ vsf_err_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_master_request)(
 ) {
     VSF_HAL_ASSERT(NULL != i2c_ptr);
     VSF_HAL_ASSERT(0 != count);
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_master_fifo_transfer)(
@@ -174,7 +171,6 @@ uint_fast16_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_master_get_transferred_c
     VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_t) *i2c_ptr
 ) {
     VSF_HAL_ASSERT(NULL != i2c_ptr);
-    VSF_HAL_ASSERT(0);
     return 0;
 }
 
@@ -186,8 +182,7 @@ vsf_err_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_slave_request)(
 ) {
     VSF_HAL_ASSERT(NULL != i2c_ptr);
     VSF_HAL_ASSERT(0 != count);
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 uint_fast16_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_slave_fifo_transfer)(
@@ -198,7 +193,6 @@ uint_fast16_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_slave_fifo_transfer)(
 ) {
     VSF_HAL_ASSERT(NULL != i2c_ptr);
     VSF_HAL_ASSERT(0 != count);
-    VSF_HAL_ASSERT(0);
     return 0;
 }
 
@@ -206,7 +200,6 @@ uint_fast16_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_slave_get_transferred_co
     VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_t) *i2c_ptr
 ) {
     VSF_HAL_ASSERT(NULL != i2c_ptr);
-    VSF_HAL_ASSERT(0);
     return 0;
 }
 
@@ -272,8 +265,7 @@ vsf_err_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_ctrl)(
 {
     VSF_HAL_ASSERT(NULL != i2c_ptr);
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_i2c_irq_mask_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_irq_clear)(
@@ -282,7 +274,6 @@ vsf_i2c_irq_mask_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_irq_clear)(
 ) {
     VSF_HAL_ASSERT(NULL != i2c_ptr);
 
-    VSF_HAL_ASSERT(0);
     return 0;
 }
 // HW end

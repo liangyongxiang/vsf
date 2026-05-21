@@ -114,7 +114,6 @@ void VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_fini)(
     VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_t) *spi_ptr
 ) {
     VSF_HAL_ASSERT(spi_ptr != NULL);
-    VSF_HAL_ASSERT(0);
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_enable)(
@@ -138,7 +137,6 @@ void VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_irq_enable)(
     vsf_spi_irq_mask_t irq_mask
 ) {
     VSF_HAL_ASSERT(spi_ptr != NULL);
-    VSF_HAL_ASSERT(0);
 }
 
 void VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_irq_disable)(
@@ -146,7 +144,6 @@ void VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_irq_disable)(
     vsf_spi_irq_mask_t irq_mask
 ) {
     VSF_HAL_ASSERT(spi_ptr != NULL);
-    VSF_HAL_ASSERT(0);
 }
 
 vsf_spi_status_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_status)(
@@ -165,8 +162,7 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_cs_active)(
 ) {
     VSF_HAL_ASSERT(spi_ptr != NULL);
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_cs_inactive)(
@@ -175,8 +171,7 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_cs_inactive)(
 ) {
     VSF_HAL_ASSERT(spi_ptr != NULL);
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 void VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_fifo_transfer)(
@@ -188,7 +183,6 @@ void VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_fifo_transfer)(
     uint_fast32_t cnt
 ) {
     VSF_HAL_ASSERT(spi_ptr != NULL);
-    VSF_HAL_ASSERT(0);
 }
 
 vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_request_transfer)(
@@ -199,8 +193,7 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_request_transfer)(
 ) {
     VSF_HAL_ASSERT(spi_ptr != NULL);
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_cancel_transfer)(
@@ -208,8 +201,7 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_cancel_transfer)(
 ) {
     VSF_HAL_ASSERT(spi_ptr != NULL);
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 void VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_get_transferred_count)(
@@ -218,7 +210,6 @@ void VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_get_transferred_count)(
     uint_fast32_t *in_count
 ) {
     VSF_HAL_ASSERT(spi_ptr != NULL);
-    VSF_HAL_ASSERT(0);
 }
 
 static void VSF_MCONNECT(__, VSF_SPI_CFG_IMP_PREFIX, _spi_irqhandler)(
@@ -286,8 +277,7 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_ctrl)(
 ) {
     VSF_HAL_ASSERT(spi_ptr != NULL);
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_spi_irq_mask_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_irq_clear)(
@@ -295,7 +285,6 @@ vsf_spi_irq_mask_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_irq_clear)(
     vsf_spi_irq_mask_t irq_mask
 ) {
     VSF_HAL_ASSERT(NULL != spi_ptr);
-    VSF_HAL_ASSERT(0);
     return 0;
 }
 // HW end

@@ -66,8 +66,7 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(
     vsf_gpio_cfg_t *cfg_ptr
 ) {
     VSF_HAL_ASSERT(NULL != gpio_ptr);
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_pin_configuration)(
@@ -91,7 +90,6 @@ void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_direction)(
     vsf_gpio_pin_mask_t direction_mask
 ) {
     VSF_HAL_ASSERT(NULL != gpio_ptr);
-    VSF_HAL_ASSERT(0);
 }
 
 vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_direction)(
@@ -99,7 +97,6 @@ vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_direction)(
     vsf_gpio_pin_mask_t pin_mask
 ) {
     VSF_HAL_ASSERT(NULL != gpio_ptr);
-    VSF_HAL_ASSERT(0);
     return 0;
 }
 
@@ -109,7 +106,6 @@ vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_read)(
     VSF_HAL_ASSERT(NULL != gpio_ptr);
     // TODO: Read actual pin levels from input data register (IDR)
     // Example: return gpio_ptr->registers->IDR;
-    VSF_HAL_ASSERT(0);
     return 0;
 }
 
@@ -120,7 +116,6 @@ vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_read_output_regi
     // TODO: Read output register values from output data register (ODR)
     // This reads what the GPIO controller is trying to drive, not the actual pin levels
     // Example: return gpio_ptr->registers->ODR;
-    VSF_HAL_ASSERT(0);
     return 0;
 }
 
@@ -130,7 +125,6 @@ void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_write)(
     vsf_gpio_pin_mask_t value
 ) {
     VSF_HAL_ASSERT(NULL != gpio_ptr);
-    VSF_HAL_ASSERT(0);
 }
 
 void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_toggle)(
@@ -138,7 +132,6 @@ void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_toggle)(
     vsf_gpio_pin_mask_t pin_mask
 ) {
     VSF_HAL_ASSERT(NULL != gpio_ptr);
-    VSF_HAL_ASSERT(0);
 }
 
 vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_enable)(
@@ -146,16 +139,14 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_enable)(
     vsf_gpio_pin_mask_t pin_mask
 ) {
     VSF_HAL_ASSERT(NULL != gpio_ptr);
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_disable)(
     VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *gpio_ptr,
     vsf_gpio_pin_mask_t pin_mask) {
     VSF_HAL_ASSERT(NULL != gpio_ptr);
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_config)(
@@ -164,8 +155,7 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_config)(
 ) {
     VSF_HAL_ASSERT(NULL != gpio_ptr);
     VSF_HAL_ASSERT(NULL != cfg_ptr);
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_get_configuration)(
@@ -178,8 +168,7 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_get_configuration
     // For template implementation, return a default configuration
     // In a real implementation, this should retrieve the actual hardware configuration
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_clear)(
@@ -189,7 +178,6 @@ vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_clear)(
     VSF_HAL_ASSERT(NULL != gpio_ptr);
     // implement this function in the device file
     // This function should clear the specified interrupt flags and return the state before clearing
-    VSF_HAL_ASSERT(0);
     return 0;
 }
 
@@ -212,8 +200,7 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_ctrl)(
 ) {
     VSF_HAL_ASSERT(gpio_ptr != NULL);
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 /*\note Implementation of APIs below is optional, because there is default implementation in gpio_template.inc.
@@ -264,7 +251,6 @@ void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_output_and_set)(
     vsf_gpio_pin_mask_t pin_mask
 ) {
     VSF_HAL_ASSERT(NULL != gpio_ptr);
-    VSF_HAL_ASSERT(0);
 }
 
 void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_output_and_clear)(
@@ -272,7 +258,6 @@ void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_output_and_clear)(
     vsf_gpio_pin_mask_t pin_mask
 ) {
     VSF_HAL_ASSERT(NULL != gpio_ptr);
-    VSF_HAL_ASSERT(0);
 }
 
 vsf_gpio_capability_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_capability)(

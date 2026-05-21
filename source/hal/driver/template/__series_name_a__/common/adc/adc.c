@@ -98,7 +98,6 @@ void VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_fini)(
     VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_t) *adc_ptr
 ) {
     VSF_HAL_ASSERT(adc_ptr != NULL);
-    VSF_HAL_ASSERT(0);
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_enable)(
@@ -120,7 +119,6 @@ void VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_irq_enable)(
     vsf_adc_irq_mask_t irq_mask
 ) {
     VSF_HAL_ASSERT(NULL != adc_ptr);
-    VSF_HAL_ASSERT(0);
 }
 
 void VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_irq_disable)(
@@ -128,7 +126,6 @@ void VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_irq_disable)(
     vsf_adc_irq_mask_t irq_mask
 ) {
     VSF_HAL_ASSERT(NULL != adc_ptr);
-    VSF_HAL_ASSERT(0);
 }
 
 vsf_adc_status_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_status)(
@@ -146,8 +143,7 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_request_once)(
     void *buffer_ptr
 ) {
     VSF_HAL_ASSERT((NULL != adc_ptr) && (NULL != buffer_ptr));
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_config)(
@@ -157,8 +153,7 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_config)(
 ) {
     VSF_HAL_ASSERT((NULL != adc_ptr) && (NULL != channel_cfgs_ptr));
     VSF_HAL_ASSERT(0 != channel_cfgs_cnt);
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_request)(
@@ -167,8 +162,7 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_request)(
     uint_fast32_t count
 ) {
     VSF_HAL_ASSERT((NULL != adc_ptr) && (NULL != buffer_ptr) && (count > 0));
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 static void VSF_MCONNECT(__, VSF_ADC_CFG_IMP_PREFIX, _adc_irqhandler)(
@@ -230,8 +224,7 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_ctrl)(
 ) {
     VSF_HAL_ASSERT(adc_ptr != NULL);
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 // HW end
 

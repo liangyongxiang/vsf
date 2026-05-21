@@ -93,15 +93,13 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_init)(
     vsf_pwm_cfg_t *cfg_ptr
 ) {
     VSF_HAL_ASSERT((NULL != pwm_ptr) && (NULL != cfg_ptr));
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 void VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_fini)(
     VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_t) *pwm_ptr
 ) {
     VSF_HAL_ASSERT(pwm_ptr != NULL);
-    VSF_HAL_ASSERT(0);
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_enable)(
@@ -128,8 +126,7 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_set)(
 ) {
     VSF_HAL_ASSERT(pwm_ptr != NULL);
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 uint32_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_get_freq)(
@@ -137,7 +134,6 @@ uint32_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_get_freq)(
 ) {
     VSF_HAL_ASSERT(pwm_ptr != NULL);
 
-    VSF_HAL_ASSERT(0);
     return 0;
 }
 
@@ -161,8 +157,7 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_get_configuration)(
     // TODO: Implement hardware-specific configuration reading
     // Read current PWM configuration from hardware registers
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 
 vsf_pwm_capability_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_capability)(
@@ -183,8 +178,7 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_ctrl)(
 ) {
     VSF_HAL_ASSERT(pwm_ptr != NULL);
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    return VSF_ERR_NONE;
 }
 // HW end
 

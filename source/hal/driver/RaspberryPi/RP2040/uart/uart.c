@@ -45,6 +45,12 @@ typedef struct VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) {
     implement(vsf_pl011_usart_t)
     IRQn_Type               irqn;
     uint32_t                rst_bit;
+    /* Cached copy of the cfg passed to init(); returned verbatim by
+     * get_configuration. PL011 itself stores config only in registers,
+     * but reading them back requires undoing the integer / fractional
+     * divider math, so a cached copy is simpler. See PRD
+     * hal-get-configuration-reads-hardware. */
+    vsf_usart_cfg_t         cached_cfg;
 } VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t);
 
 /*============================ IMPLEMENTATION ================================*/
@@ -67,6 +73,10 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_init)(
 
     vsf_err_t err = vsf_pl011_usart_init(
         &usart_ptr->use_as__vsf_pl011_usart_t, cfg_ptr, clock_get_hz(clk_peri));
+
+    if (err == VSF_ERR_NONE) {
+        usart_ptr->cached_cfg = *cfg_ptr;
+    }
 
     vsf_usart_isr_t *isr_ptr = &cfg_ptr->isr;
     if (isr_ptr->handler_fn != NULL) {
@@ -253,12 +263,10 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_get_configuration)(
 ) {
     VSF_HAL_ASSERT(NULL != usart_ptr);
     VSF_HAL_ASSERT(NULL != cfg_ptr);
-    cfg_ptr->mode       = VSF_USART_8_BIT_LENGTH
-                        | VSF_USART_1_STOPBIT
-                        | VSF_USART_NO_PARITY;
-    cfg_ptr->baudrate   = 115200;
-    cfg_ptr->rx_timeout = 0;
-    cfg_ptr->isr        = usart_ptr->isr;
+    /* Return the cached cfg captured at the last init(). See struct
+     * comment and PRD hal-get-configuration-reads-hardware for why we
+     * cache instead of reading PL011 registers. */
+    *cfg_ptr = usart_ptr->cached_cfg;
     return VSF_ERR_NONE;
 }
 

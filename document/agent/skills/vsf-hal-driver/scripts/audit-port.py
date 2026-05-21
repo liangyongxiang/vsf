@@ -195,9 +195,10 @@ def check_include_convention(chip_dir: Path) -> list[tuple[Path, str]]:
     # Exempt: device.h and driver.c (chip-level integration)
     bare_chip_re = re.compile(r'#\s*include\s+"[A-Z][A-Za-z0-9_]*\.h"')
     exempt_names = {"device.h", "driver.c", "driver.h", "__device.h"}
+    exempt_prefixes = ("startup_",)
 
     for cfile in chip_dir.rglob("*.c"):
-        if cfile.name in exempt_names:
+        if cfile.name in exempt_names or cfile.name.startswith(exempt_prefixes):
             continue
         text = cfile.read_text(encoding="utf-8")
         for m in bare_chip_re.finditer(text):

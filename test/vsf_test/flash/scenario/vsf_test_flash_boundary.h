@@ -1,4 +1,4 @@
-/*****************************************************************************
+/******************************************************************************
  *   Copyright(C)2009-2024 by VSF Team                                       *
  *                                                                           *
  *  Licensed under the Apache License, Version 2.0 (the "License");          *
@@ -15,22 +15,27 @@
  *                                                                           *
  *****************************************************************************/
 
-/*============================ INCLUDES ======================================*/
+#ifndef __TEST_FLASH_BOUNDARY_H__
+#define __TEST_FLASH_BOUNDARY_H__
 
-#include "vsf_test_flash.h"
+#include "../vsf_test_flash.h"
 
-/*============================ IMPLEMENTATION ================================*/
-
-// Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
-// internally, which also opens the matching shell suite.
-void vsf_test_flash_register_all(vsf_test_flash_suites_t *s)
-{
-#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-    vsf_test_flash_erase_program_read_add_cases(&s->erase_program_read);
-#endif
 #if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-    vsf_test_flash_boundary_add_cases(&s->boundary);
-#endif
-}
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*============================ PROTOTYPES ====================================*/
+
+void vsf_test_flash_boundary_add_cases(vsf_test_flash_boundary_suite_t *suite);
+void vsf_test_flash_boundary_run(const vsf_test_flash_boundary_case_t *c);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED */
+
+#endif /* __TEST_FLASH_BOUNDARY_H__ */
 /* EOF */

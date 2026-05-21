@@ -35,6 +35,10 @@ extern "C" {
 #   define VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE     DISABLED
 #endif
 
+#ifndef VSF_TEST_FLASH_BOUNDARY_ENABLE
+#   define VSF_TEST_FLASH_BOUNDARY_ENABLE               DISABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 vsf_class(vsf_test_flash_erase_program_read_suite_t) {
@@ -53,8 +57,25 @@ typedef struct vsf_test_flash_erase_program_read_case_t {
 } vsf_test_flash_erase_program_read_case_t;
 #endif
 
+vsf_class(vsf_test_flash_boundary_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_flash_t *flash;
+    )
+};
+
+#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
+typedef struct vsf_test_flash_boundary_case_t {
+    uint8_t  idx;
+    uint32_t offset;
+    uint32_t size;
+    vsf_test_flash_boundary_suite_t *suite;
+} vsf_test_flash_boundary_case_t;
+#endif
+
 typedef struct vsf_test_flash_suites_t {
     vsf_test_flash_erase_program_read_suite_t erase_program_read;
+    vsf_test_flash_boundary_suite_t           boundary;
 } vsf_test_flash_suites_t;
 
 void vsf_test_flash_register_all(vsf_test_flash_suites_t *s);
@@ -64,6 +85,11 @@ void vsf_test_flash_register_all(vsf_test_flash_suites_t *s);
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
 void vsf_test_flash_erase_program_read_add_cases(vsf_test_flash_erase_program_read_suite_t *suite);
 void vsf_test_flash_erase_program_read_run(const vsf_test_flash_erase_program_read_case_t *c);
+#endif
+
+#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
+void vsf_test_flash_boundary_add_cases(vsf_test_flash_boundary_suite_t *suite);
+void vsf_test_flash_boundary_run(const vsf_test_flash_boundary_case_t *c);
 #endif
 
 #include "test_params_generated.h"

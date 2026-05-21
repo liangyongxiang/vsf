@@ -15,6 +15,9 @@ extern "C" {
 #ifndef VSF_TEST_WDT_BASIC_ENABLE
 #   define VSF_TEST_WDT_BASIC_ENABLE           ENABLED
 #endif
+#ifndef VSF_TEST_WDT_REBOOT_ENABLE
+#   define VSF_TEST_WDT_REBOOT_ENABLE          DISABLED
+#endif
 
 /*============================ TYPES =========================================*/
 
@@ -25,8 +28,16 @@ vsf_class(vsf_test_wdt_basic_suite_t) {
     )
 };
 
+vsf_class(vsf_test_wdt_reboot_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_wdt_t *wdt;
+    )
+};
+
 typedef struct vsf_test_wdt_suites_t {
     vsf_test_wdt_basic_suite_t basic;
+    vsf_test_wdt_reboot_suite_t reboot;
 } vsf_test_wdt_suites_t;
 
 /*============================ PROTOTYPES ====================================*/
@@ -36,6 +47,11 @@ void vsf_test_wdt_register_all(vsf_test_wdt_suites_t *s);
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
 void vsf_test_wdt_basic_add_cases(vsf_test_wdt_basic_suite_t *suite);
 void vsf_test_wdt_basic_run(void *arg);
+#endif
+
+#if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
+void vsf_test_wdt_reboot_add_cases(vsf_test_wdt_reboot_suite_t *suite);
+void vsf_test_wdt_reboot_run(void *arg);
 #endif
 
 #ifdef __cplusplus

@@ -132,6 +132,8 @@
 #define VSF_HW_FLASH0_SIZE          (2 * 1024 * 1024)
 #define VSF_HW_FLASH0_SECTOR_SIZE   4096
 #define VSF_HW_FLASH0_PAGE_SIZE     256
+#define VSF_HW_FLASH0_SECTOR_NUM    512
+#define VSF_HW_FLASH0_XIP_BASE      XIP_BASE
 
 #define VSF_HW_WDT_COUNT            1
 #define VSF_HW_WDT0_REG             WATCHDOG_BASE

@@ -110,10 +110,10 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
     uint32_t tx_remaining = total;
     uint8_t *tx_src = txbuf;
 
-    /* Wait. Loopback supplies bytes via TX → RX as we push them. */
-    uint32_t timeout_ms = (total * 10000 / 115200) + 1000;
-    uint32_t waited = 0;
-    while (!c->suite->done && waited < timeout_ms) {
+    /* Wait. Loopback supplies bytes via TX → RX as we push them.
+     * Fixed iteration bound — immune to CI scheduler jitter. */
+    #define RX_FIFO_IRQ_POLL_MAX_ITER 8000   /* ~8 s equivalent with 1 ms step */
+    for (uint32_t iter = 0; iter < RX_FIFO_IRQ_POLL_MAX_ITER && !c->suite->done; iter++) {
         if (tx_remaining > 0) {
             uint_fast16_t want = (tx_remaining > 16) ? 16 : (uint_fast16_t)tx_remaining;
             uint_fast16_t wrote = vsf_usart_txfifo_write(usart, tx_src, want);
@@ -121,7 +121,6 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
             tx_remaining  -= wrote;
         }
         vsf_test_busy_wait_ms(1);
-        waited++;
     }
     VSF_TEST_ASSERT(c->suite->done);
     VSF_TEST_ASSERT(c->suite->isr_count > 0);

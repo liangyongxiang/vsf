@@ -94,6 +94,18 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
     lines.append(f"/* === {scenario_key} ({name}) === */")
     lines.append("")
 
+    # timeout_s → #define VSF_TEST_<NAME>_TIMEOUT_MS (firmware-side opt-in)
+    timeout_s = sc.get("timeout_s")
+    if timeout_s is not None:
+        lines.append(f"#define VSF_TEST_{upper}_TIMEOUT_MS  ((uint32_t)({timeout_s} * 1000))")
+        lines.append("")
+
+    # suite_timeout_s → #define VSF_TEST_<NAME>_SUITE_TIMEOUT_MS (firmware-side opt-in)
+    suite_timeout_s = sc.get("suite_timeout_s")
+    if suite_timeout_s is not None:
+        lines.append(f"#define VSF_TEST_{upper}_SUITE_TIMEOUT_MS  ((uint32_t)({suite_timeout_s} * 1000))")
+        lines.append("")
+
     # defaults params → #define VSF_TEST_<NAME>_DEFAULT_<KEY>
     defaults = sc.get("defaults") or {}
     defaults_keys: set[str] = set()

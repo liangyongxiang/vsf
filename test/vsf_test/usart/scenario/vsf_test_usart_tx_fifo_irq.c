@@ -106,12 +106,11 @@ void vsf_test_usart_tx_fifo_irq_run(const vsf_test_usart_tx_fifo_irq_case_t *c)
     c->suite->remaining -= wrote;
     vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_TX);
 
-    /* Wait for ISR to drain everything. Bound the wait to avoid hang. */
-    uint32_t timeout_ms = (total * 10000 / 115200) + 500;   /* bit-time + slack */
-    uint32_t waited = 0;
-    while (!c->suite->done && waited < timeout_ms) {
+    /* Wait for ISR to drain everything. Fixed iteration bound — immune to
+     * CI scheduler jitter and avoids fragile baud-rate arithmetic. */
+    #define TX_FIFO_IRQ_POLL_MAX_ITER 5000   /* ~5 s equivalent with 1 ms step */
+    for (uint32_t iter = 0; iter < TX_FIFO_IRQ_POLL_MAX_ITER && !c->suite->done; iter++) {
         vsf_test_busy_wait_ms(1);
-        waited++;
     }
     VSF_TEST_ASSERT(c->suite->done);
     VSF_TEST_ASSERT(c->suite->isr_count > 0);

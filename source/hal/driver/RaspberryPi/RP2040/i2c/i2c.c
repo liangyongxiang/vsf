@@ -183,7 +183,7 @@ fsm_rt_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_master_fifo_transfer)(
         cur_cmd_ptr, offset_ptr);
 }
 
-// Stubs: slave mode not supported on this driver
+// Delegate to DW_apb IPCore slave mode
 uint_fast16_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_slave_fifo_transfer)(
     VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_t) *i2c_ptr,
     bool transmit_or_receive,
@@ -191,8 +191,10 @@ uint_fast16_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_slave_fifo_transfer)(
     uint8_t *buffer_ptr
 )
 {
-    VSF_HAL_ASSERT(false);
-    return 0;
+    VSF_HAL_ASSERT(NULL != i2c_ptr);
+    return vsf_dw_apb_i2c_slave_fifo_transfer(
+        &i2c_ptr->use_as__vsf_dw_apb_i2c_t,
+        transmit_or_receive, count, buffer_ptr);
 }
 
 vsf_err_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_slave_request)(
@@ -202,17 +204,19 @@ vsf_err_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_slave_request)(
     uint8_t *buffer_ptr
 )
 {
-    VSF_HAL_ASSERT(false);
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    VSF_HAL_ASSERT(NULL != i2c_ptr);
+    return vsf_dw_apb_i2c_slave_request(
+        &i2c_ptr->use_as__vsf_dw_apb_i2c_t,
+        transmit_or_receive, count, buffer_ptr);
 }
 
 uint_fast16_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_slave_get_transferred_count)(
     VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_t) *i2c_ptr
 )
 {
-    VSF_HAL_ASSERT(false);
-    return 0;
+    VSF_HAL_ASSERT(NULL != i2c_ptr);
+    return vsf_dw_apb_i2c_slave_get_transferred_count(
+        &i2c_ptr->use_as__vsf_dw_apb_i2c_t);
 }
 
 vsf_i2c_capability_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_capability)(

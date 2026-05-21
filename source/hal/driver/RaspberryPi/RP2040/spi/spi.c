@@ -116,14 +116,10 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_init)(
     spi_ptr->status.is_busy    = false;
     spi_ptr->transferred       = 0;
 
-    /* Master mode, disable SPI during config */
+    /* Disable SPI during config */
     reg->cr1 = 0;
 
-    uint32_t cpsr = 2, scr = 0;
-    uint32_t actual_clock = __rp2040_spi_compute_prescale(cfg_ptr->clock_hz, &cpsr, &scr);
-    if (actual_clock == 0) {
-        return VSF_ERR_NOT_SUPPORT;
-    }
+    bool is_slave = (cfg_ptr->mode & VSF_SPI_SLAVE) != 0;
 
     uint32_t cr0 = 0;
 
@@ -148,14 +144,26 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_init)(
         cr0 |= __PL022_CR0_SPO | __PL022_CR0_SPH;
     }
 
-    /* SCR */
-    cr0 |= (scr << 8);
+    if (is_slave) {
+        /* Slave mode: external clock, no prescale needed */
+        reg->cpsr = 2;
+        reg->cr0  = cr0;
+        reg->cr1  = __PL022_CR1_MS;  /* Slave mode */
+    } else {
+        uint32_t cpsr = 2, scr = 0;
+        uint32_t actual_clock = __rp2040_spi_compute_prescale(cfg_ptr->clock_hz, &cpsr, &scr);
+        if (actual_clock == 0) {
+            return VSF_ERR_NOT_SUPPORT;
+        }
 
-    reg->cpsr = cpsr;
-    reg->cr0  = cr0;
+        /* SCR */
+        cr0 |= (scr << 8);
 
-    /* No loopback, master mode */
-    reg->cr1 = 0;
+        reg->cpsr = cpsr;
+        reg->cr0  = cr0;
+        /* Master mode */
+        reg->cr1 = 0;
+    }
 
     return VSF_ERR_NONE;
 }

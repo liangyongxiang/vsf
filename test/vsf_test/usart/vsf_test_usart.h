@@ -380,8 +380,9 @@ typedef struct vsf_test_usart_tx_fifo_irq_case_t {
 
 #if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
 typedef struct vsf_test_usart_rx_fifo_irq_case_t {
-    uint8_t  idx;
-    uint32_t refill_target;
+    uint8_t          idx;
+    uint32_t         refill_target;
+    vsf_usart_mode_t threshold_mode;    //! one of VSF_USART_RX_FIFO_THRESHOLD_*
     vsf_test_usart_rx_fifo_irq_suite_t *suite;
 } vsf_test_usart_rx_fifo_irq_case_t;
 #endif

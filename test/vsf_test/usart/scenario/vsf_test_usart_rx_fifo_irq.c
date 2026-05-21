@@ -85,12 +85,13 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
     c->suite->isr_count = 0;
     c->suite->done      = false;
 
-    /* Enable ONLY threshold IRQ (no timeout) — distinguishes from rx_irq. */
+    /* Enable threshold IRQ at the requested level (no timeout) — distinguishes
+     * from rx_irq and exercises NOT_EMPTY / HALF_FULL / FULL across cases. */
     vsf_err_t err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
                   | VSF_USART_NO_PARITY    | VSF_USART_RX_ENABLE
                   | VSF_USART_TX_ENABLE
-                  | VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL,
+                  | c->threshold_mode,
         .baudrate = 115200,
         .isr      = { .handler_fn = __rx_fifo_isr, .target_ptr = c->suite,
                       .prio       = vsf_arch_prio_highest },

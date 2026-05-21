@@ -144,8 +144,14 @@ def check_init_wiring(
     if not scan_files:
         return findings
 
+    # Peripherals that typically don't need a direct board-level reference
+    # (system services, test-only, or called indirectly via application code)
+    _no_init_wiring_check = frozenset({"rtc", "wdt", "adc", "pwm", "timer", "spi", "dma"})
+
     for short, info in declarations.items():
         if info["count"] == 0:
+            continue
+        if short in _no_init_wiring_check:
             continue
 
         # Heuristic instance names: vsf_hw_gpio0, vsf_hw_usart0, vsf_hw_usart_t

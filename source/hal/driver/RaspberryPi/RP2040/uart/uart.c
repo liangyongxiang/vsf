@@ -254,7 +254,32 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_ctrl)(
     void *param
 ) {
     VSF_HAL_ASSERT(NULL != usart_ptr);
-    return VSF_ERR_NOT_SUPPORT;
+    vsf_pl011_usart_reg_t *reg = (vsf_pl011_usart_reg_t *)usart_ptr->reg;
+    switch (ctrl) {
+    case VSF_USART_CTRL_SET_BREAK:
+        reg->UARTLCR_H.BRK = 1;
+        return VSF_ERR_NONE;
+    case VSF_USART_CTRL_CLEAR_BREAK:
+        reg->UARTLCR_H.BRK = 0;
+        return VSF_ERR_NONE;
+    case VSF_USART_CTRL_SEND_BREAK:
+        /* Drive line low for >= one character frame, then release.
+         * Cortex-M0+ at 125 MHz, empty volatile loop runs ~3 cycles/iter
+         * after -O3 (load/compare/branch), i.e. ~42 iters per us. Use
+         * 64 iters/us so we always land somewhat above one frame even on
+         * faster cores or with cache misses. */
+        reg->UARTLCR_H.BRK = 1;
+        if (usart_ptr->cached_cfg.baudrate > 0) {
+            /* 12 bit-times in us, ceiling rounded. */
+            uint32_t us = (12u * 1000000u + usart_ptr->cached_cfg.baudrate - 1)
+                        / usart_ptr->cached_cfg.baudrate;
+            for (volatile uint32_t i = 0; i < us * 64u; i++);
+        }
+        reg->UARTLCR_H.BRK = 0;
+        return VSF_ERR_NONE;
+    default:
+        return VSF_ERR_NOT_SUPPORT;
+    }
 }
 
 vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_get_configuration)(

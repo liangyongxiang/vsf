@@ -24,7 +24,6 @@
 #include "hal/vsf_hal.h"
 #include "hardware/structs/spi.h"
 #include "hardware/regs/spi.h"
-#include "hardware/regs/resets.h"
 #include "hardware/structs/resets.h"
 
 /*============================ MACROS ========================================*/
@@ -53,6 +52,7 @@ typedef struct VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_t) {
     vsf_spi_t               vsf_spi;
 #endif
     spi_hw_t                *reg;
+    uint32_t                rst_bit;
     vsf_spi_isr_t           isr;
     vsf_spi_cfg_t           cfg;
     uint32_t                transferred;
@@ -68,10 +68,8 @@ typedef struct VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_t) {
 /*============================ PROTOTYPES ====================================*/
 /*============================ IMPLEMENTATION ================================*/
 
-static void __rp2040_spi_reset(spi_hw_t *reg)
+static void __rp2040_spi_reset(uint32_t rst_bit)
 {
-    uint32_t rst_bit = (reg == spi0_hw) ? (1u << RESETS_RESET_SPI0_LSB)
-                                        : (1u << RESETS_RESET_SPI1_LSB);
     resets_hw->reset |= rst_bit;
     resets_hw->reset &= ~rst_bit;
     while (!(resets_hw->reset_done & rst_bit));
@@ -113,7 +111,7 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_init)(
     VSF_HAL_ASSERT((NULL != spi_ptr) && (NULL != cfg_ptr));
 
     spi_hw_t *reg = spi_ptr->reg;
-    __rp2040_spi_reset(reg);
+    __rp2040_spi_reset(spi_ptr->rst_bit);
 
     spi_ptr->cfg = *cfg_ptr;
     spi_ptr->isr = cfg_ptr->isr;
@@ -435,6 +433,8 @@ static void VSF_MCONNECT(__, VSF_SPI_CFG_IMP_PREFIX, _spi_irqhandler)(
         VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi, __IDX) = {                   \
         .reg = (spi_hw_t *)VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX,         \
                                          _SPI, __IDX, _REG),                    \
+        .rst_bit = VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX,                  \
+                                _SPI, __IDX, _RST_BIT),                         \
         __HAL_OP                                                                \
     };                                                                          \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX,               \

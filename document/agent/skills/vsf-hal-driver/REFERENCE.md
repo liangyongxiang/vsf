@@ -4,7 +4,7 @@
 
 ### Per-instance parameterization in device.h
 
-All per-instance differences (register base, IRQn, IRQ handler name, clock ID) are **parameterized as macros in `device.h`** (or `__device.h`), never hardcoded in the driver `.c` file. This makes the driver generic: the same `uart.c` works for any instance count because it only references `VSF_HW_USART##N##_REG` and `VSF_HW_USART##N##_IRQN`.
+All per-instance differences (register base, IRQn, IRQ handler name, reset bit, clock ID) are **parameterized as macros in `device.h`** (or `__device.h`), never hardcoded in the driver `.c` file. This makes the driver generic: the same `uart.c` works for any instance count because it only references `VSF_HW_USART##N##_REG` and `VSF_HW_USART##N##_IRQN`.
 
 **Naming convention** (must match what `IMP_LV0` consumes):
 
@@ -16,10 +16,14 @@ All per-instance differences (register base, IRQn, IRQ handler name, clock ID) a
 #define VSF_HW_<PERIPH>0_IRQN       UART0_IRQ_IRQn
 #define VSF_HW_<PERIPH>0_IRQHandler UART0_IRQHandler
 #define VSF_HW_<PERIPH>0_REG        UART0_BASE
+#define VSF_HW_<PERIPH>0_RST_BIT    (1u << RESET_UART0)
 #define VSF_HW_<PERIPH>1_IRQN       UART1_IRQ_IRQn
 #define VSF_HW_<PERIPH>1_IRQHandler UART1_IRQHandler
 #define VSF_HW_<PERIPH>1_REG        UART1_BASE
+#define VSF_HW_<PERIPH>1_RST_BIT    (1u << RESET_UART1)
 ```
+
+The chip's reset/clock identifiers (e.g. `RESET_UART0` from `hardware/regs/resets.h`) appear **only inside `device.h`** — never inside the driver `.c`. The driver stores the resolved value in a struct field (`uint32_t rst_bit;`) initialized by `IMP_LV0` and used in `init()`.
 
 **How `driver.h` consumes them:**
 
@@ -41,10 +45,12 @@ All per-instance differences (register base, IRQn, IRQ handler name, clock ID) a
 #define VSF_USART_CFG_IMP_LV0(ID, OP)                                \
     VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t)                 \
         VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart, ID) = {       \
-        .reg  = (void *)VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,\
-                                    _USART, ID, _REG),               \
-        .irqn = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,        \
-                             _USART, ID, _IRQN),                     \
+        .reg     = (void *)VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,\
+                                        _USART, ID, _REG),           \
+        .irqn    = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,     \
+                                _USART, ID, _IRQN),                  \
+        .rst_bit = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,     \
+                                _USART, ID, _RST_BIT),               \
         OP                                                           \
     };                                                               \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,  \
@@ -52,7 +58,7 @@ All per-instance differences (register base, IRQn, IRQ handler name, clock ID) a
     { ... }
 ```
 
-**Rule:** if a new peripheral is added, first add its `VSF_HW_<PERIPH>_COUNT` and per-instance macros to `device.h`, then write the driver -- the driver must never contain literal addresses like `0x40034000` or `UART0_IRQ_IRQn`.
+**Rule:** if a new peripheral is added, first add its `VSF_HW_<PERIPH>_COUNT` and per-instance macros to `device.h`, then write the driver -- the driver must never contain literal addresses like `0x40034000`, IRQ names like `UART0_IRQ_IRQn`, or reset/clock bits like `RESET_UART0` / `RESETS_RESET_<PERIPH>_LSB`. The checker rule `hardcoded-reset` catches all common SDK reset-name shapes (RP2040 short-form `RESET_<PERIPH>` and long-form `RESETS_RESET_<PERIPH>_LSB|BITS|MASK`). `instance-index-branch` also covers pointer-equality against per-instance SDK handles like `reg == spi0_hw`.
 
 ### Include convention
 

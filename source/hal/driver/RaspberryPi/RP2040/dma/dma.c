@@ -24,7 +24,6 @@
 #include "hal/vsf_hal.h"
 #include "hardware/structs/dma.h"
 #include "hardware/regs/dma.h"
-#include "hardware/regs/resets.h"
 #include "hardware/structs/resets.h"
 
 /*============================ MACROS ========================================*/
@@ -51,6 +50,7 @@ typedef struct VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) {
     vsf_dma_t               vsf_dma;
 #endif
     dma_hw_t                *reg;
+    uint32_t                rst_bit;
     vsf_hw_dma_channel_t    channels[RP2040_DMA_CHANNEL_COUNT];
     uint16_t                channel_mask;
     vsf_dma_cfg_t           cfg;
@@ -61,9 +61,8 @@ typedef struct VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) {
 /*============================ PROTOTYPES ====================================*/
 /*============================ IMPLEMENTATION ================================*/
 
-static void __rp2040_dma_reset(dma_hw_t *reg)
+static void __rp2040_dma_reset(uint32_t rst_bit)
 {
-    uint32_t rst_bit = (1u << RESETS_RESET_DMA_LSB);
     resets_hw->reset |= rst_bit;
     resets_hw->reset &= ~rst_bit;
     while (!(resets_hw->reset_done & rst_bit));
@@ -75,7 +74,7 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_init)(
 {
     VSF_HAL_ASSERT((NULL != dma_ptr) && (NULL != cfg_ptr));
 
-    __rp2040_dma_reset(dma_ptr->reg);
+    __rp2040_dma_reset(dma_ptr->rst_bit);
 
     dma_ptr->cfg = *cfg_ptr;
     dma_ptr->channel_mask = 0;
@@ -356,6 +355,8 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
         VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma, __IDX) = {                   \
         .reg = (dma_hw_t *)VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,         \
                                          _DMA, __IDX, _REG),                    \
+        .rst_bit = VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,                  \
+                                _DMA, __IDX, _RST_BIT),                         \
         __HAL_OP                                                                \
     };                                                                          \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,               \

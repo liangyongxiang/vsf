@@ -96,6 +96,7 @@
 #define VSF_HW_RTC0_IRQN            RTC_IRQ_IRQn
 #define VSF_HW_RTC0_IRQHandler      RTC_IRQHandler
 #define VSF_HW_RTC0_REG             RTC_BASE
+#define VSF_HW_RTC0_RST_BIT         (1u << RESET_RTC)
 
 #define VSF_HW_FLASH_COUNT          1
 #define VSF_HW_FLASH0_SIZE          (2 * 1024 * 1024)
@@ -107,6 +108,7 @@
 
 #define VSF_HW_ADC_COUNT            1
 #define VSF_HW_ADC0_REG             ADC_BASE
+#define VSF_HW_ADC0_RST_BIT         (1u << RESET_ADC)
 
 #define VSF_HW_PWM_COUNT            8
 #define VSF_HW_PWM0_REG             PWM_BASE
@@ -136,13 +138,16 @@
 #define VSF_HW_SPI0_IRQN            SPI0_IRQ_IRQn
 #define VSF_HW_SPI0_IRQHandler      SPI0_IRQHandler
 #define VSF_HW_SPI0_REG             SPI0_BASE
+#define VSF_HW_SPI0_RST_BIT         (1u << RESET_SPI0)
 #define VSF_HW_SPI1_IRQN            SPI1_IRQ_IRQn
 #define VSF_HW_SPI1_IRQHandler      SPI1_IRQHandler
 #define VSF_HW_SPI1_REG             SPI1_BASE
+#define VSF_HW_SPI1_RST_BIT         (1u << RESET_SPI1)
 
 #define VSF_HW_DMA_COUNT            1
 #define VSF_HW_DMA_CHANNEL_NUM      12
 #define VSF_HW_DMA0_REG             DMA_BASE
+#define VSF_HW_DMA0_RST_BIT         (1u << RESET_DMA)
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/

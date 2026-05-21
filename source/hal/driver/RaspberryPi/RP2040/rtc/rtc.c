@@ -44,6 +44,7 @@ typedef struct VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_t) {
     vsf_rtc_t               vsf_rtc;
 #endif
     rtc_hw_t                *reg;
+    uint32_t                rst_bit;
     vsf_rtc_isr_t           isr;
 } VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_t);
 
@@ -76,7 +77,7 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_init)(
     rtc_hw_t *reg = rtc_ptr->reg;
 
     // Unreset RTC block
-    uint32_t rst_bit = (1u << RESET_RTC);
+    uint32_t rst_bit = rtc_ptr->rst_bit;
     resets_hw->reset = resets_hw->reset & ~rst_bit;
     while (!(resets_hw->reset_done & rst_bit));
 
@@ -333,6 +334,8 @@ static void VSF_MCONNECT(__, VSF_RTC_CFG_IMP_PREFIX, _rtc_irqhandler)(
         VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc, __IDX) = {                   \
         .reg                = (rtc_hw_t *)VSF_MCONNECT(VSF_RTC_CFG_IMP_UPCASE_PREFIX,\
                                      _RTC, __IDX, _REG),                        \
+        .rst_bit            = VSF_MCONNECT(VSF_RTC_CFG_IMP_UPCASE_PREFIX,       \
+                                     _RTC, __IDX, _RST_BIT),                    \
         __HAL_OP                                                                \
     };                                                                          \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_RTC_CFG_IMP_UPCASE_PREFIX,               \

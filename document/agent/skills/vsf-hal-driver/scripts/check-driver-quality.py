@@ -134,17 +134,23 @@ def check_hardcoded_instance_name(lines: list[ScanLine]) -> list[Finding]:
 
 _INDEX_BRANCH_IF_RE = re.compile(r"\bif\s*\(\s*\w*(?:idx|index|inst|instance)\w*\s*==\s*\d")
 _INDEX_BRANCH_SWITCH_RE = re.compile(r"\bswitch\s*\(\s*\w*(?:idx|index|inst|instance)\w*\s*\)")
+# Pointer equality against a per-instance SDK handle (e.g. `reg == spi0_hw`).
+# Names of the form `<periph><digit>_hw` are the RP2040/pico SDK convention
+# for instance pointers (spi0_hw, spi1_hw, uart0_hw, etc.). Bare `adc_hw`,
+# `dma_hw`, `resets_hw` are single-instance so they don't trigger.
+_INDEX_BRANCH_PTR_RE = re.compile(r"==\s*&?[a-z]+\d+_hw\b|\b[a-z]+\d+_hw\s*==\s*&?\w")
 
 
 def check_instance_index_branch(lines: list[ScanLine]) -> list[Finding]:
-    """Driver dispatches behavior on instance index (e.g. `if (idx == 0)`).
-    The per-instance differences should be parameterized in device.h, not
-    branched in the driver."""
+    """Driver dispatches behavior on instance index (e.g. `if (idx == 0)` or
+    `reg == spi0_hw`).  The per-instance differences should be parameterized
+    in device.h, not branched in the driver."""
     def predicate(sl: ScanLine) -> bool:
         if sl.in_imp_lv0:
             return False
         return bool(_INDEX_BRANCH_IF_RE.search(sl.text)
-                    or _INDEX_BRANCH_SWITCH_RE.search(sl.text))
+                    or _INDEX_BRANCH_SWITCH_RE.search(sl.text)
+                    or _INDEX_BRANCH_PTR_RE.search(sl.text))
     return _emit(lines, "instance-index-branch",
                  "branching on instance index — parameterize the difference "
                  "in device.h as a per-instance macro instead",
@@ -183,7 +189,16 @@ def check_hardcoded_irq(lines: list[ScanLine]) -> list[Finding]:
                  predicate, reference="Per-instance parameterization in device.h")
 
 
-_RESET_NAME_RE = re.compile(r"\b(?:RESET|RST)_[A-Z]+\d+\b")
+_RESET_NAME_RE = re.compile(
+    # Long form (e.g. RP2040 SDK): RESETS_RESET_<PERIPH>_<FIELD>
+    r"\bRESETS_RESET_[A-Z][A-Z0-9_]*_(?:LSB|MSB|BITS|MASK|RESET|ACCESS)\b"
+    # Short form with trailing digit (e.g. RESET_UART0, RST_UART0)
+    r"|\b(?:RESET|RST)_[A-Z]+\d+\b"
+    # Short form without digit — known RP2040 enum entries for single-instance
+    # peripherals (e.g. RESET_RTC, RESET_ADC). Add more chip vocabularies here
+    # as new ports show up.
+    r"|\b(?:RESET|RST)_(?:ADC|BUSCTRL|DMA|JTAG|PWM|RTC|SYSCFG|SYSINFO|TBMAN|TIMER|USBCTRL|PLL_SYS|PLL_USB|IO_BANK\d|IO_QSPI|PADS_BANK\d|PADS_QSPI)\b"
+)
 
 
 def check_hardcoded_reset(lines: list[ScanLine]) -> list[Finding]:

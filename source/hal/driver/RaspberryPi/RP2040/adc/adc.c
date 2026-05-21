@@ -26,7 +26,6 @@
 #include "hardware/structs/adc.h"
 #include "hardware/regs/adc.h"
 #include "hardware/structs/resets.h"
-#include "hardware/regs/resets.h"
 
 /*============================ MACROS ========================================*/
 
@@ -49,6 +48,7 @@ typedef struct VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_t) {
     vsf_adc_t               vsf_adc;
 #endif
     adc_hw_t                *reg;
+    uint32_t                rst_bit;
     vsf_adc_isr_t           isr;
     vsf_adc_cfg_t           cfg;
     struct {
@@ -74,7 +74,7 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_init)(
     adc_hw_t *reg = adc_ptr->reg;
 
     // Unreset ADC block
-    uint32_t rst_bit = (1u << RESETS_RESET_ADC_LSB);
+    uint32_t rst_bit = adc_ptr->rst_bit;
     resets_hw->reset &= ~rst_bit;
     while (!(resets_hw->reset_done & rst_bit));
 
@@ -355,6 +355,8 @@ static void VSF_MCONNECT(__, VSF_ADC_CFG_IMP_PREFIX, _adc_irqhandler)(
         VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc, __IDX) = {                   \
         .reg                = (adc_hw_t *)VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX,\
                                      _ADC, __IDX, _REG),                        \
+        .rst_bit            = VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX,       \
+                                     _ADC, __IDX, _RST_BIT),                    \
         __HAL_OP                                                                \
     };                                                                          \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX,               \

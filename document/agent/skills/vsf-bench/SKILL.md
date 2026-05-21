@@ -28,6 +28,8 @@ vsf-bench --test   board/<board>/hardware-map.yml
 
 Scripts live in `vsf.demo/vsf/test/vsf_test/<peripheral>/scenario/vsf_test_<scene>.py` and are auto-discovered. The orchestrator handles triggering; scripts only validate output.
 
+New scripts can start from the template at `templates/vsf_test_template.py`.
+
 See `REFERENCE.md` for:
 - Full CLI reference, SerialInstrument API, LA decode
 - Script signature (`run(project_root, serial[, la])`)

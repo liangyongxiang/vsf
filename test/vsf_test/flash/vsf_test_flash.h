@@ -78,7 +78,7 @@ typedef struct vsf_test_flash_suites_t {
     vsf_test_flash_boundary_suite_t           boundary;
 } vsf_test_flash_suites_t;
 
-void vsf_test_flash_register_all(vsf_test_flash_suites_t *s);
+void vsf_test_flash_register_all(vsf_test_flash_suites_t *s, vsf_flash_t *flash);
 
 /*============================ PROTOTYPES ====================================*/
 

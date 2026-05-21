@@ -24,8 +24,24 @@
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_gpio_register_all(vsf_test_gpio_suites_t *s)
+void vsf_test_gpio_register_all(vsf_test_gpio_suites_t *s, vsf_gpio_t *gpio)
 {
+    s->output_input.gpio     = gpio;
+    s->toggle.gpio           = gpio;
+    s->direction.gpio        = gpio;
+    s->atomic.gpio           = gpio;
+    s->pinmux.gpio           = gpio;
+    s->multi_pin.gpio        = gpio;
+    s->open_drain.gpio       = gpio;
+    s->toggle_freq.gpio      = gpio;
+    s->write_throughput.gpio = gpio;
+    s->toggle_stress.gpio    = gpio;
+    s->concurrent_prio.gpio  = gpio;
+    s->exti.gpio             = gpio;
+    s->irq_latency.gpio      = gpio;
+    s->irq_lifecycle.gpio    = gpio;
+    s->systimer_health.gpio  = gpio;
+    s->analog_mode.gpio      = gpio;
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
     vsf_test_gpio_output_input_add_cases(&s->output_input);
 #endif

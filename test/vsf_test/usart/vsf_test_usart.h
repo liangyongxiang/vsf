@@ -454,7 +454,7 @@ typedef struct vsf_test_usart_suites_t {
     vsf_test_usart_request_cancel_suite_t      request_cancel;
 } vsf_test_usart_suites_t;
 
-void vsf_test_usart_register_all(vsf_test_usart_suites_t *s);
+void vsf_test_usart_register_all(vsf_test_usart_suites_t *s, vsf_usart_t *usart);
 /*============================ PROTOTYPES ====================================*/
 
 /* ---- TX scenarios ---- */

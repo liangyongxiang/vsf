@@ -417,7 +417,7 @@ typedef struct vsf_test_gpio_suites_t {
     vsf_test_gpio_analog_mode_suite_t     analog_mode;
 } vsf_test_gpio_suites_t;
 
-void vsf_test_gpio_register_all(vsf_test_gpio_suites_t *s);
+void vsf_test_gpio_register_all(vsf_test_gpio_suites_t *s, vsf_gpio_t *gpio);
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED

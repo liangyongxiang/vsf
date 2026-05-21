@@ -23,8 +23,9 @@
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_dma_register_all(vsf_test_dma_suites_t *s)
+void vsf_test_dma_register_all(vsf_test_dma_suites_t *s, vsf_dma_t *dma)
 {
+    s->mem2mem.dma = dma;
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
     vsf_test_dma_mem2mem_add_cases(&s->mem2mem);
 #endif

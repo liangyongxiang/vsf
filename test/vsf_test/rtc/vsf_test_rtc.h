@@ -72,7 +72,7 @@ typedef struct vsf_test_rtc_suites_t {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_rtc_register_all(vsf_test_rtc_suites_t *s);
+void vsf_test_rtc_register_all(vsf_test_rtc_suites_t *s, vsf_rtc_t *rtc);
 
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
 void vsf_test_rtc_set_get_add_cases(vsf_test_rtc_set_get_suite_t *suite);

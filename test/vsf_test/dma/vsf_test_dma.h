@@ -48,7 +48,7 @@ typedef struct vsf_test_dma_suites_t {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_dma_register_all(vsf_test_dma_suites_t *s);
+void vsf_test_dma_register_all(vsf_test_dma_suites_t *s, vsf_dma_t *dma);
 
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
 void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_suite_t *suite);

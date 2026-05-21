@@ -31,7 +31,7 @@ typedef struct vsf_test_pwm_suites_t {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_pwm_register_all(vsf_test_pwm_suites_t *s);
+void vsf_test_pwm_register_all(vsf_test_pwm_suites_t *s, vsf_pwm_t *pwm);
 
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
 void vsf_test_pwm_basic_add_cases(vsf_test_pwm_basic_suite_t *suite);

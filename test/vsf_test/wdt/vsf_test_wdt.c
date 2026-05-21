@@ -8,8 +8,10 @@
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_wdt_register_all(vsf_test_wdt_suites_t *s)
+void vsf_test_wdt_register_all(vsf_test_wdt_suites_t *s, vsf_wdt_t *wdt)
 {
+    s->basic.wdt = wdt;
+    s->reboot.wdt = wdt;
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
     vsf_test_wdt_basic_add_cases(&s->basic);
 #endif

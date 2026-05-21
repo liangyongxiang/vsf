@@ -23,8 +23,9 @@
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_timer_register_all(vsf_test_timer_suites_t *s)
+void vsf_test_timer_register_all(vsf_test_timer_suites_t *s, vsf_timer_t *timer)
 {
+    s->oneshot.timer = timer;
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
     vsf_test_timer_oneshot_add_cases(&s->oneshot);
 #endif

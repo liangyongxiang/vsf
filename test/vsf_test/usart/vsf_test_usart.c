@@ -25,8 +25,26 @@
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite. No REG_IF wrapper
 // needed.
-void vsf_test_usart_register_all(vsf_test_usart_suites_t *s)
+void vsf_test_usart_register_all(vsf_test_usart_suites_t *s, vsf_usart_t *usart)
 {
+    s->baud.usart            = usart;
+    s->mode.usart            = usart;
+    s->rx_data.usart         = usart;
+    s->rx_baud.usart         = usart;
+    s->rx_mode.usart         = usart;
+    s->rx_irq.usart          = usart;
+    s->rx_timeout.usart      = usart;
+    s->rx_parity_error.usart = usart;
+    s->rx_frame_error.usart  = usart;
+    s->rx_break_error.usart  = usart;
+    s->rx_overflow_error.usart = usart;
+    s->break_signal.usart      = usart;
+    s->hw_flow_control.usart   = usart;
+    s->tx_fifo_irq.usart     = usart;
+    s->rx_fifo_irq.usart     = usart;
+    s->request_tx_irq.usart  = usart;
+    s->request_rx_irq.usart  = usart;
+    s->request_cancel.usart  = usart;
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
     vsf_test_usart_baud_add_cases(&s->baud);
 #endif

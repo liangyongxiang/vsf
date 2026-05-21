@@ -23,8 +23,10 @@
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_rtc_register_all(vsf_test_rtc_suites_t *s)
+void vsf_test_rtc_register_all(vsf_test_rtc_suites_t *s, vsf_rtc_t *rtc)
 {
+    s->set_get.rtc = rtc;
+    s->alarm.rtc = rtc;
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
     vsf_test_rtc_set_get_add_cases(&s->set_get);
 #endif

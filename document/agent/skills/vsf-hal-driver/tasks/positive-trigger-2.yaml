@@ -1,0 +1,17 @@
+id: positive-trigger-002
+name: Fix SPI driver bug
+description: Skill should trigger when asked to fix or modify an existing HAL driver.
+tags:
+  - positive-trigger
+inputs:
+  prompt: "The SPI driver on RP2040 is returning wrong data, can you debug it?"
+expected:
+  should_trigger: true
+graders:
+  - type: text
+    name: contains-keywords
+    config:
+      contains:
+        - "SPI"
+        - "driver"
+        - "debug"

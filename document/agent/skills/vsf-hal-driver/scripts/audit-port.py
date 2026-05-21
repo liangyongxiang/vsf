@@ -121,6 +121,64 @@ def scan_peripheral_files(chip_dir: Path) -> set[str]:
     return found
 
 
+def check_init_wiring(
+    chip_dir: Path,
+    declarations: dict[str, dict],
+    board_dir: Path | None,
+) -> list[tuple[str, str]]:
+    """Soft check: each declared peripheral should have at least one reference
+    in board code or application code (heuristic: instance name or type used).
+    """
+    findings: list[tuple[str, str]] = []
+    scan_files: list[Path] = []
+
+    if board_dir and board_dir.exists():
+        scan_files.extend(board_dir.rglob("*.c"))
+        scan_files.extend(board_dir.rglob("*.h"))
+
+    # Also scan chip driver .h files (instance extern declarations are callsites)
+    if chip_dir.exists():
+        for hfile in chip_dir.rglob("*.h"):
+            scan_files.append(hfile)
+
+    if not scan_files:
+        return findings
+
+    for short, info in declarations.items():
+        if info["count"] == 0:
+            continue
+
+        # Heuristic instance names: vsf_hw_gpio0, vsf_hw_usart0, vsf_hw_usart_t
+        # UART uses USART prefix in VSF
+        api_names = [short]
+        if short == "uart":
+            api_names.append("usart")
+        elif short == "usart":
+            api_names.append("uart")
+
+        candidates = []
+        for name in api_names:
+            candidates.extend([
+                rf"vsf_hw_{name}\d+",
+                rf"vsf_hw_{name}_t",
+            ])
+
+        found = False
+        for cfile in scan_files:
+            text = cfile.read_text(encoding="utf-8")
+            for pat in candidates:
+                if re.search(pat, text):
+                    found = True
+                    break
+            if found:
+                break
+
+        if not found:
+            findings.append((short, f"no call site for vsf_hw_{short}* in scanned board/driver code"))
+
+    return findings
+
+
 def check_include_convention(chip_dir: Path) -> list[tuple[Path, str]]:
     """Check that .c files include hal/driver/vendor_driver.h, not bare chip headers."""
     findings: list[tuple[Path, str]] = []
@@ -228,7 +286,13 @@ def audit(
             print(f"[stale-declaration] {short}: files exist but no VSF_HW_* declaration in device.h")
             warnings += 1
 
-    # 5. Include convention
+    # 5. Init wiring (soft warning)
+    init_findings = check_init_wiring(chip_dir, declarations, board_dir)
+    for short, msg in init_findings:
+        print(f"[init-wiring] {short}: {msg}")
+        warnings += 1
+
+    # 6. Include convention
     include_findings = check_include_convention(chip_dir)
     for cfile, inc in include_findings:
         print(f"[include-convention] {cfile}: {inc} — use hal/driver/vendor_driver.h instead")

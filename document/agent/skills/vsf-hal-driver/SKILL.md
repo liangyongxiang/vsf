@@ -21,8 +21,8 @@ metadata:
 ```bash
 scaffold_peripheral.py --driver-dir source/hal/driver --chip Vendor/Chip --periph <name>
 # edit .c/.h → implement register logic
-check-driver-structure.py --periph <name> --side header  <name>.h
-check-driver-structure.py --periph <name> --side source  <name>.c
+check-<periph>-header.py <name>.h
+check-<periph>-source.py <name>.c
 check-driver-quality.py <name>.c
 vsf-bench --all board/pico/hardware-map.yml --scene <name>
 ```
@@ -39,13 +39,10 @@ audit-port.py --chip Vendor/Chip
 | `scaffold_chip.py` | New chip port |
 | `scaffold_peripheral.py` | Add peripheral to existing chip |
 | `generate-device-peripheral-macros.py` | Edit device.h instances |
-| `check-driver-structure.py` | Verify header/source structure (data-driven, YAML specs) |
+| `check-<periph>-header.py` | Verify header structure |
+| `check-<periph>-source.py` | Verify source structure |
 | `check-driver-quality.py` | Anti-pattern check |
 | `audit-port.py` | Cross-file consistency |
 | `enable-periph.py` | Toggle vsf_usr_cfg.h |
-
-**Structure vs quality:** `check-driver-structure.py` verifies the driver *has the right shape* (guard macros, template includes, mandatory APIs, IMP_LV0, prefix macros). `check-driver-quality.py` verifies the driver *doesn't have wrong content* (hardcoded instances, pinmux-in-driver, bare IRQ names). Run structure first (cheap, catches mechanical omissions), then quality.
-
-`check-driver-structure.py` is data-driven — peripheral-specific knowledge lives in `scripts/check-specs/<periph>.yml`. Adding a new peripheral = adding a YAML file.
 
 See `REFERENCE.md` for conventions and `PORTING.md` for the full ladder.

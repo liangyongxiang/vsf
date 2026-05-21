@@ -54,6 +54,9 @@ void vsf_test_usart_register_all(vsf_test_usart_suites_t *s)
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
     vsf_test_usart_rx_frame_error_add_cases(&s->rx_frame_error);
 #endif
+#if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
+    vsf_test_usart_rx_break_error_add_cases(&s->rx_break_error);
+#endif
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
     vsf_test_usart_tx_fifo_irq_add_cases(&s->tx_fifo_irq);
 #endif

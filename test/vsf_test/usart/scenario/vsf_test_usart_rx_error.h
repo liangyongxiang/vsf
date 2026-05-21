@@ -20,7 +20,7 @@
 
 #include "../vsf_test_usart.h"
 
-#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
+#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,11 +38,16 @@ void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_suite
 void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c);
 #endif
 
+#if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
+void vsf_test_usart_rx_break_error_add_cases(vsf_test_usart_rx_break_error_suite_t *suite);
+void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_t *c);
+#endif
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED */
+#endif /* VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED */
 
 #endif /* __TEST_USART_RX_ERROR_H__ */
 /* EOF */

@@ -83,6 +83,9 @@ extern "C" {
 #ifndef VSF_TEST_USART_RX_FRAME_ERROR_ENABLE
 #   define VSF_TEST_USART_RX_FRAME_ERROR_ENABLE   ENABLED
 #endif
+#ifndef VSF_TEST_USART_RX_BREAK_ERROR_ENABLE
+#   define VSF_TEST_USART_RX_BREAK_ERROR_ENABLE   DISABLED
+#endif
 
 //! \brief 编译开关：TX FIFO threshold IRQ + ISR refill (gap-fill PRD)
 #ifndef VSF_TEST_USART_TX_FIFO_IRQ_ENABLE
@@ -169,6 +172,13 @@ vsf_class(vsf_test_usart_rx_parity_error_suite_t) {
 };
 
 vsf_class(vsf_test_usart_rx_frame_error_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_usart_t *usart;
+    )
+};
+
+vsf_class(vsf_test_usart_rx_break_error_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_usart_t *usart;
@@ -314,6 +324,14 @@ typedef struct vsf_test_usart_rx_frame_error_case_t {
     vsf_test_usart_rx_frame_error_suite_t *suite;
 } vsf_test_usart_rx_frame_error_case_t;
 
+//! \brief USART RX break error 测试用例配置条目
+typedef struct vsf_test_usart_rx_break_error_case_t {
+    uint8_t          idx;
+    vsf_usart_mode_t mode;
+    bool             expect_pass;
+    vsf_test_usart_rx_break_error_suite_t *suite;
+} vsf_test_usart_rx_break_error_case_t;
+
 /* ---- Gap-fill PRD: FIFO IRQ + request API + cancel ---- */
 
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
@@ -368,6 +386,7 @@ typedef struct vsf_test_usart_suites_t {
     vsf_test_usart_rx_timeout_suite_t          rx_timeout;
     vsf_test_usart_rx_parity_error_suite_t     rx_parity_error;
     vsf_test_usart_rx_frame_error_suite_t      rx_frame_error;
+    vsf_test_usart_rx_break_error_suite_t      rx_break_error;
     vsf_test_usart_tx_fifo_irq_suite_t         tx_fifo_irq;
     vsf_test_usart_rx_fifo_irq_suite_t         rx_fifo_irq;
     vsf_test_usart_request_tx_irq_suite_t      request_tx_irq;
@@ -423,6 +442,11 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
 void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_suite_t *suite);
 void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c);
+#endif
+
+#if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
+void vsf_test_usart_rx_break_error_add_cases(vsf_test_usart_rx_break_error_suite_t *suite);
+void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_t *c);
 #endif
 
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED

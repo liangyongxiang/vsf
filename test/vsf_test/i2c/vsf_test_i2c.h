@@ -42,6 +42,10 @@ extern "C" {
 #   define VSF_TEST_I2C_EEPROM_RW_ENABLE        DISABLED
 #endif
 
+#ifndef VSF_TEST_I2C_BUS_SCAN_ENABLE
+#   define VSF_TEST_I2C_BUS_SCAN_ENABLE         DISABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 // Per-suite context (populated by main.c)
@@ -68,8 +72,28 @@ typedef struct vsf_test_i2c_eeprom_rw_case_t {
 } vsf_test_i2c_eeprom_rw_case_t;
 #endif
 
+/*============================ TYPES for bus_scan ============================*/
+
+#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
+vsf_class(vsf_test_i2c_bus_scan_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_i2c_t      *gpio_i2c0;
+        vsf_gpio_i2c_t      *gpio_i2c1;
+    )
+};
+
+typedef struct vsf_test_i2c_bus_scan_case_t {
+    uint8_t  scl_pin;
+    uint8_t  sda_pin;
+    vsf_gpio_i2c_t *gpio_i2c;
+    vsf_test_i2c_bus_scan_suite_t *suite;
+} vsf_test_i2c_bus_scan_case_t;
+#endif
+
 typedef struct vsf_test_i2c_suites_t {
     vsf_test_i2c_eeprom_rw_suite_t eeprom_rw;
+    vsf_test_i2c_bus_scan_suite_t  bus_scan;
 } vsf_test_i2c_suites_t;
 
 void vsf_test_i2c_register_all(vsf_test_i2c_suites_t *s);
@@ -79,6 +103,11 @@ void vsf_test_i2c_register_all(vsf_test_i2c_suites_t *s);
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
 void vsf_test_i2c_eeprom_rw_add_cases(vsf_test_i2c_eeprom_rw_suite_t *suite);
 void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c);
+#endif
+
+#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
+void vsf_test_i2c_bus_scan_add_cases(vsf_test_i2c_bus_scan_suite_t *suite);
+void vsf_test_i2c_bus_scan_run(const vsf_test_i2c_bus_scan_case_t *c);
 #endif
 
 #include "test_params_generated.h"

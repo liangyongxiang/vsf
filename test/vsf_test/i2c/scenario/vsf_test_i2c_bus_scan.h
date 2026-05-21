@@ -15,22 +15,27 @@
  *                                                                           *
  *****************************************************************************/
 
-/*============================ INCLUDES ======================================*/
+#ifndef __TEST_I2C_BUS_SCAN_H__
+#define __TEST_I2C_BUS_SCAN_H__
 
-#include "vsf_test_i2c.h"
+#include "../vsf_test_i2c.h"
 
-/*============================ IMPLEMENTATION ================================*/
-
-// Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
-// internally, which also opens the matching shell suite.
-void vsf_test_i2c_register_all(vsf_test_i2c_suites_t *s)
-{
-#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-    vsf_test_i2c_eeprom_rw_add_cases(&s->eeprom_rw);
-#endif
 #if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
-    vsf_test_i2c_bus_scan_add_cases(&s->bus_scan);
-#endif
-}
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*============================ PROTOTYPES ====================================*/
+
+void vsf_test_i2c_bus_scan_add_cases(vsf_test_i2c_bus_scan_suite_t *suite);
+void vsf_test_i2c_bus_scan_run(const vsf_test_i2c_bus_scan_case_t *c);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED */
+
+#endif /* __TEST_I2C_BUS_SCAN_H__ */
 /* EOF */

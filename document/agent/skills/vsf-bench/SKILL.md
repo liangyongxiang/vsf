@@ -75,5 +75,5 @@ When `--all` is used without `--scene`, the orchestrator queries the firmware fo
 
 ## Prerequisites
 
-- vsf-bench: `pip install -e vsf.demo/vsf/test/vsf-bench`
+- vsf-bench: `pip install -e vsf.demo/vsf/test/vsf_bench`
 - pyyaml, pyserial, cmake in PATH; board connected

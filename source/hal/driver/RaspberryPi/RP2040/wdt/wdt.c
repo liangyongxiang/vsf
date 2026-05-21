@@ -45,6 +45,7 @@ typedef struct VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt_t) {
 #if VSF_HW_WDT_CFG_MULTI_CLASS == ENABLED
     vsf_wdt_t               vsf_wdt;
 #endif
+    watchdog_hw_t           *reg;
     vsf_wdt_isr_t           isr;
     vsf_wdt_cfg_t           cfg;
 } VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt_t);
@@ -61,7 +62,7 @@ vsf_err_t VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt_init)(
     VSF_HAL_ASSERT(wdt_ptr != NULL);
     VSF_HAL_ASSERT(cfg_ptr != NULL);
 
-    watchdog_hw_t *hw = (watchdog_hw_t *)VSF_HW_WDT0_REG;
+    watchdog_hw_t *hw = wdt_ptr->reg;
 
     /* Disable before configuring (if currently enabled) */
     hw->ctrl = 0;
@@ -96,7 +97,7 @@ fsm_rt_t VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt_enable)(
 ) {
     VSF_HAL_ASSERT(wdt_ptr != NULL);
 
-    watchdog_hw_t *hw = (watchdog_hw_t *)VSF_HW_WDT0_REG;
+    watchdog_hw_t *hw = wdt_ptr->reg;
     hw->ctrl = WATCHDOG_CTRL_ENABLE_BITS;
 
     return fsm_rt_cpl;
@@ -116,7 +117,7 @@ void VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt_feed)(
 ) {
     VSF_HAL_ASSERT(wdt_ptr != NULL);
 
-    watchdog_hw_t *hw = (watchdog_hw_t *)VSF_HW_WDT0_REG;
+    watchdog_hw_t *hw = wdt_ptr->reg;
     hw->load = hw->load;
 }
 
@@ -168,6 +169,8 @@ vsf_err_t VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt_ctrl)(
 #define VSF_WDT_CFG_IMP_LV0(__IDX, __HAL_OP)                                    \
     VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt_t)                               \
         VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt ## __IDX) = {                \
+        .reg = (watchdog_hw_t *)VSF_MCONNECT(VSF_WDT_CFG_IMP_UPCASE_PREFIX,    \
+                                             _WDT, __IDX, _REG),                \
         __HAL_OP                                                               \
     };
 

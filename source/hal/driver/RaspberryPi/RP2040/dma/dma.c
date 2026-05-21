@@ -320,16 +320,14 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
     VSF_HAL_ASSERT(dma_ptr != NULL);
 
     dma_hw_t *hw = dma_ptr->reg;
-    uint32_t ints = (irq_idx == 0) ? hw->ints0 : hw->ints1;
+    /* RP2040 DMA has two IRQ lines (DMA_IRQ_0 / DMA_IRQ_1) with separate
+     * INTS and INTF registers. Use array indexing to avoid per-IRQ branching. */
+    uint32_t ints = (&hw->ints0)[irq_idx];
 
     for (uint8_t ch = 0; ch < RP2040_DMA_CHANNEL_COUNT; ch++) {
         if (ints & (1u << ch)) {
             /* Clear interrupt by writing to INTF */
-            if (irq_idx == 0) {
-                hw->intf0 = (1u << ch);
-            } else {
-                hw->intf1 = (1u << ch);
-            }
+            (&hw->intf0)[irq_idx] = (1u << ch);
 
             if (dma_ptr->channels[ch].isr.handler_fn != NULL) {
                 dma_ptr->channels[ch].isr.handler_fn(

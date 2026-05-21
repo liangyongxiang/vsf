@@ -21,9 +21,6 @@
 
 #if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_analog_mode_case_t __gpio_analog_mode_cases[] = {
     VSF_TEST_GPIO_ANALOG_MODE_CASES_INIT

@@ -22,9 +22,6 @@
 
 #if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_irq_latency_case_t __gpio_irq_latency_cases[] = {
     VSF_TEST_GPIO_IRQ_LATENCY_CASES_INIT

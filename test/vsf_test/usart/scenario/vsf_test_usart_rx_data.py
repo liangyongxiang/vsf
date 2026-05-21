@@ -8,7 +8,7 @@ within each case's firmware-emitted READY → DONE window.
 from dataclasses import dataclass
 from pathlib import Path
 
-from vsf_bench.capture_marker import read_handshake_windows
+from vsf_bench.capture_marker import read_framework_windows
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 from vsf_bench.test_params import load_test_params
@@ -66,7 +66,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     payload = scenario.get("payload", "Hello VSF\r\n").encode()
     out_dir = la.output_dir
 
-    windows = read_handshake_windows(
+    windows = read_framework_windows(
         la, "usart_rx_data", project_root,
         decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
     )

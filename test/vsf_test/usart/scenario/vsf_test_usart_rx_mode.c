@@ -26,9 +26,6 @@
 #ifndef VSF_TEST_RX_MODE_PAYLOAD
 #   define VSF_TEST_RX_MODE_PAYLOAD          "0123456789\r\n"
 #endif
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS          200
-#endif
 #ifndef VSF_TEST_RX_MODE_PAYLOAD_DRAIN_MS
 #   define VSF_TEST_RX_MODE_PAYLOAD_DRAIN_MS 500
 #endif
@@ -52,17 +49,14 @@ void vsf_test_usart_rx_mode_add_cases(vsf_test_usart_rx_mode_suite_t *suite)
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_MODE_CASE_COUNT; i++) {
         __rx_mode_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
+        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_mode_run,
-            (void *)&__rx_mode_cases[i]);
+            (void *)&__rx_mode_cases[i], true);
     }
 }
 
 void vsf_test_usart_rx_mode_run(const vsf_test_usart_rx_mode_case_t *c)
 {
-    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
-     * and the settle delay; the per-case ":READY" handshake below is the
-     * RX scenario's own marker. */
     vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
         .mode     = c->mode,
         .baudrate = VSF_TEST_RX_MODE_DEFAULT_BAUDRATE,
@@ -71,8 +65,6 @@ void vsf_test_usart_rx_mode_run(const vsf_test_usart_rx_mode_case_t *c)
     if (c->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
-
-        vsf_trace_info("usart_rx_mode:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint8_t rx_buf[32];
         uint16_t rx_len = 0;

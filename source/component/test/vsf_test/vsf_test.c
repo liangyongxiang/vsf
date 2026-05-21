@@ -1,4 +1,4 @@
-/*****************************************************************************
+/******************************************************************************
  *   Copyright(C)2009-2024 by VSF Team                                       *
  *                                                                           *
  *  Licensed under the Apache License, Version 2.0 (the "License");          *
@@ -10,21 +10,15 @@
  *  Unless required by applicable law or agreed to in writing, software      *
  *  distributed under the License is distributed on an "AS IS" BASIS,        *
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
- *  See the License for the specific language governing permissions and      *
+ *  See the License for the specific language governing permissions and       *
  *  limitations under the License.                                           *
  *                                                                           *
- ****************************************************************************/
+ *****************************************************************************/
 
 /*============================ INCLUDES ======================================*/
 
 #include "./vsf_test.h"
 #include <string.h>
-#if VSF_TEST_CFG_USE_FILE_DATA_SYNC == ENABLED
-#   include "./port/vsf_test_port_file.h"
-#endif
-#if VSF_TEST_CFG_USE_APPCFG_DATA_SYNC == ENABLED
-#   include "./port/vsf_test_port_appcfg.h"
-#endif
 
 #if VSF_USE_TEST == ENABLED
 
@@ -58,19 +52,6 @@ static vsf_test_t *__vsf_test = NULL;
 
 /*============================ LOCAL FUNCTIONS ===============================*/
 
-static void __vsf_test_data_sync(vsf_test_data_t *data, vsf_test_data_cmd_t cmd)
-{
-    if (data == NULL) {
-        __VSF_TEST_TRACE_ERROR("[TEST] Warning: data is NULL in __vsf_test_data_sync\r\n");
-        return;
-    }
-    if (data->sync == NULL) {
-        __VSF_TEST_TRACE_ERROR("[TEST] Warning: data->sync is NULL in __vsf_test_data_sync (cmd=%u)\r\n", cmd);
-        return;
-    }
-    data->sync(data, cmd);
-}
-
 /*============================ IMPLEMENTATION ================================*/
 
 void vsf_test_init(vsf_test_t *test, const vsf_test_cfg_t *cfg)
@@ -80,28 +61,16 @@ void vsf_test_init(vsf_test_t *test, const vsf_test_cfg_t *cfg)
 
     VSF_ASSERT(cfg != NULL);
 
-    // 配置看门狗
     __vsf_test->wdt.internal = cfg->wdt.internal;
     __vsf_test->wdt.external = cfg->wdt.external;
 
-    // 配置复位函数
     __vsf_test->reboot.internal = cfg->reboot.internal;
     __vsf_test->reboot.external = cfg->reboot.external;
 
-    // 配置数据持久化
-    __vsf_test->data.init = cfg->data.init;
-    __vsf_test->data.sync = cfg->data.sync;
-
-    // 配置完成时重启选项
     __vsf_test->restart_on_done = cfg->restart_on_done;
 
-    // 初始化测试用例计数
+    __vsf_test->current_case = NULL;
     __vsf_test->test_case_count = 0;
-
-    // 初始化数据同步
-    if (__vsf_test->data.init != NULL) {
-        __vsf_test->data.init(&__vsf_test->data);
-    }
 
     __VSF_TEST_TRACE_INFO("[TEST] Initialized with capacity %u\r\n", VSF_TEST_CFG_ARRAY_SIZE);
 }
@@ -114,6 +83,8 @@ vsf_test_shell_t *vsf_test_get_shell(void)
 bool vsf_test_add_ex(vsf_test_case_t *test_case)
 {
     if (__vsf_test->test_case_count < VSF_TEST_CFG_ARRAY_SIZE) {
+        test_case->status = VSF_TEST_STATUS_IDLE;
+        test_case->result = VSF_TEST_RESULT_PASS;
         __vsf_test->test_case_array[__vsf_test->test_case_count] = *test_case;
         __VSF_TEST_TRACE_DEBUG("vsf_test_add_ex: added test case at index %u, type=%u\r\n",
                               __vsf_test->test_case_count, test_case->type);
@@ -134,29 +105,27 @@ bool vsf_test_register_suite(vsf_test_suite_t *suite)
     VSF_ASSERT(suite->name != NULL);
     suite->first_case_idx = (uint16_t)__vsf_test->test_case_count;
     suite->case_count     = 0;
-    // Open a shell-side suite under the same name so `vsf-test suite --list`
-    // / `vsf-test run <name>` see the suite without a second registration
-    // call. The next vsf_test_add_ex() (via vsf_test_suite_add_case) will
-    // attribute its case to this suite.
     vsf_test_shell_register_suite(&__vsf_test->shell, suite->name);
     __VSF_TEST_TRACE_DEBUG("[TEST] register suite '%s' at idx %u\r\n",
                           suite->name, (unsigned)suite->first_case_idx);
     return true;
 }
 
-bool vsf_test_suite_add_case(vsf_test_suite_t *suite,
-                             vsf_test_jmp_fn_t *jmp_fn,
-                             void *arg)
+bool vsf_test_suite_add_case_ex(vsf_test_suite_t *suite,
+                                vsf_test_jmp_fn_t *jmp_fn,
+                                void *arg,
+                                bool needs_ready_handshake)
 {
     VSF_ASSERT(suite != NULL);
     vsf_test_case_t test_case = {
-        .jmp_fn        = jmp_fn,
-        .type          = VSF_TEST_TYPE_LONGJMP_FN,
-        .expect_wdt    = 0,
-        .expect_assert = 0,
-        .case_idx      = (uint8_t)suite->case_count,
-        .suite         = suite,
-        .arg           = arg,
+        .jmp_fn                = jmp_fn,
+        .type                  = VSF_TEST_TYPE_LONGJMP_FN,
+        .expect_wdt            = 0,
+        .expect_assert         = 0,
+        .case_idx              = (uint8_t)suite->case_count,
+        .suite                 = suite,
+        .arg                   = arg,
+        .needs_ready_handshake = needs_ready_handshake,
     };
     bool err = vsf_test_add_ex(&test_case);
     if (!err) {
@@ -165,16 +134,25 @@ bool vsf_test_suite_add_case(vsf_test_suite_t *suite,
     return err;
 }
 
+bool vsf_test_suite_add_case(vsf_test_suite_t *suite,
+                             vsf_test_jmp_fn_t *jmp_fn,
+                             void *arg)
+{
+    return vsf_test_suite_add_case_ex(suite, jmp_fn, arg, false);
+}
+
 void __vsf_test_longjmp(vsf_test_result_t result,
                         const char *file_name, uint32_t line,
                         const char *function_name, const char *condition)
 {
-    vsf_test_data_t *data     = &__vsf_test->data;
-    data->result              = result;
-    data->error.function_name = function_name;
-    data->error.file_name     = file_name;
-    data->error.condition     = condition;
-    data->error.line          = line;
+    vsf_test_case_t *case_ptr = __vsf_test->current_case;
+    if (case_ptr != NULL) {
+        case_ptr->result              = result;
+        case_ptr->error.function_name = function_name;
+        case_ptr->error.file_name     = file_name;
+        case_ptr->error.condition     = condition;
+        case_ptr->error.line          = line;
+    }
 
     __VSF_TEST_TRACE_ERROR("[TEST] Assertion failed: %s:%u in %s() - %s\r\n",
                           file_name, line, function_name, condition ? condition : "");
@@ -182,7 +160,7 @@ void __vsf_test_longjmp(vsf_test_result_t result,
     longjmp(*__vsf_test->jmp_buf, 1);
 }
 
-//! \brief 从 test case 中提取测试名字
+//! \brief Extract test name from test case
 static const char *__vsf_test_get_name(vsf_test_case_t *test_case, char *name_buf, size_t name_buf_size)
 {
     (void)name_buf;
@@ -197,23 +175,18 @@ void vsf_test_reboot(vsf_test_result_t result,
                      const char *file_name, uint32_t line,
                      const char *function_name, const char *condition)
 {
-    vsf_test_data_t *data     = &__vsf_test->data;
-    data->result              = result;
-    data->error.function_name = function_name;
-    data->error.file_name     = file_name;
-    data->error.condition     = condition;
-    data->error.line          = line;
+    vsf_test_case_t *case_ptr = __vsf_test->current_case;
+    if (case_ptr != NULL) {
+        case_ptr->result              = result;
+        case_ptr->error.function_name = function_name;
+        case_ptr->error.file_name     = file_name;
+        case_ptr->error.condition     = condition;
+        case_ptr->error.line          = line;
+        case_ptr->status              = VSF_TEST_STATUS_IDLE;
+    }
 
     __VSF_TEST_TRACE_ERROR("[TEST] Reboot due to error: %s:%u in %s() - %s\r\n",
                           file_name, line, function_name, condition ? condition : "");
-
-    __vsf_test_data_sync(data, VSF_TEST_TESTCASE_RESULT_WRITE);
-
-    data->status = VSF_TEST_STATUS_IDLE;
-    __vsf_test_data_sync(data, VSF_TEST_STATUS_WRITE);
-
-    data->idx++;
-    __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_WRITE);
 
     if (__vsf_test->reboot.external != NULL) {
         __VSF_TEST_TRACE_INFO("[TEST] Calling external reboot\r\n");
@@ -238,20 +211,19 @@ void vsf_test_run_case(uint32_t idx)
         return;
     }
 
-    vsf_test_data_t *data = &__vsf_test->data;
     vsf_test_case_t *test_case = &__vsf_test->test_case_array[idx];
 
-    data->idx = idx;
-    __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_WRITE);
-
-    __vsf_test_data_sync(data, VSF_TEST_STATUS_READ);
-    if (data->status != VSF_TEST_STATUS_IDLE) {
+    // WDT recovery: if a prior run was interrupted by WDT, status is still RUNNING.
+    if (test_case->status == VSF_TEST_STATUS_RUNNING) {
         __VSF_TEST_TRACE_INFO("[TEST] #%u: WDT timeout detected\r\n", idx);
-        data->result = test_case->expect_wdt ? VSF_TEST_RESULT_WDT_PASS
-                                             : VSF_TEST_RESULT_WDT_FAIL;
-        __vsf_test_data_sync(data, VSF_TEST_TESTCASE_RESULT_WRITE);
-        data->status = VSF_TEST_STATUS_IDLE;
-        __vsf_test_data_sync(data, VSF_TEST_STATUS_WRITE);
+        test_case->result = test_case->expect_wdt ? VSF_TEST_RESULT_WDT_PASS
+                                                  : VSF_TEST_RESULT_WDT_FAIL;
+        test_case->status = VSF_TEST_STATUS_IDLE;
+        return;
+    }
+
+    // Skip cases explicitly marked (e.g., by setup returning false).
+    if (test_case->result == VSF_TEST_RESULT_SKIP) {
         return;
     }
 
@@ -262,63 +234,61 @@ void vsf_test_run_case(uint32_t idx)
         __vsf_test->wdt.external.feed(&__vsf_test->wdt.external);
     }
 
-    if (test_case->suite != NULL && test_case->suite->name != NULL) {
-        data->request_str = (char *)test_case->suite->name;
-        __vsf_test_data_sync(data, VSF_TEST_TESECASE_REQUEST_WRITE);
-        if (data->req_continue == VSF_TEST_REQ_NO_SUPPORT) {
-            __VSF_TEST_TRACE_INFO("[TEST] #%u: Not supported, skipping\r\n", idx);
-            data->result = VSF_TEST_RESULT_SKIP;
-            __vsf_test_data_sync(data, VSF_TEST_TESTCASE_RESULT_WRITE);
-            return;
+    vsf_test_suite_t *suite = test_case->suite;
+    if (suite != NULL && (uint32_t)idx == suite->first_case_idx) {
+        if (suite->setup != NULL) {
+            if (!suite->setup(suite)) {
+                // Skip all cases in this suite
+                for (uint16_t i = suite->first_case_idx;
+                     i < suite->first_case_idx + suite->case_count; i++) {
+                    __vsf_test->test_case_array[i].result = VSF_TEST_RESULT_SKIP;
+                }
+                return;
+            }
         }
     }
 
-    data->error.function_name = NULL;
-    data->error.file_name     = NULL;
-    data->error.condition     = NULL;
-    data->error.line          = 0;
+    test_case->error.function_name = NULL;
+    test_case->error.file_name     = NULL;
+    test_case->error.condition     = NULL;
+    test_case->error.line          = 0;
 
-    data->status = VSF_TEST_STATUS_RUNNING;
-    __vsf_test_data_sync(data, VSF_TEST_STATUS_WRITE);
+    test_case->status = VSF_TEST_STATUS_RUNNING;
 
     static char name_buf[64];
     const char *test_name = __vsf_test_get_name(test_case, name_buf, sizeof(name_buf));
     __VSF_TEST_TRACE_INFO("[TEST] #%u: Running '%s'\r\n", idx, test_name);
 
-    /* Suite-aware dispatch: when a case has been registered through
-     * vsf_test_suite_add_case(), the framework owns the start / DONE Capture
-     * Markers (no per-scenario vsf_trace_info needed) and the setup /
-     * teardown lifecycle hooks. */
-    vsf_test_suite_t *suite = test_case->suite;
+    /* Suite-aware dispatch: framework owns the start / DONE / END Capture
+     * Markers and the setup / teardown lifecycle hooks. */
     if (suite != NULL) {
-        if ((uint32_t)idx == suite->first_case_idx) {
-            if (suite->setup != NULL) suite->setup(suite);
-        }
         __VSF_TEST_TRACE_INFO("%s:CASE:%u\r\n", suite->name, (unsigned)test_case->case_idx);
-        /* Brief settle delay so the marker bytes are fully on the UART line
-         * before any test transmission begins. 2 ms covers a ~17-char marker
-         * at 115200 baud with margin. */
-        vsf_test_busy_wait_ms(2);
+        if (test_case->needs_ready_handshake) {
+            __VSF_TEST_TRACE_INFO("%s:CASE:%u:READY\r\n", suite->name, (unsigned)test_case->case_idx);
+        }
+        vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
     }
+
+    __vsf_test->current_case = test_case;
 
     vsf_test_type_t type = test_case->type;
     switch (type) {
     case VSF_TEST_TYPE_BOOL_FN:
-        data->result = test_case->b_fn(test_case->arg);
+        test_case->result = test_case->b_fn(test_case->arg);
         break;
     case VSF_TEST_TYPE_LONGJMP_FN: {
         jmp_buf buf;
-        data->result  = VSF_TEST_RESULT_PASS;
+        test_case->result = VSF_TEST_RESULT_PASS;
         __vsf_test->jmp_buf = &buf;
         if (0 == setjmp(buf)) {
             test_case->jmp_fn(test_case->arg);
         } else {
             if (test_case->expect_assert) {
-                data->result = VSF_TEST_RESULT_PASS;
-                data->error.function_name = NULL;
-                data->error.file_name     = NULL;
-                data->error.condition     = NULL;
-                data->error.line          = 0;
+                test_case->result = VSF_TEST_RESULT_PASS;
+                test_case->error.function_name = NULL;
+                test_case->error.file_name     = NULL;
+                test_case->error.condition     = NULL;
+                test_case->error.line          = 0;
             }
         }
     } break;
@@ -339,9 +309,8 @@ void vsf_test_run_case(uint32_t idx)
         }
     }
 
-    __vsf_test_data_sync(data, VSF_TEST_TESTCASE_RESULT_WRITE);
-    data->status = VSF_TEST_STATUS_IDLE;
-    __vsf_test_data_sync(data, VSF_TEST_STATUS_WRITE);
+    test_case->status = VSF_TEST_STATUS_IDLE;
+    __vsf_test->current_case = NULL;
 }
 
 void vsf_test_run_tests(void)
@@ -365,25 +334,8 @@ void vsf_test_run_tests(void)
         __vsf_test->wdt.external.init(&__vsf_test->wdt.external, timeout_ms);
     }
 
-    vsf_test_data_t *data = &__vsf_test->data;
-    if (data->init != NULL) {
-        data->init(data);
-    }
-
-    if (__vsf_test->restart_on_done) {
-        data->idx = 0;
-        __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_WRITE);
-        __VSF_TEST_TRACE_INFO("[TEST] Restart on done: starting from test case #0\r\n");
-    } else {
-        __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_READ);
-        if (data->idx > 0) {
-            __VSF_TEST_TRACE_INFO("[TEST] Resuming from test case #%u\r\n", data->idx);
-        }
-    }
-
-    while (data->idx < __vsf_test->test_case_count) {
-        vsf_test_run_case(data->idx);
-        data->idx++;
+    for (uint32_t i = 0; i < __vsf_test->test_case_count; i++) {
+        vsf_test_run_case(i);
     }
 
     __VSF_TEST_TRACE_INFO("[TEST] All test cases completed\r\n");
@@ -394,10 +346,7 @@ void vsf_test_run_tests(void)
     uint32_t pass_count = 0, fail_count = 0, skip_count = 0, wdt_pass_count = 0, wdt_fail_count = 0;
 
     for (uint32_t i = 0; i < __vsf_test->test_case_count; i++) {
-        data->idx = i;
-        __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_READ);
-
-        vsf_test_result_t result = (vsf_test_result_t)data->result;
+        vsf_test_result_t result = __vsf_test->test_case_array[i].result;
 
         switch (result) {
         case VSF_TEST_RESULT_PASS:     pass_count++;      break;
@@ -411,8 +360,6 @@ void vsf_test_run_tests(void)
 
     __VSF_TEST_TRACE_INFO("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u\r\n",
                           pass_count, fail_count, skip_count, wdt_pass_count, wdt_fail_count);
-
-    __vsf_test_data_sync(data, VSF_TEST_DONE);
 }
 
 vsf_test_result_t vsf_test_get_case_result(uint32_t idx)
@@ -420,10 +367,7 @@ vsf_test_result_t vsf_test_get_case_result(uint32_t idx)
     if (__vsf_test == NULL || idx >= __vsf_test->test_case_count) {
         return VSF_TEST_RESULT_SKIP;
     }
-    vsf_test_data_t *data = &__vsf_test->data;
-    data->idx = idx;
-    __vsf_test_data_sync(data, VSF_TEST_TESTCASE_INDEX_READ);
-    return (vsf_test_result_t)data->result;
+    return (vsf_test_result_t)__vsf_test->test_case_array[idx].result;
 }
 
 uint32_t vsf_test_get_case_count(void)

@@ -21,9 +21,6 @@
 
 #if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_usart_break_signal_case_t __break_signal_cases[] = {
     VSF_TEST_USART_BREAK_SIGNAL_CASES_INIT

@@ -21,9 +21,6 @@
 
 #if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_open_drain_case_t __gpio_open_drain_cases[] = {
     VSF_TEST_GPIO_OPEN_DRAIN_CASES_INIT

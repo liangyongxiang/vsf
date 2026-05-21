@@ -21,9 +21,6 @@
 
 #if VSF_TEST_GPIO_TOGGLE_FREQ_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_toggle_freq_case_t __gpio_toggle_freq_cases[] = {
     VSF_TEST_GPIO_TOGGLE_FREQ_CASES_INIT

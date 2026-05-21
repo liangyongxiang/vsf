@@ -22,9 +22,6 @@
 
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_exti_case_t __gpio_exti_cases[] = {
     VSF_TEST_GPIO_EXTI_CASES_INIT

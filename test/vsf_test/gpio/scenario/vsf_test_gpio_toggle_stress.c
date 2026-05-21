@@ -21,9 +21,6 @@
 
 #if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_toggle_stress_case_t __gpio_toggle_stress_cases[] = {
     VSF_TEST_GPIO_TOGGLE_STRESS_CASES_INIT

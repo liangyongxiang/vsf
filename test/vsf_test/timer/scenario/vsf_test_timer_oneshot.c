@@ -7,9 +7,6 @@
 
 /*============================ MACROS ========================================*/
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS            200
-#endif
 
 #define TIMER_ONESHOT_PERIOD_US                50000
 

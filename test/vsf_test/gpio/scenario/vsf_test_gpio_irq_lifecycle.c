@@ -22,9 +22,6 @@
 
 #if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_irq_lifecycle_case_t __gpio_irq_lifecycle_cases[] = {
     VSF_TEST_GPIO_IRQ_LIFECYCLE_CASES_INIT

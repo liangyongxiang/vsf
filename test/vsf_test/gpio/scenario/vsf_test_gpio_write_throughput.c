@@ -21,9 +21,6 @@
 
 #if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_write_throughput_case_t __gpio_write_throughput_cases[] = {
     VSF_TEST_GPIO_WRITE_THROUGHPUT_CASES_INIT

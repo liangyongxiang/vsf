@@ -24,9 +24,6 @@
 
 #if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_usart_rx_fifo_irq_case_t __rx_fifo_irq_cases[] = {
     VSF_TEST_RX_FIFO_IRQ_CASES_INIT

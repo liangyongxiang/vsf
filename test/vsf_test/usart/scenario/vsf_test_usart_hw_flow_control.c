@@ -24,9 +24,6 @@
 
 #if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_usart_hw_flow_control_case_t __hw_flow_control_cases[] = {
     VSF_TEST_USART_HW_FLOW_CONTROL_CASES_INIT

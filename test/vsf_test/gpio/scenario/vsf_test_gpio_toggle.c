@@ -21,9 +21,6 @@
 
 #if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_toggle_case_t __gpio_toggle_cases[] = {
     VSF_TEST_GPIO_TOGGLE_CASES_INIT

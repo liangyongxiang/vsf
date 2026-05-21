@@ -26,9 +26,6 @@
 #ifndef VSF_TEST_RX_TIMEOUT_PAYLOAD
 #   define VSF_TEST_RX_TIMEOUT_PAYLOAD          "Hello VSF\r\n"
 #endif
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS             200
-#endif
 #ifndef VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS
 #   define VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS 500
 #endif
@@ -78,17 +75,14 @@ void vsf_test_usart_rx_timeout_add_cases(vsf_test_usart_rx_timeout_suite_t *suit
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_TIMEOUT_CASE_COUNT; i++) {
         __rx_timeout_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
+        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_timeout_run,
-            (void *)&__rx_timeout_cases[i]);
+            (void *)&__rx_timeout_cases[i], true);
     }
 }
 
 void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
 {
-    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
-     * and the settle delay; the per-case ":READY" handshake below is the
-     * RX scenario's own marker. */
     __rx_timeout_ctx_t ctx = { .timeout_triggered = false };
 
     vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
@@ -107,8 +101,6 @@ void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
         while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
 
         vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_RX_TIMEOUT);
-
-        vsf_trace_info("usart_rx_timeout:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS * 10;

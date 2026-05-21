@@ -26,9 +26,6 @@
 #ifndef VSF_TEST_MODE_PAYLOAD
 #   define VSF_TEST_MODE_PAYLOAD            "Hello VSF\r\n"
 #endif
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 #ifndef VSF_TEST_MODE_PAYLOAD_DRAIN_MS
 #   define VSF_TEST_MODE_PAYLOAD_DRAIN_MS   500
 #endif

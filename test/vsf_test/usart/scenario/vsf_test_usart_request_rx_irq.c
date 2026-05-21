@@ -24,9 +24,6 @@
 
 #if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_usart_request_rx_irq_case_t __request_rx_irq_cases[] = {
     VSF_TEST_REQUEST_RX_IRQ_CASES_INIT

@@ -160,7 +160,24 @@
     }
 */
 
-
+/*
+ * Protocol A — Shell REPL (host → device, real-time over UART):
+ *   vsf-test suite --list          → enumerate registered suites
+ *   vsf-test run <name>            → trigger execution
+ *   vsf-test config shuffle <N>    → set random seed
+ *   Suite ack: <name>              ← confirmation
+ *   Pass: N, Fail: N, Skip: N      ← per-suite summary
+ *
+ * Protocol B — Capture Markers (device → host, offline via LA decode):
+ *   <suite>:CASE:<N>               ← case start (framework)
+ *   <suite>:CASE:<N>:READY         ← DUT ready for host input (framework, optional)
+ *   <suite>:CASE:<N>:DONE          ← case end (framework)
+ *   <suite>:END                    ← suite boundary (framework)
+ *
+ * Host-less standalone mode (data sync via assist device) is not supported
+ * in the current configuration. Legacy port files are preserved under
+ * component/test/vsf_test/port/legacy/ for reference.
+ */
 
 #    if VSF_USE_TEST == ENABLED
 
@@ -186,21 +203,6 @@
 #            define VSF_TEST_CFG_USE_HAL_WDT DISABLED
 #        endif
 
-//!< Using stdio to save persistent data to assist device
-#        ifndef VSF_TEST_CFG_USE_STDIO_DATA_SYNC
-#            define VSF_TEST_CFG_USE_STDIO_DATA_SYNC DISABLED
-#        endif
-
-//!< Using file interface to save persistent data to assist device
-#        ifndef VSF_TEST_CFG_USE_FILE_DATA_SYNC
-#            define VSF_TEST_CFG_USE_FILE_DATA_SYNC DISABLED
-#        endif
-
-//!< Using appcfg command to save persistent data to assist device
-#        ifndef VSF_TEST_CFG_USE_APPCFG_DATA_SYNC
-#            define VSF_TEST_CFG_USE_APPCFG_DATA_SYNC DISABLED
-#        endif
-
 //!< Enable trace output for test framework
 #        ifndef VSF_TEST_CFG_USE_TRACE
 #            define VSF_TEST_CFG_USE_TRACE ENABLED
@@ -209,6 +211,14 @@
 //!< Test case array size
 #        ifndef VSF_TEST_CFG_ARRAY_SIZE
 #            define VSF_TEST_CFG_ARRAY_SIZE 100
+#        endif
+
+//!< Marker settle delay in milliseconds. Framework emits CASE/READY then
+//!< waits this long before invoking the test function, ensuring marker bytes
+//!< are fully on the wire before any test-driven UART activity begins.
+//!< Overridden by test_params_generated.h when the test-params generator runs.
+#        ifndef VSF_TEST_MARKER_DELAY_MS
+#            define VSF_TEST_MARKER_DELAY_MS 2
 #        endif
 
 //!< Loop iterations per millisecond for vsf_test_busy_wait_ms. CPU-frequency
@@ -283,85 +293,6 @@ struct vsf_test_wdt_t {
     uint32_t timeout_ms;
 };
 
-//! Device commands during data synchronization
-typedef enum vsf_test_data_cmd_t {
-    //! Reading the current state requires a response from the assist device
-    VSF_TEST_STATUS_READ,
-    //! Write current state, no assist device response required
-    VSF_TEST_STATUS_WRITE,
-
-    //! Reading the current index requires a response from the assist device
-    VSF_TEST_TESTCASE_INDEX_READ,
-    //! Write current index, no assist device response required
-    VSF_TEST_TESTCASE_INDEX_WRITE,
-
-    //! Send test request information, requires an assist device response.
-    VSF_TEST_TESECASE_REQUEST_WRITE,
-
-    //! Write the result of the current test, does not require a response from
-    //! the assist device.
-    VSF_TEST_TESTCASE_RESULT_WRITE,
-
-    //! All tests are completed without a response from the assist device. The
-    //! Assist Device should output a test report and be ready for the next
-    //! test.
-    VSF_TEST_DONE,
-} vsf_test_data_cmd_t;
-
-//! All data here needs to be synchronized with the assist device after
-//! modification. After powering up, we need to read the data from the assist
-//! device first.
-typedef struct vsf_test_data_t vsf_test_data_t;
-struct vsf_test_data_t {
-    //! This function is called after each power-up and before performing data
-    //! synchronization. In it, we can initialize the peripherals needed to
-    //! synchronize the data.
-    void (*init)(vsf_test_data_t *data);
-    //! Synchronize data according to different commands. All commands are
-    //! actively sent by the device, some commands are only sent, and some
-    //! commands need to wait for a response from the auxiliary device after
-    //! they are sent. All commands are not sent during the test case run, so
-    //! there is no need to worry about real-time.
-    void (*sync)(vsf_test_data_t *data, vsf_test_data_cmd_t cmd);
-
-    //! No matter how many test cases there are, there is only one copy of the
-    //! persistent data on the device side. So using a 32bit variable to save
-    //! the data here is not significantly wasteful.
-
-    //! The current test case, the initial value is 0. It will be incremented
-    //! once every test is completed, and will be set to 0 after all tests are
-    //! completed.
-    uint32_t idx;
-
-    //! Test status, @ref vsf_test_status_t
-    uint32_t status;
-
-    //! The test request information from the device, which will be sent to the
-    //! assist device and confirm from the assist device whether the test is
-    //! supported or not.
-    char *request_str;
-    //! Before the start of the current test, the device will confirm with the
-    //! secondary device whether the current test is supported. If it is not
-    //! supported this variable will have a value of VSF_TEST_REQ_NO_SUPPORT, if
-    //! it is supported this variable will have a value of VSF_TEST_REQ_SUPPORT.
-    uint32_t req_continue;
-
-    //! The results of the device's current test.
-    //! Please note that a successful test on the device side does not represent
-    //! the final result, and the assist device may modify the test result to a
-    //! test failure depending on the actual situation.
-    uint32_t result;
-
-    //! More information is logged here when the test is asserted or goes to an
-    //! exception.
-    struct {
-        const char *function_name;
-        const char *file_name;
-        const char *condition;
-        uint32_t    line;
-    } error;
-};
-
 typedef bool vsf_test_bool_fn_t(void *arg);
 typedef void vsf_test_jmp_fn_t(void *arg);
 
@@ -378,15 +309,16 @@ typedef void vsf_test_jmp_fn_t(void *arg);
 //! `setup(suite)` runs once before the first case of the suite; `teardown`
 //! runs once after the last case. Both may be NULL.
 dcl_simple_class(vsf_test_suite_t)
-typedef void vsf_test_suite_hook_fn_t(vsf_test_suite_t *suite);
+typedef bool vsf_test_suite_setup_fn_t(vsf_test_suite_t *suite);
+typedef void vsf_test_suite_teardown_fn_t(vsf_test_suite_t *suite);
 
 vsf_class(vsf_test_suite_t) {
     public_member(
-        const char                *name;          //!< also used as Capture Marker tag
-        const char                *purpose;        //!< short description, e.g. "rx-baud"
-        const char                *hw_req;         //!< hardware requirements, e.g. "uart1+la"
-        vsf_test_suite_hook_fn_t  *setup;          //!< NULL = skip
-        vsf_test_suite_hook_fn_t  *teardown;       //!< NULL = skip
+        const char                     *name;          //!< also used as Capture Marker tag
+        const char                     *purpose;       //!< short description, e.g. "rx-baud"
+        const char                     *hw_req;        //!< hardware requirements, e.g. "uart1+la"
+        vsf_test_suite_setup_fn_t      *setup;         //!< NULL = skip; return false to skip all cases
+        vsf_test_suite_teardown_fn_t   *teardown;      //!< NULL = skip
     )
     private_member(
         uint16_t                   first_case_idx; //!< managed by framework
@@ -432,6 +364,24 @@ typedef struct vsf_test_case_t {
 
     //! Argument pointer passed directly to the test function.
     void *arg;
+
+    //! Runtime status: IDLE or RUNNING. Used by WDT recovery.
+    uint8_t status;
+
+    //! When true, the framework emits <suite>:CASE:<N>:READY before the
+    //! settle delay. Set by scenarios that require host-side synchronization.
+    bool needs_ready_handshake;
+
+    //! Result of this test case (VSF_TEST_RESULT_*). Set by the dispatcher.
+    uint8_t result;
+
+    //! Error details when an assertion or exception occurs.
+    struct {
+        const char *function_name;
+        const char *file_name;
+        const char *condition;
+        uint32_t    line;
+    } error;
 } vsf_test_case_t;
 
 //! \brief Test framework configuration structure
@@ -452,15 +402,9 @@ typedef struct vsf_test_cfg_t {
         vsf_test_reboot_t *external;
     } reboot;
 
-    //! Data persistence configuration
-    struct {
-        //! Data initialization function
-        void (*init)(vsf_test_data_t *data);
-        //! Data synchronization function
-        void (*sync)(vsf_test_data_t *data, vsf_test_data_cmd_t cmd);
-    } data;
-
-    //! Restart from the beginning when test completes or errors occur
+    //! Restart from the beginning when test completes or errors occur.
+    //! Note: data-sync (assist-device) resume is not supported in the
+    //! current configuration; this field is kept for API compatibility.
     bool restart_on_done;
 } vsf_test_cfg_t;
 
@@ -494,15 +438,16 @@ typedef struct vsf_test_t {
         vsf_test_reboot_t *external;
     } reboot;
 
-    //! Persistent data, each time the data in this structure is modified it
-    //! should be actively synchronized to the assist device
-    vsf_test_data_t data;
+    //! Current test case pointer — set by vsf_test_run_case before invoking
+    //! the test function, used by __vsf_test_longjmp and vsf_test_reboot.
+    vsf_test_case_t *current_case;
 
 #        if VSF_TEST_CFG_LONGJMP == ENABLED
     jmp_buf *jmp_buf;
 #        endif
 
-    //! Restart from the beginning when test completes or errors occur
+    //! Restart from the beginning when test completes or errors occur.
+    //! Note: data-sync resume is not supported in the current configuration.
     bool restart_on_done;
 
     //! Test case count (number of test cases added)
@@ -616,15 +561,28 @@ extern bool vsf_test_suite_add_case(vsf_test_suite_t *suite,
                                     vsf_test_jmp_fn_t *jmp_fn,
                                     void *arg);
 
+/**
+ @brief Add a case to the most recently registered suite with optional
+        ready-handshake flag. Same as vsf_test_suite_add_case when
+        needs_ready_handshake is false.
+ @param[in] suite: same pointer that was passed to `vsf_test_register_suite()`
+ @param[in] jmp_fn: test function (longjmp-style)
+ @param[in] arg: argument passed to the test function
+ @param[in] needs_ready_handshake: when true, the framework emits
+            `<suite>:CASE:<N>:READY` before the settle delay
+ @return true on success
+ */
+extern bool vsf_test_suite_add_case_ex(vsf_test_suite_t *suite,
+                                       vsf_test_jmp_fn_t *jmp_fn,
+                                       void *arg,
+                                       bool needs_ready_handshake);
+
 /*============================ LOCAL VARIABLES ===============================*/
 /*============================ GLOBAL VARIABLES ==============================*/
 
 /*============================ INCLUDES ======================================*/
 
 #        include "./port/vsf_test_port_hal.h"
-#        include "./port/vsf_test_port_stdio.h"
-#        include "./port/vsf_test_port_file.h"
-#        include "./port/vsf_test_port_appcfg.h"
 
 #    endif
 #endif

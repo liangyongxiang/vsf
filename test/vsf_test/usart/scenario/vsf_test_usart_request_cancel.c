@@ -21,9 +21,6 @@
 
 #if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_usart_request_cancel_case_t __request_cancel_cases[] = {
     VSF_TEST_REQUEST_CANCEL_CASES_INIT

@@ -21,9 +21,6 @@
 
 #if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_systimer_health_case_t __gpio_systimer_health_cases[] = {
     VSF_TEST_GPIO_SYSTIMER_HEALTH_CASES_INIT

@@ -26,9 +26,6 @@
 #ifndef VSF_TEST_RX_ERROR_PAYLOAD
 #   define VSF_TEST_RX_ERROR_PAYLOAD          "Hello VSF\r\n"
 #endif
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS           200
-#endif
 #ifndef VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS
 #   define VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS 500
 #endif
@@ -104,17 +101,14 @@ void vsf_test_usart_rx_parity_error_add_cases(vsf_test_usart_rx_parity_error_sui
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_PARITY_ERROR_CASE_COUNT; i++) {
         __rx_parity_error_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
+        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_parity_error_run,
-            (void *)&__rx_parity_error_cases[i]);
+            (void *)&__rx_parity_error_cases[i], true);
     }
 }
 
 void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_case_t *c)
 {
-    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
-     * and the settle delay; the per-case ":READY" handshake below is the
-     * RX scenario's own marker. */
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
 
     vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
@@ -132,8 +126,6 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
         while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
 
         vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_PARITY_ERR);
-
-        vsf_trace_info("usart_rx_parity_error:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;
@@ -163,17 +155,14 @@ void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_suite
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_FRAME_ERROR_CASE_COUNT; i++) {
         __rx_frame_error_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
+        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_frame_error_run,
-            (void *)&__rx_frame_error_cases[i]);
+            (void *)&__rx_frame_error_cases[i], true);
     }
 }
 
 void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c)
 {
-    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
-     * and the settle delay; the per-case ":READY" handshake below is the
-     * RX scenario's own marker. */
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
 
     vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
@@ -191,8 +180,6 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
         while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
 
         vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_FRAME_ERR);
-
-        vsf_trace_info("usart_rx_frame_error:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;
@@ -222,17 +209,14 @@ void vsf_test_usart_rx_break_error_add_cases(vsf_test_usart_rx_break_error_suite
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_BREAK_ERROR_CASE_COUNT; i++) {
         __rx_break_error_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
+        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_break_error_run,
-            (void *)&__rx_break_error_cases[i]);
+            (void *)&__rx_break_error_cases[i], true);
     }
 }
 
 void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_t *c)
 {
-    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
-     * and the settle delay; the per-case ":READY" handshake below is the
-     * RX scenario's own marker. Host responds by toggling tty BRK condition. */
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false, .break_err = false };
 
     vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
@@ -250,8 +234,6 @@ void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_
         while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
 
         vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_BREAK_ERR);
-
-        vsf_trace_info("usart_rx_break_error:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;
@@ -281,19 +263,15 @@ void vsf_test_usart_rx_overflow_error_add_cases(vsf_test_usart_rx_overflow_error
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_OVERFLOW_ERROR_CASE_COUNT; i++) {
         __rx_overflow_error_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
+        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_overflow_error_run,
-            (void *)&__rx_overflow_error_cases[i]);
+            (void *)&__rx_overflow_error_cases[i], true);
     }
 }
 
 void vsf_test_usart_rx_overflow_error_run(const vsf_test_usart_rx_overflow_error_case_t *c)
 {
-    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
-     * and the settle delay; the per-case ":READY" handshake below is the
-     * RX scenario's own marker.
-     *
-     * Only the OVERFLOW IRQ is enabled (no RX/RX_TIMEOUT), so the FIFO is
+    /* Only the OVERFLOW IRQ is enabled (no RX/RX_TIMEOUT), so the FIFO is
      * never drained — host's burst quickly exceeds the 32-byte PL011 FIFO
      * and OVERRUN fires. */
     __rx_error_ctx_t ctx = { 0 };
@@ -313,8 +291,6 @@ void vsf_test_usart_rx_overflow_error_run(const vsf_test_usart_rx_overflow_error
         while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
 
         vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_RX_OVERFLOW_ERR);
-
-        vsf_trace_info("usart_rx_overflow_error:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;

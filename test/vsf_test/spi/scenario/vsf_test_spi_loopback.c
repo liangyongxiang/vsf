@@ -23,9 +23,6 @@
 
 /*============================ MACROS ========================================*/
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS            200
-#endif
 
 #define SPI_LOOPBACK_PATTERN_LEN               8
 

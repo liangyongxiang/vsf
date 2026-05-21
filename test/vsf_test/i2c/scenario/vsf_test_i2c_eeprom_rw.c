@@ -24,9 +24,6 @@
 
 /*============================ MACROS ========================================*/
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS             200
-#endif
 #ifndef VSF_TEST_I2C_CLOCK_HZ
 #   define VSF_TEST_I2C_CLOCK_HZ                100000
 #endif

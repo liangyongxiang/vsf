@@ -21,9 +21,6 @@
 
 #if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_direction_case_t __gpio_direction_cases[] = {
     VSF_TEST_GPIO_DIRECTION_CASES_INIT

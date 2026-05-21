@@ -24,9 +24,6 @@
 
 #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 
 static vsf_test_gpio_concurrent_prio_case_t __gpio_concurrent_prio_cases[] = {
     VSF_TEST_GPIO_CONCURRENT_PRIO_CASES_INIT

@@ -23,9 +23,6 @@
 
 /*============================ MACROS ========================================*/
 
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS            200
-#endif
 
 #define DMA_MEM2MEM_BUF_SIZE                   32
 

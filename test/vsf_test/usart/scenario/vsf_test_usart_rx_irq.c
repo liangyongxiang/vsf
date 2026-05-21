@@ -26,9 +26,6 @@
 #ifndef VSF_TEST_RX_IRQ_PAYLOAD
 #   define VSF_TEST_RX_IRQ_PAYLOAD          "Hello VSF\r\n"
 #endif
-#ifndef VSF_TEST_MARKER_DELAY_MS
-#   define VSF_TEST_MARKER_DELAY_MS         200
-#endif
 #ifndef VSF_TEST_RX_IRQ_PAYLOAD_DRAIN_MS
 #   define VSF_TEST_RX_IRQ_PAYLOAD_DRAIN_MS 500
 #endif
@@ -86,17 +83,14 @@ void vsf_test_usart_rx_irq_add_cases(vsf_test_usart_rx_irq_suite_t *suite)
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_IRQ_CASE_COUNT; i++) {
         __rx_irq_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
+        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_irq_run,
-            (void *)&__rx_irq_cases[i]);
+            (void *)&__rx_irq_cases[i], true);
     }
 }
 
 void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c)
 {
-    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
-     * and the settle delay; the per-case ":READY" handshake below is the
-     * RX scenario's own marker. */
     __rx_irq_ctx_t ctx = { .count = 0, .expected_len = strlen(VSF_TEST_RX_IRQ_PAYLOAD), .done = false };
 
     vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
@@ -125,8 +119,6 @@ void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c)
         }
 
         vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
-
-        vsf_trace_info("usart_rx_irq:CASE:%d:READY" VSF_TRACE_CFG_LINEEND, (int)c->idx);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_IRQ_PAYLOAD_DRAIN_MS * 10;

@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-"""
-Deterministic check: USART source implementation completeness.
-Supports both direct-reg and IPCore-based drivers.
-Usage: check-usart-source.py <uart.c>
+"""Deterministic check: PWM source implementation completeness.
+Usage: check-pwm-source.py <pwm.c>
 Exit: 0=pass, 1=errors, 2=warnings
 """
 
@@ -30,52 +28,59 @@ def check_source(path: str) -> tuple[int, int]:
             print(f"  WARN: {msg}")
             warnings += 1
 
-    is_ipcore = has(r"#define\s+__VSF_HAL_.*_CLASS_INHERIT__")
-    if is_ipcore:
-        print("  INFO: IPCore-based driver detected")
-
     # ── Guard ──
-    if has(r"VSF_HAL_USE_USART\s*==\s*ENABLED"):
-        say("OK", "VSF_HAL_USE_USART guard")
+    if has(r"VSF_HAL_USE_PWM\s*==\s*ENABLED"):
+        say("OK", "VSF_HAL_USE_PWM guard")
     else:
-        say("FAIL", "missing VSF_HAL_USE_USART == ENABLED guard")
+        say("FAIL", "missing VSF_HAL_USE_PWM == ENABLED guard")
 
     # ── HW struct ──
-    if has(r"typedef\s+struct\s+\w*.*_usart_t"):
-        say("OK", "HW usart struct defined")
-    elif has(r"implement\(vsf_\w+_usart_t\)"):
+    if has(r"typedef\s+struct\s+\w*.*_pwm_t"):
+        say("OK", "HW pwm struct defined")
+    elif has(r"implement\(vsf_\w+_pwm_t\)"):
         say("OK", "IPCore-based struct (implement pattern)")
     else:
-        say("FAIL", "missing usart struct or IPCore implement pattern")
+        say("FAIL", "missing pwm struct or IPCore implement pattern")
 
     # ── Essential API implementations ──
-    apis = [
-        "usart_init", "usart_fini",
-        "usart_enable", "usart_disable",
-        "usart_irq_enable", "usart_irq_disable",
-        "usart_status",
-        "usart_rxfifo_get_data_count", "usart_rxfifo_read",
-        "usart_txfifo_get_free_count", "usart_txfifo_write",
+    core_apis = [
+        "pwm_init", "pwm_fini",
+        "pwm_enable", "pwm_disable",
     ]
-    for api in apis:
+    for api in core_apis:
         if has(re.escape(api)):
             say("OK", f"implements _{api}")
         else:
             say("FAIL", f"missing _{api}")
 
-    # ── Instance instantiation ──
-    if has(r"VSF_USART_CFG_IMP_LV0"):
-        say("OK", "VSF_USART_CFG_IMP_LV0 defined")
-    else:
-        say("FAIL", "missing VSF_USART_CFG_IMP_LV0 instance instantiation")
+    # IRQ APIs (PWM may not use interrupts)
+    for api in ("pwm_irq_enable", "pwm_irq_disable"):
+        if has(re.escape(api)):
+            say("OK", f"implements _{api}")
+        else:
+            say("WARN", f"missing _{api} (OK if PWM has no IRQ)")
 
-    if has(r"usart_template\.inc"):
-        say("OK", "usart_template.inc included")
+    # PWM config/set APIs
+    pwm_apis = ["pwm_set", "pwm_config_channel", "pwm_set_duty", "pwm_set_period"]
+    pwm_found = any(has(re.escape(a)) for a in pwm_apis)
+    if pwm_found:
+        say("OK", "PWM set/config API present")
     else:
-        say("FAIL", r'missing #include "...usart_template.inc"')
+        say("FAIL", "no PWM set/config API found")
+
+    # ── Instance instantiation ──
+    if has(r"VSF_PWM_CFG_IMP_LV0"):
+        say("OK", "VSF_PWM_CFG_IMP_LV0 defined")
+    else:
+        say("FAIL", "missing VSF_PWM_CFG_IMP_LV0 instance instantiation")
+
+    if has(r"pwm_template\.inc"):
+        say("OK", "pwm_template.inc included")
+    else:
+        say("FAIL", r'missing #include "...pwm_template.inc"')
 
     # ── Prefix config ──
-    for pref in ("VSF_USART_CFG_IMP_PREFIX", "VSF_USART_CFG_IMP_UPCASE_PREFIX"):
+    for pref in ("VSF_PWM_CFG_IMP_PREFIX", "VSF_PWM_CFG_IMP_UPCASE_PREFIX"):
         if has(re.escape(pref)):
             say("OK", f"{pref} defined")
         else:
@@ -88,30 +93,20 @@ def check_source(path: str) -> tuple[int, int]:
     else:
         say("WARN", "no IRQHandler found (OK if IPCore dispatch used)")
 
-    # ── Optional DMA APIs ──
-    dma_apis = ["request_rx", "request_tx", "cancel_rx", "cancel_tx",
-                "get_rx_count", "get_tx_count"]
-    for api in dma_apis:
-        if not has(re.escape(f"_usart_{api}")):
-            say("WARN", f"missing _usart_{api} (OK if fifo2req template used)")
-
     return errors, warnings
 
 
 def main():
     if len(sys.argv) < 2:
-        print(f"Usage: {sys.argv[0]} <uart.c>")
+        print(f"Usage: {sys.argv[0]} <pwm.c>")
         sys.exit(1)
-
     path = sys.argv[1]
     if not Path(path).is_file():
         print(f"FAIL: file not found: {path}")
         sys.exit(1)
-
     print(f"=== Checking {path} ===")
     errors, warnings = check_source(path)
     print()
-
     if errors:
         print(f"FAIL: {errors} essential check(s) failed")
         sys.exit(1)

@@ -56,7 +56,7 @@ def read_framework_windows(
 
     starts = la.decode_markers(
         channel=ch, baudrate=marker_baud,
-        pattern=rf"{suite_name}:CASE:(\d+)(?!:)",
+        pattern=rf"{suite_name}:CASE:(\d+)(?![\d:])",
         output_csv=out_dir / f"{suite_name}_starts.csv",
         start_ns=decode_start_ns, end_ns=decode_end_ns,
     )

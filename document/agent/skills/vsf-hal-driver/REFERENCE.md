@@ -406,6 +406,51 @@ New chip USART (IPCore):
 4. Verify: `check-usart-*.py` then vsf-board-run
 
 Existing chip, new GPIO:
-1. Copy gpio.{h,c}, `REIMPLEMENT_TYPE_*=ENABLED`, struct `{.reg,.isr}`
+1. `scaffold_peripheral.py --driver-dir source/hal/driver --chip MyVendor/MyChip --periph gpio`
 2. Implement APIs via register access, `VSF_GPIO_CFG_IMP_LV0`
-3. Verify with vsf-board-run
+3. Verify with `check-gpio-header.py` + `check-gpio-source.py`, then vsf-board-run
+
+## Script Reference
+
+### When to use each script
+
+| Script | Use when... | Input | Exit 0 means |
+|--------|------------|-------|--------------|
+| `scaffold_chip.py` | Starting a brand-new chip port | YAML chip config | Skeleton directory created |
+| `scaffold_peripheral.py` | Adding a peripheral to an existing chip | `--periph <name> --chip Vendor/Chip` | Template files copied and renamed |
+| `generate-device-peripheral-macros.py` | Adding/editing peripheral instances in device.h | YAML instance map | Macros written to device.h zone |
+| `check-<periph>-header.py` | Verifying a driver header is structurally complete | `<periph>.h` | All mandatory checks pass |
+| `check-<periph>-source.py` | Verifying a driver source is structurally complete | `<periph>.c` | All mandatory checks pass |
+| `check-driver-quality.py` | Checking for anti-patterns | One or more `.c`/`.h` files | Zero quality findings |
+| `audit-port.py` | Cross-file consistency check | `--chip Vendor/Chip` | No wiring gaps found |
+| `enable-periph.py` | Toggling `VSF_HAL_USE_*` in vsf_usr_cfg.h | `--enable usart,spi --disable i2c` | All requested toggles applied |
+| `vsf-bench` | Build + flash + run test scenes | hardware-map.yml | All scenes pass |
+
+### Typical workflow order
+
+```
+1. scaffold_chip.py           ← once per chip (R1)
+2. generate-device-peripheral-macros.py  ← edit device.h (R1)
+3. scaffold_peripheral.py     ← one per peripheral (R3a/R3b/R5)
+4. [edit driver .c / .h]      ← implement register logic
+5. enable-periph.py           ← enable the peripheral (R2)
+6. check-<periph>-header.py + check-<periph>-source.py  ← structural completeness
+7. check-driver-quality.py    ← no anti-patterns
+8. audit-port.py              ← cross-file consistency
+9. vsf-bench                  ← build+flash+test on hardware
+```
+
+**Structure vs quality checkers** — `check-<periph>-header.py` and `check-<periph>-source.py` verify the driver *has the right shape* (guard macros present, all mandatory APIs exist, template includes correct, IMP_LV0 defined). `check-driver-quality.py` verifies the driver *doesn't have the wrong content* (no hardcoded instances, no pinmux-in-driver, no bare IRQ names). Run structure first (cheap, catches mechanical omissions), then quality.
+
+### Peripherals with checker pairs
+
+| Peripheral | Header checker | Source checker |
+|---|---|---|
+| USART | `check-usart-header.py` | `check-usart-source.py` |
+| GPIO | `check-gpio-header.py` | `check-gpio-source.py` |
+| I2C | `check-i2c-header.py` | `check-i2c-source.py` |
+| SPI | `check-spi-header.py` | `check-spi-source.py` |
+| ADC | `check-adc-header.py` | `check-adc-source.py` |
+| PWM | `check-pwm-header.py` | `check-pwm-source.py` |
+
+Adding a checker for a new peripheral follows the `check-usart-*.py` pattern: each is a self-contained ~100–200 line script.

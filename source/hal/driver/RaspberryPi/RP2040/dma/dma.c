@@ -22,9 +22,6 @@
 #if VSF_HAL_USE_DMA == ENABLED
 
 #include "hal/vsf_hal.h"
-#include "hardware/structs/dma.h"
-#include "hardware/regs/dma.h"
-#include "hardware/structs/resets.h"
 
 /*============================ MACROS ========================================*/
 

@@ -62,23 +62,32 @@ The chip's reset/clock identifiers (e.g. `RESET_UART0` from `hardware/regs/reset
 
 ### Include convention
 
-Peripheral driver `.c` files pull in the chip's top-level header **through one indirection**, never by chip filename:
+A peripheral driver `.c` file only includes:
 
 ```c
 #include "hal/vsf_hal.h"
 #include "hal/driver/vendor_driver.h"   // canonical — NOT "RP2040.h" / "stm32h7xx.h" / etc.
-#include "hardware/structs/<periph>.h"  // peripheral-specific vendor headers stay direct
-#include "hardware/regs/<periph>.h"     // same
+// IPCore (VSF-owned) headers stay here too:
+#include "hal/driver/IPCore/ARM/PL011/vsf_pl011_uart_reg.h"   // if the driver embeds PL011
 ```
 
-`vendor_driver.h` is a portable indirection: if `VSF_VENDOR_DRIVER_HEADER` is defined it follows that, otherwise it re-enters `driver.h` with `__VSF_HAL_SHOW_VENDOR_INFO__`, which is how `<Chip>/device.h` ends up pulling the chip's CMSIS / device file. The chip filename appears in exactly one place — the chip's own `device.h`.
+Vendor peripheral struct/reg headers (`hardware/structs/<periph>.h`, `hardware/regs/<periph>.h`) are **not** included in the driver. They live in **the chip's `device.h`** main block (the `__VSF_HAL_SHOW_VENDOR_INFO__`-NOT-defined branch), and reach the driver transitively because `hal/vsf_hal.h` → `driver.h` → chip-`device.h`. The template at `template/__series_name_a__/__device_name_a__/device.h` documents this slot — look for the `__common.h` comment near the top of the main block. A new chip port either:
 
-What `vendor_driver.h` does NOT bring in:
+- inlines all needed peripheral headers (`#include "hardware/structs/<periph>.h"` etc.) directly into `device.h`, or
+- aggregates them into a sibling `__common.h` and includes that one file.
 
-- `hardware/structs/<periph>.h` / `hardware/regs/<periph>.h` — these are peripheral-specific and remain direct includes at the call site.
-- IPCore register headers like `vsf_pl011_uart_reg.h` — also direct.
+Either way, the driver `.c` doesn't name vendor peripheral headers — that is a porting bug. The RP2040 port follows the inline-in-`device.h` form; see `RaspberryPi/RP2040/device.h` for the concrete example (one block for `hardware/structs/*.h`, one for `hardware/regs/*.h`).
 
-The migration table under "Style migration" still lists `#include "RP2040.h"` → `#include "hal/driver/vendor_driver.h"` for legacy drivers, but greenfield ports should use `vendor_driver.h` from the start.
+**Two indirections to keep straight:**
+
+| Concern | Indirection | Where the chip-specific name appears |
+|---|---|---|
+| The chip's top-level header (`RP2040.h`, `stm32h7xx.h`) | `hal/driver/vendor_driver.h` → re-enters `driver.h` with `__VSF_HAL_SHOW_VENDOR_INFO__` → `device.h` SHOW_VENDOR_INFO branch | The SHOW_VENDOR_INFO branch of `device.h` |
+| Vendor peripheral struct/reg headers (`hardware/structs/uart.h`, `hardware/regs/dma.h`) | Transitively through `hal/vsf_hal.h` → `device.h` main block | `device.h` main block (or its `__common.h` aggregate) |
+
+**Exempt:** the chip-level `driver.c` (clock-tree / PLL / power-on bring-up) IS the vendor integration layer — it can include `hardware/structs/<periph>.h` for peripherals not covered by the centralized block (e.g. `xosc`, `pll`). Peripheral driver `.c` files are NOT exempt.
+
+The migration table under "Style migration" still lists `#include "RP2040.h"` → `#include "hal/driver/vendor_driver.h"` for legacy drivers, but greenfield ports should use `vendor_driver.h` from the start AND keep peripheral headers out of the driver `.c`.
 
 ### Macro prefix convention
 

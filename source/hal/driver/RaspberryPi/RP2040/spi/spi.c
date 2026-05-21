@@ -22,9 +22,6 @@
 #if VSF_HAL_USE_SPI == ENABLED
 
 #include "hal/vsf_hal.h"
-#include "hardware/structs/spi.h"
-#include "hardware/regs/spi.h"
-#include "hardware/structs/resets.h"
 
 /*============================ MACROS ========================================*/
 

@@ -23,9 +23,6 @@
 
 #include "hal/vsf_hal.h"
 #include "hal/driver/vendor_driver.h"
-#include "hardware/structs/adc.h"
-#include "hardware/regs/adc.h"
-#include "hardware/structs/resets.h"
 
 /*============================ MACROS ========================================*/
 

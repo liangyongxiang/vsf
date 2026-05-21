@@ -23,8 +23,6 @@
 
 #include "hal/vsf_hal.h"
 #include "hal/driver/vendor_driver.h"
-#include "hardware/structs/timer.h"
-#include "hardware/regs/timer.h"
 
 /*============================ MACROS ========================================*/
 

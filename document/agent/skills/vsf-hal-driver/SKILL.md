@@ -35,7 +35,7 @@ Follow `PORTING.md` — a numbered ladder from vendor SDK serial to full periphe
 
 **IPCore mode:** `implement(vsf_<ip>_<periph>_t)` embeds the base class — don't duplicate. Set `__VSF_HAL_${IP}_<PERIPH>_CLASS_INHERIT__`. Chip adds reset/NVIC/clock.
 
-**Include convention:** peripheral drivers pull the chip header through `#include "hal/driver/vendor_driver.h"` — never `#include "RP2040.h"` (or other chip filename) directly. Peripheral-specific headers (`hardware/structs/<periph>.h`, IPCore `*_reg.h`) stay as direct includes. See REFERENCE.md "Include convention".
+**Include convention:** peripheral drivers pull the chip header through `#include "hal/driver/vendor_driver.h"` — never `#include "RP2040.h"` (or other chip filename) directly. Vendor peripheral struct/reg headers (`hardware/structs/<periph>.h`, `hardware/regs/<periph>.h`) live in **the chip's `device.h` main block** and reach the driver transitively — driver `.c` files do not include them directly. IPCore `*_reg.h` headers (VSF-owned, not vendor) stay as direct includes in the driver. See REFERENCE.md "Include convention".
 
 **Unimplemented APIs (chip drivers only):** in actual chip drivers, every stub must `VSF_HAL_ASSERT(0);` AND return an error (`VSF_ERR_NOT_SUPPORT` for "hardware can't") or a sentinel (`0`/`-1`) — never a silent `return VSF_ERR_NONE;` after only a pointer assert. Template skeletons under `template/__series_name_a__/` are exempt — they're scaffolding the porter edits. See REFERENCE.md "Unimplemented API convention".
 

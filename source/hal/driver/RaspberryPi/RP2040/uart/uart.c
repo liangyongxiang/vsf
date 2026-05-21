@@ -26,7 +26,6 @@
 #include "hal/vsf_hal.h"
 
 #include "hal/driver/vendor_driver.h"
-#include "hardware/structs/resets.h"
 #include "hal/driver/IPCore/ARM/PL011/vsf_pl011_uart_reg.h"
 
 /*============================ MACROS ========================================*/

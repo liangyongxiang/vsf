@@ -44,7 +44,30 @@
 #include "hardware/regs/addressmap.h"
 #include "hardware/regs/resets.h"
 
-//#include "common.h"
+// Vendor peripheral headers — centralized here so individual driver .c files
+// don't pull them in directly. Anything a driver reaches for as `xxx_hw` /
+// `XXX_<FIELD>_BITS` is provided through this block.
+#include "hardware/structs/adc.h"
+#include "hardware/structs/clocks.h"
+#include "hardware/structs/dma.h"
+#include "hardware/structs/io_bank0.h"
+#include "hardware/structs/pads_bank0.h"
+#include "hardware/structs/pwm.h"
+#include "hardware/structs/resets.h"
+#include "hardware/structs/rtc.h"
+#include "hardware/structs/sio.h"
+#include "hardware/structs/spi.h"
+#include "hardware/structs/timer.h"
+#include "hardware/structs/watchdog.h"
+
+#include "hardware/regs/adc.h"
+#include "hardware/regs/dma.h"
+#include "hardware/regs/psm.h"
+#include "hardware/regs/pwm.h"
+#include "hardware/regs/rtc.h"
+#include "hardware/regs/spi.h"
+#include "hardware/regs/timer.h"
+#include "hardware/regs/watchdog.h"
 
 /*============================ MACROS ========================================*/
 

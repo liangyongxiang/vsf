@@ -22,9 +22,6 @@
 #if VSF_HAL_USE_PWM == ENABLED
 
 #include "hal/vsf_hal.h"
-#include "hardware/structs/pwm.h"
-#include "hardware/regs/pwm.h"
-#include "hardware/structs/clocks.h"
 
 /*============================ MACROS ========================================*/
 

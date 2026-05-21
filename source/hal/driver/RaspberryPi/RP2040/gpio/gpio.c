@@ -24,9 +24,6 @@
 #include "hal/vsf_hal.h"
 
 #include "hal/driver/vendor_driver.h"   /* for IO_IRQ_BANK0_IRQn + NVIC helpers */
-#include "hardware/structs/io_bank0.h"
-#include "hardware/structs/pads_bank0.h"
-#include "hardware/structs/sio.h"
 
 /*============================ MACROS ========================================*/
 

@@ -167,11 +167,11 @@ vsf_err_t VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt_ctrl)(
 #define VSF_WDT_CFG_REIMPLEMENT_API_CTRL            ENABLED
 
 #define VSF_WDT_CFG_IMP_LV0(__IDX, __HAL_OP)                                    \
-    VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt_t)                               \
-        VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt ## __IDX) = {                \
-        .reg = (watchdog_hw_t *)VSF_MCONNECT(VSF_WDT_CFG_IMP_UPCASE_PREFIX,    \
+    VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt_t)                                \
+        VSF_MCONNECT(VSF_WDT_CFG_IMP_PREFIX, _wdt ## __IDX) = {                 \
+        .reg = (watchdog_hw_t *)VSF_MCONNECT(VSF_WDT_CFG_IMP_UPCASE_PREFIX,     \
                                              _WDT, __IDX, _REG),                \
-        __HAL_OP                                                               \
+        __HAL_OP                                                                \
     };
 
 #include "hal/driver/common/wdt/wdt_template.inc"

@@ -329,7 +329,7 @@ static void VSF_MCONNECT(__, VSF_RTC_CFG_IMP_PREFIX, _rtc_irqhandler)(
 #define VSF_RTC_CFG_IMP_LV0(__IDX, __HAL_OP)                                    \
     VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_t)                                \
         VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc, __IDX) = {                   \
-        .reg                = (rtc_hw_t *)VSF_MCONNECT(VSF_RTC_CFG_IMP_UPCASE_PREFIX,\
+        .reg = (rtc_hw_t *)VSF_MCONNECT(VSF_RTC_CFG_IMP_UPCASE_PREFIX,          \
                                      _RTC, __IDX, _REG),                        \
         .rst_bit            = VSF_MCONNECT(VSF_RTC_CFG_IMP_UPCASE_PREFIX,       \
                                      _RTC, __IDX, _RST_BIT),                    \

@@ -228,8 +228,9 @@ static void VSF_MCONNECT(__, VSF_I2C_CFG_IMP_PREFIX, _i2c_irqhandler)(
 #define VSF_I2C_CFG_IMP_LV0(__IDX, __HAL_OP)                                    \
     VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_t)                                \
         VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c, __IDX) = {                   \
-        .reg  = (vsf_dw_apb_i2c_reg_t *)VSF_MCONNECT(VSF_I2C_CFG_IMP_UPCASE_PREFIX, \
-                                                      _I2C, __IDX, _REG),       \
+        .reg = (vsf_dw_apb_i2c_reg_t *)                                         \
+            VSF_MCONNECT(VSF_I2C_CFG_IMP_UPCASE_PREFIX,                         \
+                         _I2C, __IDX, _REG),                                    \
         .irqn = VSF_MCONNECT(VSF_I2C_CFG_IMP_UPCASE_PREFIX,                     \
                              _I2C, __IDX, _IRQN),                               \
         __HAL_OP                                                                \

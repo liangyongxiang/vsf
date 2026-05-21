@@ -317,6 +317,28 @@ def check_pinmux_in_driver(lines: list[ScanLine]) -> list[Finding]:
                  predicate, reference="Board wiring")
 
 
+# Multi-line #define macro continuation backslash must align to column 81
+# (content length 80 + '\' at column 81).
+_BACKSLASH_TARGET_COL = 81
+
+
+def check_macro_backslash_align(lines: list[ScanLine]) -> list[Finding]:
+    def predicate(sl: ScanLine) -> bool:
+        stripped = sl.text.rstrip()
+        if not stripped.rstrip().endswith("\\"):
+            return False
+        content = stripped.rstrip().rstrip("\\").rstrip()
+        content_len = len(content)
+        backslash_col = len(stripped)
+        if content_len > _BACKSLASH_TARGET_COL - 1:
+            return True
+        return backslash_col != _BACKSLASH_TARGET_COL
+    return _emit(lines, "macro-backslash-align",
+                 "multi-line #define continuation backslash not at column 81 — "
+                 "run fix-macro-align.py to auto-fix",
+                 predicate, reference="Macro formatting convention")
+
+
 RULES = [
     check_hardcoded_instance_name,
     check_instance_index_branch,
@@ -326,6 +348,7 @@ RULES = [
     check_hardcoded_address,
     check_missing_vsf_mconnect,
     check_pinmux_in_driver,
+    check_macro_backslash_align,
 ]
 
 

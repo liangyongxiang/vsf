@@ -92,9 +92,11 @@
 #define VSF_HW_I2C0_IRQN            I2C0_IRQ_IRQn
 #define VSF_HW_I2C0_IRQHandler      I2C0_IRQHandler
 #define VSF_HW_I2C0_REG             I2C0_BASE
+#define VSF_HW_I2C0_RST_BIT         (1u << RESET_I2C0)
 #define VSF_HW_I2C1_IRQN            I2C1_IRQ_IRQn
 #define VSF_HW_I2C1_IRQHandler      I2C1_IRQHandler
 #define VSF_HW_I2C1_REG             I2C1_BASE
+#define VSF_HW_I2C1_RST_BIT         (1u << RESET_I2C1)
 
 #define VSF_HW_USART_COUNT          2
 #define VSF_HW_USART0_IRQN          UART0_IRQ_IRQn
@@ -114,6 +116,11 @@
 #define VSF_HW_GPIO_PIN_COUNT       30
 #define VSF_HW_GPIO_PIN_MASK        0x3FFFFFFFu
 #define VSF_HW_GPIO0_IRQN           IO_IRQ_BANK0_IRQn
+
+// Enable VSF_GPIO_PORT_PIN macros (VSF_PA0..VSF_PA29) and the
+// vsf_hw_gpio_ports_config_pin batch API.
+#define VSF_GPIO_CFG_PORT0
+#define VSF_GPIO_CFG_PIN_COUNT      30
 
 #define VSF_HW_RTC_COUNT            1
 #define VSF_HW_RTC0_IRQN            RTC_IRQ_IRQn

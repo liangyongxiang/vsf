@@ -23,6 +23,8 @@
 
 #include "hal/vsf_hal.h"
 
+// for resets_hw
+#include "hardware/structs/resets.h"
 // for I2C IRQn
 #include "hal/driver/vendor_driver.h"
 
@@ -41,6 +43,7 @@
 typedef struct VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_t) {
     implement(vsf_dw_apb_i2c_t)
     IRQn_Type irqn;
+    uint32_t  rst_bit;
 } VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_t);
 
 /*============================ INCLUDES ======================================*/
@@ -56,6 +59,12 @@ vsf_err_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_init)(
 {
     VSF_HAL_ASSERT(NULL != i2c_ptr);
     VSF_HAL_ASSERT(NULL != cfg_ptr);
+
+    uint32_t rst_bit = i2c_ptr->rst_bit;
+    resets_hw->reset = resets_hw->reset | rst_bit;
+    while (resets_hw->reset_done & rst_bit);
+    resets_hw->reset = resets_hw->reset & ~rst_bit;
+    while (!(resets_hw->reset_done & rst_bit));
 
     vsf_err_t err = vsf_dw_apb_i2c_init(&i2c_ptr->use_as__vsf_dw_apb_i2c_t, cfg_ptr, clock_get_hz(clk_sys));
     if ((VSF_ERR_NONE == err) && (cfg_ptr->isr.handler_fn != NULL)) {
@@ -73,6 +82,7 @@ void VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_fini)(
 
     NVIC_DisableIRQ(i2c_ptr->irqn);
     vsf_dw_apb_i2c_fini(&i2c_ptr->use_as__vsf_dw_apb_i2c_t);
+    resets_hw->reset = resets_hw->reset | i2c_ptr->rst_bit;
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_enable)(
@@ -233,6 +243,8 @@ static void VSF_MCONNECT(__, VSF_I2C_CFG_IMP_PREFIX, _i2c_irqhandler)(
                          _I2C, __IDX, _REG),                                    \
         .irqn = VSF_MCONNECT(VSF_I2C_CFG_IMP_UPCASE_PREFIX,                     \
                              _I2C, __IDX, _IRQN),                               \
+        .rst_bit = VSF_MCONNECT(VSF_I2C_CFG_IMP_UPCASE_PREFIX,                  \
+                                _I2C, __IDX, _RST_BIT),                         \
         __HAL_OP                                                                \
     };                                                                          \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_I2C_CFG_IMP_UPCASE_PREFIX,               \

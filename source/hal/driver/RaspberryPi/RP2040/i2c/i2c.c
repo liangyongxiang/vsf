@@ -24,7 +24,7 @@
 #include "hal/vsf_hal.h"
 
 // for I2C IRQn
-#include "RP2040.h"
+#include "hal/driver/vendor_driver.h"
 
 /*============================ MACROS ========================================*/
 

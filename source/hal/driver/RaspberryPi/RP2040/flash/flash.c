@@ -22,7 +22,7 @@
 #if VSF_HAL_USE_FLASH == ENABLED
 
 #include "hal/vsf_hal.h"
-#include "RP2040.h"
+#include "hal/driver/vendor_driver.h"
 #include <string.h>
 
 /*============================ MACROS ========================================*/

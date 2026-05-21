@@ -22,7 +22,7 @@
 #if VSF_HAL_USE_WDT == ENABLED
 
 #include "hal/vsf_hal.h"
-#include "RP2040.h"
+#include "hal/driver/vendor_driver.h"
 #include "hardware/regs/watchdog.h"
 #include "hardware/structs/watchdog.h"
 #include "hardware/regs/psm.h"

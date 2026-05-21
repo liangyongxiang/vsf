@@ -25,7 +25,7 @@
 
 #include "hal/vsf_hal.h"
 
-#include "RP2040.h"
+#include "hal/driver/vendor_driver.h"
 #include "hardware/structs/resets.h"
 #include "hal/driver/IPCore/ARM/PL011/vsf_pl011_uart_reg.h"
 
@@ -263,7 +263,13 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_ctrl)(
         reg->UARTLCR_H.BRK = 0;
         return VSF_ERR_NONE;
     case VSF_USART_CTRL_SEND_BREAK:
-        /* Drive line low for >= one character frame, then release.
+        /* FIXME: Busy-wait violates the HAL non-blocking rule (see
+         * vsf-hal-driver REFERENCE.md "Non-blocking API requirement").
+         * At 115200 baud the delay is ~104 us (marginal); at 9600 baud
+         * it is ~1.25 ms (unacceptable). PL011 has no auto-timed break
+         * hardware, so SEND_BREAK must use a hardware timer or IRQ.
+         *
+         * Drive line low for >= one character frame, then release.
          * Cortex-M0+ at 125 MHz, empty volatile loop runs ~3 cycles/iter
          * after -O3 (load/compare/branch), i.e. ~42 iters per us. Use
          * 64 iters/us so we always land somewhat above one frame even on

@@ -22,7 +22,7 @@
 #if VSF_HAL_USE_TIMER == ENABLED
 
 #include "hal/vsf_hal.h"
-#include "RP2040.h"
+#include "hal/driver/vendor_driver.h"
 #include "hardware/structs/timer.h"
 #include "hardware/regs/timer.h"
 

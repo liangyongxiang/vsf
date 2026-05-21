@@ -54,6 +54,26 @@ All per-instance differences (register base, IRQn, IRQ handler name, clock ID) a
 
 **Rule:** if a new peripheral is added, first add its `VSF_HW_<PERIPH>_COUNT` and per-instance macros to `device.h`, then write the driver -- the driver must never contain literal addresses like `0x40034000` or `UART0_IRQ_IRQn`.
 
+### Include convention
+
+Peripheral driver `.c` files pull in the chip's top-level header **through one indirection**, never by chip filename:
+
+```c
+#include "hal/vsf_hal.h"
+#include "hal/driver/vendor_driver.h"   // canonical — NOT "RP2040.h" / "stm32h7xx.h" / etc.
+#include "hardware/structs/<periph>.h"  // peripheral-specific vendor headers stay direct
+#include "hardware/regs/<periph>.h"     // same
+```
+
+`vendor_driver.h` is a portable indirection: if `VSF_VENDOR_DRIVER_HEADER` is defined it follows that, otherwise it re-enters `driver.h` with `__VSF_HAL_SHOW_VENDOR_INFO__`, which is how `<Chip>/device.h` ends up pulling the chip's CMSIS / device file. The chip filename appears in exactly one place — the chip's own `device.h`.
+
+What `vendor_driver.h` does NOT bring in:
+
+- `hardware/structs/<periph>.h` / `hardware/regs/<periph>.h` — these are peripheral-specific and remain direct includes at the call site.
+- IPCore register headers like `vsf_pl011_uart_reg.h` — also direct.
+
+The migration table under "Style migration" still lists `#include "RP2040.h"` → `#include "hal/driver/vendor_driver.h"` for legacy drivers, but greenfield ports should use `vendor_driver.h` from the start.
+
 ### Macro prefix convention
 
 In driver `.c` files, prefix internal/local macros with `__` to avoid colliding with headers:
@@ -85,6 +105,48 @@ Two categories in `<periph>.h`:
 - `REIMPLEMENT_TYPE_*=ENABLED`: redefine mode/irq/status/cfg enums and structs from template defaults
 - `REIMPLEMENT_API_<FN>=ENABLED`: replace template's default function body with driver-specific implementation
 
+### Unimplemented API convention
+
+Every function body that has not been implemented — for a peripheral capability the hardware doesn't support, or a stub the porter hasn't filled in yet — must **both assert AND return an error**:
+
+```c
+vsf_err_t VSF_MCONNECT(VSF_<PERIPH>_CFG_IMP_PREFIX, _<periph>_<api>)(...)
+{
+    VSF_HAL_ASSERT(0);
+    return VSF_ERR_NOT_SUPPORT;
+}
+```
+
+For functions returning a value (count, mask, status), return a safe sentinel after the assert:
+
+```c
+vsf_<periph>_pin_mask_t VSF_MCONNECT(..., _<periph>_read)(...)
+{
+    VSF_HAL_ASSERT(0);
+    return 0;
+}
+```
+
+For `void` functions, the `VSF_HAL_ASSERT(0);` alone is sufficient — the assert halts execution in debug builds and in release builds the function returns harmlessly after doing nothing.
+
+**Why both**: in debug builds `VSF_HAL_ASSERT(0)` halts immediately at the offending call site, so the bug is caught where it's introduced. In release builds asserts compile out, but the error return propagates so a caller that handles the error path still has a defined failure mode rather than fabricated success.
+
+**Error-code choice**:
+- `VSF_ERR_NOT_SUPPORT` — the hardware genuinely cannot do the operation (e.g., RP2040 has no RTC, so `vsf_hw_rtc_set_time` returns `VSF_ERR_NOT_SUPPORT`).
+- `VSF_ERR_FAIL` — the function exists in the API but the template default should never have been reached (typical for `request_tx` / `request_rx` template defaults).
+
+**Anti-pattern** (silent stub) — a function that returns `VSF_ERR_NONE` or `0` after only a pointer assert:
+
+```c
+vsf_err_t VSF_MCONNECT(..., _<periph>_config)(...)
+{
+    VSF_HAL_ASSERT(NULL != ptr);   // parameter assert only
+    return VSF_ERR_NONE;            // caller thinks it worked — but nothing was configured
+}
+```
+
+If a stub like this gets called during a port (because the developer forgot to implement that API), the caller proceeds as if hardware was configured, then fails later in a way that's far from the root cause. Add `VSF_HAL_ASSERT(0);` immediately before the return so the failure surfaces at the offending call.
+
 ### Mode and IRQ definitions
 
 **Mode bits**: each peripheral's mode field is a bitmask. Some bits are mandatory (must exist even if HW doesn't support them). Template defines the bit layout and mandatory placeholder values -- match your HW register bits to the template fields. If the HW has no direct equivalent, put the placeholder value in a high bit range that won't conflict.
@@ -100,6 +162,45 @@ void VSF_HW_<PERIPH><N>_IRQHandler(void) {
     vsf_hal_irq_leave(ctx);
 }
 ```
+
+### Register access: read side effects and caching
+
+**Default assumption**: every read of a peripheral register may have side effects (clear-on-read, FIFO pop, auto-increment, write-once-lock). Assume this until the datasheet proves otherwise.
+
+**Cache rule**: when a register value is needed for multiple checks or operations, read it **once** into a local variable and operate on the local copy. Only re-read the hardware register when the value is expected to have changed.
+
+**Read-modify-write rule**: configuration RMW follows the same shape — one read into a local, modify the local, one write back.
+
+**Canonical IRQ-handler example** (already used by `vsf_pl011_uart.c`):
+
+```c
+// good — UARTMIS read once, used for both clearing and dispatch
+vsf_usart_irq_mask_t mask = reg->UARTMIS.VALUE;
+reg->UARTICR.VALUE = mask;
+if (mask && (isr->handler_fn != NULL)) {
+    isr->handler_fn(isr->target_ptr, ..., mask);
+}
+```
+
+```c
+// bad — re-reading UARTMIS the second time can clear bits or report stale state
+if (reg->UARTMIS.VALUE & RXIM) {
+    reg->UARTICR.VALUE = reg->UARTMIS.VALUE;   // second read
+    isr->handler_fn(..., reg->UARTMIS.VALUE);  // third read — different value
+}
+```
+
+**Exceptions** — when **not** to cache:
+
+- **Clear-on-read status registers**: the read itself clears the bits. Cache *after* the read so subsequent users see the captured value.
+- **FIFO data registers**: each read pops the next datum. Caching is nonsensical; each read returns a different byte.
+- **Polling loops**: the whole point is to see a new value. Re-read every iteration.
+
+**Symptoms that you missed this rule**:
+
+- A status flag that "isn't set" in the second check but logs say it fired (first check consumed it).
+- A polling loop that succeeds, then the immediate follow-up read returns a different value (loop exit value was the truth — keep it).
+- An RMW that produces an unexpected register state (two reads sandwiched a hardware-side update).
 
 ### Multi-subunit instantiation with VSF_MREPEAT
 
@@ -147,6 +248,18 @@ The peripheral driver's `init()` (e.g., `vsf_hw_usart_init`) owns **per-instance
 **Rule of thumb:** if the resource is shared with other peripherals (pins, clock tree, DMA pool), it does not belong in the per-peripheral driver. If it is the peripheral's own state (its reset bit, its clock gate, its IRQ line), `init()` owns it.
 
 Reference: `driver/RaspberryPi/RP2040/uart/uart.c` `vsf_hw_usart_init` deasserts the per-instance UART reset, calls `vsf_pl011_usart_init` with `clock_get_hz(clk_peri)`, and configures NVIC — but does no pinmux. GP0/GP1 (UART0) and GP8/GP9 (UART1) routing is done in `board/pico/vsf_board.c` (the conventional location for this board; not a fixed requirement).
+
+### Non-blocking API requirement
+
+All HAL API functions must be **non-blocking**. A function initiates a hardware operation and returns immediately; it must not busy-wait (spin-loop, volatile delay counter) for the operation to complete. Long-running operations use interrupts / DMA / timer callbacks to signal completion.
+
+**Rationale:** A busy-wait inside a driver steals the CPU from the caller. The caller may be an RTOS thread that should yield, an interrupt handler that must return quickly, or a test scenario that polls multiple peripherals. Even a "short" busy-wait at 115200 baud (104 us for one character frame) is ~13,000 CPU cycles on a 125 MHz Cortex-M0+ — cycles the caller could use for other work.
+
+**Exception — negligible delay only:** A short busy-wait is acceptable ONLY when the driver developer confirms the delay is negligible in all configurations, AND adds a comment explaining *why*. "Negligible" means a few microseconds at most, independent of runtime configuration (baud rate, clock speed). If the delay grows with baud rate or other caller-controlled parameters, it is not negligible.
+
+**Anti-pattern** — `VSF_USART_CTRL_SEND_BREAK` in RP2040 `uart.c`: busy-waits 12 bit-times via a volatile counter loop. At 115200 baud this is ~104 us; at 9600 baud it is ~1.25 ms; at 300 baud it is ~40 ms. This violates the non-blocking rule because the delay scales inversely with baud rate — the caller cannot predict how long `ctrl()` will block.
+
+**Correct design for SEND_BREAK:** The API exists so callers can request "send a break now" without knowing the hardware details. If the hardware can auto-time the break (single register write, hardware clears after one frame), implement `SEND_BREAK` as a non-blocking register write. If the hardware only supports manual set/clear, do NOT implement `SEND_BREAK` — return `VSF_ERR_NOT_SUPPORT` — and let the caller use `SET_BREAK` / `CLEAR_BREAK` with their own timer. See [peripherals/usart.md](peripherals/usart.md) for details on the three break APIs.
 
 ### Template file convention
 

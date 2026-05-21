@@ -63,6 +63,20 @@ FIFO: rxfifo_get_data_count/read, txfifo_get_free_count/write.
 DMA: request_rx/tx, cancel_rx/tx, get_rx/tx_count.
 Control: ctrl.
 
+### Break control (`ctrl` operations)
+
+Three `ctrl` operations exist for break signalling, to support different hardware capabilities:
+
+| Operation | Behavior | Use case |
+|-----------|----------|----------|
+| `VSF_USART_CTRL_SET_BREAK` | Assert break (TX line low). Returns immediately. | Hardware that only supports manual break control. Caller manages timing with its own timer/thread, then calls `CLEAR_BREAK`. |
+| `VSF_USART_CTRL_CLEAR_BREAK` | De-assert break (TX line released). Returns immediately. | Paired with `SET_BREAK`. |
+| `VSF_USART_CTRL_SEND_BREAK` | Send a complete break signal — assert, hold for >= one character frame, de-assert. Must be **non-blocking**. | Hardware that can auto-time the break in hardware (single register write, peripheral holds and releases automatically). |
+
+**Implementation rule:** `SEND_BREAK` must be non-blocking (see REFERENCE.md "Non-blocking API requirement"). If the hardware cannot auto-time the break — i.e., it only has a BRK bit that must be set and cleared manually — do NOT implement `SEND_BREAK`. Return `VSF_ERR_NOT_SUPPORT` and let the caller use `SET_BREAK` + timer + `CLEAR_BREAK`. Never busy-wait inside `SEND_BREAK`.
+
+**Why three APIs instead of one:** Some UART IPs (e.g., some STM32 families) have a hardware break timer — writing to a register asserts break for exactly one frame and auto-clears. On these chips, `SEND_BREAK` is a single non-blocking register write. On chips without this feature (e.g., RP2040 PL011), only `SET_BREAK` and `CLEAR_BREAK` should be implemented, and the caller uses a software timer to manage the break duration. Providing all three as separate `ctrl` operations lets the caller write portable code: call `SEND_BREAK` if available (check capability), fall back to `SET_BREAK`/`CLEAR_BREAK` otherwise.
+
 ## IPCore IMP_LV0
 
 ```c

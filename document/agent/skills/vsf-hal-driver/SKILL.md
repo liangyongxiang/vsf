@@ -21,8 +21,8 @@ metadata:
 ```bash
 scaffold_peripheral.py --driver-dir source/hal/driver --chip Vendor/Chip --periph <name>
 # edit .c/.h → implement register logic
-check-<periph>-header.py <name>.h
-check-<periph>-source.py <name>.c
+check-driver-structure.py --periph <name> --side header <name>.h
+check-driver-structure.py --periph <name> --side source <name>.c
 check-driver-quality.py <name>.c
 vsf-bench --all board/pico/hardware-map.yml --scene <name>
 ```
@@ -39,8 +39,7 @@ audit-port.py --chip Vendor/Chip
 | `scaffold_chip.py` | New chip port |
 | `scaffold_peripheral.py` | Add peripheral to existing chip |
 | `generate-device-peripheral-macros.py` | Edit device.h instances |
-| `check-<periph>-header.py` | Verify header structure |
-| `check-<periph>-source.py` | Verify source structure |
+| `check-driver-structure.py` | Verify header/source structure (data-driven) |
 | `check-driver-quality.py` | Anti-pattern check |
 | `audit-port.py` | Cross-file consistency |
 | `enable-periph.py` | Toggle vsf_usr_cfg.h |

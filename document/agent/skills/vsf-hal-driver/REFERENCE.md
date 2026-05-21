@@ -408,7 +408,7 @@ New chip USART (IPCore):
 Existing chip, new GPIO:
 1. `scaffold_peripheral.py --driver-dir source/hal/driver --chip MyVendor/MyChip --periph gpio`
 2. Implement APIs via register access, `VSF_GPIO_CFG_IMP_LV0`
-3. Verify with `check-gpio-header.py` + `check-gpio-source.py`, then vsf-board-run
+3. Verify with `check-driver-structure.py --periph gpio --side header/source`, then vsf-board-run
 
 ## Script Reference
 
@@ -419,8 +419,7 @@ Existing chip, new GPIO:
 | `scaffold_chip.py` | Starting a brand-new chip port | YAML chip config | Skeleton directory created |
 | `scaffold_peripheral.py` | Adding a peripheral to an existing chip | `--periph <name> --chip Vendor/Chip` | Template files copied and renamed |
 | `generate-device-peripheral-macros.py` | Adding/editing peripheral instances in device.h | YAML instance map | Macros written to device.h zone |
-| `check-<periph>-header.py` | Verifying a driver header is structurally complete | `<periph>.h` | All mandatory checks pass |
-| `check-<periph>-source.py` | Verifying a driver source is structurally complete | `<periph>.c` | All mandatory checks pass |
+| `check-driver-structure.py` | Verifying a driver file is structurally complete | `--periph <name> --side header\|source <file>` | All mandatory checks pass |
 | `check-driver-quality.py` | Checking for anti-patterns | One or more `.c`/`.h` files | Zero quality findings |
 | `audit-port.py` | Cross-file consistency check | `--chip Vendor/Chip` | No wiring gaps found |
 | `enable-periph.py` | Toggling `VSF_HAL_USE_*` in vsf_usr_cfg.h | `--enable usart,spi --disable i2c` | All requested toggles applied |
@@ -434,23 +433,23 @@ Existing chip, new GPIO:
 3. scaffold_peripheral.py     ← one per peripheral (R3a/R3b/R5)
 4. [edit driver .c / .h]      ← implement register logic
 5. enable-periph.py           ← enable the peripheral (R2)
-6. check-<periph>-header.py + check-<periph>-source.py  ← structural completeness
+6. check-driver-structure.py  ← structural completeness (header + source)
 7. check-driver-quality.py    ← no anti-patterns
 8. audit-port.py              ← cross-file consistency
 9. vsf-bench                  ← build+flash+test on hardware
 ```
 
-**Structure vs quality checkers** — `check-<periph>-header.py` and `check-<periph>-source.py` verify the driver *has the right shape* (guard macros present, all mandatory APIs exist, template includes correct, IMP_LV0 defined). `check-driver-quality.py` verifies the driver *doesn't have the wrong content* (no hardcoded instances, no pinmux-in-driver, no bare IRQ names). Run structure first (cheap, catches mechanical omissions), then quality.
+**Structure vs quality checkers** — `check-driver-structure.py` verifies the driver *has the right shape* (guard macros present, all mandatory APIs exist, template includes correct, IMP_LV0 defined). It reads peripheral-specific rules from `scripts/check-specs/<periph>.yml`. `check-driver-quality.py` verifies the driver *doesn't have the wrong content* (no hardcoded instances, no pinmux-in-driver, no bare IRQ names). Run structure first (cheap, catches mechanical omissions), then quality.
 
-### Peripherals with checker pairs
+### Peripherals with YAML specs
 
-| Peripheral | Header checker | Source checker |
-|---|---|---|
-| USART | `check-usart-header.py` | `check-usart-source.py` |
-| GPIO | `check-gpio-header.py` | `check-gpio-source.py` |
-| I2C | `check-i2c-header.py` | `check-i2c-source.py` |
-| SPI | `check-spi-header.py` | `check-spi-source.py` |
-| ADC | `check-adc-header.py` | `check-adc-source.py` |
-| PWM | `check-pwm-header.py` | `check-pwm-source.py` |
+| Peripheral | YAML spec |
+|---|---|
+| USART | `check-specs/usart.yml` |
+| GPIO | `check-specs/gpio.yml` |
+| I2C | `check-specs/i2c.yml` |
+| SPI | `check-specs/spi.yml` |
+| ADC | `check-specs/adc.yml` |
+| PWM | `check-specs/pwm.yml` |
 
-Adding a checker for a new peripheral follows the `check-usart-*.py` pattern: each is a self-contained ~100–200 line script.
+Adding a checker for a new peripheral = adding a YAML file under `scripts/check-specs/`. For complex peripheral-specific logic that YAML cannot express, extend `check-driver-structure.py` with a conditional block (e.g. the GPIO pinmux boundary check).

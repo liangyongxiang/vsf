@@ -80,7 +80,7 @@ Read sequentially. Do not skim — verification gates exist because every later 
 2. Replace template placeholders with your chip's IP details (PL011, DW APB UART, USART, etc.). Use `VSF_MCONNECT` for instance prefixing — never write `vsf_hw_uart0` directly in the `.c` file.
 3. Add `IMP_LV0` invocations for each UART instance. The struct's per-instance fields (`reg`, `irq`, `rst_bit`, etc.) come from the macros you defined in R1.
 4. Add the UART pinmux to `board/<your_board>/vsf_board.c`. Use `vsf_gpio_port_config_pins()` — **not** raw vendor register writes. See [[pico-board-init-cleanup]] for the canonical pattern.
-5. Run `check-usart-header.py <your_uart.h>`, `check-usart-source.py <your_uart.c>`, and `check-driver-quality.py <your_uart.c>`. All three must exit 0 (or 2 with only known-acceptable warnings) before moving on.
+5. Run `check-driver-structure.py --periph usart --side header <your_uart.h>`, `check-driver-structure.py --periph usart --side source <your_uart.c>`, and `check-driver-quality.py <your_uart.c>`. All three must exit 0 (or 2 with only known-acceptable warnings) before moving on.
 
 **Verification.** `vsf-bench-test <hardware-map.yml> --scene usart_baud` reports all cases pass.
 
@@ -101,7 +101,7 @@ Read sequentially. Do not skim — verification gates exist because every later 
 1. Run `scaffold_peripheral.py --driver-dir source/hal/driver --chip <Vendor>/<Chip> --periph gpio` to copy the template into your chip's tree.
 2. Implement set, clear, read, and `port_config_pins`. The `alternate_function` field of `vsf_gpio_cfg_t` writes the chip's pin-function selector.
 3. Add the GPIO instance via `IMP_LV0`. Per-port base addresses go in `device.h`.
-4. Run `check-gpio-header.py` and `check-gpio-source.py` on the generated files. Exit 0 (or 2 with known-acceptable warnings) before moving on.
+4. Run `check-driver-structure.py --periph gpio --side header` and `check-driver-structure.py --periph gpio --side source` on the generated files. Exit 0 (or 2 with known-acceptable warnings) before moving on.
 
 **Verification.** Wire a GPIO pin to a logic analyzer channel. Run `vsf-bench-test --scene gpio_toggle`. LA confirms the configured-rate toggle.
 
@@ -145,7 +145,7 @@ Read sequentially. Do not skim — verification gates exist because every later 
 4. Fill in IP-specific register manipulation. Use `IMP_LV0` and `VSF_MCONNECT` per R3a.
 5. Add the peripheral's pinmux to `vsf_board.c` if it needs alternate-function pins.
 6. Run `enable-periph.py --enable <periph> <vsf_usr_cfg.h>` to enable the peripheral.
-7. Run `check-<periph>-header.py`, `check-<periph>-source.py`, and `check-driver-quality.py`. All three must exit 0 (or 2 with only known-acceptable warnings).
+7. Run `check-driver-structure.py --periph <periph> --side header`, `check-driver-structure.py --periph <periph> --side source`, and `check-driver-quality.py`. All three must exit 0 (or 2 with only known-acceptable warnings).
 8. Run `audit-port.py --chip <Vendor>/<Chip>` to verify cross-file consistency. Must exit 0 (or 2 with only known-acceptable warnings).
 9. Run the peripheral's `vsf-bench-test` scenario.
 

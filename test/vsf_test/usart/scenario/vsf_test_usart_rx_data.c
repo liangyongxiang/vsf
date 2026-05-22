@@ -42,6 +42,8 @@ static vsf_test_usart_rx_data_case_t __rx_data_cases[] = {
     VSF_TEST_RX_DATA_CASES_INIT
 };
 
+static uint8_t __rx_data_buf[4096];
+
 /*============================ IMPLEMENTATION ================================*/
 
 void vsf_test_usart_rx_data_add_cases(vsf_test_usart_rx_data_suite_t *suite)
@@ -69,25 +71,60 @@ void vsf_test_usart_rx_data_run(const vsf_test_usart_rx_data_case_t *c)
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
 
-        uint8_t rx_buf[32];
-        uint16_t rx_len = 0;
-        const char *expected = VSF_TEST_RX_DATA_PAYLOAD;
-        uint16_t expected_len = strlen(expected);
+        if (c->data_size_bytes > 0) {
+            /* Bulk transfer: incrementing-counter pattern */
+            uint32_t rx_len = 0;
+            uint32_t expected_len = c->data_size_bytes;
 
-        uint32_t elapsed_ms = 0;
-        const uint32_t max_ms = VSF_TEST_RX_DATA_PAYLOAD_DRAIN_MS * 10;
-        while (rx_len < expected_len && elapsed_ms < max_ms) {
-            uint_fast16_t count = vsf_usart_rxfifo_get_data_count(c->suite->usart);
-            while (count-- > 0 && rx_len < sizeof(rx_buf)) {
-                vsf_usart_rxfifo_read(c->suite->usart, &rx_buf[rx_len], 1);
-                rx_len++;
+            /* Scale timeout: 10 bits/byte @ baudrate, factor of 2 margin */
+            uint32_t max_ms = (expected_len * 10 * 2) / (VSF_TEST_RX_DATA_DEFAULT_BAUDRATE / 1000);
+            if (max_ms < 5000) { max_ms = 5000; }
+            uint32_t elapsed_ms = 0;
+
+            while (rx_len < expected_len && elapsed_ms < max_ms) {
+                uint_fast16_t count = vsf_usart_rxfifo_get_data_count(c->suite->usart);
+                if (count > 0) {
+                    uint_fast16_t want = expected_len - rx_len;
+                    if (want > count) { want = count; }
+                    uint_fast16_t got = vsf_usart_rxfifo_read(
+                        c->suite->usart, &__rx_data_buf[rx_len], want);
+                    rx_len += got;
+                } else {
+                    vsf_test_busy_wait_ms(1);
+                    elapsed_ms += 1;
+                }
             }
-            vsf_test_busy_wait_ms(10);
-            elapsed_ms += 10;
-        }
 
-        VSF_TEST_ASSERT(rx_len == expected_len);
-        VSF_TEST_ASSERT(memcmp(rx_buf, expected, expected_len) == 0);
+            VSF_TEST_ASSERT(rx_len == expected_len);
+
+            for (uint32_t i = 0; i < expected_len; i++) {
+                VSF_TEST_ASSERT(__rx_data_buf[i] == (uint8_t)(i & 0xFF));
+            }
+
+            vsf_trace_info("USART:RX_DATA:sz=%lu" VSF_TRACE_CFG_LINEEND,
+                           (unsigned long)expected_len);
+        } else {
+            /* Original string-based behavior (case idx 0) */
+            uint8_t rx_buf[32];
+            uint16_t rx_len = 0;
+            const char *expected = VSF_TEST_RX_DATA_PAYLOAD;
+            uint16_t expected_len = strlen(expected);
+
+            uint32_t elapsed_ms = 0;
+            const uint32_t max_ms = VSF_TEST_RX_DATA_PAYLOAD_DRAIN_MS * 10;
+            while (rx_len < expected_len && elapsed_ms < max_ms) {
+                uint_fast16_t count = vsf_usart_rxfifo_get_data_count(c->suite->usart);
+                while (count-- > 0 && rx_len < sizeof(rx_buf)) {
+                    vsf_usart_rxfifo_read(c->suite->usart, &rx_buf[rx_len], 1);
+                    rx_len++;
+                }
+                vsf_test_busy_wait_ms(10);
+                elapsed_ms += 10;
+            }
+
+            VSF_TEST_ASSERT(rx_len == expected_len);
+            VSF_TEST_ASSERT(memcmp(rx_buf, expected, expected_len) == 0);
+        }
 
         while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
     } else {

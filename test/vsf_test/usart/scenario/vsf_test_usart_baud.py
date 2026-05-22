@@ -21,10 +21,16 @@ def _expect_pass(baud: int) -> bool:
     return baud != 0 and MIN_BAUDRATE <= baud <= MAX_BAUDRATE
 
 
+def _gen_pattern(size: int) -> bytes:
+    """Incrementing-counter pattern: byte[i] = i & 0xFF."""
+    return bytes(i & 0xFF for i in range(size))
+
+
 @dataclass(frozen=True)
 class Case:
     idx: int
     baud: int
+    data_size_bytes: int
 
 
 def _parse_cases(scenario: dict) -> list[Case]:
@@ -33,6 +39,7 @@ def _parse_cases(scenario: dict) -> list[Case]:
         cases.append(Case(
             idx=int(case["idx"]),
             baud=int(case["baudrate"]),
+            data_size_bytes=int(case.get("data_size_bytes", 0)),
         ))
     return cases
 
@@ -53,7 +60,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     assert len(cases) > 0, "No cases found in test_params"
 
     dut_ch = la.channel(scenario.get("dut", {}).get("channel", "uart1_tx"))
-    payload = scenario.get("payload", "Hello VSF\r\n").encode()
+    default_payload = scenario.get("payload", "Hello VSF\r\n").encode()
     out_dir = la.output_dir
 
     windows = read_framework_windows(
@@ -80,6 +87,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
         w = window_by_idx[c.idx]
         rows = la.read_csv_rows(out_dir / f"baud_full_{c.baud}.csv")
         got = bytes(b for t, b in rows if w.start_ns <= t < w.end_ns)
+        payload = _gen_pattern(c.data_size_bytes) if c.data_size_bytes > 0 else default_payload
         assert got == payload, (
             f"CASE {c.idx} baud={c.baud}: expected {payload!r}, got {got!r}"
         )

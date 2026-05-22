@@ -50,6 +50,15 @@ static void __usart_send_str(vsf_usart_t *usart, const char *str)
     }
 }
 
+static void __usart_send_bulk(vsf_usart_t *usart, uint32_t len)
+{
+    for (uint32_t i = 0; i < len; i++) {
+        uint8_t b = (uint8_t)(i & 0xFF);
+        while (!vsf_usart_txfifo_get_free_count(usart));
+        vsf_usart_txfifo_write(usart, &b, 1);
+    }
+}
+
 /*============================ IMPLEMENTATION ================================*/
 
 void vsf_test_usart_baud_add_cases(vsf_test_usart_baud_suite_t *suite)
@@ -95,8 +104,16 @@ void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
             VSF_TEST_ASSERT(got.mode == VSF_TEST_BAUD_DEFAULT_MODE);
         }
 
-        __usart_send_str(c->suite->usart, VSF_TEST_BAUD_PAYLOAD);
-        vsf_test_busy_wait_ms(VSF_TEST_BAUD_PAYLOAD_DRAIN_MS);
+        if (c->data_size_bytes > 0) {
+            __usart_send_bulk(c->suite->usart, c->data_size_bytes);
+            /* Scale drain: 10 bits/byte @ baudrate, ms = bytes * 10 * 1000 / baudrate */
+            uint32_t drain_ms = (c->data_size_bytes * 10 * 1000) / c->baudrate;
+            if (drain_ms < 100) { drain_ms = 100; }
+            vsf_test_busy_wait_ms(drain_ms);
+        } else {
+            __usart_send_str(c->suite->usart, VSF_TEST_BAUD_PAYLOAD);
+            vsf_test_busy_wait_ms(VSF_TEST_BAUD_PAYLOAD_DRAIN_MS);
+        }
 
         /* Phase-3 API completeness check: after TX drain, status() must
          * report tx-fifo-empty and not-busy. Catches drivers that never

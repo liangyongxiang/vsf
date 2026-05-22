@@ -74,7 +74,7 @@ void vsf_test_timer_periodic_run(void *arg)
 
     /* Configure channel 0 for periodic mode */
     err = vsf_timer_channel_config(timer, 0, &(vsf_timer_channel_cfg_t){
-        .mode  = VSF_TIMER_CHANNEL_MODE_BASE | VSF_TIMER_BASE_PERIODIC,
+        .mode  = VSF_TIMER_CHANNEL_MODE_BASE | VSF_TIMER_BASE_CONTINUES,
         .pulse = TIMER_PERIODIC_PERIOD_US,
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);

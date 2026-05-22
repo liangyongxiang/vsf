@@ -8,12 +8,19 @@ within each case's firmware-emitted READY → DONE window.
 from dataclasses import dataclass
 from pathlib import Path
 
+from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
 
 
 @dataclass(frozen=True)
 class Case:
     idx: int
+    data_size_bytes: int
     expect_pass: bool
+
+
+def _gen_pattern(size: int) -> bytes:
+    """Incrementing-counter pattern: byte[i] = i & 0xFF."""
+    return bytes(i & 0xFF for i in range(size))
 
 
 def _parse_cases(scenario: dict) -> list[Case]:
@@ -21,6 +28,7 @@ def _parse_cases(scenario: dict) -> list[Case]:
     for case in scenario.get("cases", []):
         cases.append(Case(
             idx=int(case["idx"]),
+            data_size_bytes=int(case.get("data_size_bytes", 0)),
             expect_pass=bool(case.get("expect_pass", True)),
         ))
     return cases
@@ -33,20 +41,29 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     assert len(cases) > 0, "No cases found in test_params"
 
     marker_baud = int((params.get("marker", {}) or {}).get("baudrate", 115200))
-    timeout_s = float(scenario.get("timeout_s", 1.5))
+    base_timeout_s = float(scenario.get("timeout_s", 1.5))
     dut_port = scenario.get("dut", {}).get("port", "/dev/ttyUSB0")
-    payload = scenario.get("payload", "Hello VSF\r\n").encode()
+    default_payload = scenario.get("payload", "Hello VSF\r\n").encode()
+    default_baud = int(scenario.get("defaults", {}).get("baudrate", 115200))
 
     import serial as pyserial
-from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
+        # Scale timeout with data size: 10 bits/byte @ baudrate, factor of 2 margin
+        if c.data_size_bytes > 0:
+            tx_time_s = (c.data_size_bytes * 10) / default_baud * 2
+            timeout_s = max(base_timeout_s, tx_time_s, 5.0)
+            payload = _gen_pattern(c.data_size_bytes)
+        else:
+            timeout_s = base_timeout_s
+            payload = default_payload
+
         serial.expect(f"usart_rx_data:CASE:{c.idx}:READY", timeout=timeout_s)
         aux.write(payload)
         aux.flush()
 
-    serial.expect_test_summary("usart_rx_data", timeout=timeout_s)
+    serial.expect_test_summary("usart_rx_data", timeout=base_timeout_s)
     aux.close()
 
 
@@ -60,7 +77,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
 
     marker_baud = int((params.get("marker", {}) or {}).get("baudrate", 115200))
     dut_ch = la.channel(scenario.get("dut", {}).get("channel", "uart1_rx"))
-    payload = scenario.get("payload", "Hello VSF\r\n").encode()
+    default_payload = scenario.get("payload", "Hello VSF\r\n").encode()
     out_dir = la.output_dir
 
     windows = read_framework_windows(
@@ -83,5 +100,6 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
             continue
         w = window_by_idx[c.idx]
         got = bytes(b for t, b in rows if w.start_ns <= t < w.end_ns)
+        payload = _gen_pattern(c.data_size_bytes) if c.data_size_bytes > 0 else default_payload
         assert got == payload, f"CASE {c.idx}: expected {payload!r}, got {got!r}"
         print(f"[PASS] CASE {c.idx}  rx_data  {got!r}")

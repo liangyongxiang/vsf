@@ -8,6 +8,8 @@ Requires the aux serial fixture: host drives /dev/ttyUSB0 → Pico UART1 RX.
 
 from pathlib import Path
 
+from vsf_bench import SerialInstrument, load_test_params
+
 
 SCENARIOS = ["usart_rx_bulk_irq"]
 
@@ -25,12 +27,18 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
         return
 
     timeout_s = float(scenario.get("timeout_s", 30.0))
+    suite_timeout_s = float(scenario.get("suite_timeout_s", 0.0))
     dut_port = scenario.get("dut", {}).get("port", "/dev/ttyUSB0")
     marker_baud = int((params.get("marker", {}) or {}).get("baudrate", 115200))
 
     import serial as pyserial
-from vsf_bench import SerialInstrument, load_test_params
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
+
+    # Track suite-level deadline if configured
+    suite_deadline = None
+    if suite_timeout_s > 0:
+        import time
+        suite_deadline = time.monotonic() + suite_timeout_s
 
     for case in cases:
         idx = int(case["idx"])
@@ -41,4 +49,11 @@ from vsf_bench import SerialInstrument, load_test_params
         aux.flush()
 
     serial.expect_test_summary("usart_rx_bulk_irq", timeout=timeout_s)
+
+    if suite_deadline is not None and time.monotonic() > suite_deadline:
+        from vsf_bench.instruments.serial_instrument import SuiteTimeoutError
+        raise SuiteTimeoutError(
+            f"usart_rx_bulk_irq exceeded suite_timeout_s={suite_timeout_s}s"
+        )
+
     aux.close()

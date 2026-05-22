@@ -9,6 +9,15 @@ from pathlib import Path
 import serial
 
 
+class SuiteTimeoutError(TimeoutError):
+    """Raised when a test suite exceeds its `suite_timeout_s` deadline.
+
+    Distinct from `TimeoutError` so logs clearly distinguish "entire scene
+    timed out" from "a single `expect()` timed out".
+    """
+    pass
+
+
 class SerialInstrument:
     def __init__(
         self,

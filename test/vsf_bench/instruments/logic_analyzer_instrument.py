@@ -74,8 +74,8 @@ class LogicAnalyzerInstrument:
         self._stop_requested = False
 
         ch_sel = ",".join(
-            f"{i}={label}"
-            for i, label in enumerate(sorted(set(self._channels.values())))
+            f"{int(label[2:])}={label}"
+            for label in sorted(set(self._channels.values()), key=lambda x: int(x[2:]))
         )
 
         cmd = [

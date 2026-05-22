@@ -7,11 +7,42 @@ TX via fifo2req adapter; re-uses UART1.
 """
 
 from pathlib import Path
+
+from vsf_bench.capture_marker import read_framework_windows
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 
 SCENARIOS = ["usart_request_tx_irq"]
 
 
-def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument | None = None) -> None:
+def run(project_root: Path, serial: SerialInstrument) -> None:
     serial.expect_test_summary("usart_request_tx_irq")
+
+
+def decode(project_root: Path, la: LogicAnalyzerInstrument,
+           decode_start_ns: int | None = None,
+           decode_end_ns: int | None = None) -> None:
+    dut_ch = la.channel("uart1_tx")
+    out_dir = la.output_dir
+
+    windows = read_framework_windows(
+        la, "usart_request_tx_irq", project_root,
+        decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
+    )
+    assert len(windows) > 0, "No framework windows found"
+    w = windows[0]
+    assert w.case_idx == 0
+
+    la.batch_decode_uart([
+        (dut_ch, 115200, decode_start_ns, decode_end_ns,
+         out_dir / "req_tx_irq.csv", "none", 8, 1.0)
+    ])
+
+    rows = la.read_csv_rows(out_dir / "req_tx_irq.csv")
+    got = bytes(b for t, b in rows if w.start_ns <= t < w.end_ns)
+
+    expected = bytes((ord('a') + (i % 26)) for i in range(128))
+    assert got == expected, (
+        f"CASE 0: expected {expected!r}, got {got!r}"
+    )
+    print(f"[PASS] CASE 0  len={len(got)}  {got[:32]!r}...")

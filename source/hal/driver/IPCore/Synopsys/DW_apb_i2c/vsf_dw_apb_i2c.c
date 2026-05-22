@@ -112,11 +112,6 @@ vsf_err_t vsf_dw_apb_i2c_init(vsf_dw_apb_i2c_t *dw_apb_i2c_ptr, vsf_i2c_cfg_t *c
         uint32_t cycles_per_bit = (ic_clk_hz / cfg_ptr->clock_hz) >> 1;
         uint32_t *hcnt = NULL, *lcnt = NULL, *spklen;
         switch (cfg_ptr->mode & VSF_I2C_SPEED_HIGH_SPEED_MODE) {
-        case VSF_I2C_SPEED_STANDARD_MODE:
-            hcnt = (uint32_t *)&reg->IC_SS_SCL_HCNT;
-            lcnt = (uint32_t *)&reg->IC_SS_SCL_LCNT;
-            spklen = (uint32_t *)&reg->IC_FS_SPKLEN;
-            break;
         case VSF_I2C_SPEED_FAST_MODE:
             hcnt = (uint32_t *)&reg->IC_FS_SCL_HCNT;
             lcnt = (uint32_t *)&reg->IC_FS_SCL_LCNT;
@@ -126,6 +121,12 @@ vsf_err_t vsf_dw_apb_i2c_init(vsf_dw_apb_i2c_t *dw_apb_i2c_ptr, vsf_i2c_cfg_t *c
             hcnt = (uint32_t *)&reg->IC_HS_SCL_HCNT;
             lcnt = (uint32_t *)&reg->IC_HS_SCL_LCNT;
             spklen = (uint32_t *)&reg->IC_HS_SPKLEN;
+            break;
+        case VSF_I2C_SPEED_STANDARD_MODE:
+        default:
+            hcnt = (uint32_t *)&reg->IC_SS_SCL_HCNT;
+            lcnt = (uint32_t *)&reg->IC_SS_SCL_LCNT;
+            spklen = (uint32_t *)&reg->IC_FS_SPKLEN;
             break;
         }
         // high = hcnt + IC_XX_SPKLEN + 7
@@ -140,6 +141,11 @@ vsf_err_t vsf_dw_apb_i2c_init(vsf_dw_apb_i2c_t *dw_apb_i2c_ptr, vsf_i2c_cfg_t *c
     dw_apb_i2c_ptr->is_read             = 0;
     dw_apb_i2c_ptr->need_stop           = 0;
     dw_apb_i2c_ptr->stop_detect         = 0;
+
+    vsf_trace_info("[DW_APB] init done: CON=%08X TAR=%02X HCNT=%04X LCNT=%04X SPKLEN=%02X" VSF_TRACE_CFG_LINEEND,
+                   reg->IC_CON.VALUE, reg->IC_TAR.IC_TAR,
+                   reg->IC_SS_SCL_HCNT.IC_SS_SCL_HCNT, reg->IC_SS_SCL_LCNT.IC_SS_SCL_LCNT,
+                   reg->IC_FS_SPKLEN.IC_FS_SPKLEN);
 
     return VSF_ERR_NONE;
 }
@@ -187,6 +193,9 @@ static vsf_i2c_irq_mask_t __dw_apb_i2c_irq_update(vsf_dw_apb_i2c_t *dw_apb_i2c_p
     }
     if (current_mask & VSF_I2C_IRQ_MASK_SLAVE_TRANSFER_COMPLETE) {
         current_mask |= (1 << I2C_IC_INTR_RD_REQ_POS) | (1 << I2C_IC_INTR_RX_FULL_POS);
+    }
+    if (current_mask & VSF_I2C_IRQ_MASK_MASTER_ERR) {
+        current_mask |= (1 << I2C_IC_INTR_TX_ABRT_POS);
     }
 
     reg->IC_INTR_MASK.VALUE = current_mask & __VSF_DW_APB_I2C_IRQ_MASK;

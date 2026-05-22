@@ -36,7 +36,7 @@ extern "C" {
 
 /*============================ MACROS ========================================*/
 
-#define VSF_TEST_I2C_CASE_MAX_COUNT     8
+#define VSF_TEST_I2C_CASE_MAX_COUNT     16
 
 #ifndef VSF_TEST_I2C_EEPROM_RW_ENABLE
 #   define VSF_TEST_I2C_EEPROM_RW_ENABLE        DISABLED

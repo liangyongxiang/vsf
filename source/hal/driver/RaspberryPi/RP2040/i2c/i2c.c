@@ -61,6 +61,8 @@ vsf_err_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_init)(
     VSF_HAL_ASSERT(NULL != cfg_ptr);
 
     uint32_t rst_bit = i2c_ptr->rst_bit;
+    vsf_trace_info("[I2C_HW] init rst=0x%02X reg=%p irqn=%d" VSF_TRACE_CFG_LINEEND,
+                   rst_bit, i2c_ptr->reg, i2c_ptr->irqn);
     resets_hw->reset = resets_hw->reset | rst_bit;
     while (resets_hw->reset_done & rst_bit);
     resets_hw->reset = resets_hw->reset & ~rst_bit;

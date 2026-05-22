@@ -30,8 +30,8 @@
 #ifndef VSF_TEST_I2C_TIMEOUT_MS
 #   define VSF_TEST_I2C_TIMEOUT_MS              1000
 #endif
-#ifndef VSF_TEST_I2C_EEPROM_WRITE_CYCLE_MS
-#   define VSF_TEST_I2C_EEPROM_WRITE_CYCLE_MS   10
+#ifndef VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS
+#   define VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS  100
 #endif
 
 /*============================ LOCAL VARIABLES ===============================*/
@@ -50,15 +50,55 @@ static void __i2c_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
     suite->irq_mask |= irq_mask;
 }
 
-static bool __i2c_wait_complete(vsf_test_i2c_eeprom_rw_suite_t *suite, uint32_t timeout_ms)
+typedef enum {
+    I2C_POLL_COMPLETE,
+    I2C_POLL_ERR,
+    I2C_POLL_TIMEOUT,
+} __i2c_poll_result_t;
+
+static __i2c_poll_result_t __i2c_wait_result(vsf_test_i2c_eeprom_rw_suite_t *suite,
+                                              uint32_t timeout_ms)
 {
     while (timeout_ms-- > 0) {
-        if (suite->irq_mask & VSF_I2C_IRQ_MASK_MASTER_ERR) {
-            return false;
-        }
         if (suite->irq_mask & VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE) {
+            return I2C_POLL_COMPLETE;
+        }
+        if (suite->irq_mask & VSF_I2C_IRQ_MASK_MASTER_ERR) {
+            return I2C_POLL_ERR;
+        }
+        vsf_test_busy_wait_ms(1);
+    }
+    return I2C_POLL_TIMEOUT;
+}
+
+static bool __i2c_wait_complete(vsf_test_i2c_eeprom_rw_suite_t *suite, uint32_t timeout_ms)
+{
+    return __i2c_wait_result(suite, timeout_ms) == I2C_POLL_COMPLETE;
+}
+
+/* ACK polling: send a 1-byte write and check for ACK vs NAK.
+ * EEPROM NAKs while its internal write cycle is in progress.
+ * A single-byte write only updates the internal address pointer
+ * and does not trigger another write cycle (no data bytes follow). */
+static bool __eeprom_ack_poll(vsf_test_i2c_eeprom_rw_suite_t *suite,
+                               vsf_i2c_t *i2c, uint8_t eeprom_addr,
+                               uint8_t *dummy_buf, uint32_t max_ms)
+{
+    while (max_ms-- > 0) {
+        suite->irq_mask = 0;
+        vsf_err_t err = vsf_i2c_master_request(i2c, eeprom_addr,
+            VSF_I2C_CMD_START | VSF_I2C_CMD_STOP | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_7_BITS,
+            1, dummy_buf);
+        VSF_TEST_ASSERT(err == VSF_ERR_NONE);
+
+        __i2c_poll_result_t result = __i2c_wait_result(suite, 10);
+        if (result == I2C_POLL_COMPLETE) {
             return true;
         }
+        if (result == I2C_POLL_TIMEOUT) {
+            return false;
+        }
+        /* I2C_POLL_ERR = NAK, EEPROM still busy – retry after 1 ms. */
         vsf_test_busy_wait_ms(1);
     }
     return false;
@@ -90,14 +130,11 @@ void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c)
     VSF_TEST_ASSERT(data_len > 0);
     VSF_TEST_ASSERT(data_len <= VSF_TEST_I2C_CASE_MAX_COUNT);
 
-    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
-     * and the settle delay; suite-aware scenarios do not print them. */
-
     c->suite->irq_mask = 0;
 
-    /* Init i2c master at standard 100kHz. */
+    /* Init i2c master. */
     vsf_err_t err = vsf_i2c_init(i2c, &(vsf_i2c_cfg_t){
-        .mode       = VSF_I2C_MODE_MASTER | VSF_I2C_ADDR_7_BITS,
+        .mode       = VSF_I2C_MODE_MASTER | VSF_I2C_ADDR_7_BITS | VSF_I2C_SPEED_STANDARD_MODE,
         .clock_hz   = VSF_TEST_I2C_CLOCK_HZ,
         .isr        = {
             .handler_fn = __i2c_isr,
@@ -124,8 +161,9 @@ void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c)
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     VSF_TEST_ASSERT(__i2c_wait_complete(c->suite, VSF_TEST_I2C_TIMEOUT_MS));
 
-    /* EEPROM internal write cycle. */
-    vsf_test_busy_wait_ms(VSF_TEST_I2C_EEPROM_WRITE_CYCLE_MS);
+    /* Phase 1.5: ACK poll until EEPROM write cycle completes. */
+    VSF_TEST_ASSERT(__eeprom_ack_poll(c->suite, i2c, c->eeprom_addr,
+                                      &write_buf[0], VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS));
 
     /* Phase 2a: Set memory address (write phase, no stop). */
     c->suite->irq_mask = 0;

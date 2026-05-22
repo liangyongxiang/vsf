@@ -76,9 +76,14 @@ void vsf_test_usart_break_signal_run(const vsf_test_usart_break_signal_case_t *c
     /* Gap so the LA sees two distinct low pulses, not one merged pulse. */
     vsf_test_busy_wait_ms(3);
 
-    /* Automated: SEND_BREAK holds the line low for a driver-determined
-     * duration then releases. */
-    VSF_TEST_ASSERT(vsf_usart_ctrl(c->suite->usart, VSF_USART_CTRL_SEND_BREAK, NULL) == VSF_ERR_NONE);
+    /* Automated break: software-timed since PL011 has no hardware auto-break.
+     * SET_BREAK -> hold low for >= 1 frame (10 bits) -> CLEAR_BREAK. */
+    VSF_TEST_ASSERT(vsf_usart_ctrl(c->suite->usart, VSF_USART_CTRL_SET_BREAK, NULL) == VSF_ERR_NONE);
+    /* 1 frame at baudrate = 10 bits.  1000ms / baudrate * 10 = ms per frame. */
+    uint32_t frame_ms = (1000 * 10) / c->baudrate;
+    if (frame_ms < 2) { frame_ms = 2; }
+    vsf_test_busy_wait_ms(frame_ms);
+    VSF_TEST_ASSERT(vsf_usart_ctrl(c->suite->usart, VSF_USART_CTRL_CLEAR_BREAK, NULL) == VSF_ERR_NONE);
 
     /* Trailing settle so the second pulse's rising edge is fully captured. */
     vsf_test_busy_wait_ms(5);

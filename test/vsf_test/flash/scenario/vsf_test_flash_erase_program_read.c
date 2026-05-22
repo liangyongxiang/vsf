@@ -67,7 +67,12 @@ void vsf_test_flash_erase_program_read_run(const vsf_test_flash_erase_program_re
 
     /* Align offset and size to sector boundaries. */
     uint32_t erase_offset = offset & ~(cap.erase_sector_size - 1);
-    uint32_t erase_size = ((offset + size + cap.erase_sector_size - 1) & ~(cap.erase_sector_size - 1)) - erase_offset;
+    uint32_t erase_end    = (offset + size + cap.erase_sector_size - 1)
+                          & ~(cap.erase_sector_size - 1);
+    uint32_t erase_size   = erase_end - erase_offset;
+    if (erase_size == 0) {
+        erase_size = cap.erase_sector_size;
+    }
 
     /* Init flash. */
     vsf_err_t err = vsf_flash_init(flash, &(vsf_flash_cfg_t){

@@ -78,10 +78,11 @@ vsf_err_t vsf_pl011_usart_init(vsf_pl011_usart_t *pl011_usart_ptr, vsf_usart_cfg
     reg->UARTCR.VALUE = (cfg_ptr->mode & PL011_USART_ENABLE_MASK) >> 8;
 
     // FIFO thresholds: VSF encoding (0,1,2) → PL011 TXIFLSEL/RXIFLSEL (0,2,3)
-    static const uint8_t __pl011_txiflsel[4] = {0, 0, 2, 3};
-    static const uint8_t __pl011_rxiflsel[4] = {0, 0, 2, 3};
-    reg->UARTIFLS.VALUE = __pl011_txiflsel[(cfg_ptr->mode >> 8) & 3]
-                        | (__pl011_rxiflsel[(cfg_ptr->mode >> 10) & 3] << 3);
+    // VSF TX threshold at bits 15-16, RX threshold at bits 17-18.
+    static const uint8_t __pl011_txiflsel[4] = {0, 2, 3, 0};
+    static const uint8_t __pl011_rxiflsel[4] = {0, 2, 3, 0};
+    reg->UARTIFLS.VALUE = __pl011_txiflsel[(cfg_ptr->mode >> 15) & 3]
+                        | (__pl011_rxiflsel[(cfg_ptr->mode >> 17) & 3] << 3);
 
     return VSF_ERR_NONE;
 }

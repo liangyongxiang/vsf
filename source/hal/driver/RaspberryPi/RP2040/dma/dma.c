@@ -245,15 +245,28 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_start)(
         break;
     }
 
-    /* TREQ: 0x3F = permanent request (mem2mem) */
+    /* TREQ: 0x3F = permanent request (mem2mem), otherwise DREQ from cfg */
+    vsf_dma_channel_cfg_t *cfg = &dma_ptr->channels[channel].cfg;
     switch (mode & VSF_DMA_DIRECTION_MASK) {
     case VSF_DMA_MEMORY_TO_MEMORY:
         ctrl |= (0x3Fu << DMA_CH0_CTRL_TRIG_TREQ_SEL_LSB);
         break;
+    case VSF_DMA_MEMORY_TO_PERIPHERAL:
+        ctrl |= ((uint32_t)cfg->dst_request_idx << DMA_CH0_CTRL_TRIG_TREQ_SEL_LSB);
+        break;
+    case VSF_DMA_PERIPHERAL_TO_MEMORY:
+        ctrl |= ((uint32_t)cfg->src_request_idx << DMA_CH0_CTRL_TRIG_TREQ_SEL_LSB);
+        break;
     default:
-        /* For peripheral modes, caller must set request_line in channel_hint */
         ctrl |= (0x3Fu << DMA_CH0_CTRL_TRIG_TREQ_SEL_LSB);
         break;
+    }
+
+    /* Enable DMA completion IRQ if caller provided a handler and CPL mask. */
+    vsf_dma_isr_t *isr = &cfg->isr;
+    if (isr->handler_fn != NULL && (cfg->irq_mask & VSF_DMA_IRQ_MASK_CPL)) {
+        hw->inte0 = (hw->inte0 & ~(1u << channel)) | (1u << channel);
+        ctrl |= DMA_CH0_CTRL_TRIG_IRQ_QUIET_BITS;
     }
 
     ch->ctrl_trig = ctrl;

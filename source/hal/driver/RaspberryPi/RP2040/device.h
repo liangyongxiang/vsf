@@ -108,6 +108,13 @@
 #define VSF_HW_USART1_REG           UART1_BASE
 #define VSF_HW_USART1_RST_BIT       (1u << RESET_UART1)
 
+/* DMA DREQ (data request) signals for RP2040 peripherals.
+ * Values from RP2040 datasheet Table 124. */
+#define VSF_HW_USART0_TX_DREQ       20
+#define VSF_HW_USART0_RX_DREQ       21
+#define VSF_HW_USART1_TX_DREQ       22
+#define VSF_HW_USART1_RX_DREQ       23
+
 // RP2040 has a single GPIO bank (BANK0) with 30 pins (GP0..GP29).
 // EXTI lives inside IO_BANK0 (per-pin INTR/PROC0_INTE), not a separate IP.
 // The minimal driver implements the digital GPIO subset; exti_irq_* return

@@ -27,8 +27,8 @@
 /*============================ LOCAL VARIABLES ===============================*/
 
 static vsf_test_i2c_bus_scan_case_t __i2c_bus_scan_cases[] = {
-    { .scl_pin = 12, .sda_pin = 13, .gpio_i2c = NULL },
-    { .scl_pin = 11, .sda_pin = 10, .gpio_i2c = NULL },
+    { .scl_pin = 18, .sda_pin = 19, .gpio_i2c = NULL },
+    { .scl_pin = 21, .sda_pin = 20, .gpio_i2c = NULL },
 };
 
 static volatile vsf_i2c_irq_mask_t __bus_scan_irq_mask;

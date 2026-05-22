@@ -108,7 +108,10 @@ void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c)
 
     /* Bit period = 1e6 / baudrate (microseconds).
      * 115200 baud → ~8.68 µs.  Round-to-nearest to keep the actual baudrate
-     * within the DSView UART decoder tolerance (≈ ±3 %). */
+     * within the DSView UART decoder tolerance (≈ ±3 %).
+     *
+     * Pins declared in gpio.yml: GP8 (uart1_tx) and GP9 (uart1_rx).
+     * Both are safe as GPIO output when UART1 is not in use. */
     uint32_t bit_period_us = (1000000u + c->baudrate / 2) / c->baudrate;
     uint8_t byte = 0x50 + c->pin;
 

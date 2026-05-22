@@ -4,6 +4,12 @@ Firmware drives each declared pin as push-pull output and sends a unique
 UART 8N1 byte (0x50 + pin) at 115200 baud. The host decode() phase decodes
 UART on all LA channels and cross-references: each expected pin's byte must
 appear on exactly one channel.
+
+Hardware wiring (Pico board):
+  - GP8 (uart1_tx) -> LA probe -> DSLogic CH5 -> LA CH3
+  - GP9 (uart1_rx) -> LA probe -> DSLogic CH4 -> LA CH2
+Both pins are verified as GPIO outputs before any peripheral-specific
+scenario runs, so a miswired LA probe is caught early.
 """
 
 from pathlib import Path

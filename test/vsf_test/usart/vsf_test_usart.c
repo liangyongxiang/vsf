@@ -48,6 +48,9 @@ void vsf_test_usart_register_all(vsf_test_usart_suites_t *s, vsf_usart_t *usart)
 #if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
     s->rx_bulk_irq.usart     = usart;
 #endif
+#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
+    s->rx_fifo_threshold.usart = usart;
+#endif
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
     vsf_test_usart_baud_add_cases(&s->baud);
 #endif
@@ -104,6 +107,9 @@ void vsf_test_usart_register_all(vsf_test_usart_suites_t *s, vsf_usart_t *usart)
 #endif
 #if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
     vsf_test_usart_rx_bulk_irq_add_cases(&s->rx_bulk_irq);
+#endif
+#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
+    vsf_test_usart_rx_fifo_threshold_add_cases(&s->rx_fifo_threshold);
 #endif
 }
 

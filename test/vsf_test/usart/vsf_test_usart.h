@@ -125,6 +125,10 @@ extern "C" {
 #   define VSF_TEST_USART_RX_BULK_IRQ_ENABLE      DISABLED
 #endif
 
+#ifndef VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE
+#   define VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE DISABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 // Per-suite context (populated by __vsf_test in main.c)
@@ -304,6 +308,24 @@ vsf_class(vsf_test_usart_rx_bulk_irq_suite_t) {
 };
 #endif
 
+#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
+vsf_class(vsf_test_usart_rx_fifo_threshold_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_usart_t *usart;
+    )
+    private_member(
+        uint8_t  *dst;
+        uint32_t  target;
+        volatile uint32_t received;
+        volatile uint32_t isr_count;
+        volatile bool threshold_fired;
+        volatile uint32_t bytes_at_threshold;
+        volatile bool done;
+    )
+};
+#endif
+
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
 //! \brief USART 波特率测试用例配置条目
 typedef struct vsf_test_usart_baud_case_t {
@@ -462,6 +484,15 @@ typedef struct vsf_test_usart_rx_bulk_irq_case_t {
 } vsf_test_usart_rx_bulk_irq_case_t;
 #endif
 
+#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
+typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
+    uint8_t          idx;
+    vsf_usart_mode_t threshold_mode;    //! one of VSF_USART_RX_FIFO_THRESHOLD_*
+    uint32_t         expected_bytes;    //! expected bytes when threshold IRQ fires
+    vsf_test_usart_rx_fifo_threshold_suite_t *suite;
+} vsf_test_usart_rx_fifo_threshold_case_t;
+#endif
+
 
 typedef struct vsf_test_usart_suites_t {
     vsf_test_usart_baud_suite_t                baud;
@@ -484,6 +515,9 @@ typedef struct vsf_test_usart_suites_t {
     vsf_test_usart_request_cancel_suite_t      request_cancel;
 #if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
     vsf_test_usart_rx_bulk_irq_suite_t         rx_bulk_irq;
+#endif
+#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
+    vsf_test_usart_rx_fifo_threshold_suite_t   rx_fifo_threshold;
 #endif
 } vsf_test_usart_suites_t;
 
@@ -585,6 +619,11 @@ void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_
 #if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
 void vsf_test_usart_rx_bulk_irq_add_cases(vsf_test_usart_rx_bulk_irq_suite_t *suite);
 void vsf_test_usart_rx_bulk_irq_run(const vsf_test_usart_rx_bulk_irq_case_t *c);
+#endif
+
+#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
+void vsf_test_usart_rx_fifo_threshold_add_cases(vsf_test_usart_rx_fifo_threshold_suite_t *suite);
+void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_usart_rx_fifo_threshold_case_t *c);
 #endif
 
 #include "test_params_generated.h"

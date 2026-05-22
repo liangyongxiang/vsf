@@ -45,6 +45,9 @@ void vsf_test_usart_register_all(vsf_test_usart_suites_t *s, vsf_usart_t *usart)
     s->request_tx_irq.usart  = usart;
     s->request_rx_irq.usart  = usart;
     s->request_cancel.usart  = usart;
+#if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
+    s->rx_bulk_irq.usart     = usart;
+#endif
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
     vsf_test_usart_baud_add_cases(&s->baud);
 #endif
@@ -98,6 +101,9 @@ void vsf_test_usart_register_all(vsf_test_usart_suites_t *s, vsf_usart_t *usart)
 #endif
 #if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
     vsf_test_usart_request_cancel_add_cases(&s->request_cancel);
+#endif
+#if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
+    vsf_test_usart_rx_bulk_irq_add_cases(&s->rx_bulk_irq);
 #endif
 }
 

@@ -96,6 +96,9 @@ extern "C" {
 #ifndef VSF_TEST_GPIO_ANALOG_MODE_ENABLE
 #   define VSF_TEST_GPIO_ANALOG_MODE_ENABLE      DISABLED
 #endif
+#ifndef VSF_TEST_GPIO_IO_CHECK_ENABLE
+#   define VSF_TEST_GPIO_IO_CHECK_ENABLE          DISABLED
+#endif
 
 /*============================ TYPES =========================================*/
 
@@ -241,6 +244,13 @@ vsf_class(vsf_test_gpio_systimer_health_suite_t) {
 };
 
 vsf_class(vsf_test_gpio_analog_mode_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_gpio_t *gpio;
+    )
+};
+
+vsf_class(vsf_test_gpio_io_check_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_gpio_t *gpio;
@@ -397,6 +407,15 @@ typedef struct vsf_test_gpio_analog_mode_case_t {
 } vsf_test_gpio_analog_mode_case_t;
 #endif
 
+#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
+typedef struct vsf_test_gpio_io_check_case_t {
+    uint8_t  idx;
+    uint8_t  pin;
+    uint32_t baudrate;
+    vsf_test_gpio_io_check_suite_t *suite;
+} vsf_test_gpio_io_check_case_t;
+#endif
+
 
 typedef struct vsf_test_gpio_suites_t {
     vsf_test_gpio_output_input_suite_t    output_input;
@@ -415,6 +434,7 @@ typedef struct vsf_test_gpio_suites_t {
     vsf_test_gpio_irq_lifecycle_suite_t   irq_lifecycle;
     vsf_test_gpio_systimer_health_suite_t systimer_health;
     vsf_test_gpio_analog_mode_suite_t     analog_mode;
+    vsf_test_gpio_io_check_suite_t        io_check;
 } vsf_test_gpio_suites_t;
 
 void vsf_test_gpio_register_all(vsf_test_gpio_suites_t *s, vsf_gpio_t *gpio);
@@ -498,6 +518,11 @@ void vsf_test_gpio_systimer_health_run(const vsf_test_gpio_systimer_health_case_
 #if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
 void vsf_test_gpio_analog_mode_add_cases(vsf_test_gpio_analog_mode_suite_t *suite);
 void vsf_test_gpio_analog_mode_run(const vsf_test_gpio_analog_mode_case_t *c);
+#endif
+
+#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
+void vsf_test_gpio_io_check_add_cases(vsf_test_gpio_io_check_suite_t *suite);
+void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c);
 #endif
 
 #include "test_params_generated.h"

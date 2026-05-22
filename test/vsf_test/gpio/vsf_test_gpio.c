@@ -42,6 +42,7 @@ void vsf_test_gpio_register_all(vsf_test_gpio_suites_t *s, vsf_gpio_t *gpio)
     s->irq_lifecycle.gpio    = gpio;
     s->systimer_health.gpio  = gpio;
     s->analog_mode.gpio      = gpio;
+    s->io_check.gpio         = gpio;
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
     vsf_test_gpio_output_input_add_cases(&s->output_input);
 #endif
@@ -89,6 +90,9 @@ void vsf_test_gpio_register_all(vsf_test_gpio_suites_t *s, vsf_gpio_t *gpio)
 #endif
 #if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
     vsf_test_gpio_analog_mode_add_cases(&s->analog_mode);
+#endif
+#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
+    vsf_test_gpio_io_check_add_cases(&s->io_check);
 #endif
 }
 

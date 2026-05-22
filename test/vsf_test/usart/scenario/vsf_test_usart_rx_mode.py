@@ -98,8 +98,14 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
         w = window_by_idx[c.idx]
         rows = la.read_csv_rows(config_to_csv[(c.decode_parity, c.decode_data, c.decode_stop)])
         got = bytes(b for t, b in rows if w.start_ns <= t < w.end_ns)
-        assert got == payload, (
+        # 5-bit/6-bit/7-bit: on-wire bytes are truncated to N LSBs.
+        if c.decode_data < 8:
+            mask = (1 << c.decode_data) - 1
+            expected = bytes(b & mask for b in payload)
+        else:
+            expected = payload
+        assert got == expected, (
             f"CASE {c.idx} mode={c.decode_parity}/{c.decode_data}/{c.decode_stop}: "
-            f"expected {payload!r}, got {got!r}"
+            f"expected {expected!r}, got {got!r}"
         )
         print(f"[PASS] CASE {c.idx}  mode={c.decode_parity}/{c.decode_data}/{c.decode_stop}  {got!r}")

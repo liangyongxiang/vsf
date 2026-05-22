@@ -141,6 +141,9 @@
 #define VSF_HW_ADC_COUNT            1
 #define VSF_HW_ADC0_REG             ADC_BASE
 #define VSF_HW_ADC0_RST_BIT         (1u << RESET_ADC)
+#define VSF_HW_ADC0_IRQN            ADC_IRQ_FIFO_IRQn
+#define VSF_HW_ADC0_IRQHandler      ADC_IRQ_FIFO_IRQHandler
+#define VSF_HW_ADC_CHANNEL_COUNT    5
 
 #define VSF_HW_PWM_COUNT            8
 #define VSF_HW_PWM0_REG             PWM_BASE

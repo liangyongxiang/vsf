@@ -32,6 +32,9 @@ extern "C" {
 #ifndef VSF_TEST_ADC_ONESHOT_ENABLE
 #   define VSF_TEST_ADC_ONESHOT_ENABLE         ENABLED
 #endif
+#ifndef VSF_TEST_ADC_TEMPERATURE_ENABLE
+#   define VSF_TEST_ADC_TEMPERATURE_ENABLE     DISABLED
+#endif
 
 /*============================ TYPES =========================================*/
 
@@ -42,8 +45,23 @@ vsf_class(vsf_test_adc_oneshot_suite_t) {
     )
 };
 
+vsf_class(vsf_test_adc_temperature_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_adc_t *adc;
+    )
+};
+
+#if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
+typedef struct vsf_test_adc_temperature_case_t {
+    uint8_t idx;
+    vsf_test_adc_temperature_suite_t *suite;
+} vsf_test_adc_temperature_case_t;
+#endif
+
 typedef struct vsf_test_adc_suites_t {
-    vsf_test_adc_oneshot_suite_t oneshot;
+    vsf_test_adc_oneshot_suite_t     oneshot;
+    vsf_test_adc_temperature_suite_t temperature;
 } vsf_test_adc_suites_t;
 
 /*============================ PROTOTYPES ====================================*/
@@ -53,6 +71,11 @@ void vsf_test_adc_register_all(vsf_test_adc_suites_t *s, vsf_adc_t *adc);
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
 void vsf_test_adc_oneshot_add_cases(vsf_test_adc_oneshot_suite_t *suite);
 void vsf_test_adc_oneshot_run(void *arg);
+#endif
+
+#if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
+void vsf_test_adc_temperature_add_cases(vsf_test_adc_temperature_suite_t *suite);
+void vsf_test_adc_temperature_run(void *arg);
 #endif
 
 #ifdef __cplusplus

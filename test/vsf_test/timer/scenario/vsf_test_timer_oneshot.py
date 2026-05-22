@@ -1,0 +1,14 @@
+"""timer_oneshot scenario: verify one-shot timer fires after expected delay.
+
+Firmware configures a one-shot timer, waits for the IRQ, and asserts
+the elapsed time matches the configured period.
+"""
+
+from pathlib import Path
+from vsf_bench import SerialInstrument
+
+SCENARIOS = ["timer_oneshot"]
+
+
+def run(project_root: Path, serial: SerialInstrument) -> None:
+    serial.expect_test_summary("timer_oneshot", timeout=10.0)

@@ -77,7 +77,8 @@ void vsf_test_dma_mem2mem_run(void *arg)
         .mode = VSF_DMA_MEMORY_TO_MEMORY
               | VSF_DMA_SRC_ADDR_INCREMENT
               | VSF_DMA_DST_ADDR_INCREMENT,
-        .isr = { NULL, NULL, vsf_arch_prio_0 },
+        .isr = { NULL, NULL },
+        .prio = vsf_arch_prio_invalid,
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 

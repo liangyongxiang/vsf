@@ -9,11 +9,8 @@ after the shared LA capture is stopped and validates per-case payloads.
 
 from dataclasses import dataclass
 from pathlib import Path
+from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
 
-from vsf_bench.capture_marker import read_framework_windows
-from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
-from vsf_bench.instruments.serial_instrument import SerialInstrument
-from vsf_bench.test_params import load_test_params
 
 RP2040_CLK_PERI = 125_000_000
 MIN_BAUDRATE = RP2040_CLK_PERI // (16 * 65535)

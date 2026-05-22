@@ -5,7 +5,7 @@ for the test framework summary line and asserts all cases passed.
 """
 
 from pathlib import Path
-from vsf_bench.instruments.serial_instrument import SerialInstrument
+from vsf_bench import SerialInstrument
 
 SCENARIOS = ["adc_oneshot"]
 

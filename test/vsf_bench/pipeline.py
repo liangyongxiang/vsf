@@ -18,7 +18,7 @@ from datetime import datetime
 from pathlib import Path
 
 from vsf_bench.hardware_map import load as load_hardware_map, validate_runners
-from vsf_bench.runners.cmake_runner import CMakeRunner
+from vsf_bench.builders.registry import get_builder_class
 from vsf_bench.runners.registry import get_runner_class
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
@@ -33,10 +33,17 @@ def load_board(hardware_map_path: Path):
 
 
 def build_phase(board, project_root: Path) -> Path:
-    """Run cmake → return build_dir. Raises on cmake error."""
-    print(f"[vsf-bench] Building ({board.build.source_dir})...")
-    cmake = CMakeRunner(board.build, project_root)
-    build_dir = cmake.build()
+    """Run the configured build tool → return build_dir. Raises on error."""
+    build_tool = board.build.build_tool
+    builder_cfg = board.build.builders.get(build_tool)
+    if builder_cfg is None:
+        raise RuntimeError(f"Build tool '{build_tool}' not found in builders map")
+    builder_cls = get_builder_class(builder_cfg.type)
+    if builder_cls is None:
+        raise RuntimeError(f"Unknown builder type: {builder_cfg.type}")
+    print(f"[vsf-bench] Building ({board.build.source_dir}) via {build_tool}...")
+    builder = builder_cls(board.build, project_root)
+    build_dir = builder.build()
     print(f"[vsf-bench] Build complete: {build_dir}")
     return build_dir
 
@@ -80,6 +87,37 @@ def _build_run_cmd(suite: str, case: str | None) -> str:
 def _drain_repl(ser: SerialInstrument) -> None:
     """Discard any stale REPL output left from a previous suite."""
     ser.read_all(timeout=0.1)
+
+
+def _send_shuffle_seed(
+    ser: SerialInstrument, suite_name: str, seed: int
+) -> bool:
+    """Send shuffle seed to firmware and validate ack. Returns True on success.
+
+    On failure, prints a diagnostic message and returns False so the caller
+    can skip the suite without aborting the entire run.
+    """
+    ser.send(f"vsf-test config shuffle {seed}\r\n")
+    try:
+        ack = ser.expect(r"shuffle on \(seed=|Unknown config key", timeout=1.0)
+    except TimeoutError:
+        print(
+            f"[vsf-bench] FAIL: {suite_name}: shuffle config ack not received "
+            f"within 1 s — firmware likely lacks shuffle support "
+            f"(update firmware or drop --random)"
+        )
+        return False
+    if "Unknown" in ack:
+        print(
+            f"[vsf-bench] FAIL: {suite_name}: firmware does not support shuffle. "
+            f"Drop --random or rebuild firmware."
+        )
+        return False
+    # Drain any residual REPL chars (prompt etc.) so the run command's
+    # Suite ack: lands in a clean buffer.
+    ser.read_all(timeout=0.1)
+    print(f"[vsf-bench] {suite_name}: shuffle seed={seed}")
+    return True
 
 
 def _run_script_phase1(
@@ -273,30 +311,10 @@ def _test_loop_shared_la(
 
         cases_to_run = case_specs if case_specs else [None]
         for case in cases_to_run:
-            # When the host asked for random ordering, send the seed BEFORE
-            # the run trigger. Firmware consumes shuffle_seed once per
-            # `vsf-test run <suite>` (it clears the field after applying
-            # Fisher-Yates), so we re-seed for every suite.
             if shuffle_seed is not None and case is None:
-                ser.send(f"vsf-test config shuffle {shuffle_seed}\r\n")
-                try:
-                    ack = ser.expect(r"shuffle on \(seed=|Unknown config key",
-                                     timeout=1.0)
-                except TimeoutError:
-                    print(f"[vsf-bench] FAIL: {suite_name}: shuffle config ack "
-                          f"not received within 1 s — firmware likely lacks "
-                          f"shuffle support (update firmware or drop --random)")
+                if not _send_shuffle_seed(ser, suite_name, shuffle_seed):
                     overall_pass = False
                     continue
-                if "Unknown" in ack:
-                    print(f"[vsf-bench] FAIL: {suite_name}: firmware does not "
-                          f"support shuffle. Drop --random or rebuild firmware.")
-                    overall_pass = False
-                    continue
-                # Drain any residual REPL chars (prompt etc.) so the run
-                # command's Suite ack: lands in a clean buffer.
-                ser.read_all(timeout=0.1)
-                print(f"[vsf-bench] {suite_name}: shuffle seed={shuffle_seed}")
             t_start = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
             ok = _run_script_phase1(suite_name, case, mod, project_root, ser)
             t_end = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
@@ -340,22 +358,9 @@ def _test_loop_per_suite(
             case_tag = f".{case}" if case else ""
             print(f"\n[vsf-bench] Suite: {suite_name}{case_tag}")
             if shuffle_seed is not None and case is None:
-                ser.send(f"vsf-test config shuffle {shuffle_seed}\r\n")
-                try:
-                    ack = ser.expect(r"shuffle on \(seed=|Unknown config key",
-                                     timeout=1.0)
-                except TimeoutError:
-                    print(f"[vsf-bench] FAIL: {suite_name}: shuffle config ack "
-                          f"not received within 1 s — firmware likely lacks "
-                          f"shuffle support (update firmware or drop --random)")
+                if not _send_shuffle_seed(ser, suite_name, shuffle_seed):
                     overall_pass = False
                     continue
-                if "Unknown" in ack:
-                    print(f"[vsf-bench] FAIL: {suite_name}: firmware does not "
-                          f"support shuffle. Drop --random or rebuild firmware.")
-                    overall_pass = False
-                    continue
-                print(f"[vsf-bench] {suite_name}: shuffle seed={shuffle_seed}")
 
             scene_la: LogicAnalyzerInstrument | None = None
             if needs_la and la_cfg is not None and cli_path is not None:

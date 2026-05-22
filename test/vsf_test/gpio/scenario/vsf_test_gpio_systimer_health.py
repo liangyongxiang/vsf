@@ -16,10 +16,7 @@ firmware-side trace was emitted.
 """
 
 from pathlib import Path
-from vsf_bench.capture_marker import read_framework_windows
-from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
-from vsf_bench.instruments.serial_instrument import SerialInstrument
-from vsf_bench.test_params import load_test_params
+from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
 
 
 def run(project_root: Path, serial: SerialInstrument,

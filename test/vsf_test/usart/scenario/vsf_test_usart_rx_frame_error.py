@@ -8,8 +8,6 @@ so the firmware sees framing errors and asserts via VSF_TEST_ASSERT.
 from dataclasses import dataclass
 from pathlib import Path
 
-from vsf_bench.instruments.serial_instrument import SerialInstrument
-from vsf_bench.test_params import load_test_params
 
 
 @dataclass(frozen=True)
@@ -48,6 +46,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     payload = scenario.get("payload", "Hello VSF\r\n").encode()
 
     import serial as pyserial
+from vsf_bench import SerialInstrument, load_test_params
     aux = pyserial.Serial(dut_port, baudrate=115200, timeout=1)
 
     parity_map = {"none": pyserial.PARITY_NONE, "even": pyserial.PARITY_EVEN, "odd": pyserial.PARITY_ODD}

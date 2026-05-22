@@ -7,8 +7,6 @@ received bytes internally.
 from dataclasses import dataclass
 from pathlib import Path
 
-from vsf_bench.instruments.serial_instrument import SerialInstrument
-from vsf_bench.test_params import load_test_params
 
 
 @dataclass(frozen=True)
@@ -39,6 +37,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     payload = scenario.get("payload", "Hello VSF\r\n").encode()
 
     import serial as pyserial
+from vsf_bench import SerialInstrument, load_test_params
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:

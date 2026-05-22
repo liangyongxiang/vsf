@@ -7,10 +7,8 @@ TX via fifo2req adapter; re-uses UART1.
 """
 
 from pathlib import Path
+from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument
 
-from vsf_bench.capture_marker import read_framework_windows
-from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
-from vsf_bench.instruments.serial_instrument import SerialInstrument
 
 SCENARIOS = ["usart_request_tx_irq"]
 

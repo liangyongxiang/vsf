@@ -8,8 +8,6 @@ Requires the aux serial fixture: host drives /dev/ttyUSB0 → Pico UART1 RX.
 
 from pathlib import Path
 
-from vsf_bench.instruments.serial_instrument import SerialInstrument
-from vsf_bench.test_params import load_test_params
 
 SCENARIOS = ["usart_rx_bulk_irq"]
 
@@ -31,6 +29,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     marker_baud = int((params.get("marker", {}) or {}).get("baudrate", 115200))
 
     import serial as pyserial
+from vsf_bench import SerialInstrument, load_test_params
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for case in cases:

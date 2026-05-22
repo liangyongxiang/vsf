@@ -7,8 +7,7 @@ Requires a host-side UART sender on /dev/ttyUSB-rx.
 """
 
 from pathlib import Path
-from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
-from vsf_bench.instruments.serial_instrument import SerialInstrument
+from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
 SCENARIOS = ["usart_rx_fifo_irq"]
 

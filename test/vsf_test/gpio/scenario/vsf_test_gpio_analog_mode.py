@@ -9,8 +9,7 @@ no external wiring needed.
 """
 
 from pathlib import Path
-from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
-from vsf_bench.instruments.serial_instrument import SerialInstrument
+from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
 SCENARIOS = ["gpio_analog_mode"]
 

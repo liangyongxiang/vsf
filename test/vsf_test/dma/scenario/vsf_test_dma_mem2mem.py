@@ -8,9 +8,8 @@ No host-side serial interaction required — this is an internal test.
 """
 
 from pathlib import Path
+from vsf_bench import SerialInstrument, load_test_params
 
-from vsf_bench.instruments.serial_instrument import SerialInstrument
-from vsf_bench.test_params import load_test_params
 
 SCENARIOS = ["dma_mem2mem"]
 

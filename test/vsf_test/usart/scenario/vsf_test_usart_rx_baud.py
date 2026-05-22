@@ -9,10 +9,6 @@ READY → DONE pair.
 from dataclasses import dataclass
 from pathlib import Path
 
-from vsf_bench.capture_marker import read_framework_windows
-from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
-from vsf_bench.instruments.serial_instrument import SerialInstrument
-from vsf_bench.test_params import load_test_params
 
 RP2040_CLK_PERI = 125_000_000
 MIN_BAUDRATE = RP2040_CLK_PERI // (16 * 65535)
@@ -51,6 +47,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     payload = scenario.get("payload", "Hello VSF\r\n").encode()
 
     import serial as pyserial
+from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:

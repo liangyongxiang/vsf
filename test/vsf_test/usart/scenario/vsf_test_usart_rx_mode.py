@@ -7,10 +7,6 @@ payload; `decode()` confirms on-wire bytes match.
 from dataclasses import dataclass
 from pathlib import Path
 
-from vsf_bench.capture_marker import read_framework_windows
-from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
-from vsf_bench.instruments.serial_instrument import SerialInstrument
-from vsf_bench.test_params import load_test_params
 
 
 @dataclass(frozen=True)
@@ -48,6 +44,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     payload = scenario.get("payload", "0123456789\r\n").encode()
 
     import serial as pyserial
+from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
     parity_map = {"none": pyserial.PARITY_NONE, "even": pyserial.PARITY_EVEN, "odd": pyserial.PARITY_ODD}
 

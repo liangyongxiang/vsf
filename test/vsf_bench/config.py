@@ -21,9 +21,17 @@ class RunnerConfig:
 
 
 @dataclass
+class BuilderConfig:
+    type: str
+    params: dict = field(default_factory=dict)
+
+
+@dataclass
 class BuildConfig:
     source_dir: str
     build_dir: str
+    build_tool: str = "cmake"
+    builders: dict[str, BuilderConfig] = field(default_factory=dict)
     artifacts: list[ArtifactConfig] = field(default_factory=list)
 
 

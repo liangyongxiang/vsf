@@ -3,7 +3,14 @@
 import yaml
 from pathlib import Path
 
-from vsf_bench.config import ArtifactConfig, BoardConfig, BuildConfig, LogicAnalyzerConfig, RunnerConfig
+from vsf_bench.config import (
+    ArtifactConfig,
+    BoardConfig,
+    BuildConfig,
+    BuilderConfig,
+    LogicAnalyzerConfig,
+    RunnerConfig,
+)
 
 
 def load(path: str | Path) -> BoardConfig:
@@ -24,9 +31,26 @@ def load(path: str | Path) -> BoardConfig:
             ArtifactConfig(name=a["name"], format=a["format"])
             for a in build_cfg.get("artifacts", [])
         ]
+
+        builders = {}
+        for name, cfg in build_cfg.get("builders", {}).items():
+            params = {k: v for k, v in cfg.items() if k != "type"}
+            builders[name] = BuilderConfig(
+                type=cfg["type"],
+                params=params,
+            )
+
+        build_tool = build_cfg.get("build_tool", "cmake")
+        # Backward compatibility: if no builders map but a build_tool is
+        # specified, auto-create a default builder entry.
+        if not builders and build_tool:
+            builders[build_tool] = BuilderConfig(type=build_tool)
+
         build = BuildConfig(
             source_dir=build_cfg.get("source_dir", ""),
             build_dir=build_cfg.get("build_dir", ""),
+            build_tool=build_tool,
+            builders=builders,
             artifacts=build_artifacts,
         )
 

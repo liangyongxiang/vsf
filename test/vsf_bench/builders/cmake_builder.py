@@ -1,12 +1,13 @@
-"""CMakeRunner — cmake configure + build."""
+"""CMakeBuilder — cmake configure + build."""
 
 import subprocess
 from pathlib import Path
 
+from vsf_bench.builders.base import BuildRunner
 from vsf_bench.config import BuildConfig
 
 
-class CMakeRunner:
+class CMakeBuilder(BuildRunner):
     def __init__(self, build_config: BuildConfig, project_root: str | Path):
         self.source_dir = Path(project_root) / build_config.source_dir
         self.build_dir = Path(project_root) / build_config.build_dir

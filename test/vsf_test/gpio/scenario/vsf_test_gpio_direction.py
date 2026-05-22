@@ -11,5 +11,5 @@ from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
 SCENARIOS = ["gpio_direction"]
 
-def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument | None = None) -> None:
+def run(project_root: Path, serial: SerialInstrument) -> None:
     serial.expect_test_summary("gpio_direction")

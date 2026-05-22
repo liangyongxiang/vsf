@@ -19,8 +19,6 @@
 
 #define __VSF_TEST_USART_CLASS_IMPLEMENT
 #include "vsf_test_usart_request_rx_irq.h"
-#include "hardware/regs/uart.h"
-#include "hardware/regs/addressmap.h"
 
 #if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
 
@@ -46,9 +44,9 @@ void vsf_test_usart_request_rx_irq_add_cases(vsf_test_usart_request_rx_irq_suite
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_REQUEST_RX_IRQ_CASE_COUNT; i++) {
         __request_rx_irq_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
+        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_request_rx_irq_run,
-            (void *)&__request_rx_irq_cases[i]);
+            (void *)&__request_rx_irq_cases[i], true);
     }
 }
 
@@ -79,36 +77,17 @@ void vsf_test_usart_request_rx_irq_run(const vsf_test_usart_request_rx_irq_case_
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     while (fsm_rt_cpl != vsf_usart_enable(usart));
 
-    /* Enable PL011 internal loopback (UART1 RX has no host writer). */
-    volatile uint32_t *uart1_cr = (volatile uint32_t *)(UART1_BASE + UART_UARTCR_OFFSET);
-    *uart1_cr |= UART_UARTCR_LBE_BITS;
-
+    /* Host sends data via aux_serial after READY marker. RX_CPL IRQ fires
+     * when the fifo2req adapter has drained all requested bytes. */
     vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_RX_CPL);
 
     err = vsf_usart_request_rx(usart, c->suite->req_rx_buf, total);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
-    /* Self-supply bytes via underlying USART TX — loopback delivers them
-     * to RX, which the fifo2req adapter drains into the request buffer. */
-    for (uint32_t i = 0; i < total; i++) {
-        c->suite->req_rx_txbuf[i] = (uint8_t)('A' + (i % 26));
-    }
-    uint32_t tx_remaining = total;
-    uint8_t *tx_src = c->suite->req_rx_txbuf;
-
-    /* Host script sends `total` bytes during this window. */
+    /* Wait for host data. */
     uint32_t timeout_ms = (total * 10000 / 115200) + 2000;
     uint32_t waited = 0;
     while (!c->suite->req_rx_cpl && waited < timeout_ms) {
-        if (tx_remaining > 0) {
-            /* Write through the underlying hw usart's TX FIFO — bypasses
-             * the fifo2req adapter (it owns the RX side via request_rx). */
-            extern vsf_hw_usart_t vsf_hw_usart1;
-            uint_fast16_t want = (tx_remaining > 16) ? 16 : (uint_fast16_t)tx_remaining;
-            uint_fast16_t wrote = vsf_hw_usart_txfifo_write(&vsf_hw_usart1, tx_src, want);
-            tx_src       += wrote;
-            tx_remaining -= wrote;
-        }
         vsf_test_busy_wait_ms(1);
         waited++;
     }

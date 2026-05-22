@@ -297,7 +297,6 @@ typedef struct vsf_test_gpio_pinmux_case_t {
     uint8_t  idx;
     uint8_t  tx_pin;        //! GP pin to be muxed to UART TX
     uint8_t  rx_pin;        //! GP pin to be muxed to UART RX
-    uint8_t  uart_funcsel;  //! FUNCSEL value (RP2040 GPIO_FUNC_UART = 2)
     uint32_t baudrate;
     vsf_usart_t *usart;     //! UART instance backing the pins
     vsf_test_gpio_pinmux_suite_t *suite;

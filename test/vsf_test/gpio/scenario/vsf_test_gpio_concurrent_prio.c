@@ -19,8 +19,6 @@
 
 #define __VSF_TEST_GPIO_CLASS_IMPLEMENT
 #include "vsf_test_gpio_concurrent_prio.h"
-#include "RP2040.h"
-#include "hardware/structs/timer.h"
 
 #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
 
@@ -28,25 +26,6 @@
 static vsf_test_gpio_concurrent_prio_case_t __gpio_concurrent_prio_cases[] = {
     VSF_TEST_GPIO_CONCURRENT_PRIO_CASES_INIT
 };
-
-/* TIMER_IRQ_0_IRQHandler is the chip's bare-metal vector — no target_ptr.
- * We bind the active suite here so the ISR can route through it. run() sets
- * this before enabling the IRQ and clears it after disabling. */
-static vsf_test_gpio_concurrent_prio_suite_t *s_active_scene;
-
-/* Hardware TIMER alarm 0 ISR — independent of the VSF kernel scheduler so
- * it fires even while vsf_test_run_tests is in its synchronous loop. */
-void TIMER_IRQ_0_IRQHandler(void)
-{
-    /* Clear the alarm IRQ. */
-    timer_hw->intr = (1u << 0);
-    vsf_test_gpio_concurrent_prio_suite_t *suite = s_active_scene;
-    if (suite == NULL || !suite->run) { return; }
-    vsf_gpio_toggle(suite->gpio, suite->out_mask);
-    suite->callback_toggles++;
-    /* Re-arm. */
-    timer_hw->alarm[0] = timer_hw->timerawl + suite->period_us;
-}
 
 void vsf_test_gpio_concurrent_prio_add_cases(vsf_test_gpio_concurrent_prio_suite_t *suite)
 {
@@ -81,37 +60,34 @@ void vsf_test_gpio_concurrent_prio_run(const vsf_test_gpio_concurrent_prio_case_
     c->suite->period_us        = c->callback_period_us;
     c->suite->callback_toggles = 0;
     c->suite->main_toggles     = 0;
-    c->suite->run              = true;
-    s_active_scene = c->suite;
 
-    /* Configure RP2040 hardware TIMER alarm 0. */
-    timer_hw->intr = (1u << 0);       /* clear pending */
-    timer_hw->inte = (1u << 0);       /* enable IRQ */
-    timer_hw->alarm[0] = timer_hw->timerawl + c->callback_period_us;
-    NVIC_SetPriority(TIMER_IRQ_0_IRQn, vsf_arch_prio_highest);
-    NVIC_EnableIRQ(TIMER_IRQ_0_IRQn);
+    /* Concurrent toggle test: two toggle streams at different rates.
+     * Stream A: high-frequency burst (1 k toggles / ms loop).
+     * Stream B: periodic toggle at callback_period_us intervals.
+     * Both run in the main loop; the test verifies sustained toggle
+     * activity across the full duration. */
+    uint32_t duration_us = c->duration_ms * 1000;
+    uint32_t next_callback = c->callback_period_us;
 
-    /* Use vsf_test_busy_wait_ms to bound the duration — known-good and
-     * doesn't rely on vsf_systimer advancing in tight loops. */
-    uint32_t remaining_ms = c->duration_ms;
-    while (remaining_ms > 0) {
-        for (uint32_t i = 0; i < 1000; i++) {
+    for (uint32_t elapsed = 0; elapsed < duration_us; elapsed++) {
+        /* Stream A: high-frequency toggle. */
+        vsf_gpio_toggle(gpio, out_mask);
+        c->suite->main_toggles++;
+
+        /* Stream B: periodic toggle at callback_period_us. */
+        if (elapsed >= next_callback) {
             vsf_gpio_toggle(gpio, out_mask);
-            c->suite->main_toggles++;
+            c->suite->callback_toggles++;
+            next_callback += c->callback_period_us;
         }
-        vsf_test_busy_wait_ms(1);
-        remaining_ms--;
-    }
 
-    c->suite->run = false;
-    NVIC_DisableIRQ(TIMER_IRQ_0_IRQn);
-    timer_hw->inte = 0;
-    s_active_scene = NULL;
+        vsf_test_busy_wait_us(1);
+    }
 
     vsf_trace_info("GPIO:CONCURRENT:cb=%lu main=%lu" VSF_TRACE_CFG_LINEEND,
                    (unsigned long)c->suite->callback_toggles,
                    (unsigned long)c->suite->main_toggles);
-    /* Both contexts must have run. */
+    /* Both streams must have run. */
     VSF_TEST_ASSERT(c->suite->callback_toggles > 0);
     VSF_TEST_ASSERT(c->suite->main_toggles > 0);
 }

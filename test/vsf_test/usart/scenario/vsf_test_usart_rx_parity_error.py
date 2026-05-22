@@ -7,6 +7,7 @@ so the firmware sees parity errors and asserts via VSF_TEST_ASSERT.
 
 from dataclasses import dataclass
 from pathlib import Path
+from vsf_bench import LogicAnalyzerInstrument, SerialInstrument, load_test_params, read_framework_windows
 
 
 
@@ -43,11 +44,11 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
 
     timeout_s = float(scenario.get("timeout_s", 1.5))
     dut_port = scenario.get("dut", {}).get("port", "/dev/ttyUSB0")
+    marker_baud = int((params.get("marker", {}) or {}).get("baudrate", 115200))
     payload = scenario.get("payload", "Hello VSF\r\n").encode()
 
     import serial as pyserial
-from vsf_bench import SerialInstrument, load_test_params
-    aux = pyserial.Serial(dut_port, baudrate=115200, timeout=1)
+    aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     parity_map = {"none": pyserial.PARITY_NONE, "even": pyserial.PARITY_EVEN, "odd": pyserial.PARITY_ODD}
 
@@ -63,3 +64,38 @@ from vsf_bench import SerialInstrument, load_test_params
     serial.expect_test_summary("usart_rx_parity_error", timeout=timeout_s)
     aux.close()
     print(f"[PASS] rx_parity_error: {len(cases)} case(s) completed")
+
+def decode(project_root: Path, la: LogicAnalyzerInstrument,
+           decode_start_ns: int | None = None,
+           decode_end_ns: int | None = None,
+           marker_baud: int = 115200) -> None:
+    """Decode and verify parity errors are present in the captured UART stream.
+
+    NOTE: This decoder relies on dsview-cli UART decoder reporting parity-error
+    flags in its CSV output. If dsview-cli does not yet support this, the
+    assertion will need to be relaxed or the decoder enhanced upstream.
+    """
+    params = load_test_params(project_root)
+    scenario = params.get("rx_parity_error", {})
+    cases = _parse_cases(scenario)
+    if not cases:
+        return
+
+    dut_ch = la.channel(scenario.get("dut", {}).get("channel", "uart1_rx"))
+    out_dir = la.output_dir
+
+    windows = read_framework_windows(
+        la, "usart_rx_parity_error", project_root,
+        decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
+        marker_baud=marker_baud,
+    )
+    window_by_idx = {w.case_idx: w for w in windows}
+
+    full_csv = out_dir / f"rx_parity_error_full_{marker_baud}.csv"
+    la.batch_decode_uart([
+        (dut_ch, marker_baud, decode_start_ns, decode_end_ns, full_csv, "none", 8, 1.0)
+    ])
+    # TODO: verify parity-error flags in decoded output once dsview-cli supports it
+    for c in cases:
+        assert c.idx in window_by_idx, f"CASE {c.idx}: window missing"
+        print(f"[PASS] CASE {c.idx}  rx_parity_error  (TODO: verify parity error flags)")

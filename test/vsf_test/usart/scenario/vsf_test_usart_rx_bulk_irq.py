@@ -8,7 +8,7 @@ Requires the aux serial fixture: host drives /dev/ttyUSB0 → Pico UART1 RX.
 
 from pathlib import Path
 
-from vsf_bench import SerialInstrument, load_test_params
+from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
 
 
 SCENARIOS = ["usart_rx_bulk_irq"]
@@ -57,3 +57,39 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
         )
 
     aux.close()
+
+def decode(project_root: Path, la: LogicAnalyzerInstrument,
+           decode_start_ns: int | None = None,
+           decode_end_ns: int | None = None,
+           marker_baud: int = 115200) -> None:
+    params = load_test_params(project_root)
+    scenario = params.get("rx_bulk_irq", {})
+    cases = scenario.get("cases", [])
+    if not cases:
+        return
+
+    dut_ch = la.channel(scenario.get("dut", {}).get("channel", "uart1_rx"))
+    out_dir = la.output_dir
+
+    windows = read_framework_windows(
+        la, "usart_rx_bulk_irq", project_root,
+        decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
+        marker_baud=marker_baud,
+    )
+    window_by_idx = {w.case_idx: w for w in windows}
+
+    full_csv = out_dir / f"rx_bulk_irq_full_{marker_baud}.csv"
+    la.batch_decode_uart([
+        (dut_ch, marker_baud, decode_start_ns, decode_end_ns, full_csv, "none", 8, 1.0)
+    ])
+    rows = la.read_csv_rows(full_csv)
+
+    for case in cases:
+        idx = int(case["idx"])
+        sz = int(case.get("data_size_bytes", 1024))
+        payload = _gen_pattern(sz)
+        assert idx in window_by_idx, f"CASE {idx}: window missing"
+        w = window_by_idx[idx]
+        got = bytes(b for t, b in rows if w.start_ns <= t < w.end_ns)
+        assert got == payload, f"CASE {idx}: expected {payload!r}, got {got!r}"
+        print(f"[PASS] CASE {idx}  rx_bulk_irq  sz={sz}")

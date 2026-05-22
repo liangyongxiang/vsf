@@ -21,12 +21,6 @@
 
 #if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
 
-/* RP2040 timer_hw->timerawl runs at 1 MHz and gives microsecond resolution
- * without relying on the VSF systimer (which is configured for 1 ms/tick
- * on this baremetal build and is too coarse for UART bit-banging). */
-#define RP2040_TIMER_BASE       0x40054000
-#define RP2040_TIMER_TIMERAWL   (*(volatile uint32_t *)(RP2040_TIMER_BASE + 0x28))
-
 /*============================ MACROS ========================================*/
 
 /* Number of rounds to repeat the per-pin bit-bang sequence.
@@ -49,12 +43,6 @@ static vsf_test_gpio_io_check_case_t __gpio_io_check_cases[] = {
 
 /*============================ LOCAL FUNCTIONS ===============================*/
 
-static void __busy_wait_us(uint32_t us)
-{
-    uint32_t start = RP2040_TIMER_TIMERAWL;
-    while ((RP2040_TIMER_TIMERAWL - start) < us);
-}
-
 /* Bit-bang one UART 8N1 frame at the given baudrate.
  * byte: data to send (unique per pin: 0x50 + pin).
  * bit_period_us: baudrate-derived bit period in microseconds.
@@ -68,7 +56,7 @@ static void __gpio_bitbang_uart_byte(vsf_gpio_t *gpio,
 {
     /* Start bit (low). */
     vsf_gpio_clear(gpio, pin_mask);
-    __busy_wait_us(bit_period_us);
+    vsf_test_busy_wait_us(bit_period_us);
 
     /* 8 data bits, LSB first. */
     for (uint8_t bit = 0; bit < 8; bit++) {
@@ -77,12 +65,12 @@ static void __gpio_bitbang_uart_byte(vsf_gpio_t *gpio,
         } else {
             vsf_gpio_clear(gpio, pin_mask);
         }
-        __busy_wait_us(bit_period_us);
+        vsf_test_busy_wait_us(bit_period_us);
     }
 
     /* Stop bit (high). */
     vsf_gpio_set(gpio, pin_mask);
-    __busy_wait_us(bit_period_us);
+    vsf_test_busy_wait_us(bit_period_us);
 }
 
 /*============================ IMPLEMENTATION ================================*/
@@ -124,7 +112,7 @@ void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c)
     /* Bit-bang the unique byte for this pin across multiple rounds. */
     for (uint8_t round = 0; round < VSF_TEST_GPIO_IO_CHECK_ROUNDS; round++) {
         __gpio_bitbang_uart_byte(gpio, pin_mask, byte, bit_period_us);
-        __busy_wait_us(VSF_TEST_GPIO_IO_CHECK_ROUND_GAP_US);
+        vsf_test_busy_wait_us(VSF_TEST_GPIO_IO_CHECK_ROUND_GAP_US);
     }
 
     vsf_trace_info("GPIO:IO_CHECK:pin=%u byte=0x%02x rounds=%u" VSF_TRACE_CFG_LINEEND,

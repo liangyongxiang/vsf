@@ -61,6 +61,8 @@ vsf_class(vsf_test_flash_boundary_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_flash_t *flash;
+        uint8_t write_buf[1024];
+        uint8_t read_buf[1024];
     )
 };
 

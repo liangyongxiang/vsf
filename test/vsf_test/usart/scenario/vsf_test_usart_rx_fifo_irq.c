@@ -19,8 +19,6 @@
 
 #define __VSF_TEST_USART_CLASS_IMPLEMENT
 #include "vsf_test_usart_rx_fifo_irq.h"
-#include "hardware/regs/uart.h"
-#include "hardware/regs/addressmap.h"
 
 #if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
 
@@ -57,9 +55,9 @@ void vsf_test_usart_rx_fifo_irq_add_cases(vsf_test_usart_rx_fifo_irq_suite_t *su
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
     for (uint8_t i = 0; i < VSF_TEST_RX_FIFO_IRQ_CASE_COUNT; i++) {
         __rx_fifo_irq_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
+        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_fifo_irq_run,
-            (void *)&__rx_fifo_irq_cases[i]);
+            (void *)&__rx_fifo_irq_cases[i], true);
     }
 }
 
@@ -96,30 +94,13 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     while (fsm_rt_cpl != vsf_usart_enable(usart));
 
-    /* Enable PL011 internal loopback so firmware-side TX feeds RX without
-     * needing a host UART connection. The bench's hardware-map only
-     * exposes one host serial port (UART0); UART1 RX has no host writer. */
-    volatile uint32_t *uart1_cr = (volatile uint32_t *)(UART1_BASE + UART_UARTCR_OFFSET);
-    *uart1_cr |= UART_UARTCR_LBE_BITS;
-
+    /* Host sends data via aux_serial after READY marker. RX IRQ fires
+     * as bytes arrive. */
     vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_RX);
 
-    /* Self-supply bytes via TX — loopback feeds them into RX. */
-    static uint8_t txbuf[256];
-    for (uint32_t i = 0; i < total; i++) { txbuf[i] = (uint8_t)(i & 0xFF); }
-    uint32_t tx_remaining = total;
-    uint8_t *tx_src = txbuf;
-
-    /* Wait. Loopback supplies bytes via TX → RX as we push them.
-     * Fixed iteration bound — immune to CI scheduler jitter. */
+    /* Wait for host data. Fixed iteration bound — immune to CI jitter. */
     #define RX_FIFO_IRQ_POLL_MAX_ITER 8000   /* ~8 s equivalent with 1 ms step */
     for (uint32_t iter = 0; iter < RX_FIFO_IRQ_POLL_MAX_ITER && !c->suite->done; iter++) {
-        if (tx_remaining > 0) {
-            uint_fast16_t want = (tx_remaining > 16) ? 16 : (uint_fast16_t)tx_remaining;
-            uint_fast16_t wrote = vsf_usart_txfifo_write(usart, tx_src, want);
-            tx_src        += wrote;
-            tx_remaining  -= wrote;
-        }
         vsf_test_busy_wait_ms(1);
     }
     VSF_TEST_ASSERT(c->suite->done);

@@ -531,6 +531,7 @@ extern void vsf_test_reboot(vsf_test_result_t result,
  @param[in] ms: milliseconds to wait
  */
 extern void vsf_test_busy_wait_ms(uint32_t ms);
+extern void vsf_test_busy_wait_us(uint32_t us);
 
 /* ========================== Test Suite primitive ========================== */
 /**

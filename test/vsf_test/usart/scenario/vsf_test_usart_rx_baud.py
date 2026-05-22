@@ -15,6 +15,7 @@ MIN_BAUDRATE = RP2040_CLK_PERI // (16 * 65535)
 MAX_BAUDRATE = RP2040_CLK_PERI // 16
 
 
+from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
 def _expect_pass(baud: int) -> bool:
     return baud != 0 and MIN_BAUDRATE <= baud <= MAX_BAUDRATE
 
@@ -47,7 +48,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     payload = scenario.get("payload", "Hello VSF\r\n").encode()
 
     import serial as pyserial
-from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
+
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:

@@ -148,12 +148,7 @@ def _run_script_phase1(
 
     try:
         if script_module is not None:
-            run_fn = script_module.run
-            sig = inspect.signature(run_fn)
-            if "la" in sig.parameters:
-                run_fn(project_root, ser, None)
-            else:
-                run_fn(project_root, ser)
+            script_module.run(project_root, ser)
         else:
             ser.expect_test_summary(suite_name, timeout=1.5)
         print(f"[vsf-bench] PASS phase1: {suite_name}{case_tag}")
@@ -164,7 +159,8 @@ def _run_script_phase1(
 
 
 def _call_decode(mod, project_root: Path, la: LogicAnalyzerInstrument,
-                 start_ns: int | None, end_ns: int | None) -> None:
+                 start_ns: int | None, end_ns: int | None,
+                 marker_baud: int = 115200) -> None:
     """Invoke a script's decode() with whichever signature it accepts."""
     sig = inspect.signature(mod.decode)
     params = sig.parameters
@@ -173,6 +169,8 @@ def _call_decode(mod, project_root: Path, la: LogicAnalyzerInstrument,
         kwargs["decode_start_ns"] = start_ns
     if "decode_end_ns" in params:
         kwargs["decode_end_ns"] = end_ns
+    if "marker_baud" in params:
+        kwargs["marker_baud"] = marker_baud
     mod.decode(project_root, la, **kwargs)
 
 
@@ -261,6 +259,7 @@ def run_test_phase(
     if la_mode == "shared" and any_needs_la:
         overall_pass = _test_loop_shared_la(
             loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs,
+            board,
             shuffle_seed=shuffle_seed,
         )
     else:
@@ -280,6 +279,7 @@ def run_test_phase(
 
 def _test_loop_shared_la(
     loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs,
+    board,
     shuffle_seed: int | None = None,
 ) -> bool:
     """Shared LA mode: one capture spans the contiguous LA-needing block.
@@ -336,7 +336,7 @@ def _test_loop_shared_la(
         decode_end = t_end + SHARED_WINDOW_PAD_NS
         print(f"\n[vsf-bench] Decoding (shared): {suite_name}  window=[{decode_start/1e9:.2f}s,{decode_end/1e9:.2f}s]")
         try:
-            _call_decode(mod, project_root, shared_la, decode_start, decode_end)
+            _call_decode(mod, project_root, shared_la, decode_start, decode_end, board.baud)
             print(f"[vsf-bench] PASS decode: {suite_name}")
         except (AssertionError, RuntimeError, KeyError, AttributeError, FileNotFoundError) as e:
             print(f"[vsf-bench] FAIL decode: {suite_name}: {e}")
@@ -383,7 +383,7 @@ def _test_loop_per_suite(
 
             if ok and mod is not None and hasattr(mod, "decode") and scene_la is not None:
                 try:
-                    _call_decode(mod, project_root, scene_la, None, None)
+                    _call_decode(mod, project_root, scene_la, None, None, board.baud)
                     print(f"[vsf-bench] PASS decode: {suite_name}{case_tag}")
                 except (AssertionError, RuntimeError, KeyError, AttributeError, FileNotFoundError) as e:
                     print(f"[vsf-bench] FAIL decode: {suite_name}{case_tag}: {e}")

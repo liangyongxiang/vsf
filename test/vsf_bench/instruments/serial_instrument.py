@@ -43,6 +43,22 @@ class SerialInstrument:
         if self._ser and self._ser.is_open:
             self._ser.close()
 
+    def reconnect(self, timeout: float = 10.0) -> None:
+        """Close and reopen the serial port, waiting until it becomes available.
+
+        Used after a device reset (e.g. WDT reboot) where the USB CDC/serial
+        device disappears and re-enumerates.
+        """
+        self.close()
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            try:
+                self.open()
+                return
+            except (serial.SerialException, OSError):
+                time.sleep(0.2)
+        raise TimeoutError(f"Serial port {self._port} did not reappear within {timeout}s")
+
     def send(self, data: str) -> None:
         assert self._ser is not None
         self._ser.write(data.encode())

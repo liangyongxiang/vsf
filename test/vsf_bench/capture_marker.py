@@ -17,7 +17,6 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
-from vsf_bench.test_params import load_test_params
 
 
 @dataclass(frozen=True)
@@ -27,21 +26,13 @@ class CaseWindow:
     end_ns: int
 
 
-def _marker_config(project_root: Path) -> tuple[str, int]:
-    """Returns (channel_role, baudrate) from test_params.yml."""
-    params = load_test_params(project_root)
-    marker = params.get("marker", {}) or {}
-    channel = marker.get("channel", "uart0_tx")
-    baud = int(marker.get("baudrate", 115200))
-    return channel, baud
-
-
 def read_framework_windows(
     la: LogicAnalyzerInstrument,
     suite_name: str,
     project_root: Path,
     decode_start_ns: int | None = None,
     decode_end_ns: int | None = None,
+    marker_baud: int = 115200,
 ) -> list[CaseWindow]:
     """Per-case windows for both TX and RX scenarios.
 
@@ -49,8 +40,7 @@ def read_framework_windows(
     READY → DONE. Otherwise, windows are bounded by CASE:N → CASE:N+1
     (or END for the last case).
     """
-    channel_role, marker_baud = _marker_config(project_root)
-    ch = la.channel(channel_role)
+    ch = la.channel("uart0_tx")
     out_dir = la.output_dir
 
     starts = la.decode_markers(

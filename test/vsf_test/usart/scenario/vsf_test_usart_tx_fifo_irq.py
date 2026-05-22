@@ -12,5 +12,5 @@ from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 SCENARIOS = ["usart_tx_fifo_irq"]
 
 
-def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument | None = None) -> None:
+def run(project_root: Path, serial: SerialInstrument) -> None:
     serial.expect_test_summary("usart_tx_fifo_irq")

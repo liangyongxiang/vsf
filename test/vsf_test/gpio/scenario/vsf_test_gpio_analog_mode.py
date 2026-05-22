@@ -14,5 +14,5 @@ from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 SCENARIOS = ["gpio_analog_mode"]
 
 
-def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument | None = None) -> None:
+def run(project_root: Path, serial: SerialInstrument) -> None:
     serial.expect_test_summary("gpio_analog_mode")

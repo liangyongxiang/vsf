@@ -1,16 +1,47 @@
 """usart_request_rx_irq scenario host harness.
 
-Firmware asserts internally via VSF_TEST_ASSERT; this script waits for
-the test framework summary line and asserts all cases passed.
+Host sends payload via aux_serial after each READY marker.
+Firmware receives via request_rx + RX_CPL IRQ and asserts every byte matches.
 
-Requires a host-side UART sender.
+Requires the aux serial fixture: host drives /dev/ttyUSB0 -> Pico UART1 RX.
 """
 
 from pathlib import Path
-from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
-SCENARIOS = ["usart_request_rx_irq"]
+from vsf_bench import SerialInstrument, load_test_params
 
 
-def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument | None = None) -> None:
-    serial.expect_test_summary("usart_request_rx_irq")
+def _gen_pattern(size: int) -> bytes:
+    """Incrementing-counter pattern: byte[i] = i & 0xFF."""
+    return bytes(i & 0xFF for i in range(size))
+
+
+def run(project_root: Path, serial: SerialInstrument) -> None:
+    params = load_test_params(project_root)
+    scenario = params.get("request_rx_irq", {})
+    cases = scenario.get("cases", [])
+    if not cases:
+        return
+
+    timeout_s = float(scenario.get("timeout_s", 10.0))
+    dut_port = scenario.get("dut", {}).get("port", "/dev/ttyUSB0")
+    marker_baud = int((params.get("marker", {}) or {}).get("baudrate", 115200))
+    fifo_depth = int(scenario.get("fifo_depth", 32))
+
+    import serial as pyserial
+    aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
+
+    for case in cases:
+        idx = int(case["idx"])
+        refill_target = int(case.get("refill_target", 4))
+        total = fifo_depth * refill_target
+        if total < 32:
+            total = 32
+        serial.expect(f"usart_request_rx_irq:CASE:{idx}:READY", timeout=timeout_s)
+        payload = _gen_pattern(total)
+        aux.write(payload)
+        aux.flush()
+
+    serial.expect_test_summary("usart_request_rx_irq", timeout=timeout_s)
+    aux.close()
+    print(f"[PASS] request_rx_irq: {len(cases)} case(s) completed")

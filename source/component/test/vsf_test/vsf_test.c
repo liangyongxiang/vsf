@@ -205,6 +205,12 @@ void vsf_test_busy_wait_ms(uint32_t ms)
     for (volatile uint32_t i = 0; i < ms * VSF_TEST_CFG_BUSY_WAIT_CYCLES_PER_MS; i++);
 }
 
+VSF_CAL_WEAK(vsf_test_busy_wait_us)
+void vsf_test_busy_wait_us(uint32_t us)
+{
+    for (volatile uint32_t i = 0; i < us * (VSF_TEST_CFG_BUSY_WAIT_CYCLES_PER_MS / 1000); i++);
+}
+
 void vsf_test_run_case(uint32_t idx)
 {
     if (idx >= __vsf_test->test_case_count) {

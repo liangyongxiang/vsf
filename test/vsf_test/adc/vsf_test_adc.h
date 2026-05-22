@@ -54,7 +54,11 @@ vsf_class(vsf_test_adc_temperature_suite_t) {
 
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
 typedef struct vsf_test_adc_temperature_case_t {
-    uint8_t idx;
+    uint8_t  idx;
+    uint8_t  channel_count;   /* total ADC channels (e.g. 5 for 4 ext + 1 temp) */
+    uint8_t  sensor_channel;  /* internal temperature sensor channel index */
+    uint16_t temp_raw_min;    /* minimum plausible raw sample at room temp */
+    uint16_t temp_raw_max;    /* maximum plausible raw sample at room temp */
     vsf_test_adc_temperature_suite_t *suite;
 } vsf_test_adc_temperature_case_t;
 #endif

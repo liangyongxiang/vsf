@@ -6,6 +6,7 @@ timeout condition internally.
 
 from dataclasses import dataclass
 from pathlib import Path
+from vsf_bench import LogicAnalyzerInstrument, SerialInstrument, load_test_params, read_framework_windows
 
 
 
@@ -36,7 +37,6 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     dut_port = scenario.get("dut", {}).get("port", "/dev/ttyUSB0")
 
     import serial as pyserial
-from vsf_bench import SerialInstrument, load_test_params
     aux = pyserial.Serial(dut_port, baudrate=marker_baud, timeout=1)
 
     for c in cases:
@@ -48,3 +48,39 @@ from vsf_bench import SerialInstrument, load_test_params
     serial.expect_test_summary("usart_rx_timeout", timeout=timeout_s)
     aux.close()
     print(f"[PASS] rx_timeout: {len(cases)} case(s) completed")
+
+def decode(project_root: Path, la: LogicAnalyzerInstrument,
+           decode_start_ns: int | None = None,
+           decode_end_ns: int | None = None,
+           marker_baud: int = 115200) -> None:
+    params = load_test_params(project_root)
+    scenario = params.get("rx_timeout", {})
+    cases = _parse_cases(scenario)
+    pass_cases = [c for c in cases if c.expect_pass]
+    if not pass_cases:
+        return
+
+    dut_ch = la.channel(scenario.get("dut", {}).get("channel", "uart1_rx"))
+    out_dir = la.output_dir
+
+    windows = read_framework_windows(
+        la, "usart_rx_timeout", project_root,
+        decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
+        marker_baud=marker_baud,
+    )
+    window_by_idx = {w.case_idx: w for w in windows}
+    for c in pass_cases:
+        assert c.idx in window_by_idx, f"CASE {c.idx}: window missing"
+
+    full_csv = out_dir / f"rx_timeout_full_{marker_baud}.csv"
+    la.batch_decode_uart([
+        (dut_ch, marker_baud, decode_start_ns, decode_end_ns, full_csv, "none", 8, 1.0)
+    ])
+    rows = la.read_csv_rows(full_csv)
+
+    for c in pass_cases:
+        w = window_by_idx[c.idx]
+        got = bytes(b for t, b in rows if w.start_ns <= t < w.end_ns)
+        # Firmware only receives 2 bytes ("AB"); verify no more than that
+        assert len(got) <= 2, f"CASE {c.idx}: expected <=2 bytes, got {len(got)} bytes {got!r}"
+        print(f"[PASS] CASE {c.idx}  rx_timeout  received {len(got)} bytes")

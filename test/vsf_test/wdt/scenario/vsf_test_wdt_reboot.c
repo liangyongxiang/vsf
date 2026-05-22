@@ -5,7 +5,6 @@
 #if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
 
 #include "hal/vsf_hal.h"
-#include "hardware/watchdog.h"
 
 /*============================ MACROS ========================================*/
 
@@ -40,14 +39,6 @@ void vsf_test_wdt_reboot_run(void *arg)
     vsf_test_wdt_reboot_case_t *c = (vsf_test_wdt_reboot_case_t *)arg;
     vsf_wdt_t *wdt = c->suite->wdt;
 
-    /* Phase 2 — post-reboot: detect watchdog reboot and report PASS. */
-    if (watchdog_enable_caused_reboot()) {
-        vsf_trace_info("WDT_REBOOT_DETECTED" VSF_TRACE_CFG_LINEEND);
-        vsf_trace_info("WDT:REBOOT:PASS" VSF_TRACE_CFG_LINEEND);
-        return;
-    }
-
-    /* Phase 1 — first run: arm WDT with short timeout, feed once, then stop. */
     vsf_wdt_capability_t cap = vsf_wdt_capability(wdt);
     VSF_TEST_ASSERT(cap.support_reset_soc == 1);
 
@@ -65,7 +56,8 @@ void vsf_test_wdt_reboot_run(void *arg)
                    VSF_TEST_WDT_REBOOT_TIMEOUT_MS);
 
     /* Stop feeding — WDT will expire and reset the chip.
-     * This function never returns normally on this path. */
+     * This function never returns normally on this path.
+     * Host detects reset via serial disconnect + reconnect + "VSF Test Ready". */
     vsf_test_busy_wait_ms(VSF_TEST_WDT_REBOOT_TIMEOUT_MS + 100);
 
     /* Should never reach here — if we do, WDT failed to reset. */

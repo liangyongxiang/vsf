@@ -45,21 +45,14 @@ def load_script_module(path: Path):
 
 
 def script_needs_la(script_path: Path | None, mod=None) -> bool:
-    """Heuristic: does the script use the logic analyzer?
-
-    A script needs LA if it defines `decode()` OR uses `la.` in `run()`.
-    """
-    if mod is not None and hasattr(mod, "decode"):
-        return True
+    """A script needs LA iff it defines `decode()`."""
+    if mod is not None:
+        return hasattr(mod, "decode")
     if script_path is None:
         return False
     try:
         source = script_path.read_text()
-        return any(
-            "la." in line
-            for line in source.splitlines()
-            if "def run(" not in line and "def decode(" not in line
-        )
+        return "def decode(" in source
     except Exception:
         return False
 

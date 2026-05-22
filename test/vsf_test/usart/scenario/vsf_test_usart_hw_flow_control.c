@@ -19,8 +19,6 @@
 
 #define __VSF_TEST_USART_CLASS_IMPLEMENT
 #include "vsf_test_usart_hw_flow_control.h"
-#include "hardware/regs/uart.h"
-#include "hardware/regs/addressmap.h"
 
 #if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
 
@@ -52,19 +50,19 @@ void vsf_test_usart_hw_flow_control_add_cases(vsf_test_usart_hw_flow_control_sui
     }
 }
 
-/* RTS / CTS / RTS+CTS hw flow control. Uses PL011's internal loopback (LBE)
- * which also routes UARTRTS → UARTCTS internally — see PL011 TRM. With LBE
- * enabled, toggling UARTCR.RTS produces CTS modem-status edges visible to
- * the chip itself.
+/* RTS / CTS / RTS+CTS hw flow control.
  *
  * The test confirms three things per case:
  *   - init() accepts the flow_control mode bits
  *   - VSF_USART_IRQ_MASK_CTS can be enabled
- *   - The CTS modem-status IRQ actually fires when RTS is toggled (loopback).
+ *   - The CTS modem-status IRQ fires when RTS is toggled.
  *
- * If the CTS IRQ doesn't fire (e.g. PL011 driver doesn't map the modem-status
+ * Requires an external jumper between the RTS output pin and the CTS input
+ * pin on the DUT so toggling RTS drives CTS edges.
+ *
+ * If the CTS IRQ doesn't fire (e.g. driver doesn't map the modem-status
  * mask bit correctly), we degrade to a weaker check: at minimum the chip
- * accepts the mode bits and lets us toggle UARTCR.RTS without faulting. */
+ * accepts the mode bits. */
 void vsf_test_usart_hw_flow_control_run(const vsf_test_usart_hw_flow_control_case_t *c)
 {
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
@@ -88,31 +86,31 @@ void vsf_test_usart_hw_flow_control_run(const vsf_test_usart_hw_flow_control_cas
     /* Enable PL011 internal loopback (UARTCR.LBE) so the chip's own RTS
      * output feeds its CTS input. Also enable CTSMIM directly in UARTIMSC
      * (bit 1) — PL011 driver's irq_enable() may not map modem-status bits. */
-    volatile uint32_t *uart1_cr   = (volatile uint32_t *)(UART1_BASE + UART_UARTCR_OFFSET);
-    volatile uint32_t *uart1_imsc = (volatile uint32_t *)(UART1_BASE + UART_UARTIMSC_OFFSET);
-    volatile uint32_t *uart1_icr  = (volatile uint32_t *)(UART1_BASE + UART_UARTICR_OFFSET);
-    *uart1_cr |= UART_UARTCR_LBE_BITS;
+    volatile uint32_t *uart1_cr   = (volatile uint32_t *)(0x40090000ul + 0x030);
+    volatile uint32_t *uart1_imsc = (volatile uint32_t *)(0x40090000ul + 0x038);
+    volatile uint32_t *uart1_icr  = (volatile uint32_t *)(0x40090000ul + 0x044);
+    *uart1_cr |= (1u << 7);   /* LBE */
 
     vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_CTS);
     /* Belt-and-braces: also set CTSMIM directly. */
-    *uart1_imsc |= UART_UARTIMSC_CTSMIM_BITS;
+    *uart1_imsc |= (1u << 1); /* CTSMIM */
     /* Clear any latched CTS interrupt from prior state. */
-    *uart1_icr   = UART_UARTICR_CTSMIC_BITS;
+    *uart1_icr   = (1u << 1); /* CTSMIC */
 
     /* Toggle UARTCR.RTS twice to produce two CTS edges via the LBE loopback.
      * Each transition should fire one CTS modem-status IRQ. */
-    *uart1_cr |= UART_UARTCR_RTS_BITS;
+    *uart1_cr |= (1u << 11);  /* RTS */
     vsf_test_busy_wait_ms(2);
-    *uart1_cr &= ~UART_UARTCR_RTS_BITS;
+    *uart1_cr &= ~(1u << 11); /* RTS off */
     vsf_test_busy_wait_ms(2);
-    *uart1_cr |= UART_UARTCR_RTS_BITS;
+    *uart1_cr |= (1u << 11);  /* RTS */
     vsf_test_busy_wait_ms(2);
 
-    *uart1_imsc &= ~UART_UARTIMSC_CTSMIM_BITS;
+    *uart1_imsc &= ~(1u << 1);
     vsf_usart_irq_disable(usart, VSF_USART_IRQ_MASK_CTS);
 
     /* Restore LBE off + RTS low so the post-test line state is clean. */
-    *uart1_cr &= ~(UART_UARTCR_LBE_BITS | UART_UARTCR_RTS_BITS);
+    *uart1_cr &= ~((1u << 7) | (1u << 11));
 
     vsf_trace_info("USART:HW_FLOW_CONTROL:cts_count=%lu" VSF_TRACE_CFG_LINEEND,
                    (unsigned long)c->suite->cts_count);

@@ -26,8 +26,12 @@
 void vsf_test_timer_register_all(vsf_test_timer_suites_t *s, vsf_timer_t *timer)
 {
     s->oneshot.timer = timer;
+    s->periodic.timer = timer;
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
     vsf_test_timer_oneshot_add_cases(&s->oneshot);
+#endif
+#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
+    vsf_test_timer_periodic_add_cases(&s->periodic);
 #endif
 }
 

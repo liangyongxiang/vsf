@@ -40,6 +40,10 @@ extern "C" {
 #   define VSF_TEST_TIMER_ONESHOT_ENABLE         ENABLED
 #endif
 
+#ifndef VSF_TEST_TIMER_PERIODIC_ENABLE
+#   define VSF_TEST_TIMER_PERIODIC_ENABLE        ENABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 vsf_class(vsf_test_timer_oneshot_suite_t) {
@@ -54,8 +58,21 @@ vsf_class(vsf_test_timer_oneshot_suite_t) {
     )
 };
 
+vsf_class(vsf_test_timer_periodic_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        /* Immutable suite config (set once by main.c, never modified by run). */
+        vsf_timer_t *timer;
+    )
+    private_member(
+        /* Per-case mutable state (run() MUST re-initialise before each case). */
+        volatile uint8_t counter;
+    )
+};
+
 typedef struct vsf_test_timer_suites_t {
-    vsf_test_timer_oneshot_suite_t oneshot;
+    vsf_test_timer_oneshot_suite_t  oneshot;
+    vsf_test_timer_periodic_suite_t periodic;
 } vsf_test_timer_suites_t;
 
 /*============================ PROTOTYPES ====================================*/
@@ -65,6 +82,11 @@ void vsf_test_timer_register_all(vsf_test_timer_suites_t *s, vsf_timer_t *timer)
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
 void vsf_test_timer_oneshot_add_cases(vsf_test_timer_oneshot_suite_t *suite);
 void vsf_test_timer_oneshot_run(void *arg);
+#endif
+
+#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
+void vsf_test_timer_periodic_add_cases(vsf_test_timer_periodic_suite_t *suite);
+void vsf_test_timer_periodic_run(void *arg);
 #endif
 
 #ifdef __cplusplus

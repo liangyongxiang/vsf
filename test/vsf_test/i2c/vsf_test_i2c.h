@@ -46,6 +46,10 @@ extern "C" {
 #   define VSF_TEST_I2C_BUS_SCAN_ENABLE         DISABLED
 #endif
 
+#ifndef VSF_TEST_I2C_EEPROM_PAGE_ENABLE
+#   define VSF_TEST_I2C_EEPROM_PAGE_ENABLE      ENABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 // Per-suite context (populated by main.c)
@@ -61,6 +65,16 @@ vsf_class(vsf_test_i2c_eeprom_rw_suite_t) {
     )
 };
 
+vsf_class(vsf_test_i2c_eeprom_page_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_i2c_t *i2c;
+    )
+    private_member(
+        volatile vsf_i2c_irq_mask_t irq_mask;
+    )
+};
+
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
 typedef struct vsf_test_i2c_eeprom_rw_case_t {
     uint8_t  idx;
@@ -70,6 +84,17 @@ typedef struct vsf_test_i2c_eeprom_rw_case_t {
     uint8_t  data_len;
     vsf_test_i2c_eeprom_rw_suite_t *suite;
 } vsf_test_i2c_eeprom_rw_case_t;
+#endif
+
+#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
+typedef struct vsf_test_i2c_eeprom_page_case_t {
+    uint8_t  idx;
+    uint8_t  i2c_idx;
+    uint8_t  eeprom_addr;
+    uint8_t  mem_addr;
+    uint8_t  data_len;
+    vsf_test_i2c_eeprom_page_suite_t *suite;
+} vsf_test_i2c_eeprom_page_case_t;
 #endif
 
 /*============================ TYPES for bus_scan ============================*/
@@ -92,8 +117,9 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
 #endif
 
 typedef struct vsf_test_i2c_suites_t {
-    vsf_test_i2c_eeprom_rw_suite_t eeprom_rw;
-    vsf_test_i2c_bus_scan_suite_t  bus_scan;
+    vsf_test_i2c_eeprom_rw_suite_t   eeprom_rw;
+    vsf_test_i2c_bus_scan_suite_t    bus_scan;
+    vsf_test_i2c_eeprom_page_suite_t eeprom_page;
 } vsf_test_i2c_suites_t;
 
 void vsf_test_i2c_register_all(vsf_test_i2c_suites_t *s);
@@ -108,6 +134,11 @@ void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c);
 #if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
 void vsf_test_i2c_bus_scan_add_cases(vsf_test_i2c_bus_scan_suite_t *suite);
 void vsf_test_i2c_bus_scan_run(const vsf_test_i2c_bus_scan_case_t *c);
+#endif
+
+#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
+void vsf_test_i2c_eeprom_page_add_cases(vsf_test_i2c_eeprom_page_suite_t *suite);
+void vsf_test_i2c_eeprom_page_run(const vsf_test_i2c_eeprom_page_case_t *c);
 #endif
 
 #include "test_params_generated.h"

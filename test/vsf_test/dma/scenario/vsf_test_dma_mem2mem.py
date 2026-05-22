@@ -16,7 +16,7 @@ SCENARIOS = ["dma_mem2mem"]
 
 def run(project_root: Path, serial: SerialInstrument) -> None:
     params = load_test_params(project_root)
-    scenario = params.get("dma", {}).get("mem2mem", {})
+    scenario = params.get("dma_mem2mem", {})
     timeout_s = float(scenario.get("timeout_s", 10.0))
 
     serial.expect_test_summary("dma_mem2mem", timeout=timeout_s)

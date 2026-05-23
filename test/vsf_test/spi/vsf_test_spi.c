@@ -23,9 +23,9 @@
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_spi_register_all(vsf_test_spi_suites_t *s, vsf_spi_t *spi)
+void vsf_test_spi_init(vsf_test_spi_suites_t *s, const vsf_test_spi_cfg_t *cfg)
 {
-    s->loopback.spi = spi;
+    s->loopback.spi = cfg->spi;
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
     vsf_test_spi_loopback_add_cases(&s->loopback);
 #endif

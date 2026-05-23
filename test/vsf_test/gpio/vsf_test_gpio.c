@@ -24,25 +24,26 @@
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_gpio_register_all(vsf_test_gpio_suites_t *s, vsf_gpio_t *gpio)
+void vsf_test_gpio_init(vsf_test_gpio_suites_t *s, const vsf_test_gpio_cfg_t *cfg)
 {
-    s->output_input.gpio     = gpio;
-    s->toggle.gpio           = gpio;
-    s->direction.gpio        = gpio;
-    s->atomic.gpio           = gpio;
-    s->pinmux.gpio           = gpio;
-    s->multi_pin.gpio        = gpio;
-    s->open_drain.gpio       = gpio;
-    s->toggle_freq.gpio      = gpio;
-    s->write_throughput.gpio = gpio;
-    s->toggle_stress.gpio    = gpio;
-    s->concurrent_prio.gpio  = gpio;
-    s->exti.gpio             = gpio;
-    s->irq_latency.gpio      = gpio;
-    s->irq_lifecycle.gpio    = gpio;
-    s->systimer_health.gpio  = gpio;
-    s->analog_mode.gpio      = gpio;
-    s->io_check.gpio         = gpio;
+    s->output_input.gpio     = cfg->gpio;
+    s->toggle.gpio           = cfg->gpio;
+    s->direction.gpio        = cfg->gpio;
+    s->atomic.gpio           = cfg->gpio;
+    s->pinmux.gpio           = cfg->gpio;
+    s->multi_pin.gpio        = cfg->gpio;
+    s->open_drain.gpio       = cfg->gpio;
+    s->toggle_freq.gpio      = cfg->gpio;
+    s->write_throughput.gpio = cfg->gpio;
+    s->toggle_stress.gpio    = cfg->gpio;
+    s->concurrent_prio.gpio  = cfg->gpio;
+    s->exti.gpio             = cfg->gpio;
+    s->irq_latency.gpio      = cfg->gpio;
+    s->irq_lifecycle.gpio    = cfg->gpio;
+    s->systimer_health.gpio  = cfg->gpio;
+    s->analog_mode.gpio      = cfg->gpio;
+    s->io_check.gpio         = cfg->gpio;
+    s->pinmux.usart          = cfg->usart;
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
     vsf_test_gpio_output_input_add_cases(&s->output_input);
 #endif

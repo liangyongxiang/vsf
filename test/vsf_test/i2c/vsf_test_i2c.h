@@ -122,7 +122,16 @@ typedef struct vsf_test_i2c_suites_t {
     vsf_test_i2c_eeprom_page_suite_t eeprom_page;
 } vsf_test_i2c_suites_t;
 
-void vsf_test_i2c_register_all(vsf_test_i2c_suites_t *s);
+typedef struct vsf_test_i2c_cfg_t {
+    vsf_i2c_t       *i2c;
+    vsf_gpio_i2c_t  *gpio_i2c0;
+    vsf_gpio_i2c_t  *gpio_i2c1;
+    vsf_gpio_t      *gpio;          //!< for bus_scan gpio_i2c->port wiring
+    bool (*setup)(vsf_test_suite_t *);
+    void (*teardown)(vsf_test_suite_t *);
+} vsf_test_i2c_cfg_t;
+
+void vsf_test_i2c_init(vsf_test_i2c_suites_t *s, const vsf_test_i2c_cfg_t *cfg);
 
 /*============================ PROTOTYPES ====================================*/
 

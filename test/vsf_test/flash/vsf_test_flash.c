@@ -23,10 +23,10 @@
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_flash_register_all(vsf_test_flash_suites_t *s, vsf_flash_t *flash)
+void vsf_test_flash_init(vsf_test_flash_suites_t *s, const vsf_test_flash_cfg_t *cfg)
 {
-    s->erase_program_read.flash = flash;
-    s->boundary.flash = flash;
+    s->erase_program_read.flash = cfg->flash;
+    s->boundary.flash = cfg->flash;
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
     vsf_test_flash_erase_program_read_add_cases(&s->erase_program_read);
 #endif

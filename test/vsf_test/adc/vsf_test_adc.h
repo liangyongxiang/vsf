@@ -70,7 +70,11 @@ typedef struct vsf_test_adc_suites_t {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_adc_register_all(vsf_test_adc_suites_t *s, vsf_adc_t *adc);
+typedef struct vsf_test_adc_cfg_t {
+    vsf_adc_t *adc;
+} vsf_test_adc_cfg_t;
+
+void vsf_test_adc_init(vsf_test_adc_suites_t *s, const vsf_test_adc_cfg_t *cfg);
 
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
 void vsf_test_adc_oneshot_add_cases(vsf_test_adc_oneshot_suite_t *suite);

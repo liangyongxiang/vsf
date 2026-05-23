@@ -23,10 +23,10 @@
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_adc_register_all(vsf_test_adc_suites_t *s, vsf_adc_t *adc)
+void vsf_test_adc_init(vsf_test_adc_suites_t *s, const vsf_test_adc_cfg_t *cfg)
 {
-    s->oneshot.adc = adc;
-    s->temperature.adc = adc;
+    s->oneshot.adc = cfg->adc;
+    s->temperature.adc = cfg->adc;
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
     vsf_test_adc_oneshot_add_cases(&s->oneshot);
 #endif

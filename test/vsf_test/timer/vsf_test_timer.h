@@ -77,7 +77,11 @@ typedef struct vsf_test_timer_suites_t {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_timer_register_all(vsf_test_timer_suites_t *s, vsf_timer_t *timer);
+typedef struct vsf_test_timer_cfg_t {
+    vsf_timer_t *timer;
+} vsf_test_timer_cfg_t;
+
+void vsf_test_timer_init(vsf_test_timer_suites_t *s, const vsf_test_timer_cfg_t *cfg);
 
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
 void vsf_test_timer_oneshot_add_cases(vsf_test_timer_oneshot_suite_t *suite);

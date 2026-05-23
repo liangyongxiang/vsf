@@ -23,8 +23,18 @@
 
 // Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_i2c_register_all(vsf_test_i2c_suites_t *s)
+void vsf_test_i2c_init(vsf_test_i2c_suites_t *s, const vsf_test_i2c_cfg_t *cfg)
 {
+    s->eeprom_rw.i2c      = cfg->i2c;
+    s->eeprom_rw.setup    = cfg->setup;
+    s->eeprom_rw.teardown = cfg->teardown;
+    s->eeprom_page.i2c      = cfg->i2c;
+    s->eeprom_page.setup    = cfg->setup;
+    s->eeprom_page.teardown = cfg->teardown;
+    s->bus_scan.gpio_i2c0 = cfg->gpio_i2c0;
+    s->bus_scan.gpio_i2c1 = cfg->gpio_i2c1;
+    cfg->gpio_i2c0->port  = cfg->gpio;
+    cfg->gpio_i2c1->port  = cfg->gpio;
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
     vsf_test_i2c_eeprom_rw_add_cases(&s->eeprom_rw);
 #endif

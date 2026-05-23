@@ -436,7 +436,12 @@ typedef struct vsf_test_gpio_suites_t {
     vsf_test_gpio_io_check_suite_t        io_check;
 } vsf_test_gpio_suites_t;
 
-void vsf_test_gpio_register_all(vsf_test_gpio_suites_t *s, vsf_gpio_t *gpio);
+typedef struct vsf_test_gpio_cfg_t {
+    vsf_gpio_t *gpio;
+    vsf_usart_t *usart;     //!< for pinmux test
+} vsf_test_gpio_cfg_t;
+
+void vsf_test_gpio_init(vsf_test_gpio_suites_t *s, const vsf_test_gpio_cfg_t *cfg);
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED

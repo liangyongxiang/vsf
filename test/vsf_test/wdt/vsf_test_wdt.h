@@ -42,7 +42,11 @@ typedef struct vsf_test_wdt_suites_t {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_wdt_register_all(vsf_test_wdt_suites_t *s, vsf_wdt_t *wdt);
+typedef struct vsf_test_wdt_cfg_t {
+    vsf_wdt_t *wdt;
+} vsf_test_wdt_cfg_t;
+
+void vsf_test_wdt_init(vsf_test_wdt_suites_t *s, const vsf_test_wdt_cfg_t *cfg);
 
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
 void vsf_test_wdt_basic_add_cases(vsf_test_wdt_basic_suite_t *suite);

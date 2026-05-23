@@ -48,7 +48,11 @@ typedef struct vsf_test_spi_suites_t {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_spi_register_all(vsf_test_spi_suites_t *s, vsf_spi_t *spi);
+typedef struct vsf_test_spi_cfg_t {
+    vsf_spi_t *spi;
+} vsf_test_spi_cfg_t;
+
+void vsf_test_spi_init(vsf_test_spi_suites_t *s, const vsf_test_spi_cfg_t *cfg);
 
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
 void vsf_test_spi_loopback_add_cases(vsf_test_spi_loopback_suite_t *suite);

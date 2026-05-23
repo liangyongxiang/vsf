@@ -521,7 +521,14 @@ typedef struct vsf_test_usart_suites_t {
 #endif
 } vsf_test_usart_suites_t;
 
-void vsf_test_usart_register_all(vsf_test_usart_suites_t *s, vsf_usart_t *usart);
+typedef struct vsf_test_usart_cfg_t {
+    vsf_usart_t *usart;
+    vsf_usart_t *usart_fifo2req;    //!< NULL = do not run request_* tests
+    bool (*setup)(vsf_test_suite_t *);
+    void (*teardown)(vsf_test_suite_t *);
+} vsf_test_usart_cfg_t;
+
+void vsf_test_usart_init(vsf_test_usart_suites_t *s, const vsf_test_usart_cfg_t *cfg);
 /*============================ PROTOTYPES ====================================*/
 
 /* ---- TX scenarios ---- */

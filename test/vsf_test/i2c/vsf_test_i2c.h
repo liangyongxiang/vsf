@@ -34,6 +34,8 @@
 extern "C" {
 #endif
 
+#include "test_params_generated.h"
+
 /*============================ MACROS ========================================*/
 
 #define VSF_TEST_I2C_CASE_MAX_COUNT     16
@@ -62,6 +64,8 @@ vsf_class(vsf_test_i2c_eeprom_rw_suite_t) {
     private_member(
         /* Per-case mutable state (run() MUST re-initialise before each case). */
         volatile vsf_i2c_irq_mask_t irq_mask;
+        uint8_t write_buf[VSF_TEST_I2C_CASE_MAX_COUNT + 1];
+        uint8_t read_buf[VSF_TEST_I2C_CASE_MAX_COUNT];
     )
 };
 
@@ -72,6 +76,8 @@ vsf_class(vsf_test_i2c_eeprom_page_suite_t) {
     )
     private_member(
         volatile vsf_i2c_irq_mask_t irq_mask;
+        uint8_t write_buf[VSF_TEST_I2C_CASE_MAX_COUNT + 1];
+        uint8_t read_buf[VSF_TEST_I2C_CASE_MAX_COUNT];
     )
 };
 
@@ -105,6 +111,9 @@ vsf_class(vsf_test_i2c_bus_scan_suite_t) {
         implement(vsf_test_suite_t)
         vsf_gpio_i2c_t      *gpio_i2c0;
         vsf_gpio_i2c_t      *gpio_i2c1;
+    )
+    private_member(
+        volatile vsf_i2c_irq_mask_t irq_mask;
     )
 };
 
@@ -149,8 +158,6 @@ void vsf_test_i2c_bus_scan_run(const vsf_test_i2c_bus_scan_case_t *c);
 void vsf_test_i2c_eeprom_page_add_cases(vsf_test_i2c_eeprom_page_suite_t *suite);
 void vsf_test_i2c_eeprom_page_run(const vsf_test_i2c_eeprom_page_case_t *c);
 #endif
-
-#include "test_params_generated.h"
 
 // Framework types — included LAST so this header can be pulled into
 // vsf_test.h (which needs vsf_test_i2c_suites_t) without circular issues.

@@ -34,6 +34,8 @@
 extern "C" {
 #endif
 
+#include "test_params_generated.h"
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_RTC_SET_GET_ENABLE

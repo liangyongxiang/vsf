@@ -2,3 +2,8 @@ pwm_basic:
   name: pwm_basic
   cases:
     - {idx: 0, slice: 0, channel: 0, gpio: 0, freq_hz: 1000, period: 100, pulse: 50, run_ms: 1000}
+
+pwm_dual_channel:
+  name: pwm_dual_channel
+  cases:
+    - {idx: 0, slice: 0, channel_a: 0, channel_b: 1, gpio_a: 0, gpio_b: 1, freq_hz: 1000, period: 100, pulse_a: 50, pulse_b: 25, run_ms: 1000}

@@ -27,10 +27,18 @@
 extern "C" {
 #endif
 
+#include "test_params_generated.h"
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_DMA_MEM2MEM_ENABLE
 #   define VSF_TEST_DMA_MEM2MEM_ENABLE         ENABLED
+#endif
+#ifndef VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE
+#   define VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE     ENABLED
+#endif
+#ifndef VSF_TEST_DMA_SCATTER_GATHER_ENABLE
+#   define VSF_TEST_DMA_SCATTER_GATHER_ENABLE  ENABLED
 #endif
 
 /*============================ TYPES =========================================*/
@@ -42,8 +50,27 @@ vsf_class(vsf_test_dma_mem2mem_suite_t) {
     )
 };
 
+vsf_class(vsf_test_dma_mem2mem_irq_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_dma_t *dma;
+    )
+    private_member(
+        volatile bool irq_fired;
+    )
+};
+
+vsf_class(vsf_test_dma_scatter_gather_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_dma_t *dma;
+    )
+};
+
 typedef struct vsf_test_dma_suites_t {
     vsf_test_dma_mem2mem_suite_t mem2mem;
+    vsf_test_dma_mem2mem_irq_suite_t mem2mem_irq;
+    vsf_test_dma_scatter_gather_suite_t scatter_gather;
 } vsf_test_dma_suites_t;
 
 /*============================ PROTOTYPES ====================================*/
@@ -57,6 +84,16 @@ void vsf_test_dma_init(vsf_test_dma_suites_t *s, const vsf_test_dma_cfg_t *cfg);
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
 void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_suite_t *suite);
 void vsf_test_dma_mem2mem_run(void *arg);
+#endif
+
+#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
+void vsf_test_dma_mem2mem_irq_add_cases(vsf_test_dma_mem2mem_irq_suite_t *suite);
+void vsf_test_dma_mem2mem_irq_run(void *arg);
+#endif
+
+#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
+void vsf_test_dma_scatter_gather_add_cases(vsf_test_dma_scatter_gather_suite_t *suite);
+void vsf_test_dma_scatter_gather_run(void *arg);
 #endif
 
 #ifdef __cplusplus

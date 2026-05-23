@@ -15,28 +15,34 @@
  *                                                                           *
  *****************************************************************************/
 
+#ifndef __VSF_TEST_DMA_MEM2MEM_IRQ_H__
+#define __VSF_TEST_DMA_MEM2MEM_IRQ_H__
+
 /*============================ INCLUDES ======================================*/
 
-#include "vsf_test_dma.h"
+#include "../vsf_test_dma.h"
 
-/*============================ IMPLEMENTATION ================================*/
+/*============================ MACROS ========================================*/
 
-// Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
-// internally, which also opens the matching shell suite.
-void vsf_test_dma_init(vsf_test_dma_suites_t *s, const vsf_test_dma_cfg_t *cfg)
-{
-    s->mem2mem.dma = cfg->dma;
-    s->mem2mem_irq.dma = cfg->dma;
-    s->scatter_gather.dma = cfg->dma;
-#if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-    vsf_test_dma_mem2mem_add_cases(&s->mem2mem);
+#ifndef VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT
+#   define VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT     1
 #endif
-#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-    vsf_test_dma_mem2mem_irq_add_cases(&s->mem2mem_irq);
-#endif
-#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-    vsf_test_dma_scatter_gather_add_cases(&s->scatter_gather);
-#endif
-}
 
+#define VSF_TEST_DMA_MEM2MEM_IRQ_CASES_INIT                                       \
+    { 0 }
+
+/*============================ TYPES =========================================*/
+
+typedef struct vsf_test_dma_mem2mem_irq_case_t {
+    uint8_t idx;
+    bool expect_pass;
+    vsf_test_dma_mem2mem_irq_suite_t *suite;
+} vsf_test_dma_mem2mem_irq_case_t;
+
+/*============================ PROTOTYPES ====================================*/
+
+void vsf_test_dma_mem2mem_irq_add_cases(vsf_test_dma_mem2mem_irq_suite_t *suite);
+void vsf_test_dma_mem2mem_irq_run(void *arg);
+
+#endif /* __VSF_TEST_DMA_MEM2MEM_IRQ_H__ */
 /* EOF */

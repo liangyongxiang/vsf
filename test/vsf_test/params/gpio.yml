@@ -7,12 +7,16 @@ gpio_output_input:
     # Self-loopback: same pin used as both output and input.
     # RP2040 supports simultaneous SIO output + input on a single pin.
     - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
+    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
+    - {idx: 1, out_pin: 3, in_pin: 4, host: {hw_req: none}}
 
 gpio_toggle:
   name: gpio_toggle
   cases:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
+    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
+    - {idx: 1, out_pin: 3, in_pin: 4, host: {hw_req: none}}
 
 gpio_direction:
   name: gpio_direction
@@ -24,6 +28,8 @@ gpio_atomic:
   cases:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
+    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
+    - {idx: 1, out_pin: 3, in_pin: 4, host: {hw_req: none}}
 
 gpio_pinmux:
   name: gpio_pinmux
@@ -38,12 +44,17 @@ gpio_multi_pin:
     # Self-loopback: each pin is its own in/out pair (SIO feature).
     - {idx: 0, out_pin_a: 24, in_pin_a: 24, out_pin_b: 25, in_pin_b: 25,
        host: {hw_req: sio_loopback}}
+    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
+    - {idx: 1, out_pin_a: 3, in_pin_a: 4, out_pin_b: 18, in_pin_b: 19,
+       host: {hw_req: none}}
 
 gpio_open_drain:
   name: gpio_open_drain
   cases:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
+    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
+    - {idx: 1, out_pin: 3, in_pin: 4, host: {hw_req: none}}
 
 gpio_toggle_freq:
   name: gpio_toggle_freq
@@ -73,6 +84,9 @@ gpio_toggle_stress:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, stress_count: 10000,
        host: {hw_req: sio_loopback}}
+    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
+    - {idx: 1, out_pin: 3, in_pin: 4, stress_count: 10000,
+       host: {hw_req: none}}
 
 gpio_concurrent_prio:
   name: gpio_concurrent_prio
@@ -84,11 +98,13 @@ gpio_exti:
   name: gpio_exti
   cases:
     # Self-triggered EXTI via SIO output on the same pin.
-    - {idx: 0, pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_FALLING',         host: {hw_req: sio_loopback}}
-    - {idx: 1, pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_RISING',          host: {hw_req: sio_loopback}}
-    - {idx: 2, pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_RISING_FALLING',  host: {hw_req: sio_loopback}}
-    - {idx: 3, pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_LOW_LEVEL',       host: {hw_req: sio_loopback}}
-    - {idx: 4, pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_HIGH_LEVEL',      host: {hw_req: sio_loopback}}
+    - {idx: 0, out_pin: 25, in_pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_FALLING',         host: {hw_req: sio_loopback}}
+    - {idx: 1, out_pin: 25, in_pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_RISING',          host: {hw_req: sio_loopback}}
+    - {idx: 2, out_pin: 25, in_pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_RISING_FALLING',  host: {hw_req: sio_loopback}}
+    - {idx: 3, out_pin: 25, in_pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_LOW_LEVEL',       host: {hw_req: sio_loopback}}
+    - {idx: 4, out_pin: 25, in_pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_HIGH_LEVEL',      host: {hw_req: sio_loopback}}
+    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
+    - {idx: 5, out_pin: 3, in_pin: 4, trigger_mode: 'VSF_GPIO_EXTI_MODE_FALLING',         host: {hw_req: none}}
 
 gpio_irq_latency:
   name: gpio_irq_latency

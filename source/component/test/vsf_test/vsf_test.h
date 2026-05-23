@@ -267,14 +267,10 @@ typedef enum vsf_test_result_t {
     VSF_TEST_RESULT_FAULT_HANDLER_FAIL = 0x6u << 0,
 } vsf_test_result_t;
 
-//! Test the type of the function,
+//! Test the type of the function.
+//! All test functions use setjmp/longjmp style with VSF_TEST_ASSERT.
 typedef enum vsf_test_type_t {
-    //! Functions with no return value can use VSF_TEST_ASSERT, which depends on
-    //! setjmp/longjmp.
     VSF_TEST_TYPE_LONGJMP_FN = 0,
-    //! Functions with boolean return values do not depend on longjmp but cannot
-    //! use VSF_TEST_ASSERT
-    VSF_TEST_TYPE_BOOL_FN,
 } vsf_test_type_t;
 
 typedef void vsf_test_reboot_t(void);
@@ -293,7 +289,6 @@ struct vsf_test_wdt_t {
     uint32_t timeout_ms;
 };
 
-typedef bool vsf_test_bool_fn_t(void *arg);
 typedef void vsf_test_jmp_fn_t(void *arg);
 
 //! \brief Test Suite — first-class grouping of related Test Cases.
@@ -327,22 +322,10 @@ vsf_class(vsf_test_suite_t) {
 };
 
 typedef struct vsf_test_case_t {
-    union {
-        //! The test function uses Boolean return value of function that returns
-        //! true for a successful test and false for a failed test. You cannot
-        //! use VSF_TEST_ASSERT inside this function.
-        vsf_test_bool_fn_t *b_fn;
+    //! Test function (setjmp/longjmp style). Use VSF_TEST_ASSERT for failures.
+    vsf_test_jmp_fn_t *jmp_fn;
 
-        //! Test functions that use no return value use VSF_TEST_ASSERT to
-        //! assert failure. Inside a function, if it is not asserted, the test
-        //! succeeds
-        vsf_test_jmp_fn_t *jmp_fn;
-    };
-
-    //! Use different test function prototypes depending on the type.
-    //! @ref vsf_test_type_t
-    //! VSF_TEST_TYPE_BOOL_FN: use b_fn
-    //! VSF_TEST_TYPE_LONGJMP_FN : use jmp_fn
+    //! @ref vsf_test_type_t — currently only VSF_TEST_TYPE_LONGJMP_FN.
     uint8_t type;
 
     //! If the result of the test is expected to be a watchdog reset. Then set
@@ -470,14 +453,6 @@ typedef struct vsf_test_t {
  */
 extern void vsf_test_init(vsf_test_t *test, const vsf_test_cfg_t *cfg);
 
-/**
- @brief Add a populated test case to the framework. Used internally by
- `vsf_test_suite_add_case()`; scenarios should not call this directly.
- @param[in] test_case: a pointer to a `vsf_test_case_t` value
- @return bool: true if add was successfully, or false
- */
-extern bool vsf_test_add_ex(vsf_test_case_t *test_case);
-
 extern vsf_test_result_t vsf_test_get_case_result(uint32_t idx);
 extern uint32_t vsf_test_get_case_count(void);
 
@@ -493,6 +468,13 @@ extern void vsf_test_run_tests(void);
  @param[in] idx: global test case index to run
  */
 extern void vsf_test_run_case(uint32_t idx);
+
+/**
+ @brief Run all cases of a single suite by suite pointer.
+ Emits suite-level markers and calls setup/teardown hooks.
+ @param[in] suite: pointer to a registered suite
+ */
+extern void vsf_test_run_suite(vsf_test_suite_t *suite);
 
 /**
  @brief rong jump. the user does not need to directly call this API

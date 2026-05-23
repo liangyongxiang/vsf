@@ -22,6 +22,7 @@
 #if VSF_HAL_USE_DMA == ENABLED
 
 #include "hal/vsf_hal.h"
+#include "hal/driver/vendor_driver.h"
 
 /*============================ MACROS ========================================*/
 
@@ -78,6 +79,8 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_init)(
     for (uint8_t i = 0; i < RP2040_DMA_CHANNEL_COUNT; i++) {
         dma_ptr->channels[i].total_count = 0;
     }
+
+    NVIC_EnableIRQ(DMA_IRQ_0_IRQn);
 
     return VSF_ERR_NONE;
 }
@@ -266,7 +269,6 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_start)(
     vsf_dma_isr_t *isr = &cfg->isr;
     if (isr->handler_fn != NULL && (cfg->irq_mask & VSF_DMA_IRQ_MASK_CPL)) {
         hw->inte0 = (hw->inte0 & ~(1u << channel)) | (1u << channel);
-        ctrl |= DMA_CH0_CTRL_TRIG_IRQ_QUIET_BITS;
     }
 
     ch->ctrl_trig = ctrl;
@@ -339,8 +341,8 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
 
     for (uint8_t ch = 0; ch < RP2040_DMA_CHANNEL_COUNT; ch++) {
         if (ints & (1u << ch)) {
-            /* Clear interrupt by writing to INTF */
-            (&hw->intf0)[irq_idx] = (1u << ch);
+            /* Clear interrupt by writing to INTS (WC — write 1 to clear). */
+            (&hw->ints0)[irq_idx] = (1u << ch);
 
             if (dma_ptr->channels[ch].isr.handler_fn != NULL) {
                 dma_ptr->channels[ch].isr.handler_fn(

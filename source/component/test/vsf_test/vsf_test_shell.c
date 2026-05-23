@@ -336,7 +336,7 @@ uint8_t vsf_test_shell_register_suite(vsf_test_shell_t *shell, const char *name)
     uint8_t idx = shell->suite_count;
     shell->suites[idx].name           = name;
     // first_case_idx is the framework's current total case count (i.e. the
-    // index that the next vsf_test_add_ex() call will populate).
+    // index that the next suite_add_case call will populate).
     shell->suites[idx].first_case_idx = (uint16_t)vsf_test_get_case_count();
     shell->suites[idx].case_count     = 0;
     shell->suite_count++;

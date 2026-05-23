@@ -5,3 +5,15 @@ dma_mem2mem:
   timeout_s: 10.0
   cases:
     - { idx: 0, expect_pass: true }
+
+dma_mem2mem_irq:
+  name: dma_mem2mem_irq
+  timeout_s: 10.0
+  cases:
+    - { idx: 0, expect_pass: true }
+
+dma_scatter_gather:
+  name: dma_scatter_gather
+  timeout_s: 10.0
+  cases:
+    - { idx: 0, expect_not_support: true }

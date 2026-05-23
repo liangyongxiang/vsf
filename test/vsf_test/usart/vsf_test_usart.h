@@ -34,6 +34,8 @@
 extern "C" {
 #endif
 
+#include "test_params_generated.h"
+
 /*============================ MACROS ========================================*/
 
 //! \brief 最大支持的用例数量
@@ -632,8 +634,6 @@ void vsf_test_usart_rx_bulk_irq_run(const vsf_test_usart_rx_bulk_irq_case_t *c);
 void vsf_test_usart_rx_fifo_threshold_add_cases(vsf_test_usart_rx_fifo_threshold_suite_t *suite);
 void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_usart_rx_fifo_threshold_case_t *c);
 #endif
-
-#include "test_params_generated.h"
 
 // Framework types — included LAST so this header can be pulled into
 // vsf_test.h without circular issues.

@@ -124,12 +124,12 @@ void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c)
 {
     vsf_i2c_t *i2c = c->suite->i2c;
     uint8_t data_len = c->data_len;
-    static uint8_t write_buf[VSF_TEST_I2C_CASE_MAX_COUNT + 1];
-    static uint8_t read_buf[VSF_TEST_I2C_CASE_MAX_COUNT];
 
     VSF_TEST_ASSERT(data_len > 0);
     VSF_TEST_ASSERT(data_len <= VSF_TEST_I2C_CASE_MAX_COUNT);
 
+    memset(c->suite->write_buf, 0, sizeof(c->suite->write_buf));
+    memset(c->suite->read_buf, 0, sizeof(c->suite->read_buf));
     c->suite->irq_mask = 0;
 
     /* Init i2c master. */
@@ -148,28 +148,28 @@ void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c)
         VSF_I2C_IRQ_MASK_MASTER_ERR | VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE);
 
     /* Build write buffer: [mem_addr, payload...]. */
-    write_buf[0] = c->mem_addr;
+    c->suite->write_buf[0] = c->mem_addr;
     for (uint8_t i = 0; i < data_len; i++) {
-        write_buf[1 + i] = (uint8_t)(0xA0 + i);
+        c->suite->write_buf[1 + i] = (uint8_t)(0xA0 + i);
     }
 
     /* Phase 1: Write [mem_addr, payload] to EEPROM. */
     c->suite->irq_mask = 0;
     err = vsf_i2c_master_request(i2c, c->eeprom_addr,
         VSF_I2C_CMD_START | VSF_I2C_CMD_STOP | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_7_BITS,
-        data_len + 1, write_buf);
+        data_len + 1, c->suite->write_buf);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     VSF_TEST_ASSERT(__i2c_wait_complete(c->suite, VSF_TEST_I2C_TIMEOUT_MS));
 
     /* Phase 1.5: ACK poll until EEPROM write cycle completes. */
     VSF_TEST_ASSERT(__eeprom_ack_poll(c->suite, i2c, c->eeprom_addr,
-                                      &write_buf[0], VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS));
+                                      &c->suite->write_buf[0], VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS));
 
     /* Phase 2a: Set memory address (write phase, no stop). */
     c->suite->irq_mask = 0;
     err = vsf_i2c_master_request(i2c, c->eeprom_addr,
         VSF_I2C_CMD_START | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_NO_STOP | VSF_I2C_CMD_7_BITS,
-        1, &write_buf[0]);
+        1, &c->suite->write_buf[0]);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     VSF_TEST_ASSERT(__i2c_wait_complete(c->suite, VSF_TEST_I2C_TIMEOUT_MS));
 
@@ -177,12 +177,12 @@ void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c)
     c->suite->irq_mask = 0;
     err = vsf_i2c_master_request(i2c, c->eeprom_addr,
         VSF_I2C_CMD_RESTART | VSF_I2C_CMD_STOP | VSF_I2C_CMD_READ | VSF_I2C_CMD_7_BITS,
-        data_len, read_buf);
+        data_len, c->suite->read_buf);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     VSF_TEST_ASSERT(__i2c_wait_complete(c->suite, VSF_TEST_I2C_TIMEOUT_MS));
 
     for (uint8_t i = 0; i < data_len; i++) {
-        VSF_TEST_ASSERT(read_buf[i] == write_buf[1 + i]);
+        VSF_TEST_ASSERT(c->suite->read_buf[i] == c->suite->write_buf[1 + i]);
     }
 
     vsf_trace_info("I2C:EEPROM_RW:PASS len=%u" VSF_TRACE_CFG_LINEEND,

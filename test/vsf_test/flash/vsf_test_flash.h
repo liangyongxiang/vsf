@@ -27,6 +27,8 @@
 extern "C" {
 #endif
 
+#include "test_params_generated.h"
+
 /*============================ MACROS ========================================*/
 
 #define VSF_TEST_FLASH_CASE_MAX_COUNT     8
@@ -99,8 +101,6 @@ void vsf_test_flash_erase_program_read_run(const vsf_test_flash_erase_program_re
 void vsf_test_flash_boundary_add_cases(vsf_test_flash_boundary_suite_t *suite);
 void vsf_test_flash_boundary_run(const vsf_test_flash_boundary_case_t *c);
 #endif
-
-#include "test_params_generated.h"
 
 #include "component/test/vsf_test/vsf_test.h"
 

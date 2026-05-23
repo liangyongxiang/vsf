@@ -126,6 +126,9 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
         init = _format_case(case, defaults_keys)
         lines.append(f"    {init}{comma}{suffix}")
     lines.append(f"#define {count_macro}  {len(cases)}")
+    lines.append(f"#ifndef VSF_TEST_{upper}_ENABLE")
+    lines.append(f"#   define VSF_TEST_{upper}_ENABLE  ENABLED")
+    lines.append(f"#endif")
     lines.append("")
 
 
@@ -141,8 +144,6 @@ def generate_header(yml_path: Path, out_path: Path) -> None:
         "/* Auto-generated from test_params.yml — do not edit manually */",
         "#ifndef __TEST_PARAMS_GENERATED_H__",
         "#define __TEST_PARAMS_GENERATED_H__",
-        "",
-        '#include "test/vsf_test/usart/vsf_test_usart.h"',
         "",
     ]
 

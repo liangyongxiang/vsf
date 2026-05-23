@@ -10,10 +10,16 @@
 extern "C" {
 #endif
 
+#include "test_params_generated.h"
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_PWM_BASIC_ENABLE
 #   define VSF_TEST_PWM_BASIC_ENABLE           ENABLED
+#endif
+
+#ifndef VSF_TEST_PWM_DUAL_CHANNEL_ENABLE
+#   define VSF_TEST_PWM_DUAL_CHANNEL_ENABLE    ENABLED
 #endif
 
 /*============================ TYPES =========================================*/
@@ -25,8 +31,16 @@ vsf_class(vsf_test_pwm_basic_suite_t) {
     )
 };
 
+vsf_class(vsf_test_pwm_dual_channel_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_pwm_t *pwm;
+    )
+};
+
 typedef struct vsf_test_pwm_suites_t {
     vsf_test_pwm_basic_suite_t basic;
+    vsf_test_pwm_dual_channel_suite_t dual_channel;
 } vsf_test_pwm_suites_t;
 
 /*============================ PROTOTYPES ====================================*/
@@ -40,6 +54,11 @@ void vsf_test_pwm_init(vsf_test_pwm_suites_t *s, const vsf_test_pwm_cfg_t *cfg);
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
 void vsf_test_pwm_basic_add_cases(vsf_test_pwm_basic_suite_t *suite);
 void vsf_test_pwm_basic_run(void *arg);
+#endif
+
+#if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
+void vsf_test_pwm_dual_channel_add_cases(vsf_test_pwm_dual_channel_suite_t *suite);
+void vsf_test_pwm_dual_channel_run(void *arg);
 #endif
 
 #ifdef __cplusplus

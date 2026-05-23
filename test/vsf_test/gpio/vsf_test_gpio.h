@@ -34,6 +34,8 @@
 extern "C" {
 #endif
 
+#include "test_params_generated.h"
+
 /*============================ MACROS ========================================*/
 
 #define VSF_TEST_GPIO_CASE_MAX_COUNT    16
@@ -365,7 +367,8 @@ typedef struct vsf_test_gpio_concurrent_prio_case_t {
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
 typedef struct vsf_test_gpio_exti_case_t {
     uint8_t  idx;
-    uint8_t  pin;
+    uint8_t  out_pin;
+    uint8_t  in_pin;
     uint32_t trigger_mode;       //! one of VSF_GPIO_EXTI_MODE_* (e.g. _FALLING)
     vsf_test_gpio_exti_suite_t *suite;
 } vsf_test_gpio_exti_case_t;
@@ -528,8 +531,6 @@ void vsf_test_gpio_analog_mode_run(const vsf_test_gpio_analog_mode_case_t *c);
 void vsf_test_gpio_io_check_add_cases(vsf_test_gpio_io_check_suite_t *suite);
 void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c);
 #endif
-
-#include "test_params_generated.h"
 
 // Framework types — included LAST so this header can be pulled into
 // vsf_test.h without circular issues.

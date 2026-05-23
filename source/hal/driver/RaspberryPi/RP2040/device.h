@@ -190,6 +190,8 @@
 #define VSF_HW_DMA_CHANNEL_NUM      12
 #define VSF_HW_DMA0_REG             DMA_BASE
 #define VSF_HW_DMA0_RST_BIT         (1u << RESET_DMA)
+#define VSF_HW_DMA0_IRQN            DMA_IRQ_0_IRQn
+#define VSF_HW_DMA0_IRQHandler      DMA_IRQ_0_Handler
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/

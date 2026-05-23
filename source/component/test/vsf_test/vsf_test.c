@@ -80,25 +80,6 @@ vsf_test_shell_t *vsf_test_get_shell(void)
     return &__vsf_test->shell;
 }
 
-bool vsf_test_add_ex(vsf_test_case_t *test_case)
-{
-    if (__vsf_test->test_case_count < VSF_TEST_CFG_ARRAY_SIZE) {
-        test_case->status = VSF_TEST_STATUS_IDLE;
-        test_case->result = VSF_TEST_RESULT_PASS;
-        __vsf_test->test_case_array[__vsf_test->test_case_count] = *test_case;
-        __VSF_TEST_TRACE_DEBUG("vsf_test_add_ex: added test case at index %u, type=%u\r\n",
-                              __vsf_test->test_case_count, test_case->type);
-        vsf_test_shell_inc_case_count(&__vsf_test->shell);
-        __vsf_test->test_case_count++;
-        return false;
-    } else {
-        __VSF_TEST_TRACE_ERROR("vsf_test_add_ex: test case array is full (count=%u, capacity=%u)\r\n",
-                              __vsf_test->test_case_count, VSF_TEST_CFG_ARRAY_SIZE);
-        VSF_ASSERT(0);
-        return true;
-    }
-}
-
 bool vsf_test_register_suite(vsf_test_suite_t *suite)
 {
     VSF_ASSERT(suite != NULL);
@@ -117,21 +98,32 @@ bool vsf_test_suite_add_case_ex(vsf_test_suite_t *suite,
                                 bool needs_ready_handshake)
 {
     VSF_ASSERT(suite != NULL);
-    vsf_test_case_t test_case = {
-        .jmp_fn                = jmp_fn,
-        .type                  = VSF_TEST_TYPE_LONGJMP_FN,
-        .expect_wdt            = 0,
-        .expect_assert         = 0,
-        .case_idx              = (uint8_t)suite->case_count,
-        .suite                 = suite,
-        .arg                   = arg,
-        .needs_ready_handshake = needs_ready_handshake,
-    };
-    bool err = vsf_test_add_ex(&test_case);
-    if (!err) {
-        suite->case_count++;
+    if (__vsf_test->test_case_count >= VSF_TEST_CFG_ARRAY_SIZE) {
+        __VSF_TEST_TRACE_ERROR("suite_add_case: array full (count=%u, cap=%u)\r\n",
+                               __vsf_test->test_case_count, VSF_TEST_CFG_ARRAY_SIZE);
+        VSF_ASSERT(0);
+        return true;
     }
-    return err;
+
+    vsf_test_case_t *test_case = &__vsf_test->test_case_array[__vsf_test->test_case_count];
+    test_case->jmp_fn                = jmp_fn;
+    test_case->type                  = VSF_TEST_TYPE_LONGJMP_FN;
+    test_case->expect_wdt            = 0;
+    test_case->expect_assert         = 0;
+    test_case->case_idx              = (uint8_t)suite->case_count;
+    test_case->suite                 = suite;
+    test_case->arg                   = arg;
+    test_case->needs_ready_handshake = needs_ready_handshake;
+    test_case->status                = VSF_TEST_STATUS_IDLE;
+    test_case->result                = VSF_TEST_RESULT_PASS;
+
+    __VSF_TEST_TRACE_DEBUG("suite_add_case: added case at global idx %u, suite='%s', local=%u\r\n",
+                           __vsf_test->test_case_count, suite->name,
+                           (unsigned)test_case->case_idx);
+    vsf_test_shell_inc_case_count(&__vsf_test->shell);
+    __vsf_test->test_case_count++;
+    suite->case_count++;
+    return false;
 }
 
 bool vsf_test_suite_add_case(vsf_test_suite_t *suite,
@@ -277,30 +269,19 @@ void vsf_test_run_case(uint32_t idx)
 
     __vsf_test->current_case = test_case;
 
-    vsf_test_type_t type = test_case->type;
-    switch (type) {
-    case VSF_TEST_TYPE_BOOL_FN:
-        test_case->result = test_case->b_fn(test_case->arg);
-        break;
-    case VSF_TEST_TYPE_LONGJMP_FN: {
-        jmp_buf buf;
-        test_case->result = VSF_TEST_RESULT_PASS;
-        __vsf_test->jmp_buf = &buf;
-        if (0 == setjmp(buf)) {
-            test_case->jmp_fn(test_case->arg);
-        } else {
-            if (test_case->expect_assert) {
-                test_case->result = VSF_TEST_RESULT_PASS;
-                test_case->error.function_name = NULL;
-                test_case->error.file_name     = NULL;
-                test_case->error.condition     = NULL;
-                test_case->error.line          = 0;
-            }
+    jmp_buf buf;
+    test_case->result = VSF_TEST_RESULT_PASS;
+    __vsf_test->jmp_buf = &buf;
+    if (0 == setjmp(buf)) {
+        test_case->jmp_fn(test_case->arg);
+    } else {
+        if (test_case->expect_assert) {
+            test_case->result = VSF_TEST_RESULT_PASS;
+            test_case->error.function_name = NULL;
+            test_case->error.file_name     = NULL;
+            test_case->error.condition     = NULL;
+            test_case->error.line          = 0;
         }
-    } break;
-    default:
-        VSF_ASSERT(0);
-        break;
     }
 
     if (suite != NULL) {
@@ -317,6 +298,18 @@ void vsf_test_run_case(uint32_t idx)
 
     test_case->status = VSF_TEST_STATUS_IDLE;
     __vsf_test->current_case = NULL;
+}
+
+void vsf_test_run_suite(vsf_test_suite_t *suite)
+{
+    if (suite == NULL) {
+        return;
+    }
+
+    for (uint16_t i = 0; i < suite->case_count; i++) {
+        uint32_t global_idx = (uint32_t)suite->first_case_idx + i;
+        vsf_test_run_case(global_idx);
+    }
 }
 
 void vsf_test_run_tests(void)

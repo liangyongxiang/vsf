@@ -23,6 +23,7 @@ from vsf_bench.runners.registry import get_runner_class
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.suite import discover_suites, load_script_module, script_needs_la, resolve_suites
+from vsf_bench.test_params import load_test_params
 
 
 def load_board(hardware_map_path: Path):
@@ -82,6 +83,55 @@ def _build_run_cmd(suite: str, case: str | None) -> str:
     if case:
         return f"vsf-test run {suite}.{case}\r\n"
     return f"vsf-test run {suite}\r\n"
+
+
+def _find_scenario_for_suite(params: dict, suite_name: str) -> tuple[str, dict] | None:
+    """Find YAML scenario key and data for a given suite name.
+
+    Tries direct key match first, then common peripheral-prefix patterns
+    ({peripheral}_{name}, {peripheral}_rx_{name}, {peripheral}_tx_{name}).
+    """
+    for key, value in params.items():
+        if key == "marker" or not isinstance(value, dict):
+            continue
+        if key == suite_name:
+            return key, value
+        scenario_name = value.get("name", "")
+        for prefix in (
+            "usart", "gpio", "i2c", "spi", "adc", "pwm",
+            "timer", "rtc", "flash", "wdt", "dma",
+        ):
+            if suite_name == f"{prefix}_{scenario_name}":
+                return key, value
+            if suite_name == f"{prefix}_rx_{scenario_name}":
+                return key, value
+            if suite_name == f"{prefix}_tx_{scenario_name}":
+                return key, value
+    return None
+
+
+def _resolve_case_value(params: dict, suite_name: str, case_value: str) -> int:
+    """Convert a case parameter value (e.g. '921600') to its case index.
+
+    Iterates the matched scenario's cases and checks every field (except
+    'idx', 'host', 'la') for an exact string match.
+    """
+    result = _find_scenario_for_suite(params, suite_name)
+    if result is None:
+        raise ValueError(f"Suite '{suite_name}' not found in test params")
+
+    _, scenario = result
+    cases = scenario.get("cases", [])
+    for case in cases:
+        for field, val in case.items():
+            if field in ("idx", "host", "la"):
+                continue
+            if str(val) == case_value:
+                return case["idx"]
+
+    raise ValueError(
+        f"Case value '{case_value}' not found in suite '{suite_name}'"
+    )
 
 
 def _drain_repl(ser: SerialInstrument) -> None:
@@ -220,6 +270,20 @@ def run_test_phase(
 
     if case_specs and len(ordered_suites) > 1:
         raise ValueError("--case/--case-index requires exactly one --suite")
+
+    # Resolve non-numeric --case values to indices via YAML lookup
+    if case_specs and len(ordered_suites) == 1:
+        suite_name = ordered_suites[0][0]
+        params = load_test_params(project_root)
+        resolved: list[str] = []
+        for spec in case_specs:
+            if spec.isdigit():
+                resolved.append(spec)
+            else:
+                idx = _resolve_case_value(params, suite_name, spec)
+                resolved.append(str(idx))
+                print(f"[vsf-bench] Resolved --case {spec} -> index {idx}")
+        case_specs = resolved
 
     run_dir = _mk_log_dir(log_dir, ordered_suites)
     log_path = run_dir / "vsf-bench.jsonl"

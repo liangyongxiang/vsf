@@ -7,7 +7,6 @@ and asserts the counter reaches 5.
 from pathlib import Path
 from vsf_bench import SerialInstrument
 
-SCENARIOS = ["timer_periodic"]
 
 
 def run(project_root: Path, serial: SerialInstrument) -> None:

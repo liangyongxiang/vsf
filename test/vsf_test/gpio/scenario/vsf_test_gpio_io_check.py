@@ -16,7 +16,6 @@ from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument, load_test_params
 
 
-SCENARIOS = ["gpio_io_check"]
 BAUDRATE = 115200
 
 

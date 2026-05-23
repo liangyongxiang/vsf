@@ -6,7 +6,6 @@ Firmware tests cross-boundary operations internally.
 from pathlib import Path
 from vsf_bench import SerialInstrument
 
-SCENARIOS = ["flash_boundary"]
 
 
 def run(project_root: Path, serial: SerialInstrument) -> None:

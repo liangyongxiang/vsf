@@ -9,7 +9,6 @@ Re-uses UART1 (GP8/GP9); no extra fixture needed.
 from pathlib import Path
 from vsf_bench import load_test_params, read_framework_windows, LogicAnalyzerInstrument, SerialInstrument
 
-SCENARIOS = ["gpio_pinmux"]
 
 def run(project_root: Path, serial: SerialInstrument) -> None:
     serial.expect_test_summary("gpio_pinmux")

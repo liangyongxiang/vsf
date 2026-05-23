@@ -7,7 +7,6 @@ no reset occurs.
 from pathlib import Path
 from vsf_bench import SerialInstrument
 
-SCENARIOS = ["wdt_basic"]
 
 
 def run(project_root: Path, serial: SerialInstrument) -> None:

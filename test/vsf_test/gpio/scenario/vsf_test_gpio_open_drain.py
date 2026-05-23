@@ -9,7 +9,6 @@ Requires GP4↔GP5 jumper. Uses internal pull-up.
 from pathlib import Path
 from vsf_bench import load_test_params, read_framework_windows, LogicAnalyzerInstrument, SerialInstrument
 
-SCENARIOS = ["gpio_open_drain"]
 
 def run(project_root: Path, serial: SerialInstrument) -> None:
     serial.expect_test_summary("gpio_open_drain")

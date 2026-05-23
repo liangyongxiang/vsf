@@ -9,7 +9,6 @@ TX via fifo2req adapter; re-uses UART1.
 from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
-SCENARIOS = ["usart_request_cancel"]
 
 
 def run(project_root: Path, serial: SerialInstrument) -> None:

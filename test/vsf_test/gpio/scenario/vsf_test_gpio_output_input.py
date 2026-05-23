@@ -15,7 +15,6 @@ waits for the test framework summary line and asserts all cases passed.
 from pathlib import Path
 from vsf_bench import load_test_params, read_framework_windows, LogicAnalyzerInstrument, SerialInstrument
 
-SCENARIOS = ["gpio_output_input"]
 
 def run(project_root: Path, serial: SerialInstrument) -> None:
     serial.expect_test_summary("gpio_output_input")

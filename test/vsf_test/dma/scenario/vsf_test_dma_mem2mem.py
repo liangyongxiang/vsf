@@ -11,7 +11,6 @@ from pathlib import Path
 from vsf_bench import SerialInstrument, load_test_params
 
 
-SCENARIOS = ["dma_mem2mem"]
 
 
 def run(project_root: Path, serial: SerialInstrument) -> None:

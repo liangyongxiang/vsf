@@ -7,7 +7,6 @@ internally. This script waits for the test summary.
 from pathlib import Path
 from vsf_bench import SerialInstrument
 
-SCENARIOS = ["flash_erase_program_read"]
 
 
 def run(project_root: Path, serial: SerialInstrument) -> None:

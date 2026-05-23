@@ -9,7 +9,6 @@ TX side only — re-uses UART1 wiring already in hardware-map.
 from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
-SCENARIOS = ["usart_tx_fifo_irq"]
 
 
 def run(project_root: Path, serial: SerialInstrument) -> None:

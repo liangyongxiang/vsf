@@ -11,7 +11,6 @@ from pathlib import Path
 from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
 
 
-SCENARIOS = ["usart_rx_bulk_irq"]
 
 
 def _gen_pattern(size: int) -> bytes:

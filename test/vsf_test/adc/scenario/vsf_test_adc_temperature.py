@@ -7,7 +7,6 @@ for the test framework summary line and asserts all cases passed.
 from pathlib import Path
 from vsf_bench import SerialInstrument
 
-SCENARIOS = ["adc_temperature"]
 
 
 def run(project_root: Path, serial: SerialInstrument) -> None:

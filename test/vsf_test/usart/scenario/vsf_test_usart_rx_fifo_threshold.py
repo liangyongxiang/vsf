@@ -12,7 +12,6 @@ from pathlib import Path
 from vsf_bench import SerialInstrument, load_test_params
 
 
-SCENARIOS = ["usart_rx_fifo_threshold"]
 
 
 def _gen_pattern(size: int) -> bytes:

@@ -6,7 +6,6 @@ Firmware performs I2C EEPROM read/write and verifies data internally.
 from pathlib import Path
 from vsf_bench import SerialInstrument
 
-SCENARIOS = ["i2c_eeprom_rw"]
 
 
 def run(project_root: Path, serial: SerialInstrument) -> None:

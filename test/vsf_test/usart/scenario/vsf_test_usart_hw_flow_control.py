@@ -10,7 +10,6 @@ is needed.
 from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
-SCENARIOS = ["usart_hw_flow_control"]
 
 
 def run(project_root: Path, serial: SerialInstrument,

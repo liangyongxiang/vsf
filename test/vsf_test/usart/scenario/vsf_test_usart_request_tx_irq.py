@@ -10,7 +10,6 @@ from pathlib import Path
 from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument
 
 
-SCENARIOS = ["usart_request_tx_irq"]
 
 
 def run(project_root: Path, serial: SerialInstrument) -> None:

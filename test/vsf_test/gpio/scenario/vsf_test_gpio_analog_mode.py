@@ -11,7 +11,6 @@ no external wiring needed.
 from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
-SCENARIOS = ["gpio_analog_mode"]
 
 
 def run(project_root: Path, serial: SerialInstrument) -> None:

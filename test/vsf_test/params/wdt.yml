@@ -1,0 +1,11 @@
+# WDT test parameters
+
+wdt_basic:
+  name: wdt_basic
+  cases:
+    - {idx: 0, timeout_ms: 500, feed_count: 2, feed_interval_ms: 10}
+
+wdt_reboot:
+  name: wdt_reboot
+  cases:
+    - {idx: 0, timeout_ms: 200}

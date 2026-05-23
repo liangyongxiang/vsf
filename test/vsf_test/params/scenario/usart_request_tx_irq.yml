@@ -1,0 +1,7 @@
+request_tx_irq:
+  name: request_tx_irq
+  cases:
+  - idx: 0
+    refill_target: 4
+    host:
+      hw_req: uart1+la

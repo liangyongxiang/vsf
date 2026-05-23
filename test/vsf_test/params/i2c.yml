@@ -1,0 +1,29 @@
+# I2C test parameters
+# I2C0: GP18=SCL, GP19=SDA  |  I2C1: GP20=SDA, GP21=SCL
+# Both wired together on shared bus to EEPROM at 0x50
+
+i2c_eeprom_rw:
+  name: i2c_eeprom_rw
+  cases:
+    # Test I2C0 against EEPROM at 0x50
+    - {idx: 0, i2c_idx: 0, eeprom_addr: 0x50, mem_addr: 0x00, data_len: 1,
+       host: {hw_req: i2c_eeprom}}
+    - {idx: 1, i2c_idx: 0, eeprom_addr: 0x50, mem_addr: 0x10, data_len: 4,
+       host: {hw_req: i2c_eeprom}}
+    - {idx: 2, i2c_idx: 0, eeprom_addr: 0x50, mem_addr: 0x20, data_len: 8,
+       host: {hw_req: i2c_eeprom}}
+
+i2c_bus_scan:
+  name: i2c_bus_scan
+  cases:
+    - {idx: 0, scl_pin: 18, sda_pin: 19,
+       host: {hw_req: i2c_eeprom}}
+    - {idx: 1, scl_pin: 21, sda_pin: 20,
+       host: {hw_req: i2c_eeprom}}
+
+i2c_eeprom_page:
+  name: i2c_eeprom_page
+  cases:
+    # Page-aligned write: mem_addr=0x18, data_len=8 fits within a single page
+    - {idx: 0, i2c_idx: 0, eeprom_addr: 0x50, mem_addr: 0x18, data_len: 8,
+       host: {hw_req: i2c_eeprom}}

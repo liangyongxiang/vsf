@@ -1,0 +1,7 @@
+# DMA test parameters
+
+dma_mem2mem:
+  name: dma_mem2mem
+  timeout_s: 10.0
+  cases:
+    - { idx: 0, expect_pass: true }

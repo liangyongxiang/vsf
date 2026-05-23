@@ -12,15 +12,26 @@ Resolution semantics:
   - The entry file's own top-level keys merge on top of all includes.
   - Relative include paths resolve against the directory of the file
     declaring them.
+  - **Global fallback**: if a relative include is not found in the local
+    directory, the loader falls back to `VSF_TEST_GLOBAL_PARAMS_DIR`.
   - Cycle detection: a file currently in the stack cannot be re-included.
 """
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
 import yaml
+
+
+GLOBAL_PARAMS_ENV = "VSF_TEST_GLOBAL_PARAMS_DIR"
+
+
+def _get_global_base() -> Path | None:
+    env = os.environ.get(GLOBAL_PARAMS_ENV)
+    return Path(env) if env else None
 
 
 def _deep_merge(base: dict, overlay: dict) -> dict:
@@ -62,7 +73,32 @@ def _apply_defaults(params: dict) -> dict:
     return params
 
 
-def load_yaml_with_includes(yml_path: Path, stack: list[Path] | None = None) -> dict:
+def _resolve_include(inc: str, local_dir: Path, global_base: Path | None) -> Path:
+    """Resolve an include path: local first, then global fallback."""
+    inc_path = Path(inc)
+    if inc_path.is_absolute():
+        return inc_path
+
+    # Try local first
+    local_path = local_dir / inc_path
+    if local_path.exists():
+        return local_path
+
+    # Fallback to global base
+    if global_base is not None:
+        global_path = global_base / inc_path
+        if global_path.exists():
+            return global_path
+
+    # Return local path so the existing error message is accurate
+    return local_path
+
+
+def load_yaml_with_includes(
+    yml_path: Path,
+    stack: list[Path] | None = None,
+    global_base: Path | None = None,
+) -> dict:
     yml_path = Path(yml_path).resolve()
     stack = stack or []
     if yml_path in stack:
@@ -86,15 +122,15 @@ def load_yaml_with_includes(yml_path: Path, stack: list[Path] | None = None) -> 
         print(f"Error: 'include' in {yml_path} must be a string or list", file=sys.stderr)
         raise SystemExit(1)
 
+    global_base = global_base or _get_global_base()
+
     merged: dict = {}
     for inc in includes:
-        inc_path = Path(inc)
-        if not inc_path.is_absolute():
-            inc_path = yml_path.parent / inc_path
+        inc_path = _resolve_include(inc, yml_path.parent, global_base)
         if not inc_path.exists():
             print(f"Error: include file not found: {inc_path} (from {yml_path})", file=sys.stderr)
             raise SystemExit(1)
-        sub = load_yaml_with_includes(inc_path, stack + [yml_path])
+        sub = load_yaml_with_includes(inc_path, stack + [yml_path], global_base)
         for key, value in sub.items():
             if key in merged:
                 print(

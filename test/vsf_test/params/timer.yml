@@ -1,0 +1,11 @@
+# Timer test parameters
+
+timer_oneshot:
+  name: timer_oneshot
+  cases:
+    - {idx: 0, timer_idx: 0, channel: 0, period_us: 50000, host: {hw_req: none}}
+
+timer_periodic:
+  name: timer_periodic
+  cases:
+    - {idx: 0, timer_idx: 0, channel: 0, period_us: 10000, count: 5, host: {hw_req: none}}

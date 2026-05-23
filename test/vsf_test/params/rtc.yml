@@ -1,0 +1,11 @@
+# RTC test parameters
+
+rtc_set_get:
+  name: rtc_set_get
+  cases:
+    - {idx: 0, rtc_idx: 0, host: {hw_req: none}}
+
+rtc_alarm:
+  name: rtc_alarm
+  cases:
+    - {idx: 0, rtc_idx: 0, host: {hw_req: none}}

@@ -1,0 +1,8 @@
+request_cancel:
+  name: request_cancel
+  cases:
+  - idx: 0
+    refill_target: 8
+    cancel_after_us: 2000
+    host:
+      hw_req: uart1+la

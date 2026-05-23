@@ -1,0 +1,4 @@
+pwm_basic:
+  name: pwm_basic
+  cases:
+    - {idx: 0, slice: 0, channel: 0, gpio: 0, freq_hz: 1000, period: 100, pulse: 50, run_ms: 1000}

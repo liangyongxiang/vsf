@@ -1,0 +1,7 @@
+tx_fifo_irq:
+  name: tx_fifo_irq
+  cases:
+  - idx: 0
+    refill_target: 4
+    host:
+      hw_req: uart1+la

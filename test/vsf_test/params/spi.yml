@@ -1,0 +1,6 @@
+spi:
+  loopback:
+    case_count: 1
+    pattern_len: 8
+    clock_hz: 1000000
+    mode: "MODE_0"

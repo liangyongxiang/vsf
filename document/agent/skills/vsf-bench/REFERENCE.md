@@ -9,19 +9,19 @@ Tool name: **`vsf-bench`**
 vsf-bench --all board/<board>/hardware-map.yml
 
 # Run specific scene (all cases)
-vsf-bench --all board/<board>/hardware-map.yml --scene usart_baud
+vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud
 
 # Run specific case by parameter value
-vsf-bench --all board/<board>/hardware-map.yml --scene usart_baud --case 921600
+vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud --case 921600
 
 # Run specific case by index (fallback)
-vsf-bench --all board/<board>/hardware-map.yml --scene usart_baud --case-index 7
+vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud --case-index 7
 
 # Run multiple scenes
-vsf-bench --all board/<board>/hardware-map.yml --scene usart_baud --scene usart_mode
+vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud --suite usart_mode
 
 # Override default script for a scene
-vsf-bench --all board/<board>/hardware-map.yml --scene usart_baud --script path/to/custom.py
+vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud --script path/to/custom.py
 
 # Individual steps
 vsf-bench --build  board/<board>/hardware-map.yml
@@ -38,10 +38,10 @@ build → flash → for each scene: send trigger → run script
 ```
 
 Trigger commands sent to firmware:
-- No `--scene` → `vsf-test run all` (but filtered to firmware-known scenes)
-- `--scene usart_baud` → `vsf-test run usart_baud`
-- `--scene usart_baud --case 921600` → `vsf-test run usart_baud.7` (resolved from YAML)
-- `--scene usart_baud --case-index 7` → `vsf-test run usart_baud.7`
+- No `--suite` → `vsf-test run all` (but filtered to firmware-known scenes)
+- `--suite usart_baud` → `vsf-test run usart_baud`
+- `--suite usart_baud --case 921600` → `vsf-test run usart_baud.7` (resolved from YAML)
+- `--suite usart_baud --case-index 7` → `vsf-test run usart_baud.7`
 
 After the trigger, the script runs immediately. The script waits for completion via `expect_test_summary()` or its own `expect()` calls.
 
@@ -113,6 +113,6 @@ Written to `logs/<timestamp>-<run_name>/vsf-bench.jsonl`. Each line is a JSON ev
 | Test timeout | Verify board outputs expected pattern; confirm baud rate matches |
 | No serial data | Verify port path in hardware-map.yml `serial` field |
 | Garbled output | Verify baud rate matches board firmware config |
-| `Scene not found` in firmware | Scene is disabled in firmware config (e.g. `VSF_TEST_USART_RX_BAUD_ENABLE = DISABLED`). Use `--scene` to select only enabled scenes. |
+| `Scene not found` in firmware | Scene is disabled in firmware config (e.g. `VSF_TEST_USART_RX_BAUD_ENABLE = DISABLED`). Use `--suite` to select only enabled scenes. |
 | `LA capture did not finish` | dsview-cli device not found; check `logic_analyzer` section in hardware-map.yml |
 | Script sees empty buffer | Previous `expect()` timed out but `_leftover` preserved data; should work with fixed serial_instrument |

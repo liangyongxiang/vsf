@@ -18,7 +18,7 @@ Build → flash → run test scenes. Always rebuilds.
 vsf-bench --all board/<board>/hardware-map.yml
 
 # Specific scene
-vsf-bench --all board/<board>/hardware-map.yml --scene usart_baud
+vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud
 
 # Individual steps
 vsf-bench --build  board/<board>/hardware-map.yml
@@ -40,12 +40,12 @@ See `REFERENCE.md` for:
 
 **Validate a driver change:**
 ```bash
-vsf-bench --all board/pico/hardware-map.yml --scene usart_baud
+vsf-bench --all board/pico/hardware-map.yml --suite usart_baud
 ```
 
 **Custom script override:**
 ```bash
-vsf-bench --all board/pico/hardware-map.yml --scene usart_baud --script my_validate.py
+vsf-bench --all board/pico/hardware-map.yml --suite usart_baud --script my_validate.py
 ```
 
 ## Troubleshooting
@@ -54,4 +54,4 @@ vsf-bench --all board/pico/hardware-map.yml --scene usart_baud --script my_valid
 |---|---|
 | Build fails | Verify cmake, SDK paths, `build.source_dir` in hardware-map.yml. |
 | Test timeout | Verify board outputs expected pattern; confirm baud rate matches. |
-| `Scene not found` in firmware | Scene disabled in firmware config. Use `--scene` to select only enabled scenes. |
+| `Scene not found` in firmware | Scene disabled in firmware config. Use `--suite` to select only enabled scenes. |

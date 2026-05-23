@@ -24,7 +24,7 @@ scaffold_peripheral.py --driver-dir source/hal/driver --chip Vendor/Chip --perip
 check-driver-structure.py --periph <name> --side header <name>.h
 check-driver-structure.py --periph <name> --side source <name>.c
 check-driver-quality.py <name>.c
-vsf-bench --all board/pico/hardware-map.yml --scene <name>
+vsf-bench --all board/pico/hardware-map.yml --suite <name>
 ```
 
 **Audit a port:**

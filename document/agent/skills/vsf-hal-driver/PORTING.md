@@ -82,7 +82,7 @@ Read sequentially. Do not skim — verification gates exist because every later 
 4. Add the UART pinmux to `board/<your_board>/vsf_board.c`. Use `vsf_gpio_port_config_pins()` — **not** raw vendor register writes. See [[pico-board-init-cleanup]] for the canonical pattern.
 5. Run `check-driver-structure.py --periph usart --side header <your_uart.h>`, `check-driver-structure.py --periph usart --side source <your_uart.c>`, and `check-driver-quality.py <your_uart.c>`. All three must exit 0 (or 2 with only known-acceptable warnings) before moving on.
 
-**Verification.** `vsf-bench-test <hardware-map.yml> --scene usart_baud` reports all cases pass.
+**Verification.** `vsf-bench-test <hardware-map.yml> --suite usart_baud` reports all cases pass.
 
 **Unlocks.** R3b can run, or you can advance straight to R4. Other peripherals can follow this template.
 
@@ -103,7 +103,7 @@ Read sequentially. Do not skim — verification gates exist because every later 
 3. Add the GPIO instance via `IMP_LV0`. Per-port base addresses go in `device.h`.
 4. Run `check-driver-structure.py --periph gpio --side header` and `check-driver-structure.py --periph gpio --side source` on the generated files. Exit 0 (or 2 with known-acceptable warnings) before moving on.
 
-**Verification.** Wire a GPIO pin to a logic analyzer channel. Run `vsf-bench-test --scene gpio_toggle`. LA confirms the configured-rate toggle.
+**Verification.** Wire a GPIO pin to a logic analyzer channel. Run `vsf-bench-test --suite gpio_toggle`. LA confirms the configured-rate toggle.
 
 **Unlocks.** Peripherals that need pin alternate-function selection (UART, I2C, SPI, PWM) can now be wired through the GPIO HAL. R3a's pinmux step depends on this.
 

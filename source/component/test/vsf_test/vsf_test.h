@@ -210,7 +210,7 @@
 
 //!< Test case array size
 #        ifndef VSF_TEST_CFG_ARRAY_SIZE
-#            define VSF_TEST_CFG_ARRAY_SIZE 100
+#            define VSF_TEST_CFG_ARRAY_SIZE 128
 #        endif
 
 //!< Marker settle delay in milliseconds. Framework emits CASE/READY then

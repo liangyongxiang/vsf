@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 #ifndef VSF_TEST_SHELL_MAX_SUITES
-#   define VSF_TEST_SHELL_MAX_SUITES    48
+#   define VSF_TEST_SHELL_MAX_SUITES    64
 #endif
 
 #ifndef VSF_TEST_SHELL_MAX_CASES_PER_SUITE

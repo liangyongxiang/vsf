@@ -38,6 +38,16 @@ Reference: `driver/GigaDevice/GD32H7XX/common/gpio/gpio.c`.
 - **EXTI: level vs edge.** Level bits auto-track HW status (read-only). Edge bits are write-1-clear. Never clear level bits in the clear function.
 - **Single-port IMP_LV0** can hardcode instance name.
 
+## IO wiring verification (`gpio_io_check`)
+
+The `gpio_io_check` suite is a wiring-first diagnostic. Before debugging any peripheral test failure, run it to confirm the physical pins declared in `hardware-map.yml` are actually toggling:
+
+```bash
+vsf-bench --all board/<board>/hardware-map.yml --suite gpio_io_check
+```
+
+This catches common hardware problems (swapped TX/RX, missing loopback, broken traces) that produce the same symptoms as driver bugs.
+
 ## Reference
 
 - RP2040: `driver/RaspberryPi/RP2040/gpio/gpio.c`

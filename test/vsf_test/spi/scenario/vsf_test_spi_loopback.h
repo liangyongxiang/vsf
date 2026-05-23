@@ -28,13 +28,18 @@
 #   define VSF_TEST_SPI_LOOPBACK_CASE_COUNT     1
 #endif
 
+#ifndef VSF_TEST_SPI_LOOPBACK_CASES_INIT
 #define VSF_TEST_SPI_LOOPBACK_CASES_INIT                                       \
     { 0 }
+#endif
 
 /*============================ TYPES =========================================*/
 
 typedef struct vsf_test_spi_loopback_case_t {
-    uint8_t idx;
+    uint8_t  idx;
+    uint32_t mode;
+    uint32_t clock_hz;
+    uint16_t data_len;
     vsf_test_spi_loopback_suite_t *suite;
 } vsf_test_spi_loopback_case_t;
 

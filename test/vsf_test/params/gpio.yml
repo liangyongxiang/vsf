@@ -3,6 +3,7 @@
 
 gpio_output_input:
   name: gpio_output_input
+  suite_timeout_s: 5.0
   cases:
     # Self-loopback: same pin used as both output and input.
     # RP2040 supports simultaneous SIO output + input on a single pin.
@@ -12,6 +13,7 @@ gpio_output_input:
 
 gpio_toggle:
   name: gpio_toggle
+  suite_timeout_s: 5.0
   cases:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
@@ -20,11 +22,13 @@ gpio_toggle:
 
 gpio_direction:
   name: gpio_direction
+  suite_timeout_s: 5.0
   cases:
     - {idx: 0, pin: 25, host: {hw_req: none}}
 
 gpio_atomic:
   name: gpio_atomic
+  suite_timeout_s: 5.0
   cases:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
@@ -33,6 +37,7 @@ gpio_atomic:
 
 gpio_pinmux:
   name: gpio_pinmux
+  suite_timeout_s: 5.0
   cases:
     # UART1 pins on Pico — see board/pico/vsf_board.c
     - {idx: 0, tx_pin: 8, rx_pin: 9, baudrate: 115200,
@@ -40,6 +45,7 @@ gpio_pinmux:
 
 gpio_multi_pin:
   name: gpio_multi_pin
+  suite_timeout_s: 5.0
   cases:
     # Self-loopback: each pin is its own in/out pair (SIO feature).
     - {idx: 0, out_pin_a: 24, in_pin_a: 24, out_pin_b: 25, in_pin_b: 25,
@@ -50,6 +56,7 @@ gpio_multi_pin:
 
 gpio_open_drain:
   name: gpio_open_drain
+  suite_timeout_s: 5.0
   cases:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
@@ -58,6 +65,7 @@ gpio_open_drain:
 
 gpio_toggle_freq:
   name: gpio_toggle_freq
+  suite_timeout_s: 15.0
   cases:
     # On RP2040 @ 125 MHz the HAL toggle path runs in single-digit-MHz range.
     # min_freq_hz is the floor enforced by the host-side LA decode; a healthy
@@ -75,11 +83,13 @@ gpio_toggle_freq:
 
 gpio_write_throughput:
   name: gpio_write_throughput
+  suite_timeout_s: 15.0
   cases:
     - {idx: 0, pin: 4, duration_us: 10000, host: {hw_req: gpio_loopback}}
 
 gpio_toggle_stress:
   name: gpio_toggle_stress
+  suite_timeout_s: 15.0
   cases:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, stress_count: 10000,
@@ -90,12 +100,14 @@ gpio_toggle_stress:
 
 gpio_concurrent_prio:
   name: gpio_concurrent_prio
+  suite_timeout_s: 15.0
   cases:
     - {idx: 0, out_pin: 4, in_pin: 5, duration_ms: 200,
        callback_period_us: 100, host: {hw_req: gpio_loopback}}
 
 gpio_exti:
   name: gpio_exti
+  suite_timeout_s: 5.0
   cases:
     # Self-triggered EXTI via SIO output on the same pin.
     - {idx: 0, out_pin: 25, in_pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_FALLING',         host: {hw_req: sio_loopback}}
@@ -108,18 +120,21 @@ gpio_exti:
 
 gpio_irq_latency:
   name: gpio_irq_latency
+  suite_timeout_s: 5.0
   cases:
     # Self-triggered EXTI via SIO output on the same pin.
     - {idx: 0, pin: 25, max_latency_ns: 50000, host: {hw_req: sio_loopback}}
 
 gpio_irq_lifecycle:
   name: gpio_irq_lifecycle
+  suite_timeout_s: 5.0
   cases:
     # Self-triggered EXTI lifecycle via SIO output on the same pin.
     - {idx: 0, pin: 25, host: {hw_req: sio_loopback}}
 
 gpio_systimer_health:
   name: gpio_systimer_health
+  suite_timeout_s: 5.0
   timeout_s: 5.0
   cases:
     # Toggle GP4 at known systimer-based intervals. LA decode reads the
@@ -135,6 +150,7 @@ gpio_systimer_health:
 
 gpio_analog_mode:
   name: gpio_analog_mode
+  suite_timeout_s: 5.0
   cases:
     # Self-test: configure GP25 as ANALOG. With internal pull-up the pad
     # is electrically high, but VSF_GPIO_ANALOG disables the input buffer
@@ -143,6 +159,7 @@ gpio_analog_mode:
 
 gpio_io_check:
   name: gpio_io_check
+  suite_timeout_s: 5.0
   timeout_s: 5.0
   cases:
     # Primary verification: GP8 (uart1_tx) -> DSLogic CH5 -> LA CH3.

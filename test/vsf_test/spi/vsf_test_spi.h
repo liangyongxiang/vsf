@@ -27,6 +27,8 @@
 extern "C" {
 #endif
 
+#include "test_params_generated.h"
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_SPI_LOOPBACK_ENABLE

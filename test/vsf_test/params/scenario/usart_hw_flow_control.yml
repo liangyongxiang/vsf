@@ -1,5 +1,6 @@
 usart_hw_flow_control:
   name: usart_hw_flow_control
+  suite_timeout_s: 15.0
   timeout_s: 1.5
   cases:
   # PL011 internal LBE loops RTS→CTS, so all three modes can be exercised

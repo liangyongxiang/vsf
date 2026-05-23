@@ -1,5 +1,6 @@
 rx_bulk_irq:
   name: rx_bulk_irq
+  suite_timeout_s: 30.0
   dut:
     channel: uart1_rx
     port: /dev/ttyUSB0

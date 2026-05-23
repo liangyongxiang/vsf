@@ -270,6 +270,46 @@ The peripheral driver's `init()` (e.g., `vsf_hw_usart_init`) owns **per-instance
 
 Reference: `driver/RaspberryPi/RP2040/uart/uart.c` `vsf_hw_usart_init` deasserts the per-instance UART reset, calls `vsf_pl011_usart_init` with `clock_get_hz(clk_peri)`, and configures NVIC — but does no pinmux. GP0/GP1 (UART0) and GP8/GP9 (UART1) routing is done in `board/pico/vsf_board.c` (the conventional location for this board; not a fixed requirement).
 
+### get_configuration Convention
+
+`get_configuration` (and its channel-scoped sibling `channel_get_configuration`) must return the **actual** configuration the hardware is operating with, not the values the caller last passed to `init` or `config`. There are three valid implementation patterns, in order of preference:
+
+**1. Cached copy — preferred when the driver already caches the full configuration.**
+
+If `init()` or `config()` stores a complete copy in the instance struct (e.g. `dma_ptr->cfg`), return that cached struct. This is cheap and accurate because every field was written by the driver itself.
+
+```c
+vsf_err_t vsf_hw_dma_get_configuration(vsf_hw_dma_t *dma_ptr, vsf_dma_cfg_t *cfg_ptr)
+{
+    VSF_HAL_ASSERT((NULL != dma_ptr) && (NULL != cfg_ptr));
+    *cfg_ptr = dma_ptr->cfg;
+    return VSF_ERR_NONE;
+}
+```
+
+**2. Read hardware — required when the driver does not cache the full state.**
+
+Read the relevant registers and reconstruct the configuration struct. This is necessary when the hardware supports partial reconfiguration (e.g. baudrate changed via `_ctrl` after `init`) or when the driver delegates to an IPCore that owns its own state.
+
+```c
+vsf_err_t vsf_hw_usart_get_configuration(...)
+{
+    // read divisor from HW, reconstruct baudrate
+    // read data-bits, parity, stop-bits from control register
+}
+```
+
+**3. Hardcoded with comment — acceptable only for invariant hardware defaults.**
+
+If a field is truly invariant for this chip (e.g. RP2040 DMA always has 12 channels), returning a hardcoded value is allowed **only if accompanied by a comment explaining the invariant**.
+
+```c
+// RP2040 DMA has exactly 12 channels; this is architectural, not configurable.
+capability.channel_count = 12;
+```
+
+**Rule: no un-commented hardcoded values.** A bare literal like `.channel_count = 12` with no explanation is a porting bug — the next porter has no way to know whether 12 is a hardware limit, a safe default, or a leftover from copy-paste. Every hardcoded value must be justified in a comment or in a named macro (`#define RP2040_DMA_CHANNEL_COUNT 12`).
+
 ### Thin wrapper philosophy
 
 The HAL is a **thin wrapper** — each driver exposes exactly what the hardware natively supports, without software emulation. If the hardware cannot do an operation, the driver returns `VSF_ERR_NOT_SUPPORT` (with `VSF_HAL_ASSERT(0)`). The driver never emulates missing features in software (busy-wait loops, software timers, state machines).

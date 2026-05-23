@@ -44,4 +44,21 @@ audit-port.py --chip Vendor/Chip
 | `audit-port.py` | Cross-file consistency |
 | `enable-periph.py` | Toggle vsf_usr_cfg.h |
 
-See `REFERENCE.md` for conventions and `PORTING.md` for the full ladder.
+## Before debugging: verify IO wiring
+
+If a peripheral test fails, run the `gpio_io_check` suite first before chasing driver bugs. It verifies that the physical pins are toggling as expected.
+
+```bash
+vsf-bench --all board/<board>/hardware-map.yml --suite gpio_io_check
+```
+
+This catches swapped TX/RX, missing pull-ups, and broken traces before you spend time in register-level debugging.
+
+## Pitfalls & conventions
+
+| Rule | Why it matters | See REFERENCE.md |
+|---|---|---|
+| **Register read side effects** — read a HW register once into a local; never re-read for multiple decisions. | Re-reading can clear-on-read flags or pop FIFOs, causing lost events. | "Register access: read side effects and caching" |
+| **Unimplemented API** — every stub body must `VSF_HAL_ASSERT(0)` and return an error. | Silent stubs let callers proceed as if hardware worked; the failure surfaces far from the root cause. | "Unimplemented API convention" |
+
+See `REFERENCE.md` for full conventions and `PORTING.md` for the full ladder.

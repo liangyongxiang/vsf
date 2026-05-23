@@ -1,5 +1,6 @@
 rx_fifo_irq:
   name: rx_fifo_irq
+  suite_timeout_s: 30.0
   cases:
   # Exercise all three PL011 RX FIFO threshold levels. Internal loopback
   # (UARTCR.LBE) feeds firmware-side TX back into the same UART's RX, so

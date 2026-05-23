@@ -1,5 +1,6 @@
 rx_mode:
   name: rx_mode
+  suite_timeout_s: 5.0
   dut:
     channel: uart1_rx
     port: /dev/ttyUSB0

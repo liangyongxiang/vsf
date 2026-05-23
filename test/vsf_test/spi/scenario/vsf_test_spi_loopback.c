@@ -23,8 +23,7 @@
 
 /*============================ MACROS ========================================*/
 
-
-#define SPI_LOOPBACK_PATTERN_LEN               8
+#define SPI_LOOPBACK_MAX_DATA_LEN              256
 
 /*============================ LOCAL VARIABLES ===============================*/
 
@@ -53,22 +52,26 @@ void vsf_test_spi_loopback_run(void *arg)
     vsf_test_spi_loopback_case_t *c = (vsf_test_spi_loopback_case_t *)arg;
     vsf_spi_t *spi = c->suite->spi;
 
-    /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
-     * and the settle delay; suite-aware scenarios do not print them. */
+    uint16_t data_len = c->data_len;
+    if (data_len == 0 || data_len > SPI_LOOPBACK_MAX_DATA_LEN) {
+        data_len = SPI_LOOPBACK_MAX_DATA_LEN;
+    }
 
     vsf_err_t err = vsf_spi_init(spi, &(vsf_spi_cfg_t){
-        .mode      = VSF_SPI_MASTER | VSF_SPI_MODE_0 | VSF_SPI_DATASIZE_8,
-        .clock_hz  = 1000000,
+        .mode      = VSF_SPI_MASTER | c->mode | VSF_SPI_DATASIZE_8,
+        .clock_hz  = c->clock_hz,
         .isr       = { NULL, NULL, vsf_arch_prio_0 },
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     while (fsm_rt_cpl != vsf_spi_enable(spi));
 
-    uint8_t tx_buf[SPI_LOOPBACK_PATTERN_LEN] = {
-        0xA5, 0x5A, 0x12, 0x34, 0x56, 0x78, 0x9A, 0xBC
-    };
-    uint8_t rx_buf[SPI_LOOPBACK_PATTERN_LEN] = {0};
+    uint8_t tx_buf[SPI_LOOPBACK_MAX_DATA_LEN];
+    uint8_t rx_buf[SPI_LOOPBACK_MAX_DATA_LEN] = {0};
+
+    for (uint16_t i = 0; i < data_len; i++) {
+        tx_buf[i] = (uint8_t)(0xA5 + i);
+    }
 
     /* Activate CS (software) */
     vsf_spi_cs_active(spi, 0);
@@ -76,13 +79,13 @@ void vsf_test_spi_loopback_run(void *arg)
     uint_fast32_t tx_offset = 0, rx_offset = 0;
     vsf_spi_fifo_transfer(spi, tx_buf, &tx_offset,
                           rx_buf, &rx_offset,
-                          SPI_LOOPBACK_PATTERN_LEN);
+                          data_len);
 
     vsf_spi_cs_inactive(spi, 0);
 
     /* With MOSI-MISO loopback jumper, rx should match tx */
     bool match = true;
-    for (int i = 0; i < SPI_LOOPBACK_PATTERN_LEN; i++) {
+    for (uint16_t i = 0; i < data_len; i++) {
         if (rx_buf[i] != tx_buf[i]) {
             match = false;
             break;

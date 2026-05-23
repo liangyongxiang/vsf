@@ -1,5 +1,6 @@
 tx_mode:
   name: mode
+  suite_timeout_s: 5.0
   dut:
     channel: uart1_tx
   payload: "0123456789\r\n"

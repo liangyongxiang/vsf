@@ -4,6 +4,7 @@
 
 i2c_eeprom_rw:
   name: i2c_eeprom_rw
+  suite_timeout_s: 15.0
   cases:
     # Test I2C0 against EEPROM at 0x50
     - {idx: 0, i2c_idx: 0, eeprom_addr: 0x50, mem_addr: 0x00, data_len: 1,
@@ -15,6 +16,7 @@ i2c_eeprom_rw:
 
 i2c_bus_scan:
   name: i2c_bus_scan
+  suite_timeout_s: 5.0
   cases:
     - {idx: 0, scl_pin: 18, sda_pin: 19,
        host: {hw_req: i2c_eeprom}}
@@ -23,6 +25,7 @@ i2c_bus_scan:
 
 i2c_eeprom_page:
   name: i2c_eeprom_page
+  suite_timeout_s: 15.0
   cases:
     # Page-aligned write: mem_addr=0x18, data_len=8 fits within a single page
     - {idx: 0, i2c_idx: 0, eeprom_addr: 0x50, mem_addr: 0x18, data_len: 8,

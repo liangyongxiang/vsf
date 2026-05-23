@@ -1,5 +1,6 @@
 tx_baud:
   name: baud
+  suite_timeout_s: 5.0
   dut:
     channel: uart1_tx
   payload: "Hello VSF\r\n"

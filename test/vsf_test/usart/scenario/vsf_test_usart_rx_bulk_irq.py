@@ -50,7 +50,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     serial.expect_test_summary("usart_rx_bulk_irq", timeout=timeout_s)
 
     if suite_deadline is not None and time.monotonic() > suite_deadline:
-        from vsf_bench.instruments.serial_instrument import SuiteTimeoutError
+        from vsf_bench import SuiteTimeoutError
         raise SuiteTimeoutError(
             f"usart_rx_bulk_irq exceeded suite_timeout_s={suite_timeout_s}s"
         )

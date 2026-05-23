@@ -48,6 +48,16 @@ vsf-bench --all board/pico/hardware-map.yml --suite usart_baud
 vsf-bench --all board/pico/hardware-map.yml --suite usart_baud --script my_validate.py
 ```
 
+## IO verification workflow
+
+Before debugging any peripheral failure, verify the physical pins are wired correctly with the `gpio_io_check` suite:
+
+```bash
+vsf-bench --all board/<board>/hardware-map.yml --suite gpio_io_check
+```
+
+This drives each declared fixture pin high/low and confirms the level. It catches swapped TX/RX, missing pull-ups, and broken traces before you chase register-level bugs.
+
 ## Troubleshooting
 
 | Symptom | Fix |

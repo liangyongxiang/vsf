@@ -68,6 +68,29 @@ Read sequentially. Do not skim — verification gates exist because every later 
 
 ---
 
+## R2.5 — IO wiring verification
+
+**Goal.** Confirm the physical pins on the board are wired correctly before spending time debugging driver register logic.
+
+**Prerequisites.** R2.
+
+**How to achieve.**
+
+1. Run the `gpio_io_check` suite. This drives each test pin high and low and (optionally) verifies the level with a logic analyzer or loopback.
+2. If any pin fails to toggle, fix the hardware (broken trace, wrong pin in hardware-map.yml, missing solder bridge) before proceeding.
+
+```bash
+vsf-bench --all board/<board>/hardware-map.yml --suite gpio_io_check
+```
+
+**Verification.** All pins declared in the hardware-map fixture toggle and are read back at the expected level. Pass = no mismatches.
+
+**Unlocks.** You can trust the physical layer for all later peripherals. A failing UART or SPI test at R3a/R5 is almost certainly a driver bug, not a wiring problem.
+
+**Pitfalls.** Skipping this step and jumping straight to UART debugging is common — but a swapped TX/RX pair or a missing loopback jumper produces exactly the same symptoms as a broken baudrate divisor. `gpio_io_check` separates wiring bugs from code bugs in under 10 seconds.
+
+---
+
 ## R3a — First VSF UART driver
 
 **Goal.** A second UART instance (or the same one in VSF mode) passes the `usart_baud` scenario.

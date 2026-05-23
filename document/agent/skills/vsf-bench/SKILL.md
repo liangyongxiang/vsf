@@ -2,14 +2,14 @@
 name: vsf-bench
 description: |
   **UTILITY SKILL** — INVOKES: none. Used standalone or after vsf-hal-driver changes.
-  USE FOR: building VSF firmware, flashing to hardware, running automated test scenes over UART, or the full build-flash-test loop.
+  USE FOR: building VSF firmware, flashing to hardware, running automated test suites over UART, or the full build-flash-test loop.
   DO NOT USE FOR: porting HAL drivers (use vsf-hal-driver).
   FOR SINGLE OPERATIONS: use --build, --flash, or --test individually.
 ---
 
 # vsf-bench
 
-Build → flash → run test scenes. Always rebuilds.
+Build → flash → run test suites. Always rebuilds.
 
 ## Quickstart
 
@@ -17,7 +17,7 @@ Build → flash → run test scenes. Always rebuilds.
 # Full pipeline
 vsf-bench --all board/<board>/hardware-map.yml
 
-# Specific scene
+# Specific suite
 vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud
 
 # Individual steps
@@ -26,37 +26,17 @@ vsf-bench --flash  board/<board>/hardware-map.yml
 vsf-bench --test   board/<board>/hardware-map.yml
 ```
 
-Scripts live in `vsf.demo/vsf/test/vsf_test/<peripheral>/scenario/vsf_test_<scene>.py` and are auto-discovered. The orchestrator handles triggering; scripts only validate output.
+Scripts live in `vsf.demo/vsf/test/vsf_test/<peripheral>/scenario/` and are auto-discovered.
 
-New scripts can start from the template at `templates/vsf_test_template.py`.
-
-See `REFERENCE.md` for:
-- Full CLI reference, SerialInstrument API, LA decode
-- Script signature (`run(project_root, serial[, la])`)
-- Scene → script discovery rules
-- Audit log format and troubleshooting table
-
-## Examples
-
-**Validate a driver change:**
-```bash
-vsf-bench --all board/pico/hardware-map.yml --suite usart_baud
-```
-
-**Custom script override:**
-```bash
-vsf-bench --all board/pico/hardware-map.yml --suite usart_baud --script my_validate.py
-```
+See `REFERENCE.md` for full CLI reference, SerialInstrument API, LA decode, and script signature.
 
 ## IO verification workflow
 
-Before debugging any peripheral failure, verify the physical pins are wired correctly with the `gpio_io_check` suite:
+Before debugging any peripheral failure, verify wiring first:
 
 ```bash
 vsf-bench --all board/<board>/hardware-map.yml --suite gpio_io_check
 ```
-
-This drives each declared fixture pin high/low and confirms the level. It catches swapped TX/RX, missing pull-ups, and broken traces before you chase register-level bugs.
 
 ## Troubleshooting
 
@@ -64,4 +44,4 @@ This drives each declared fixture pin high/low and confirms the level. It catche
 |---|---|
 | Build fails | Verify cmake, SDK paths, `build.source_dir` in hardware-map.yml. |
 | Test timeout | Verify board outputs expected pattern; confirm baud rate matches. |
-| `Scene not found` in firmware | Scene disabled in firmware config. Use `--suite` to select only enabled scenes. |
+| `Suite not found` in firmware | Suite disabled in firmware config. Use `--suite` to select only enabled suites. |

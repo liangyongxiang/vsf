@@ -24,7 +24,7 @@
 
 
 static vsf_test_usart_tx_fifo_irq_case_t __tx_fifo_irq_cases[] = {
-    VSF_TEST_TX_FIFO_IRQ_CASES_INIT
+    VSF_TEST_USART_TX_FIFO_IRQ_CASES_INIT
 };
 
 static void __tx_fifo_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t irq_mask)
@@ -54,7 +54,7 @@ void vsf_test_usart_tx_fifo_irq_add_cases(vsf_test_usart_tx_fifo_irq_suite_t *su
     suite->purpose = "tx-fifo-irq";
     suite->hw_req  = "uart1+la";
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_TX_FIFO_IRQ_CASE_COUNT; i++) {
+    for (uint8_t i = 0; i < VSF_TEST_USART_TX_FIFO_IRQ_CASE_COUNT; i++) {
         __tx_fifo_irq_cases[i].suite = suite;
         vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_tx_fifo_irq_run,

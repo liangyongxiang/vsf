@@ -1,5 +1,5 @@
 tx_mode:
-  name: mode
+  name: usart_tx_mode
   suite_timeout_s: 5.0
   dut:
     channel: uart1_tx

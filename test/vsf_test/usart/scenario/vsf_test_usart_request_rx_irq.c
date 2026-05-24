@@ -24,7 +24,7 @@
 
 
 static vsf_test_usart_request_rx_irq_case_t __request_rx_irq_cases[] = {
-    VSF_TEST_REQUEST_RX_IRQ_CASES_INIT
+    VSF_TEST_USART_REQUEST_RX_IRQ_CASES_INIT
 };
 
 static void __req_rx_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t irq_mask)
@@ -42,7 +42,7 @@ void vsf_test_usart_request_rx_irq_add_cases(vsf_test_usart_request_rx_irq_suite
     suite->purpose = "request-rx";
     suite->hw_req  = "uart1+la+host_send";
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_REQUEST_RX_IRQ_CASE_COUNT; i++) {
+    for (uint8_t i = 0; i < VSF_TEST_USART_REQUEST_RX_IRQ_CASE_COUNT; i++) {
         __request_rx_irq_cases[i].suite = suite;
         vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_request_rx_irq_run,

@@ -1,5 +1,5 @@
 request_tx_irq:
-  name: request_tx_irq
+  name: usart_request_tx_irq
   suite_timeout_s: 5.0
   cases:
   - idx: 0

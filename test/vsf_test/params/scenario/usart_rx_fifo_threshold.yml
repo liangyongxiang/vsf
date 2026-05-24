@@ -1,5 +1,5 @@
 rx_fifo_threshold:
-  name: rx_fifo_threshold
+  name: usart_rx_fifo_threshold
   suite_timeout_s: 5.0
   dut:
     channel: uart1_rx

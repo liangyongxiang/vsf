@@ -30,7 +30,7 @@
 /*============================ LOCAL VARIABLES ===============================*/
 
 static vsf_test_usart_rx_bulk_irq_case_t __rx_bulk_irq_cases[] = {
-    VSF_TEST_RX_BULK_IRQ_CASES_INIT
+    VSF_TEST_USART_RX_BULK_IRQ_CASES_INIT
 };
 
 static uint8_t __rx_bulk_irq_buf[4096];
@@ -73,7 +73,7 @@ void vsf_test_usart_rx_bulk_irq_add_cases(vsf_test_usart_rx_bulk_irq_suite_t *su
     suite->purpose = "rx-bulk-irq";
     suite->hw_req  = "uart1+host";
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_RX_BULK_IRQ_CASE_COUNT; i++) {
+    for (uint8_t i = 0; i < VSF_TEST_USART_RX_BULK_IRQ_CASE_COUNT; i++) {
         __rx_bulk_irq_cases[i].suite = suite;
         vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_bulk_irq_run,

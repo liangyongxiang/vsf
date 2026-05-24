@@ -1,5 +1,5 @@
 rx_frame_error:
-  name: rx_frame_error
+  name: usart_rx_frame_error
   suite_timeout_s: 5.0
   dut:
     channel: uart1_rx

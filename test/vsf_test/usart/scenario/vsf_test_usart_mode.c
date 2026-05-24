@@ -36,7 +36,7 @@
 /*============================ LOCAL VARIABLES ===============================*/
 
 static vsf_test_usart_mode_case_t __mode_cases[] = {
-    VSF_TEST_MODE_CASES_INIT
+    VSF_TEST_USART_TX_MODE_CASES_INIT
 };
 
 /*============================ LOCAL FUNCTIONS ===============================*/
@@ -58,7 +58,7 @@ void vsf_test_usart_mode_add_cases(vsf_test_usart_mode_suite_t *suite)
     suite->purpose = "tx-mode";
     suite->hw_req  = "uart1+la";
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_MODE_CASE_COUNT; i++) {
+    for (uint8_t i = 0; i < VSF_TEST_USART_TX_MODE_CASE_COUNT; i++) {
         __mode_cases[i].suite = suite;
         vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_mode_run,

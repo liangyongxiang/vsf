@@ -39,7 +39,7 @@
 /*============================ LOCAL VARIABLES ===============================*/
 
 static vsf_test_usart_rx_data_case_t __rx_data_cases[] = {
-    VSF_TEST_RX_DATA_CASES_INIT
+    VSF_TEST_USART_RX_DATA_CASES_INIT
 };
 
 static uint8_t __rx_data_buf[4096];
@@ -52,7 +52,7 @@ void vsf_test_usart_rx_data_add_cases(vsf_test_usart_rx_data_suite_t *suite)
     suite->purpose = "rx-data";
     suite->hw_req  = "uart1+la";
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_RX_DATA_CASE_COUNT; i++) {
+    for (uint8_t i = 0; i < VSF_TEST_USART_RX_DATA_CASE_COUNT; i++) {
         __rx_data_cases[i].suite = suite;
         vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_data_run,

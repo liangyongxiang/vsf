@@ -1,5 +1,5 @@
 rx_data:
-  name: rx_data
+  name: usart_rx_data
   suite_timeout_s: 5.0
   dut:
     channel: uart1_rx

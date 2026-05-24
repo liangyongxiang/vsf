@@ -1,5 +1,5 @@
 rx_overflow_error:
-  name: rx_overflow_error
+  name: usart_rx_overflow_error
   suite_timeout_s: 5.0
   dut:
     channel: uart1_rx

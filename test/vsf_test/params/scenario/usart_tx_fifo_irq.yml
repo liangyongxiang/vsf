@@ -1,5 +1,5 @@
 tx_fifo_irq:
-  name: tx_fifo_irq
+  name: usart_tx_fifo_irq
   suite_timeout_s: 30.0
   cases:
   - idx: 0

@@ -50,25 +50,25 @@ typedef struct __rx_error_ctx_t {
 
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
 static vsf_test_usart_rx_parity_error_case_t __rx_parity_error_cases[] = {
-    VSF_TEST_RX_PARITY_ERROR_CASES_INIT
+    VSF_TEST_USART_RX_PARITY_ERROR_CASES_INIT
 };
 #endif
 
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
 static vsf_test_usart_rx_frame_error_case_t __rx_frame_error_cases[] = {
-    VSF_TEST_RX_FRAME_ERROR_CASES_INIT
+    VSF_TEST_USART_RX_FRAME_ERROR_CASES_INIT
 };
 #endif
 
 #if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
 static vsf_test_usart_rx_break_error_case_t __rx_break_error_cases[] = {
-    VSF_TEST_RX_BREAK_ERROR_CASES_INIT
+    VSF_TEST_USART_RX_BREAK_ERROR_CASES_INIT
 };
 #endif
 
 #if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
 static vsf_test_usart_rx_overflow_error_case_t __rx_overflow_error_cases[] = {
-    VSF_TEST_RX_OVERFLOW_ERROR_CASES_INIT
+    VSF_TEST_USART_RX_OVERFLOW_ERROR_CASES_INIT
 };
 #endif
 
@@ -99,7 +99,7 @@ void vsf_test_usart_rx_parity_error_add_cases(vsf_test_usart_rx_parity_error_sui
     suite->purpose = "rx-parity";
     suite->hw_req  = "uart1+la";
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_RX_PARITY_ERROR_CASE_COUNT; i++) {
+    for (uint8_t i = 0; i < VSF_TEST_USART_RX_PARITY_ERROR_CASE_COUNT; i++) {
         __rx_parity_error_cases[i].suite = suite;
         vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_parity_error_run,
@@ -153,7 +153,7 @@ void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_suite
     suite->purpose = "rx-frame";
     suite->hw_req  = "uart1+la";
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_RX_FRAME_ERROR_CASE_COUNT; i++) {
+    for (uint8_t i = 0; i < VSF_TEST_USART_RX_FRAME_ERROR_CASE_COUNT; i++) {
         __rx_frame_error_cases[i].suite = suite;
         vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_frame_error_run,
@@ -207,7 +207,7 @@ void vsf_test_usart_rx_break_error_add_cases(vsf_test_usart_rx_break_error_suite
     suite->purpose = "rx-break";
     suite->hw_req  = "uart1+host";
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_RX_BREAK_ERROR_CASE_COUNT; i++) {
+    for (uint8_t i = 0; i < VSF_TEST_USART_RX_BREAK_ERROR_CASE_COUNT; i++) {
         __rx_break_error_cases[i].suite = suite;
         vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_break_error_run,
@@ -261,7 +261,7 @@ void vsf_test_usart_rx_overflow_error_add_cases(vsf_test_usart_rx_overflow_error
     suite->purpose = "rx-overflow";
     suite->hw_req  = "uart1+host";
     vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_RX_OVERFLOW_ERROR_CASE_COUNT; i++) {
+    for (uint8_t i = 0; i < VSF_TEST_USART_RX_OVERFLOW_ERROR_CASE_COUNT; i++) {
         __rx_overflow_error_cases[i].suite = suite;
         vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
             (vsf_test_jmp_fn_t *)vsf_test_usart_rx_overflow_error_run,

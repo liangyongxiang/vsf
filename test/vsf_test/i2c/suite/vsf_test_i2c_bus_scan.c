@@ -73,18 +73,10 @@ static int __bus_scan_once(vsf_test_i2c_bus_scan_suite_t *suite,
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_i2c_bus_scan_add_cases,
-    vsf_test_i2c_bus_scan_suite_t,
-    vsf_test_i2c_bus_scan_case_t,
-    vsf_test_i2c_bus_scan_run,
-    VSF_TEST_I2C_BUS_SCAN_CASES_INIT,
-    "i2c_bus_scan", "bus_scan", "i2c_eeprom",
-    false)
-
 void vsf_test_i2c_bus_scan_run(const vsf_test_i2c_bus_scan_case_t *c)
 {
     vsf_test_i2c_bus_scan_suite_t *suite = c->suite;
-    vsf_gpio_i2c_t *gpio_i2c = (c->idx == 0) ? suite->gpio_i2c0 : suite->gpio_i2c1;
+    vsf_gpio_i2c_t *gpio_i2c = suite->gpio_i2c[c->idx];
 
     uint8_t scl = c->scl_pin;
     uint8_t sda = c->sda_pin;

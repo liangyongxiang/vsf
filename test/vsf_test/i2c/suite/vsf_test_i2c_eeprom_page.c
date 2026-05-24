@@ -98,14 +98,6 @@ static bool __eeprom_ack_poll(vsf_test_i2c_eeprom_page_suite_t *suite,
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_i2c_eeprom_page_add_cases,
-    vsf_test_i2c_eeprom_page_suite_t,
-    vsf_test_i2c_eeprom_page_case_t,
-    vsf_test_i2c_eeprom_page_run,
-    VSF_TEST_I2C_EEPROM_PAGE_CASES_INIT,
-    "i2c_eeprom_page", "eeprom", "i2c_eeprom",
-    false)
-
 void vsf_test_i2c_eeprom_page_run(const vsf_test_i2c_eeprom_page_case_t *c)
 {
     vsf_i2c_t *i2c = c->suite->i2c;

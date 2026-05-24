@@ -99,31 +99,15 @@ static void __advance_case(vsf_test_shell_t *shell)
     }
 }
 
-static void __run_selection(vsf_test_shell_t *shell)
+static void __execute_cases(vsf_test_shell_t *shell, vsf_test_suite_t *suite,
+                            int8_t case_idx)
 {
-    if (shell->cur_suite < 0) {
-        vsf_test_run_tests();
-        return;
-    }
-    vsf_test_shell_suite_t *sc = &shell->suites[shell->cur_suite];
-    vsf_test_suite_t *suite = sc->suite;
-    if (suite == NULL || suite->cases == NULL) {
-        return;
-    }
-    if (shell->cur_case < 0) {
-        /* Default: sequential order. If shuffle_seed != 0 and the suite
-         * fits in the stack buffer, shuffle via Fisher-Yates seeded with
-         * the host-provided value. The seed is single-use: each
-         * __run_selection consumes it and the host re-issues for the
-         * next suite. */
+    uint16_t n = suite->case_count;
+    if (case_idx < 0) {
         uint16_t order[VSF_TEST_SHELL_MAX_CASES_PER_SUITE];
-        uint16_t n = suite->case_count;
         bool shuffled = false;
         if (shell->shuffle_seed != 0 && n <= VSF_TEST_SHELL_MAX_CASES_PER_SUITE) {
             for (uint16_t i = 0; i < n; i++) { order[i] = i; }
-            /* glibc-equivalent LCG: state = state * 1103515245 + 12345.
-             * Self-contained so the same seed produces the same order
-             * across toolchains, in contrast to libc rand(). */
             uint32_t state = shell->shuffle_seed;
             for (uint16_t i = n - 1; i > 0; i--) {
                 state = state * 1103515245u + 12345u;
@@ -133,15 +117,12 @@ static void __run_selection(vsf_test_shell_t *shell)
                 order[j] = tmp;
             }
             shuffled = true;
-            /* Echo the shuffled order so it lands in the serial audit log. */
             vsf_trace_info("[TEST] Shuffle seed: %lu, order:",
                            (unsigned long)shell->shuffle_seed);
             for (uint16_t i = 0; i < n; i++) {
                 vsf_trace_info(" %u", (unsigned)order[i]);
             }
             vsf_trace_info(VSF_TRACE_CFG_LINEEND);
-            /* Single-use: clear so the next suite reverts to sequential
-             * unless the host re-seeds. */
             shell->shuffle_seed = 0;
         }
         for (uint16_t i = 0; i < n; i++) {
@@ -159,28 +140,51 @@ static void __run_selection(vsf_test_shell_t *shell)
             }
         }
     } else {
-        vsf_test_run_suite_case(suite, (uint16_t)shell->cur_case);
+        vsf_test_run_suite_case(suite, (uint16_t)case_idx);
         if (shell->auto_case) __advance_case(shell);
     }
-    if (shell->cur_suite >= 0) {
-        uint32_t total = suite->case_count;
-        uint32_t pass = 0, fail = 0, skip = 0, wdt_pass = 0, wdt_fail = 0;
-        for (uint16_t i = 0; i < total; i++) {
-            vsf_test_result_t r = (vsf_test_result_t)suite->cases[i].result;
-            switch (r) {
-            case VSF_TEST_RESULT_PASS:     pass++;      break;
-            case VSF_TEST_RESULT_FAIL:     fail++;      break;
-            case VSF_TEST_RESULT_SKIP:     skip++;      break;
-            case VSF_TEST_RESULT_WDT_PASS: wdt_pass++;  break;
-            case VSF_TEST_RESULT_WDT_FAIL: wdt_fail++;  break;
-            default: break;
-            }
+}
+
+static void __print_summary(vsf_test_suite_t *suite)
+{
+    uint32_t total = suite->case_count;
+    uint32_t pass = 0, fail = 0, skip = 0, wdt_pass = 0, wdt_fail = 0;
+    for (uint16_t i = 0; i < total; i++) {
+        vsf_test_result_t r = (vsf_test_result_t)suite->cases[i].result;
+        switch (r) {
+        case VSF_TEST_RESULT_PASS:     pass++;      break;
+        case VSF_TEST_RESULT_FAIL:     fail++;      break;
+        case VSF_TEST_RESULT_SKIP:     skip++;      break;
+        case VSF_TEST_RESULT_WDT_PASS: wdt_pass++;  break;
+        case VSF_TEST_RESULT_WDT_FAIL: wdt_fail++;  break;
+        default: break;
         }
-        vsf_trace_info("[TEST] All test cases completed" VSF_TRACE_CFG_LINEEND);
-        vsf_trace_info("[TEST] ========== Test Summary ==========" VSF_TRACE_CFG_LINEEND);
-        vsf_trace_info("[TEST] Total test cases: %u" VSF_TRACE_CFG_LINEEND, total);
-        vsf_trace_info("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u" VSF_TRACE_CFG_LINEEND,
-                       pass, fail, skip, wdt_pass, wdt_fail);
+    }
+    vsf_trace_info("[TEST] All test cases completed" VSF_TRACE_CFG_LINEEND);
+    vsf_trace_info("[TEST] ========== Test Summary ==========" VSF_TRACE_CFG_LINEEND);
+    vsf_trace_info("[TEST] Total test cases: %u" VSF_TRACE_CFG_LINEEND, total);
+    vsf_trace_info("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u" VSF_TRACE_CFG_LINEEND,
+                   pass, fail, skip, wdt_pass, wdt_fail);
+}
+
+static void __run_selection(vsf_test_shell_t *shell)
+{
+    if (shell->cur_suite < 0) {
+        vsf_test_run_tests();
+        return;
+    }
+    vsf_test_shell_suite_t *sc = &shell->suites[shell->cur_suite];
+    vsf_test_suite_t *suite = sc->suite;
+    if (suite == NULL || suite->cases == NULL) {
+        return;
+    }
+    if (shell->cur_case < 0) {
+        __execute_cases(shell, suite, -1);
+    } else {
+        __execute_cases(shell, suite, shell->cur_case);
+    }
+    if (shell->cur_suite >= 0) {
+        __print_summary(suite);
     }
 }
 
@@ -269,6 +273,81 @@ static void __cmd_run(vsf_test_shell_t *shell, char *args)
         }
     }
 
+    /* Purpose-based multi-instance matching: when no exact name match,
+     * find all suites whose purpose field equals the requested name
+     * and run them sequentially with an aggregated summary. */
+    uint8_t matches[VSF_TEST_SHELL_MAX_SUITES];
+    uint8_t match_count = 0;
+    for (uint8_t i = 0; i < shell->suite_count; i++) {
+        vsf_test_suite_t *suite = shell->suites[i].suite;
+        if (suite != NULL && suite->purpose != NULL && strcmp(suite->purpose, args) == 0) {
+            matches[match_count++] = i;
+        }
+    }
+
+    if (match_count > 0) {
+        if (dot != NULL) *dot = '.';
+        vsf_trace_info("Suite ack: %s (%u instance(s))" VSF_TRACE_CFG_LINEEND, args, match_count);
+
+        int8_t saved_cur_suite = shell->cur_suite;
+        int8_t saved_cur_case  = shell->cur_case;
+        bool saved_auto_case   = shell->auto_case;
+        bool saved_auto_suite  = shell->auto_suite;
+        shell->auto_case  = false;
+        shell->auto_suite = false;
+
+        int8_t case_idx = -1;
+        if (case_spec != NULL && case_spec[0] != '\0') {
+            int numeric_idx = atoi(case_spec);
+            bool is_numeric = true;
+            for (char *p = case_spec; *p != '\0'; p++) {
+                if (*p < '0' || *p > '9') { is_numeric = false; break; }
+            }
+            if (is_numeric) {
+                case_idx = (int8_t)numeric_idx;
+            }
+        }
+
+        uint32_t total = 0, pass = 0, fail = 0, skip = 0, wdt_pass = 0, wdt_fail = 0;
+        for (uint8_t m = 0; m < match_count; m++) {
+            shell->cur_suite = (int8_t)matches[m];
+            shell->cur_case  = -1;
+            vsf_test_suite_t *suite = shell->suites[matches[m]].suite;
+            if (case_idx >= 0 && case_idx < (int8_t)suite->case_count) {
+                __execute_cases(shell, suite, case_idx);
+            } else {
+                __execute_cases(shell, suite, -1);
+            }
+            uint16_t n = suite->case_count;
+            total += (case_idx >= 0) ? 1 : n;
+            uint16_t start = (case_idx >= 0) ? (uint16_t)case_idx : 0;
+            uint16_t end   = (case_idx >= 0) ? (uint16_t)(case_idx + 1) : n;
+            for (uint16_t i = start; i < end; i++) {
+                vsf_test_result_t r = (vsf_test_result_t)suite->cases[i].result;
+                switch (r) {
+                case VSF_TEST_RESULT_PASS:     pass++;      break;
+                case VSF_TEST_RESULT_FAIL:     fail++;      break;
+                case VSF_TEST_RESULT_SKIP:     skip++;      break;
+                case VSF_TEST_RESULT_WDT_PASS: wdt_pass++;  break;
+                case VSF_TEST_RESULT_WDT_FAIL: wdt_fail++;  break;
+                default: break;
+                }
+            }
+        }
+
+        shell->cur_suite  = saved_cur_suite;
+        shell->cur_case   = saved_cur_case;
+        shell->auto_case  = saved_auto_case;
+        shell->auto_suite = saved_auto_suite;
+
+        vsf_trace_info("[TEST] All test cases completed" VSF_TRACE_CFG_LINEEND);
+        vsf_trace_info("[TEST] ========== Test Summary ==========" VSF_TRACE_CFG_LINEEND);
+        vsf_trace_info("[TEST] Total test cases: %u" VSF_TRACE_CFG_LINEEND, total);
+        vsf_trace_info("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u" VSF_TRACE_CFG_LINEEND,
+                       pass, fail, skip, wdt_pass, wdt_fail);
+        return;
+    }
+
     if (dot != NULL) *dot = '.';
     vsf_trace_info("Suite not found: %s" VSF_TRACE_CFG_LINEEND, args);
 }
@@ -283,8 +362,6 @@ static void __cmd_config(vsf_test_shell_t *shell, char *args)
         vsf_trace_info("Usage: vsf-test config <key> <on|off|N>" VSF_TRACE_CFG_LINEEND);
         return;
     }
-    /* `shuffle <N>` is numeric, not on|off — N=0 disables, N>0 seeds the
-     * Fisher-Yates shuffle for the next `vsf-test run <suite>`. */
     if (strcmp(sub, "shuffle") == 0) {
         unsigned long seed = strtoul(val, NULL, 10);
         shell->shuffle_seed = (uint32_t)seed;

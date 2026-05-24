@@ -10,7 +10,7 @@
  *  Unless required by applicable law or agreed to in writing, software      *
  *  distributed under the License is distributed on an "AS IS" BASIS,        *
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
- *  See the License for the specific language governing permissions and      *
+ *  See the License for the specific language governing permissions and       *
  *  limitations under the License.                                           *
  *                                                                           *
  *****************************************************************************/
@@ -54,7 +54,6 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-// Per-suite context (populated by main.c)
 vsf_class(vsf_test_i2c_suite_base_t) {
     public_member(
         implement(vsf_test_suite_t)
@@ -64,12 +63,9 @@ vsf_class(vsf_test_i2c_suite_base_t) {
 
 vsf_class(vsf_test_i2c_eeprom_rw_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        /* Immutable suite config (set once by main.c, never modified by run). */
-        vsf_i2c_t *i2c;
+        implement(vsf_test_i2c_suite_base_t)
     )
     private_member(
-        /* Per-case mutable state (run() MUST re-initialise before each case). */
         volatile vsf_i2c_irq_mask_t irq_mask;
         uint8_t write_buf[VSF_TEST_I2C_CASE_MAX_COUNT + 1];
         uint8_t read_buf[VSF_TEST_I2C_CASE_MAX_COUNT];
@@ -115,8 +111,7 @@ typedef struct vsf_test_i2c_eeprom_page_case_t {
 vsf_class(vsf_test_i2c_bus_scan_suite_t) {
     public_member(
         implement(vsf_test_i2c_suite_base_t)
-        vsf_gpio_i2c_t      *gpio_i2c0;
-        vsf_gpio_i2c_t      *gpio_i2c1;
+        vsf_gpio_i2c_t *gpio_i2c[2];
     )
     private_member(
         volatile vsf_i2c_irq_mask_t irq_mask;
@@ -131,25 +126,68 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
 } vsf_test_i2c_bus_scan_case_t;
 #endif
 
-typedef struct vsf_test_i2c_suites_t {
-    vsf_test_i2c_eeprom_rw_suite_t   eeprom_rw;
-    vsf_test_i2c_bus_scan_suite_t    bus_scan;
-    vsf_test_i2c_eeprom_page_suite_t eeprom_page;
-} vsf_test_i2c_suites_t;
+/*============================ STATIC INIT MACROS ============================*/
 
-typedef struct vsf_test_i2c_suite_binding_t {
-    vsf_test_i2c_suite_base_t *suite;
-    vsf_i2c_t                 *instance;   //!< NULL = skip this suite
-    bool (*setup)(vsf_test_suite_t *);
-    void (*teardown)(vsf_test_suite_t *);
-} vsf_test_i2c_suite_binding_t;
+#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
+#define VSF_TEST_I2C_EEPROM_RW_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_i2c_eeprom_rw_suite_t suite_var; \
+    static vsf_test_i2c_eeprom_rw_case_t __##suite_var##_data[] = { \
+        VSF_TEST_I2C_EEPROM_RW_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_I2C_EEPROM_RW_CASES(__##suite_var##_data, vsf_test_i2c_eeprom_rw_run, false) \
+    }; \
+    static vsf_test_i2c_eeprom_rw_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "i2c_eeprom_rw", \
+        .hw_req     = "i2c_eeprom", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
 
-void vsf_test_i2c_init(vsf_test_i2c_suites_t *s,
-                         const vsf_test_i2c_suite_binding_t bindings[],
-                         uint8_t count);
+#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
+#define VSF_TEST_I2C_BUS_SCAN_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_i2c_bus_scan_suite_t suite_var; \
+    static vsf_test_i2c_bus_scan_case_t __##suite_var##_data[] = { \
+        VSF_TEST_I2C_BUS_SCAN_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_I2C_BUS_SCAN_CASES(__##suite_var##_data, vsf_test_i2c_bus_scan_run, false) \
+    }; \
+    static vsf_test_i2c_bus_scan_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "i2c_bus_scan", \
+        .hw_req     = "i2c_eeprom", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
 
+#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
+#define VSF_TEST_I2C_EEPROM_PAGE_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_i2c_eeprom_page_suite_t suite_var; \
+    static vsf_test_i2c_eeprom_page_case_t __##suite_var##_data[] = { \
+        VSF_TEST_I2C_EEPROM_PAGE_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_I2C_EEPROM_PAGE_CASES(__##suite_var##_data, vsf_test_i2c_eeprom_page_run, false) \
+    }; \
+    static vsf_test_i2c_eeprom_page_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "i2c_eeprom_page", \
+        .hw_req     = "i2c_eeprom", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
 
-extern vsf_test_i2c_suites_t vsf_test_i2c_suites;
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
@@ -168,17 +206,6 @@ void vsf_test_i2c_eeprom_page_run(const vsf_test_i2c_eeprom_page_case_t *c);
 // vsf_test.h (which needs vsf_test_i2c_suites_t) without circular issues.
 #include "component/test/vsf_test/vsf_test.h"
 
-#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-void vsf_test_i2c_eeprom_rw_add_cases(vsf_test_i2c_eeprom_rw_suite_t *suite);
-#endif
-
-#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
-void vsf_test_i2c_bus_scan_add_cases(vsf_test_i2c_bus_scan_suite_t *suite);
-#endif
-
-#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
-void vsf_test_i2c_eeprom_page_add_cases(vsf_test_i2c_eeprom_page_suite_t *suite);
-#endif
 #ifdef __cplusplus
 }
 #endif

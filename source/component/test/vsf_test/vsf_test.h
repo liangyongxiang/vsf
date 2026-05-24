@@ -356,10 +356,8 @@ vsf_class(vsf_test_suite_t) {
         const char                     *hw_req;        //!< hardware requirements, e.g. "uart1+la"
         vsf_test_suite_setup_fn_t      *setup;         //!< NULL = skip; return false to skip all cases
         vsf_test_suite_teardown_fn_t   *teardown;      //!< NULL = skip
-    )
-    private_member(
-        uint16_t                   case_count;     //!< managed by framework
-        vsf_test_case_t           *cases;          //!< per-suite case array
+        uint16_t                       case_count;     //!< per-suite case array length
+        vsf_test_case_t               *cases;          //!< per-suite case array
     )
 };
 

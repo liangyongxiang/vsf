@@ -123,11 +123,30 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
         suffix = "  \\" if i < len(cases) - 1 else ""
         init = _format_case(case, defaults_keys)
         lines.append(f"    {init}{comma}{suffix}")
+
+    # New: CASE_DATA macro for static initialization (suite back-pointer)
+    case_data_macro = f"VSF_TEST_{upper}_CASE_DATA"
+    lines.append(f"#define {case_data_macro}(suite_ref)  \\")
+    for i, case in enumerate(cases):
+        comma = "," if i < len(cases) - 1 else ""
+        suffix = "  \\" if i < len(cases) - 1 else ""
+        init = _format_case(case, defaults_keys)
+        # Insert .suite = suite_ref before the closing }
+        init_with_suite = init[:-1] + ", .suite = suite_ref }"
+        lines.append(f"    {init_with_suite}{comma}{suffix}")
+
+    # New: CASES macro for static vsf_test_case_t array initialization
+    cases_macro = f"VSF_TEST_{upper}_CASES"
+    lines.append(f"#define {cases_macro}(data_ref, run_fn, ready)  \\")
+    for i, case in enumerate(cases):
+        comma = "," if i < len(cases) - 1 else ""
+        suffix = "  \\" if i < len(cases) - 1 else ""
+        lines.append(f"    {{ .jmp_fn = (vsf_test_jmp_fn_t *)(run_fn), .arg = &data_ref[{i}], .case_idx = {i}, .needs_ready_handshake = ready }}{comma}{suffix}")
+
     lines.append(f"#ifndef VSF_TEST_{upper}_ENABLE")
     lines.append(f"#   define VSF_TEST_{upper}_ENABLE  ENABLED")
     lines.append(f"#endif")
     lines.append("")
-
 
 def _load_yaml_with_includes(yml_path: Path, stack: list[Path] | None = None) -> dict:
     """Backward-compatible alias for the shared loader."""

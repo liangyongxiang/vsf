@@ -71,7 +71,7 @@ The orchestrator starts a per-scene LA capture for scripts that actually call `l
 Scripts live alongside firmware sources:
 
 ```
-vsf.demo/vsf/test/vsf_test/usart/scenario/
+vsf.demo/vsf/test/vsf_test/usart/suite/
   vsf_test_usart_baud.c
   vsf_test_usart_baud.h
   vsf_test_usart_baud.py   ← default script for "usart_baud"
@@ -82,7 +82,7 @@ vsf.demo/vsf/test/vsf_test/usart/scenario/
 
 Mapping rule: `vsf_test_<scene_name>.py` → scene `<scene_name>`
 
-The orchestrator scans `vsf.demo/vsf/test/vsf_test/*/scenario/` relative to the project root.
+The orchestrator scans `vsf.demo/vsf/test/vsf_test/*/suite/` relative to the project root.
 
 ## SerialInstrument API
 

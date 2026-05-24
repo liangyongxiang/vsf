@@ -36,7 +36,7 @@ Before writing the hardware I2C driver, verify the physical wiring with a **GPIO
 
 ### How to scan
 
-VSF provides a ready-made test scenario `i2c_bus_scan` in `test/vsf_test/i2c/scenario/vsf_test_i2c_bus_scan.c`. It uses the `vsf_gpio_i2c` software-I2C module (no hardware I2C controller needed) to scan the bus and automatically retries with swapped SCL/SDA if the first attempt finds nothing.
+VSF provides a ready-made test scenario `i2c_bus_scan` in `test/vsf_test/i2c/suite/vsf_test_i2c_bus_scan.c`. It uses the `vsf_gpio_i2c` software-I2C module (no hardware I2C controller needed) to scan the bus and automatically retries with swapped SCL/SDA if the first attempt finds nothing.
 
 **Board setup:** For each I2C bus you want to verify, declare a `describe_gpio_i2c` instance in your board file and wire it into `vsf_board_t` (e.g. `gpio_i2c0` for the first bus, `gpio_i2c1` for the second). Set the `port` field to your GPIO bank before the test runs.
 

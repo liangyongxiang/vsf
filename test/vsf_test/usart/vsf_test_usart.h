@@ -533,7 +533,7 @@ typedef struct vsf_test_usart_cfg_t {
 void vsf_test_usart_init(vsf_test_usart_suites_t *s, const vsf_test_usart_cfg_t *cfg);
 /*============================ PROTOTYPES ====================================*/
 
-/* ---- TX scenarios ---- */
+/* ---- TX suites ---- */
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
 void vsf_test_usart_baud_add_cases(vsf_test_usart_baud_suite_t *suite);
 void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c);
@@ -544,7 +544,7 @@ void vsf_test_usart_mode_add_cases(vsf_test_usart_mode_suite_t *suite);
 void vsf_test_usart_mode_run(const vsf_test_usart_mode_case_t *c);
 #endif
 
-/* ---- RX scenarios ---- */
+/* ---- RX suites ---- */
 #if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
 void vsf_test_usart_rx_data_add_cases(vsf_test_usart_rx_data_suite_t *suite);
 void vsf_test_usart_rx_data_run(const vsf_test_usart_rx_data_case_t *c);

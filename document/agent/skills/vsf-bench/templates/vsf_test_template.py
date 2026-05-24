@@ -1,6 +1,6 @@
 """Template for new vsf-bench test scenario scripts.
 
-Copy this file to vsf.demo/vsf/test/vsf_test/<peripheral>/scenario/vsf_test_<scene>.py
+Copy this file to vsf.demo/vsf/test/vsf_test/<peripheral>/suite/vsf_test_<suite>.py
 and adapt the sections marked with [DELETE IF UNUSED].
 
 Scripts are auto-discovered by vsf-bench. The orchestrator handles triggering;

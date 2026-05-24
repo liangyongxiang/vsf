@@ -21,7 +21,7 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-// Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
+// Suite-aware suites: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
 void vsf_test_i2c_init(vsf_test_i2c_suites_t *s, const vsf_test_i2c_cfg_t *cfg)
 {

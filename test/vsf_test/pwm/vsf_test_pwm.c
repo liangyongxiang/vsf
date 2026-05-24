@@ -1,12 +1,12 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_pwm.h"
-#include "scenario/vsf_test_pwm_basic.h"
-#include "scenario/vsf_test_pwm_dual_channel.h"
+#include "suite/vsf_test_pwm_basic.h"
+#include "suite/vsf_test_pwm_dual_channel.h"
 
 /*============================ IMPLEMENTATION ================================*/
 
-// Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
+// Suite-aware suites: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
 void vsf_test_pwm_init(vsf_test_pwm_suites_t *s, const vsf_test_pwm_cfg_t *cfg)
 {

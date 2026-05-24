@@ -11,7 +11,7 @@ from pathlib import Path
 def discover_suites(project_root: Path) -> dict[str, Path]:
     """Walk the test tree and return {suite_name: script_path}.
 
-    Each `vsf.demo/vsf/test/vsf_test/<peripheral>/scenario/vsf_test_<suite>.py`
+    Each `vsf.demo/vsf/test/vsf_test/<peripheral>/suite/vsf_test_<suite>.py`
     file is registered under `<suite>`.
     """
     suites: dict[str, Path] = {}
@@ -19,10 +19,10 @@ def discover_suites(project_root: Path) -> dict[str, Path]:
     if not base.exists():
         return suites
     for peripheral_dir in base.iterdir():
-        scenario_dir = peripheral_dir / "scenario"
-        if not scenario_dir.is_dir():
+        suite_dir = peripheral_dir / "suite"
+        if not suite_dir.is_dir():
             continue
-        for f in scenario_dir.glob("vsf_test_*.py"):
+        for f in suite_dir.glob("vsf_test_*.py"):
             stem = f.stem
             if stem.startswith("vsf_test_"):
                 suite_name = stem[len("vsf_test_"):]

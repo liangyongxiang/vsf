@@ -1,5 +1,5 @@
 # GPIO test parameters
-# Populated as gpio test scenarios are implemented (gpio-test PRD)
+# Populated as gpio test suites are implemented (gpio-test PRD)
 
 gpio_output_input:
   name: gpio_output_input

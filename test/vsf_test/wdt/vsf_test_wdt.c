@@ -1,12 +1,12 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_wdt.h"
-#include "scenario/vsf_test_wdt_basic.h"
-#include "scenario/vsf_test_wdt_reboot.h"
+#include "suite/vsf_test_wdt_basic.h"
+#include "suite/vsf_test_wdt_reboot.h"
 
 /*============================ IMPLEMENTATION ================================*/
 
-// Suite-aware scenarios: each add_cases() calls vsf_test_register_suite()
+// Suite-aware suites: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
 void vsf_test_wdt_init(vsf_test_wdt_suites_t *s, const vsf_test_wdt_cfg_t *cfg)
 {

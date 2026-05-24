@@ -26,7 +26,7 @@ vsf-bench --flash  board/<board>/hardware-map.yml
 vsf-bench --test   board/<board>/hardware-map.yml
 ```
 
-Scripts live in `vsf.demo/vsf/test/vsf_test/<peripheral>/scenario/` and are auto-discovered.
+Scripts live in `vsf.demo/vsf/test/vsf_test/<peripheral>/suite/` and are auto-discovered.
 
 See `REFERENCE.md` for full CLI reference, SerialInstrument API, LA decode, and script signature.
 

@@ -35,25 +35,15 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_usart_rx_baud_case_t __rx_baud_cases[] = {
-    VSF_TEST_USART_RX_BAUD_CASES_INIT
-};
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_rx_baud_add_cases(vsf_test_usart_rx_baud_suite_t *suite)
-{
-    suite->name    = "usart_rx_baud";
-    suite->purpose = "rx-baud";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_RX_BAUD_CASE_COUNT; i++) {
-        __rx_baud_cases[i].suite = suite;
-        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_baud_run,
-            (void *)&__rx_baud_cases[i], true);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_baud_add_cases,
+    vsf_test_usart_rx_baud_suite_t,
+    vsf_test_usart_rx_baud_case_t,
+    vsf_test_usart_rx_baud_run,
+    VSF_TEST_USART_RX_BAUD_CASES_INIT,
+    "usart_rx_baud", "rx-baud", "uart1+la",
+    true)
 
 void vsf_test_usart_rx_baud_run(const vsf_test_usart_rx_baud_case_t *c)
 {

@@ -40,17 +40,22 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_adc_oneshot_suite_t) {
+vsf_class(vsf_test_adc_suite_base_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_adc_t *adc;
     )
 };
 
+vsf_class(vsf_test_adc_oneshot_suite_t) {
+    public_member(
+        implement(vsf_test_adc_suite_base_t)
+    )
+};
+
 vsf_class(vsf_test_adc_temperature_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_adc_t *adc;
+        implement(vsf_test_adc_suite_base_t)
     )
 };
 
@@ -70,24 +75,36 @@ typedef struct vsf_test_adc_suites_t {
     vsf_test_adc_temperature_suite_t temperature;
 } vsf_test_adc_suites_t;
 
+
+extern vsf_test_adc_suites_t vsf_test_adc_suites;
 /*============================ PROTOTYPES ====================================*/
 
-typedef struct vsf_test_adc_cfg_t {
-    vsf_adc_t *adc;
-} vsf_test_adc_cfg_t;
+typedef struct vsf_test_adc_suite_binding_t {
+    vsf_test_adc_suite_base_t *suite;
+    vsf_adc_t               *instance;   //!< NULL = skip this suite
+    bool (*setup)(vsf_test_suite_t *);
+    void (*teardown)(vsf_test_suite_t *);
+} vsf_test_adc_suite_binding_t;
 
-void vsf_test_adc_init(vsf_test_adc_suites_t *s, const vsf_test_adc_cfg_t *cfg);
+void vsf_test_adc_init(vsf_test_adc_suites_t *s,
+                         const vsf_test_adc_suite_binding_t bindings[],
+                         uint8_t count);
 
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-void vsf_test_adc_oneshot_add_cases(vsf_test_adc_oneshot_suite_t *suite);
 void vsf_test_adc_oneshot_run(void *arg);
 #endif
 
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-void vsf_test_adc_temperature_add_cases(vsf_test_adc_temperature_suite_t *suite);
 void vsf_test_adc_temperature_run(void *arg);
 #endif
 
+#if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
+void vsf_test_adc_oneshot_add_cases(vsf_test_adc_oneshot_suite_t *suite);
+#endif
+
+#if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
+void vsf_test_adc_temperature_add_cases(vsf_test_adc_temperature_suite_t *suite);
+#endif
 #ifdef __cplusplus
 }
 #endif

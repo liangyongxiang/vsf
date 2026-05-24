@@ -7,6 +7,9 @@
 extern "C" {
 #endif
 
+/* Forward declaration — vsf_test_suite_t is defined later in vsf_test.h */
+typedef struct vsf_test_suite_t vsf_test_suite_t;
+
 #ifndef VSF_TEST_SHELL_MAX_SUITES
 #   define VSF_TEST_SHELL_MAX_SUITES    64
 #endif
@@ -16,9 +19,9 @@ extern "C" {
 #endif
 
 typedef struct vsf_test_shell_suite_t {
-    const char *name;
-    uint16_t    first_case_idx;
-    uint16_t    case_count;
+    vsf_test_suite_t *suite;
+    const char       *name;
+    uint16_t          case_count;
 } vsf_test_shell_suite_t;
 
 typedef struct vsf_test_shell_t {
@@ -35,8 +38,7 @@ typedef struct vsf_test_shell_t {
     uint32_t shuffle_seed;
 } vsf_test_shell_t;
 
-uint8_t vsf_test_shell_register_suite(vsf_test_shell_t *shell, const char *name);
-void    vsf_test_shell_inc_case_count(vsf_test_shell_t *shell);
+uint8_t vsf_test_shell_register_suite(vsf_test_shell_t *shell, vsf_test_suite_t *suite);
 void    vsf_test_shell_init(vsf_test_shell_t *shell);
 void    vsf_test_shell_run(vsf_test_shell_t *shell);
 

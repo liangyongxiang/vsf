@@ -23,12 +23,26 @@
 
 // Suite-aware suites: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_spi_init(vsf_test_spi_suites_t *s, const vsf_test_spi_cfg_t *cfg)
+vsf_test_spi_suites_t vsf_test_spi_suites;
+
+void vsf_test_spi_init(vsf_test_spi_suites_t *s,
+                         const vsf_test_spi_suite_binding_t bindings[],
+                         uint8_t count)
 {
-    s->loopback.spi = cfg->spi;
+    for (uint8_t i = 0; i < count; i++) {
+        vsf_test_spi_suite_base_t *suite = bindings[i].suite;
+        vsf_spi_t                *inst  = bindings[i].instance;
+        if (inst == NULL) { continue; }
+
+        suite->spi  = inst;
+        suite->setup  = bindings[i].setup;
+        suite->teardown = bindings[i].teardown;
+    }
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
     vsf_test_spi_loopback_add_cases(&s->loopback);
 #endif
+
 }
+
 
 /* EOF */

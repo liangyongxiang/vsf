@@ -22,23 +22,15 @@
 #if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
 
 
-static vsf_test_gpio_direction_case_t __gpio_direction_cases[] = {
-    VSF_TEST_GPIO_DIRECTION_CASES_INIT
-};
+/*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_direction_add_cases(vsf_test_gpio_direction_suite_t *suite)
-{
-    suite->name    = "gpio_direction";
-    suite->purpose = "direction";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_GPIO_DIRECTION_CASE_COUNT; i++) {
-        __gpio_direction_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_gpio_direction_run,
-            (void *)&__gpio_direction_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_gpio_direction_add_cases,
+    vsf_test_gpio_direction_suite_t,
+    vsf_test_gpio_direction_case_t,
+    vsf_test_gpio_direction_run,
+    VSF_TEST_GPIO_DIRECTION_CASES_INIT,
+    "gpio_direction", "direction", "none",
+    false)
 
 void vsf_test_gpio_direction_run(const vsf_test_gpio_direction_case_t *c)
 {

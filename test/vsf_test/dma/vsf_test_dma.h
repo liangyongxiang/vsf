@@ -43,17 +43,22 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_dma_mem2mem_suite_t) {
+vsf_class(vsf_test_dma_suite_base_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_dma_t *dma;
     )
 };
 
+vsf_class(vsf_test_dma_mem2mem_suite_t) {
+    public_member(
+        implement(vsf_test_dma_suite_base_t)
+    )
+};
+
 vsf_class(vsf_test_dma_mem2mem_irq_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_dma_t *dma;
+        implement(vsf_test_dma_suite_base_t)
     )
     private_member(
         volatile bool irq_fired;
@@ -62,8 +67,7 @@ vsf_class(vsf_test_dma_mem2mem_irq_suite_t) {
 
 vsf_class(vsf_test_dma_scatter_gather_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_dma_t *dma;
+        implement(vsf_test_dma_suite_base_t)
     )
 };
 
@@ -73,29 +77,44 @@ typedef struct vsf_test_dma_suites_t {
     vsf_test_dma_scatter_gather_suite_t scatter_gather;
 } vsf_test_dma_suites_t;
 
+
+extern vsf_test_dma_suites_t vsf_test_dma_suites;
 /*============================ PROTOTYPES ====================================*/
 
-typedef struct vsf_test_dma_cfg_t {
-    vsf_dma_t *dma;
-} vsf_test_dma_cfg_t;
+typedef struct vsf_test_dma_suite_binding_t {
+    vsf_test_dma_suite_base_t *suite;
+    vsf_dma_t               *instance;   //!< NULL = skip this suite
+    bool (*setup)(vsf_test_suite_t *);
+    void (*teardown)(vsf_test_suite_t *);
+} vsf_test_dma_suite_binding_t;
 
-void vsf_test_dma_init(vsf_test_dma_suites_t *s, const vsf_test_dma_cfg_t *cfg);
+void vsf_test_dma_init(vsf_test_dma_suites_t *s,
+                         const vsf_test_dma_suite_binding_t bindings[],
+                         uint8_t count);
 
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_suite_t *suite);
 void vsf_test_dma_mem2mem_run(void *arg);
 #endif
 
 #if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-void vsf_test_dma_mem2mem_irq_add_cases(vsf_test_dma_mem2mem_irq_suite_t *suite);
 void vsf_test_dma_mem2mem_irq_run(void *arg);
 #endif
 
 #if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-void vsf_test_dma_scatter_gather_add_cases(vsf_test_dma_scatter_gather_suite_t *suite);
 void vsf_test_dma_scatter_gather_run(void *arg);
 #endif
 
+#if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
+void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_suite_t *suite);
+#endif
+
+#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
+void vsf_test_dma_mem2mem_irq_add_cases(vsf_test_dma_mem2mem_irq_suite_t *suite);
+#endif
+
+#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
+void vsf_test_dma_scatter_gather_add_cases(vsf_test_dma_scatter_gather_suite_t *suite);
+#endif
 #ifdef __cplusplus
 }
 #endif

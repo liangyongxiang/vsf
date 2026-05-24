@@ -11,25 +11,15 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_wdt_basic_case_t __wdt_basic_cases[] = {
-    VSF_TEST_WDT_BASIC_CASES_INIT
-};
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_wdt_basic_add_cases(vsf_test_wdt_basic_suite_t *suite)
-{
-    suite->name    = "wdt_basic";
-    suite->purpose = "wdt_basic";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_WDT_BASIC_CASE_COUNT; i++) {
-        __wdt_basic_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_wdt_basic_run,
-            (void *)&__wdt_basic_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_wdt_basic_add_cases,
+    vsf_test_wdt_basic_suite_t,
+    vsf_test_wdt_basic_case_t,
+    vsf_test_wdt_basic_run,
+    VSF_TEST_WDT_BASIC_CASES_INIT,
+    "wdt_basic", "wdt_basic", "none",
+    false)
 
 void vsf_test_wdt_basic_run(void *arg)
 {

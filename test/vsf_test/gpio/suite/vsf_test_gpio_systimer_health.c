@@ -22,23 +22,15 @@
 #if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
 
 
-static vsf_test_gpio_systimer_health_case_t __gpio_systimer_health_cases[] = {
-    VSF_TEST_GPIO_SYSTIMER_HEALTH_CASES_INIT
-};
+/*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_systimer_health_add_cases(vsf_test_gpio_systimer_health_suite_t *suite)
-{
-    suite->name    = "gpio_systimer_health";
-    suite->purpose = "health";
-    suite->hw_req  = "la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_GPIO_SYSTIMER_HEALTH_CASE_COUNT; i++) {
-        __gpio_systimer_health_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_gpio_systimer_health_run,
-            (void *)&__gpio_systimer_health_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_gpio_systimer_health_add_cases,
+    vsf_test_gpio_systimer_health_suite_t,
+    vsf_test_gpio_systimer_health_case_t,
+    vsf_test_gpio_systimer_health_run,
+    VSF_TEST_GPIO_SYSTIMER_HEALTH_CASES_INIT,
+    "gpio_systimer_health", "health", "la",
+    false)
 
 /* Toggle a GPIO at known systimer-based intervals. The LA's sample clock
  * gives an external reference: the host decode counts edges and asserts

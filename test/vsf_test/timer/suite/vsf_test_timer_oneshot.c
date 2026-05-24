@@ -12,12 +12,6 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_timer_oneshot_case_t __timer_oneshot_cases[] = {
-    VSF_TEST_TIMER_ONESHOT_CASES_INIT
-};
-
-/*============================ LOCAL FUNCTIONS ===============================*/
-
 static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
                         vsf_timer_irq_mask_t irq_mask)
 {
@@ -30,19 +24,13 @@ static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_timer_oneshot_add_cases(vsf_test_timer_oneshot_suite_t *suite)
-{
-    suite->name    = "timer_oneshot";
-    suite->purpose = "timer_oneshot";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_TIMER_ONESHOT_CASE_COUNT; i++) {
-        __timer_oneshot_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_timer_oneshot_run,
-            (void *)&__timer_oneshot_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_timer_oneshot_add_cases,
+    vsf_test_timer_oneshot_suite_t,
+    vsf_test_timer_oneshot_case_t,
+    vsf_test_timer_oneshot_run,
+    VSF_TEST_TIMER_ONESHOT_CASES_INIT,
+    "timer_oneshot", "timer_oneshot", "none",
+    false)
 
 void vsf_test_timer_oneshot_run(void *arg)
 {

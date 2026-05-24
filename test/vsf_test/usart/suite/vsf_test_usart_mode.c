@@ -35,10 +35,6 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_usart_mode_case_t __mode_cases[] = {
-    VSF_TEST_USART_TX_MODE_CASES_INIT
-};
-
 /*============================ LOCAL FUNCTIONS ===============================*/
 
 static void __usart_send_str(vsf_usart_t *usart, const char *str)
@@ -52,19 +48,13 @@ static void __usart_send_str(vsf_usart_t *usart, const char *str)
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_mode_add_cases(vsf_test_usart_mode_suite_t *suite)
-{
-    suite->name    = "usart_mode";
-    suite->purpose = "tx-mode";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_TX_MODE_CASE_COUNT; i++) {
-        __mode_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_mode_run,
-            (void *)&__mode_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_mode_add_cases,
+    vsf_test_usart_mode_suite_t,
+    vsf_test_usart_mode_case_t,
+    vsf_test_usart_mode_run,
+    VSF_TEST_USART_TX_MODE_CASES_INIT,
+    "usart_mode", "tx-mode", "uart1+la",
+    false)
 
 void vsf_test_usart_mode_run(const vsf_test_usart_mode_case_t *c)
 {

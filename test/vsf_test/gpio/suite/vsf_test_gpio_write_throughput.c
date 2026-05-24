@@ -22,23 +22,15 @@
 #if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
 
 
-static vsf_test_gpio_write_throughput_case_t __gpio_write_throughput_cases[] = {
-    VSF_TEST_GPIO_WRITE_THROUGHPUT_CASES_INIT
-};
+/*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_write_throughput_add_cases(vsf_test_gpio_write_throughput_suite_t *suite)
-{
-    suite->name    = "gpio_write_throughput";
-    suite->purpose = "perf-tput";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_GPIO_WRITE_THROUGHPUT_CASE_COUNT; i++) {
-        __gpio_write_throughput_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_gpio_write_throughput_run,
-            (void *)&__gpio_write_throughput_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_gpio_write_throughput_add_cases,
+    vsf_test_gpio_write_throughput_suite_t,
+    vsf_test_gpio_write_throughput_case_t,
+    vsf_test_gpio_write_throughput_run,
+    VSF_TEST_GPIO_WRITE_THROUGHPUT_CASES_INIT,
+    "gpio_write_throughput", "perf-tput", "none",
+    false)
 
 void vsf_test_gpio_write_throughput_run(const vsf_test_gpio_write_throughput_case_t *c)
 {

@@ -11,25 +11,15 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_adc_temperature_case_t __adc_temperature_cases[] = {
-    VSF_TEST_ADC_TEMPERATURE_CASES_INIT
-};
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_adc_temperature_add_cases(vsf_test_adc_temperature_suite_t *suite)
-{
-    suite->name    = "adc_temperature";
-    suite->purpose = "adc_temperature";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_ADC_TEMPERATURE_CASE_COUNT; i++) {
-        __adc_temperature_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_adc_temperature_run,
-            (void *)&__adc_temperature_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_adc_temperature_add_cases,
+    vsf_test_adc_temperature_suite_t,
+    vsf_test_adc_temperature_case_t,
+    vsf_test_adc_temperature_run,
+    VSF_TEST_ADC_TEMPERATURE_CASES_INIT,
+    "adc_temperature", "adc_temperature", "none",
+    false)
 
 void vsf_test_adc_temperature_run(void *arg)
 {

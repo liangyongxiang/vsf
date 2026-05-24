@@ -26,25 +26,15 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_gpio_output_input_case_t __gpio_output_input_cases[] = {
-    VSF_TEST_GPIO_OUTPUT_INPUT_CASES_INIT
-};
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_output_input_add_cases(vsf_test_gpio_output_input_suite_t *suite)
-{
-    suite->name    = "gpio_output_input";
-    suite->purpose = "loopback";
-    suite->hw_req  = "gpio_loopback";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_GPIO_OUTPUT_INPUT_CASE_COUNT; i++) {
-        __gpio_output_input_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_gpio_output_input_run,
-            (void *)&__gpio_output_input_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_gpio_output_input_add_cases,
+    vsf_test_gpio_output_input_suite_t,
+    vsf_test_gpio_output_input_case_t,
+    vsf_test_gpio_output_input_run,
+    VSF_TEST_GPIO_OUTPUT_INPUT_CASES_INIT,
+    "gpio_output_input", "loopback", "gpio_loopback",
+    false)
 
 void vsf_test_gpio_output_input_run(const vsf_test_gpio_output_input_case_t *c)
 {

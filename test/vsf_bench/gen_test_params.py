@@ -30,7 +30,6 @@ in `include:` resolve against the directory of the YAML file declaring them.
 Generated identifiers, given `name: foo`:
     struct: vsf_test_usart_foo_case_t
     array:  __foo_cases
-    count:  VSF_TEST_FOO_CASE_COUNT
     defaults: VSF_TEST_FOO_DEFAULT_<KEY>
 """
 
@@ -44,7 +43,7 @@ except ImportError as e:
     print("Error: PyYAML is required. Install with: pip install pyyaml", file=sys.stderr)
     raise SystemExit(1) from e
 
-from test_params_loader import load_yaml_with_includes
+from vsf_bench.test_params import load_yaml_with_includes
 
 
 def _format_value(value) -> str:
@@ -89,7 +88,6 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
 
     upper = name.upper()
     init_macro = f"VSF_TEST_{upper}_CASES_INIT"
-    count_macro = f"VSF_TEST_{upper}_CASE_COUNT"
 
     lines.append(f"/* === {scenario_key} ({name}) === */")
     lines.append("")
@@ -125,7 +123,6 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
         suffix = "  \\" if i < len(cases) - 1 else ""
         init = _format_case(case, defaults_keys)
         lines.append(f"    {init}{comma}{suffix}")
-    lines.append(f"#define {count_macro}  {len(cases)}")
     lines.append(f"#ifndef VSF_TEST_{upper}_ENABLE")
     lines.append(f"#   define VSF_TEST_{upper}_ENABLE  ENABLED")
     lines.append(f"#endif")

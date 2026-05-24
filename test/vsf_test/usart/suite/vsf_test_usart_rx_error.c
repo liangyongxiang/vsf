@@ -10,7 +10,7 @@
  *  Unless required by applicable law or agreed to in writing, software      *
  *  distributed under the License is distributed on an "AS IS" BASIS,        *
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
- *  See the License for the specific language governing permissions and      *
+ *  See the License for the specific language governing permissions and       *
  *  limitations under the License.                                           *
  *                                                                           *
  *****************************************************************************/
@@ -46,35 +46,10 @@ typedef struct __rx_error_ctx_t {
     bool     overflow_err;
 } __rx_error_ctx_t;
 
-/*============================ LOCAL VARIABLES ===============================*/
+/*============================ LOCAL FUNCTIONS ===============================*/
 
-#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-static vsf_test_usart_rx_parity_error_case_t __rx_parity_error_cases[] = {
-    VSF_TEST_USART_RX_PARITY_ERROR_CASES_INIT
-};
-#endif
-
-#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-static vsf_test_usart_rx_frame_error_case_t __rx_frame_error_cases[] = {
-    VSF_TEST_USART_RX_FRAME_ERROR_CASES_INIT
-};
-#endif
-
-#if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
-static vsf_test_usart_rx_break_error_case_t __rx_break_error_cases[] = {
-    VSF_TEST_USART_RX_BREAK_ERROR_CASES_INIT
-};
-#endif
-
-#if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
-static vsf_test_usart_rx_overflow_error_case_t __rx_overflow_error_cases[] = {
-    VSF_TEST_USART_RX_OVERFLOW_ERROR_CASES_INIT
-};
-#endif
-
-/*============================ IMPLEMENTATION ================================*/
-
-static void __rx_error_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart_irq_mask_t irq_mask)
+static void __rx_error_handler(void *target_ptr, vsf_usart_t *usart_ptr,
+                            vsf_usart_irq_mask_t irq_mask)
 {
     __rx_error_ctx_t *ctx = (__rx_error_ctx_t *)target_ptr;
 
@@ -92,20 +67,16 @@ static void __rx_error_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usa
     }
 }
 
+/*============================ IMPLEMENTATION ================================*/
+
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_parity_error_add_cases(vsf_test_usart_rx_parity_error_suite_t *suite)
-{
-    suite->name    = "usart_rx_parity_error";
-    suite->purpose = "rx-parity";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_RX_PARITY_ERROR_CASE_COUNT; i++) {
-        __rx_parity_error_cases[i].suite = suite;
-        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_parity_error_run,
-            (void *)&__rx_parity_error_cases[i], true);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_parity_error_add_cases,
+    vsf_test_usart_rx_parity_error_suite_t,
+    vsf_test_usart_rx_parity_error_case_t,
+    vsf_test_usart_rx_parity_error_run,
+    VSF_TEST_USART_RX_PARITY_ERROR_CASES_INIT,
+    "usart_rx_parity_error", "rx-parity", "uart1+la",
+    true)
 
 void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_case_t *c)
 {
@@ -147,19 +118,13 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
 #endif /* VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED */
 
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_suite_t *suite)
-{
-    suite->name    = "usart_rx_frame_error";
-    suite->purpose = "rx-frame";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_RX_FRAME_ERROR_CASE_COUNT; i++) {
-        __rx_frame_error_cases[i].suite = suite;
-        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_frame_error_run,
-            (void *)&__rx_frame_error_cases[i], true);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_frame_error_add_cases,
+    vsf_test_usart_rx_frame_error_suite_t,
+    vsf_test_usart_rx_frame_error_case_t,
+    vsf_test_usart_rx_frame_error_run,
+    VSF_TEST_USART_RX_FRAME_ERROR_CASES_INIT,
+    "usart_rx_frame_error", "rx-frame", "uart1+la",
+    true)
 
 void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c)
 {
@@ -201,19 +166,13 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
 #endif /* VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED */
 
 #if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_break_error_add_cases(vsf_test_usart_rx_break_error_suite_t *suite)
-{
-    suite->name    = "usart_rx_break_error";
-    suite->purpose = "rx-break";
-    suite->hw_req  = "uart1+host";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_RX_BREAK_ERROR_CASE_COUNT; i++) {
-        __rx_break_error_cases[i].suite = suite;
-        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_break_error_run,
-            (void *)&__rx_break_error_cases[i], true);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_break_error_add_cases,
+    vsf_test_usart_rx_break_error_suite_t,
+    vsf_test_usart_rx_break_error_case_t,
+    vsf_test_usart_rx_break_error_run,
+    VSF_TEST_USART_RX_BREAK_ERROR_CASES_INIT,
+    "usart_rx_break_error", "rx-break", "uart1+host",
+    true)
 
 void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_t *c)
 {
@@ -255,19 +214,13 @@ void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_
 #endif /* VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED */
 
 #if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_overflow_error_add_cases(vsf_test_usart_rx_overflow_error_suite_t *suite)
-{
-    suite->name    = "usart_rx_overflow_error";
-    suite->purpose = "rx-overflow";
-    suite->hw_req  = "uart1+host";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_RX_OVERFLOW_ERROR_CASE_COUNT; i++) {
-        __rx_overflow_error_cases[i].suite = suite;
-        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_overflow_error_run,
-            (void *)&__rx_overflow_error_cases[i], true);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_overflow_error_add_cases,
+    vsf_test_usart_rx_overflow_error_suite_t,
+    vsf_test_usart_rx_overflow_error_case_t,
+    vsf_test_usart_rx_overflow_error_run,
+    VSF_TEST_USART_RX_OVERFLOW_ERROR_CASES_INIT,
+    "usart_rx_overflow_error", "rx-overflow", "uart1+host",
+    true)
 
 void vsf_test_usart_rx_overflow_error_run(const vsf_test_usart_rx_overflow_error_case_t *c)
 {

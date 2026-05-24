@@ -27,25 +27,15 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_spi_loopback_case_t __spi_loopback_cases[] = {
-    VSF_TEST_SPI_LOOPBACK_CASES_INIT
-};
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_spi_loopback_add_cases(vsf_test_spi_loopback_suite_t *suite)
-{
-    suite->name    = "spi_loopback";
-    suite->purpose = "spi_loopback";
-    suite->hw_req  = "mosi-miso-jumper";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_SPI_LOOPBACK_CASE_COUNT; i++) {
-        __spi_loopback_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_spi_loopback_run,
-            (void *)&__spi_loopback_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_spi_loopback_add_cases,
+    vsf_test_spi_loopback_suite_t,
+    vsf_test_spi_loopback_case_t,
+    vsf_test_spi_loopback_run,
+    VSF_TEST_SPI_LOOPBACK_CASES_INIT,
+    "spi_loopback", "spi_loopback", "mosi-miso-jumper",
+    false)
 
 void vsf_test_spi_loopback_run(void *arg)
 {

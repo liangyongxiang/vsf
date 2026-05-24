@@ -22,23 +22,15 @@
 #if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
 
 
-static vsf_test_gpio_multi_pin_case_t __gpio_multi_pin_cases[] = {
-    VSF_TEST_GPIO_MULTI_PIN_CASES_INIT
-};
+/*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_multi_pin_add_cases(vsf_test_gpio_multi_pin_suite_t *suite)
-{
-    suite->name    = "gpio_multi_pin";
-    suite->purpose = "multi-pair";
-    suite->hw_req  = "gpio_loopback(>=4)";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_GPIO_MULTI_PIN_CASE_COUNT; i++) {
-        __gpio_multi_pin_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_gpio_multi_pin_run,
-            (void *)&__gpio_multi_pin_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_gpio_multi_pin_add_cases,
+    vsf_test_gpio_multi_pin_suite_t,
+    vsf_test_gpio_multi_pin_case_t,
+    vsf_test_gpio_multi_pin_run,
+    VSF_TEST_GPIO_MULTI_PIN_CASES_INIT,
+    "gpio_multi_pin", "multi-pair", "gpio_loopback(>=4)",
+    false)
 
 void vsf_test_gpio_multi_pin_run(const vsf_test_gpio_multi_pin_case_t *c)
 {

@@ -9,25 +9,15 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_rtc_set_get_case_t __rtc_set_get_cases[] = {
-    VSF_TEST_RTC_SET_GET_CASES_INIT
-};
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_rtc_set_get_add_cases(vsf_test_rtc_set_get_suite_t *suite)
-{
-    suite->name    = "rtc_set_get";
-    suite->purpose = "rtc_set_get";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_RTC_SET_GET_CASE_COUNT; i++) {
-        __rtc_set_get_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_rtc_set_get_run,
-            (void *)&__rtc_set_get_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_rtc_set_get_add_cases,
+    vsf_test_rtc_set_get_suite_t,
+    vsf_test_rtc_set_get_case_t,
+    vsf_test_rtc_set_get_run,
+    VSF_TEST_RTC_SET_GET_CASES_INIT,
+    "rtc_set_get", "rtc_set_get", "none",
+    false)
 
 void vsf_test_rtc_set_get_run(void *arg)
 {

@@ -38,27 +38,17 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_usart_rx_data_case_t __rx_data_cases[] = {
-    VSF_TEST_USART_RX_DATA_CASES_INIT
-};
-
 static uint8_t __rx_data_buf[4096];
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_rx_data_add_cases(vsf_test_usart_rx_data_suite_t *suite)
-{
-    suite->name    = "usart_rx_data";
-    suite->purpose = "rx-data";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_RX_DATA_CASE_COUNT; i++) {
-        __rx_data_cases[i].suite = suite;
-        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_data_run,
-            (void *)&__rx_data_cases[i], true);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_data_add_cases,
+    vsf_test_usart_rx_data_suite_t,
+    vsf_test_usart_rx_data_case_t,
+    vsf_test_usart_rx_data_run,
+    VSF_TEST_USART_RX_DATA_CASES_INIT,
+    "usart_rx_data", "rx-data", "uart1+la",
+    true)
 
 void vsf_test_usart_rx_data_run(const vsf_test_usart_rx_data_case_t *c)
 {

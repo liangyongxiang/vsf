@@ -23,27 +23,31 @@
 
 // Suite-aware suites: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_i2c_init(vsf_test_i2c_suites_t *s, const vsf_test_i2c_cfg_t *cfg)
+vsf_test_i2c_suites_t vsf_test_i2c_suites;
+
+void vsf_test_i2c_init(vsf_test_i2c_suites_t *s,
+                         const vsf_test_i2c_suite_binding_t bindings[],
+                         uint8_t count)
 {
-    s->eeprom_rw.i2c      = cfg->i2c;
-    s->eeprom_rw.setup    = cfg->setup;
-    s->eeprom_rw.teardown = cfg->teardown;
-    s->eeprom_page.i2c      = cfg->i2c;
-    s->eeprom_page.setup    = cfg->setup;
-    s->eeprom_page.teardown = cfg->teardown;
-    s->bus_scan.gpio_i2c0 = cfg->gpio_i2c0;
-    s->bus_scan.gpio_i2c1 = cfg->gpio_i2c1;
-    cfg->gpio_i2c0->port  = cfg->gpio;
-    cfg->gpio_i2c1->port  = cfg->gpio;
+    for (uint8_t i = 0; i < count; i++) {
+        vsf_test_i2c_suite_base_t *suite = bindings[i].suite;
+        vsf_i2c_t                 *inst  = bindings[i].instance;
+        if (inst == NULL) { continue; }
+
+        suite->i2c  = inst;
+        suite->setup  = bindings[i].setup;
+        suite->teardown = bindings[i].teardown;
+    }
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
     vsf_test_i2c_eeprom_rw_add_cases(&s->eeprom_rw);
 #endif
+
 #if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
     vsf_test_i2c_bus_scan_add_cases(&s->bus_scan);
 #endif
+
 #if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
     vsf_test_i2c_eeprom_page_add_cases(&s->eeprom_page);
 #endif
-}
 
-/* EOF */
+}

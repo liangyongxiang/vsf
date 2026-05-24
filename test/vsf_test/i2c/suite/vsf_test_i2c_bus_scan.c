@@ -26,6 +26,8 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
+static vsf_test_case_t __i2c_bus_scan_test_cases[2];
+
 static vsf_test_i2c_bus_scan_case_t __i2c_bus_scan_cases[] = {
     { .scl_pin = 18, .sda_pin = 19, .gpio_i2c = NULL },
     { .scl_pin = 21, .sda_pin = 20, .gpio_i2c = NULL },
@@ -83,16 +85,18 @@ void vsf_test_i2c_bus_scan_add_cases(vsf_test_i2c_bus_scan_suite_t *suite)
 {
     suite->name    = "i2c_bus_scan";
     suite->purpose = "bus_scan";
-    suite->hw_req  = NULL;   // no external fixture needed
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    __i2c_bus_scan_cases[0].gpio_i2c = suite->gpio_i2c0;
-    __i2c_bus_scan_cases[1].gpio_i2c = suite->gpio_i2c1;
+    suite->hw_req  = "";
     for (uint8_t i = 0; i < 2; i++) {
         __i2c_bus_scan_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_i2c_bus_scan_run,
-            (void *)&__i2c_bus_scan_cases[i]);
+        __i2c_bus_scan_test_cases[i] = (vsf_test_case_t){
+            .jmp_fn = (vsf_test_jmp_fn_t *)vsf_test_i2c_bus_scan_run,
+            .arg    = (void *)&__i2c_bus_scan_cases[i],
+            .case_idx = i
+        };
     }
+    suite->cases = __i2c_bus_scan_test_cases;
+    suite->case_count = 2;
+    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
 }
 
 void vsf_test_i2c_bus_scan_run(const vsf_test_i2c_bus_scan_case_t *c)

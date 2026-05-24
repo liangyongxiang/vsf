@@ -23,10 +23,6 @@
 #if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
 
 
-static vsf_test_usart_hw_flow_control_case_t __hw_flow_control_cases[] = {
-    VSF_TEST_USART_HW_FLOW_CONTROL_CASES_INIT
-};
-
 static void __cts_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t irq_mask)
 {
     vsf_test_usart_hw_flow_control_suite_t *suite =
@@ -36,19 +32,15 @@ static void __cts_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t irq
     }
 }
 
-void vsf_test_usart_hw_flow_control_add_cases(vsf_test_usart_hw_flow_control_suite_t *suite)
-{
-    suite->name    = "usart_hw_flow_control";
-    suite->purpose = "rts-cts";
-    suite->hw_req  = "uart1";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_HW_FLOW_CONTROL_CASE_COUNT; i++) {
-        __hw_flow_control_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_hw_flow_control_run,
-            (void *)&__hw_flow_control_cases[i]);
-    }
-}
+/*============================ IMPLEMENTATION ================================*/
+
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_hw_flow_control_add_cases,
+    vsf_test_usart_hw_flow_control_suite_t,
+    vsf_test_usart_hw_flow_control_case_t,
+    vsf_test_usart_hw_flow_control_run,
+    VSF_TEST_USART_HW_FLOW_CONTROL_CASES_INIT,
+    "usart_hw_flow_control", "rts-cts", "uart1",
+    false)
 
 /* RTS / CTS / RTS+CTS hw flow control.
  *

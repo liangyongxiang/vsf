@@ -23,10 +23,6 @@
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
 
 
-static vsf_test_usart_tx_fifo_irq_case_t __tx_fifo_irq_cases[] = {
-    VSF_TEST_USART_TX_FIFO_IRQ_CASES_INIT
-};
-
 static void __tx_fifo_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t irq_mask)
 {
     if (!(irq_mask & VSF_USART_IRQ_MASK_TX)) { return; }
@@ -48,19 +44,15 @@ static void __tx_fifo_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t
     }
 }
 
-void vsf_test_usart_tx_fifo_irq_add_cases(vsf_test_usart_tx_fifo_irq_suite_t *suite)
-{
-    suite->name    = "usart_tx_fifo_irq";
-    suite->purpose = "tx-fifo-irq";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_TX_FIFO_IRQ_CASE_COUNT; i++) {
-        __tx_fifo_irq_cases[i].suite = suite;
-        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_tx_fifo_irq_run,
-            (void *)&__tx_fifo_irq_cases[i], true);
-    }
-}
+/*============================ IMPLEMENTATION ================================*/
+
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_tx_fifo_irq_add_cases,
+    vsf_test_usart_tx_fifo_irq_suite_t,
+    vsf_test_usart_tx_fifo_irq_case_t,
+    vsf_test_usart_tx_fifo_irq_run,
+    VSF_TEST_USART_TX_FIFO_IRQ_CASES_INIT,
+    "usart_tx_fifo_irq", "tx-fifo-irq", "uart1+la",
+    true)
 
 void vsf_test_usart_tx_fifo_irq_run(const vsf_test_usart_tx_fifo_irq_case_t *c)
 {

@@ -29,25 +29,15 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_flash_erase_program_read_case_t __flash_erase_program_read_cases[] = {
-    VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASES_INIT
-};
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_flash_erase_program_read_add_cases(vsf_test_flash_erase_program_read_suite_t *suite)
-{
-    suite->name    = "flash_erase_program_read";
-    suite->purpose = "flash_erase_program_read";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT; i++) {
-        __flash_erase_program_read_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_flash_erase_program_read_run,
-            (void *)&__flash_erase_program_read_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_flash_erase_program_read_add_cases,
+    vsf_test_flash_erase_program_read_suite_t,
+    vsf_test_flash_erase_program_read_case_t,
+    vsf_test_flash_erase_program_read_run,
+    VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASES_INIT,
+    "flash_erase_program_read", "flash_erase_program_read", "none",
+    false)
 
 void vsf_test_flash_erase_program_read_run(const vsf_test_flash_erase_program_read_case_t *c)
 {

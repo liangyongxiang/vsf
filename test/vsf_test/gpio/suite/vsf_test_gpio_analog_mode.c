@@ -22,23 +22,15 @@
 #if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
 
 
-static vsf_test_gpio_analog_mode_case_t __gpio_analog_mode_cases[] = {
-    VSF_TEST_GPIO_ANALOG_MODE_CASES_INIT
-};
+/*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_analog_mode_add_cases(vsf_test_gpio_analog_mode_suite_t *suite)
-{
-    suite->name    = "gpio_analog_mode";
-    suite->purpose = "analog";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_GPIO_ANALOG_MODE_CASE_COUNT; i++) {
-        __gpio_analog_mode_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_gpio_analog_mode_run,
-            (void *)&__gpio_analog_mode_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_gpio_analog_mode_add_cases,
+    vsf_test_gpio_analog_mode_suite_t,
+    vsf_test_gpio_analog_mode_case_t,
+    vsf_test_gpio_analog_mode_run,
+    VSF_TEST_GPIO_ANALOG_MODE_CASES_INIT,
+    "gpio_analog_mode", "analog", "none",
+    false)
 
 /* VSF_GPIO_ANALOG must disconnect the digital input buffer (PADS.IE=0,
  * FUNCSEL=NULL on RP2040). With the internal pull-up enabled, the pad

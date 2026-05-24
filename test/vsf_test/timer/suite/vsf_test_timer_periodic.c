@@ -12,12 +12,6 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_timer_periodic_case_t __timer_periodic_cases[] = {
-    VSF_TEST_TIMER_PERIODIC_CASES_INIT
-};
-
-/*============================ LOCAL FUNCTIONS ===============================*/
-
 static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
                         vsf_timer_irq_mask_t irq_mask)
 {
@@ -32,19 +26,13 @@ static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_timer_periodic_add_cases(vsf_test_timer_periodic_suite_t *suite)
-{
-    suite->name    = "timer_periodic";
-    suite->purpose = "timer_periodic";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_TIMER_PERIODIC_CASE_COUNT; i++) {
-        __timer_periodic_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_timer_periodic_run,
-            (void *)&__timer_periodic_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_timer_periodic_add_cases,
+    vsf_test_timer_periodic_suite_t,
+    vsf_test_timer_periodic_case_t,
+    vsf_test_timer_periodic_run,
+    VSF_TEST_TIMER_PERIODIC_CASES_INIT,
+    "timer_periodic", "timer_periodic", "none",
+    false)
 
 void vsf_test_timer_periodic_run(void *arg)
 {

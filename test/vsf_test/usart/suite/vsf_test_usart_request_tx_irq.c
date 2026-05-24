@@ -23,10 +23,6 @@
 #if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
 
 
-static vsf_test_usart_request_tx_irq_case_t __request_tx_irq_cases[] = {
-    VSF_TEST_USART_REQUEST_TX_IRQ_CASES_INIT
-};
-
 static void __req_tx_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t irq_mask)
 {
     vsf_test_usart_request_tx_irq_suite_t *suite = (vsf_test_usart_request_tx_irq_suite_t *)target;
@@ -36,23 +32,15 @@ static void __req_tx_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t 
     }
 }
 
-void vsf_test_usart_request_tx_irq_add_cases(vsf_test_usart_request_tx_irq_suite_t *suite)
-{
-    /* The instance passed in must be a fifo2req_usart adapter wrapping the
-     * underlying hardware. Application code is responsible for declaring it
-     * via describe_fifo2req_usart() and passing the adapter as usart_instance.
-     */
-    suite->name    = "usart_request_tx_irq";
-    suite->purpose = "request-tx";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_REQUEST_TX_IRQ_CASE_COUNT; i++) {
-        __request_tx_irq_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_request_tx_irq_run,
-            (void *)&__request_tx_irq_cases[i]);
-    }
-}
+/*============================ IMPLEMENTATION ================================*/
+
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_request_tx_irq_add_cases,
+    vsf_test_usart_request_tx_irq_suite_t,
+    vsf_test_usart_request_tx_irq_case_t,
+    vsf_test_usart_request_tx_irq_run,
+    VSF_TEST_USART_REQUEST_TX_IRQ_CASES_INIT,
+    "usart_request_tx_irq", "request-tx", "uart1+la",
+    false)
 
 void vsf_test_usart_request_tx_irq_run(const vsf_test_usart_request_tx_irq_case_t *c)
 {

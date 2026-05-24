@@ -55,6 +55,13 @@ extern "C" {
 /*============================ TYPES =========================================*/
 
 // Per-suite context (populated by main.c)
+vsf_class(vsf_test_i2c_suite_base_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_i2c_t *i2c;
+    )
+};
+
 vsf_class(vsf_test_i2c_eeprom_rw_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
@@ -71,8 +78,7 @@ vsf_class(vsf_test_i2c_eeprom_rw_suite_t) {
 
 vsf_class(vsf_test_i2c_eeprom_page_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_i2c_t *i2c;
+        implement(vsf_test_i2c_suite_base_t)
     )
     private_member(
         volatile vsf_i2c_irq_mask_t irq_mask;
@@ -108,7 +114,7 @@ typedef struct vsf_test_i2c_eeprom_page_case_t {
 #if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
 vsf_class(vsf_test_i2c_bus_scan_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
+        implement(vsf_test_i2c_suite_base_t)
         vsf_gpio_i2c_t      *gpio_i2c0;
         vsf_gpio_i2c_t      *gpio_i2c1;
     )
@@ -131,31 +137,30 @@ typedef struct vsf_test_i2c_suites_t {
     vsf_test_i2c_eeprom_page_suite_t eeprom_page;
 } vsf_test_i2c_suites_t;
 
-typedef struct vsf_test_i2c_cfg_t {
-    vsf_i2c_t       *i2c;
-    vsf_gpio_i2c_t  *gpio_i2c0;
-    vsf_gpio_i2c_t  *gpio_i2c1;
-    vsf_gpio_t      *gpio;          //!< for bus_scan gpio_i2c->port wiring
+typedef struct vsf_test_i2c_suite_binding_t {
+    vsf_test_i2c_suite_base_t *suite;
+    vsf_i2c_t                 *instance;   //!< NULL = skip this suite
     bool (*setup)(vsf_test_suite_t *);
     void (*teardown)(vsf_test_suite_t *);
-} vsf_test_i2c_cfg_t;
+} vsf_test_i2c_suite_binding_t;
 
-void vsf_test_i2c_init(vsf_test_i2c_suites_t *s, const vsf_test_i2c_cfg_t *cfg);
+void vsf_test_i2c_init(vsf_test_i2c_suites_t *s,
+                         const vsf_test_i2c_suite_binding_t bindings[],
+                         uint8_t count);
 
+
+extern vsf_test_i2c_suites_t vsf_test_i2c_suites;
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-void vsf_test_i2c_eeprom_rw_add_cases(vsf_test_i2c_eeprom_rw_suite_t *suite);
 void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c);
 #endif
 
 #if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
-void vsf_test_i2c_bus_scan_add_cases(vsf_test_i2c_bus_scan_suite_t *suite);
 void vsf_test_i2c_bus_scan_run(const vsf_test_i2c_bus_scan_case_t *c);
 #endif
 
 #if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
-void vsf_test_i2c_eeprom_page_add_cases(vsf_test_i2c_eeprom_page_suite_t *suite);
 void vsf_test_i2c_eeprom_page_run(const vsf_test_i2c_eeprom_page_case_t *c);
 #endif
 
@@ -163,6 +168,17 @@ void vsf_test_i2c_eeprom_page_run(const vsf_test_i2c_eeprom_page_case_t *c);
 // vsf_test.h (which needs vsf_test_i2c_suites_t) without circular issues.
 #include "component/test/vsf_test/vsf_test.h"
 
+#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
+void vsf_test_i2c_eeprom_rw_add_cases(vsf_test_i2c_eeprom_rw_suite_t *suite);
+#endif
+
+#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
+void vsf_test_i2c_bus_scan_add_cases(vsf_test_i2c_bus_scan_suite_t *suite);
+#endif
+
+#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
+void vsf_test_i2c_eeprom_page_add_cases(vsf_test_i2c_eeprom_page_suite_t *suite);
+#endif
 #ifdef __cplusplus
 }
 #endif

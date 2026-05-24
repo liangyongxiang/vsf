@@ -9,25 +9,15 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_pwm_dual_channel_case_t __pwm_dual_channel_cases[] = {
-    VSF_TEST_PWM_DUAL_CHANNEL_CASES_INIT
-};
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_pwm_dual_channel_add_cases(vsf_test_pwm_dual_channel_suite_t *suite)
-{
-    suite->name    = "pwm_dual_channel";
-    suite->purpose = "pwm_dual_channel";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT; i++) {
-        __pwm_dual_channel_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_pwm_dual_channel_run,
-            (void *)&__pwm_dual_channel_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_pwm_dual_channel_add_cases,
+    vsf_test_pwm_dual_channel_suite_t,
+    vsf_test_pwm_dual_channel_case_t,
+    vsf_test_pwm_dual_channel_run,
+    VSF_TEST_PWM_DUAL_CHANNEL_CASES_INIT,
+    "pwm_dual_channel", "pwm_dual_channel", "none",
+    false)
 
 void vsf_test_pwm_dual_channel_run(void *arg)
 {

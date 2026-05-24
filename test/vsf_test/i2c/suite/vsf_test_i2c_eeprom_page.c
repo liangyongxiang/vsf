@@ -39,11 +39,11 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_i2c_eeprom_page_case_t __i2c_eeprom_page_cases[] = {
-    VSF_TEST_I2C_EEPROM_PAGE_CASES_INIT
-};
-
-/*============================ LOCAL FUNCTIONS ===============================*/
+typedef enum {
+    I2C_POLL_COMPLETE,
+    I2C_POLL_ERR,
+    I2C_POLL_TIMEOUT,
+} __i2c_poll_result_t;
 
 static void __i2c_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
                       vsf_i2c_irq_mask_t irq_mask)
@@ -52,12 +52,6 @@ static void __i2c_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
     vsf_test_i2c_eeprom_page_suite_t *suite = (vsf_test_i2c_eeprom_page_suite_t *)target_ptr;
     suite->irq_mask |= irq_mask;
 }
-
-typedef enum {
-    I2C_POLL_COMPLETE,
-    I2C_POLL_ERR,
-    I2C_POLL_TIMEOUT,
-} __i2c_poll_result_t;
 
 static __i2c_poll_result_t __i2c_wait_result(vsf_test_i2c_eeprom_page_suite_t *suite,
                                               uint32_t timeout_ms)
@@ -104,19 +98,13 @@ static bool __eeprom_ack_poll(vsf_test_i2c_eeprom_page_suite_t *suite,
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_i2c_eeprom_page_add_cases(vsf_test_i2c_eeprom_page_suite_t *suite)
-{
-    suite->name    = "i2c_eeprom_page";
-    suite->purpose = "eeprom";
-    suite->hw_req  = "i2c_eeprom";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_I2C_EEPROM_PAGE_CASE_COUNT; i++) {
-        __i2c_eeprom_page_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_i2c_eeprom_page_run,
-            (void *)&__i2c_eeprom_page_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_i2c_eeprom_page_add_cases,
+    vsf_test_i2c_eeprom_page_suite_t,
+    vsf_test_i2c_eeprom_page_case_t,
+    vsf_test_i2c_eeprom_page_run,
+    VSF_TEST_I2C_EEPROM_PAGE_CASES_INIT,
+    "i2c_eeprom_page", "eeprom", "i2c_eeprom",
+    false)
 
 void vsf_test_i2c_eeprom_page_run(const vsf_test_i2c_eeprom_page_case_t *c)
 {

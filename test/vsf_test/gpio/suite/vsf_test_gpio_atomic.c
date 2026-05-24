@@ -22,23 +22,15 @@
 #if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
 
 
-static vsf_test_gpio_atomic_case_t __gpio_atomic_cases[] = {
-    VSF_TEST_GPIO_ATOMIC_CASES_INIT
-};
+/*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_atomic_add_cases(vsf_test_gpio_atomic_suite_t *suite)
-{
-    suite->name    = "gpio_atomic";
-    suite->purpose = "atomic";
-    suite->hw_req  = "gpio_loopback+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_GPIO_ATOMIC_CASE_COUNT; i++) {
-        __gpio_atomic_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_gpio_atomic_run,
-            (void *)&__gpio_atomic_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_gpio_atomic_add_cases,
+    vsf_test_gpio_atomic_suite_t,
+    vsf_test_gpio_atomic_case_t,
+    vsf_test_gpio_atomic_run,
+    VSF_TEST_GPIO_ATOMIC_CASES_INIT,
+    "gpio_atomic", "atomic", "gpio_loopback+la",
+    false)
 
 /* Functional-only check. LA glitch detection lives host-side. */
 void vsf_test_gpio_atomic_run(const vsf_test_gpio_atomic_case_t *c)

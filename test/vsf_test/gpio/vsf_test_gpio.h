@@ -105,82 +105,77 @@ extern "C" {
 /*============================ TYPES =========================================*/
 
 // Per-suite context (populated by __vsf_test in main.c)
-vsf_class(vsf_test_gpio_output_input_suite_t) {
+vsf_class(vsf_test_gpio_suite_base_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_gpio_t *gpio;
+    )
+};
+
+vsf_class(vsf_test_gpio_output_input_suite_t) {
+    public_member(
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
 vsf_class(vsf_test_gpio_toggle_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
 vsf_class(vsf_test_gpio_direction_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
 vsf_class(vsf_test_gpio_atomic_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
 vsf_class(vsf_test_gpio_pinmux_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
         vsf_usart_t *usart;
     )
 };
 
 vsf_class(vsf_test_gpio_multi_pin_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
 vsf_class(vsf_test_gpio_open_drain_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
 vsf_class(vsf_test_gpio_toggle_freq_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
 vsf_class(vsf_test_gpio_write_throughput_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
 vsf_class(vsf_test_gpio_toggle_stress_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
 vsf_class(vsf_test_gpio_concurrent_prio_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        /* Immutable suite config (set once by main.c, never modified by run). */
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
     private_member(
         /* Per-case mutable state (run() MUST re-initialise before each case). */
@@ -194,9 +189,7 @@ vsf_class(vsf_test_gpio_concurrent_prio_suite_t) {
 
 vsf_class(vsf_test_gpio_exti_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        /* Immutable suite config (set once by main.c, never modified by run). */
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
     private_member(
         /* Per-case mutable state (run() MUST re-initialise before each case). */
@@ -211,9 +204,7 @@ vsf_class(vsf_test_gpio_exti_suite_t) {
 
 vsf_class(vsf_test_gpio_irq_latency_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        /* Immutable suite config (set once by main.c, never modified by run). */
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
     private_member(
         /* Per-case mutable state (run() MUST re-initialise before each case). */
@@ -226,9 +217,7 @@ vsf_class(vsf_test_gpio_irq_latency_suite_t) {
 
 vsf_class(vsf_test_gpio_irq_lifecycle_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        /* Immutable suite config (set once by main.c, never modified by run). */
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
     private_member(
         /* Per-case mutable state (run() MUST re-initialise before each case). */
@@ -239,23 +228,19 @@ vsf_class(vsf_test_gpio_irq_lifecycle_suite_t) {
 
 vsf_class(vsf_test_gpio_systimer_health_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        /* Immutable suite config (set once by main.c, never modified by run). */
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
 vsf_class(vsf_test_gpio_analog_mode_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
 vsf_class(vsf_test_gpio_io_check_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_gpio_t *gpio;
+        implement(vsf_test_gpio_suite_base_t)
     )
 };
 
@@ -439,96 +424,85 @@ typedef struct vsf_test_gpio_suites_t {
     vsf_test_gpio_io_check_suite_t        io_check;
 } vsf_test_gpio_suites_t;
 
-typedef struct vsf_test_gpio_cfg_t {
-    vsf_gpio_t *gpio;
-    vsf_usart_t *usart;     //!< for pinmux test
-} vsf_test_gpio_cfg_t;
+typedef struct vsf_test_gpio_suite_binding_t {
+    vsf_test_gpio_suite_base_t *suite;
+    vsf_gpio_t                 *instance;   //!< NULL = skip this suite
+    bool (*setup)(vsf_test_suite_t *);
+    void (*teardown)(vsf_test_suite_t *);
+} vsf_test_gpio_suite_binding_t;
 
-void vsf_test_gpio_init(vsf_test_gpio_suites_t *s, const vsf_test_gpio_cfg_t *cfg);
+void vsf_test_gpio_init(vsf_test_gpio_suites_t *s,
+                         const vsf_test_gpio_suite_binding_t bindings[],
+                         uint8_t count);
+
+extern vsf_test_gpio_suites_t vsf_test_gpio_suites;
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
-void vsf_test_gpio_output_input_add_cases(vsf_test_gpio_output_input_suite_t *suite);
 void vsf_test_gpio_output_input_run(const vsf_test_gpio_output_input_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
-void vsf_test_gpio_toggle_add_cases(vsf_test_gpio_toggle_suite_t *suite);
 void vsf_test_gpio_toggle_run(const vsf_test_gpio_toggle_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
-void vsf_test_gpio_direction_add_cases(vsf_test_gpio_direction_suite_t *suite);
 void vsf_test_gpio_direction_run(const vsf_test_gpio_direction_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
-void vsf_test_gpio_atomic_add_cases(vsf_test_gpio_atomic_suite_t *suite);
 void vsf_test_gpio_atomic_run(const vsf_test_gpio_atomic_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
-void vsf_test_gpio_pinmux_add_cases(vsf_test_gpio_pinmux_suite_t *suite);
 void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
-void vsf_test_gpio_multi_pin_add_cases(vsf_test_gpio_multi_pin_suite_t *suite);
 void vsf_test_gpio_multi_pin_run(const vsf_test_gpio_multi_pin_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
-void vsf_test_gpio_open_drain_add_cases(vsf_test_gpio_open_drain_suite_t *suite);
 void vsf_test_gpio_open_drain_run(const vsf_test_gpio_open_drain_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_TOGGLE_FREQ_ENABLE == ENABLED
-void vsf_test_gpio_toggle_freq_add_cases(vsf_test_gpio_toggle_freq_suite_t *suite);
 void vsf_test_gpio_toggle_freq_run(const vsf_test_gpio_toggle_freq_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
-void vsf_test_gpio_write_throughput_add_cases(vsf_test_gpio_write_throughput_suite_t *suite);
 void vsf_test_gpio_write_throughput_run(const vsf_test_gpio_write_throughput_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
-void vsf_test_gpio_toggle_stress_add_cases(vsf_test_gpio_toggle_stress_suite_t *suite);
 void vsf_test_gpio_toggle_stress_run(const vsf_test_gpio_toggle_stress_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
-void vsf_test_gpio_concurrent_prio_add_cases(vsf_test_gpio_concurrent_prio_suite_t *suite);
 void vsf_test_gpio_concurrent_prio_run(const vsf_test_gpio_concurrent_prio_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
-void vsf_test_gpio_exti_add_cases(vsf_test_gpio_exti_suite_t *suite);
 void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
-void vsf_test_gpio_irq_latency_add_cases(vsf_test_gpio_irq_latency_suite_t *suite);
 void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
-void vsf_test_gpio_irq_lifecycle_add_cases(vsf_test_gpio_irq_lifecycle_suite_t *suite);
 void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
-void vsf_test_gpio_systimer_health_add_cases(vsf_test_gpio_systimer_health_suite_t *suite);
 void vsf_test_gpio_systimer_health_run(const vsf_test_gpio_systimer_health_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
-void vsf_test_gpio_analog_mode_add_cases(vsf_test_gpio_analog_mode_suite_t *suite);
 void vsf_test_gpio_analog_mode_run(const vsf_test_gpio_analog_mode_case_t *c);
 #endif
 
 #if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
-void vsf_test_gpio_io_check_add_cases(vsf_test_gpio_io_check_suite_t *suite);
 void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c);
 #endif
 
@@ -536,6 +510,73 @@ void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c);
 // vsf_test.h without circular issues.
 #include "component/test/vsf_test/vsf_test.h"
 
+#if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
+void vsf_test_gpio_output_input_add_cases(vsf_test_gpio_output_input_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
+void vsf_test_gpio_toggle_add_cases(vsf_test_gpio_toggle_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
+void vsf_test_gpio_direction_add_cases(vsf_test_gpio_direction_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
+void vsf_test_gpio_atomic_add_cases(vsf_test_gpio_atomic_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
+void vsf_test_gpio_pinmux_add_cases(vsf_test_gpio_pinmux_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
+void vsf_test_gpio_multi_pin_add_cases(vsf_test_gpio_multi_pin_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
+void vsf_test_gpio_open_drain_add_cases(vsf_test_gpio_open_drain_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_TOGGLE_FREQ_ENABLE == ENABLED
+void vsf_test_gpio_toggle_freq_add_cases(vsf_test_gpio_toggle_freq_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
+void vsf_test_gpio_write_throughput_add_cases(vsf_test_gpio_write_throughput_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
+void vsf_test_gpio_toggle_stress_add_cases(vsf_test_gpio_toggle_stress_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
+void vsf_test_gpio_concurrent_prio_add_cases(vsf_test_gpio_concurrent_prio_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
+void vsf_test_gpio_exti_add_cases(vsf_test_gpio_exti_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
+void vsf_test_gpio_irq_latency_add_cases(vsf_test_gpio_irq_latency_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
+void vsf_test_gpio_irq_lifecycle_add_cases(vsf_test_gpio_irq_lifecycle_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
+void vsf_test_gpio_systimer_health_add_cases(vsf_test_gpio_systimer_health_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
+void vsf_test_gpio_analog_mode_add_cases(vsf_test_gpio_analog_mode_suite_t *suite);
+#endif
+
+#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
+void vsf_test_gpio_io_check_add_cases(vsf_test_gpio_io_check_suite_t *suite);
+#endif
 #ifdef __cplusplus
 }
 #endif

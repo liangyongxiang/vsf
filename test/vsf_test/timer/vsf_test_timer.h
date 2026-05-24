@@ -48,6 +48,13 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
+vsf_class(vsf_test_timer_suite_base_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_timer_t *timer;
+    )
+};
+
 vsf_class(vsf_test_timer_oneshot_suite_t) {
     public_member(
         implement(vsf_test_suite_t)
@@ -77,24 +84,36 @@ typedef struct vsf_test_timer_suites_t {
     vsf_test_timer_periodic_suite_t periodic;
 } vsf_test_timer_suites_t;
 
+
+extern vsf_test_timer_suites_t vsf_test_timer_suites;
 /*============================ PROTOTYPES ====================================*/
 
-typedef struct vsf_test_timer_cfg_t {
-    vsf_timer_t *timer;
-} vsf_test_timer_cfg_t;
+typedef struct vsf_test_timer_suite_binding_t {
+    vsf_test_timer_suite_base_t *suite;
+    vsf_timer_t               *instance;   //!< NULL = skip this suite
+    bool (*setup)(vsf_test_suite_t *);
+    void (*teardown)(vsf_test_suite_t *);
+} vsf_test_timer_suite_binding_t;
 
-void vsf_test_timer_init(vsf_test_timer_suites_t *s, const vsf_test_timer_cfg_t *cfg);
+void vsf_test_timer_init(vsf_test_timer_suites_t *s,
+                         const vsf_test_timer_suite_binding_t bindings[],
+                         uint8_t count);
 
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-void vsf_test_timer_oneshot_add_cases(vsf_test_timer_oneshot_suite_t *suite);
 void vsf_test_timer_oneshot_run(void *arg);
 #endif
 
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-void vsf_test_timer_periodic_add_cases(vsf_test_timer_periodic_suite_t *suite);
 void vsf_test_timer_periodic_run(void *arg);
 #endif
 
+#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
+void vsf_test_timer_oneshot_add_cases(vsf_test_timer_oneshot_suite_t *suite);
+#endif
+
+#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
+void vsf_test_timer_periodic_add_cases(vsf_test_timer_periodic_suite_t *suite);
+#endif
 #ifdef __cplusplus
 }
 #endif

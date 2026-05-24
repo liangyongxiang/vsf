@@ -46,8 +46,10 @@ static void __print_case_list(vsf_test_shell_t *shell)
         return;
     }
     vsf_test_shell_suite_t *sc = &shell->suites[shell->cur_suite];
+    vsf_test_suite_t *suite = sc->suite;
+    uint16_t count = (suite != NULL && suite->cases != NULL) ? suite->case_count : 0;
     vsf_trace_info("Cases in '%s':" VSF_TRACE_CFG_LINEEND, sc->name);
-    for (uint16_t i = 0; i < sc->case_count; i++) {
+    for (uint16_t i = 0; i < count; i++) {
         vsf_trace_info("  %u" VSF_TRACE_CFG_LINEEND, i);
     }
 }
@@ -104,6 +106,10 @@ static void __run_selection(vsf_test_shell_t *shell)
         return;
     }
     vsf_test_shell_suite_t *sc = &shell->suites[shell->cur_suite];
+    vsf_test_suite_t *suite = sc->suite;
+    if (suite == NULL || suite->cases == NULL) {
+        return;
+    }
     if (shell->cur_case < 0) {
         /* Default: sequential order. If shuffle_seed != 0 and the suite
          * fits in the stack buffer, shuffle via Fisher-Yates seeded with
@@ -111,7 +117,7 @@ static void __run_selection(vsf_test_shell_t *shell)
          * __run_selection consumes it and the host re-issues for the
          * next suite. */
         uint16_t order[VSF_TEST_SHELL_MAX_CASES_PER_SUITE];
-        uint16_t n = sc->case_count;
+        uint16_t n = suite->case_count;
         bool shuffled = false;
         if (shell->shuffle_seed != 0 && n <= VSF_TEST_SHELL_MAX_CASES_PER_SUITE) {
             for (uint16_t i = 0; i < n; i++) { order[i] = i; }
@@ -140,11 +146,10 @@ static void __run_selection(vsf_test_shell_t *shell)
         }
         for (uint16_t i = 0; i < n; i++) {
             uint16_t local = shuffled ? order[i] : i;
-            uint16_t ci = sc->first_case_idx + local;
-            vsf_test_run_case(ci);
+            vsf_test_run_suite_case(suite, local);
             if (shell->auto_case) {
                 shell->cur_case = (int8_t)(i + 1);
-                if (shell->cur_case >= (int8_t)sc->case_count) {
+                if (shell->cur_case >= (int8_t)suite->case_count) {
                     shell->cur_case = -1;
                     if (shell->auto_suite) {
                         shell->cur_suite++;
@@ -154,16 +159,14 @@ static void __run_selection(vsf_test_shell_t *shell)
             }
         }
     } else {
-        uint16_t ci = sc->first_case_idx + shell->cur_case;
-        vsf_test_run_case(ci);
+        vsf_test_run_suite_case(suite, (uint16_t)shell->cur_case);
         if (shell->auto_case) __advance_case(shell);
     }
     if (shell->cur_suite >= 0) {
-        uint32_t total = sc->case_count;
+        uint32_t total = suite->case_count;
         uint32_t pass = 0, fail = 0, skip = 0, wdt_pass = 0, wdt_fail = 0;
         for (uint16_t i = 0; i < total; i++) {
-            uint16_t ci = sc->first_case_idx + i;
-            vsf_test_result_t r = vsf_test_get_case_result(ci);
+            vsf_test_result_t r = (vsf_test_result_t)suite->cases[i].result;
             switch (r) {
             case VSF_TEST_RESULT_PASS:     pass++;      break;
             case VSF_TEST_RESULT_FAIL:     fail++;      break;
@@ -330,30 +333,25 @@ static void __dispatch(vsf_test_shell_t *shell, char *line)
     else vsf_trace_info("Unknown command. Try 'vsf-test suite --list'" VSF_TRACE_CFG_LINEEND);
 }
 
-uint8_t vsf_test_shell_register_suite(vsf_test_shell_t *shell, const char *name)
+uint8_t vsf_test_shell_register_suite(vsf_test_shell_t *shell, vsf_test_suite_t *suite)
 {
     if (shell == NULL || shell->suite_count >= VSF_TEST_SHELL_MAX_SUITES) return 0;
     uint8_t idx = shell->suite_count;
-    shell->suites[idx].name           = name;
-    // first_case_idx is the framework's current total case count (i.e. the
-    // index that the next suite_add_case call will populate).
-    shell->suites[idx].first_case_idx = (uint16_t)vsf_test_get_case_count();
-    shell->suites[idx].case_count     = 0;
+    shell->suites[idx].suite      = suite;
+    shell->suites[idx].name       = suite->name;
+    shell->suites[idx].case_count = suite->case_count;
     shell->suite_count++;
     return idx;
-}
-
-void vsf_test_shell_inc_case_count(vsf_test_shell_t *shell)
-{
-    if (shell == NULL || shell->suite_count == 0) return;
-    shell->suites[shell->suite_count - 1].case_count++;
 }
 
 void vsf_test_shell_init(vsf_test_shell_t *shell)
 {
     memset(shell, 0, sizeof(*shell));
-    shell->cur_suite = -1;
-    shell->cur_case  = -1;
+    shell->cur_suite    = -1;
+    shell->cur_case     = -1;
+    shell->auto_case    = false;
+    shell->auto_suite   = false;
+    shell->shuffle_seed = 0;
     vsf_stream_connect_rx(&VSF_DEBUG_STREAM_RX.use_as__vsf_stream_t);
     vsf_trace_info("VSF Test Ready" VSF_TRACE_CFG_LINEEND);
     vsf_trace_info("> " VSF_TRACE_CFG_LINEEND);

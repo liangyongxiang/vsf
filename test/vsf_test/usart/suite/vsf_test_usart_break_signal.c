@@ -22,23 +22,15 @@
 #if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
 
 
-static vsf_test_usart_break_signal_case_t __break_signal_cases[] = {
-    VSF_TEST_USART_BREAK_SIGNAL_CASES_INIT
-};
+/*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_break_signal_add_cases(vsf_test_usart_break_signal_suite_t *suite)
-{
-    suite->name    = "usart_break_signal";
-    suite->purpose = "tx-break";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_BREAK_SIGNAL_CASE_COUNT; i++) {
-        __break_signal_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_break_signal_run,
-            (void *)&__break_signal_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_break_signal_add_cases,
+    vsf_test_usart_break_signal_suite_t,
+    vsf_test_usart_break_signal_case_t,
+    vsf_test_usart_break_signal_run,
+    VSF_TEST_USART_BREAK_SIGNAL_CASES_INIT,
+    "usart_break_signal", "tx-break", "uart1+la",
+    false)
 
 /* TX break signaling — exercise SET_BREAK/CLEAR_BREAK and SEND_BREAK
  * and let the LA verify the line stays low.

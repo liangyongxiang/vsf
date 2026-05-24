@@ -20,6 +20,11 @@ import yaml
 GLOBAL_PARAMS_ENV = "VSF_TEST_GLOBAL_PARAMS_DIR"
 
 
+def _get_global_base() -> Path | None:
+    env = os.environ.get(GLOBAL_PARAMS_ENV)
+    return Path(env) if env else None
+
+
 def _deep_merge(base: dict, overlay: dict) -> dict:
     result = {}
     for key, value in base.items():
@@ -100,6 +105,8 @@ def load_yaml_with_includes(
     if not isinstance(includes, list):
         print(f"Error: 'include' in {yml_path} must be a string or list", file=sys.stderr)
         raise SystemExit(1)
+
+    global_base = global_base or _get_global_base()
 
     merged: dict = {}
     for inc in includes:

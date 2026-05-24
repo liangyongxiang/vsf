@@ -23,10 +23,6 @@
 #if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
 
 
-static vsf_test_gpio_irq_latency_case_t __gpio_irq_latency_cases[] = {
-    VSF_TEST_GPIO_IRQ_LATENCY_CASES_INIT
-};
-
 static void __latency_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_t pin_mask)
 {
     vsf_test_gpio_irq_latency_suite_t *suite = (vsf_test_gpio_irq_latency_suite_t *)target;
@@ -36,19 +32,15 @@ static void __latency_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_
     }
 }
 
-void vsf_test_gpio_irq_latency_add_cases(vsf_test_gpio_irq_latency_suite_t *suite)
-{
-    suite->name    = "gpio_irq_latency";
-    suite->purpose = "perf-irq";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_GPIO_IRQ_LATENCY_CASE_COUNT; i++) {
-        __gpio_irq_latency_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_gpio_irq_latency_run,
-            (void *)&__gpio_irq_latency_cases[i]);
-    }
-}
+/*============================ IMPLEMENTATION ================================*/
+
+VSF_TEST_SUITE_REGISTER(vsf_test_gpio_irq_latency_add_cases,
+    vsf_test_gpio_irq_latency_suite_t,
+    vsf_test_gpio_irq_latency_case_t,
+    vsf_test_gpio_irq_latency_run,
+    VSF_TEST_GPIO_IRQ_LATENCY_CASES_INIT,
+    "gpio_irq_latency", "perf-irq", "none",
+    false)
 
 void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c)
 {

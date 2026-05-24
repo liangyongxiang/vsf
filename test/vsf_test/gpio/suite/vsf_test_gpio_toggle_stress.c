@@ -22,23 +22,15 @@
 #if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
 
 
-static vsf_test_gpio_toggle_stress_case_t __gpio_toggle_stress_cases[] = {
-    VSF_TEST_GPIO_TOGGLE_STRESS_CASES_INIT
-};
+/*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_toggle_stress_add_cases(vsf_test_gpio_toggle_stress_suite_t *suite)
-{
-    suite->name    = "gpio_toggle_stress";
-    suite->purpose = "stress";
-    suite->hw_req  = "gpio_loopback";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_GPIO_TOGGLE_STRESS_CASE_COUNT; i++) {
-        __gpio_toggle_stress_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_gpio_toggle_stress_run,
-            (void *)&__gpio_toggle_stress_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_gpio_toggle_stress_add_cases,
+    vsf_test_gpio_toggle_stress_suite_t,
+    vsf_test_gpio_toggle_stress_case_t,
+    vsf_test_gpio_toggle_stress_run,
+    VSF_TEST_GPIO_TOGGLE_STRESS_CASES_INIT,
+    "gpio_toggle_stress", "stress", "gpio_loopback",
+    false)
 
 void vsf_test_gpio_toggle_stress_run(const vsf_test_gpio_toggle_stress_case_t *c)
 {

@@ -28,25 +28,15 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_flash_boundary_case_t __flash_boundary_cases[] = {
-    VSF_TEST_FLASH_BOUNDARY_CASES_INIT
-};
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_flash_boundary_add_cases(vsf_test_flash_boundary_suite_t *suite)
-{
-    suite->name    = "flash_boundary";
-    suite->purpose = "flash_boundary";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_FLASH_BOUNDARY_CASE_COUNT; i++) {
-        __flash_boundary_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_flash_boundary_run,
-            (void *)&__flash_boundary_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_flash_boundary_add_cases,
+    vsf_test_flash_boundary_suite_t,
+    vsf_test_flash_boundary_case_t,
+    vsf_test_flash_boundary_run,
+    VSF_TEST_FLASH_BOUNDARY_CASES_INIT,
+    "flash_boundary", "flash_boundary", "none",
+    false)
 
 void vsf_test_flash_boundary_run(const vsf_test_flash_boundary_case_t *c)
 {

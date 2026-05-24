@@ -37,18 +37,6 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_gpio_io_check_case_t __gpio_io_check_cases[] = {
-    VSF_TEST_GPIO_IO_CHECK_CASES_INIT
-};
-
-/*============================ LOCAL FUNCTIONS ===============================*/
-
-/* Bit-bang one UART 8N1 frame at the given baudrate.
- * byte: data to send (unique per pin: 0x50 + pin).
- * bit_period_us: baudrate-derived bit period in microseconds.
- *
- * Frame format: 1 start bit (low), 8 data bits LSB-first, 1 stop bit (high).
- */
 static void __gpio_bitbang_uart_byte(vsf_gpio_t *gpio,
                                      vsf_gpio_pin_mask_t pin_mask,
                                      uint8_t byte,
@@ -75,19 +63,13 @@ static void __gpio_bitbang_uart_byte(vsf_gpio_t *gpio,
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_io_check_add_cases(vsf_test_gpio_io_check_suite_t *suite)
-{
-    suite->name    = "gpio_io_check";
-    suite->purpose = "io-check";
-    suite->hw_req  = "la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_GPIO_IO_CHECK_CASE_COUNT; i++) {
-        __gpio_io_check_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_gpio_io_check_run,
-            (void *)&__gpio_io_check_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_gpio_io_check_add_cases,
+    vsf_test_gpio_io_check_suite_t,
+    vsf_test_gpio_io_check_case_t,
+    vsf_test_gpio_io_check_run,
+    VSF_TEST_GPIO_IO_CHECK_CASES_INIT,
+    "gpio_io_check", "io-check", "la",
+    false)
 
 void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c)
 {

@@ -23,23 +23,15 @@
 #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
 
 
-static vsf_test_gpio_concurrent_prio_case_t __gpio_concurrent_prio_cases[] = {
-    VSF_TEST_GPIO_CONCURRENT_PRIO_CASES_INIT
-};
+/*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_concurrent_prio_add_cases(vsf_test_gpio_concurrent_prio_suite_t *suite)
-{
-    suite->name    = "gpio_concurrent_prio";
-    suite->purpose = "concurrency";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_GPIO_CONCURRENT_PRIO_CASE_COUNT; i++) {
-        __gpio_concurrent_prio_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_gpio_concurrent_prio_run,
-            (void *)&__gpio_concurrent_prio_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_gpio_concurrent_prio_add_cases,
+    vsf_test_gpio_concurrent_prio_suite_t,
+    vsf_test_gpio_concurrent_prio_case_t,
+    vsf_test_gpio_concurrent_prio_run,
+    VSF_TEST_GPIO_CONCURRENT_PRIO_CASES_INIT,
+    "gpio_concurrent_prio", "concurrency", "none",
+    false)
 
 void vsf_test_gpio_concurrent_prio_run(const vsf_test_gpio_concurrent_prio_case_t *c)
 {

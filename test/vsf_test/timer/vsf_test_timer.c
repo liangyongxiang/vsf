@@ -23,16 +23,30 @@
 
 // Suite-aware suites: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_timer_init(vsf_test_timer_suites_t *s, const vsf_test_timer_cfg_t *cfg)
+vsf_test_timer_suites_t vsf_test_timer_suites;
+
+void vsf_test_timer_init(vsf_test_timer_suites_t *s,
+                         const vsf_test_timer_suite_binding_t bindings[],
+                         uint8_t count)
 {
-    s->oneshot.timer = cfg->timer;
-    s->periodic.timer = cfg->timer;
+    for (uint8_t i = 0; i < count; i++) {
+        vsf_test_timer_suite_base_t *suite = bindings[i].suite;
+        vsf_timer_t                *inst  = bindings[i].instance;
+        if (inst == NULL) { continue; }
+
+        suite->timer  = inst;
+        suite->setup  = bindings[i].setup;
+        suite->teardown = bindings[i].teardown;
+    }
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
     vsf_test_timer_oneshot_add_cases(&s->oneshot);
 #endif
+
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
     vsf_test_timer_periodic_add_cases(&s->periodic);
 #endif
+
 }
+
 
 /* EOF */

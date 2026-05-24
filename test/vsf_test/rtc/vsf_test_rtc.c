@@ -23,16 +23,30 @@
 
 // Suite-aware suites: each add_cases() calls vsf_test_register_suite()
 // internally, which also opens the matching shell suite.
-void vsf_test_rtc_init(vsf_test_rtc_suites_t *s, const vsf_test_rtc_cfg_t *cfg)
+vsf_test_rtc_suites_t vsf_test_rtc_suites;
+
+void vsf_test_rtc_init(vsf_test_rtc_suites_t *s,
+                         const vsf_test_rtc_suite_binding_t bindings[],
+                         uint8_t count)
 {
-    s->set_get.rtc = cfg->rtc;
-    s->alarm.rtc = cfg->rtc;
+    for (uint8_t i = 0; i < count; i++) {
+        vsf_test_rtc_suite_base_t *suite = bindings[i].suite;
+        vsf_rtc_t                *inst  = bindings[i].instance;
+        if (inst == NULL) { continue; }
+
+        suite->rtc  = inst;
+        suite->setup  = bindings[i].setup;
+        suite->teardown = bindings[i].teardown;
+    }
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
     vsf_test_rtc_set_get_add_cases(&s->set_get);
 #endif
+
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
     vsf_test_rtc_alarm_add_cases(&s->alarm);
 #endif
+
 }
+
 
 /* EOF */

@@ -37,10 +37,16 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_spi_loopback_suite_t) {
+vsf_class(vsf_test_spi_suite_base_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_spi_t *spi;
+    )
+};
+
+vsf_class(vsf_test_spi_loopback_suite_t) {
+    public_member(
+        implement(vsf_test_spi_suite_base_t)
     )
 };
 
@@ -48,19 +54,28 @@ typedef struct vsf_test_spi_suites_t {
     vsf_test_spi_loopback_suite_t loopback;
 } vsf_test_spi_suites_t;
 
+
+extern vsf_test_spi_suites_t vsf_test_spi_suites;
 /*============================ PROTOTYPES ====================================*/
 
-typedef struct vsf_test_spi_cfg_t {
-    vsf_spi_t *spi;
-} vsf_test_spi_cfg_t;
+typedef struct vsf_test_spi_suite_binding_t {
+    vsf_test_spi_suite_base_t *suite;
+    vsf_spi_t               *instance;   //!< NULL = skip this suite
+    bool (*setup)(vsf_test_suite_t *);
+    void (*teardown)(vsf_test_suite_t *);
+} vsf_test_spi_suite_binding_t;
 
-void vsf_test_spi_init(vsf_test_spi_suites_t *s, const vsf_test_spi_cfg_t *cfg);
+void vsf_test_spi_init(vsf_test_spi_suites_t *s,
+                         const vsf_test_spi_suite_binding_t bindings[],
+                         uint8_t count);
 
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-void vsf_test_spi_loopback_add_cases(vsf_test_spi_loopback_suite_t *suite);
 void vsf_test_spi_loopback_run(void *arg);
 #endif
 
+#if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
+void vsf_test_spi_loopback_add_cases(vsf_test_spi_loopback_suite_t *suite);
+#endif
 #ifdef __cplusplus
 }
 #endif

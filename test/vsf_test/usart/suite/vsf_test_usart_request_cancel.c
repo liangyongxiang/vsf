@@ -22,23 +22,15 @@
 #if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
 
 
-static vsf_test_usart_request_cancel_case_t __request_cancel_cases[] = {
-    VSF_TEST_USART_REQUEST_CANCEL_CASES_INIT
-};
+/*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_request_cancel_add_cases(vsf_test_usart_request_cancel_suite_t *suite)
-{
-    suite->name    = "usart_request_cancel";
-    suite->purpose = "cancel";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_REQUEST_CANCEL_CASE_COUNT; i++) {
-        __request_cancel_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_request_cancel_run,
-            (void *)&__request_cancel_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_request_cancel_add_cases,
+    vsf_test_usart_request_cancel_suite_t,
+    vsf_test_usart_request_cancel_case_t,
+    vsf_test_usart_request_cancel_run,
+    VSF_TEST_USART_REQUEST_CANCEL_CASES_INIT,
+    "usart_request_cancel", "cancel", "uart1+la",
+    false)
 
 void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_t *c)
 {

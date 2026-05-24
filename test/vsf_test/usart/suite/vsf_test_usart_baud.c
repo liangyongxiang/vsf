@@ -35,10 +35,6 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_usart_baud_case_t __baud_cases[] = {
-    VSF_TEST_USART_TX_BAUD_CASES_INIT
-};
-
 /*============================ LOCAL FUNCTIONS ===============================*/
 
 static void __usart_send_str(vsf_usart_t *usart, const char *str)
@@ -61,19 +57,13 @@ static void __usart_send_bulk(vsf_usart_t *usart, uint32_t len)
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_baud_add_cases(vsf_test_usart_baud_suite_t *suite)
-{
-    suite->name    = "usart_baud";
-    suite->purpose = "tx-baud";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_TX_BAUD_CASE_COUNT; i++) {
-        __baud_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_baud_run,
-            (void *)&__baud_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_baud_add_cases,
+    vsf_test_usart_baud_suite_t,
+    vsf_test_usart_baud_case_t,
+    vsf_test_usart_baud_run,
+    VSF_TEST_USART_TX_BAUD_CASES_INIT,
+    "usart_baud", "tx-baud", "uart1+la",
+    false)
 
 void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
 {

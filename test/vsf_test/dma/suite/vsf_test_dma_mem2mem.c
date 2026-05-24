@@ -28,25 +28,15 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_dma_mem2mem_case_t __dma_mem2mem_cases[] = {
-    VSF_TEST_DMA_MEM2MEM_CASES_INIT
-};
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_suite_t *suite)
-{
-    suite->name    = "dma_mem2mem";
-    suite->purpose = "dma_mem2mem";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_DMA_MEM2MEM_CASE_COUNT; i++) {
-        __dma_mem2mem_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_dma_mem2mem_run,
-            (void *)&__dma_mem2mem_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_dma_mem2mem_add_cases,
+    vsf_test_dma_mem2mem_suite_t,
+    vsf_test_dma_mem2mem_case_t,
+    vsf_test_dma_mem2mem_run,
+    VSF_TEST_DMA_MEM2MEM_CASES_INIT,
+    "dma_mem2mem", "dma_mem2mem", "none",
+    false)
 
 void vsf_test_dma_mem2mem_run(void *arg)
 {

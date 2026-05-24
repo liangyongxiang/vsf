@@ -52,12 +52,6 @@ typedef struct __rx_timeout_ctx_t {
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_usart_rx_timeout_case_t __rx_timeout_cases[] = {
-    VSF_TEST_USART_RX_TIMEOUT_CASES_INIT
-};
-
-/*============================ IMPLEMENTATION ================================*/
-
 static void __rx_timeout_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart_irq_mask_t irq_mask)
 {
     __rx_timeout_ctx_t *ctx = (__rx_timeout_ctx_t *)target_ptr;
@@ -67,19 +61,15 @@ static void __rx_timeout_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_u
     }
 }
 
-void vsf_test_usart_rx_timeout_add_cases(vsf_test_usart_rx_timeout_suite_t *suite)
-{
-    suite->name    = "usart_rx_timeout";
-    suite->purpose = "rx-timeout";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_RX_TIMEOUT_CASE_COUNT; i++) {
-        __rx_timeout_cases[i].suite = suite;
-        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_timeout_run,
-            (void *)&__rx_timeout_cases[i], true);
-    }
-}
+/*============================ IMPLEMENTATION ================================*/
+
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_timeout_add_cases,
+    vsf_test_usart_rx_timeout_suite_t,
+    vsf_test_usart_rx_timeout_case_t,
+    vsf_test_usart_rx_timeout_run,
+    VSF_TEST_USART_RX_TIMEOUT_CASES_INIT,
+    "usart_rx_timeout", "rx-timeout", "uart1+la",
+    true)
 
 void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
 {

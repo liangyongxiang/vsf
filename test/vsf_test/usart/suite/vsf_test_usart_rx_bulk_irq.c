@@ -29,10 +29,6 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_usart_rx_bulk_irq_case_t __rx_bulk_irq_cases[] = {
-    VSF_TEST_USART_RX_BULK_IRQ_CASES_INIT
-};
-
 static uint8_t __rx_bulk_irq_buf[4096];
 
 /*============================ LOCAL FUNCTIONS ===============================*/
@@ -67,19 +63,13 @@ static void __rx_bulk_irq_handler(void *target, vsf_usart_t *usart,
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_rx_bulk_irq_add_cases(vsf_test_usart_rx_bulk_irq_suite_t *suite)
-{
-    suite->name    = "usart_rx_bulk_irq";
-    suite->purpose = "rx-bulk-irq";
-    suite->hw_req  = "uart1+host";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_RX_BULK_IRQ_CASE_COUNT; i++) {
-        __rx_bulk_irq_cases[i].suite = suite;
-        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_bulk_irq_run,
-            (void *)&__rx_bulk_irq_cases[i], true);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_bulk_irq_add_cases,
+    vsf_test_usart_rx_bulk_irq_suite_t,
+    vsf_test_usart_rx_bulk_irq_case_t,
+    vsf_test_usart_rx_bulk_irq_run,
+    VSF_TEST_USART_RX_BULK_IRQ_CASES_INIT,
+    "usart_rx_bulk_irq", "rx-bulk-irq", "uart1+host",
+    true)
 
 void vsf_test_usart_rx_bulk_irq_run(const vsf_test_usart_rx_bulk_irq_case_t *c)
 {

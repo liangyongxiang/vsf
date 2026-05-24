@@ -24,17 +24,22 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_pwm_basic_suite_t) {
+vsf_class(vsf_test_pwm_suite_base_t) {
     public_member(
         implement(vsf_test_suite_t)
         vsf_pwm_t *pwm;
     )
 };
 
+vsf_class(vsf_test_pwm_basic_suite_t) {
+    public_member(
+        implement(vsf_test_pwm_suite_base_t)
+    )
+};
+
 vsf_class(vsf_test_pwm_dual_channel_suite_t) {
     public_member(
-        implement(vsf_test_suite_t)
-        vsf_pwm_t *pwm;
+        implement(vsf_test_pwm_suite_base_t)
     )
 };
 
@@ -43,24 +48,36 @@ typedef struct vsf_test_pwm_suites_t {
     vsf_test_pwm_dual_channel_suite_t dual_channel;
 } vsf_test_pwm_suites_t;
 
+
+extern vsf_test_pwm_suites_t vsf_test_pwm_suites;
 /*============================ PROTOTYPES ====================================*/
 
-typedef struct vsf_test_pwm_cfg_t {
-    vsf_pwm_t *pwm;
-} vsf_test_pwm_cfg_t;
+typedef struct vsf_test_pwm_suite_binding_t {
+    vsf_test_pwm_suite_base_t *suite;
+    vsf_pwm_t               *instance;   //!< NULL = skip this suite
+    bool (*setup)(vsf_test_suite_t *);
+    void (*teardown)(vsf_test_suite_t *);
+} vsf_test_pwm_suite_binding_t;
 
-void vsf_test_pwm_init(vsf_test_pwm_suites_t *s, const vsf_test_pwm_cfg_t *cfg);
+void vsf_test_pwm_init(vsf_test_pwm_suites_t *s,
+                         const vsf_test_pwm_suite_binding_t bindings[],
+                         uint8_t count);
 
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-void vsf_test_pwm_basic_add_cases(vsf_test_pwm_basic_suite_t *suite);
 void vsf_test_pwm_basic_run(void *arg);
 #endif
 
 #if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
-void vsf_test_pwm_dual_channel_add_cases(vsf_test_pwm_dual_channel_suite_t *suite);
 void vsf_test_pwm_dual_channel_run(void *arg);
 #endif
 
+#if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
+void vsf_test_pwm_basic_add_cases(vsf_test_pwm_basic_suite_t *suite);
+#endif
+
+#if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
+void vsf_test_pwm_dual_channel_add_cases(vsf_test_pwm_dual_channel_suite_t *suite);
+#endif
 #ifdef __cplusplus
 }
 #endif

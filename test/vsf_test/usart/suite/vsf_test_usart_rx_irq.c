@@ -53,12 +53,6 @@ typedef struct __rx_irq_ctx_t {
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_usart_rx_irq_case_t __rx_irq_cases[] = {
-    VSF_TEST_USART_RX_IRQ_CASES_INIT
-};
-
-/*============================ IMPLEMENTATION ================================*/
-
 static void __rx_irq_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart_irq_mask_t irq_mask)
 {
     __rx_irq_ctx_t *ctx = (__rx_irq_ctx_t *)target_ptr;
@@ -75,19 +69,15 @@ static void __rx_irq_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart
     }
 }
 
-void vsf_test_usart_rx_irq_add_cases(vsf_test_usart_rx_irq_suite_t *suite)
-{
-    suite->name    = "usart_rx_irq";
-    suite->purpose = "rx-irq";
-    suite->hw_req  = "uart1+la";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_USART_RX_IRQ_CASE_COUNT; i++) {
-        __rx_irq_cases[i].suite = suite;
-        vsf_test_suite_add_case_ex(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_usart_rx_irq_run,
-            (void *)&__rx_irq_cases[i], true);
-    }
-}
+/*============================ IMPLEMENTATION ================================*/
+
+VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_irq_add_cases,
+    vsf_test_usart_rx_irq_suite_t,
+    vsf_test_usart_rx_irq_case_t,
+    vsf_test_usart_rx_irq_run,
+    VSF_TEST_USART_RX_IRQ_CASES_INIT,
+    "usart_rx_irq", "rx-irq", "uart1+la",
+    true)
 
 void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c)
 {

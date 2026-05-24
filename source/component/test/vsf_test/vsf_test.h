@@ -30,42 +30,34 @@
     #include "vsf.h"
 
     // 1. Defining vsf_test variable
+    static vsf_test_wdt_t __wdt_entries[] = {
+        // 1.1 Internal WDT (chip's own watchdog)
+        {
+            .init = vsf_test_hal_wdt_init,
+            .feed = vsf_test_hal_wdt_feed,
+        },
+        // 1.2 External WDT (assist device controlling power/reset pin)
+        {
+            .init = vsf_test_stdio_wdt_init,
+            .feed = vsf_test_stdio_wdt_feed,
+        },
+    };
+    static vsf_test_reboot_t *__reboot_entries[] = {
+        // 1.3 External reboot first (assist device)
+        vsf_test_stdio_reboot,
+        // 1.4 Internal reboot fallback (chip reset)
+        vsf_arch_reset,
+    };
     static vsf_test_t __test = {
-        .wdt =
-            {
-                .internal =
-                    {
-                        // 1.1 If you are using a device that already supports
-                        // vsf_hal_wdt, then you can just use vsf_test_hal_wdt_*
-                        .init = vsf_test_hal_wdt_init,
-                        .feed = vsf_test_hal_wdt_feed,
-                    },
-                .external =
-                    {
-                        // 1.2 If you are using an assist device that can
-                        // control the power pin or reset pin of the device,
-                        // then you can use vsf_test_stdio_wdt_* to control it
-                        .init = vsf_test_stdio_wdt_init,
-                        .feed = vsf_test_stdio_wdt_feed,
-                    },
-            },
-        .reboot =
-            {
-                // 1.3 Reset can be done using the functions provided by
-                // vsf_arch or the chip's APIs
-                .internal = vsf_arch_reset,
-
-                // 1.4 To control the reset or power pins of the device, we can
-                // use the stdio method to communicate.
-                .external = vsf_test_stdio_reboot,
-            },
-        .data = {
-            // We use stdio to communicate with assist devices for data
-            // persistence. This way we only need to implement the stdio stub
-            // function on the device to come.
-            .init = vsf_test_stdio_data_init,
-            .sync = vsf_test_stdio_data_sync,
-        }};
+        .wdt = {
+            .entries = __wdt_entries,
+            .count   = dimof(__wdt_entries),
+        },
+        .reboot = {
+            .entries = __reboot_entries,
+            .count   = dimof(__reboot_entries),
+        },
+    };
     static vsf_test_t *test = &__test;
 
     // 3. Optionally, call vsf_test_reboot in the callback function for all
@@ -123,19 +115,23 @@
     int main(void)
     {
         // 5. Configure and initialize the test framework
+        static vsf_test_wdt_t __test_wdt_entries[] = {
+            {
+                .init = vsf_test_hal_wdt_init,
+                .feed = vsf_test_hal_wdt_feed,
+            },
+        };
+        static vsf_test_reboot_t *__test_reboot_entries[] = {
+            vsf_arch_reset,
+        };
         vsf_test_cfg_t test_cfg = {
             .wdt = {
-                .internal = {
-                    .init = vsf_test_hal_wdt_init,
-                    .feed = vsf_test_hal_wdt_feed,
-                },
+                .entries = __test_wdt_entries,
+                .count   = dimof(__test_wdt_entries),
             },
             .reboot = {
-                .internal = vsf_arch_reset,
-            },
-            .data = {
-                .init = vsf_test_stdio_data_init,
-                .sync = vsf_test_stdio_data_sync,
+                .entries = __test_reboot_entries,
+                .count   = dimof(__test_reboot_entries),
             },
             .restart_on_done = false,  // Set to true to restart when test completes or errors occur
         };
@@ -307,20 +303,6 @@ dcl_simple_class(vsf_test_suite_t)
 typedef bool vsf_test_suite_setup_fn_t(vsf_test_suite_t *suite);
 typedef void vsf_test_suite_teardown_fn_t(vsf_test_suite_t *suite);
 
-vsf_class(vsf_test_suite_t) {
-    public_member(
-        const char                     *name;          //!< also used as Capture Marker tag
-        const char                     *purpose;       //!< short description, e.g. "rx-baud"
-        const char                     *hw_req;        //!< hardware requirements, e.g. "uart1+la"
-        vsf_test_suite_setup_fn_t      *setup;         //!< NULL = skip; return false to skip all cases
-        vsf_test_suite_teardown_fn_t   *teardown;      //!< NULL = skip
-    )
-    private_member(
-        uint16_t                   first_case_idx; //!< managed by framework
-        uint16_t                   case_count;     //!< managed by framework
-    )
-};
-
 typedef struct vsf_test_case_t {
     //! Test function (setjmp/longjmp style). Use VSF_TEST_ASSERT for failures.
     vsf_test_jmp_fn_t *jmp_fn;
@@ -367,22 +349,36 @@ typedef struct vsf_test_case_t {
     } error;
 } vsf_test_case_t;
 
+vsf_class(vsf_test_suite_t) {
+    public_member(
+        const char                     *name;          //!< also used as Capture Marker tag
+        const char                     *purpose;       //!< short description, e.g. "rx-baud"
+        const char                     *hw_req;        //!< hardware requirements, e.g. "uart1+la"
+        vsf_test_suite_setup_fn_t      *setup;         //!< NULL = skip; return false to skip all cases
+        vsf_test_suite_teardown_fn_t   *teardown;      //!< NULL = skip
+    )
+    private_member(
+        uint16_t                   case_count;     //!< managed by framework
+        vsf_test_case_t           *cases;          //!< per-suite case array
+    )
+};
+
 //! \brief Test framework configuration structure
 typedef struct vsf_test_cfg_t {
-    //! Watchdog configuration
+    //! Watchdog configuration — array of WDT entries (typically internal
+    //! then external). Each entry is initialized once at test start;
+    //! feed() is called before every test case.
     struct {
-        //! Internal watchdog configuration
-        vsf_test_wdt_t internal;
-        //! External watchdog configuration
-        vsf_test_wdt_t external;
+        vsf_test_wdt_t *entries;
+        uint8_t         count;
     } wdt;
 
-    //! Reboot configuration
+    //! Reboot configuration — array of reboot function pointers. Called
+    //! in order when vsf_test_reboot() is invoked (e.g. from an exception
+    //! handler). Typically external first, then internal fallback.
     struct {
-        //! Internal reboot function (chip's internal reset)
-        vsf_test_reboot_t *internal;
-        //! External reboot function (via reset pin or power pin)
-        vsf_test_reboot_t *external;
+        vsf_test_reboot_t **entries;
+        uint8_t             count;
     } reboot;
 
     //! Restart from the beginning when test completes or errors occur.
@@ -398,27 +394,17 @@ typedef struct vsf_test_t {
     //! if a test is abnormal, the next test continues to run after the watchdog
     //! times out.
     struct {
-        //! internal watchdog means the watchdog
-        //! inside the device
-        vsf_test_wdt_t internal;
-
-        //! Use an external method to implement a watchdog,
-        //! possibly via the reset pin or the device's power pin.
-        vsf_test_wdt_t external;
+        vsf_test_wdt_t *entries;
+        uint8_t         count;
     } wdt;
 
     //! We perform a reset when the test program goes into exception.
-    //! 1. First execute the external reset function.
-    //! 2. If the external reset is not successful, then we continue to execute
-    //! the internal reset function.
-    //! 3. If the internal reset is not successful, then we enter a dead loop
-    //! and wait for the watchdog to reset.
+    //! Reboot functions are called in array order; typically external first,
+    //! then internal fallback. If none succeed, the framework enters a dead
+    //! loop and waits for the watchdog to reset.
     struct {
-        //! Use the chip's internal reset, possibly a hot reset
-        vsf_test_reboot_t *internal;
-        //! Use an external method to reset, possibly via the
-        //! reset pin or the device's power pin.
-        vsf_test_reboot_t *external;
+        vsf_test_reboot_t **entries;
+        uint8_t             count;
     } reboot;
 
     //! Current test case pointer — set by vsf_test_run_case before invoking
@@ -433,11 +419,10 @@ typedef struct vsf_test_t {
     //! Note: data-sync resume is not supported in the current configuration.
     bool restart_on_done;
 
-    //! Test case count (number of test cases added)
-    uint32_t test_case_count;
-    //! Test case array
-    vsf_test_case_t test_case_array[VSF_TEST_CFG_ARRAY_SIZE];
-
+    //! Registered suites — replaces flat test_case_array. The dispatcher
+    //! iterates suites[], then each suite's own cases[].
+    vsf_test_suite_t *suites[VSF_TEST_SHELL_MAX_SUITES];
+    uint8_t           suite_count;
 
     //! Embedded shell instance — every vsf_test_add_* call also registers
     //! the case here. vsf_test_shell_init() activates the REPL.
@@ -451,10 +436,9 @@ typedef struct vsf_test_t {
  @brief initialize vsf test
  @param[in] cfg: a pointer to configuration structure @ref vsf_test_cfg_t
  */
-extern void vsf_test_init(vsf_test_t *test, const vsf_test_cfg_t *cfg);
+extern vsf_test_t __vsf_test;
 
-extern vsf_test_result_t vsf_test_get_case_result(uint32_t idx);
-extern uint32_t vsf_test_get_case_count(void);
+extern void vsf_test_init(vsf_test_t *test, const vsf_test_cfg_t *cfg);
 
 /**
  @brief Run all tests. Should be called after all use cases have been
@@ -463,11 +447,12 @@ extern uint32_t vsf_test_get_case_count(void);
 extern void vsf_test_run_tests(void);
 
 /**
- @brief Run a single test case by index. Used by vsf-test-shell for selective
- execution. Does not advance data->idx; the caller manages iteration.
- @param[in] idx: global test case index to run
+ @brief Run a single test case by suite + local index.
+ Used by vsf-test-shell for selective execution.
+ @param[in] suite: pointer to the suite owning the case
+ @param[in] local_idx: case index within the suite (0 .. case_count-1)
  */
-extern void vsf_test_run_case(uint32_t idx);
+extern void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx);
 
 /**
  @brief Run all cases of a single suite by suite pointer.
@@ -517,11 +502,9 @@ extern void vsf_test_busy_wait_us(uint32_t us);
 
 /* ========================== Test Suite primitive ========================== */
 /**
- @brief Register a Test Suite. Optional — only suites that need lifecycle
- hooks or dispatcher-owned Capture Marker emission need this call. The
- framework records the suite, then any subsequent cases added via
- `vsf_test_suite_add_case()` are linked to it (their `case->suite` is set,
- their `case->case_idx` is auto-numbered 0..N-1 in registration order).
+ @brief Register a Test Suite. The framework records the suite in its internal
+ registry and forwards it to the shell. Cases must already be populated in
+ `suite->cases[]` and `suite->case_count` before calling this function.
 
  The suite's `setup` (if non-NULL) is called once before its first case;
  `teardown` (if non-NULL) is called once after its last case.
@@ -532,33 +515,68 @@ extern void vsf_test_busy_wait_us(uint32_t us);
  */
 extern bool vsf_test_register_suite(vsf_test_suite_t *suite);
 
-/**
- @brief Add a case to the most recently registered suite. The case_idx
- field of the case is set to the suite-local index automatically.
- @param[in] suite: same pointer that was passed to `vsf_test_register_suite()`
- @param[in] jmp_fn: test function (longjmp-style)
- @param[in] arg: argument passed to the test function
- @return true on success
+/*! \brief Generate per-suite static case arrays and the add_cases() function.
+ *
+ * This macro eliminates the ~50-line boilerplate repeated in every suite file.
+ * Case count is derived at compile time via dimof() — no VSF_TEST_XXX_CASE_COUNT
+ * macro is required (and the generator no longer emits it).
+ *
+ * Usage (inside a .c file, guarded by the corresponding ENABLE macro):
+ * \code
+ * VSF_TEST_SUITE_REGISTER(vsf_test_usart_baud_add_cases,
+ *     vsf_test_usart_baud_suite_t,
+ *     vsf_test_usart_baud_case_t,
+ *     vsf_test_usart_baud_run,
+ *     VSF_TEST_USART_TX_BAUD_CASES_INIT,
+ *     "usart_baud", "tx-baud", "uart1+la",
+ *     false)
+ * \endcode
+ *
+ * \param _add_cases_fn   Function name emitted (must match prototype in .h)
+ * \param _suite_type     PLOOC suite struct type
+ * \param _case_type      Per-case struct type
+ * \param _run_fn         Test run function (signature: void fn(const _case_type *))
+ * \param _cases_init     VSF_TEST_XXX_CASES_INIT macro from generated header
+ * \param _name           Suite name string (Capture Marker tag)
+ * \param _purpose        Short purpose string
+ * \param _hw_req         Hardware requirement string
+ * \param _ready          true = all cases need READY handshake
  */
-extern bool vsf_test_suite_add_case(vsf_test_suite_t *suite,
-                                    vsf_test_jmp_fn_t *jmp_fn,
-                                    void *arg);
+#define __VSF_TEST_SUITE_REG_JOIN2(_a, _b)      _a##_b
+#define __VSF_TEST_SUITE_REG_JOIN(_a, _b)       __VSF_TEST_SUITE_REG_JOIN2(_a, _b)
+#define __VSF_TEST_SUITE_REG_SYM(_prefix)       __VSF_TEST_SUITE_REG_JOIN(_prefix, __LINE__)
 
-/**
- @brief Add a case to the most recently registered suite with optional
-        ready-handshake flag. Same as vsf_test_suite_add_case when
-        needs_ready_handshake is false.
- @param[in] suite: same pointer that was passed to `vsf_test_register_suite()`
- @param[in] jmp_fn: test function (longjmp-style)
- @param[in] arg: argument passed to the test function
- @param[in] needs_ready_handshake: when true, the framework emits
-            `<suite>:CASE:<N>:READY` before the settle delay
- @return true on success
- */
-extern bool vsf_test_suite_add_case_ex(vsf_test_suite_t *suite,
-                                       vsf_test_jmp_fn_t *jmp_fn,
-                                       void *arg,
-                                       bool needs_ready_handshake);
+#define VSF_TEST_SUITE_REGISTER(_add_cases_fn, _suite_type, _case_type,        \
+                                 _run_fn, _cases_init, _name, _purpose,          \
+                                 _hw_req, _ready)                                \
+    static _case_type __VSF_TEST_SUITE_REG_SYM(__case_data_)[] = {             \
+        _cases_init                                                            \
+    };                                                                         \
+    static vsf_test_case_t __VSF_TEST_SUITE_REG_SYM(__cases_)[                 \
+        dimof(__VSF_TEST_SUITE_REG_SYM(__case_data_))                          \
+    ];                                                                         \
+                                                                               \
+    void _add_cases_fn(_suite_type *suite)                                     \
+    {                                                                          \
+        suite->name    = _name;                                                \
+        suite->purpose = _purpose;                                             \
+        suite->hw_req  = _hw_req;                                              \
+        for (uint8_t i = 0;                                                     \
+             i < dimof(__VSF_TEST_SUITE_REG_SYM(__case_data_));                \
+             i++) {                                                            \
+            __VSF_TEST_SUITE_REG_SYM(__case_data_)[i].suite = suite;           \
+            __VSF_TEST_SUITE_REG_SYM(__cases_)[i] = (vsf_test_case_t) {        \
+                .jmp_fn = (vsf_test_jmp_fn_t *)_run_fn,                        \
+                .arg    = (void *)                                             \
+                    &__VSF_TEST_SUITE_REG_SYM(__case_data_)[i],                \
+                .case_idx = i,                                                 \
+                .needs_ready_handshake = _ready                                \
+            };                                                                 \
+        }                                                                      \
+        suite->cases      = __VSF_TEST_SUITE_REG_SYM(__cases_);                \
+        suite->case_count = dimof(__VSF_TEST_SUITE_REG_SYM(__case_data_));     \
+        vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);             \
+    }
 
 /*============================ LOCAL VARIABLES ===============================*/
 /*============================ GLOBAL VARIABLES ==============================*/

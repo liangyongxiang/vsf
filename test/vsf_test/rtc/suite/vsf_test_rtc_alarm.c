@@ -10,12 +10,6 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_test_rtc_alarm_case_t __rtc_alarm_cases[] = {
-    VSF_TEST_RTC_ALARM_CASES_INIT
-};
-
-/*============================ LOCAL FUNCTIONS ===============================*/
-
 static void __rtc_alarm_isr(void *target_ptr, vsf_rtc_t *rtc_ptr,
                             vsf_rtc_irq_mask_t irq_mask)
 {
@@ -28,19 +22,13 @@ static void __rtc_alarm_isr(void *target_ptr, vsf_rtc_t *rtc_ptr,
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_rtc_alarm_add_cases(vsf_test_rtc_alarm_suite_t *suite)
-{
-    suite->name    = "rtc_alarm";
-    suite->purpose = "rtc_alarm";
-    suite->hw_req  = "none";
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-    for (uint8_t i = 0; i < VSF_TEST_RTC_ALARM_CASE_COUNT; i++) {
-        __rtc_alarm_cases[i].suite = suite;
-        vsf_test_suite_add_case(&suite->use_as__vsf_test_suite_t,
-            (vsf_test_jmp_fn_t *)vsf_test_rtc_alarm_run,
-            (void *)&__rtc_alarm_cases[i]);
-    }
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_rtc_alarm_add_cases,
+    vsf_test_rtc_alarm_suite_t,
+    vsf_test_rtc_alarm_case_t,
+    vsf_test_rtc_alarm_run,
+    VSF_TEST_RTC_ALARM_CASES_INIT,
+    "rtc_alarm", "rtc_alarm", "none",
+    false)
 
 void vsf_test_rtc_alarm_run(void *arg)
 {

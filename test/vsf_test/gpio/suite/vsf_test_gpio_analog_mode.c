@@ -24,14 +24,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_analog_mode_add_cases,
-    vsf_test_gpio_analog_mode_suite_t,
-    vsf_test_gpio_analog_mode_case_t,
-    vsf_test_gpio_analog_mode_run,
-    VSF_TEST_GPIO_ANALOG_MODE_CASES_INIT,
-    "gpio_analog_mode", "analog", "none",
-    false)
-
 /* VSF_GPIO_ANALOG must disconnect the digital input buffer (PADS.IE=0,
  * FUNCSEL=NULL on RP2040). With the internal pull-up enabled, the pad
  * voltage is HIGH, yet vsf_gpio_read() must report 0 — proving the read

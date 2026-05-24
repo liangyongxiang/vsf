@@ -31,14 +31,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_flash_erase_program_read_add_cases,
-    vsf_test_flash_erase_program_read_suite_t,
-    vsf_test_flash_erase_program_read_case_t,
-    vsf_test_flash_erase_program_read_run,
-    VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASES_INIT,
-    "flash_erase_program_read", "flash_erase_program_read", "none",
-    false)
-
 void vsf_test_flash_erase_program_read_run(const vsf_test_flash_erase_program_read_case_t *c)
 {
     vsf_flash_t *flash = c->suite->flash;

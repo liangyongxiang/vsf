@@ -29,14 +29,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_spi_loopback_add_cases,
-    vsf_test_spi_loopback_suite_t,
-    vsf_test_spi_loopback_case_t,
-    vsf_test_spi_loopback_run,
-    VSF_TEST_SPI_LOOPBACK_CASES_INIT,
-    "spi_loopback", "spi_loopback", "mosi-miso-jumper",
-    false)
-
 void vsf_test_spi_loopback_run(void *arg)
 {
     vsf_test_spi_loopback_case_t *c = (vsf_test_spi_loopback_case_t *)arg;

@@ -24,14 +24,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_atomic_add_cases,
-    vsf_test_gpio_atomic_suite_t,
-    vsf_test_gpio_atomic_case_t,
-    vsf_test_gpio_atomic_run,
-    VSF_TEST_GPIO_ATOMIC_CASES_INIT,
-    "gpio_atomic", "atomic", "gpio_loopback+la",
-    false)
-
 /* Functional-only check. LA glitch detection lives host-side. */
 void vsf_test_gpio_atomic_run(const vsf_test_gpio_atomic_case_t *c)
 {

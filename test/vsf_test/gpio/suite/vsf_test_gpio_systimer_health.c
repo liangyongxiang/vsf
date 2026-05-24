@@ -24,14 +24,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_systimer_health_add_cases,
-    vsf_test_gpio_systimer_health_suite_t,
-    vsf_test_gpio_systimer_health_case_t,
-    vsf_test_gpio_systimer_health_run,
-    VSF_TEST_GPIO_SYSTIMER_HEALTH_CASES_INIT,
-    "gpio_systimer_health", "health", "la",
-    false)
-
 /* Toggle a GPIO at known systimer-based intervals. The LA's sample clock
  * gives an external reference: the host decode counts edges and asserts
  * the on-wire period matches `interval_ms` within tolerance.

@@ -26,7 +26,6 @@
 extern "C" {
 #endif
 
-void vsf_test_usart_rx_fifo_threshold_add_cases(vsf_test_usart_rx_fifo_threshold_suite_t *suite);
 void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_usart_rx_fifo_threshold_case_t *c);
 
 #ifdef __cplusplus

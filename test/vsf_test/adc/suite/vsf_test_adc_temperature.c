@@ -13,14 +13,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_adc_temperature_add_cases,
-    vsf_test_adc_temperature_suite_t,
-    vsf_test_adc_temperature_case_t,
-    vsf_test_adc_temperature_run,
-    VSF_TEST_ADC_TEMPERATURE_CASES_INIT,
-    "adc_temperature", "adc_temperature", "none",
-    false)
-
 void vsf_test_adc_temperature_run(void *arg)
 {
     vsf_test_adc_temperature_case_t *c = (vsf_test_adc_temperature_case_t *)arg;

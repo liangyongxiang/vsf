@@ -16,7 +16,8 @@
 extern "C" {
 #endif
 
-void vsf_test_adc_temperature_add_cases(vsf_test_adc_temperature_suite_t *suite);
+/*============================ PROTOTYPES ====================================*/
+
 void vsf_test_adc_temperature_run(void *arg);
 
 #ifdef __cplusplus

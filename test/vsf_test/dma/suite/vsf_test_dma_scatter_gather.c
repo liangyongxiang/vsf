@@ -23,14 +23,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_dma_scatter_gather_add_cases,
-    vsf_test_dma_scatter_gather_suite_t,
-    vsf_test_dma_scatter_gather_case_t,
-    vsf_test_dma_scatter_gather_run,
-    VSF_TEST_DMA_SCATTER_GATHER_CASES_INIT,
-    "dma_scatter_gather", "dma_scatter_gather", "none",
-    false)
-
 void vsf_test_dma_scatter_gather_run(void *arg)
 {
     vsf_test_dma_scatter_gather_case_t *c =

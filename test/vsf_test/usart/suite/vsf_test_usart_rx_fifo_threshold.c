@@ -67,14 +67,6 @@ static void __rx_fifo_threshold_handler(void *target, vsf_usart_t *usart,
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_fifo_threshold_add_cases,
-    vsf_test_usart_rx_fifo_threshold_suite_t,
-    vsf_test_usart_rx_fifo_threshold_case_t,
-    vsf_test_usart_rx_fifo_threshold_run,
-    VSF_TEST_USART_RX_FIFO_THRESHOLD_CASES_INIT,
-    "usart_rx_fifo_threshold", "rx-fifo-threshold", "uart1+host",
-    true)
-
 void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_usart_rx_fifo_threshold_case_t *c)
 {
     vsf_usart_t *usart = c->suite->usart;

@@ -24,14 +24,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_toggle_stress_add_cases,
-    vsf_test_gpio_toggle_stress_suite_t,
-    vsf_test_gpio_toggle_stress_case_t,
-    vsf_test_gpio_toggle_stress_run,
-    VSF_TEST_GPIO_TOGGLE_STRESS_CASES_INIT,
-    "gpio_toggle_stress", "stress", "gpio_loopback",
-    false)
-
 void vsf_test_gpio_toggle_stress_run(const vsf_test_gpio_toggle_stress_case_t *c)
 {
     vsf_gpio_t *gpio = c->suite->gpio;

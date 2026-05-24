@@ -24,14 +24,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_break_signal_add_cases,
-    vsf_test_usart_break_signal_suite_t,
-    vsf_test_usart_break_signal_case_t,
-    vsf_test_usart_break_signal_run,
-    VSF_TEST_USART_BREAK_SIGNAL_CASES_INIT,
-    "usart_break_signal", "tx-break", "uart1+la",
-    false)
-
 /* TX break signaling — exercise SET_BREAK/CLEAR_BREAK and SEND_BREAK
  * and let the LA verify the line stays low.
  *

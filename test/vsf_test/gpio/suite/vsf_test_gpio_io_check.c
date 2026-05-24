@@ -63,14 +63,6 @@ static void __gpio_bitbang_uart_byte(vsf_gpio_t *gpio,
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_io_check_add_cases,
-    vsf_test_gpio_io_check_suite_t,
-    vsf_test_gpio_io_check_case_t,
-    vsf_test_gpio_io_check_run,
-    VSF_TEST_GPIO_IO_CHECK_CASES_INIT,
-    "gpio_io_check", "io-check", "la",
-    false)
-
 void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c)
 {
     vsf_gpio_t *gpio = c->suite->gpio;

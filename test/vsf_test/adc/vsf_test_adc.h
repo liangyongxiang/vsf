@@ -59,6 +59,16 @@ vsf_class(vsf_test_adc_temperature_suite_t) {
     )
 };
 
+#if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
+typedef struct vsf_test_adc_oneshot_case_t {
+    uint8_t  idx;
+    uint8_t  channel;
+    uint16_t expected_min;
+    uint16_t expected_max;
+    vsf_test_adc_oneshot_suite_t *suite;
+} vsf_test_adc_oneshot_case_t;
+#endif
+
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
 typedef struct vsf_test_adc_temperature_case_t {
     uint8_t  idx;
@@ -70,25 +80,49 @@ typedef struct vsf_test_adc_temperature_case_t {
 } vsf_test_adc_temperature_case_t;
 #endif
 
-typedef struct vsf_test_adc_suites_t {
-    vsf_test_adc_oneshot_suite_t     oneshot;
-    vsf_test_adc_temperature_suite_t temperature;
-} vsf_test_adc_suites_t;
+/*============================ STATIC INIT MACROS ============================*/
 
+#if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
+#define VSF_TEST_ADC_ONESHOT_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_adc_oneshot_suite_t suite_var; \
+    static vsf_test_adc_oneshot_case_t __##suite_var##_data[] = { \
+        VSF_TEST_ADC_ONESHOT_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_ADC_ONESHOT_CASES(__##suite_var##_data, vsf_test_adc_oneshot_run, false) \
+    }; \
+    static vsf_test_adc_oneshot_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "adc_oneshot", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
 
-extern vsf_test_adc_suites_t vsf_test_adc_suites;
+#if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
+#define VSF_TEST_ADC_TEMPERATURE_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_adc_temperature_suite_t suite_var; \
+    static vsf_test_adc_temperature_case_t __##suite_var##_data[] = { \
+        VSF_TEST_ADC_TEMPERATURE_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_ADC_TEMPERATURE_CASES(__##suite_var##_data, vsf_test_adc_temperature_run, false) \
+    }; \
+    static vsf_test_adc_temperature_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "adc_temperature", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
 /*============================ PROTOTYPES ====================================*/
-
-typedef struct vsf_test_adc_suite_binding_t {
-    vsf_test_adc_suite_base_t *suite;
-    vsf_adc_t               *instance;   //!< NULL = skip this suite
-    bool (*setup)(vsf_test_suite_t *);
-    void (*teardown)(vsf_test_suite_t *);
-} vsf_test_adc_suite_binding_t;
-
-void vsf_test_adc_init(vsf_test_adc_suites_t *s,
-                         const vsf_test_adc_suite_binding_t bindings[],
-                         uint8_t count);
 
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
 void vsf_test_adc_oneshot_run(void *arg);
@@ -98,13 +132,6 @@ void vsf_test_adc_oneshot_run(void *arg);
 void vsf_test_adc_temperature_run(void *arg);
 #endif
 
-#if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-void vsf_test_adc_oneshot_add_cases(vsf_test_adc_oneshot_suite_t *suite);
-#endif
-
-#if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-void vsf_test_adc_temperature_add_cases(vsf_test_adc_temperature_suite_t *suite);
-#endif
 #ifdef __cplusplus
 }
 #endif

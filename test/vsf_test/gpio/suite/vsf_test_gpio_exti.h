@@ -26,7 +26,6 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_exti_add_cases(vsf_test_gpio_exti_suite_t *suite);
 void vsf_test_gpio_exti_run(const vsf_test_gpio_exti_case_t *c);
 
 #ifdef __cplusplus

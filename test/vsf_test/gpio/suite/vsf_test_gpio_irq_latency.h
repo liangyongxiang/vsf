@@ -26,7 +26,6 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_irq_latency_add_cases(vsf_test_gpio_irq_latency_suite_t *suite);
 void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c);
 
 #ifdef __cplusplus

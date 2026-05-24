@@ -70,14 +70,6 @@ static void __rx_error_handler(void *target_ptr, vsf_usart_t *usart_ptr,
 /*============================ IMPLEMENTATION ================================*/
 
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_parity_error_add_cases,
-    vsf_test_usart_rx_parity_error_suite_t,
-    vsf_test_usart_rx_parity_error_case_t,
-    vsf_test_usart_rx_parity_error_run,
-    VSF_TEST_USART_RX_PARITY_ERROR_CASES_INIT,
-    "usart_rx_parity_error", "rx-parity", "uart1+la",
-    true)
-
 void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_case_t *c)
 {
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
@@ -118,14 +110,6 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
 #endif /* VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED */
 
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_frame_error_add_cases,
-    vsf_test_usart_rx_frame_error_suite_t,
-    vsf_test_usart_rx_frame_error_case_t,
-    vsf_test_usart_rx_frame_error_run,
-    VSF_TEST_USART_RX_FRAME_ERROR_CASES_INIT,
-    "usart_rx_frame_error", "rx-frame", "uart1+la",
-    true)
-
 void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c)
 {
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
@@ -166,14 +150,6 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
 #endif /* VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED */
 
 #if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_break_error_add_cases,
-    vsf_test_usart_rx_break_error_suite_t,
-    vsf_test_usart_rx_break_error_case_t,
-    vsf_test_usart_rx_break_error_run,
-    VSF_TEST_USART_RX_BREAK_ERROR_CASES_INIT,
-    "usart_rx_break_error", "rx-break", "uart1+host",
-    true)
-
 void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_t *c)
 {
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false, .break_err = false };
@@ -214,14 +190,6 @@ void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_
 #endif /* VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED */
 
 #if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_overflow_error_add_cases,
-    vsf_test_usart_rx_overflow_error_suite_t,
-    vsf_test_usart_rx_overflow_error_case_t,
-    vsf_test_usart_rx_overflow_error_run,
-    VSF_TEST_USART_RX_OVERFLOW_ERROR_CASES_INIT,
-    "usart_rx_overflow_error", "rx-overflow", "uart1+host",
-    true)
-
 void vsf_test_usart_rx_overflow_error_run(const vsf_test_usart_rx_overflow_error_case_t *c)
 {
     /* Only the OVERFLOW IRQ is enabled (no RX/RX_TIMEOUT), so the FIFO is

@@ -28,14 +28,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_output_input_add_cases,
-    vsf_test_gpio_output_input_suite_t,
-    vsf_test_gpio_output_input_case_t,
-    vsf_test_gpio_output_input_run,
-    VSF_TEST_GPIO_OUTPUT_INPUT_CASES_INIT,
-    "gpio_output_input", "loopback", "gpio_loopback",
-    false)
-
 void vsf_test_gpio_output_input_run(const vsf_test_gpio_output_input_case_t *c)
 {
     vsf_gpio_t *gpio = c->suite->gpio;

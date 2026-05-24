@@ -24,14 +24,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_request_cancel_add_cases,
-    vsf_test_usart_request_cancel_suite_t,
-    vsf_test_usart_request_cancel_case_t,
-    vsf_test_usart_request_cancel_run,
-    VSF_TEST_USART_REQUEST_CANCEL_CASES_INIT,
-    "usart_request_cancel", "cancel", "uart1+la",
-    false)
-
 void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_t *c)
 {
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers

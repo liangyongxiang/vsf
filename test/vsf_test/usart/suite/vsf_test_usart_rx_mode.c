@@ -37,14 +37,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_mode_add_cases,
-    vsf_test_usart_rx_mode_suite_t,
-    vsf_test_usart_rx_mode_case_t,
-    vsf_test_usart_rx_mode_run,
-    VSF_TEST_USART_RX_MODE_CASES_INIT,
-    "usart_rx_mode", "rx-mode", "uart1+la",
-    true)
-
 void vsf_test_usart_rx_mode_run(const vsf_test_usart_rx_mode_case_t *c)
 {
     vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){

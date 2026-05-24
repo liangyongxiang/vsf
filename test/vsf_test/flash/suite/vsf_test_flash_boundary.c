@@ -30,14 +30,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_flash_boundary_add_cases,
-    vsf_test_flash_boundary_suite_t,
-    vsf_test_flash_boundary_case_t,
-    vsf_test_flash_boundary_run,
-    VSF_TEST_FLASH_BOUNDARY_CASES_INIT,
-    "flash_boundary", "flash_boundary", "none",
-    false)
-
 void vsf_test_flash_boundary_run(const vsf_test_flash_boundary_case_t *c)
 {
     vsf_flash_t *flash = c->suite->flash;

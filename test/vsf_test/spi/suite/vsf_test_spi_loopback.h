@@ -33,19 +33,8 @@
     { 0 }
 #endif
 
-/*============================ TYPES =========================================*/
-
-typedef struct vsf_test_spi_loopback_case_t {
-    uint8_t  idx;
-    uint32_t mode;
-    uint32_t clock_hz;
-    uint16_t data_len;
-    vsf_test_spi_loopback_suite_t *suite;
-} vsf_test_spi_loopback_case_t;
-
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_spi_loopback_add_cases(vsf_test_spi_loopback_suite_t *suite);
 void vsf_test_spi_loopback_run(void *arg);
 
 #endif /* __VSF_TEST_SPI_LOOPBACK_H__ */

@@ -33,14 +33,6 @@ static void __lifecycle_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mas
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_irq_lifecycle_add_cases,
-    vsf_test_gpio_irq_lifecycle_suite_t,
-    vsf_test_gpio_irq_lifecycle_case_t,
-    vsf_test_gpio_irq_lifecycle_run,
-    VSF_TEST_GPIO_IRQ_LIFECYCLE_CASES_INIT,
-    "gpio_irq_lifecycle", "irq-lifecycle", "none",
-    false)
-
 void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c)
 {
     vsf_gpio_t *gpio = c->suite->gpio;

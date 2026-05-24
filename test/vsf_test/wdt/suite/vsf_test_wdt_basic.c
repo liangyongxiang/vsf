@@ -13,14 +13,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_wdt_basic_add_cases,
-    vsf_test_wdt_basic_suite_t,
-    vsf_test_wdt_basic_case_t,
-    vsf_test_wdt_basic_run,
-    VSF_TEST_WDT_BASIC_CASES_INIT,
-    "wdt_basic", "wdt_basic", "none",
-    false)
-
 void vsf_test_wdt_basic_run(void *arg)
 {
     vsf_test_wdt_basic_case_t *c = (vsf_test_wdt_basic_case_t *)arg;

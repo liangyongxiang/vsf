@@ -24,14 +24,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_write_throughput_add_cases,
-    vsf_test_gpio_write_throughput_suite_t,
-    vsf_test_gpio_write_throughput_case_t,
-    vsf_test_gpio_write_throughput_run,
-    VSF_TEST_GPIO_WRITE_THROUGHPUT_CASES_INIT,
-    "gpio_write_throughput", "perf-tput", "none",
-    false)
-
 void vsf_test_gpio_write_throughput_run(const vsf_test_gpio_write_throughput_case_t *c)
 {
     vsf_gpio_t *gpio = c->suite->gpio;

@@ -26,7 +26,6 @@
 extern "C" {
 #endif
 
-void vsf_test_usart_hw_flow_control_add_cases(vsf_test_usart_hw_flow_control_suite_t *suite);
 void vsf_test_usart_hw_flow_control_run(const vsf_test_usart_hw_flow_control_case_t *c);
 
 #ifdef __cplusplus

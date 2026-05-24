@@ -22,14 +22,6 @@ static void __rtc_alarm_isr(void *target_ptr, vsf_rtc_t *rtc_ptr,
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_rtc_alarm_add_cases,
-    vsf_test_rtc_alarm_suite_t,
-    vsf_test_rtc_alarm_case_t,
-    vsf_test_rtc_alarm_run,
-    VSF_TEST_RTC_ALARM_CASES_INIT,
-    "rtc_alarm", "rtc_alarm", "none",
-    false)
-
 void vsf_test_rtc_alarm_run(void *arg)
 {
     vsf_test_rtc_alarm_case_t *c = (vsf_test_rtc_alarm_case_t *)arg;

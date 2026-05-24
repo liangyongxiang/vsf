@@ -478,46 +478,407 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
 } vsf_test_usart_rx_fifo_threshold_case_t;
 #endif
 
+/*============================ STATIC INIT MACROS ============================*/
 
-typedef struct vsf_test_usart_suites_t {
-    vsf_test_usart_baud_suite_t                baud;
-    vsf_test_usart_mode_suite_t                mode;
-    vsf_test_usart_rx_data_suite_t             rx_data;
-    vsf_test_usart_rx_baud_suite_t             rx_baud;
-    vsf_test_usart_rx_mode_suite_t             rx_mode;
-    vsf_test_usart_rx_irq_suite_t              rx_irq;
-    vsf_test_usart_rx_timeout_suite_t          rx_timeout;
-    vsf_test_usart_rx_parity_error_suite_t     rx_parity_error;
-    vsf_test_usart_rx_frame_error_suite_t      rx_frame_error;
-    vsf_test_usart_rx_break_error_suite_t      rx_break_error;
-    vsf_test_usart_rx_overflow_error_suite_t   rx_overflow_error;
-    vsf_test_usart_break_signal_suite_t        break_signal;
-    vsf_test_usart_hw_flow_control_suite_t     hw_flow_control;
-    vsf_test_usart_tx_fifo_irq_suite_t         tx_fifo_irq;
-    vsf_test_usart_rx_fifo_irq_suite_t         rx_fifo_irq;
-    vsf_test_usart_request_tx_irq_suite_t      request_tx_irq;
-    vsf_test_usart_request_rx_irq_suite_t      request_rx_irq;
-    vsf_test_usart_request_cancel_suite_t      request_cancel;
+#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
+#define VSF_TEST_USART_BAUD_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_baud_suite_t suite_var; \
+    static vsf_test_usart_baud_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_TX_BAUD_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_TX_BAUD_CASES(__##suite_var##_data, vsf_test_usart_baud_run, false) \
+    }; \
+    static vsf_test_usart_baud_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "tx-baud", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
+#define VSF_TEST_USART_MODE_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_mode_suite_t suite_var; \
+    static vsf_test_usart_mode_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_TX_MODE_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_TX_MODE_CASES(__##suite_var##_data, vsf_test_usart_mode_run, false) \
+    }; \
+    static vsf_test_usart_mode_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "tx-mode", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
+#define VSF_TEST_USART_RX_DATA_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_data_suite_t suite_var; \
+    static vsf_test_usart_rx_data_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_DATA_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_DATA_CASES(__##suite_var##_data, vsf_test_usart_rx_data_run, true) \
+    }; \
+    static vsf_test_usart_rx_data_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-data", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
+#define VSF_TEST_USART_RX_BAUD_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_baud_suite_t suite_var; \
+    static vsf_test_usart_rx_baud_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_BAUD_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_BAUD_CASES(__##suite_var##_data, vsf_test_usart_rx_baud_run, true) \
+    }; \
+    static vsf_test_usart_rx_baud_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-baud", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
+#define VSF_TEST_USART_RX_MODE_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_mode_suite_t suite_var; \
+    static vsf_test_usart_rx_mode_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_MODE_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_MODE_CASES(__##suite_var##_data, vsf_test_usart_rx_mode_run, true) \
+    }; \
+    static vsf_test_usart_rx_mode_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-mode", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
+#define VSF_TEST_USART_RX_IRQ_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_irq_suite_t suite_var; \
+    static vsf_test_usart_rx_irq_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_IRQ_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_IRQ_CASES(__##suite_var##_data, vsf_test_usart_rx_irq_run, true) \
+    }; \
+    static vsf_test_usart_rx_irq_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-irq", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
+#define VSF_TEST_USART_RX_TIMEOUT_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_timeout_suite_t suite_var; \
+    static vsf_test_usart_rx_timeout_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_TIMEOUT_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_TIMEOUT_CASES(__##suite_var##_data, vsf_test_usart_rx_timeout_run, true) \
+    }; \
+    static vsf_test_usart_rx_timeout_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-timeout", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
+#define VSF_TEST_USART_RX_PARITY_ERROR_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_parity_error_suite_t suite_var; \
+    static vsf_test_usart_rx_parity_error_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_PARITY_ERROR_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_PARITY_ERROR_CASES(__##suite_var##_data, vsf_test_usart_rx_parity_error_run, true) \
+    }; \
+    static vsf_test_usart_rx_parity_error_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-parity", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
+#define VSF_TEST_USART_RX_FRAME_ERROR_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_frame_error_suite_t suite_var; \
+    static vsf_test_usart_rx_frame_error_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_FRAME_ERROR_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_FRAME_ERROR_CASES(__##suite_var##_data, vsf_test_usart_rx_frame_error_run, true) \
+    }; \
+    static vsf_test_usart_rx_frame_error_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-frame", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
+#define VSF_TEST_USART_RX_BREAK_ERROR_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_break_error_suite_t suite_var; \
+    static vsf_test_usart_rx_break_error_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_BREAK_ERROR_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_BREAK_ERROR_CASES(__##suite_var##_data, vsf_test_usart_rx_break_error_run, true) \
+    }; \
+    static vsf_test_usart_rx_break_error_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-break", \
+        .hw_req     = "uart1+host", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
+#define VSF_TEST_USART_RX_OVERFLOW_ERROR_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_overflow_error_suite_t suite_var; \
+    static vsf_test_usart_rx_overflow_error_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_OVERFLOW_ERROR_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_OVERFLOW_ERROR_CASES(__##suite_var##_data, vsf_test_usart_rx_overflow_error_run, true) \
+    }; \
+    static vsf_test_usart_rx_overflow_error_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-overflow", \
+        .hw_req     = "uart1+host", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
+#define VSF_TEST_USART_BREAK_SIGNAL_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_break_signal_suite_t suite_var; \
+    static vsf_test_usart_break_signal_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_BREAK_SIGNAL_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_BREAK_SIGNAL_CASES(__##suite_var##_data, vsf_test_usart_break_signal_run, false) \
+    }; \
+    static vsf_test_usart_break_signal_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "tx-break", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
+#define VSF_TEST_USART_HW_FLOW_CONTROL_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_hw_flow_control_suite_t suite_var; \
+    static vsf_test_usart_hw_flow_control_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_HW_FLOW_CONTROL_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_HW_FLOW_CONTROL_CASES(__##suite_var##_data, vsf_test_usart_hw_flow_control_run, false) \
+    }; \
+    static vsf_test_usart_hw_flow_control_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rts-cts", \
+        .hw_req     = "uart1", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
+#define VSF_TEST_USART_TX_FIFO_IRQ_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_tx_fifo_irq_suite_t suite_var; \
+    static vsf_test_usart_tx_fifo_irq_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_TX_FIFO_IRQ_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_TX_FIFO_IRQ_CASES(__##suite_var##_data, vsf_test_usart_tx_fifo_irq_run, true) \
+    }; \
+    static vsf_test_usart_tx_fifo_irq_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "tx-fifo-irq", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
+#define VSF_TEST_USART_RX_FIFO_IRQ_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_fifo_irq_suite_t suite_var; \
+    static vsf_test_usart_rx_fifo_irq_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_FIFO_IRQ_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_FIFO_IRQ_CASES(__##suite_var##_data, vsf_test_usart_rx_fifo_irq_run, true) \
+    }; \
+    static vsf_test_usart_rx_fifo_irq_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-fifo-irq", \
+        .hw_req     = "uart1+la+host_send", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
+#define VSF_TEST_USART_REQUEST_TX_IRQ_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_request_tx_irq_suite_t suite_var; \
+    static vsf_test_usart_request_tx_irq_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_REQUEST_TX_IRQ_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_REQUEST_TX_IRQ_CASES(__##suite_var##_data, vsf_test_usart_request_tx_irq_run, false) \
+    }; \
+    static vsf_test_usart_request_tx_irq_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "request-tx", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
+#define VSF_TEST_USART_REQUEST_RX_IRQ_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_request_rx_irq_suite_t suite_var; \
+    static vsf_test_usart_request_rx_irq_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_REQUEST_RX_IRQ_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_REQUEST_RX_IRQ_CASES(__##suite_var##_data, vsf_test_usart_request_rx_irq_run, true) \
+    }; \
+    static vsf_test_usart_request_rx_irq_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "request-rx", \
+        .hw_req     = "uart1+la+host_send", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
+#define VSF_TEST_USART_REQUEST_CANCEL_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_request_cancel_suite_t suite_var; \
+    static vsf_test_usart_request_cancel_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_REQUEST_CANCEL_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_REQUEST_CANCEL_CASES(__##suite_var##_data, vsf_test_usart_request_cancel_run, false) \
+    }; \
+    static vsf_test_usart_request_cancel_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "cancel", \
+        .hw_req     = "uart1+la", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
 #if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
-    vsf_test_usart_rx_bulk_irq_suite_t         rx_bulk_irq;
+#define VSF_TEST_USART_RX_BULK_IRQ_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_bulk_irq_suite_t suite_var; \
+    static vsf_test_usart_rx_bulk_irq_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_BULK_IRQ_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_BULK_IRQ_CASES(__##suite_var##_data, vsf_test_usart_rx_bulk_irq_run, true) \
+    }; \
+    static vsf_test_usart_rx_bulk_irq_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-bulk-irq", \
+        .hw_req     = "uart1+host", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
 #endif
+
 #if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
-    vsf_test_usart_rx_fifo_threshold_suite_t   rx_fifo_threshold;
+#define VSF_TEST_USART_RX_FIFO_THRESHOLD_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_usart_rx_fifo_threshold_suite_t suite_var; \
+    static vsf_test_usart_rx_fifo_threshold_case_t __##suite_var##_data[] = { \
+        VSF_TEST_USART_RX_FIFO_THRESHOLD_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_USART_RX_FIFO_THRESHOLD_CASES(__##suite_var##_data, vsf_test_usart_rx_fifo_threshold_run, true) \
+    }; \
+    static vsf_test_usart_rx_fifo_threshold_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rx-fifo-threshold", \
+        .hw_req     = "uart1+host", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
 #endif
-} vsf_test_usart_suites_t;
-
-typedef struct vsf_test_usart_suite_binding_t {
-    vsf_test_usart_suite_base_t *suite;
-    vsf_usart_t                 *instance;   //!< NULL = skip this suite
-    bool (*setup)(vsf_test_suite_t *);
-    void (*teardown)(vsf_test_suite_t *);
-} vsf_test_usart_suite_binding_t;
-
-void vsf_test_usart_init(vsf_test_usart_suites_t *s,
-                         const vsf_test_usart_suite_binding_t bindings[],
-                         uint8_t count);
-
-extern vsf_test_usart_suites_t vsf_test_usart_suites;
 
 /*============================ PROTOTYPES ====================================*/
 
@@ -607,85 +968,6 @@ void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_usart_rx_fifo_threshold
 // vsf_test.h without circular issues.
 #include "component/test/vsf_test/vsf_test.h"
 
-#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
-void vsf_test_usart_baud_add_cases(vsf_test_usart_baud_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
-void vsf_test_usart_mode_add_cases(vsf_test_usart_mode_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
-void vsf_test_usart_rx_data_add_cases(vsf_test_usart_rx_data_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
-void vsf_test_usart_rx_baud_add_cases(vsf_test_usart_rx_baud_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
-void vsf_test_usart_rx_mode_add_cases(vsf_test_usart_rx_mode_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
-void vsf_test_usart_rx_irq_add_cases(vsf_test_usart_rx_irq_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
-void vsf_test_usart_rx_timeout_add_cases(vsf_test_usart_rx_timeout_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_parity_error_add_cases(vsf_test_usart_rx_parity_error_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_frame_error_add_cases(vsf_test_usart_rx_frame_error_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_break_error_add_cases(vsf_test_usart_rx_break_error_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_overflow_error_add_cases(vsf_test_usart_rx_overflow_error_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
-void vsf_test_usart_break_signal_add_cases(vsf_test_usart_break_signal_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
-void vsf_test_usart_hw_flow_control_add_cases(vsf_test_usart_hw_flow_control_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
-void vsf_test_usart_tx_fifo_irq_add_cases(vsf_test_usart_tx_fifo_irq_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
-void vsf_test_usart_rx_fifo_irq_add_cases(vsf_test_usart_rx_fifo_irq_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
-void vsf_test_usart_request_tx_irq_add_cases(vsf_test_usart_request_tx_irq_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
-void vsf_test_usart_request_rx_irq_add_cases(vsf_test_usart_request_rx_irq_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
-void vsf_test_usart_request_cancel_add_cases(vsf_test_usart_request_cancel_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
-void vsf_test_usart_rx_bulk_irq_add_cases(vsf_test_usart_rx_bulk_irq_suite_t *suite);
-#endif
-
-#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
-void vsf_test_usart_rx_fifo_threshold_add_cases(vsf_test_usart_rx_fifo_threshold_suite_t *suite);
-#endif
 #ifdef __cplusplus
 }
 #endif

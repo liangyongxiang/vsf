@@ -24,14 +24,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_multi_pin_add_cases,
-    vsf_test_gpio_multi_pin_suite_t,
-    vsf_test_gpio_multi_pin_case_t,
-    vsf_test_gpio_multi_pin_run,
-    VSF_TEST_GPIO_MULTI_PIN_CASES_INIT,
-    "gpio_multi_pin", "multi-pair", "gpio_loopback(>=4)",
-    false)
-
 void vsf_test_gpio_multi_pin_run(const vsf_test_gpio_multi_pin_case_t *c)
 {
     vsf_gpio_t *gpio = c->suite->gpio;

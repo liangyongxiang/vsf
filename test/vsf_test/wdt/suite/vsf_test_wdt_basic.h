@@ -11,15 +11,9 @@
 #   define VSF_TEST_WDT_BASIC_CASE_COUNT       1
 #endif
 
-#define VSF_TEST_WDT_BASIC_CASES_INIT                                       \
-    { 0 }
+/*============================ PROTOTYPES ====================================*/
 
-/*============================ TYPES =========================================*/
-
-typedef struct vsf_test_wdt_basic_case_t {
-    uint8_t idx;
-    vsf_test_wdt_basic_suite_t *suite;
-} vsf_test_wdt_basic_case_t;
+void vsf_test_wdt_basic_run(void *arg);
 
 #endif /* __VSF_TEST_WDT_BASIC_H__ */
 /* EOF */

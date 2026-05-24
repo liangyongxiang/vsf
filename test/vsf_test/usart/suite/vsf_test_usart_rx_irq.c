@@ -71,14 +71,6 @@ static void __rx_irq_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_irq_add_cases,
-    vsf_test_usart_rx_irq_suite_t,
-    vsf_test_usart_rx_irq_case_t,
-    vsf_test_usart_rx_irq_run,
-    VSF_TEST_USART_RX_IRQ_CASES_INIT,
-    "usart_rx_irq", "rx-irq", "uart1+la",
-    true)
-
 void vsf_test_usart_rx_irq_run(const vsf_test_usart_rx_irq_case_t *c)
 {
     __rx_irq_ctx_t ctx = { .count = 0, .expected_len = strlen(VSF_TEST_RX_IRQ_PAYLOAD), .done = false };

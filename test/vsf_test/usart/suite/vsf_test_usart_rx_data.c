@@ -42,14 +42,6 @@ static uint8_t __rx_data_buf[4096];
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_data_add_cases,
-    vsf_test_usart_rx_data_suite_t,
-    vsf_test_usart_rx_data_case_t,
-    vsf_test_usart_rx_data_run,
-    VSF_TEST_USART_RX_DATA_CASES_INIT,
-    "usart_rx_data", "rx-data", "uart1+la",
-    true)
-
 void vsf_test_usart_rx_data_run(const vsf_test_usart_rx_data_case_t *c)
 {
     vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){

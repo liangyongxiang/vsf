@@ -1,8 +1,8 @@
-/*****************************************************************************
+/******************************************************************************
  *   Copyright(C)2009-2024 by VSF Team                                       *
  *                                                                           *
  *  Licensed under the Apache License, Version 2.0 (the "License");          *
- *  you may not use this file except in compliance with the License.         *
+ *  You may not use this file except in compliance with the License.         *
  *  You may obtain a copy of the License at                                  *
  *                                                                           *
  *     http://www.apache.org/licenses/LICENSE-2.0                            *
@@ -18,35 +18,5 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_flash.h"
-
-/*============================ IMPLEMENTATION ================================*/
-
-// Suite-aware suites: each add_cases() calls vsf_test_register_suite()
-// internally, which also opens the matching shell suite.
-vsf_test_flash_suites_t vsf_test_flash_suites;
-
-void vsf_test_flash_init(vsf_test_flash_suites_t *s,
-                         const vsf_test_flash_suite_binding_t bindings[],
-                         uint8_t count)
-{
-    for (uint8_t i = 0; i < count; i++) {
-        vsf_test_flash_suite_base_t *suite = bindings[i].suite;
-        vsf_flash_t                *inst  = bindings[i].instance;
-        if (inst == NULL) { continue; }
-
-        suite->flash  = inst;
-        suite->setup  = bindings[i].setup;
-        suite->teardown = bindings[i].teardown;
-    }
-#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-    vsf_test_flash_erase_program_read_add_cases(&s->erase_program_read);
-#endif
-
-#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-    vsf_test_flash_boundary_add_cases(&s->boundary);
-#endif
-
-}
-
 
 /* EOF */

@@ -11,14 +11,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_pwm_dual_channel_add_cases,
-    vsf_test_pwm_dual_channel_suite_t,
-    vsf_test_pwm_dual_channel_case_t,
-    vsf_test_pwm_dual_channel_run,
-    VSF_TEST_PWM_DUAL_CHANNEL_CASES_INIT,
-    "pwm_dual_channel", "pwm_dual_channel", "none",
-    false)
-
 void vsf_test_pwm_dual_channel_run(void *arg)
 {
     vsf_test_pwm_dual_channel_case_t *c = (vsf_test_pwm_dual_channel_case_t *)arg;

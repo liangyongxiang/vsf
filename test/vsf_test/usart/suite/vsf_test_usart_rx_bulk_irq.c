@@ -63,14 +63,6 @@ static void __rx_bulk_irq_handler(void *target, vsf_usart_t *usart,
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_bulk_irq_add_cases,
-    vsf_test_usart_rx_bulk_irq_suite_t,
-    vsf_test_usart_rx_bulk_irq_case_t,
-    vsf_test_usart_rx_bulk_irq_run,
-    VSF_TEST_USART_RX_BULK_IRQ_CASES_INIT,
-    "usart_rx_bulk_irq", "rx-bulk-irq", "uart1+host",
-    true)
-
 void vsf_test_usart_rx_bulk_irq_run(const vsf_test_usart_rx_bulk_irq_case_t *c)
 {
     vsf_usart_t *usart = c->suite->usart;

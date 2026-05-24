@@ -24,14 +24,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_direction_add_cases,
-    vsf_test_gpio_direction_suite_t,
-    vsf_test_gpio_direction_case_t,
-    vsf_test_gpio_direction_run,
-    VSF_TEST_GPIO_DIRECTION_CASES_INIT,
-    "gpio_direction", "direction", "none",
-    false)
-
 void vsf_test_gpio_direction_run(const vsf_test_gpio_direction_case_t *c)
 {
     vsf_gpio_t *gpio = c->suite->gpio;

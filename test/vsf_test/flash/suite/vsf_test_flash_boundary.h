@@ -28,7 +28,6 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_flash_boundary_add_cases(vsf_test_flash_boundary_suite_t *suite);
 void vsf_test_flash_boundary_run(const vsf_test_flash_boundary_case_t *c);
 
 #ifdef __cplusplus

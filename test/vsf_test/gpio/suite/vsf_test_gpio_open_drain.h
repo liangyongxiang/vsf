@@ -26,7 +26,6 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_open_drain_add_cases(vsf_test_gpio_open_drain_suite_t *suite);
 void vsf_test_gpio_open_drain_run(const vsf_test_gpio_open_drain_case_t *c);
 
 #ifdef __cplusplus

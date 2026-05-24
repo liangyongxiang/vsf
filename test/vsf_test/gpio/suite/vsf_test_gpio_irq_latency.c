@@ -34,14 +34,6 @@ static void __latency_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_irq_latency_add_cases,
-    vsf_test_gpio_irq_latency_suite_t,
-    vsf_test_gpio_irq_latency_case_t,
-    vsf_test_gpio_irq_latency_run,
-    VSF_TEST_GPIO_IRQ_LATENCY_CASES_INIT,
-    "gpio_irq_latency", "perf-irq", "none",
-    false)
-
 void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c)
 {
     vsf_gpio_t *gpio = c->suite->gpio;

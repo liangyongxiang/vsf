@@ -11,14 +11,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_adc_oneshot_add_cases,
-    vsf_test_adc_oneshot_suite_t,
-    vsf_test_adc_oneshot_case_t,
-    vsf_test_adc_oneshot_run,
-    VSF_TEST_ADC_ONESHOT_CASES_INIT,
-    "adc_oneshot", "adc_oneshot", "none",
-    false)
-
 void vsf_test_adc_oneshot_run(void *arg)
 {
     vsf_test_adc_oneshot_case_t *c = (vsf_test_adc_oneshot_case_t *)arg;

@@ -71,26 +71,93 @@ vsf_class(vsf_test_dma_scatter_gather_suite_t) {
     )
 };
 
-typedef struct vsf_test_dma_suites_t {
-    vsf_test_dma_mem2mem_suite_t mem2mem;
-    vsf_test_dma_mem2mem_irq_suite_t mem2mem_irq;
-    vsf_test_dma_scatter_gather_suite_t scatter_gather;
-} vsf_test_dma_suites_t;
+#if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
+typedef struct vsf_test_dma_mem2mem_case_t {
+    uint8_t  idx;
+    bool     expect_pass;
+    vsf_test_dma_mem2mem_suite_t *suite;
+} vsf_test_dma_mem2mem_case_t;
+#endif
 
+#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
+typedef struct vsf_test_dma_mem2mem_irq_case_t {
+    uint8_t  idx;
+    bool     expect_pass;
+    vsf_test_dma_mem2mem_irq_suite_t *suite;
+} vsf_test_dma_mem2mem_irq_case_t;
+#endif
 
-extern vsf_test_dma_suites_t vsf_test_dma_suites;
+#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
+typedef struct vsf_test_dma_scatter_gather_case_t {
+    uint8_t  idx;
+    bool     expect_not_support;
+    vsf_test_dma_scatter_gather_suite_t *suite;
+} vsf_test_dma_scatter_gather_case_t;
+#endif
+
+/*============================ STATIC INIT MACROS ============================*/
+
+#if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
+#define VSF_TEST_DMA_MEM2MEM_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_dma_mem2mem_suite_t suite_var; \
+    static vsf_test_dma_mem2mem_case_t __##suite_var##_data[] = { \
+        VSF_TEST_DMA_MEM2MEM_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_DMA_MEM2MEM_CASES(__##suite_var##_data, vsf_test_dma_mem2mem_run, false) \
+    }; \
+    static vsf_test_dma_mem2mem_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "dma_mem2mem", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
+#define VSF_TEST_DMA_MEM2MEM_IRQ_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_dma_mem2mem_irq_suite_t suite_var; \
+    static vsf_test_dma_mem2mem_irq_case_t __##suite_var##_data[] = { \
+        VSF_TEST_DMA_MEM2MEM_IRQ_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_DMA_MEM2MEM_IRQ_CASES(__##suite_var##_data, vsf_test_dma_mem2mem_irq_run, false) \
+    }; \
+    static vsf_test_dma_mem2mem_irq_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "dma_mem2mem_irq", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
+#define VSF_TEST_DMA_SCATTER_GATHER_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_dma_scatter_gather_suite_t suite_var; \
+    static vsf_test_dma_scatter_gather_case_t __##suite_var##_data[] = { \
+        VSF_TEST_DMA_SCATTER_GATHER_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_DMA_SCATTER_GATHER_CASES(__##suite_var##_data, vsf_test_dma_scatter_gather_run, false) \
+    }; \
+    static vsf_test_dma_scatter_gather_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "dma_scatter_gather", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
 /*============================ PROTOTYPES ====================================*/
-
-typedef struct vsf_test_dma_suite_binding_t {
-    vsf_test_dma_suite_base_t *suite;
-    vsf_dma_t               *instance;   //!< NULL = skip this suite
-    bool (*setup)(vsf_test_suite_t *);
-    void (*teardown)(vsf_test_suite_t *);
-} vsf_test_dma_suite_binding_t;
-
-void vsf_test_dma_init(vsf_test_dma_suites_t *s,
-                         const vsf_test_dma_suite_binding_t bindings[],
-                         uint8_t count);
 
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
 void vsf_test_dma_mem2mem_run(void *arg);
@@ -104,17 +171,6 @@ void vsf_test_dma_mem2mem_irq_run(void *arg);
 void vsf_test_dma_scatter_gather_run(void *arg);
 #endif
 
-#if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-void vsf_test_dma_mem2mem_add_cases(vsf_test_dma_mem2mem_suite_t *suite);
-#endif
-
-#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-void vsf_test_dma_mem2mem_irq_add_cases(vsf_test_dma_mem2mem_irq_suite_t *suite);
-#endif
-
-#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-void vsf_test_dma_scatter_gather_add_cases(vsf_test_dma_scatter_gather_suite_t *suite);
-#endif
 #ifdef __cplusplus
 }
 #endif

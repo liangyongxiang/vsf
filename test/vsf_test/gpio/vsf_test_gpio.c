@@ -17,94 +17,10 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "component/test/vsf_test/vsf_test.h"
 #include "vsf_test_gpio.h"
 
 /*============================ IMPLEMENTATION ================================*/
 
-// Suite-aware suites: each add_cases() calls vsf_test_register_suite()
-// internally, which also opens the matching shell suite.
-vsf_test_gpio_suites_t vsf_test_gpio_suites;
-
-void vsf_test_gpio_init(vsf_test_gpio_suites_t *s,
-                         const vsf_test_gpio_suite_binding_t bindings[],
-                         uint8_t count)
-{
-    for (uint8_t i = 0; i < count; i++) {
-        vsf_test_gpio_suite_base_t *suite = bindings[i].suite;
-        vsf_gpio_t                 *inst  = bindings[i].instance;
-        if (inst == NULL) { continue; }
-
-        suite->gpio  = inst;
-        suite->setup  = bindings[i].setup;
-        suite->teardown = bindings[i].teardown;
-    }
-#if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
-    vsf_test_gpio_output_input_add_cases(&s->output_input);
-#endif
-
-#if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
-    vsf_test_gpio_toggle_add_cases(&s->toggle);
-#endif
-
-#if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
-    vsf_test_gpio_direction_add_cases(&s->direction);
-#endif
-
-#if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
-    vsf_test_gpio_atomic_add_cases(&s->atomic);
-#endif
-
-#if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
-    vsf_test_gpio_pinmux_add_cases(&s->pinmux);
-#endif
-
-#if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
-    vsf_test_gpio_multi_pin_add_cases(&s->multi_pin);
-#endif
-
-#if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
-    vsf_test_gpio_open_drain_add_cases(&s->open_drain);
-#endif
-
-#if VSF_TEST_GPIO_TOGGLE_FREQ_ENABLE == ENABLED
-    vsf_test_gpio_toggle_freq_add_cases(&s->toggle_freq);
-#endif
-
-#if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
-    vsf_test_gpio_write_throughput_add_cases(&s->write_throughput);
-#endif
-
-#if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
-    vsf_test_gpio_toggle_stress_add_cases(&s->toggle_stress);
-#endif
-
-#if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
-    vsf_test_gpio_concurrent_prio_add_cases(&s->concurrent_prio);
-#endif
-
-#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
-    vsf_test_gpio_exti_add_cases(&s->exti);
-#endif
-
-#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
-    vsf_test_gpio_irq_latency_add_cases(&s->irq_latency);
-#endif
-
-#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
-    vsf_test_gpio_irq_lifecycle_add_cases(&s->irq_lifecycle);
-#endif
-
-#if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
-    vsf_test_gpio_systimer_health_add_cases(&s->systimer_health);
-#endif
-
-#if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
-    vsf_test_gpio_analog_mode_add_cases(&s->analog_mode);
-#endif
-
-#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
-    vsf_test_gpio_io_check_add_cases(&s->io_check);
-#endif
-
-}
+/* GPIO test suites are now statically initialised via VSF_TEST_GPIO_*_STATIC
+ * macros defined in vsf_test_gpio.h. No runtime init or binding table needed.
+ */

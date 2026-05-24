@@ -48,14 +48,6 @@ static void __usart_send_str(vsf_usart_t *usart, const char *str)
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_mode_add_cases,
-    vsf_test_usart_mode_suite_t,
-    vsf_test_usart_mode_case_t,
-    vsf_test_usart_mode_run,
-    VSF_TEST_USART_TX_MODE_CASES_INIT,
-    "usart_mode", "tx-mode", "uart1+la",
-    false)
-
 void vsf_test_usart_mode_run(const vsf_test_usart_mode_case_t *c)
 {
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers

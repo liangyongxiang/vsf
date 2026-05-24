@@ -2,7 +2,7 @@
  *   Copyright(C)2009-2024 by VSF Team                                       *
  *                                                                           *
  *  Licensed under the Apache License, Version 2.0 (the "License");          *
- *  you may not use this file except in compliance with the License.         *
+ *  You may not use this file except in compliance with the License.         *
  *  You may obtain a copy of the License at                                  *
  *                                                                           *
  *     http://www.apache.org/licenses/LICENSE-2.0                            *
@@ -79,25 +79,70 @@ vsf_class(vsf_test_timer_periodic_suite_t) {
     )
 };
 
-typedef struct vsf_test_timer_suites_t {
-    vsf_test_timer_oneshot_suite_t  oneshot;
-    vsf_test_timer_periodic_suite_t periodic;
-} vsf_test_timer_suites_t;
+#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
+typedef struct vsf_test_timer_oneshot_case_t {
+    uint8_t  idx;
+    uint8_t  timer_idx;
+    uint8_t  channel;
+    uint32_t period_us;
+    vsf_test_timer_oneshot_suite_t *suite;
+} vsf_test_timer_oneshot_case_t;
+#endif
 
+#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
+typedef struct vsf_test_timer_periodic_case_t {
+    uint8_t  idx;
+    uint8_t  timer_idx;
+    uint8_t  channel;
+    uint32_t period_us;
+    uint8_t  count;
+    vsf_test_timer_periodic_suite_t *suite;
+} vsf_test_timer_periodic_case_t;
+#endif
 
-extern vsf_test_timer_suites_t vsf_test_timer_suites;
+/*============================ STATIC INIT MACROS ============================*/
+
+#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
+#define VSF_TEST_TIMER_ONESHOT_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_timer_oneshot_suite_t suite_var; \
+    static vsf_test_timer_oneshot_case_t __##suite_var##_data[] = { \
+        VSF_TEST_TIMER_ONESHOT_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_TIMER_ONESHOT_CASES(__##suite_var##_data, vsf_test_timer_oneshot_run, false) \
+    }; \
+    static vsf_test_timer_oneshot_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "timer_oneshot", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
+#define VSF_TEST_TIMER_PERIODIC_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_timer_periodic_suite_t suite_var; \
+    static vsf_test_timer_periodic_case_t __##suite_var##_data[] = { \
+        VSF_TEST_TIMER_PERIODIC_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_TIMER_PERIODIC_CASES(__##suite_var##_data, vsf_test_timer_periodic_run, false) \
+    }; \
+    static vsf_test_timer_periodic_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "timer_periodic", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
 /*============================ PROTOTYPES ====================================*/
-
-typedef struct vsf_test_timer_suite_binding_t {
-    vsf_test_timer_suite_base_t *suite;
-    vsf_timer_t               *instance;   //!< NULL = skip this suite
-    bool (*setup)(vsf_test_suite_t *);
-    void (*teardown)(vsf_test_suite_t *);
-} vsf_test_timer_suite_binding_t;
-
-void vsf_test_timer_init(vsf_test_timer_suites_t *s,
-                         const vsf_test_timer_suite_binding_t bindings[],
-                         uint8_t count);
 
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
 void vsf_test_timer_oneshot_run(void *arg);
@@ -107,13 +152,10 @@ void vsf_test_timer_oneshot_run(void *arg);
 void vsf_test_timer_periodic_run(void *arg);
 #endif
 
-#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-void vsf_test_timer_oneshot_add_cases(vsf_test_timer_oneshot_suite_t *suite);
-#endif
+// Framework types — included LAST so this header can be pulled into
+// vsf_test.h (which needs vsf_test_timer_suites_t) without circular issues.
+#include "component/test/vsf_test/vsf_test.h"
 
-#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-void vsf_test_timer_periodic_add_cases(vsf_test_timer_periodic_suite_t *suite);
-#endif
 #ifdef __cplusplus
 }
 #endif

@@ -46,14 +46,6 @@ static void __tx_fifo_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_tx_fifo_irq_add_cases,
-    vsf_test_usart_tx_fifo_irq_suite_t,
-    vsf_test_usart_tx_fifo_irq_case_t,
-    vsf_test_usart_tx_fifo_irq_run,
-    VSF_TEST_USART_TX_FIFO_IRQ_CASES_INIT,
-    "usart_tx_fifo_irq", "tx-fifo-irq", "uart1+la",
-    true)
-
 void vsf_test_usart_tx_fifo_irq_run(const vsf_test_usart_tx_fifo_irq_case_t *c)
 {
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers

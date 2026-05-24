@@ -26,7 +26,6 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_irq_lifecycle_add_cases(vsf_test_gpio_irq_lifecycle_suite_t *suite);
 void vsf_test_gpio_irq_lifecycle_run(const vsf_test_gpio_irq_lifecycle_case_t *c);
 
 #ifdef __cplusplus

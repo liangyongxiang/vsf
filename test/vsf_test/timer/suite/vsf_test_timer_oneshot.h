@@ -11,15 +11,9 @@
 #   define VSF_TEST_TIMER_ONESHOT_CASE_COUNT   1
 #endif
 
-#define VSF_TEST_TIMER_ONESHOT_CASES_INIT                                   \
-    { 0 }
+/*============================ PROTOTYPES ====================================*/
 
-/*============================ TYPES =========================================*/
-
-typedef struct vsf_test_timer_oneshot_case_t {
-    uint8_t idx;
-    vsf_test_timer_oneshot_suite_t *suite;
-} vsf_test_timer_oneshot_case_t;
+void vsf_test_timer_oneshot_run(void *arg);
 
 #endif /* __VSF_TEST_TIMER_ONESHOT_H__ */
 /* EOF */

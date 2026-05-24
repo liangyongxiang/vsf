@@ -38,14 +38,6 @@ static void __dma_mem2mem_irq_handler(void *target_ptr, vsf_dma_t *dma_ptr,
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_dma_mem2mem_irq_add_cases,
-    vsf_test_dma_mem2mem_irq_suite_t,
-    vsf_test_dma_mem2mem_irq_case_t,
-    vsf_test_dma_mem2mem_irq_run,
-    VSF_TEST_DMA_MEM2MEM_IRQ_CASES_INIT,
-    "dma_mem2mem_irq", "dma_mem2mem_irq", "none",
-    false)
-
 void vsf_test_dma_mem2mem_irq_run(void *arg)
 {
     vsf_test_dma_mem2mem_irq_case_t *c = (vsf_test_dma_mem2mem_irq_case_t *)arg;

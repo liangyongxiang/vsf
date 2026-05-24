@@ -63,14 +63,6 @@ static void __rx_timeout_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_u
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_timeout_add_cases,
-    vsf_test_usart_rx_timeout_suite_t,
-    vsf_test_usart_rx_timeout_case_t,
-    vsf_test_usart_rx_timeout_run,
-    VSF_TEST_USART_RX_TIMEOUT_CASES_INIT,
-    "usart_rx_timeout", "rx-timeout", "uart1+la",
-    true)
-
 void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
 {
     __rx_timeout_ctx_t ctx = { .timeout_triggered = false };

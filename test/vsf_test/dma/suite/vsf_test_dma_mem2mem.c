@@ -30,14 +30,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_dma_mem2mem_add_cases,
-    vsf_test_dma_mem2mem_suite_t,
-    vsf_test_dma_mem2mem_case_t,
-    vsf_test_dma_mem2mem_run,
-    VSF_TEST_DMA_MEM2MEM_CASES_INIT,
-    "dma_mem2mem", "dma_mem2mem", "none",
-    false)
-
 void vsf_test_dma_mem2mem_run(void *arg)
 {
     vsf_test_dma_mem2mem_case_t *c = (vsf_test_dma_mem2mem_case_t *)arg;

@@ -50,31 +50,42 @@ vsf_class(vsf_test_spi_loopback_suite_t) {
     )
 };
 
-typedef struct vsf_test_spi_suites_t {
-    vsf_test_spi_loopback_suite_t loopback;
-} vsf_test_spi_suites_t;
+#if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
+typedef struct vsf_test_spi_loopback_case_t {
+    uint8_t  idx;
+    uint32_t mode;
+    uint32_t clock_hz;
+    uint16_t data_len;
+    vsf_test_spi_loopback_suite_t *suite;
+} vsf_test_spi_loopback_case_t;
+#endif
 
+/*============================ STATIC INIT MACROS ============================*/
 
-extern vsf_test_spi_suites_t vsf_test_spi_suites;
+#if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
+#define VSF_TEST_SPI_LOOPBACK_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_spi_loopback_suite_t suite_var; \
+    static vsf_test_spi_loopback_case_t __##suite_var##_data[] = { \
+        VSF_TEST_SPI_LOOPBACK_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_SPI_LOOPBACK_CASES(__##suite_var##_data, vsf_test_spi_loopback_run, false) \
+    }; \
+    static vsf_test_spi_loopback_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "spi_loopback", \
+        .hw_req     = "mosi-miso-jumper", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
 /*============================ PROTOTYPES ====================================*/
-
-typedef struct vsf_test_spi_suite_binding_t {
-    vsf_test_spi_suite_base_t *suite;
-    vsf_spi_t               *instance;   //!< NULL = skip this suite
-    bool (*setup)(vsf_test_suite_t *);
-    void (*teardown)(vsf_test_suite_t *);
-} vsf_test_spi_suite_binding_t;
-
-void vsf_test_spi_init(vsf_test_spi_suites_t *s,
-                         const vsf_test_spi_suite_binding_t bindings[],
-                         uint8_t count);
 
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
 void vsf_test_spi_loopback_run(void *arg);
-#endif
-
-#if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-void vsf_test_spi_loopback_add_cases(vsf_test_spi_loopback_suite_t *suite);
 #endif
 #ifdef __cplusplus
 }

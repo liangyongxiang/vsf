@@ -28,20 +28,8 @@
 #   define VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT     1
 #endif
 
-#define VSF_TEST_DMA_MEM2MEM_IRQ_CASES_INIT                                       \
-    { 0 }
-
-/*============================ TYPES =========================================*/
-
-typedef struct vsf_test_dma_mem2mem_irq_case_t {
-    uint8_t idx;
-    bool expect_pass;
-    vsf_test_dma_mem2mem_irq_suite_t *suite;
-} vsf_test_dma_mem2mem_irq_case_t;
-
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_dma_mem2mem_irq_add_cases(vsf_test_dma_mem2mem_irq_suite_t *suite);
 void vsf_test_dma_mem2mem_irq_run(void *arg);
 
 #endif /* __VSF_TEST_DMA_MEM2MEM_IRQ_H__ */

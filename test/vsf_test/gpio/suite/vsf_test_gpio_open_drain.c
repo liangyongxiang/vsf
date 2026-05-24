@@ -24,14 +24,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_open_drain_add_cases,
-    vsf_test_gpio_open_drain_suite_t,
-    vsf_test_gpio_open_drain_case_t,
-    vsf_test_gpio_open_drain_run,
-    VSF_TEST_GPIO_OPEN_DRAIN_CASES_INIT,
-    "gpio_open_drain", "od", "gpio_loopback+pull_up",
-    false)
-
 void vsf_test_gpio_open_drain_run(const vsf_test_gpio_open_drain_case_t *c)
 {
     vsf_gpio_t *gpio = c->suite->gpio;

@@ -1,8 +1,8 @@
-/*****************************************************************************
+/******************************************************************************
  *   Copyright(C)2009-2024 by VSF Team                                       *
  *                                                                           *
  *  Licensed under the Apache License, Version 2.0 (the "License");          *
- *  you may not use this file except in compliance with the License.         *
+ *  You may not use this file except in compliance with the License.         *
  *  You may obtain a copy of the License at                                  *
  *                                                                           *
  *     http://www.apache.org/licenses/LICENSE-2.0                            *
@@ -86,24 +86,48 @@ typedef struct vsf_test_flash_boundary_case_t {
 } vsf_test_flash_boundary_case_t;
 #endif
 
-typedef struct vsf_test_flash_suites_t {
-    vsf_test_flash_erase_program_read_suite_t erase_program_read;
-    vsf_test_flash_boundary_suite_t           boundary;
-} vsf_test_flash_suites_t;
+/*============================ STATIC INIT MACROS ============================*/
 
-typedef struct vsf_test_flash_suite_binding_t {
-    vsf_test_flash_suite_base_t *suite;
-    vsf_flash_t               *instance;   //!< NULL = skip this suite
-    bool (*setup)(vsf_test_suite_t *);
-    void (*teardown)(vsf_test_suite_t *);
-} vsf_test_flash_suite_binding_t;
+#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
+#define VSF_TEST_FLASH_ERASE_PROGRAM_READ_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_flash_erase_program_read_suite_t suite_var; \
+    static vsf_test_flash_erase_program_read_case_t __##suite_var##_data[] = { \
+        VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASES(__##suite_var##_data, vsf_test_flash_erase_program_read_run, false) \
+    }; \
+    static vsf_test_flash_erase_program_read_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "flash_erase_program_read", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
 
-void vsf_test_flash_init(vsf_test_flash_suites_t *s,
-                         const vsf_test_flash_suite_binding_t bindings[],
-                         uint8_t count);
+#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
+#define VSF_TEST_FLASH_BOUNDARY_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_flash_boundary_suite_t suite_var; \
+    static vsf_test_flash_boundary_case_t __##suite_var##_data[] = { \
+        VSF_TEST_FLASH_BOUNDARY_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_FLASH_BOUNDARY_CASES(__##suite_var##_data, vsf_test_flash_boundary_run, false) \
+    }; \
+    static vsf_test_flash_boundary_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "flash_boundary", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
 
-
-extern vsf_test_flash_suites_t vsf_test_flash_suites;
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
@@ -116,13 +140,6 @@ void vsf_test_flash_boundary_run(const vsf_test_flash_boundary_case_t *c);
 
 #include "component/test/vsf_test/vsf_test.h"
 
-#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-void vsf_test_flash_erase_program_read_add_cases(vsf_test_flash_erase_program_read_suite_t *suite);
-#endif
-
-#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-void vsf_test_flash_boundary_add_cases(vsf_test_flash_boundary_suite_t *suite);
-#endif
 #ifdef __cplusplus
 }
 #endif

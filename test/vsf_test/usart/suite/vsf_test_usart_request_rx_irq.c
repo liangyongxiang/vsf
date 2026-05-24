@@ -34,14 +34,6 @@ static void __req_rx_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t 
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_request_rx_irq_add_cases,
-    vsf_test_usart_request_rx_irq_suite_t,
-    vsf_test_usart_request_rx_irq_case_t,
-    vsf_test_usart_request_rx_irq_run,
-    VSF_TEST_USART_REQUEST_RX_IRQ_CASES_INIT,
-    "usart_request_rx_irq", "request-rx", "uart1+la+host_send",
-    true)
-
 void vsf_test_usart_request_rx_irq_run(const vsf_test_usart_request_rx_irq_case_t *c)
 {
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers

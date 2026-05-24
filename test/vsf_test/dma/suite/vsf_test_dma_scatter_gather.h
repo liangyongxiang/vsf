@@ -28,20 +28,8 @@
 #   define VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT     1
 #endif
 
-#define VSF_TEST_DMA_SCATTER_GATHER_CASES_INIT                                       \
-    { 0 }
-
-/*============================ TYPES =========================================*/
-
-typedef struct vsf_test_dma_scatter_gather_case_t {
-    uint8_t idx;
-    bool expect_not_support;
-    vsf_test_dma_scatter_gather_suite_t *suite;
-} vsf_test_dma_scatter_gather_case_t;
-
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_dma_scatter_gather_add_cases(vsf_test_dma_scatter_gather_suite_t *suite);
 void vsf_test_dma_scatter_gather_run(void *arg);
 
 #endif /* __VSF_TEST_DMA_SCATTER_GATHER_H__ */

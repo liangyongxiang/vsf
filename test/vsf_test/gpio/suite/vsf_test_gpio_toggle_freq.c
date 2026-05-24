@@ -24,14 +24,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_toggle_freq_add_cases,
-    vsf_test_gpio_toggle_freq_suite_t,
-    vsf_test_gpio_toggle_freq_case_t,
-    vsf_test_gpio_toggle_freq_run,
-    VSF_TEST_GPIO_TOGGLE_FREQ_CASES_INIT,
-    "gpio_toggle_freq", "perf-freq", "none",
-    false)
-
 void vsf_test_gpio_toggle_freq_run(const vsf_test_gpio_toggle_freq_case_t *c)
 {
     vsf_gpio_t *gpio = c->suite->gpio;

@@ -26,7 +26,6 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_io_check_add_cases(vsf_test_gpio_io_check_suite_t *suite);
 void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c);
 
 #ifdef __cplusplus

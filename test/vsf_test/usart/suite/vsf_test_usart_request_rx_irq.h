@@ -26,7 +26,6 @@
 extern "C" {
 #endif
 
-void vsf_test_usart_request_rx_irq_add_cases(vsf_test_usart_request_rx_irq_suite_t *suite);
 void vsf_test_usart_request_rx_irq_run(const vsf_test_usart_request_rx_irq_case_t *c);
 
 #ifdef __cplusplus

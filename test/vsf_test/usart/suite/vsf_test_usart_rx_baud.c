@@ -37,14 +37,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_rx_baud_add_cases,
-    vsf_test_usart_rx_baud_suite_t,
-    vsf_test_usart_rx_baud_case_t,
-    vsf_test_usart_rx_baud_run,
-    VSF_TEST_USART_RX_BAUD_CASES_INIT,
-    "usart_rx_baud", "rx-baud", "uart1+la",
-    true)
-
 void vsf_test_usart_rx_baud_run(const vsf_test_usart_rx_baud_case_t *c)
 {
     vsf_usart_capability_t cap = vsf_usart_capability(c->suite->usart);

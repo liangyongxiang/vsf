@@ -57,14 +57,6 @@ static void __usart_send_bulk(vsf_usart_t *usart, uint32_t len)
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_usart_baud_add_cases,
-    vsf_test_usart_baud_suite_t,
-    vsf_test_usart_baud_case_t,
-    vsf_test_usart_baud_run,
-    VSF_TEST_USART_TX_BAUD_CASES_INIT,
-    "usart_baud", "tx-baud", "uart1+la",
-    false)
-
 void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
 {
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers

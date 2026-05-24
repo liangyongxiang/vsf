@@ -11,14 +11,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_rtc_set_get_add_cases,
-    vsf_test_rtc_set_get_suite_t,
-    vsf_test_rtc_set_get_case_t,
-    vsf_test_rtc_set_get_run,
-    VSF_TEST_RTC_SET_GET_CASES_INIT,
-    "rtc_set_get", "rtc_set_get", "none",
-    false)
-
 void vsf_test_rtc_set_get_run(void *arg)
 {
     vsf_test_rtc_set_get_case_t *c = (vsf_test_rtc_set_get_case_t *)arg;

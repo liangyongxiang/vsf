@@ -25,14 +25,6 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_gpio_concurrent_prio_add_cases,
-    vsf_test_gpio_concurrent_prio_suite_t,
-    vsf_test_gpio_concurrent_prio_case_t,
-    vsf_test_gpio_concurrent_prio_run,
-    VSF_TEST_GPIO_CONCURRENT_PRIO_CASES_INIT,
-    "gpio_concurrent_prio", "concurrency", "none",
-    false)
-
 void vsf_test_gpio_concurrent_prio_run(const vsf_test_gpio_concurrent_prio_case_t *c)
 {
     vsf_gpio_t *gpio = c->suite->gpio;

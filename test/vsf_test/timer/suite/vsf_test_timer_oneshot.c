@@ -24,14 +24,6 @@ static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
 
 /*============================ IMPLEMENTATION ================================*/
 
-VSF_TEST_SUITE_REGISTER(vsf_test_timer_oneshot_add_cases,
-    vsf_test_timer_oneshot_suite_t,
-    vsf_test_timer_oneshot_case_t,
-    vsf_test_timer_oneshot_run,
-    VSF_TEST_TIMER_ONESHOT_CASES_INIT,
-    "timer_oneshot", "timer_oneshot", "none",
-    false)
-
 void vsf_test_timer_oneshot_run(void *arg)
 {
     vsf_test_timer_oneshot_case_t *c = (vsf_test_timer_oneshot_case_t *)arg;

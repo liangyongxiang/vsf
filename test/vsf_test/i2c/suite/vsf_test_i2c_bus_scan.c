@@ -3,14 +3,13 @@
  *                                                                           *
  *  Licensed under the Apache License, Version 2.0 (the "License");          *
  *  you may not use this file except in compliance with the License.         *
- *  You may obtain a copy of the License at                                  *
  *                                                                           *
  *     http://www.apache.org/licenses/LICENSE-2.0                            *
  *                                                                           *
  *  Unless required by applicable law or agreed to in writing, software      *
  *  distributed under the License is distributed on an "AS IS" BASIS,        *
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
- *  See the License for the specific language governing permissions and      *
+ *  See the License for the specific language governing permissions and       *
  *  limitations under the License.                                           *
  *                                                                           *
  *****************************************************************************/
@@ -25,13 +24,6 @@
 /*============================ MACROS ========================================*/
 
 /*============================ LOCAL VARIABLES ===============================*/
-
-static vsf_test_case_t __i2c_bus_scan_test_cases[2];
-
-static vsf_test_i2c_bus_scan_case_t __i2c_bus_scan_cases[] = {
-    { .scl_pin = 18, .sda_pin = 19, .gpio_i2c = NULL },
-    { .scl_pin = 21, .sda_pin = 20, .gpio_i2c = NULL },
-};
 
 /*============================ LOCAL FUNCTIONS ===============================*/
 
@@ -81,27 +73,18 @@ static int __bus_scan_once(vsf_test_i2c_bus_scan_suite_t *suite,
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_i2c_bus_scan_add_cases(vsf_test_i2c_bus_scan_suite_t *suite)
-{
-    suite->name    = "i2c_bus_scan";
-    suite->purpose = "bus_scan";
-    suite->hw_req  = "";
-    for (uint8_t i = 0; i < 2; i++) {
-        __i2c_bus_scan_cases[i].suite = suite;
-        __i2c_bus_scan_test_cases[i] = (vsf_test_case_t){
-            .jmp_fn = (vsf_test_jmp_fn_t *)vsf_test_i2c_bus_scan_run,
-            .arg    = (void *)&__i2c_bus_scan_cases[i],
-            .case_idx = i
-        };
-    }
-    suite->cases = __i2c_bus_scan_test_cases;
-    suite->case_count = 2;
-    vsf_test_register_suite(&suite->use_as__vsf_test_suite_t);
-}
+VSF_TEST_SUITE_REGISTER(vsf_test_i2c_bus_scan_add_cases,
+    vsf_test_i2c_bus_scan_suite_t,
+    vsf_test_i2c_bus_scan_case_t,
+    vsf_test_i2c_bus_scan_run,
+    VSF_TEST_I2C_BUS_SCAN_CASES_INIT,
+    "i2c_bus_scan", "bus_scan", "i2c_eeprom",
+    false)
 
 void vsf_test_i2c_bus_scan_run(const vsf_test_i2c_bus_scan_case_t *c)
 {
-    vsf_gpio_i2c_t *gpio_i2c = c->gpio_i2c;
+    vsf_test_i2c_bus_scan_suite_t *suite = c->suite;
+    vsf_gpio_i2c_t *gpio_i2c = (c->idx == 0) ? suite->gpio_i2c0 : suite->gpio_i2c1;
 
     uint8_t scl = c->scl_pin;
     uint8_t sda = c->sda_pin;

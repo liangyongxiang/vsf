@@ -124,9 +124,9 @@ vsf_class(vsf_test_i2c_bus_scan_suite_t) {
 };
 
 typedef struct vsf_test_i2c_bus_scan_case_t {
+    uint8_t  idx;
     uint8_t  scl_pin;
     uint8_t  sda_pin;
-    vsf_gpio_i2c_t *gpio_i2c;
     vsf_test_i2c_bus_scan_suite_t *suite;
 } vsf_test_i2c_bus_scan_case_t;
 #endif

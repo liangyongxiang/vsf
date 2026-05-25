@@ -41,23 +41,27 @@ static void __rx_fifo_threshold_handler(void *target, vsf_usart_t *usart,
     vsf_test_usart_rx_fifo_threshold_suite_t *suite =
         (vsf_test_usart_rx_fifo_threshold_suite_t *)target;
 
-    /* Read all available bytes when threshold IRQ fires. */
-    uint_fast16_t avail = vsf_usart_rxfifo_get_data_count(usart);
-    if (avail > 0) {
+    /* Drain the FIFO completely — PL011 RX interrupt is level-triggered;
+     * if we read only 1 byte the level may drop below threshold and the
+     * remaining bytes stall because no new data is arriving. */
+    while (vsf_usart_rxfifo_get_data_count(usart) > 0) {
         uint_fast16_t want = suite->target - suite->received;
-        if (want > avail) { want = avail; }
+        if (want == 0) break;
         uint_fast16_t got = vsf_usart_rxfifo_read(
             usart, suite->dst + suite->received, want);
+        if (got == 0) break;
         suite->received += got;
     }
 
-    suite->isr_count++;
-
-    /* Record the byte count at first threshold IRQ fire. */
+    /* Record total bytes received at the first threshold fire.  Because we
+     * drain the entire FIFO in one ISR visit, this equals the threshold
+     * level (assuming the host sent exactly that many bytes). */
     if (!suite->threshold_fired) {
         suite->threshold_fired = true;
         suite->bytes_at_threshold = suite->received;
     }
+
+    suite->isr_count++;
 
     if (suite->received >= suite->target) {
         vsf_usart_irq_disable(usart, VSF_USART_IRQ_MASK_RX);
@@ -93,6 +97,16 @@ void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_usart_rx_fifo_threshold
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     while (fsm_rt_cpl != vsf_usart_enable(usart));
+
+    /* Drain any residual bytes from prior scenarios before enabling the
+     * RX threshold interrupt; otherwise a stale byte can trigger a
+     * spurious immediate fire with bytes_at_threshold == 0. */
+    {
+        uint8_t junk[16];
+        while (vsf_usart_rxfifo_get_data_count(usart) > 0) {
+            if (vsf_usart_rxfifo_read(usart, junk, sizeof(junk)) == 0) break;
+        }
+    }
 
     vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_RX);
 

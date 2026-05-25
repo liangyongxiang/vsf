@@ -25,7 +25,7 @@
 
 static void __rx_fifo_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t irq_mask)
 {
-    if (!(irq_mask & VSF_USART_IRQ_MASK_RX)) { return; }
+    if (!(irq_mask & (VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT))) { return; }
     vsf_test_usart_rx_fifo_irq_suite_t *suite = (vsf_test_usart_rx_fifo_irq_suite_t *)target;
     suite->isr_count++;
     while (suite->received < suite->target) {
@@ -38,7 +38,7 @@ static void __rx_fifo_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t
         if (got == 0) { break; }
     }
     if (suite->received >= suite->target) {
-        vsf_usart_irq_disable(usart, VSF_USART_IRQ_MASK_RX);
+        vsf_usart_irq_disable(usart, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
         suite->done = true;
     }
 }
@@ -80,7 +80,7 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_usart_rx_fifo_irq_case_t *c)
 
     /* Host sends data via aux_serial after READY marker. RX IRQ fires
      * as bytes arrive. */
-    vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_RX);
+    vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
     /* Wait for host data. Fixed iteration bound — immune to CI jitter. */
     #define RX_FIFO_IRQ_POLL_MAX_ITER 8000   /* ~8 s equivalent with 1 ms step */

@@ -8,8 +8,8 @@ gpio_output_input:
     # Self-loopback: same pin used as both output and input.
     # RP2040 supports simultaneous SIO output + input on a single pin.
     - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
-    - {idx: 1, out_pin: 3, in_pin: 4, host: {hw_req: none}}
+    # Generic loopback: out_pin != in_pin (GP6-GP7 jumper).
+    - {idx: 1, out_pin: 6, in_pin: 7, host: {hw_req: none}}
 
 gpio_toggle:
   name: gpio_toggle
@@ -17,8 +17,8 @@ gpio_toggle:
   cases:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
-    - {idx: 1, out_pin: 3, in_pin: 4, host: {hw_req: none}}
+    # Generic loopback: out_pin != in_pin (GP6-GP7 jumper).
+    - {idx: 1, out_pin: 6, in_pin: 7, host: {hw_req: none}}
 
 gpio_direction:
   name: gpio_direction
@@ -32,8 +32,8 @@ gpio_atomic:
   cases:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
-    - {idx: 1, out_pin: 3, in_pin: 4, host: {hw_req: none}}
+    # Generic loopback: out_pin != in_pin (GP6-GP7 jumper).
+    - {idx: 1, out_pin: 6, in_pin: 7, host: {hw_req: none}}
 
 gpio_pinmux:
   name: gpio_pinmux
@@ -50,8 +50,8 @@ gpio_multi_pin:
     # Self-loopback: each pin is its own in/out pair (SIO feature).
     - {idx: 0, out_pin_a: 24, in_pin_a: 24, out_pin_b: 25, in_pin_b: 25,
        host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
-    - {idx: 1, out_pin_a: 3, in_pin_a: 4, out_pin_b: 18, in_pin_b: 19,
+    # Generic loopback: GP6↔GP7 + GP16↔GP17 jumpers.
+    - {idx: 1, out_pin_a: 6, in_pin_a: 7, out_pin_b: 16, in_pin_b: 17,
        host: {hw_req: none}}
 
 gpio_open_drain:
@@ -60,8 +60,8 @@ gpio_open_drain:
   cases:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
-    - {idx: 1, out_pin: 3, in_pin: 4, host: {hw_req: none}}
+    # Generic loopback: out_pin != in_pin (GP6-GP7 jumper).
+    - {idx: 1, out_pin: 6, in_pin: 7, host: {hw_req: none}}
 
 gpio_toggle_freq:
   name: gpio_toggle_freq
@@ -94,8 +94,8 @@ gpio_toggle_stress:
     # Self-loopback: same pin used as both output and input (SIO feature).
     - {idx: 0, out_pin: 25, in_pin: 25, stress_count: 10000,
        host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
-    - {idx: 1, out_pin: 3, in_pin: 4, stress_count: 10000,
+    # Generic loopback: out_pin != in_pin (GP6-GP7 jumper).
+    - {idx: 1, out_pin: 6, in_pin: 7, stress_count: 10000,
        host: {hw_req: none}}
 
 gpio_concurrent_prio:

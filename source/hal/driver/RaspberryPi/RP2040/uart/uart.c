@@ -59,25 +59,13 @@ typedef struct VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) {
     int8_t                  rx_dma_ch;
     uint32_t                tx_count;
     uint32_t                rx_count;
+    uint8_t                 tx_dreq;
+    uint8_t                 rx_dreq;
 } VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t);
 
 /*============================ LOCAL FUNCTIONS ===============================*/
 
 /*============================ LOCAL FUNCTIONS ===============================*/
-
-static uint8_t __vsf_hw_usart_get_tx_dreq(vsf_hw_usart_t *usart)
-{
-    if (usart->reg == (void *)UART0_BASE) { return VSF_HW_USART0_TX_DREQ; }
-    if (usart->reg == (void *)UART1_BASE) { return VSF_HW_USART1_TX_DREQ; }
-    return 0x3F;
-}
-
-static uint8_t __vsf_hw_usart_get_rx_dreq(vsf_hw_usart_t *usart)
-{
-    if (usart->reg == (void *)UART0_BASE) { return VSF_HW_USART0_RX_DREQ; }
-    if (usart->reg == (void *)UART1_BASE) { return VSF_HW_USART1_RX_DREQ; }
-    return 0x3F;
-}
 
 static void __vsf_hw_usart_dma_tx_isr(void *target, vsf_dma_t *dma,
                                       int8_t ch, vsf_dma_irq_mask_t mask)
@@ -317,7 +305,7 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_request_rx)(
             },
             .irq_mask = VSF_DMA_IRQ_MASK_CPL,
             .prio = vsf_arch_prio_0,
-            .src_request_idx = __vsf_hw_usart_get_rx_dreq(usart_ptr),
+            .src_request_idx = usart_ptr->rx_dreq,
         });
     if (err != VSF_ERR_NONE) {
         vsf_dma_channel_release(dma, (uint8_t)hint.channel);
@@ -364,7 +352,7 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_request_tx)(
             },
             .irq_mask = VSF_DMA_IRQ_MASK_CPL,
             .prio = vsf_arch_prio_0,
-            .dst_request_idx = __vsf_hw_usart_get_tx_dreq(usart_ptr),
+            .dst_request_idx = usart_ptr->tx_dreq,
         });
     if (err != VSF_ERR_NONE) {
         vsf_dma_channel_release(dma, (uint8_t)hint.channel);
@@ -520,6 +508,10 @@ static void VSF_MCONNECT(__, VSF_USART_CFG_IMP_PREFIX, _usart_irqhandler)(
         .rx_dma     = NULL,                                                     \
         .tx_dma_ch  = -1,                                                       \
         .rx_dma_ch  = -1,                                                       \
+        .tx_dreq    = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,             \
+                                   _USART, __IDX, _TX_DREQ),                    \
+        .rx_dreq    = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,             \
+                                   _USART, __IDX, _RX_DREQ),                    \
         __HAL_OP                                                                \
     };                                                                          \
     void VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                          \

@@ -143,15 +143,15 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_init)(
     /* Motorola frame format */
     /* FRF bits [5:4] = 00 for Motorola */
 
-    /* CPOL / CPHA from mode bits */
-    if (cfg_ptr->mode & VSF_SPI_MODE_2) {
+    /* CPOL / CPHA from mode bits.
+     * VSF_SPI_MODE_x values are packed 2-bit enums, not independent flags:
+     *   MODE_0=0x00, MODE_1=0x04 (CPHA), MODE_2=0x08 (CPOL), MODE_3=0x0C.
+     * Test each bit individually — no combined MODE_3 check needed. */
+    if (cfg_ptr->mode & VSF_SPI_MODE_2) {   /* bit 3 → CPOL */
         cr0 |= __PL022_CR0_SPO;
     }
-    if (cfg_ptr->mode & VSF_SPI_MODE_1) {
+    if (cfg_ptr->mode & VSF_SPI_MODE_1) {   /* bit 2 → CPHA */
         cr0 |= __PL022_CR0_SPH;
-    }
-    if (cfg_ptr->mode & VSF_SPI_MODE_3) {
-        cr0 |= __PL022_CR0_SPO | __PL022_CR0_SPH;
     }
 
     if (is_slave) {

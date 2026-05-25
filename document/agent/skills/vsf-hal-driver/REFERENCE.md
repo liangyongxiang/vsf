@@ -39,6 +39,15 @@ The chip's reset/clock identifiers (e.g. `RESET_UART0` from `hardware/regs/reset
 
 `usart_template.h` -> `vsf_template_instance_declaration.h` uses `VSF_HW_USART_COUNT`/`VSF_HW_USART_MASK` to emit extern declarations for `vsf_hw_usart0`...`vsf_hw_usartN`.
 
+**Mask macros (`VSF_HW_<PERIPH>_MASK`) are mandatory for `acquire_from_all`:**
+
+The `*_template.inc` default implementation of `channel_acquire_from_all` (e.g. `vsf_hw_dma_channel_acquire_from_all`) uses `VSF_HW_<PERIPH>_MASK` to iterate device instances. If the mask is missing, the macro expands to 0 and `acquire_from_all` returns `NULL` immediately. Always define the mask in `device.h` even when `COUNT == 1`:
+
+```c
+#define VSF_HW_DMA_COUNT    1
+#define VSF_HW_DMA_MASK     0x1     // REQUIRED for acquire_from_all
+```
+
 **How `IMP_LV0` consumes them:**
 
 ```c

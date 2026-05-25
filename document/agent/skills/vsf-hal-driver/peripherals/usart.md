@@ -77,6 +77,130 @@ Three `ctrl` operations exist to cover different hardware capabilities. The HAL 
 
 **Rationale:** The HAL exposes hardware capability directly. Emulating missing features inside the driver (busy-wait loops, software timers) adds complexity, hides the true hardware capability from the caller, and creates blocking code paths. If the caller needs a higher-level abstraction (e.g., "send a complete break signal"), it can build that on top of `SET_BREAK` / `CLEAR_BREAK` using application-level timers.
 
+## DMA request/cancel implementation
+
+### Dynamic channel acquisition (do NOT statically bind a DMA instance)
+
+Peripherals that need DMA channels (e.g. UART for `request_tx` / `request_rx`) must acquire them dynamically at request time via `vsf_hw_dma_channel_acquire_from_all`, not through a static `set_dma` call in board init.
+
+**Why:** A static binding ties the UART to one specific DMA controller instance. On chips with a single DMA block this appears to work, but it breaks on chips with multiple DMA controllers and it prevents proper channel lifecycle management (a channel must be released after transfer completion so other peripherals can use it).
+
+**Implementation pattern:**
+
+```c
+vsf_err_t vsf_hw_usart_request_tx(vsf_hw_usart_t *usart, void *buf, uint32_t count)
+{
+    if (usart->tx_dma_ch >= 0) {
+        return VSF_ERR_NOT_AVAILABLE;   // outstanding request in flight
+    }
+
+    vsf_dma_channel_hint_t hint = { .channel = -1 };
+    vsf_dma_t *dma = vsf_hw_dma_channel_acquire_from_all(&hint);
+    if (dma == NULL) { return VSF_ERR_NOT_AVAILABLE; }
+
+    usart->tx_dma    = dma;
+    usart->tx_dma_ch = hint.channel;
+
+    vsf_err_t err = vsf_dma_channel_config(dma, (uint8_t)hint.channel,
+        &(vsf_dma_channel_cfg_t){
+            .mode = VSF_DMA_MEMORY_TO_PERIPHERAL
+                  | VSF_DMA_SRC_ADDR_INCREMENT
+                  | VSF_DMA_DST_ADDR_NO_CHANGE,
+            .isr = {
+                .handler_fn = __vsf_hw_usart_dma_tx_isr,
+                .target_ptr = usart,
+            },
+            .irq_mask = VSF_DMA_IRQ_MASK_CPL,
+            .prio     = vsf_arch_prio_0,
+            .dst_request_idx = __vsf_hw_usart_get_tx_dreq(usart),
+        });
+    if (err != VSF_ERR_NONE) { goto release_and_fail; }
+
+    err = vsf_dma_channel_start(dma, (uint8_t)hint.channel,
+                                (vsf_dma_addr_t)buf,
+                                (vsf_dma_addr_t)usart->reg + DATA_REG_OFFSET,
+                                count);
+    if (err != VSF_ERR_NONE) { goto release_and_fail; }
+
+    vsf_pl011_usart_txdma_config(&usart->use_as__vsf_pl011_usart_t, true);
+    return VSF_ERR_NONE;
+
+release_and_fail:
+    vsf_dma_channel_release(dma, (uint8_t)hint.channel);
+    usart->tx_dma_ch = -1;
+    usart->tx_dma    = NULL;
+    return err;
+}
+```
+
+**API choice:** Use the **hw-prefixed** function only for `acquire_from_all` (it has no macro wrapper and is declared by `VSF_HAL_TEMPLATE_DEC_INSTANCE_APIS`). For all other DMA calls (`config`, `start`, `cancel`, `release`, `get_transferred_count`) use the public macro APIs (`vsf_dma_channel_*`) — they auto-cast `vsf_dma_t *` to the implementation type.
+
+**Prerequisite:** `device.h` must define `VSF_HW_DMA_MASK`. Without it, `acquire_from_all` iterates over an empty mask and always returns `NULL`. See `REFERENCE.md` "Per-instance parameterization in device.h".
+
+### DMA ISR and completion
+
+The DMA completion ISR must:
+1. Disable the peripheral's DMA enable bit (stops DREQ generation).
+2. Read the transferred count.
+3. Release the DMA channel so it can be reused.
+4. Clear the cached channel state (`dma_ch = -1`, `dma = NULL`).
+5. Forward the completion event to the user's USART ISR handler via `VSF_USART_IRQ_MASK_TX_CPL` / `VSF_USART_IRQ_MASK_RX_CPL`.
+
+```c
+static void __vsf_hw_usart_dma_tx_isr(void *target, vsf_dma_t *dma,
+                                      int8_t ch, vsf_dma_irq_mask_t mask)
+{
+    (void)dma; (void)ch; (void)mask;
+    vsf_hw_usart_t *usart = target;
+    vsf_pl011_usart_txdma_config(&usart->use_as__vsf_pl011_usart_t, false);
+    if (usart->tx_dma_ch >= 0) {
+        usart->tx_count = vsf_dma_channel_get_transferred_count(
+            usart->tx_dma, (uint8_t)usart->tx_dma_ch);
+        vsf_dma_channel_release(usart->tx_dma, (uint8_t)usart->tx_dma_ch);
+        usart->tx_dma_ch = -1;
+        usart->tx_dma    = NULL;
+    }
+    vsf_usart_isr_t *isr = &usart->cached_cfg.isr;
+    if (isr->handler_fn != NULL) {
+        isr->handler_fn(isr->target_ptr, (vsf_usart_t *)usart,
+                        VSF_USART_IRQ_MASK_TX_CPL);
+    }
+}
+```
+
+### Cleanup in `init()` and `fini()`
+
+A prior scenario may have timed out without reaching `fini()`, leaving a DMA channel allocated. Both `init()` and `fini()` must cancel and release any outstanding channels:
+
+```c
+if (usart->tx_dma != NULL && usart->tx_dma_ch >= 0) {
+    vsf_dma_channel_cancel(usart->tx_dma, (uint8_t)usart->tx_dma_ch);
+    vsf_dma_channel_release(usart->tx_dma, (uint8_t)usart->tx_dma_ch);
+    usart->tx_dma_ch = -1;
+    usart->tx_dma    = NULL;
+}
+```
+
+### Cancel TX/RX and race safety
+
+`cancel_tx` / `cancel_rx` must cache the channel and DMA pointer in local variables **before** calling `cancel` and `release`, because the DMA completion ISR can fire between the two calls and clear the struct fields:
+
+```c
+vsf_err_t vsf_hw_usart_cancel_tx(vsf_hw_usart_t *usart)
+{
+    int8_t ch = usart->tx_dma_ch;
+    vsf_dma_t *dma = usart->tx_dma;
+    if (ch >= 0 && dma != NULL) {
+        vsf_pl011_usart_txdma_config(&usart->use_as__vsf_pl011_usart_t, false);
+        vsf_dma_channel_cancel(dma, (uint8_t)ch);
+        vsf_dma_channel_release(dma, (uint8_t)ch);
+        usart->tx_dma_ch = -1;
+        usart->tx_dma    = NULL;
+    }
+    return VSF_ERR_NONE;
+}
+```
+
 ## IPCore IMP_LV0
 
 ```c

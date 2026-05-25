@@ -55,6 +55,7 @@ typedef struct VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) {
 #endif
     dma_hw_t                *reg;
     uint32_t                rst_bit;
+    IRQn_Type               irqn;
     vsf_hw_dma_channel_t    channels[RP2040_DMA_CHANNEL_COUNT];
     uint16_t                channel_mask;
     vsf_dma_cfg_t           cfg;
@@ -69,6 +70,7 @@ static void __rp2040_dma_reset(uint32_t rst_bit)
 {
     resets_hw->reset |= rst_bit;
     resets_hw->reset &= ~rst_bit;
+    /* Spin-wait: reset deassert → reset_done is a few clk_ref cycles (< 1 us). */
     while (!(resets_hw->reset_done & rst_bit));
 }
 
@@ -86,7 +88,7 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_init)(
         dma_ptr->channels[i].total_count = 0;
     }
 
-    NVIC_EnableIRQ(DMA_IRQ_0_IRQn);
+    NVIC_EnableIRQ(dma_ptr->irqn);
 
     return VSF_ERR_NONE;
 }
@@ -97,8 +99,12 @@ void VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_fini)(
     VSF_HAL_ASSERT(dma_ptr != NULL);
 
     dma_hw_t *hw = dma_ptr->reg;
+    /* Spin-wait: abort all channels; each takes a few AHB cycles (< 1 us total). */
+    hw->abort = 0xFFF;
+    while (hw->abort);
     for (uint8_t i = 0; i < RP2040_DMA_CHANNEL_COUNT; i++) {
         hw->ch[i].ctrl_trig = 0;
+        hw->inte0 &= ~(1u << i);
     }
     dma_ptr->channel_mask = 0;
 }
@@ -121,7 +127,7 @@ vsf_dma_capability_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_capability)(
     return (vsf_dma_capability_t) {
         .irq_mask           = VSF_DMA_IRQ_MASK_CPL,
         .channel_count      = RP2040_DMA_CHANNEL_COUNT,
-        .irq_count          = 2,
+        .irq_count          = 1,
         .supported_modes    = VSF_DMA_MEMORY_TO_MEMORY
                             | VSF_DMA_MEMORY_TO_PERIPHERAL
                             | VSF_DMA_PERIPHERAL_TO_MEMORY
@@ -133,7 +139,7 @@ vsf_dma_capability_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_capability)(
                             | VSF_DMA_DST_WIDTH_BYTE_1
                             | VSF_DMA_DST_WIDTH_BYTES_2
                             | VSF_DMA_DST_WIDTH_BYTES_4,
-        .max_transfer_count = 0xFFFFFFFF,
+        .max_transfer_count = 0xFFFFFF,
         .addr_alignment     = 1,
         .support_scatter_gather = 1,
     };
@@ -176,7 +182,8 @@ void VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_release)(
     VSF_HAL_ASSERT(channel < RP2040_DMA_CHANNEL_COUNT);
 
     dma_hw_t *hw = dma_ptr->reg;
-    /* Abort if still active; clearing EN alone pauses (BUSY stays high). */
+    /* Abort if still active; clearing EN alone pauses (BUSY stays high).
+     * Spin-wait: abort completes in a few AHB cycles (< 1 us). */
     hw->abort = (1u << channel);
     while (hw->abort & (1u << channel));
     hw->inte0 &= ~(1u << channel);
@@ -312,7 +319,8 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_cancel)(
     dma_hw_t *hw = dma_ptr->reg;
     /* On RP2040, clearing EN while BUSY is high PAUSES the channel; BUSY stays
      * high and the channel resumes if EN is set again.  To terminate early we
-     * must use CHAN_ABORT, which clears BUSY and resets the channel state. */
+     * must use CHAN_ABORT, which clears BUSY and resets the channel state.
+     * Spin-wait: abort completes in a few AHB cycles (< 1 us). */
     hw->abort = (1u << channel);
     while (hw->abort & (1u << channel));
     hw->inte0 &= ~(1u << channel);
@@ -420,13 +428,13 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
 
     dma_hw_t *hw = dma_ptr->reg;
     /* RP2040 DMA has two IRQ lines (DMA_IRQ_0 / DMA_IRQ_1) with separate
-     * INTS and INTF registers. Use array indexing to avoid per-IRQ branching. */
-    uint32_t ints = (&hw->ints0)[irq_idx];
+     * INTS and INTF registers. Access via irq_ctrl[] to avoid per-IRQ branching. */
+    uint32_t ints = hw->irq_ctrl[irq_idx].ints;
 
     for (uint8_t ch = 0; ch < RP2040_DMA_CHANNEL_COUNT; ch++) {
         if (ints & (1u << ch)) {
             /* Clear interrupt by writing to INTS (WC — write 1 to clear). */
-            (&hw->ints0)[irq_idx] = (1u << ch);
+            hw->irq_ctrl[irq_idx].ints = (1u << ch);
 
             /* Ignore interrupts for channels that have already been released.
              * The inte0 bit may have been left set by an old transfer, or
@@ -478,6 +486,8 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
                                          _DMA, __IDX, _REG),                    \
         .rst_bit = VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,                  \
                                 _DMA, __IDX, _RST_BIT),                         \
+        .irqn = VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,                     \
+                             _DMA, __IDX, _IRQN),                               \
         __HAL_OP                                                                \
     };                                                                          \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,               \

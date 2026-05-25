@@ -261,6 +261,60 @@ def check_macro_backslash_align(lines: list[ScanLine]) -> list[Finding]:
                  predicate, reference="Macro formatting convention")
 
 
+def check_spin_wait_comment(lines: list[ScanLine]) -> list[Finding]:
+    """Any `while (cond);` empty-loop polling a hardware register must have an
+    explanatory comment preceding it (see REFERENCE.md: spin-wait convention)."""
+    _SPIN_WAIT_RE = re.compile(r"\bwhile\s*\([^;{]*\)\s*;")
+    _SPIN_WAIT_KEYWORDS = frozenset({
+        "spin-wait", "spinwait", "busy-wait", "busywait",
+        "wait", "poll", "polling",
+        "abort", "reset", "ready", "done", "complete", "completion",
+        "busy", "idle",
+        "cycle", "us", "μs", "microsecond",
+        "delay", "timeout",
+    })
+
+    def _has_explanation(idx: int) -> bool:
+        for j in range(max(0, idx - 3), idx):
+            sl = lines[j]
+            txt = sl.text
+            comment_part = ""
+            if sl.in_comment:
+                comment_part = txt.strip().lstrip("*").strip()
+            elif "//" in txt:
+                comment_part = txt.split("//", 1)[1]
+            elif "/*" in txt:
+                start = txt.find("/*")
+                end = txt.find("*/", start)
+                if end == -1:
+                    comment_part = txt[start:]
+                else:
+                    comment_part = txt[start:end + 2]
+            if comment_part:
+                lower = comment_part.lower()
+                if any(kw in lower for kw in _SPIN_WAIT_KEYWORDS):
+                    return True
+        return False
+
+    findings: list[Finding] = []
+    for i, sl in enumerate(lines):
+        if sl.in_comment:
+            continue
+        m = _SPIN_WAIT_RE.search(sl.text)
+        if not m:
+            continue
+        inner = m.group(0).split("(", 1)[1].rsplit(")", 1)[0].strip()
+        if inner in ("1", "0", "true", "false", "TRUE", "FALSE", "ENABLED", "DISABLED"):
+            continue
+        if not _has_explanation(i):
+            findings.append(Finding(
+                Path(""), sl.lineno, "spin-wait-no-comment",
+                "bare spin-wait loop without explanatory comment — "
+                "add a comment explaining why and expected duration (< X us)",
+                reference="Spin-wait on hardware state"))
+    return findings
+
+
 RULES = [
     check_hardcoded_instance_name,
     check_instance_index_branch,
@@ -271,6 +325,7 @@ RULES = [
     check_missing_vsf_mconnect,
     check_pinmux_in_driver,
     check_macro_backslash_align,
+    check_spin_wait_comment,
 ]
 
 

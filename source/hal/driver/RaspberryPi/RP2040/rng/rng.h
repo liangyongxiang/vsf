@@ -1,4 +1,4 @@
-/******************************************************************************
+/*******************************************************************************
  *   Copyright(C)2009-2024 by VSF Team                                       *
  *                                                                           *
  *  Licensed under the Apache License, Version 2.0 (the "License");          *
@@ -13,12 +13,24 @@
  *  See the License for the specific language governing permissions and       *
  *  limitations under the License.                                           *
  *                                                                           *
- *****************************************************************************/
+ ******************************************************************************/
+
+#ifndef __HAL_DRIVER_RASPBERRYPI_RP2040_RNG_H__
+#define __HAL_DRIVER_RASPBERRYPI_RP2040_RNG_H__
 
 /*============================ INCLUDES ======================================*/
 
-#include "vsf_test_spi.h"
-#include "suite/vsf_test_spi_loopback.h"
-#include "suite/vsf_test_spi_async.h"
+#include "hal/vsf_hal_cfg.h"
 
+#if VSF_HAL_USE_RNG == ENABLED
+
+/*============================ MACROS ========================================*/
+/*============================ MACROFIED FUNCTIONS ===========================*/
+/*============================ TYPES =========================================*/
+/*============================ GLOBAL VARIABLES ==============================*/
+/*============================ LOCAL VARIABLES ===============================*/
+/*============================ PROTOTYPES ====================================*/
+
+#endif      // VSF_HAL_USE_RNG
+#endif      // __HAL_DRIVER_RASPBERRYPI_RP2040_RNG_H__
 /* EOF */

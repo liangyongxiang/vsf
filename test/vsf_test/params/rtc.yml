@@ -11,3 +11,9 @@ rtc_alarm:
   suite_timeout_s: 5.0
   cases:
     - {idx: 0, rtc_idx: 0, host: {hw_req: none}}
+
+rtc_epoch:
+  name: rtc_epoch
+  suite_timeout_s: 5.0
+  cases:
+    - {idx: 0, rtc_idx: 0, host: {hw_req: none}}

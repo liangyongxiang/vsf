@@ -15,6 +15,7 @@ add_subdirectory(adc)
 add_subdirectory(pwm)
 add_subdirectory(timer)
 add_subdirectory(spi)
+add_subdirectory(rng)
 add_subdirectory(dma)
 
 vsf_add_include_directories(

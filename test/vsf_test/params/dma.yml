@@ -16,7 +16,9 @@ dma_mem2mem_irq:
 
 dma_scatter_gather:
   name: dma_scatter_gather
-  suite_timeout_s: 5.0
+  suite_timeout_s: 15.0
   timeout_s: 10.0
   cases:
-    - { idx: 0, expect_not_support: true }
+    - { idx: 0, expect_pass: true }
+    - { idx: 1, expect_pass: true }
+    - { idx: 2, expect_pass: true }

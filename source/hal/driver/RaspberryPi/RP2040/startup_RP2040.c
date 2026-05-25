@@ -28,7 +28,7 @@
 #include "utilities/vsf_utilities.h"
 
 // header which will include core_cm0plus.h
-#include "RP2040.h"
+#include "hal/driver/vendor_driver.h"
 
 #define __imp_unprocessed_weak_handler(__name)                                  \
             VSF_CAL_WEAK(__name)                                                \
@@ -69,10 +69,13 @@ VSF_MFOREACH(__imp_unprocessed_weak_handler,
     VSF_HW_DMA0_IRQHandler,
     UART0_IRQHandler,
     UART1_IRQHandler,
+    SPI0_IRQHandler,
+    SPI1_IRQHandler,
     I2C0_IRQHandler,
     I2C1_IRQHandler,
     IO_BANK0_IRQHandler,
     TIMER_IRQ_0_IRQHandler,
+    PWM_IRQ_WRAP_IRQHandler,
 )
 VSF_MFOREACH(__imp_blocked_weak_handler,
     HardFault_Handler,
@@ -105,7 +108,7 @@ VSF_CAL_ROOT const pFunc __VECTOR_TABLE[] __VECTOR_TABLE_ATTRIBUTE = {
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
+    PWM_IRQ_WRAP_IRQHandler,    /* IRQ 4: PWM_IRQ_WRAP */
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,
@@ -115,24 +118,24 @@ VSF_CAL_ROOT const pFunc __VECTOR_TABLE[] __VECTOR_TABLE_ATTRIBUTE = {
     VSF_HW_DMA0_IRQHandler,     /* IRQ 11: DMA_IRQ_0 */
     __Dummy_Handler_DONOTUSE,   /* IRQ 12 */
     IO_BANK0_IRQHandler,        /* IRQ 13: IO_IRQ_BANK0 */
-    __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
-    UART0_IRQHandler,
-    UART1_IRQHandler,
-    __Dummy_Handler_DONOTUSE,
-    I2C0_IRQHandler,
-    I2C1_IRQHandler,
-    __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
-    __Dummy_Handler_DONOTUSE,
+    __Dummy_Handler_DONOTUSE,   /* IRQ 14 */
+    __Dummy_Handler_DONOTUSE,   /* IRQ 15 */
+    __Dummy_Handler_DONOTUSE,   /* IRQ 16 */
+    __Dummy_Handler_DONOTUSE,   /* IRQ 17 */
+    SPI0_IRQHandler,            /* IRQ 18: SPI0_IRQ */
+    SPI1_IRQHandler,            /* IRQ 19: SPI1_IRQ */
+    UART0_IRQHandler,           /* IRQ 20: UART0_IRQ */
+    UART1_IRQHandler,           /* IRQ 21: UART1_IRQ */
+    __Dummy_Handler_DONOTUSE,   /* IRQ 22 */
+    I2C0_IRQHandler,            /* IRQ 23: I2C0_IRQ */
+    I2C1_IRQHandler,            /* IRQ 24: I2C1_IRQ */
+    __Dummy_Handler_DONOTUSE,   /* IRQ 25 */
+    __Dummy_Handler_DONOTUSE,   /* IRQ 26 */
+    __Dummy_Handler_DONOTUSE,   /* IRQ 27 */
+    __Dummy_Handler_DONOTUSE,   /* IRQ 28 */
+    __Dummy_Handler_DONOTUSE,   /* IRQ 29 */
+    __Dummy_Handler_DONOTUSE,   /* IRQ 30 */
+    __Dummy_Handler_DONOTUSE,   /* IRQ 31 */
 };
 
 uint32_t __attribute__((section(".ram_vector_table"))) ram_vector_table[dimof(__VECTOR_TABLE)];

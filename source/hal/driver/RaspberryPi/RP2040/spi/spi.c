@@ -23,6 +23,9 @@
 
 #include "hal/vsf_hal.h"
 
+/* for IRQn_Type, NVIC_EnableIRQ, SPI0_IRQ_IRQn via vendor_driver.h -> device.h -> RP2040.h */
+#include "hal/driver/vendor_driver.h"
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_HW_SPI_CFG_MULTI_CLASS
@@ -50,6 +53,7 @@ typedef struct VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_t) {
 #endif
     spi_hw_t                *reg;
     uint32_t                rst_bit;
+    IRQn_Type               irqn;
     vsf_spi_isr_t           isr;
     vsf_spi_cfg_t           cfg;
     uint32_t                transferred;
@@ -58,6 +62,12 @@ typedef struct VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_t) {
         uint32_t            is_busy    : 1;
         uint32_t                       : 30;
     } status;
+    /* Async transfer state */
+    uint8_t                 *tx_buf;
+    uint8_t                 *rx_buf;
+    uint_fast32_t           count;
+    uint_fast32_t           tx_offset;
+    uint_fast32_t           rx_offset;
 } VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_t);
 
 /*============================ GLOBAL VARIABLES ==============================*/
@@ -271,19 +281,66 @@ vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_request_transfer)(
     void *out_buffer_ptr, void *in_buffer_ptr, uint_fast32_t count)
 {
     VSF_HAL_ASSERT(spi_ptr != NULL);
-    (void)out_buffer_ptr;
-    (void)in_buffer_ptr;
-    (void)count;
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+
+    if (count == 0) {
+        return VSF_ERR_INVALID_PARAMETER;
+    }
+    if (spi_ptr->status.is_busy) {
+        return VSF_ERR_NOT_READY;
+    }
+
+    spi_ptr->tx_buf    = out_buffer_ptr;
+    spi_ptr->rx_buf    = in_buffer_ptr;
+    spi_ptr->count     = count;
+    spi_ptr->tx_offset = 0;
+    spi_ptr->rx_offset = 0;
+    spi_ptr->transferred = 0;
+    spi_ptr->status.is_busy = true;
+
+    spi_hw_t *reg = spi_ptr->reg;
+
+    /* Pre-fill TX FIFO (up to 8 entries) */
+    while ((reg->sr & __PL022_SR_TNF) && (spi_ptr->tx_offset < spi_ptr->count)) {
+        uint16_t tx_data = 0;
+        if (spi_ptr->tx_buf != NULL) {
+            tx_data = spi_ptr->tx_buf[spi_ptr->tx_offset];
+        }
+        reg->dr = tx_data;
+        spi_ptr->tx_offset++;
+    }
+
+    /* Enable TXIM + RXIM interrupts and NVIC */
+    reg->imsc |= SPI_SSPIMSC_TXIM_BITS | SPI_SSPIMSC_RXIM_BITS;
+    NVIC_EnableIRQ(spi_ptr->irqn);
+
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_cancel_transfer)(
     VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_t) *spi_ptr)
 {
     VSF_HAL_ASSERT(spi_ptr != NULL);
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+
+    spi_hw_t *reg = spi_ptr->reg;
+
+    /* Disable interrupts */
+    reg->imsc &= ~(SPI_SSPIMSC_TXIM_BITS | SPI_SSPIMSC_RXIM_BITS);
+
+    /* Drain RX FIFO to clear any pending data */
+    while (reg->sr & __PL022_SR_RNE) {
+        (void)reg->dr;
+    }
+
+    /* Reset async state */
+    spi_ptr->status.is_busy = false;
+    spi_ptr->tx_buf = NULL;
+    spi_ptr->rx_buf = NULL;
+    spi_ptr->count = 0;
+    spi_ptr->tx_offset = 0;
+    spi_ptr->rx_offset = 0;
+    spi_ptr->transferred = 0;
+
+    return VSF_ERR_NONE;
 }
 
 void VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_get_transferred_count)(
@@ -355,9 +412,8 @@ vsf_spi_status_t VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_status)(
 {
     VSF_HAL_ASSERT(spi_ptr != NULL);
 
-    spi_hw_t *reg = spi_ptr->reg;
     vsf_spi_status_t status = {
-        .is_busy = !!(reg->sr & __PL022_SR_BSY),
+        .is_busy = spi_ptr->status.is_busy,
     };
 
     return status;
@@ -406,8 +462,61 @@ static void VSF_MCONNECT(__, VSF_SPI_CFG_IMP_PREFIX, _spi_irqhandler)(
 
     spi_hw_t *reg = spi_ptr->reg;
     uint32_t mis = reg->mis;
-    vsf_spi_irq_mask_t irq_mask = 0;
 
+    if (spi_ptr->status.is_busy) {
+        /* Async mode: manage FIFO and complete transfer */
+
+        /* Drain RX FIFO */
+        while ((reg->sr & __PL022_SR_RNE) && (spi_ptr->rx_offset < spi_ptr->count)) {
+            uint16_t rx_data = (uint16_t)reg->dr;
+            if (spi_ptr->rx_buf != NULL) {
+                spi_ptr->rx_buf[spi_ptr->rx_offset] = (uint8_t)rx_data;
+            }
+            spi_ptr->rx_offset++;
+        }
+
+        /* Refill TX FIFO */
+        while ((reg->sr & __PL022_SR_TNF) && (spi_ptr->tx_offset < spi_ptr->count)) {
+            uint16_t tx_data = 0;
+            if (spi_ptr->tx_buf != NULL) {
+                tx_data = spi_ptr->tx_buf[spi_ptr->tx_offset];
+            }
+            reg->dr = tx_data;
+            spi_ptr->tx_offset++;
+        }
+
+        /* Safety: if TX is done but RX still pending, poll-read remaining */
+        if (spi_ptr->tx_offset >= spi_ptr->count) {
+            while ((reg->sr & __PL022_SR_RNE) && (spi_ptr->rx_offset < spi_ptr->count)) {
+                uint16_t rx_data = (uint16_t)reg->dr;
+                if (spi_ptr->rx_buf != NULL) {
+                    spi_ptr->rx_buf[spi_ptr->rx_offset] = (uint8_t)rx_data;
+                }
+                spi_ptr->rx_offset++;
+            }
+        }
+
+        if ((spi_ptr->tx_offset >= spi_ptr->count) &&
+            (spi_ptr->rx_offset >= spi_ptr->count)) {
+            /* Transfer complete */
+            reg->imsc &= ~(SPI_SSPIMSC_TXIM_BITS | SPI_SSPIMSC_RXIM_BITS);
+            spi_ptr->status.is_busy = false;
+            spi_ptr->transferred = spi_ptr->count;
+            if (spi_ptr->isr.handler_fn != NULL) {
+                spi_ptr->isr.handler_fn(spi_ptr->isr.target_ptr,
+                                        (vsf_spi_t *)spi_ptr,
+                                        VSF_SPI_IRQ_MASK_TX_CPL | VSF_SPI_IRQ_MASK_RX_CPL);
+            }
+            return;
+        }
+
+        /* Still in progress — clear interrupt flags and return */
+        reg->icr = SPI_SSPICR_RTIC_BITS | SPI_SSPICR_RORIC_BITS;
+        return;
+    }
+
+    /* Non-async mode: dispatch threshold interrupts */
+    vsf_spi_irq_mask_t irq_mask = 0;
     if (mis & SPI_SSPMIS_TXMIS_BITS) {
         irq_mask |= VSF_SPI_IRQ_MASK_TX;
     }
@@ -440,6 +549,8 @@ static void VSF_MCONNECT(__, VSF_SPI_CFG_IMP_PREFIX, _spi_irqhandler)(
                                          _SPI, __IDX, _REG),                    \
         .rst_bit = VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX,                  \
                                 _SPI, __IDX, _RST_BIT),                         \
+        .irqn = VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX,                     \
+                             _SPI, __IDX, _IRQN),                               \
         __HAL_OP                                                                \
     };                                                                          \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX,               \

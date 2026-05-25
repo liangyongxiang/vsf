@@ -30,3 +30,10 @@ i2c_eeprom_page:
     # Page-aligned write: mem_addr=0x18, data_len=8 fits within a single page
     - {idx: 0, i2c_idx: 0, eeprom_addr: 0x50, mem_addr: 0x18, data_len: 8,
        host: {hw_req: i2c_eeprom}}
+
+i2c_slave:
+  name: i2c_slave
+  suite_timeout_s: 15.0
+  cases:
+    - {idx: 0, master_i2c_idx: 0, slave_i2c_idx: 1,
+       host: {hw_req: i2c_slave_wiring}}

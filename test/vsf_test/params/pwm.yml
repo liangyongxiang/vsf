@@ -9,3 +9,9 @@ pwm_dual_channel:
   suite_timeout_s: 15.0
   cases:
     - {idx: 0, slice: 0, channel_a: 0, channel_b: 1, gpio_a: 0, gpio_b: 1, freq_hz: 1000, period: 100, pulse_a: 50, pulse_b: 25, run_ms: 1000}
+
+pwm_irq:
+  name: pwm_irq
+  suite_timeout_s: 15.0
+  cases:
+    - {idx: 0, slice: 0, channel: 0, freq_hz: 1000, period: 65535, pulse: 32768, test_ms: 500}

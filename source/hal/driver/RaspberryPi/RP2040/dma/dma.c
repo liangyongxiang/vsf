@@ -41,6 +41,12 @@ typedef struct vsf_hw_dma_channel_t {
     vsf_dma_channel_cfg_t   cfg;
     vsf_dma_isr_t           isr;
     uint32_t                total_count;
+    /* Scatter-gather state */
+    vsf_dma_channel_sg_desc_t *sg_desc_array;
+    uint32_t                sg_count;
+    uint32_t                sg_index;
+    uint32_t                sg_total_count;
+    bool                    is_sg_active;
 } vsf_hw_dma_channel_t;
 
 typedef struct VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) {
@@ -129,6 +135,7 @@ vsf_dma_capability_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_capability)(
                             | VSF_DMA_DST_WIDTH_BYTES_4,
         .max_transfer_count = 0xFFFFFFFF,
         .addr_alignment     = 1,
+        .support_scatter_gather = 1,
     };
 }
 
@@ -196,14 +203,12 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_get_configuration)(
     return VSF_ERR_NONE;
 }
 
-vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_start)(
+static void __rp2040_dma_channel_start_raw(
     VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) *dma_ptr,
     uint8_t channel, vsf_dma_addr_t src_address,
-    vsf_dma_addr_t dst_address, uint32_t count)
+    vsf_dma_addr_t dst_address, uint32_t count,
+    vsf_dma_channel_mode_t mode, bool enable_irq)
 {
-    VSF_HAL_ASSERT(dma_ptr != NULL);
-    VSF_HAL_ASSERT(channel < RP2040_DMA_CHANNEL_COUNT);
-
     dma_hw_t *hw = dma_ptr->reg;
     dma_channel_hw_t *ch = &hw->ch[channel];
 
@@ -214,7 +219,6 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_start)(
     ch->transfer_count = count;
 
     uint32_t ctrl = DMA_CH0_CTRL_TRIG_EN_BITS;
-    vsf_dma_channel_mode_t mode = dma_ptr->channels[channel].cfg.mode;
 
     /* Data size */
     switch (mode & VSF_DMA_SRC_WIDTH_MASK) {
@@ -229,8 +233,7 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_start)(
         break;
     }
 
-    /* Address increment — INCREMENT has value 0 in VSF mode enum,
-     * so we enable increment when neither DECREMENT nor NO_CHANGE is set. */
+    /* Address increment */
     switch (mode & (0x03u << 2)) {
     case VSF_DMA_SRC_ADDR_DECREMENT:
     case VSF_DMA_SRC_ADDR_NO_CHANGE:
@@ -265,15 +268,29 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_start)(
         break;
     }
 
-    /* Enable DMA completion IRQ if caller provided a handler and CPL mask. */
-    vsf_dma_isr_t *isr = &cfg->isr;
-    if (isr->handler_fn != NULL && (cfg->irq_mask & VSF_DMA_IRQ_MASK_CPL)) {
-        hw->inte0 = (hw->inte0 & ~(1u << channel)) | (1u << channel);
+    if (enable_irq) {
+        hw->inte0 |= (1u << channel);
     }
 
     ch->ctrl_trig = ctrl;
-
     dma_ptr->channels[channel].total_count = count;
+}
+
+vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_start)(
+    VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) *dma_ptr,
+    uint8_t channel, vsf_dma_addr_t src_address,
+    vsf_dma_addr_t dst_address, uint32_t count)
+{
+    VSF_HAL_ASSERT(dma_ptr != NULL);
+    VSF_HAL_ASSERT(channel < RP2040_DMA_CHANNEL_COUNT);
+
+    vsf_dma_channel_mode_t mode = dma_ptr->channels[channel].cfg.mode;
+    vsf_dma_isr_t *isr = &dma_ptr->channels[channel].cfg.isr;
+    bool enable_irq = (isr->handler_fn != NULL)
+                   && (dma_ptr->channels[channel].cfg.irq_mask & VSF_DMA_IRQ_MASK_CPL);
+
+    __rp2040_dma_channel_start_raw(dma_ptr, channel, src_address, dst_address,
+                                   count, mode, enable_irq);
 
     return VSF_ERR_NONE;
 }
@@ -286,6 +303,55 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_cancel)(
     VSF_HAL_ASSERT(channel < RP2040_DMA_CHANNEL_COUNT);
 
     dma_ptr->reg->ch[channel].ctrl_trig = 0;
+    dma_ptr->channels[channel].is_sg_active = false;
+    return VSF_ERR_NONE;
+}
+
+vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_sg_config_desc)(
+    VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) *dma_ptr,
+    uint8_t channel,
+    vsf_dma_isr_t isr,
+    vsf_dma_channel_sg_desc_t *sg_desc_ptr,
+    uint32_t sg_count)
+{
+    VSF_HAL_ASSERT(dma_ptr != NULL);
+    VSF_HAL_ASSERT(channel < RP2040_DMA_CHANNEL_COUNT);
+    VSF_HAL_ASSERT(sg_desc_ptr != NULL);
+    VSF_HAL_ASSERT(sg_count > 0);
+
+    if ((NULL == dma_ptr) || (NULL == sg_desc_ptr) || (sg_count == 0)) {
+        return VSF_ERR_INVALID_PARAMETER;
+    }
+
+    vsf_hw_dma_channel_t *chp = &dma_ptr->channels[channel];
+    chp->sg_desc_array = sg_desc_ptr;
+    chp->sg_count = sg_count;
+    chp->isr = isr;
+
+    return VSF_ERR_NONE;
+}
+
+vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_sg_start)(
+    VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) *dma_ptr,
+    uint8_t channel)
+{
+    VSF_HAL_ASSERT(dma_ptr != NULL);
+    VSF_HAL_ASSERT(channel < RP2040_DMA_CHANNEL_COUNT);
+
+    vsf_hw_dma_channel_t *chp = &dma_ptr->channels[channel];
+    if (chp->sg_desc_array == NULL || chp->sg_count == 0) {
+        return VSF_ERR_INVALID_PARAMETER;
+    }
+
+    chp->sg_index = 0;
+    chp->sg_total_count = 0;
+    chp->is_sg_active = true;
+
+    vsf_dma_channel_sg_desc_t *desc = &chp->sg_desc_array[0];
+    __rp2040_dma_channel_start_raw(dma_ptr, channel,
+        desc->src_address, desc->dst_address,
+        desc->count, desc->mode, true);
+
     return VSF_ERR_NONE;
 }
 
@@ -298,8 +364,13 @@ uint32_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_get_transferred_count
 
     uint32_t remain = dma_ptr->reg->ch[channel].transfer_count;
     uint32_t total = dma_ptr->channels[channel].total_count;
+    uint32_t current = total - remain;
 
-    return total - remain;
+    if (dma_ptr->channels[channel].is_sg_active) {
+        current += dma_ptr->channels[channel].sg_total_count;
+    }
+
+    return current;
 }
 
 vsf_dma_channel_status_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_status)(
@@ -344,9 +415,27 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
             /* Clear interrupt by writing to INTS (WC — write 1 to clear). */
             (&hw->ints0)[irq_idx] = (1u << ch);
 
-            if (dma_ptr->channels[ch].isr.handler_fn != NULL) {
-                dma_ptr->channels[ch].isr.handler_fn(
-                    dma_ptr->channels[ch].isr.target_ptr,
+            vsf_hw_dma_channel_t *chp = &dma_ptr->channels[ch];
+
+            /* Scatter-gather chaining */
+            if (chp->is_sg_active) {
+                chp->sg_total_count += chp->total_count;
+                if (chp->sg_index + 1 < chp->sg_count) {
+                    chp->sg_index++;
+                    vsf_dma_channel_sg_desc_t *desc = &chp->sg_desc_array[chp->sg_index];
+                    __rp2040_dma_channel_start_raw(dma_ptr, ch,
+                        desc->src_address, desc->dst_address,
+                        desc->count, desc->mode, true);
+                    continue;   /* Don't call user callback until all done */
+                } else {
+                    chp->is_sg_active = false;
+                    /* All descriptors complete — fall through to user callback */
+                }
+            }
+
+            if (chp->isr.handler_fn != NULL) {
+                chp->isr.handler_fn(
+                    chp->isr.target_ptr,
                     (vsf_dma_t *)dma_ptr, ch, VSF_DMA_IRQ_MASK_CPL);
             }
         }
@@ -359,6 +448,8 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
 #define VSF_DMA_CFG_REIMPLEMENT_API_GET_CONFIGURATION          ENABLED
 #define VSF_DMA_CFG_REIMPLEMENT_API_CHANNEL_GET_CONFIGURATION  ENABLED
 #define VSF_DMA_CFG_REIMPLEMENT_API_CTRL                       ENABLED
+#define VSF_DMA_CFG_REIMPLEMENT_API_SG_CONFIG_DESC             ENABLED
+#define VSF_DMA_CFG_REIMPLEMENT_API_SG_START                   ENABLED
 
 #define VSF_DMA_CFG_IMP_LV0(__IDX, __HAL_OP)                                    \
     VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t)                                \

@@ -35,6 +35,10 @@ extern "C" {
 #   define VSF_TEST_SPI_LOOPBACK_ENABLE         ENABLED
 #endif
 
+#ifndef VSF_TEST_SPI_ASYNC_ENABLE
+#   define VSF_TEST_SPI_ASYNC_ENABLE            ENABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 vsf_class(vsf_test_spi_suite_base_t) {
@@ -50,6 +54,12 @@ vsf_class(vsf_test_spi_loopback_suite_t) {
     )
 };
 
+vsf_class(vsf_test_spi_async_suite_t) {
+    public_member(
+        implement(vsf_test_spi_suite_base_t)
+    )
+};
+
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
 typedef struct vsf_test_spi_loopback_case_t {
     uint8_t  idx;
@@ -58,6 +68,17 @@ typedef struct vsf_test_spi_loopback_case_t {
     uint16_t data_len;
     vsf_test_spi_loopback_suite_t *suite;
 } vsf_test_spi_loopback_case_t;
+#endif
+
+#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
+typedef struct vsf_test_spi_async_case_t {
+    uint8_t  idx;
+    uint32_t mode;
+    uint32_t clock_hz;
+    uint16_t data_len;
+    uint8_t  test_type;
+    vsf_test_spi_async_suite_t *suite;
+} vsf_test_spi_async_case_t;
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -82,10 +103,33 @@ typedef struct vsf_test_spi_loopback_case_t {
     }
 #endif
 
+#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
+#define VSF_TEST_SPI_ASYNC_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_spi_async_suite_t suite_var; \
+    static vsf_test_spi_async_case_t __##suite_var##_data[] = { \
+        VSF_TEST_SPI_ASYNC_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_SPI_ASYNC_CASES(__##suite_var##_data, vsf_test_spi_async_run, false) \
+    }; \
+    static vsf_test_spi_async_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "spi_async", \
+        .hw_req     = "mosi-miso-jumper", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
 void vsf_test_spi_loopback_run(void *arg);
+#endif
+#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
+void vsf_test_spi_async_run(void *arg);
 #endif
 #ifdef __cplusplus
 }

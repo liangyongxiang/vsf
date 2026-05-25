@@ -14,3 +14,9 @@ adc_temperature:
     # Temperature sensor: V ≈ 0.706V at 27°C, slope ≈ -1.721 mV/°C.
     # At 3.3V VREF and 12-bit resolution, raw range ~500-1200 covers typical room temp.
     - {idx: 0, channel_count: 5, sensor_channel: 4, temp_raw_min: 500, temp_raw_max: 1200}
+
+adc_stream:
+  name: adc_stream
+  suite_timeout_s: 15.0
+  cases:
+    - {idx: 0, channel: 4, sample_count: 100, host: {hw_req: none}}

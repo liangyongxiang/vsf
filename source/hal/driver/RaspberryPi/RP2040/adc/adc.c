@@ -53,6 +53,9 @@ typedef struct VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_t) {
         uint32_t            is_busy    : 1;
         uint32_t                       : 30;
     } status;
+    uint16_t                *buffer;
+    uint_fast32_t           count;
+    uint_fast32_t           offset;
 } VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_t);
 
 /*============================ GLOBAL VARIABLES ==============================*/
@@ -303,8 +306,27 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_request)(
     VSF_HAL_ASSERT(NULL != buffer_ptr);
     VSF_HAL_ASSERT(count > 0);
 
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    if (!adc_ptr->status.is_enabled) {
+        return VSF_ERR_NOT_READY;
+    }
+
+    adc_hw_t *reg = adc_ptr->reg;
+
+    adc_ptr->buffer = (uint16_t *)buffer_ptr;
+    adc_ptr->count  = count;
+    adc_ptr->offset = 0;
+    adc_ptr->status.is_busy = true;
+
+    /* Enable FIFO and set threshold to 1 (interrupt after each sample) */
+    reg->fcs = ADC_FCS_EN_BITS | (1u << ADC_FCS_THRESH_LSB);
+
+    /* Enable FIFO interrupt */
+    reg->inte |= ADC_INTE_FIFO_BITS;
+
+    /* Start free-running conversions */
+    reg->cs |= ADC_CS_START_MANY_BITS;
+
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_ctrl)(
@@ -331,7 +353,26 @@ static void VSF_MCONNECT(__, VSF_ADC_CFG_IMP_PREFIX, _adc_irqhandler)(
     // Clear interrupt by reading INTS (acknowledged by hardware)
     (void)reg->ints;
 
-    if (adc_ptr->isr.handler_fn != NULL) {
+    if (adc_ptr->status.is_busy && adc_ptr->offset < adc_ptr->count) {
+        /* Drain FIFO entries into buffer */
+        uint32_t level = (reg->fcs & ADC_FCS_LEVEL_BITS) >> ADC_FCS_LEVEL_LSB;
+        while (level-- > 0 && adc_ptr->offset < adc_ptr->count) {
+            adc_ptr->buffer[adc_ptr->offset++] = (uint16_t)(reg->fifo & 0xFFF);
+        }
+
+        /* If all samples collected, stop free-running and signal completion */
+        if (adc_ptr->offset >= adc_ptr->count) {
+            reg->cs &= ~ADC_CS_START_MANY_BITS;
+            reg->inte &= ~ADC_INTE_FIFO_BITS;
+            adc_ptr->status.is_busy = false;
+
+            if (adc_ptr->isr.handler_fn != NULL) {
+                adc_ptr->isr.handler_fn(adc_ptr->isr.target_ptr,
+                                        (vsf_adc_t *)adc_ptr,
+                                        VSF_ADC_IRQ_MASK_CPL);
+            }
+        }
+    } else if (adc_ptr->isr.handler_fn != NULL) {
         adc_ptr->isr.handler_fn(adc_ptr->isr.target_ptr,
                                 (vsf_adc_t *)adc_ptr,
                                 VSF_ADC_IRQ_MASK_CPL);

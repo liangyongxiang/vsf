@@ -1,10 +1,9 @@
-"""dma_scatter_gather scenario: Verify SG API returns NOT_SUPPORT.
+"""dma_scatter_gather scenario: Verify DMA scatter-gather M2M transfers.
 
-RP2040 DMA does not have native scatter-gather.  This scenario calls
-vsf_dma_channel_sg_config_desc / sg_start and asserts that both return
-VSF_ERR_NOT_SUPPORT.
-
-No host-side serial interaction required — this is an internal test.
+Tests three scatter-gather patterns using RP2040 DMA with ISR chaining:
+1. Two-segment M2M
+2. Scatter read (non-contiguous src -> contiguous dst)
+3. Gather write (contiguous src -> non-contiguous dst)
 """
 
 from pathlib import Path

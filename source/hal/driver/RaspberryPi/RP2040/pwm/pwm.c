@@ -22,6 +22,7 @@
 #if VSF_HAL_USE_PWM == ENABLED
 
 #include "hal/vsf_hal.h"
+#include "hal/driver/vendor_driver.h"
 
 /*============================ MACROS ========================================*/
 
@@ -31,6 +32,10 @@
 
 #define VSF_PWM_CFG_IMP_PREFIX                     vsf_hw
 #define VSF_PWM_CFG_IMP_UPCASE_PREFIX              VSF_HW
+
+#define VSF_PWM_CFG_REIMPLEMENT_API_IRQ_ENABLE     ENABLED
+#define VSF_PWM_CFG_REIMPLEMENT_API_IRQ_DISABLE    ENABLED
+#define VSF_PWM_CFG_REIMPLEMENT_API_IRQ_CLEAR      ENABLED
 
 /* RP2040 PWM clock source is clk_sys (125 MHz typical).
  * Divider is 8.4 fixed-point: INT[11:4] + FRAC[3:0].
@@ -58,6 +63,7 @@ typedef struct VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_t) {
     uint32_t                clk_sys_hz;
     uint32_t                div_value;      /* 8.4 fixed-point divider */
     uint16_t                top_value;
+    vsf_pwm_isr_t           isr;
 } VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_t);
 
 /*============================ GLOBAL VARIABLES ==============================*/
@@ -133,6 +139,8 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_init)(
     uint32_t div_16 = __rp2040_pwm_compute_div(clk_sys, freq, top);
     pwm_ptr->div_value = div_16;
     slice_hw->div = div_16;
+
+    pwm_ptr->isr = cfg_ptr->isr;
 
     return VSF_ERR_NONE;
 }
@@ -264,6 +272,44 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_ctrl)(
     return VSF_ERR_NOT_SUPPORT;
 }
 
+void VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_irq_enable)(
+    VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_t) *pwm_ptr,
+    vsf_pwm_irq_mask_t irq_mask)
+{
+    VSF_HAL_ASSERT(pwm_ptr != NULL);
+
+    uint8_t slice = pwm_ptr->slice_idx;
+    pwm_hw->inte |= (1u << slice);
+    NVIC_EnableIRQ(PWM_IRQ_WRAP_IRQn);
+}
+
+void VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_irq_disable)(
+    VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_t) *pwm_ptr,
+    vsf_pwm_irq_mask_t irq_mask)
+{
+    VSF_HAL_ASSERT(pwm_ptr != NULL);
+
+    uint8_t slice = pwm_ptr->slice_idx;
+    pwm_hw->inte &= ~(1u << slice);
+}
+
+vsf_pwm_irq_mask_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_irq_clear)(
+    VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_t) *pwm_ptr,
+    vsf_pwm_irq_mask_t irq_mask)
+{
+    VSF_HAL_ASSERT(pwm_ptr != NULL);
+
+    uint8_t slice = pwm_ptr->slice_idx;
+    uint32_t slice_mask = (1u << slice);
+    uint32_t ints = pwm_hw->ints & slice_mask;
+
+    if (ints) {
+        pwm_hw->intr = slice_mask;
+        return VSF_PWM_IRQ_MASK_WRAP;
+    }
+    return 0;
+}
+
 /*============================ MACROS ========================================*/
 
 #define VSF_PWM_CFG_MODE_CHECK_UNIQUE                 VSF_HAL_CHECK_MODE_LOOSE
@@ -280,5 +326,42 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_ctrl)(
     };
 
 #include "hal/driver/common/pwm/pwm_template.inc"
+
+extern vsf_hw_pwm_t vsf_hw_pwm0;
+extern vsf_hw_pwm_t vsf_hw_pwm1;
+extern vsf_hw_pwm_t vsf_hw_pwm2;
+extern vsf_hw_pwm_t vsf_hw_pwm3;
+extern vsf_hw_pwm_t vsf_hw_pwm4;
+extern vsf_hw_pwm_t vsf_hw_pwm5;
+extern vsf_hw_pwm_t vsf_hw_pwm6;
+extern vsf_hw_pwm_t vsf_hw_pwm7;
+
+static vsf_hw_pwm_t *__vsf_hw_pwm_instances[VSF_HW_PWM_COUNT] = {
+    &vsf_hw_pwm0, &vsf_hw_pwm1, &vsf_hw_pwm2, &vsf_hw_pwm3,
+    &vsf_hw_pwm4, &vsf_hw_pwm5, &vsf_hw_pwm6, &vsf_hw_pwm7,
+};
+
+VSF_CAL_ROOT void PWM_IRQ_WRAP_IRQHandler(void)
+{
+    uintptr_t ctx = vsf_hal_irq_enter();
+    uint32_t ints = pwm_hw->ints;
+    for (uint8_t slice = 0; slice < VSF_HW_PWM_COUNT; slice++) {
+        uint32_t slice_mask = (1u << slice);
+        if (ints & slice_mask) {
+            vsf_hw_pwm_t *pwm_ptr = __vsf_hw_pwm_instances[slice];
+            if (pwm_ptr->isr.handler_fn != NULL) {
+                pwm_ptr->isr.handler_fn(pwm_ptr->isr.target_ptr,
+#if VSF_HW_PWM_CFG_MULTI_CLASS == ENABLED
+                                         &pwm_ptr->vsf_pwm,
+#else
+                                         (vsf_pwm_t *)pwm_ptr,
+#endif
+                                         VSF_PWM_IRQ_MASK_WRAP);
+            }
+        }
+    }
+    pwm_hw->intr = ints;
+    vsf_hal_irq_leave(ctx);
+}
 
 #endif /* VSF_HAL_USE_PWM */

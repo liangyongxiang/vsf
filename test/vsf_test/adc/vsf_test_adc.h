@@ -37,6 +37,9 @@ extern "C" {
 #ifndef VSF_TEST_ADC_TEMPERATURE_ENABLE
 #   define VSF_TEST_ADC_TEMPERATURE_ENABLE     DISABLED
 #endif
+#ifndef VSF_TEST_ADC_STREAM_ENABLE
+#   define VSF_TEST_ADC_STREAM_ENABLE          ENABLED
+#endif
 
 /*============================ TYPES =========================================*/
 
@@ -78,6 +81,24 @@ typedef struct vsf_test_adc_temperature_case_t {
     uint16_t temp_raw_max;    /* maximum plausible raw sample at room temp */
     vsf_test_adc_temperature_suite_t *suite;
 } vsf_test_adc_temperature_case_t;
+#endif
+
+#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
+vsf_class(vsf_test_adc_stream_suite_t) {
+    public_member(
+        implement(vsf_test_adc_suite_base_t)
+    )
+    private_member(
+        volatile bool completed;
+    )
+};
+
+typedef struct vsf_test_adc_stream_case_t {
+    uint8_t  idx;
+    uint8_t  channel;
+    uint16_t sample_count;
+    vsf_test_adc_stream_suite_t *suite;
+} vsf_test_adc_stream_case_t;
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -122,6 +143,26 @@ typedef struct vsf_test_adc_temperature_case_t {
     }
 #endif
 
+#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
+#define VSF_TEST_ADC_STREAM_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_adc_stream_suite_t suite_var; \
+    static vsf_test_adc_stream_case_t __##suite_var##_data[] = { \
+        VSF_TEST_ADC_STREAM_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_ADC_STREAM_CASES(__##suite_var##_data, vsf_test_adc_stream_run, false) \
+    }; \
+    static vsf_test_adc_stream_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "adc_stream", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
@@ -130,6 +171,10 @@ void vsf_test_adc_oneshot_run(void *arg);
 
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
 void vsf_test_adc_temperature_run(void *arg);
+#endif
+
+#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
+void vsf_test_adc_stream_run(void *arg);
 #endif
 
 #ifdef __cplusplus

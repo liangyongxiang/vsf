@@ -205,10 +205,27 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_get_time)(
     vsf_rtc_time_t *millisecond_ptr
 ) {
     VSF_HAL_ASSERT(NULL != rtc_ptr);
-    (void)second_ptr;
-    (void)millisecond_ptr;
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+
+    rtc_hw_t *reg = rtc_ptr->reg;
+
+    uint32_t rtc_0, rtc_1;
+    uint32_t prev_0, prev_1;
+
+    do {
+        prev_0 = reg->rtc_0;
+        prev_1 = reg->rtc_1;
+        rtc_0  = reg->rtc_0;
+        rtc_1  = reg->rtc_1;
+    } while ((rtc_0 != prev_0) || (rtc_1 != prev_1));
+
+    if (second_ptr != NULL) {
+        *second_ptr = ((uint64_t)rtc_1 << 32) | rtc_0;
+    }
+    if (millisecond_ptr != NULL) {
+        *millisecond_ptr = 0;
+    }
+
+    return VSF_ERR_NONE;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_set_time)(
@@ -217,10 +234,21 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_set_time)(
     vsf_rtc_time_t milliseconds
 ) {
     VSF_HAL_ASSERT(NULL != rtc_ptr);
-    (void)seconds;
     (void)milliseconds;
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+
+    rtc_hw_t *reg = rtc_ptr->reg;
+
+    reg->ctrl = 0;
+    __rp2040_rtc_wait_not_active(reg);
+
+    reg->setup_0 = (uint32_t)(seconds & 0xFFFFFFFF);
+    reg->setup_1 = (uint32_t)(seconds >> 32);
+
+    reg->ctrl = RTC_CTRL_LOAD_BITS;
+    reg->ctrl = RTC_CTRL_RTC_ENABLE_BITS;
+    __rp2040_rtc_wait_active(reg);
+
+    return VSF_ERR_NONE;
 }
 
 vsf_rtc_capability_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_capability)(

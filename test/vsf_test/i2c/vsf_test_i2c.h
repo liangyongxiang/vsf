@@ -52,6 +52,10 @@ extern "C" {
 #   define VSF_TEST_I2C_EEPROM_PAGE_ENABLE      ENABLED
 #endif
 
+#ifndef VSF_TEST_I2C_SLAVE_ENABLE
+#   define VSF_TEST_I2C_SLAVE_ENABLE            ENABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 vsf_class(vsf_test_i2c_suite_base_t) {
@@ -83,6 +87,14 @@ vsf_class(vsf_test_i2c_eeprom_page_suite_t) {
     )
 };
 
+vsf_class(vsf_test_i2c_slave_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_i2c_t *master_i2c;
+        vsf_i2c_t *slave_i2c;
+    )
+};
+
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
 typedef struct vsf_test_i2c_eeprom_rw_case_t {
     uint8_t  idx;
@@ -103,6 +115,15 @@ typedef struct vsf_test_i2c_eeprom_page_case_t {
     uint8_t  data_len;
     vsf_test_i2c_eeprom_page_suite_t *suite;
 } vsf_test_i2c_eeprom_page_case_t;
+#endif
+
+#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
+typedef struct vsf_test_i2c_slave_case_t {
+    uint8_t  idx;
+    uint8_t  master_i2c_idx;
+    uint8_t  slave_i2c_idx;
+    vsf_test_i2c_slave_suite_t *suite;
+} vsf_test_i2c_slave_case_t;
 #endif
 
 /*============================ TYPES for bus_scan ============================*/
@@ -188,6 +209,26 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
     }
 #endif
 
+#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
+#define VSF_TEST_I2C_SLAVE_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_i2c_slave_suite_t suite_var; \
+    static vsf_test_i2c_slave_case_t __##suite_var##_data[] = { \
+        VSF_TEST_I2C_SLAVE_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_I2C_SLAVE_CASES(__##suite_var##_data, vsf_test_i2c_slave_run, false) \
+    }; \
+    static vsf_test_i2c_slave_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "i2c_slave", \
+        .hw_req     = "i2c0+i2c1+wired", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
@@ -200,6 +241,10 @@ void vsf_test_i2c_bus_scan_run(const vsf_test_i2c_bus_scan_case_t *c);
 
 #if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
 void vsf_test_i2c_eeprom_page_run(const vsf_test_i2c_eeprom_page_case_t *c);
+#endif
+
+#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
+void vsf_test_i2c_slave_run(void *arg);
 #endif
 
 // Framework types — included LAST so this header can be pulled into

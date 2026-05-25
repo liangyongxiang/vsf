@@ -46,6 +46,10 @@ extern "C" {
 #   define VSF_TEST_RTC_ALARM_ENABLE           ENABLED
 #endif
 
+#ifndef VSF_TEST_RTC_EPOCH_ENABLE
+#   define VSF_TEST_RTC_EPOCH_ENABLE            ENABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 vsf_class(vsf_test_rtc_suite_base_t) {
@@ -73,6 +77,12 @@ vsf_class(vsf_test_rtc_alarm_suite_t) {
     )
 };
 
+vsf_class(vsf_test_rtc_epoch_suite_t) {
+    public_member(
+        implement(vsf_test_rtc_suite_base_t)
+    )
+};
+
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
 typedef struct vsf_test_rtc_set_get_case_t {
     uint8_t idx;
@@ -87,6 +97,14 @@ typedef struct vsf_test_rtc_alarm_case_t {
     uint8_t rtc_idx;
     vsf_test_rtc_alarm_suite_t *suite;
 } vsf_test_rtc_alarm_case_t;
+#endif
+
+#if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
+typedef struct vsf_test_rtc_epoch_case_t {
+    uint8_t idx;
+    uint8_t rtc_idx;
+    vsf_test_rtc_epoch_suite_t *suite;
+} vsf_test_rtc_epoch_case_t;
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -131,6 +149,26 @@ typedef struct vsf_test_rtc_alarm_case_t {
     }
 #endif
 
+#if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
+#define VSF_TEST_RTC_EPOCH_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_rtc_epoch_suite_t suite_var; \
+    static vsf_test_rtc_epoch_case_t __##suite_var##_data[] = { \
+        VSF_TEST_RTC_EPOCH_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_RTC_EPOCH_CASES(__##suite_var##_data, vsf_test_rtc_epoch_run, false) \
+    }; \
+    static vsf_test_rtc_epoch_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "rtc_epoch", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
@@ -139,6 +177,10 @@ void vsf_test_rtc_set_get_run(void *arg);
 
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
 void vsf_test_rtc_alarm_run(void *arg);
+#endif
+
+#if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
+void vsf_test_rtc_epoch_run(void *arg);
 #endif
 
 // Framework types — included LAST so this header can be pulled into

@@ -42,6 +42,7 @@
 #   include "pwm/pwm.h"
 #   include "timer/timer.h"
 #   include "spi/spi.h"
+#   include "rng/rng.h"
 #   include "dma/dma.h"
 
 /*============================ MACROFIED FUNCTIONS ===========================*/

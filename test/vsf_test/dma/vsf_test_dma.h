@@ -90,7 +90,7 @@ typedef struct vsf_test_dma_mem2mem_irq_case_t {
 #if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
 typedef struct vsf_test_dma_scatter_gather_case_t {
     uint8_t  idx;
-    bool     expect_not_support;
+    bool     expect_pass;
     vsf_test_dma_scatter_gather_suite_t *suite;
 } vsf_test_dma_scatter_gather_case_t;
 #endif

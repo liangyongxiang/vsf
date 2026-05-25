@@ -10,15 +10,32 @@
  *  Unless required by applicable law or agreed to in writing, software      *
  *  distributed under the License is distributed on an "AS IS" BASIS,        *
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
- *  See the License for the specific language governing permissions and       *
+ *  See the License for the specific language governing permissions and      *
  *  limitations under the License.                                           *
  *                                                                           *
  *****************************************************************************/
 
+#ifndef __VSF_TEST_SPI_ASYNC_H__
+#define __VSF_TEST_SPI_ASYNC_H__
+
 /*============================ INCLUDES ======================================*/
 
-#include "vsf_test_spi.h"
-#include "suite/vsf_test_spi_loopback.h"
-#include "suite/vsf_test_spi_async.h"
+#include "../vsf_test_spi.h"
 
+/*============================ MACROS ========================================*/
+
+#ifndef VSF_TEST_SPI_ASYNC_CASE_COUNT
+#   define VSF_TEST_SPI_ASYNC_CASE_COUNT     1
+#endif
+
+#ifndef VSF_TEST_SPI_ASYNC_CASES_INIT
+#define VSF_TEST_SPI_ASYNC_CASES_INIT                                       \
+    { 0 }
+#endif
+
+/*============================ PROTOTYPES ====================================*/
+
+void vsf_test_spi_async_run(void *arg);
+
+#endif /* __VSF_TEST_SPI_ASYNC_H__ */
 /* EOF */

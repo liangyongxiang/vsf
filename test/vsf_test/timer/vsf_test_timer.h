@@ -46,6 +46,10 @@ extern "C" {
 #   define VSF_TEST_TIMER_PERIODIC_ENABLE        ENABLED
 #endif
 
+#ifndef VSF_TEST_TIMER_ASYNC_ENABLE
+#   define VSF_TEST_TIMER_ASYNC_ENABLE           ENABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 vsf_class(vsf_test_timer_suite_base_t) {
@@ -100,6 +104,26 @@ typedef struct vsf_test_timer_periodic_case_t {
 } vsf_test_timer_periodic_case_t;
 #endif
 
+#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
+vsf_class(vsf_test_timer_async_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_timer_t *timer;
+    )
+    private_member(
+        volatile uint8_t counter;
+    )
+};
+
+typedef struct vsf_test_timer_async_case_t {
+    uint8_t  idx;
+    uint8_t  timer_idx;
+    uint8_t  channel;
+    uint32_t period_us;
+    vsf_test_timer_async_suite_t *suite;
+} vsf_test_timer_async_case_t;
+#endif
+
 /*============================ STATIC INIT MACROS ============================*/
 
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
@@ -142,6 +166,26 @@ typedef struct vsf_test_timer_periodic_case_t {
     }
 #endif
 
+#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
+#define VSF_TEST_TIMER_ASYNC_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_timer_async_suite_t suite_var; \
+    static vsf_test_timer_async_case_t __##suite_var##_data[] = { \
+        VSF_TEST_TIMER_ASYNC_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_TIMER_ASYNC_CASES(__##suite_var##_data, vsf_test_timer_async_run, false) \
+    }; \
+    static vsf_test_timer_async_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "timer_async", \
+        .hw_req     = "none", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
@@ -150,6 +194,10 @@ void vsf_test_timer_oneshot_run(void *arg);
 
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
 void vsf_test_timer_periodic_run(void *arg);
+#endif
+
+#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
+void vsf_test_timer_async_run(void *arg);
 #endif
 
 // Framework types — included LAST so this header can be pulled into

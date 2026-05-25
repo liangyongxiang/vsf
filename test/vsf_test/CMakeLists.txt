@@ -26,6 +26,7 @@ file(GLOB_RECURSE ADC_SRCS   ${CMAKE_CURRENT_LIST_DIR}/adc/*.c)
 file(GLOB_RECURSE PWM_SRCS   ${CMAKE_CURRENT_LIST_DIR}/pwm/*.c)
 file(GLOB_RECURSE TIMER_SRCS ${CMAKE_CURRENT_LIST_DIR}/timer/*.c)
 file(GLOB_RECURSE SPI_SRCS   ${CMAKE_CURRENT_LIST_DIR}/spi/*.c)
+file(GLOB_RECURSE RNG_SRCS   ${CMAKE_CURRENT_LIST_DIR}/rng/*.c)
 file(GLOB_RECURSE DMA_SRCS   ${CMAKE_CURRENT_LIST_DIR}/dma/*.c)
 
 vsf_add_sources(
@@ -39,5 +40,6 @@ vsf_add_sources(
     ${PWM_SRCS}
     ${TIMER_SRCS}
     ${SPI_SRCS}
+    ${RNG_SRCS}
     ${DMA_SRCS}
 )

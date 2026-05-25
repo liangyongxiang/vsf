@@ -170,7 +170,20 @@ vsf_timer_irq_mask_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_clear)(
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
     (void)irq_mask;
-    return 0;
+
+    timer_hw_t *hw = (timer_hw_t *)timer_ptr->reg;
+    uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
+    uint8_t alarm0 = __rp2040_timer_alarm_index(timer_idx, 0);
+    uint8_t alarm1 = __rp2040_timer_alarm_index(timer_idx, 1);
+    uint32_t ints = hw->ints;
+    uint32_t alarm_mask = (1u << alarm0) | (1u << alarm1);
+
+    vsf_timer_irq_mask_t result = 0;
+    if (ints & alarm_mask) {
+        result = VSF_TIMER_IRQ_MASK_OVERFLOW;
+        hw->intr = (ints & alarm_mask);
+    }
+    return result;
 }
 
 vsf_timer_status_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_status)(
@@ -178,7 +191,7 @@ vsf_timer_status_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_status)(
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
     return (vsf_timer_status_t) {
-        .value = 0,
+        .value = timer_ptr->channel_enabled != 0,
     };
 }
 
@@ -298,10 +311,13 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_request_start)(
     uint8_t channel, vsf_timer_channel_request_t *request_ptr)
 {
     VSF_HAL_ASSERT((timer_ptr != NULL) && (request_ptr != NULL));
-    (void)channel;
-    (void)request_ptr;
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    VSF_HAL_ASSERT(channel < RP2040_TIMER_ALARM_PER_INSTANCE);
+
+    if (request_ptr->length > 0 && request_ptr->period_buffer != NULL) {
+        timer_ptr->channel_cfg[channel].pulse = request_ptr->period_buffer[0];
+    }
+
+    return VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_start)(timer_ptr, channel);
 }
 
 vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_request_stop)(
@@ -309,9 +325,9 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_request_stop)(
     uint8_t channel)
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
-    (void)channel;
-    VSF_HAL_ASSERT(0);
-    return VSF_ERR_NOT_SUPPORT;
+    VSF_HAL_ASSERT(channel < RP2040_TIMER_ALARM_PER_INSTANCE);
+
+    return VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_stop)(timer_ptr, channel);
 }
 
 vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_ctrl)(

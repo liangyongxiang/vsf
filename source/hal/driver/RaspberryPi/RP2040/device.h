@@ -54,6 +54,7 @@
 #include "hardware/structs/pads_bank0.h"
 #include "hardware/structs/pwm.h"
 #include "hardware/structs/resets.h"
+#include "hardware/structs/rosc.h"
 #include "hardware/structs/rtc.h"
 #include "hardware/structs/sio.h"
 #include "hardware/structs/spi.h"
@@ -153,6 +154,8 @@
 #define VSF_HW_ADC_CHANNEL_COUNT    5
 
 #define VSF_HW_PWM_COUNT            8
+#define VSF_HW_PWM0_IRQN            PWM_IRQ_WRAP_IRQn
+#define VSF_HW_PWM0_IRQHandler      PWM_IRQ_WRAP_IRQHandler
 #define VSF_HW_PWM0_REG             PWM_BASE
 #define VSF_HW_PWM1_REG             PWM_BASE
 #define VSF_HW_PWM2_REG             PWM_BASE
@@ -185,6 +188,8 @@
 #define VSF_HW_SPI1_IRQHandler      SPI1_IRQHandler
 #define VSF_HW_SPI1_REG             SPI1_BASE
 #define VSF_HW_SPI1_RST_BIT         (1u << RESET_SPI1)
+
+#define VSF_HW_RNG_COUNT            1
 
 #define VSF_HW_DMA_COUNT            1
 #define VSF_HW_DMA_CHANNEL_NUM      12

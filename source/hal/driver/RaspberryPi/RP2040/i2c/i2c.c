@@ -64,8 +64,10 @@ vsf_err_t VSF_MCONNECT(VSF_I2C_CFG_IMP_PREFIX, _i2c_init)(
     vsf_trace_info("[I2C_HW] init rst=0x%02X reg=%p irqn=%d" VSF_TRACE_CFG_LINEEND,
                    rst_bit, i2c_ptr->reg, i2c_ptr->irqn);
     resets_hw->reset = resets_hw->reset | rst_bit;
+    // spin-wait: wait for reset to assert
     while (resets_hw->reset_done & rst_bit);
     resets_hw->reset = resets_hw->reset & ~rst_bit;
+    // spin-wait: wait for reset to de-assert
     while (!(resets_hw->reset_done & rst_bit));
 
     vsf_err_t err = vsf_dw_apb_i2c_init(&i2c_ptr->use_as__vsf_dw_apb_i2c_t, cfg_ptr, clock_get_hz(clk_sys));

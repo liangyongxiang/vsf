@@ -144,7 +144,6 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_get)(
     rtc_hw_t *reg = rtc_ptr->reg;
 
     // RP2040 RTC registers are in a slower clock domain.
-    // Read twice and compare to ensure consistency.
     uint32_t rtc_0, rtc_1;
     uint32_t prev_0, prev_1;
 
@@ -153,6 +152,7 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_get)(
         prev_1 = reg->rtc_1;
         rtc_0  = reg->rtc_0;
         rtc_1  = reg->rtc_1;
+        // spin-wait: double-read until stable (crossing clock domains)
     } while ((rtc_0 != prev_0) || (rtc_1 != prev_1));
 
     rtc_tm->tm_year = (uint16_t)((rtc_1 >> RTC_RTC_1_YEAR_LSB)  & 0xFFF);
@@ -216,6 +216,7 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_get_time)(
         prev_1 = reg->rtc_1;
         rtc_0  = reg->rtc_0;
         rtc_1  = reg->rtc_1;
+        // spin-wait: double-read until stable (crossing clock domains)
     } while ((rtc_0 != prev_0) || (rtc_1 != prev_1));
 
     if (second_ptr != NULL) {

@@ -138,8 +138,10 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_init)(
      * state (e.g. a prior scenario that left UART1 enabled) starts clean.
      * The earlier "only de-assert" pattern silently no-op'd on re-init. */
     resets_hw->reset = resets_hw->reset | rst_bit;
+    // spin-wait: wait for reset to assert
     while (resets_hw->reset_done & rst_bit);
     resets_hw->reset = resets_hw->reset & ~rst_bit;
+    // spin-wait: wait for reset to de-assert
     while (!(resets_hw->reset_done & rst_bit));
 
     vsf_err_t err = vsf_pl011_usart_init(

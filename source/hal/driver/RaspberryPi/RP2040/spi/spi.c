@@ -79,6 +79,7 @@ static void __rp2040_spi_reset(uint32_t rst_bit)
 {
     resets_hw->reset |= rst_bit;
     resets_hw->reset &= ~rst_bit;
+    // spin-wait: wait for reset to de-assert
     while (!(resets_hw->reset_done & rst_bit));
 }
 

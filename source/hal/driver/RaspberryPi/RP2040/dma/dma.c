@@ -175,7 +175,11 @@ void VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_release)(
     VSF_HAL_ASSERT(dma_ptr != NULL);
     VSF_HAL_ASSERT(channel < RP2040_DMA_CHANNEL_COUNT);
 
-    dma_ptr->reg->ch[channel].ctrl_trig = 0;
+    dma_hw_t *hw = dma_ptr->reg;
+    /* Abort if still active; clearing EN alone pauses (BUSY stays high). */
+    hw->abort = (1u << channel);
+    while (hw->abort & (1u << channel));
+    hw->inte0 &= ~(1u << channel);
     dma_ptr->channel_mask &= ~(1u << channel);
 }
 
@@ -213,6 +217,9 @@ static void __rp2040_dma_channel_start_raw(
     dma_channel_hw_t *ch = &hw->ch[channel];
 
     ch->ctrl_trig = 0;
+    /* RP2040: clearing EN while BUSY is high PAUSES the channel.
+     * To terminate early, CHAN_ABORT must be used (see cancel).
+     * If the previous user aborted properly, BUSY is already low. */
 
     ch->read_addr = (uint32_t)src_address;
     ch->write_addr = (uint32_t)dst_address;
@@ -302,7 +309,13 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_cancel)(
     VSF_HAL_ASSERT(dma_ptr != NULL);
     VSF_HAL_ASSERT(channel < RP2040_DMA_CHANNEL_COUNT);
 
-    dma_ptr->reg->ch[channel].ctrl_trig = 0;
+    dma_hw_t *hw = dma_ptr->reg;
+    /* On RP2040, clearing EN while BUSY is high PAUSES the channel; BUSY stays
+     * high and the channel resumes if EN is set again.  To terminate early we
+     * must use CHAN_ABORT, which clears BUSY and resets the channel state. */
+    hw->abort = (1u << channel);
+    while (hw->abort & (1u << channel));
+    hw->inte0 &= ~(1u << channel);
     dma_ptr->channels[channel].is_sg_active = false;
     return VSF_ERR_NONE;
 }
@@ -414,6 +427,13 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
         if (ints & (1u << ch)) {
             /* Clear interrupt by writing to INTS (WC — write 1 to clear). */
             (&hw->ints0)[irq_idx] = (1u << ch);
+
+            /* Ignore interrupts for channels that have already been released.
+             * The inte0 bit may have been left set by an old transfer, or
+             * a spurious abort-complete interrupt can fire after release. */
+            if (!(dma_ptr->channel_mask & (1u << ch))) {
+                continue;
+            }
 
             vsf_hw_dma_channel_t *chp = &dma_ptr->channels[ch];
 

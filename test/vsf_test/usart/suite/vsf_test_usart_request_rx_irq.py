@@ -39,8 +39,10 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
             total = 32
         serial.expect(f"usart_request_rx_irq:CASE:{idx}:READY", timeout=timeout_s)
         payload = _gen_pattern(total)
+        print(f"[HOST] request_rx_irq: sending {len(payload)} bytes to {dut_port}")
         aux.write(payload)
         aux.flush()
+        print(f"[HOST] request_rx_irq: sent, waiting for summary")
 
     serial.expect_test_summary("usart_request_rx_irq", timeout=timeout_s)
     aux.close()

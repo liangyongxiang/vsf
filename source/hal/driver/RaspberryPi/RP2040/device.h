@@ -192,6 +192,7 @@
 #define VSF_HW_RNG_COUNT            1
 
 #define VSF_HW_DMA_COUNT            1
+#define VSF_HW_DMA_MASK             0x1
 #define VSF_HW_DMA_CHANNEL_NUM      12
 #define VSF_HW_DMA0_REG             DMA_BASE
 #define VSF_HW_DMA0_RST_BIT         (1u << RESET_DMA)

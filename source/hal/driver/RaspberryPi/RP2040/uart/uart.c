@@ -50,9 +50,11 @@ typedef struct VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) {
      * divider math, so a cached copy is simpler. See PRD
      * hal-get-configuration-reads-hardware. */
     vsf_usart_cfg_t         cached_cfg;
-    /* DMA support for request_tx / request_rx.  Static instances are
-     * zero-initialised; dma is wired in board init or main.c. */
-    vsf_dma_t              *dma;
+    /* DMA support for request_tx / request_rx.  Channels are acquired
+     * dynamically via vsf_hw_dma_channel_acquire_from_all() so the driver
+     * does not depend on a specific DMA instance. */
+    vsf_dma_t              *tx_dma;
+    vsf_dma_t              *rx_dma;
     int8_t                  tx_dma_ch;
     int8_t                  rx_dma_ch;
     uint32_t                tx_count;
@@ -61,14 +63,7 @@ typedef struct VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) {
 
 /*============================ LOCAL FUNCTIONS ===============================*/
 
-#if VSF_HAL_USE_DMA == ENABLED
-void VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_set_dma)(
-    vsf_usart_t *usart, vsf_dma_t *dma)
-{
-    VSF_HAL_ASSERT(NULL != usart);
-    ((vsf_hw_usart_t *)usart)->dma = dma;
-}
-#endif
+/*============================ LOCAL FUNCTIONS ===============================*/
 
 static uint8_t __vsf_hw_usart_get_tx_dreq(vsf_hw_usart_t *usart)
 {
@@ -92,9 +87,10 @@ static void __vsf_hw_usart_dma_tx_isr(void *target, vsf_dma_t *dma,
     vsf_pl011_usart_txdma_config(&usart->use_as__vsf_pl011_usart_t, false);
     if (usart->tx_dma_ch >= 0) {
         usart->tx_count = vsf_dma_channel_get_transferred_count(
-            usart->dma, (uint8_t)usart->tx_dma_ch);
-        vsf_dma_channel_release(usart->dma, (uint8_t)usart->tx_dma_ch);
+            usart->tx_dma, (uint8_t)usart->tx_dma_ch);
+        vsf_dma_channel_release(usart->tx_dma, (uint8_t)usart->tx_dma_ch);
         usart->tx_dma_ch = -1;
+        usart->tx_dma    = NULL;
     }
     vsf_usart_isr_t *isr = &usart->cached_cfg.isr;
     if (isr->handler_fn != NULL) {
@@ -109,13 +105,12 @@ static void __vsf_hw_usart_dma_rx_isr(void *target, vsf_dma_t *dma,
     (void)dma; (void)ch; (void)mask;
     vsf_hw_usart_t *usart = (vsf_hw_usart_t *)target;
     vsf_pl011_usart_rxdma_config(&usart->use_as__vsf_pl011_usart_t, false);
-    vsf_trace_info("UART:RX_ISR:ch=%d rxch=%d" VSF_TRACE_CFG_LINEEND,
-                   ch, usart->rx_dma_ch);
     if (usart->rx_dma_ch >= 0) {
         usart->rx_count = vsf_dma_channel_get_transferred_count(
-            usart->dma, (uint8_t)usart->rx_dma_ch);
-        vsf_dma_channel_release(usart->dma, (uint8_t)usart->rx_dma_ch);
+            usart->rx_dma, (uint8_t)usart->rx_dma_ch);
+        vsf_dma_channel_release(usart->rx_dma, (uint8_t)usart->rx_dma_ch);
         usart->rx_dma_ch = -1;
+        usart->rx_dma    = NULL;
     }
     vsf_usart_isr_t *isr = &usart->cached_cfg.isr;
     if (isr->handler_fn != NULL) {
@@ -137,17 +132,17 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_init)(
      * (e.g. VSF_TEST_ASSERT timeout without reaching fini). The UART reset
      * below clears DMACR, which stops DREQ generation, but the DMA channel
      * itself keeps running unless we explicitly cancel it. */
-    if (usart_ptr->dma != NULL) {
-        if (usart_ptr->tx_dma_ch >= 0) {
-            vsf_dma_channel_cancel(usart_ptr->dma, (uint8_t)usart_ptr->tx_dma_ch);
-            vsf_dma_channel_release(usart_ptr->dma, (uint8_t)usart_ptr->tx_dma_ch);
-            usart_ptr->tx_dma_ch = -1;
-        }
-        if (usart_ptr->rx_dma_ch >= 0) {
-            vsf_dma_channel_cancel(usart_ptr->dma, (uint8_t)usart_ptr->rx_dma_ch);
-            vsf_dma_channel_release(usart_ptr->dma, (uint8_t)usart_ptr->rx_dma_ch);
-            usart_ptr->rx_dma_ch = -1;
-        }
+    if (usart_ptr->tx_dma != NULL && usart_ptr->tx_dma_ch >= 0) {
+        vsf_dma_channel_cancel(usart_ptr->tx_dma, (uint8_t)usart_ptr->tx_dma_ch);
+        vsf_dma_channel_release(usart_ptr->tx_dma, (uint8_t)usart_ptr->tx_dma_ch);
+        usart_ptr->tx_dma_ch = -1;
+        usart_ptr->tx_dma    = NULL;
+    }
+    if (usart_ptr->rx_dma != NULL && usart_ptr->rx_dma_ch >= 0) {
+        vsf_dma_channel_cancel(usart_ptr->rx_dma, (uint8_t)usart_ptr->rx_dma_ch);
+        vsf_dma_channel_release(usart_ptr->rx_dma, (uint8_t)usart_ptr->rx_dma_ch);
+        usart_ptr->rx_dma_ch = -1;
+        usart_ptr->rx_dma    = NULL;
     }
 
     uint32_t rst_bit = usart_ptr->rst_bit;
@@ -186,19 +181,19 @@ void VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_fini)(
      * with clean channel state. Without this, a timed-out scenario leaves
      * tx_dma_ch / rx_dma_ch >= 0 and the next request_rx / request_tx
      * returns VSF_ERR_NOT_AVAILABLE. */
-    if (usart_ptr->dma != NULL) {
-        if (usart_ptr->tx_dma_ch >= 0) {
-            vsf_pl011_usart_txdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, false);
-            vsf_dma_channel_cancel(usart_ptr->dma, (uint8_t)usart_ptr->tx_dma_ch);
-            vsf_dma_channel_release(usart_ptr->dma, (uint8_t)usart_ptr->tx_dma_ch);
-            usart_ptr->tx_dma_ch = -1;
-        }
-        if (usart_ptr->rx_dma_ch >= 0) {
-            vsf_pl011_usart_rxdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, false);
-            vsf_dma_channel_cancel(usart_ptr->dma, (uint8_t)usart_ptr->rx_dma_ch);
-            vsf_dma_channel_release(usart_ptr->dma, (uint8_t)usart_ptr->rx_dma_ch);
-            usart_ptr->rx_dma_ch = -1;
-        }
+    if (usart_ptr->tx_dma != NULL && usart_ptr->tx_dma_ch >= 0) {
+        vsf_pl011_usart_txdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, false);
+        vsf_dma_channel_cancel(usart_ptr->tx_dma, (uint8_t)usart_ptr->tx_dma_ch);
+        vsf_dma_channel_release(usart_ptr->tx_dma, (uint8_t)usart_ptr->tx_dma_ch);
+        usart_ptr->tx_dma_ch = -1;
+        usart_ptr->tx_dma    = NULL;
+    }
+    if (usart_ptr->rx_dma != NULL && usart_ptr->rx_dma_ch >= 0) {
+        vsf_pl011_usart_rxdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, false);
+        vsf_dma_channel_cancel(usart_ptr->rx_dma, (uint8_t)usart_ptr->rx_dma_ch);
+        vsf_dma_channel_release(usart_ptr->rx_dma, (uint8_t)usart_ptr->rx_dma_ch);
+        usart_ptr->rx_dma_ch = -1;
+        usart_ptr->rx_dma    = NULL;
     }
 
     vsf_pl011_usart_fini(&usart_ptr->use_as__vsf_pl011_usart_t);
@@ -303,22 +298,15 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_request_rx)(
 ) {
     VSF_HAL_ASSERT(NULL != usart_ptr);
     VSF_HAL_ASSERT(NULL != buffer_ptr);
-    vsf_trace_info("UART:REQ_RX:enter rxch=%d dma=%p" VSF_TRACE_CFG_LINEEND,
-                   usart_ptr->rx_dma_ch, usart_ptr->dma);
-    if (usart_ptr->dma == NULL) {
-        vsf_pl011_usart_rxdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, true);
-        return VSF_ERR_NONE;
-    }
     if (usart_ptr->rx_dma_ch >= 0) {
-        vsf_trace_info("UART:REQ_RX:BUSY rxch=%d" VSF_TRACE_CFG_LINEEND,
-                       usart_ptr->rx_dma_ch);
         return VSF_ERR_NOT_AVAILABLE;
     }
     vsf_dma_channel_hint_t hint = { .channel = -1 };
-    vsf_err_t err = vsf_dma_channel_acquire(usart_ptr->dma, &hint);
-    if (err != VSF_ERR_NONE) { return err; }
+    vsf_dma_t *dma = vsf_hw_dma_channel_acquire_from_all(&hint);
+    if (dma == NULL) { return VSF_ERR_NOT_AVAILABLE; }
+    usart_ptr->rx_dma    = dma;
     usart_ptr->rx_dma_ch = hint.channel;
-    err = vsf_dma_channel_config(usart_ptr->dma, (uint8_t)hint.channel,
+    vsf_err_t err = vsf_dma_channel_config(dma, (uint8_t)hint.channel,
         &(vsf_dma_channel_cfg_t){
             .mode = VSF_DMA_PERIPHERAL_TO_MEMORY
                   | VSF_DMA_SRC_ADDR_NO_CHANGE
@@ -332,21 +320,21 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_request_rx)(
             .src_request_idx = __vsf_hw_usart_get_rx_dreq(usart_ptr),
         });
     if (err != VSF_ERR_NONE) {
-        vsf_dma_channel_release(usart_ptr->dma, (uint8_t)hint.channel);
+        vsf_dma_channel_release(dma, (uint8_t)hint.channel);
         usart_ptr->rx_dma_ch = -1;
+        usart_ptr->rx_dma    = NULL;
         return err;
     }
-    err = vsf_dma_channel_start(usart_ptr->dma, (uint8_t)hint.channel,
+    err = vsf_dma_channel_start(dma, (uint8_t)hint.channel,
                                 (vsf_dma_addr_t)usart_ptr->reg + 0x00,
                                 (vsf_dma_addr_t)buffer_ptr, count);
     if (err != VSF_ERR_NONE) {
-        vsf_dma_channel_release(usart_ptr->dma, (uint8_t)hint.channel);
+        vsf_dma_channel_release(dma, (uint8_t)hint.channel);
         usart_ptr->rx_dma_ch = -1;
+        usart_ptr->rx_dma    = NULL;
         return err;
     }
     vsf_pl011_usart_rxdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, true);
-    vsf_trace_info("UART:REQ_RX:ch=%d cnt=%lu" VSF_TRACE_CFG_LINEEND,
-                   hint.channel, (unsigned long)count);
     return VSF_ERR_NONE;
 }
 
@@ -357,18 +345,15 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_request_tx)(
 ) {
     VSF_HAL_ASSERT(NULL != usart_ptr);
     VSF_HAL_ASSERT(NULL != buffer_ptr);
-    if (usart_ptr->dma == NULL) {
-        vsf_pl011_usart_txdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, true);
-        return VSF_ERR_NONE;
-    }
     if (usart_ptr->tx_dma_ch >= 0) {
         return VSF_ERR_NOT_AVAILABLE;
     }
     vsf_dma_channel_hint_t hint = { .channel = -1 };
-    vsf_err_t err = vsf_dma_channel_acquire(usart_ptr->dma, &hint);
-    if (err != VSF_ERR_NONE) { return err; }
+    vsf_dma_t *dma = vsf_hw_dma_channel_acquire_from_all(&hint);
+    if (dma == NULL) { return VSF_ERR_NOT_AVAILABLE; }
+    usart_ptr->tx_dma    = dma;
     usart_ptr->tx_dma_ch = hint.channel;
-    err = vsf_dma_channel_config(usart_ptr->dma, (uint8_t)hint.channel,
+    vsf_err_t err = vsf_dma_channel_config(dma, (uint8_t)hint.channel,
         &(vsf_dma_channel_cfg_t){
             .mode = VSF_DMA_MEMORY_TO_PERIPHERAL
                   | VSF_DMA_SRC_ADDR_INCREMENT
@@ -382,17 +367,19 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_request_tx)(
             .dst_request_idx = __vsf_hw_usart_get_tx_dreq(usart_ptr),
         });
     if (err != VSF_ERR_NONE) {
-        vsf_dma_channel_release(usart_ptr->dma, (uint8_t)hint.channel);
+        vsf_dma_channel_release(dma, (uint8_t)hint.channel);
         usart_ptr->tx_dma_ch = -1;
+        usart_ptr->tx_dma    = NULL;
         return err;
     }
-    err = vsf_dma_channel_start(usart_ptr->dma, (uint8_t)hint.channel,
+    err = vsf_dma_channel_start(dma, (uint8_t)hint.channel,
                                 (vsf_dma_addr_t)buffer_ptr,
                                 (vsf_dma_addr_t)usart_ptr->reg + 0x00,
                                 count);
     if (err != VSF_ERR_NONE) {
-        vsf_dma_channel_release(usart_ptr->dma, (uint8_t)hint.channel);
+        vsf_dma_channel_release(dma, (uint8_t)hint.channel);
         usart_ptr->tx_dma_ch = -1;
+        usart_ptr->tx_dma    = NULL;
         return err;
     }
     vsf_pl011_usart_txdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, true);
@@ -404,11 +391,13 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_cancel_rx)(
 ) {
     VSF_HAL_ASSERT(NULL != usart_ptr);
     int8_t ch = usart_ptr->rx_dma_ch;
-    if (ch >= 0 && usart_ptr->dma != NULL) {
+    vsf_dma_t *dma = usart_ptr->rx_dma;
+    if (ch >= 0 && dma != NULL) {
         vsf_pl011_usart_rxdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, false);
-        vsf_dma_channel_cancel(usart_ptr->dma, (uint8_t)ch);
-        vsf_dma_channel_release(usart_ptr->dma, (uint8_t)ch);
+        vsf_dma_channel_cancel(dma, (uint8_t)ch);
+        vsf_dma_channel_release(dma, (uint8_t)ch);
         usart_ptr->rx_dma_ch = -1;
+        usart_ptr->rx_dma    = NULL;
     }
     return VSF_ERR_NONE;
 }
@@ -418,11 +407,13 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_cancel_tx)(
 ) {
     VSF_HAL_ASSERT(NULL != usart_ptr);
     int8_t ch = usart_ptr->tx_dma_ch;
-    if (ch >= 0 && usart_ptr->dma != NULL) {
+    vsf_dma_t *dma = usart_ptr->tx_dma;
+    if (ch >= 0 && dma != NULL) {
         vsf_pl011_usart_txdma_config(&usart_ptr->use_as__vsf_pl011_usart_t, false);
-        vsf_dma_channel_cancel(usart_ptr->dma, (uint8_t)ch);
-        vsf_dma_channel_release(usart_ptr->dma, (uint8_t)ch);
+        vsf_dma_channel_cancel(dma, (uint8_t)ch);
+        vsf_dma_channel_release(dma, (uint8_t)ch);
         usart_ptr->tx_dma_ch = -1;
+        usart_ptr->tx_dma    = NULL;
     }
     return VSF_ERR_NONE;
 }
@@ -431,9 +422,9 @@ int_fast32_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_get_rx_count)(
     VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
 ) {
     VSF_HAL_ASSERT(NULL != usart_ptr);
-    if (usart_ptr->rx_dma_ch >= 0 && usart_ptr->dma != NULL) {
+    if (usart_ptr->rx_dma_ch >= 0 && usart_ptr->rx_dma != NULL) {
         return (int_fast32_t)vsf_dma_channel_get_transferred_count(
-            usart_ptr->dma, (uint8_t)usart_ptr->rx_dma_ch);
+            usart_ptr->rx_dma, (uint8_t)usart_ptr->rx_dma_ch);
     }
     return (int_fast32_t)usart_ptr->rx_count;
 }
@@ -442,9 +433,9 @@ int_fast32_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_get_tx_count)(
     VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) *usart_ptr
 ) {
     VSF_HAL_ASSERT(NULL != usart_ptr);
-    if (usart_ptr->tx_dma_ch >= 0 && usart_ptr->dma != NULL) {
+    if (usart_ptr->tx_dma_ch >= 0 && usart_ptr->tx_dma != NULL) {
         return (int_fast32_t)vsf_dma_channel_get_transferred_count(
-            usart_ptr->dma, (uint8_t)usart_ptr->tx_dma_ch);
+            usart_ptr->tx_dma, (uint8_t)usart_ptr->tx_dma_ch);
     }
     return (int_fast32_t)usart_ptr->tx_count;
 }
@@ -525,8 +516,10 @@ static void VSF_MCONNECT(__, VSF_USART_CFG_IMP_PREFIX, _usart_irqhandler)(
                                 _USART, __IDX, _IRQN),                          \
         .rst_bit = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                \
                                 _USART, __IDX, _RST_BIT),                       \
-        .tx_dma_ch = -1,                                                        \
-        .rx_dma_ch = -1,                                                        \
+        .tx_dma     = NULL,                                                     \
+        .rx_dma     = NULL,                                                     \
+        .tx_dma_ch  = -1,                                                       \
+        .rx_dma_ch  = -1,                                                       \
         __HAL_OP                                                                \
     };                                                                          \
     void VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                          \

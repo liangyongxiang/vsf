@@ -46,10 +46,7 @@ enum {
 /*============================ INCLUDES ======================================*/
 /*============================ PROTOTYPES ====================================*/
 
-#if VSF_HAL_USE_DMA == ENABLED
-typedef struct vsf_dma_t vsf_dma_t;
-void vsf_hw_usart_set_dma(vsf_usart_t *usart, vsf_dma_t *dma);
-#endif
+/*============================ IMPLEMENTATION ================================*/
 
 /*============================ IMPLEMENTATION ================================*/
 

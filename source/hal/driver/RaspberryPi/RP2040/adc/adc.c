@@ -76,6 +76,8 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_init)(
     // Unreset ADC block
     uint32_t rst_bit = adc_ptr->rst_bit;
     resets_hw->reset &= ~rst_bit;
+    // Spin-wait: reset deassert -> reset_done is a few clk_ref cycles (< 1 us).
+    // If this hangs, the peripheral clock or reset wiring is misconfigured.
     while (!(resets_hw->reset_done & rst_bit));
 
     // Store config
@@ -257,6 +259,8 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_request_once)(
     }
 
     // Wait for previous conversion to complete
+    // Spin-wait: ADC conversion time is fixed by 96 clk_adc cycles.
+    // No IRQ for single-shot completion in polling mode; must wait before starting next.
     while (!(reg->cs & ADC_CS_READY_BITS));
 
     adc_ptr->status.is_busy = true;
@@ -276,6 +280,7 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_request_once)(
     reg->cs |= ADC_CS_START_ONCE_BITS;
 
     // Poll until conversion completes
+    // Spin-wait: same 96 clk_adc cycles (~2 us at 48 MHz). Must read RESULT after READY.
     while (!(reg->cs & ADC_CS_READY_BITS));
 
     // Read 12-bit result

@@ -335,6 +335,34 @@ All HAL API functions must be **non-blocking**. A function initiates a hardware 
 
 **Exception — negligible delay only:** A short busy-wait is acceptable ONLY when the driver developer confirms the delay is negligible in all configurations, AND adds a comment explaining *why*. "Negligible" means a few microseconds at most, independent of runtime configuration (baud rate, clock speed). Delay must not grow with caller-controlled parameters.
 
+**Spin-wait on hardware state — mandatory comment:**
+
+Any `while` loop that polls a hardware register until a bit flips (reset-done, ready flag, busy clear, etc.) is a **blocking spin-wait**. These loops can hang indefinitely if the hardware is broken or misconfigured. Every such loop MUST be preceded by a comment that:
+
+1. States the expected maximum duration (e.g. "a few bus cycles", "< 1 us").
+2. Explains why spin-wait is required (hardware has no interrupt for this state, or the operation must complete before subsequent register writes).
+3. Marks it as a risk point so future readers know where to look if the system hangs.
+
+```c
+// Spin-wait: reset deassert → reset_done is a few clk_ref cycles (< 1 us).
+// If this hangs, the peripheral clock or reset wiring is misconfigured.
+resets_hw->reset &= ~rst_bit;
+while (!(resets_hw->reset_done & rst_bit));
+```
+
+```c
+// Spin-wait: ADC conversion time is fixed by 96 clk_adc cycles (~2 us at 48 MHz).
+// No IRQ for single-shot completion in polling mode; must wait before reading RESULT.
+while (!(reg->cs & ADC_CS_READY_BITS));
+```
+
+**Anti-pattern** — bare spin-wait with no comment:
+
+```c
+// bad — reader has no idea how long this might block or whether it's safe
+while (!(reg->status & READY));
+```
+
 ### Template file convention
 
 ```

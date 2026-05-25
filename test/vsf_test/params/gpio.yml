@@ -1,170 +1,137 @@
 # GPIO test parameters
-# Populated as gpio test suites are implemented (gpio-test PRD)
+# Pin numbers are board-specific macros defined in the board's
+# vsf_test_board_pins.h (e.g. board/pico/vsf_test_board_pins.h).
 
 gpio_output_input:
   name: gpio_output_input
   suite_timeout_s: 5.0
   cases:
-    # Self-loopback: same pin used as both output and input.
-    # RP2040 supports simultaneous SIO output + input on a single pin.
-    - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (GP6-GP7 jumper).
-    - {idx: 1, out_pin: 6, in_pin: 7, host: {hw_req: none}}
+    - {idx: 0, out_pin: VSF_TEST_PIN_SELF_LOOPBACK, in_pin: VSF_TEST_PIN_SELF_LOOPBACK, host: {hw_req: sio_loopback}}
+    - {idx: 1, out_pin: VSF_TEST_PIN_JUMPER_OUT,    in_pin: VSF_TEST_PIN_JUMPER_IN,     host: {hw_req: none}}
 
 gpio_toggle:
   name: gpio_toggle
   suite_timeout_s: 5.0
   cases:
-    # Self-loopback: same pin used as both output and input (SIO feature).
-    - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (GP6-GP7 jumper).
-    - {idx: 1, out_pin: 6, in_pin: 7, host: {hw_req: none}}
+    - {idx: 0, out_pin: VSF_TEST_PIN_SELF_LOOPBACK, in_pin: VSF_TEST_PIN_SELF_LOOPBACK, host: {hw_req: sio_loopback}}
+    - {idx: 1, out_pin: VSF_TEST_PIN_JUMPER_OUT,    in_pin: VSF_TEST_PIN_JUMPER_IN,     host: {hw_req: none}}
 
 gpio_direction:
   name: gpio_direction
   suite_timeout_s: 5.0
   cases:
-    - {idx: 0, pin: 25, host: {hw_req: none}}
+    - {idx: 0, pin: VSF_TEST_PIN_SELF_LOOPBACK, host: {hw_req: none}}
 
 gpio_atomic:
   name: gpio_atomic
   suite_timeout_s: 5.0
   cases:
-    # Self-loopback: same pin used as both output and input (SIO feature).
-    - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (GP6-GP7 jumper).
-    - {idx: 1, out_pin: 6, in_pin: 7, host: {hw_req: none}}
+    - {idx: 0, out_pin: VSF_TEST_PIN_SELF_LOOPBACK, in_pin: VSF_TEST_PIN_SELF_LOOPBACK, host: {hw_req: sio_loopback}}
+    - {idx: 1, out_pin: VSF_TEST_PIN_JUMPER_OUT,    in_pin: VSF_TEST_PIN_JUMPER_IN,     host: {hw_req: none}}
 
 gpio_pinmux:
   name: gpio_pinmux
   suite_timeout_s: 5.0
   cases:
-    # UART1 pins on Pico — see board/pico/vsf_board.c
-    - {idx: 0, tx_pin: 8, rx_pin: 9, baudrate: 115200,
+    - {idx: 0, tx_pin: VSF_TEST_PIN_UART1_TX, rx_pin: VSF_TEST_PIN_UART1_RX, baudrate: 115200,
        usart: 'NULL', host: {hw_req: uart1}}
 
 gpio_multi_pin:
   name: gpio_multi_pin
   suite_timeout_s: 5.0
   cases:
-    # Self-loopback: each pin is its own in/out pair (SIO feature).
-    - {idx: 0, out_pin_a: 24, in_pin_a: 24, out_pin_b: 25, in_pin_b: 25,
+    - {idx: 0, out_pin_a: VSF_TEST_PIN_MULTI_A, in_pin_a: VSF_TEST_PIN_MULTI_A,
+       out_pin_b: VSF_TEST_PIN_MULTI_B, in_pin_b: VSF_TEST_PIN_MULTI_B,
        host: {hw_req: sio_loopback}}
-    # Generic loopback: GP6↔GP7 + GP16↔GP17 jumpers.
-    - {idx: 1, out_pin_a: 6, in_pin_a: 7, out_pin_b: 16, in_pin_b: 17,
+    - {idx: 1, out_pin_a: VSF_TEST_PIN_JUMPER_OUT, in_pin_a: VSF_TEST_PIN_JUMPER_IN,
+       out_pin_b: VSF_TEST_PIN_MULTI_C, in_pin_b: VSF_TEST_PIN_MULTI_D,
        host: {hw_req: none}}
 
 gpio_open_drain:
   name: gpio_open_drain
   suite_timeout_s: 5.0
   cases:
-    # Self-loopback: same pin used as both output and input (SIO feature).
-    - {idx: 0, out_pin: 25, in_pin: 25, host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (GP6-GP7 jumper).
-    - {idx: 1, out_pin: 6, in_pin: 7, host: {hw_req: none}}
+    - {idx: 0, out_pin: VSF_TEST_PIN_SELF_LOOPBACK, in_pin: VSF_TEST_PIN_SELF_LOOPBACK, host: {hw_req: sio_loopback}}
+    - {idx: 1, out_pin: VSF_TEST_PIN_JUMPER_OUT,    in_pin: VSF_TEST_PIN_JUMPER_IN,     host: {hw_req: none}}
 
 gpio_toggle_freq:
   name: gpio_toggle_freq
   suite_timeout_s: 15.0
   cases:
-    # On RP2040 @ 125 MHz the HAL toggle path runs in single-digit-MHz range.
-    # min_freq_hz is the floor enforced by the host-side LA decode; a healthy
-    # board sits comfortably above 1 MHz, so this catches regressions in the
-    # 2-10× range without spurious failures from thermal/JTAG jitter. If no
-    # GPIO LA channel is wired the decode skips the assertion.
-    # Multiple toggle_count tiers — the per-toggle frequency should hold
-    # roughly constant across 1k/10k/100k iterations.
-    - {idx: 0, pin: 4, toggle_count: 1000,
+    - {idx: 0, pin: VSF_TEST_PIN_LA_MONITORED, toggle_count: 1000,
        host: {hw_req: la, la_channel: gp4, min_freq_hz: 1000000}}
-    - {idx: 1, pin: 4, toggle_count: 10000,
+    - {idx: 1, pin: VSF_TEST_PIN_LA_MONITORED, toggle_count: 10000,
        host: {hw_req: la, la_channel: gp4, min_freq_hz: 1000000}}
-    - {idx: 2, pin: 4, toggle_count: 100000,
+    - {idx: 2, pin: VSF_TEST_PIN_LA_MONITORED, toggle_count: 100000,
        host: {hw_req: la, la_channel: gp4, min_freq_hz: 1000000}}
 
 gpio_write_throughput:
   name: gpio_write_throughput
   suite_timeout_s: 15.0
   cases:
-    - {idx: 0, pin: 4, duration_us: 10000, host: {hw_req: gpio_loopback}}
+    - {idx: 0, pin: VSF_TEST_PIN_LA_MONITORED, duration_us: 10000, host: {hw_req: gpio_loopback}}
 
 gpio_toggle_stress:
   name: gpio_toggle_stress
   suite_timeout_s: 15.0
   cases:
-    # Self-loopback: same pin used as both output and input (SIO feature).
-    - {idx: 0, out_pin: 25, in_pin: 25, stress_count: 10000,
+    - {idx: 0, out_pin: VSF_TEST_PIN_SELF_LOOPBACK, in_pin: VSF_TEST_PIN_SELF_LOOPBACK, stress_count: 10000,
        host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (GP6-GP7 jumper).
-    - {idx: 1, out_pin: 6, in_pin: 7, stress_count: 10000,
+    - {idx: 1, out_pin: VSF_TEST_PIN_JUMPER_OUT,    in_pin: VSF_TEST_PIN_JUMPER_IN,     stress_count: 10000,
        host: {hw_req: none}}
 
 gpio_concurrent_prio:
   name: gpio_concurrent_prio
   suite_timeout_s: 15.0
   cases:
-    - {idx: 0, out_pin: 4, in_pin: 5, duration_ms: 200,
+    - {idx: 0, out_pin: VSF_TEST_PIN_CONCURRENT_OUT, in_pin: VSF_TEST_PIN_CONCURRENT_IN, duration_ms: 200,
        callback_period_us: 100, host: {hw_req: gpio_loopback}}
 
 gpio_exti:
   name: gpio_exti
   suite_timeout_s: 5.0
   cases:
-    # Self-triggered EXTI via SIO output on the same pin.
-    - {idx: 0, out_pin: 25, in_pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_FALLING',         host: {hw_req: sio_loopback}}
-    - {idx: 1, out_pin: 25, in_pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_RISING',          host: {hw_req: sio_loopback}}
-    - {idx: 2, out_pin: 25, in_pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_RISING_FALLING',  host: {hw_req: sio_loopback}}
-    - {idx: 3, out_pin: 25, in_pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_LOW_LEVEL',       host: {hw_req: sio_loopback}}
-    - {idx: 4, out_pin: 25, in_pin: 25, trigger_mode: 'VSF_GPIO_EXTI_MODE_HIGH_LEVEL',      host: {hw_req: sio_loopback}}
-    # Generic loopback: out_pin != in_pin (SPI0 MOSI-MISO jumper).
-    - {idx: 5, out_pin: 3, in_pin: 4, trigger_mode: 'VSF_GPIO_EXTI_MODE_FALLING',         host: {hw_req: none}}
+    - {idx: 0, out_pin: VSF_TEST_PIN_SELF_LOOPBACK, in_pin: VSF_TEST_PIN_SELF_LOOPBACK, trigger_mode: 'VSF_GPIO_EXTI_MODE_FALLING',         host: {hw_req: sio_loopback}}
+    - {idx: 1, out_pin: VSF_TEST_PIN_SELF_LOOPBACK, in_pin: VSF_TEST_PIN_SELF_LOOPBACK, trigger_mode: 'VSF_GPIO_EXTI_MODE_RISING',          host: {hw_req: sio_loopback}}
+    - {idx: 2, out_pin: VSF_TEST_PIN_SELF_LOOPBACK, in_pin: VSF_TEST_PIN_SELF_LOOPBACK, trigger_mode: 'VSF_GPIO_EXTI_MODE_RISING_FALLING',  host: {hw_req: sio_loopback}}
+    - {idx: 3, out_pin: VSF_TEST_PIN_SELF_LOOPBACK, in_pin: VSF_TEST_PIN_SELF_LOOPBACK, trigger_mode: 'VSF_GPIO_EXTI_MODE_LOW_LEVEL',       host: {hw_req: sio_loopback}}
+    - {idx: 4, out_pin: VSF_TEST_PIN_SELF_LOOPBACK, in_pin: VSF_TEST_PIN_SELF_LOOPBACK, trigger_mode: 'VSF_GPIO_EXTI_MODE_HIGH_LEVEL',      host: {hw_req: sio_loopback}}
+    - {idx: 5, out_pin: VSF_TEST_PIN_EXTI_ALT_OUT,  in_pin: VSF_TEST_PIN_EXTI_ALT_IN,   trigger_mode: 'VSF_GPIO_EXTI_MODE_FALLING',         host: {hw_req: none}}
 
 gpio_irq_latency:
   name: gpio_irq_latency
   suite_timeout_s: 5.0
   cases:
-    # Self-triggered EXTI via SIO output on the same pin.
-    - {idx: 0, pin: 25, max_latency_ns: 50000, host: {hw_req: sio_loopback}}
+    - {idx: 0, pin: VSF_TEST_PIN_SELF_LOOPBACK, max_latency_ns: 50000, host: {hw_req: sio_loopback}}
 
 gpio_irq_lifecycle:
   name: gpio_irq_lifecycle
   suite_timeout_s: 5.0
   cases:
-    # Self-triggered EXTI lifecycle via SIO output on the same pin.
-    - {idx: 0, pin: 25, host: {hw_req: sio_loopback}}
+    - {idx: 0, pin: VSF_TEST_PIN_SELF_LOOPBACK, host: {hw_req: sio_loopback}}
 
 gpio_systimer_health:
   name: gpio_systimer_health
   suite_timeout_s: 5.0
   timeout_s: 5.0
   cases:
-    # Toggle GP4 at known systimer-based intervals. LA decode reads the
-    # on-wire period and asserts each gap is within ±5%. Catches the
-    # watchdog-tick misconfiguration that silently makes the timer run
-    # at 10 kHz instead of 1 MHz.
-    - {idx: 0, pin: 4, interval_ms: 10,  toggle_count: 10,
+    - {idx: 0, pin: VSF_TEST_PIN_LA_MONITORED, interval_ms: 10,  toggle_count: 10,
        host: {hw_req: la, la_channel: gp4, tolerance_pct: 5.0}}
-    - {idx: 1, pin: 4, interval_ms: 50,  toggle_count: 10,
+    - {idx: 1, pin: VSF_TEST_PIN_LA_MONITORED, interval_ms: 50,  toggle_count: 10,
        host: {hw_req: la, la_channel: gp4, tolerance_pct: 5.0}}
-    - {idx: 2, pin: 4, interval_ms: 100, toggle_count: 5,
+    - {idx: 2, pin: VSF_TEST_PIN_LA_MONITORED, interval_ms: 100, toggle_count: 5,
        host: {hw_req: la, la_channel: gp4, tolerance_pct: 5.0}}
 
 gpio_analog_mode:
   name: gpio_analog_mode
   suite_timeout_s: 5.0
   cases:
-    # Self-test: configure GP25 as ANALOG. With internal pull-up the pad
-    # is electrically high, but VSF_GPIO_ANALOG disables the input buffer
-    # (RP2040 PADS.IE=0, FUNCSEL=NULL) so read() must return 0.
-    - {idx: 0, pin: 25, host: {hw_req: none}}
+    - {idx: 0, pin: VSF_TEST_PIN_SELF_LOOPBACK, host: {hw_req: none}}
 
 gpio_io_check:
   name: gpio_io_check
   suite_timeout_s: 5.0
   timeout_s: 5.0
   cases:
-    # Primary verification: GP8 (uart1_tx) -> DSLogic CH5 -> LA CH3.
-    # This is the pin used by all TX-mode USART tests; verifying it
-    # first catches LA probe miswiring before any peripheral debug.
-    - {idx: 0, pin: 8, baudrate: 115200, host: {hw_req: la}}
-    # Secondary: GP9 (uart1_rx) -> DSLogic CH4 -> LA CH2.
-    - {idx: 1, pin: 9, baudrate: 115200, host: {hw_req: la}}
+    - {idx: 0, pin: VSF_TEST_PIN_UART1_TX, baudrate: 115200, host: {hw_req: la}}
+    - {idx: 1, pin: VSF_TEST_PIN_UART1_RX, baudrate: 115200, host: {hw_req: la}}

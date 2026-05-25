@@ -18,9 +18,9 @@ i2c_bus_scan:
   name: i2c_bus_scan
   suite_timeout_s: 5.0
   cases:
-    - {idx: 0, scl_pin: 18, sda_pin: 19,
+    - {idx: 0, scl_pin: VSF_TEST_PIN_I2C0_SCL, sda_pin: VSF_TEST_PIN_I2C0_SDA,
        host: {hw_req: i2c_eeprom}}
-    - {idx: 1, scl_pin: 21, sda_pin: 20,
+    - {idx: 1, scl_pin: VSF_TEST_PIN_I2C1_SCL, sda_pin: VSF_TEST_PIN_I2C1_SDA,
        host: {hw_req: i2c_eeprom}}
 
 i2c_eeprom_page:

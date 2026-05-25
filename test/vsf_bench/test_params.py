@@ -12,6 +12,7 @@ Environment variable:
 from __future__ import annotations
 
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -39,6 +40,55 @@ def _deep_merge(base: dict, overlay: dict) -> dict:
         if key not in base:
             result[key] = value
     return result
+
+
+PIN_MACRO_RE = re.compile(r"^#define\s+(VSF_TEST_[A-Z0-9_]*PIN[A-Z0-9_]*)\s+(\d+)\s*(?:/\*.*\*/)?$")
+
+
+def _load_pinmap(project_root: Path) -> dict[str, int]:
+    """Parse VSF_TEST_*PIN* macros from board-specific C headers.
+
+    Searches `board/<any>/vsf_test_board_pins.h` under *project_root*.
+    Returns a dict mapping macro name → integer value.
+    """
+    pinmap: dict[str, int] = {}
+    board_dir = project_root / "board"
+    if not board_dir.exists():
+        return pinmap
+    for header_path in board_dir.rglob("vsf_test_board_pins.h"):
+        with open(header_path) as f:
+            for line in f:
+                m = PIN_MACRO_RE.match(line.strip())
+                if m:
+                    pinmap[m.group(1)] = int(m.group(2))
+    return pinmap
+
+
+def _resolve_pinmap_in_value(value, pinmap: dict[str, int]):
+    """Resolve a single YAML value through the pinmap."""
+    if isinstance(value, str) and value in pinmap:
+        return pinmap[value]
+    return value
+
+
+def _resolve_pinmap(params: dict, pinmap: dict[str, int]) -> dict:
+    """Recursively resolve pin-macro strings in all case dicts."""
+    if not pinmap:
+        return params
+    for key, value in params.items():
+        if key == "marker" or not isinstance(value, dict):
+            continue
+        cases = value.get("cases")
+        if not isinstance(cases, list):
+            continue
+        for case in cases:
+            if not isinstance(case, dict):
+                continue
+            for field, field_value in case.items():
+                if field in ("host", "la"):
+                    continue
+                case[field] = _resolve_pinmap_in_value(field_value, pinmap)
+    return params
 
 
 def _apply_defaults(params: dict) -> dict:
@@ -152,4 +202,6 @@ def load_test_params(
     else:
         gb = Path(project_root) / "vsf.demo" / "vsf" / "test" / "vsf_test" / "params"
 
-    return load_yaml_with_includes(yml_path, global_base=gb)
+    params = load_yaml_with_includes(yml_path, global_base=gb)
+    pinmap = _load_pinmap(Path(project_root))
+    return _resolve_pinmap(params, pinmap)

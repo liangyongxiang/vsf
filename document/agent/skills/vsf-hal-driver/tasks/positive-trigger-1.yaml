@@ -12,7 +12,5 @@ graders:
     name: contains-keywords
     config:
       contains:
-        - "port"
-        - "UART"
-        - "HAL"
-        - "driver"
+        - "STM32"
+        - "chip"

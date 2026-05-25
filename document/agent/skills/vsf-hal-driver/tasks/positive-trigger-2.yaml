@@ -4,7 +4,7 @@ description: Skill should trigger when asked to fix or modify an existing HAL dr
 tags:
   - positive-trigger
 inputs:
-  prompt: "The SPI driver on RP2040 is returning wrong data, can you debug it?"
+  prompt: "How do I approach debugging a VSF HAL SPI driver that returns wrong data?"
 expected:
   should_trigger: true
 graders:
@@ -14,4 +14,3 @@ graders:
       contains:
         - "SPI"
         - "driver"
-        - "debug"

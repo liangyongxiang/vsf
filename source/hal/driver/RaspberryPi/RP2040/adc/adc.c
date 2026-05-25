@@ -310,7 +310,7 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_request_once)(
 
     adc_ptr->status.is_busy = false;
 
-    // Call ISR handler if configured
+    // VSF HAL convention: callback on completion regardless of polling/IRQ path
     if (adc_ptr->isr.handler_fn != NULL) {
         adc_ptr->isr.handler_fn(adc_ptr->isr.target_ptr,
                                 (vsf_adc_t *)adc_ptr,

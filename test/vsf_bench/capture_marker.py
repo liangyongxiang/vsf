@@ -13,10 +13,14 @@ Scenario decoders pass `project_root` so this module loads marker config
 knowledge.
 """
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
+from vsf_bench.instruments.logic_analyzer_instrument import (
+    LogicAnalyzerInstrument,
+    MarkerEvent,
+)
 
 
 @dataclass(frozen=True)
@@ -24,6 +28,65 @@ class CaseWindow:
     case_idx: int
     start_ns: int
     end_ns: int
+
+
+# Cache decoded marker channel data so multiple suites (and multiple
+# marker-pattern searches per suite) share a single dsview-cli call.
+# Key: (capture_path, channel, baudrate, start_ns, end_ns)
+_marker_cache: dict = {}
+
+
+def _find_markers(
+    text: str,
+    timestamps: list[int],
+    pattern: str,
+) -> list[MarkerEvent]:
+    """Search decoded marker text for a regex pattern and return events."""
+    events: list[MarkerEvent] = []
+    for m in re.finditer(pattern, text):
+        if m.groups():
+            try:
+                case_idx = int(m.group(1))
+            except (ValueError, IndexError):
+                case_idx = -1
+        else:
+            case_idx = -1
+        time_ns = timestamps[m.start()]
+        events.append(MarkerEvent(case_idx=case_idx, time_ns=time_ns))
+    events.sort(key=lambda e: e.time_ns)
+    return events
+
+
+def _read_marker_channel(
+    la: LogicAnalyzerInstrument,
+    channel: str,
+    marker_baud: int,
+    decode_start_ns: int | None,
+    decode_end_ns: int | None,
+) -> tuple[str, list[int]]:
+    """Decode the marker channel once and cache the result.
+
+    Returns (decoded_text, timestamps) where decoded_text is the ASCII
+    concatenation of all decoded bytes and timestamps is the parallel list
+    of absolute nanosecond timestamps.
+    """
+    key = (str(la._capture_path), channel, marker_baud, decode_start_ns, decode_end_ns)
+    if key in _marker_cache:
+        return _marker_cache[key]
+
+    out_dir = la.output_dir
+    csv_path = out_dir / f"markers_{channel}_all.csv"
+    la.decode_uart(channel, marker_baud, decode_start_ns, decode_end_ns, csv_path)
+    rows = la.read_csv_rows(csv_path)
+
+    text = ""
+    timestamps: list[int] = []
+    for time_ns, byte_val in rows:
+        text += chr(byte_val)
+        timestamps.append(time_ns)
+
+    _marker_cache[key] = (text, timestamps)
+    return text, timestamps
 
 
 def read_framework_windows(
@@ -39,33 +102,27 @@ def read_framework_windows(
     If READY markers are found for this suite, windows are bounded by
     READY → DONE. Otherwise, windows are bounded by CASE:N → CASE:N+1
     (or END for the last case).
+
+    The marker channel (uart0_tx) is decoded **once per unique capture
+    window** and cached in memory, so calling this function for many
+    suites in a shared-LA run only incurs a single dsview-cli invocation.
     """
     ch = la.channel("uart0_tx")
-    out_dir = la.output_dir
+    text, timestamps = _read_marker_channel(
+        la, ch, marker_baud, decode_start_ns, decode_end_ns
+    )
 
-    starts = la.decode_markers(
-        channel=ch, baudrate=marker_baud,
-        pattern=rf"{suite_name}:CASE:(\d+)(?![\d:])",
-        output_csv=out_dir / f"{suite_name}_starts.csv",
-        start_ns=decode_start_ns, end_ns=decode_end_ns,
+    starts = _find_markers(
+        text, timestamps, rf"{suite_name}:CASE:(\d+)(?![\d:])"
     )
-    readys = la.decode_markers(
-        channel=ch, baudrate=marker_baud,
-        pattern=rf"{suite_name}:CASE:(\d+):READY",
-        output_csv=out_dir / f"{suite_name}_ready.csv",
-        start_ns=decode_start_ns, end_ns=decode_end_ns,
+    readys = _find_markers(
+        text, timestamps, rf"{suite_name}:CASE:(\d+):READY"
     )
-    dones = la.decode_markers(
-        channel=ch, baudrate=marker_baud,
-        pattern=rf"{suite_name}:CASE:(\d+):DONE",
-        output_csv=out_dir / f"{suite_name}_done.csv",
-        start_ns=decode_start_ns, end_ns=decode_end_ns,
+    dones = _find_markers(
+        text, timestamps, rf"{suite_name}:CASE:(\d+):DONE"
     )
-    ends = la.decode_markers(
-        channel=ch, baudrate=marker_baud,
-        pattern=rf"{suite_name}:END",
-        output_csv=out_dir / f"{suite_name}_end.csv",
-        start_ns=decode_start_ns, end_ns=decode_end_ns,
+    ends = _find_markers(
+        text, timestamps, rf"{suite_name}:END"
     )
 
     if not starts:

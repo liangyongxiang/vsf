@@ -187,11 +187,22 @@ def _run_script_phase1(
     # vsf-test-shell emits "Suite ack: <name>" on a successful lookup or
     # "Suite not found: <name>" / "Case not found: <case>" otherwise. One
     # of these always fires within ~50 ms of the trigger.
-    try:
-        ack = ser.expect(r"Suite ack:|Suite not found:|Case not found:", timeout=1.0)
-    except TimeoutError:
-        print(f"[vsf-bench] FAIL: {suite_name}{case_tag}: no shell ack within 1s")
-        return False
+    # Retry once on timeout: stale output from the previous suite can delay
+    # the ack just past the 1 s boundary under heavy shared-LA load.
+    ack = None
+    for attempt, tmo in ((1, 1.0), (2, 2.0)):
+        try:
+            ack = ser.expect(r"Suite ack:|Suite not found:|Case not found:", timeout=tmo)
+            break
+        except TimeoutError:
+            if attempt == 1:
+                _drain_repl(ser)
+                ser.send(cmd)
+                print(f"[vsf-bench] Retrying: {cmd.strip()}")
+            else:
+                print(f"[vsf-bench] FAIL: {suite_name}{case_tag}: no shell ack within 1s")
+                return False
+    assert ack is not None
     if "not found" in ack:
         print(f"[vsf-bench] FAIL: {suite_name}{case_tag}: {ack.strip()}")
         return False

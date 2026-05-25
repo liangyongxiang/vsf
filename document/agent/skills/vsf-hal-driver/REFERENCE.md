@@ -102,13 +102,19 @@ The migration table under "Style migration" still lists `#include "RP2040.h"` �
 
 In driver `.c` files, prefix internal/local macros with `__` to avoid colliding with headers:
 
-| Category | Example | Prefix |
-|---|---|---|
-| Template config macros (consumed by `<periph>_template.inc`) | `VSF_USART_CFG_IMP_LV0`, `VSF_USART_CFG_IMP_PREFIX` | none -- template system requires exact names |
-| OOC class control macros | `__VSF_HAL_PL011_UART_CLASS_INHERIT__`, `__VSF_HAL_DW_APB_I2C_CLASS_IMPLEMENT` | `__` |
-| Driver-local helpers | `__vsf_hw_usart_irqhandler`, `__uart_tx_fifo_depth` | `__` |
+| Category | Example | Prefix | Location |
+|---|---|---|---|
+| Template config macros (consumed by `<periph>_template.inc`) | `VSF_USART_CFG_IMP_LV0`, `VSF_USART_CFG_IMP_PREFIX` | none -- template system requires exact names | `.c` file, before `#include "..._template.inc"` |
+| OOC class control macros | `__VSF_HAL_PL011_UART_CLASS_INHERIT__`, `__VSF_HAL_DW_APB_I2C_CLASS_IMPLEMENT` | `__` | `.c` file, before `#include "hal/vsf_hal.h"` |
+| Driver-local helpers | `__vsf_hw_usart_irqhandler`, `__uart_tx_fifo_depth` | `__` | `.c` file |
+| Chip-wide hardware constants | `VSF_HW_ADC_CHANNEL_COUNT`, `VSF_HW_ADC_MAX_DATA_BITS` | `VSF_HW_<PERIPH>_` | `device.h` |
+| Driver-internal constants | `__VSF_HW_ADC_SUPPORTED_IRQ_MASK` | `__VSF_HW_<PERIPH>_` | `.c` file |
 
 **Why:** vendor SDK headers and VSF template headers define many unprefixed macros. A local helper like `REG` or `IRQN` can silently shadow or be shadowed by a header macro. Always `__` prefix macros that are not part of the VSF template API surface.
+
+**`VSF_HW_<PERIPH>_` vs `__VSF_HW_<PERIPH>_`:**
+- **`VSF_HW_` public constants** — hardware invariants that may be needed by the driver, the board file, or the application (channel count, data-bit width, FIFO depth). These live in `device.h` so every consumer sees the same value.
+- **`__VSF_HW_` private constants** — driver-internal knowledge (supported IRQ mask, local threshold, retry count) that no other file needs. These stay inside the `.c` file with a `__` prefix so they never leak into the global namespace.
 
 ### Architecture: IPCore vs Direct
 
@@ -177,6 +183,51 @@ If a stub like this gets called during a port (because the developer forgot to i
 - Switch-case `default:` branches in real `_ctrl` implementations — the caller may legitimately probe support by trying a ctrl value, so silently returning `VSF_ERR_NOT_SUPPORT` is the contract there.
 - Conditional `if (...) return VSF_ERR_NOT_SUPPORT;` inside otherwise-real functions (e.g. clock-divider out-of-range checks) — these are error paths in a real function, not stubs.
 
+### Parameter validation — conservative assert policy
+
+Every chip-specific driver API must validate its arguments with `VSF_HAL_ASSERT`. The policy is **fail-fast**: if a caller passes an invalid value, halt immediately in debug builds rather than silently ignoring the error and letting the bug propagate.
+
+**Mandatory asserts:**
+
+1. **Pointer asserts** — all functions taking an instance pointer must assert non-NULL:
+   ```c
+   VSF_HAL_ASSERT(NULL != <periph>_ptr);
+   ```
+
+2. **Bitmask asserts** — functions taking `irq_mask`, `mode`, or `ctrl` bitmasks must assert that no unsupported bits are set. The supported mask must match what `capability()` advertises. This applies to `irq_enable`, `irq_disable`, `irq_clear`, and any other API that accepts an `irq_mask`:
+   ```c
+   #define __VSF_HW_<PERIPH>_SUPPORTED_IRQ_MASK    VSF_<PERIPH>_IRQ_MASK_<X>
+
+   void vsf_hw_<periph>_irq_enable(vsf_hw_<periph>_t *<periph>_ptr, vsf_<periph>_irq_mask_t irq_mask)
+   {
+       VSF_HAL_ASSERT(NULL != <periph>_ptr);
+       VSF_HAL_ASSERT(0 == (irq_mask & ~__VSF_HW_<PERIPH>_SUPPORTED_IRQ_MASK));
+       // ... only supported bits remain after the assert
+   }
+   ```
+
+3. **Register pointer asserts** — after dereferencing the instance struct to obtain the hardware register base pointer (`reg`), assert it is non-NULL. This catches `IMP_LV0` misconfiguration (e.g. a macro resolving to `0` or an omitted `_REG` definition):
+   ```c
+   <vendor_reg_t> *reg = <periph>_ptr->reg;
+   VSF_HAL_ASSERT(NULL != reg);
+   ```
+
+4. **Range asserts** — channel numbers, buffer sizes, clock dividers, and other numeric parameters must be checked against hardware limits:
+   ```c
+   VSF_HAL_ASSERT(channel < VSF_HW_<PERIPH>_CHANNEL_COUNT);
+   ```
+
+**Why conservative**: Silent ignore of invalid parameters creates latent bugs. A caller that passes an `irq_mask` with bits outside `capability().irq_mask` is making a programming error — it likely forgot to check `capability()` or has stale bit definitions. The assert surfaces this at the call site rather than letting the driver behave unpredictably.
+
+**Release builds**: `VSF_HAL_ASSERT` compiles out, so there is no runtime cost. The assert is a development-time safety net, not a runtime error-handling mechanism.
+
+**Anti-pattern** — silently masking off unsupported bits:
+
+```c
+// bad — caller thinks all bits were handled, but only bit 0 took effect
+irq_mask &= VSF_<PERIPH>_IRQ_MASK_<X>;   // silently drops invalid bits
+```
+
 ### Mode and IRQ definitions
 
 **Mode bits**: each peripheral's mode field is a bitmask. Some bits are mandatory (must exist even if HW doesn't support them). Template defines the bit layout and mandatory placeholder values -- match your HW register bits to the template fields. If the HW has no direct equivalent, put the placeholder value in a high bit range that won't conflict.
@@ -231,6 +282,31 @@ if (reg->UARTMIS.VALUE & RXIM) {
 - A status flag that "isn't set" in the second check but logs say it fired (first check consumed it).
 - A polling loop that succeeds, then the immediate follow-up read returns a different value (loop exit value was the truth — keep it).
 - An RMW that produces an unexpected register state (two reads sandwiched a hardware-side update).
+
+**Wrap every register access that has a read side effect**:
+
+Any read of a hardware register whose purpose is side-effect-only (clear-on-read acknowledge, FIFO pop, auto-increment counter, write-once-lock) must go through a **static inline helper** with a name that describes the intent. Never scatter bare register reads with `(void)` casts across the driver.
+
+**Principle** — the helper owns the hardware contract; call sites own the intent:
+
+```c
+// good — helper encapsulates the access pattern and its side effect
+static inline void __vsf_hw_<periph>_ack_irq(<vendor_reg_t> *reg)
+{
+    // Reading STATUS clears the pending flag (hardware clear-on-read).
+    VSF_UNUSED_PARAM(reg->STATUS);
+}
+```
+
+```c
+// bad — bare read: side effect is hidden, comment must be duplicated
+VSF_UNUSED_PARAM(reg->STATUS);   // clear-on-read
+```
+
+**Why wrap**:
+1. **Single point of truth** — if the silicon changes from clear-on-read to write-to-clear, you update one helper body, not every call site.
+2. **Self-documenting at the call site** — a named helper states intent; a bare register read does not.
+3. **Zero overhead** — `static inline` compiles away; there is no runtime cost.
 
 ### Multi-subunit instantiation with VSF_MREPEAT
 
@@ -351,9 +427,9 @@ while (!(resets_hw->reset_done & rst_bit));
 ```
 
 ```c
-// Spin-wait: ADC conversion time is fixed by 96 clk_adc cycles (~2 us at 48 MHz).
+// Spin-wait: conversion time is fixed by N clk_<periph> cycles (~2 us at 48 MHz).
 // No IRQ for single-shot completion in polling mode; must wait before reading RESULT.
-while (!(reg->cs & ADC_CS_READY_BITS));
+while (!(reg->status & <PERIPH>_STATUS_READY_BITS));
 ```
 
 **Anti-pattern** — bare spin-wait with no comment:

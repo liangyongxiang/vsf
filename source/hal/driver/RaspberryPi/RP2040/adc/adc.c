@@ -33,9 +33,8 @@
 #define VSF_ADC_CFG_IMP_PREFIX                  vsf_hw
 #define VSF_ADC_CFG_IMP_UPCASE_PREFIX           VSF_HW
 
-/* RP2040 ADC has 5 channels: 0-3 for GPIO26-29, 4 for temp sensor */
-#define RP2040_ADC_CHANNEL_COUNT                5
-#define RP2040_ADC_MAX_DATA_BITS                12
+/* Supported IRQ mask — must match capability() */
+#define __VSF_HW_ADC_SUPPORTED_IRQ_MASK         VSF_ADC_IRQ_MASK_CPL
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
@@ -61,6 +60,13 @@ typedef struct VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_t) {
 /*============================ GLOBAL VARIABLES ==============================*/
 /*============================ LOCAL VARIABLES ===============================*/
 /*============================ PROTOTYPES ====================================*/
+
+static inline void __vsf_hw_adc_irq_clear_pending(adc_hw_t *reg)
+{
+    // INTS is clear-on-read: reading it acknowledges all pending interrupts.
+    VSF_UNUSED_PARAM(reg->ints);
+}
+
 /*============================ IMPLEMENTATION ================================*/
 
 vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_init)(
@@ -72,6 +78,7 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_init)(
     VSF_HAL_ASSERT(NULL != cfg_ptr);
 
     adc_hw_t *reg = adc_ptr->reg;
+    VSF_HAL_ASSERT(NULL != reg);
 
     // Unreset ADC block
     uint32_t rst_bit = adc_ptr->rst_bit;
@@ -99,6 +106,7 @@ void VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_fini)(
     VSF_HAL_ASSERT(NULL != adc_ptr);
 
     adc_hw_t *reg = adc_ptr->reg;
+    VSF_HAL_ASSERT(NULL != reg);
     reg->cs = 0;
     adc_ptr->status.is_enabled = false;
     adc_ptr->status.is_busy    = false;
@@ -111,6 +119,7 @@ fsm_rt_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_enable)(
     VSF_HAL_ASSERT(NULL != adc_ptr);
 
     adc_hw_t *reg = adc_ptr->reg;
+    VSF_HAL_ASSERT(NULL != reg);
     reg->cs |= ADC_CS_EN_BITS;
     adc_ptr->status.is_enabled = true;
 
@@ -124,6 +133,7 @@ fsm_rt_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_disable)(
     VSF_HAL_ASSERT(NULL != adc_ptr);
 
     adc_hw_t *reg = adc_ptr->reg;
+    VSF_HAL_ASSERT(NULL != reg);
     reg->cs &= ~ADC_CS_EN_BITS;
     adc_ptr->status.is_enabled = false;
 
@@ -136,8 +146,10 @@ void VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_irq_enable)(
 )
 {
     VSF_HAL_ASSERT(NULL != adc_ptr);
+    VSF_HAL_ASSERT(0 == (irq_mask & ~__VSF_HW_ADC_SUPPORTED_IRQ_MASK));
 
     adc_hw_t *reg = adc_ptr->reg;
+    VSF_HAL_ASSERT(NULL != reg);
     if (irq_mask & VSF_ADC_IRQ_MASK_CPL) {
         reg->inte |= ADC_INTE_FIFO_BITS;
     }
@@ -149,8 +161,10 @@ void VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_irq_disable)(
 )
 {
     VSF_HAL_ASSERT(NULL != adc_ptr);
+    VSF_HAL_ASSERT(0 == (irq_mask & ~__VSF_HW_ADC_SUPPORTED_IRQ_MASK));
 
     adc_hw_t *reg = adc_ptr->reg;
+    VSF_HAL_ASSERT(NULL != reg);
     if (irq_mask & VSF_ADC_IRQ_MASK_CPL) {
         reg->inte &= ~ADC_INTE_FIFO_BITS;
     }
@@ -162,13 +176,14 @@ vsf_adc_irq_mask_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_irq_clear)(
 )
 {
     VSF_HAL_ASSERT(NULL != adc_ptr);
+    VSF_HAL_ASSERT(0 == (irq_mask & ~__VSF_HW_ADC_SUPPORTED_IRQ_MASK));
 
     adc_hw_t *reg = adc_ptr->reg;
+    VSF_HAL_ASSERT(NULL != reg);
     vsf_adc_irq_mask_t cleared = 0;
 
     if (irq_mask & VSF_ADC_IRQ_MASK_CPL) {
-        // Clear FIFO interrupt by reading INTS (hardware acknowledges)
-        (void)reg->ints;
+        __vsf_hw_adc_irq_clear_pending(reg);
         cleared |= VSF_ADC_IRQ_MASK_CPL;
     }
 
@@ -182,6 +197,7 @@ vsf_adc_status_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_status)(
     VSF_HAL_ASSERT(NULL != adc_ptr);
 
     adc_hw_t *reg = adc_ptr->reg;
+    VSF_HAL_ASSERT(NULL != reg);
     vsf_adc_status_t status = {
         .is_busy = !(reg->cs & ADC_CS_READY_BITS),
     };
@@ -197,8 +213,8 @@ vsf_adc_capability_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_capability)(
 
     return (vsf_adc_capability_t) {
         .irq_mask      = VSF_ADC_IRQ_MASK_CPL,
-        .max_data_bits = RP2040_ADC_MAX_DATA_BITS,
-        .channel_count = RP2040_ADC_CHANNEL_COUNT,
+        .max_data_bits = VSF_HW_ADC_MAX_DATA_BITS,
+        .channel_count = VSF_HW_ADC_CHANNEL_COUNT,
     };
 }
 
@@ -229,7 +245,7 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_config)(
     // - For channel 4 (temp sensor), TS_EN is handled in request_once
     // We just validate channel numbers here.
     for (uint32_t i = 0; i < channel_cfgs_cnt; i++) {
-        if (channel_cfgs_ptr[i].channel >= RP2040_ADC_CHANNEL_COUNT) {
+        if (channel_cfgs_ptr[i].channel >= VSF_HW_ADC_CHANNEL_COUNT) {
             return VSF_ERR_INVALID_RANGE;
         }
     }
@@ -248,9 +264,10 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_request_once)(
     VSF_HAL_ASSERT(NULL != buffer_ptr);
 
     adc_hw_t *reg = adc_ptr->reg;
+    VSF_HAL_ASSERT(NULL != reg);
     uint8_t channel = channel_cfg_ptr->channel;
 
-    if (channel >= RP2040_ADC_CHANNEL_COUNT) {
+    if (channel >= VSF_HW_ADC_CHANNEL_COUNT) {
         return VSF_ERR_INVALID_RANGE;
     }
 
@@ -266,10 +283,12 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_request_once)(
     adc_ptr->status.is_busy = true;
 
     // Set channel and enable temp sensor if needed
+    // RP2040 channel 4 is the internal temperature sensor; GPIO channels 0-3 must
+    // be configured as analog inputs by the user/BSP before sampling.
     uint32_t cs = reg->cs;
     cs &= ~(ADC_CS_AINSEL_BITS | ADC_CS_RROBIN_BITS);
     cs |= ((uint32_t)channel << ADC_CS_AINSEL_LSB);
-    if (channel == 4) {
+    if (channel == VSF_HW_ADC_TEMP_SENSOR_CHANNEL) {
         cs |= ADC_CS_TS_EN_BITS;
     } else {
         cs &= ~ADC_CS_TS_EN_BITS;
@@ -316,6 +335,7 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_channel_request)(
     }
 
     adc_hw_t *reg = adc_ptr->reg;
+    VSF_HAL_ASSERT(NULL != reg);
 
     adc_ptr->buffer = (uint16_t *)buffer_ptr;
     adc_ptr->count  = count;
@@ -355,8 +375,8 @@ static void VSF_MCONNECT(__, VSF_ADC_CFG_IMP_PREFIX, _adc_irqhandler)(
     VSF_HAL_ASSERT(NULL != adc_ptr);
 
     adc_hw_t *reg = adc_ptr->reg;
-    // Clear interrupt by reading INTS (acknowledged by hardware)
-    (void)reg->ints;
+    VSF_HAL_ASSERT(NULL != reg);
+    __vsf_hw_adc_irq_clear_pending(reg);
 
     if (adc_ptr->status.is_busy && adc_ptr->offset < adc_ptr->count) {
         /* Drain FIFO entries into buffer */

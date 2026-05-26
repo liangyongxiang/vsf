@@ -109,6 +109,22 @@ Follow the 6-rung ladder in Quickstart. Typical failures:
 - R3: pinmux via raw vendor registers instead of `vsf_port_config_pins()` → driver works only by accident
 - R4: timer running at wrong frequency → 100× timing errors caught by LA tolerance check
 
+### Unsupported config silently accepted — init() returns NONE but feature never works
+
+**Symptom:** `init()` returns `VSF_ERR_NONE`, the application later waits for a callback or event that never arrives. The user files a bug: "IRQ never fires" or "DMA never completes." Root cause is the hardware does not support the feature, but `init()` accepted the configuration silently.
+
+**Fix:** In `init()`, validate every field that expresses a feature the hardware might not support. If the field requests an unsupported capability, return `VSF_ERR_NOT_SUPPORT` immediately. Example pattern:
+
+```c
+/* Hardware has no interrupt line for this peripheral.
+ * If user requests interrupt mode, reject at init(). */
+if (cfg_ptr->isr.handler_fn != NULL) {
+    return VSF_ERR_NOT_SUPPORT;
+}
+```
+
+Applies to any peripheral where the chip lacks an IRQ line, DMA channel, configurable priority, or other optional feature that the VSF API allows the user to request.
+
 ### Unused config struct fields must be documented
 
 **Symptom:** `vsf_<periph>_cfg_t` has a field (e.g., `prio`) that the chip hardware cannot configure. The `init()` function stores the whole struct but never reads that field — with no comment explaining why. A future maintainer cannot tell whether the omission is a driver bug or intentional.

@@ -137,6 +137,10 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_init)(
 
     /* RP2040 flash has no hardware interrupt.  erase/program are synchronous
      * ROM function calls; there is no async completion signal. */
+    if (cfg_ptr->isr.handler_fn != NULL) {
+        return VSF_ERR_NOT_SUPPORT;
+    }
+
     return VSF_ERR_NONE;
 }
 

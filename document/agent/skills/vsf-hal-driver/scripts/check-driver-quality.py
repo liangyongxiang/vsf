@@ -567,6 +567,37 @@ def check_silent_freq_default(funcs: list[dict], path: Path) -> tuple[list[Findi
     return errors, []
 
 
+def check_mode_bits_translation(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:
+    """Detect mode bits translated via if/else instead of direct register mapping.
+
+    When VSF mode bits naturally align with hardware register fields, the enum
+    should be reimplemented in the chip-specific .h so init() can extract them
+    with shifts/masks instead of branching. See convention 8.
+    """
+    warnings: list[Finding] = []
+    # Match if (something_mode_something & something_MODE_something) { ... }
+    # with register manipulation inside the block.
+    _mode_branch_re = re.compile(
+        r'if\s*\([^)]*mode[^)]*&[^)]*MODE_[^)]*\)\s*\{[^{}]*?\w+\s*\|?=\s*[^;]+;[^{}]*?\}',
+        re.IGNORECASE | re.DOTALL,
+    )
+    for func in funcs:
+        if "_init" not in func["name"]:
+            continue
+        m = _mode_branch_re.search(func["body"])
+        if m:
+            line_offset = func["body"][:m.start()].count("\n")
+            warnings.append(Finding(
+                path, func["start_line"] + line_offset, "mode-bits-translation",
+                f"{func['name']}: mode bits appear to be translated via if/else — "
+                f"consider reimplementing the enum to encode register bits directly "
+                f"(convention 8: Mode/config bits map hardware registers)",
+                reference="Conventions",
+                severity="warn",
+            ))
+    return [], warnings
+
+
 FUNC_RULES = [
     check_nvic_priority_order,
     check_init_has_reset,
@@ -575,6 +606,7 @@ FUNC_RULES = [
     check_irq_disable_nvic_leak,
     check_init_null_isr,
     check_silent_freq_default,
+    check_mode_bits_translation,
 ]
 
 

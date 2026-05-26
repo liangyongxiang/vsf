@@ -43,12 +43,13 @@ Do not skip rungs. Each rung assumes earlier rungs hold — advancing with a bro
 3. Add IMP_LV0 invocation per instance (reg, irq, rst_bit fields from device.h macros)
 4. Add pinmux to `board/<board>/vsf_board.c` using `vsf_gpio_port_config_pins()` — not raw register writes
 5. Enable peripheral: `scripts/enable-periph.py --enable <periph> <vsf_usr_cfg.h>`
-6. Static checks (see Concepts for exit code rules):
+6. Skeleton check: `scripts/check-driver-skeleton.py <template.c> <driver.c>` — verify the scaffolded skeleton (function signatures, macros, struct declarations) was not accidentally broken during implementation. Exit 0 = skeleton preserved; exit 1 = skeleton mismatch that may cause API incompatibility.
+7. Static checks (see Concepts for exit code rules):
    - `scripts/check-driver-structure.py --periph <name> --side header <file.h>`
    - `scripts/check-driver-structure.py --periph <name> --side source <file.c>`
    - `scripts/check-driver-quality.py <file.c>`
-7. Cross-file audit: `scripts/audit-port.py --chip Vendor/Chip`
-8. Verify: `vsf-bench --all hardware-map.yml --suite <periph>_<scenario>`
+8. Cross-file audit: `scripts/audit-port.py --chip Vendor/Chip`
+9. Verify: `vsf-bench --all hardware-map.yml --suite <periph>_<scenario>`
 
 ### Audit existing driver
 
@@ -60,7 +61,7 @@ Do not skip rungs. Each rung assumes earlier rungs hold — advancing with a bro
 - **IMP_LV0:** macro that expands into per-instance `struct` definitions and IRQ handler stubs, driven by macros in `device.h`.
 - **VSF_MCONNECT:** token-paste macro `VSF_MCONNECT(prefix, suffix, __IDX)` → `prefix##__IDX##suffix` for building per-instance names.
 - **Complete driver checklist:** `device.h` instance macros + `.h` API header + `.c` implementation + `IMP_LV0` block + `vsf_board.c` pinmux + `vsf_usr_cfg.h` enable flag.
-- **Exit code semantics (all scripts):** exit 0 = pass; exit 2 = all findings are known-acceptable warnings (review and proceed); any other exit = errors that must be fixed. Applies to `check-driver-structure.py`, `check-driver-quality.py`, and `audit-port.py`.
+- **Exit code semantics (all scripts):** exit 0 = pass; exit 2 = all findings are known-acceptable warnings (review and proceed); any other exit = errors that must be fixed. Applies to `check-driver-skeleton.py`, `check-driver-structure.py`, `check-driver-quality.py`, and `audit-port.py`.
 
 ## Conventions (enforced by `scripts/check-driver-quality.py`)
 
@@ -136,6 +137,43 @@ dma_ptr->cfg = *cfg_ptr;
 ```
 Applies to every peripheral type. For every config field: either use it in the driver, or document why the chip hardware doesn't support it.
 
+### Mode bits translated via if/else instead of direct register mapping
+
+**Symptom:** `init()` has a chain of `if (mode & MODE_X) { reg |= BIT; }` to translate VSF mode bits into hardware register bits. The code works but is verbose and brittle — every new mode requires another branch.
+
+**Diagnosis:** Look for `if` blocks inside `init()` that test `cfg_ptr->mode` against individual `VSF_*_MODE_*` constants and then OR bits into a register variable. Example (PL022 SPI):
+```c
+/* Before — translation via if/else */
+if (cfg_ptr->mode & VSF_SPI_MODE_2) { cr0 |= (1u << 6); }  /* CPOL */
+if (cfg_ptr->mode & VSF_SPI_MODE_1) { cr0 |= (1u << 7); }  /* CPHA */
+```
+
+**Fix:** Redefine the mode enum in the chip-specific `.h` so that mode values **directly encode** the hardware register bits. Then extract them with a single mask operation in `init()`. Example:
+
+```c
+/* spi.h — redefine VSF_SPI_CPOL/CPHA to match PL022 CR0 bits [7:6] */
+#define VSF_SPI_CFG_REIMPLEMENT_TYPE_MODE   ENABLED
+typedef enum vsf_spi_mode_t {
+    /* ... other modes unchanged ... */
+    VSF_SPI_CPOL_LOW  = 0x00,
+    VSF_SPI_CPOL_HIGH = (1u << 6),   /* PL022 SPO */
+    VSF_SPI_CPHA_LOW  = 0x00,
+    VSF_SPI_CPHA_HIGH = (1u << 7),   /* PL022 SPH */
+    VSF_SPI_MODE_0 = VSF_SPI_CPOL_LOW  | VSF_SPI_CPHA_LOW,
+    VSF_SPI_MODE_1 = VSF_SPI_CPOL_LOW  | VSF_SPI_CPHA_HIGH,
+    VSF_SPI_MODE_2 = VSF_SPI_CPOL_HIGH | VSF_SPI_CPHA_LOW,
+    VSF_SPI_MODE_3 = VSF_SPI_CPOL_HIGH | VSF_SPI_CPHA_HIGH,
+    /* ... */
+} vsf_spi_mode_t;
+```
+
+```c
+/* spi.c — single-line extraction, no if/else */
+cr0 |= (cfg_ptr->mode & ((1u << 6) | (1u << 7)));
+```
+
+Applies to any peripheral where VSF config bits can be aligned with hardware register fields: GPIO MODER/PUPDR, USART baud/mode, I2C speed, SPI frame format, etc. When hardware layout prevents perfect alignment, minimize conversion to the unavoidable cases only. See convention 8.
+
 ## Error Handling and Troubleshooting
 
 ### Script failures
@@ -143,6 +181,7 @@ Applies to every peripheral type. For every config field: either use it in the d
 | Failure | Cause | Fix |
 |---------|-------|-----|
 | `scaffold_peripheral.py` fails | wrong `--chip` path or target dir already exists | verify path under `source/hal/driver/`; if dir exists, edit directly |
+| `check-driver-skeleton.py` non-zero | function signature changed, macro renamed, or struct declaration removed from template | restore the original template skeleton; implementation should go inside the functions, not alter signatures |
 | `check-driver-structure.py` non-zero | missing required API, wrong prototype, or missing IMP_LV0 | read check output; add missing function/struct; rerun |
 | `check-driver-quality.py` non-zero | style or convention violation | fix the violation; only suppress with `// quality: allow-<rule-id>` after confirming it's a false positive |
 | `audit-port.py` non-zero | cross-file mismatch (e.g., IRQ handler declared but not defined) or `missing-mask` on GPIO | fix mismatch; for GPIO `missing-mask` see note below — GPIO uses `VSF_HW_GPIO_PORT_MASK` not `VSF_HW_GPIO_MASK` |

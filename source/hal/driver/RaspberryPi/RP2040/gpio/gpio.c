@@ -94,9 +94,9 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(
     vsf_gpio_mode_t base = cfg_ptr->mode & VSF_GPIO_MODE_MASK;
 
     /* FUNCSEL from bits [4:0]; overridden by alternate_function for AF. */
-    uint32_t funcsel = cfg_ptr->mode & 0x1F;
-    if ((cfg_ptr->mode >> 7) & 1) {
-        funcsel = cfg_ptr->alternate_function & 0x1F;
+    uint32_t funcsel = cfg_ptr->mode & __VSF_HW_GPIO_FUNCSEL_MASK;
+    if ((cfg_ptr->mode >> __VSF_HW_GPIO_IS_AF_POS) & 1) {
+        funcsel = cfg_ptr->alternate_function & __VSF_HW_GPIO_FUNCSEL_MASK;
     }
 
     /* Build PADS value: default DRIVE=01 (bit 4), SCHMITT=1 (bit 1).
@@ -109,14 +109,14 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(
     } else {
         pads |= __RP2040_PADS_IE;
     }
-    uint32_t pull = (cfg_ptr->mode >> 8) & 3;
+    uint32_t pull = (cfg_ptr->mode >> __VSF_HW_GPIO_PULL_POS) & __VSF_HW_GPIO_PULL_MASK;
     if (pull == 1) {
         pads |= __RP2040_PADS_PUE;
     } else if (pull == 2) {
         pads |= __RP2040_PADS_PDE;
     }
 
-    bool is_output = (cfg_ptr->mode >> 5) & 1;
+    bool is_output = (cfg_ptr->mode >> __VSF_HW_GPIO_IS_OUTPUT_POS) & 1;
 
     for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
         vsf_gpio_pin_mask_t bit = (vsf_gpio_pin_mask_t)1u << i;
@@ -136,7 +136,7 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(
 
     /* Track EXTI trigger bits per pin. */
     if (base == VSF_GPIO_EXTI) {
-        uint8_t trig = (cfg_ptr->mode >> 10) & 0xF;
+        uint8_t trig = (cfg_ptr->mode >> __VSF_HW_GPIO_EXTI_TRIG_POS) & __VSF_HW_GPIO_EXTI_TRIG_MASK;
         for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
             if (pin_mask & ((vsf_gpio_pin_mask_t)1u << i)) {
                 hw_gpio_ptr->exti_trigger[i] = trig;
@@ -150,8 +150,10 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(
         }
     }
 
-    /* For SIO (FUNCSEL=5), set OE per direction. AF/ANALOG leave OE alone. */
-    if (funcsel == 5) {
+    /* For SIO (FUNCSEL=__VSF_HW_GPIO_FUNCSEL_SIO), set OE per direction.
+     * AF/ANALOG leave OE alone.
+     */
+    if (funcsel == __VSF_HW_GPIO_FUNCSEL_SIO) {
         if (is_output && base != VSF_GPIO_OUTPUT_OPEN_DRAIN) {
             sio_hw->gpio_oe_set = pin_mask;
         } else {
@@ -171,15 +173,15 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_pin_configuration)(
     VSF_HAL_ASSERT(NULL != cfg_ptr);
     VSF_HAL_ASSERT(pin_index < VSF_HW_GPIO_PIN_COUNT);
 
-    uint32_t funcsel = io_bank0_hw->io[pin_index].ctrl & 0x1Fu;
+    uint32_t funcsel = io_bank0_hw->io[pin_index].ctrl & __VSF_HW_GPIO_FUNCSEL_MASK;
     uint32_t pads    = pads_bank0_hw->io[pin_index];
     vsf_gpio_pin_mask_t bit = (vsf_gpio_pin_mask_t)1u << pin_index;
 
     /* Re-derive mode from registers + driver-side open-drain tracking. */
     vsf_gpio_mode_t mode;
-    if (funcsel == 0x1F) {
+    if (funcsel == __VSF_HW_GPIO_FUNCSEL_NULL) {
         mode = VSF_GPIO_ANALOG;
-    } else if (funcsel != 5) {
+    } else if (funcsel != __VSF_HW_GPIO_FUNCSEL_SIO) {
         mode = VSF_GPIO_AF;
     } else if (hw_gpio_ptr->open_drain_mask & bit) {
         mode = VSF_GPIO_OUTPUT_OPEN_DRAIN;
@@ -198,7 +200,8 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_pin_configuration)(
     }
 
     cfg_ptr->mode               = mode;
-    cfg_ptr->alternate_function = (funcsel == 5 || funcsel == 0x1F)
+    cfg_ptr->alternate_function = (funcsel == __VSF_HW_GPIO_FUNCSEL_SIO
+                                   || funcsel == __VSF_HW_GPIO_FUNCSEL_NULL)
                                   ? 0 : funcsel;
     return VSF_ERR_NONE;
 }

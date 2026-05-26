@@ -28,6 +28,22 @@
 
 /*============================ MACROS ========================================*/
 
+/* RP2040 hardware constants for the FUNCSEL field in IO_BANK0.GPIOx_CTRL. */
+#define __VSF_HW_GPIO_FUNCSEL_SHIFT         0
+#define __VSF_HW_GPIO_FUNCSEL_BITS          5
+#define __VSF_HW_GPIO_FUNCSEL_MASK          ((1u << __VSF_HW_GPIO_FUNCSEL_BITS) - 1)
+#define __VSF_HW_GPIO_FUNCSEL_SIO           5u
+#define __VSF_HW_GPIO_FUNCSEL_NULL          0x1Fu   /* 31 = NULL function */
+
+/* Bit positions in the packed vsf_gpio_mode_t. */
+#define __VSF_HW_GPIO_IS_OUTPUT_POS         5
+#define __VSF_HW_GPIO_OD_EMULATED_POS       6
+#define __VSF_HW_GPIO_IS_AF_POS             7
+#define __VSF_HW_GPIO_PULL_POS              8
+#define __VSF_HW_GPIO_PULL_MASK             0x3u
+#define __VSF_HW_GPIO_EXTI_TRIG_POS         10
+#define __VSF_HW_GPIO_EXTI_TRIG_MASK        0xFu
+
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 
@@ -37,7 +53,8 @@
  *
  * Bit layout:
  *   [4:0]   FUNCSEL — written directly to IO_BANK0.GPIOx_CTRL
- *           5 = SIO (for INPUT/OUTPUT/EXTI), 0x1F = NULL (for ANALOG)
+ *           __VSF_HW_GPIO_FUNCSEL_SIO  (for INPUT/OUTPUT/EXTI)
+ *           __VSF_HW_GPIO_FUNCSEL_NULL (for ANALOG)
  *   [5]     is_output — direction hint; RP2040 direction is SIO.OE, not PADS
  *   [6]     OD_emulated — open-drain is software-emulated via OE toggling
  *   [7]     is_AF — alternate function mode, FUNCSEL from cfg.alternate_function
@@ -55,25 +72,41 @@
 
 typedef enum vsf_gpio_mode_t {
     /* Base modes — FUNCSEL in bits [4:0], flags in bits [7:5] */
-    VSF_GPIO_INPUT              = (5 << 0) | (0 << 5) | (0 << 6) | (0 << 7),
-    VSF_GPIO_ANALOG             = (0x1F << 0) | (0 << 5) | (0 << 6) | (0 << 7),
-    VSF_GPIO_OUTPUT_PUSH_PULL   = (5 << 0) | (1 << 5) | (0 << 6) | (0 << 7),
-    VSF_GPIO_OUTPUT_OPEN_DRAIN  = (5 << 0) | (1 << 5) | (1 << 6) | (0 << 7),
-    VSF_GPIO_AF                 = (0 << 0) | (0 << 5) | (0 << 6) | (1 << 7),
+    VSF_GPIO_INPUT              = (__VSF_HW_GPIO_FUNCSEL_SIO << __VSF_HW_GPIO_FUNCSEL_SHIFT)
+                                | (0 << __VSF_HW_GPIO_IS_OUTPUT_POS)
+                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS)
+                                | (0 << __VSF_HW_GPIO_IS_AF_POS),
+    VSF_GPIO_ANALOG             = (__VSF_HW_GPIO_FUNCSEL_NULL << __VSF_HW_GPIO_FUNCSEL_SHIFT)
+                                | (0 << __VSF_HW_GPIO_IS_OUTPUT_POS)
+                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS)
+                                | (0 << __VSF_HW_GPIO_IS_AF_POS),
+    VSF_GPIO_OUTPUT_PUSH_PULL   = (__VSF_HW_GPIO_FUNCSEL_SIO << __VSF_HW_GPIO_FUNCSEL_SHIFT)
+                                | (1 << __VSF_HW_GPIO_IS_OUTPUT_POS)
+                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS)
+                                | (0 << __VSF_HW_GPIO_IS_AF_POS),
+    VSF_GPIO_OUTPUT_OPEN_DRAIN  = (__VSF_HW_GPIO_FUNCSEL_SIO << __VSF_HW_GPIO_FUNCSEL_SHIFT)
+                                | (1 << __VSF_HW_GPIO_IS_OUTPUT_POS)
+                                | (1 << __VSF_HW_GPIO_OD_EMULATED_POS)
+                                | (0 << __VSF_HW_GPIO_IS_AF_POS),
+    VSF_GPIO_AF                 = (0 << __VSF_HW_GPIO_FUNCSEL_SHIFT)
+                                | (0 << __VSF_HW_GPIO_IS_OUTPUT_POS)
+                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS)
+                                | (1 << __VSF_HW_GPIO_IS_AF_POS),
     VSF_GPIO_EXTI               = VSF_GPIO_INPUT,
 
     /* Pull-up / pull-down */
-    VSF_GPIO_NO_PULL_UP_DOWN    = (0 << 8),
-    VSF_GPIO_PULL_UP            = (1 << 8),
-    VSF_GPIO_PULL_DOWN          = (2 << 8),
+    VSF_GPIO_NO_PULL_UP_DOWN    = (0 << __VSF_HW_GPIO_PULL_POS),
+    VSF_GPIO_PULL_UP            = (1 << __VSF_HW_GPIO_PULL_POS),
+    VSF_GPIO_PULL_DOWN          = (2 << __VSF_HW_GPIO_PULL_POS),
 
     /* EXTI trigger modes — values directly usable as RP2040 INTR/INTE field */
-    VSF_GPIO_EXTI_MODE_NONE         = (0 << 10),
-    VSF_GPIO_EXTI_MODE_LOW_LEVEL    = (1 << 10),
-    VSF_GPIO_EXTI_MODE_HIGH_LEVEL   = (2 << 10),
-    VSF_GPIO_EXTI_MODE_FALLING      = (4 << 10),
-    VSF_GPIO_EXTI_MODE_RISING       = (8 << 10),
-    VSF_GPIO_EXTI_MODE_RISING_FALLING = (4 << 10) | (8 << 10),
+    VSF_GPIO_EXTI_MODE_NONE         = (0 << __VSF_HW_GPIO_EXTI_TRIG_POS),
+    VSF_GPIO_EXTI_MODE_LOW_LEVEL    = (1 << __VSF_HW_GPIO_EXTI_TRIG_POS),
+    VSF_GPIO_EXTI_MODE_HIGH_LEVEL   = (2 << __VSF_HW_GPIO_EXTI_TRIG_POS),
+    VSF_GPIO_EXTI_MODE_FALLING      = (4 << __VSF_HW_GPIO_EXTI_TRIG_POS),
+    VSF_GPIO_EXTI_MODE_RISING       = (8 << __VSF_HW_GPIO_EXTI_TRIG_POS),
+    VSF_GPIO_EXTI_MODE_RISING_FALLING = (4 << __VSF_HW_GPIO_EXTI_TRIG_POS)
+                                      | (8 << __VSF_HW_GPIO_EXTI_TRIG_POS),
 } vsf_gpio_mode_t;
 
 /*============================ INCLUDES ======================================*/

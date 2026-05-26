@@ -3,6 +3,30 @@
 ## No hardcoded instances
 Per-instance values (register base, IRQ, clock, reset) must come from `device.h` macros, expanded via `VSF_MCONNECT(..., __IDX)` in the IMP_LV0 macro block.
 
+## No magic numbers for register bit-fields
+When a driver reimplements `vsf_<periph>_mode_t` (or any packed configuration type) so that bit-fields directly encode hardware register values, all bit positions, masks, and hardware constants must be defined as `__VSF_HW`-prefixed macros in the header file. The enum values then compose from these macros, and the `.c` file extracts fields using the same macros — never bare literals like `0x1F`, `5`, `0xF`, or raw shift counts like `>> 7`.
+
+Header (replace `<PERIPH>` and `<FIELD>` with the actual peripheral and field names):
+```c
+#define __VSF_HW_<PERIPH>_<FIELD>_SHIFT     N
+#define __VSF_HW_<PERIPH>_<FIELD>_MASK      ((1u << M) - 1)
+#define __VSF_HW_<PERIPH>_<FIELD>_VAL_X     Xu
+#define __VSF_HW_<PERIPH>_<FIELD>_VAL_Y     Yu
+...
+typedef enum vsf_<periph>_mode_t {
+    VSF_<PERIPH>_MODE_A = (__VSF_HW_<PERIPH>_<FIELD>_VAL_X << __VSF_HW_<PERIPH>_<FIELD>_SHIFT)
+                        | (0 << __VSF_HW_<PERIPH>_<FLAG>_POS) | ...,
+} vsf_<periph>_mode_t;
+```
+
+Source:
+```c
+uint32_t field = cfg_ptr->mode & __VSF_HW_<PERIPH>_<FIELD>_MASK;
+bool flag      = (cfg_ptr->mode >> __VSF_HW_<PERIPH>_<FLAG>_POS) & 1;
+```
+
+This keeps the bit layout in one place, makes intent explicit in both header and source, and the `__VSF_HW` prefix signals internal-only constants that user code should not rely on.
+
 ## No spin-wait without comment
 Every `while (reg->flag);` loop polling a hardware register must have a preceding comment explaining why spin-wait is required and the expected upper-bound duration (`< X us`). Enforced by `check-driver-quality.py`.
 

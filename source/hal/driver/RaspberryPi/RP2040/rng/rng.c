@@ -125,10 +125,7 @@ vsf_err_t VSF_MCONNECT(VSF_RNG_CFG_IMP_PREFIX, _rng_ctrl)(
 
 #define VSF_RNG_CFG_IMP_LV0(__IDX, __HAL_OP)                                    \
     VSF_MCONNECT(VSF_RNG_CFG_IMP_PREFIX, _rng_t)                                \
-        VSF_MCONNECT(VSF_RNG_CFG_IMP_PREFIX, _rng, __IDX) = {                   \
-        .dummy = 0,                                                             \
-        __HAL_OP                                                                \
-    };
+    VSF_MCONNECT(VSF_RNG_CFG_IMP_PREFIX, _rng, __IDX) = {.dummy = 0, __HAL_OP};
 
 #include "hal/driver/common/rng/rng_template.inc"
 

@@ -336,14 +336,13 @@ vsf_pwm_irq_mask_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_irq_clear)(
 
 #define VSF_PWM_CFG_IMP_LV0(__IDX, __HAL_OP)                                    \
     VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_t)                                \
-        VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm, __IDX) = {                   \
-        .slice_idx         = __IDX,                                             \
-        .irqn              = VSF_MCONNECT(VSF_PWM_CFG_IMP_UPCASE_PREFIX,        \
-                                          _PWM, __IDX, _IRQN),                  \
-        .rst_bit           = VSF_MCONNECT(VSF_PWM_CFG_IMP_UPCASE_PREFIX,        \
-                                          _PWM, __IDX, _RST_BIT),               \
-        __HAL_OP                                                                \
-    };
+    VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm, __IDX) = {                       \
+        .slice_idx = __IDX,                                                     \
+        .irqn =                                                                 \
+            VSF_MCONNECT(VSF_PWM_CFG_IMP_UPCASE_PREFIX, _PWM, __IDX, _IRQN),    \
+        .rst_bit = VSF_MCONNECT(VSF_PWM_CFG_IMP_UPCASE_PREFIX, _PWM, __IDX,     \
+                                _RST_BIT),                                      \
+        __HAL_OP};
 
 #include "hal/driver/common/pwm/pwm_template.inc"
 

@@ -31,11 +31,14 @@
 #include "hal/driver/vendor_driver.h"
 
 #define __imp_unprocessed_weak_handler(__name)                                  \
-            VSF_CAL_WEAK(__name)                                                \
-            void __name(void){}
+    VSF_CAL_WEAK(__name)                                                        \
+    void __name(void) {}
 #define __imp_blocked_weak_handler(__name)                                      \
-            VSF_CAL_WEAK(__name)                                                \
-            void __name(void){while(1);}
+    VSF_CAL_WEAK(__name)                                                        \
+    void __name(void) {                                                         \
+        while (1)                                                               \
+            ;                                                                   \
+    }
 
 /*----------------------------------------------------------------------------
   Exception / Interrupt Handler Function Prototype

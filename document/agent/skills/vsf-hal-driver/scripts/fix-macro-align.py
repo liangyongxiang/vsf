@@ -1,115 +1,158 @@
 #!/usr/bin/env python3
-"""Fix backslash alignment in multi-line #define macros.
+"""
+Align multi-line #define continuation backslashes using clang-format.
 
-Standard: continuation backslash aligned to column 81
-(content length 80 + '\\' at column 81).
+Two-pass approach:
+  1. clang-format normalises spacing and line breaks inside each macro block.
+  2. All continuation backslashes are then aligned to column 81 (the VSF
+     convention), regardless of how clang-format chose to right-align them.
 
-For lines with content > 80 chars, try to reduce padding around '='.
-If still > 80, report for manual fix.
+Only #define blocks are touched — the rest of the file stays byte-for-byte
+identical to the original.
+
+Usage:
+    fix-macro-align.py <file.c> [file2.c ...]
+
+Requires: clang-format on PATH
 """
 
-import sys, os, re
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
 
-TARGET_COL = 81  # backslash at column 81
-MAX_CONTENT = 80
+TARGET_COL = 81
 
-# Pattern: field = value with 2+ spaces around =
-# Reduce to single space around =
-_EQ_PAD_RE = re.compile(r'(\S)\s{2,}=\s{2,}(\S)')
-_EQ_PAD_RE2 = re.compile(r'(\S)\s{2,}=\s(\S)')
-_EQ_PAD_RE3 = re.compile(r'(\S)\s=\s{2,}(\S)')
 
-def fix_line(line, filename, linenum):
-    """Fix a single continuation line. Returns (new_line, ok, msg)."""
-    stripped = line.rstrip('\n\r')
-    if not stripped.rstrip().endswith('\\'):
-        return line, True, None
+def _clang_format_cfg() -> Path:
+    cfg = tempfile.NamedTemporaryFile(
+        mode="w", suffix=".yml", prefix="clangfmt_", delete=False
+    )
+    cfg.write(
+        "BasedOnStyle: LLVM\n"
+        "IndentWidth: 4\n"
+        "UseTab: Never\n"
+        "AlignEscapedNewlines: Right\n"
+        "ColumnLimit: 80\n"
+    )
+    cfg.close()
+    return Path(cfg.name)
 
-    # Strip trailing backslash and spaces
-    content = stripped.rstrip().rstrip('\\').rstrip()
-    content_len = len(content)
 
-    if content_len > MAX_CONTENT:
-        # Try reducing padding around '='
-        reduced = _EQ_PAD_RE.sub(r'\1 = \2', content)
-        if reduced == content:
-            reduced = _EQ_PAD_RE2.sub(r'\1 = \2', content)
-        if reduced == content:
-            reduced = _EQ_PAD_RE3.sub(r'\1 = \2', content)
-
-        if len(reduced) <= MAX_CONTENT:
-            content = reduced
-            content_len = len(content)
+def _find_macro_blocks(lines: list[str]) -> list[tuple[int, int]]:
+    """Return (start, end) line-index pairs (0-based, inclusive) for each
+    multi-line #define block."""
+    blocks: list[tuple[int, int]] = []
+    i = 0
+    while i < len(lines):
+        stripped = lines[i].lstrip()
+        if stripped.startswith("#") and "define" in stripped:
+            start = i
+            has_continuation = lines[i].rstrip("\n\r").rstrip().endswith("\\")
+            while i < len(lines) and lines[i].rstrip("\n\r").rstrip().endswith("\\"):
+                i += 1
+            if i < len(lines):
+                i += 1
+            if has_continuation:
+                blocks.append((start, i - 1))
         else:
-            return line, False, f"content still {len(reduced)} > {MAX_CONTENT} chars after reducing '=' padding"
-
-    # Pad to target column
-    padding_needed = TARGET_COL - content_len - 1  # -1 for backslash itself
-    if padding_needed < 0:
-        return line, False, f"content {content_len} > {MAX_CONTENT} even after fixes"
-
-    new_line = content + ' ' * padding_needed + '\\' + '\n'
-    return new_line, True, None
+            i += 1
+    return blocks
 
 
-def fix_file(filepath):
-    with open(filepath, 'r') as f:
-        lines = f.readlines()
+def _format_block(block_lines: list[str], cfg_path: Path) -> list[str]:
+    """Pass 1: normalise macro content with clang-format."""
+    block_text = "".join(block_lines)
+    result = subprocess.run(
+        ["clang-format", f"--style=file:{cfg_path}",
+         "--assume-filename=/tmp/macro.c"],
+        input=block_text,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        sys.stderr.write(f"clang-format error: {result.stderr}\n")
+        return block_lines
+
+    formatted = result.stdout.splitlines(keepends=True)
+    if formatted and not formatted[-1].endswith("\n"):
+        formatted[-1] += "\n"
+    return formatted
+
+
+def _align_backslashes(lines: list[str]) -> list[str]:
+    """Pass 2: align continuation backslashes to TARGET_COL (81)."""
+    out: list[str] = []
+    for line in lines:
+        stripped = line.rstrip("\n\r")
+        if not stripped.rstrip().endswith("\\"):
+            out.append(line)
+            continue
+
+        content = stripped.rstrip().rstrip("\\").rstrip()
+        if len(content) >= TARGET_COL - 1:
+            # Content already reaches or exceeds target — backslash goes right after
+            out_line = content + " \\\n"
+        else:
+            padding = TARGET_COL - len(content) - 1  # -1 for the backslash itself
+            out_line = content + " " * padding + "\\\n"
+
+        # Preserve original line ending
+        if line.endswith("\r\n"):
+            out_line = out_line.rstrip("\n") + "\r\n"
+        out.append(out_line)
+    return out
+
+
+def fix_file(path: Path, cfg_path: Path) -> int:
+    text = path.read_text()
+    lines = text.splitlines(keepends=True)
+    blocks = _find_macro_blocks(lines)
+
+    if not blocks:
+        return 0
 
     fixed = 0
-    errors = []
-    new_lines = []
+    for start, end in reversed(blocks):
+        original = lines[start:end + 1]
+        formatted = _format_block(original, cfg_path)
+        aligned = _align_backslashes(formatted)
+        if aligned != original:
+            lines[start:end + 1] = aligned
+            fixed += 1
 
-    for i, line in enumerate(lines, 1):
-        stripped = line.rstrip('\n\r')
-        if stripped.rstrip().endswith('\\'):
-            new_line, ok, msg = fix_line(line, filepath, i)
-            if not ok:
-                errors.append((filepath, i, msg, line.rstrip('\n\r')))
-            elif new_line != line:
-                fixed += 1
-            new_lines.append(new_line)
-        else:
-            new_lines.append(line)
-
-    if fixed or errors:
-        with open(filepath, 'w') as f:
-            f.writelines(new_lines)
-
-    return fixed, errors
+    if fixed:
+        path.write_text("".join(lines))
+    return fixed
 
 
-def main():
+def main() -> None:
     if len(sys.argv) < 2:
         print(f"Usage: {sys.argv[0]} <file.c> [file2.c ...]")
         sys.exit(1)
 
-    total_fixed = 0
-    all_errors = []
+    cfg_path = _clang_format_cfg()
+    try:
+        total_fixed = 0
+        for raw in sys.argv[1:]:
+            p = Path(raw)
+            if not p.is_file():
+                print(f"error: not a file: {raw}", file=sys.stderr)
+                sys.exit(2)
+            fixed = fix_file(p, cfg_path)
+            total_fixed += fixed
+            if fixed:
+                print(f"  {p.name}: fixed {fixed} macro block(s)")
+            else:
+                print(f"  {p.name}: OK")
 
-    for path in sys.argv[1:]:
-        fixed, errors = fix_file(path)
-        total_fixed += fixed
-        all_errors.extend(errors)
-        if fixed:
-            print(f"  {os.path.basename(path)}: fixed {fixed} lines")
-        elif not errors:
-            print(f"  {os.path.basename(path)}: OK")
-
-    if all_errors:
-        print("\nERRORS (manual fix required):")
-        for filepath, line, msg, content in all_errors:
-            print(f"  {os.path.basename(filepath)}:{line}: {msg}")
-            print(f"    {content!r}")
-
-    if total_fixed == 0 and not all_errors:
-        print("\nAll files already aligned.")
-    elif not all_errors:
-        print(f"\nFixed {total_fixed} lines total.")
-    else:
-        print(f"\nFixed {total_fixed} lines, {len(all_errors)} errors remain.")
-        sys.exit(1)
+        if total_fixed:
+            print(f"\nFixed {total_fixed} macro block(s) total.")
+        else:
+            print("\nAll macro blocks already aligned.")
+    finally:
+        cfg_path.unlink(missing_ok=True)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

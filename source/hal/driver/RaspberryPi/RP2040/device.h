@@ -78,16 +78,10 @@
 
 #define USB_OTG0_IRQHandler         USBDMA_IRQHandler
 #define USB_OTG0_CONFIG                                                         \
-            .dc_ep_num              = 4 << 1,                                   \
-            .hc_ep_num              = 5,                                        \
-            .reg                    = (void *)0,                                \
-            /* vk_dwcotg_hw_info_t */                                           \
-                .buffer_word_size   = 948,                                      \
-                .speed              = USB_SPEED_FULL,                           \
-                .dma_en             = true,                                     \
-                .ulpi_en            = true,                                     \
-                .utmi_en            = false,                                    \
-                .vbus_en            = false,
+    .dc_ep_num = 4 << 1, .hc_ep_num = 5,                                        \
+    .reg = (void *)0, /* vk_dwcotg_hw_info_t */                                 \
+        .buffer_word_size = 948, .speed = USB_SPEED_FULL, .dma_en = true,       \
+    .ulpi_en = true, .utmi_en = false, .vbus_en = false,
 
 #define VSF_HW_I2C_COUNT            2
 #define VSF_HW_I2C0_IRQN            I2C0_IRQ_IRQn

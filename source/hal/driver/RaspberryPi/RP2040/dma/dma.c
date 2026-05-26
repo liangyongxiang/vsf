@@ -36,9 +36,8 @@
 /* Per-IRQN initializer for .irqn[] array, used with VSF_MREPEAT in IMP_LV0.
  * Expands to: [N] = VSF_HW_DMAx_IRQN_N, */
 #define __VSF_DMA_IRQN_ENTRY(__N, __IDX)                                        \
-    [__N] = VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,                         \
-                         _DMA, __IDX, _IRQN_##__N),                             \
-
+    [__N] =                                                                     \
+        VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX, _DMA, __IDX, _IRQN_##__N),
 /* RP2040 DMA TRANS_COUNT register is 24 bits wide (bits 23:0).
  * Source: RP2040 datasheet §2.5.7, DMA_CHx_TRANS_COUNT register description. */
 #define VSF_HW_DMA_MAX_TRANSFER_COUNT              ((1u << 24) - 1)
@@ -539,19 +538,15 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
 
 #define VSF_DMA_CFG_IMP_LV0(__IDX, __HAL_OP)                                    \
     VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t)                                \
-        VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma, __IDX) = {                   \
-        .reg = (dma_hw_t *)VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,          \
-                                         _DMA, __IDX, _REG),                    \
-        .rst_bit = VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,                  \
-                                _DMA, __IDX, _RST_BIT),                         \
-        .irqn = {                                                               \
-            VSF_MREPEAT(2, __VSF_DMA_IRQN_ENTRY, __IDX)                         \
-        },                                                                      \
-        __HAL_OP                                                                \
-    };                                                                          \
-    VSF_CAL_ROOT void VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,               \
-                      _DMA, __IDX, _IRQHandler)(void)                           \
-    {                                                                           \
+    VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma, __IDX) = {                       \
+        .reg = (dma_hw_t *)VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX, _DMA,    \
+                                        __IDX, _REG),                           \
+        .rst_bit = VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX, _DMA, __IDX,     \
+                                _RST_BIT),                                      \
+        .irqn = {VSF_MREPEAT(2, __VSF_DMA_IRQN_ENTRY, __IDX)},                  \
+        __HAL_OP};                                                              \
+    VSF_CAL_ROOT void VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX, _DMA, __IDX,  \
+                                   _IRQHandler)(void) {                         \
         uintptr_t ctx = vsf_hal_irq_enter();                                    \
         VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(              \
             &VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma, __IDX));                \

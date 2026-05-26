@@ -537,22 +537,19 @@ static void VSF_MCONNECT(__, VSF_SPI_CFG_IMP_PREFIX, _spi_irqhandler)(
 
 #define VSF_SPI_CFG_IMP_LV0(__IDX, __HAL_OP)                                    \
     VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi_t)                                \
-        VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi, __IDX) = {                   \
-        .reg = (spi_hw_t *)VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX,          \
-                                         _SPI, __IDX, _REG),                    \
-        .rst_bit = VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX,                  \
-                                _SPI, __IDX, _RST_BIT),                         \
-        .irqn = VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX,                     \
-                             _SPI, __IDX, _IRQN),                               \
-        __HAL_OP                                                                \
-    };                                                                          \
-    VSF_CAL_ROOT void VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX,               \
-                      _SPI, __IDX, _IRQHandler)(void)                           \
-    {                                                                           \
+    VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi, __IDX) = {                       \
+        .reg = (spi_hw_t *)VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX, _SPI,    \
+                                        __IDX, _REG),                           \
+        .rst_bit = VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX, _SPI, __IDX,     \
+                                _RST_BIT),                                      \
+        .irqn =                                                                 \
+            VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX, _SPI, __IDX, _IRQN),    \
+        __HAL_OP};                                                              \
+    VSF_CAL_ROOT void VSF_MCONNECT(VSF_SPI_CFG_IMP_UPCASE_PREFIX, _SPI, __IDX,  \
+                                   _IRQHandler)(void) {                         \
         uintptr_t ctx = vsf_hal_irq_enter();                                    \
         VSF_MCONNECT(__, VSF_SPI_CFG_IMP_PREFIX, _spi_irqhandler)(              \
-            &VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi, __IDX)                  \
-        );                                                                      \
+            &VSF_MCONNECT(VSF_SPI_CFG_IMP_PREFIX, _spi, __IDX));                \
         vsf_hal_irq_leave(ctx);                                                 \
     }
 

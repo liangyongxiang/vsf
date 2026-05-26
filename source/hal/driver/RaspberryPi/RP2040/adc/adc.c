@@ -415,20 +415,17 @@ static void VSF_MCONNECT(__, VSF_ADC_CFG_IMP_PREFIX, _adc_irqhandler)(
 
 #define VSF_ADC_CFG_IMP_LV0(__IDX, __HAL_OP)                                    \
     VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_t)                                \
-        VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc, __IDX) = {                   \
-        .reg = (adc_hw_t *)VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX,          \
-                                     _ADC, __IDX, _REG),                        \
-        .rst_bit            = VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX,       \
-                                     _ADC, __IDX, _RST_BIT),                    \
-        __HAL_OP                                                                \
-    };                                                                          \
-    VSF_CAL_ROOT void VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX,               \
-                      _ADC, __IDX, _IRQHandler)(void)                           \
-    {                                                                           \
+    VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc, __IDX) = {                       \
+        .reg = (adc_hw_t *)VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX, _ADC,    \
+                                        __IDX, _REG),                           \
+        .rst_bit = VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX, _ADC, __IDX,     \
+                                _RST_BIT),                                      \
+        __HAL_OP};                                                              \
+    VSF_CAL_ROOT void VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX, _ADC, __IDX,  \
+                                   _IRQHandler)(void) {                         \
         uintptr_t ctx = vsf_hal_irq_enter();                                    \
         VSF_MCONNECT(__, VSF_ADC_CFG_IMP_PREFIX, _adc_irqhandler)(              \
-            &VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc, __IDX)                  \
-        );                                                                      \
+            &VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc, __IDX));                \
         vsf_hal_irq_leave(ctx);                                                 \
     }
 

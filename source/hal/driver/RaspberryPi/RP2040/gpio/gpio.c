@@ -469,11 +469,10 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_ctrl)(
 
 #define VSF_GPIO_CFG_IMP_LV0(__IDX, __HAL_OP)                                   \
     VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t)                              \
-        VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio, __IDX) = {                 \
-        .irqn = VSF_MCONNECT(VSF_GPIO_CFG_IMP_UPCASE_PREFIX,                    \
-                             _GPIO, __IDX, _IRQN),                              \
-        __HAL_OP                                                                \
-    };
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio, __IDX) = {                     \
+        .irqn =                                                                 \
+            VSF_MCONNECT(VSF_GPIO_CFG_IMP_UPCASE_PREFIX, _GPIO, __IDX, _IRQN),  \
+        __HAL_OP};
 
 #include "hal/driver/common/gpio/gpio_template.inc"
 

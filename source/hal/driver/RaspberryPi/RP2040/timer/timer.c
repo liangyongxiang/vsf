@@ -423,14 +423,13 @@ static void VSF_MCONNECT(__, VSF_TIMER_CFG_IMP_PREFIX, _timer_irqhandler)(
 #define VSF_TIMER_CFG_IMP_LV0(__IDX, __HAL_OP)                                  \
     VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_t)                            \
     VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer, __IDX) = {                   \
-        .reg = (void *)VSF_MCONNECT(VSF_TIMER_CFG_IMP_UPCASE_PREFIX,            \
-                                     _TIMER, __IDX, _REG),                      \
-        .irqn = VSF_MCONNECT(VSF_TIMER_CFG_IMP_UPCASE_PREFIX,                   \
-                             _TIMER, __IDX, _IRQN),                             \
+        .reg = (void *)VSF_MCONNECT(VSF_TIMER_CFG_IMP_UPCASE_PREFIX, _TIMER,    \
+                                    __IDX, _REG),                               \
+        .irqn = VSF_MCONNECT(VSF_TIMER_CFG_IMP_UPCASE_PREFIX, _TIMER, __IDX,    \
+                             _IRQN),                                            \
         __HAL_OP};                                                              \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_TIMER_CFG_IMP_UPCASE_PREFIX, _TIMER,     \
-                                   __IDX, _IRQHandler)(void)                    \
-    {                                                                           \
+                                   __IDX, _IRQHandler)(void) {                  \
         uintptr_t ctx = vsf_hal_irq_enter();                                    \
         VSF_MCONNECT(__, VSF_TIMER_CFG_IMP_PREFIX, _timer_irqhandler)(          \
             &VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer, __IDX),             \

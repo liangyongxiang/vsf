@@ -503,30 +503,27 @@ static void VSF_MCONNECT(__, VSF_USART_CFG_IMP_PREFIX, _usart_irqhandler)(
 
 #define VSF_USART_CFG_IMP_LV0(__IDX, __HAL_OP)                                  \
     VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t)                            \
-        VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart, __IDX) = {               \
-        .reg     = (void *)VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,        \
-                                        _USART, __IDX, _REG),                   \
-        .irqn    = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                \
-                                _USART, __IDX, _IRQN),                          \
-        .rst_bit = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                \
-                                _USART, __IDX, _RST_BIT),                       \
-        .tx_dma     = NULL,                                                     \
-        .rx_dma     = NULL,                                                     \
-        .tx_dma_ch  = -1,                                                       \
-        .rx_dma_ch  = -1,                                                       \
-        .tx_dreq    = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,             \
-                                   _USART, __IDX, _TX_DREQ),                    \
-        .rx_dreq    = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,             \
-                                   _USART, __IDX, _RX_DREQ),                    \
-        __HAL_OP                                                                \
-    };                                                                          \
-    void VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX,                          \
-                      _USART, __IDX, _IRQHandler)(void)                         \
-    {                                                                           \
+    VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart, __IDX) = {                   \
+        .reg = (void *)VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX, _USART,    \
+                                    __IDX, _REG),                               \
+        .irqn = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX, _USART, __IDX,    \
+                             _IRQN),                                            \
+        .rst_bit = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX, _USART,        \
+                                __IDX, _RST_BIT),                               \
+        .tx_dma = NULL,                                                         \
+        .rx_dma = NULL,                                                         \
+        .tx_dma_ch = -1,                                                        \
+        .rx_dma_ch = -1,                                                        \
+        .tx_dreq = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX, _USART,        \
+                                __IDX, _TX_DREQ),                               \
+        .rx_dreq = VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX, _USART,        \
+                                __IDX, _RX_DREQ),                               \
+        __HAL_OP};                                                              \
+    void VSF_MCONNECT(VSF_USART_CFG_IMP_UPCASE_PREFIX, _USART, __IDX,           \
+                      _IRQHandler)(void) {                                      \
         uintptr_t ctx = vsf_hal_irq_enter();                                    \
         VSF_MCONNECT(__, VSF_USART_CFG_IMP_PREFIX, _usart_irqhandler)(          \
-            &VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart, __IDX)              \
-        );                                                                      \
+            &VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart, __IDX));            \
         vsf_hal_irq_leave(ctx);                                                 \
     }
 

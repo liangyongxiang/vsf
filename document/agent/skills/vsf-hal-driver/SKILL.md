@@ -1,23 +1,23 @@
 ---
 name: vsf-hal-driver
-description: |
-  **UTILITY SKILL** — delegates build/flash/test to vsf-bench skill.
-  Create, implement, audit, or debug VSF HAL LV0 drivers. Handles register-level bugs inside driver `.c` files (wrong register writes, missing clock gates, IRQ handler errors — not application crashes).
-
-  USE FOR:
-  - Full chip port: vendor UART echo → VSF skeleton → test framework → peripheral → clock verify → full suite
-  - Adding peripherals to existing chip ports
-  - Debugging LV0 driver register/IRQ/clock/DMA bugs
-
-  DO NOT USE FOR:
-  - Build, flash, or test only (use vsf-bench — even if driver code was changed)
-  - Pinmux-only changes to vsf_board.c with no driver code written
-  - LV1/LV2 driver layers or framework wrappers (use diagnose skill for layer isolation)
-  - Crashes where a bug ABOVE LV0 (application or LV1 glue) passes bad data to a driver — even if the crash site is inside a driver `.c` file, the root cause is not an LV0 register-level bug
+description: Debug and implement VSF HAL LV0 drivers. Delegates build/flash/test to vsf-bench.
 metadata:
   version: "1.0"
   license: Apache-2.0
 ---
+
+**UTILITY SKILL** — delegates build/flash/test to vsf-bench skill.
+
+USE FOR:
+- Full chip port: vendor UART echo → VSF skeleton → test framework → peripheral → clock verify → full suite
+- Adding peripherals to existing chip ports
+- Debugging LV0 driver register/IRQ/clock/DMA bugs
+
+DO NOT USE FOR:
+- Build, flash, or test only (use vsf-bench — even if driver code was changed)
+- Pinmux-only changes to vsf_board.c with no driver code written
+- LV1/LV2 driver layers or framework wrappers (use diagnose skill for layer isolation)
+- Crashes where a bug ABOVE LV0 (application or LV1 glue) passes bad data to a driver — even if the crash site is inside a driver `.c` file, the root cause is not an LV0 register-level bug
 
 # VSF HAL Driver
 

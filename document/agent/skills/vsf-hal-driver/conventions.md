@@ -31,3 +31,11 @@ Every field in every `vsf_<periph>_cfg_t` config struct passed to `init()` must 
 2. **Documented** — explained with a `// field_name intentionally unused: <reason>` comment directly above the struct store.
 
 Never silently ignore config fields. If a field is inapplicable to the specific chip hardware (e.g., priority not configurable, feature not present in this chip), document why.
+
+## Unsupported hardware features must be honest
+If the chip hardware does not support a VSF HAL feature (e.g., no hardware interrupt line, no DMA, no configurable priority), the driver must **not** emulate it in software and must **not** lie in `capability()`:
+- `capability()->irq_mask` must be `0` when the peripheral has no hardware interrupt.
+- `irq_enable()` / `irq_disable()` must be no-ops with a comment explaining why.
+- Erase/write/read completion callbacks must **not** be invoked synchronously inside the operation function — that is not an interrupt, it is a callback, and it misleads the user into thinking the peripheral supports async operation.
+
+Document the limitation in a comment on `capability()`, `init()`, or the IRQ functions. Never let the user discover the missing feature by debugging a silent no-op or a misleading capability mask.

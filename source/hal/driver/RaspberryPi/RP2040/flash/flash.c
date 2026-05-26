@@ -202,10 +202,6 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_erase_multi_sector)(
     __vsf_rp2040_flash_do_erase(offset, size);
     vsf_unprotect_interrupt(irq_state);
 
-    if (flash_ptr->isr.handler_fn != NULL && (flash_ptr->irq_mask & VSF_FLASH_IRQ_ERASE_MASK)) {
-        flash_ptr->isr.handler_fn(flash_ptr->isr.target_ptr, (vsf_flash_t *)flash_ptr, VSF_FLASH_IRQ_ERASE_MASK);
-    }
-
     return VSF_ERR_NONE;
 }
 
@@ -225,10 +221,6 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_write_multi_sector)(
     __vsf_rp2040_flash_do_program(offset, buffer, size);
     vsf_unprotect_interrupt(irq_state);
 
-    if (flash_ptr->isr.handler_fn != NULL && (flash_ptr->irq_mask & VSF_FLASH_IRQ_WRITE_MASK)) {
-        flash_ptr->isr.handler_fn(flash_ptr->isr.target_ptr, (vsf_flash_t *)flash_ptr, VSF_FLASH_IRQ_WRITE_MASK);
-    }
-
     return VSF_ERR_NONE;
 }
 
@@ -244,10 +236,6 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_read_multi_sector)(
 
     const uint8_t *flash_src = (const uint8_t *)(VSF_HW_FLASH0_XIP_BASE + offset);
     memcpy(buffer, flash_src, size);
-
-    if (flash_ptr->isr.handler_fn != NULL && (flash_ptr->irq_mask & VSF_FLASH_IRQ_READ_MASK)) {
-        flash_ptr->isr.handler_fn(flash_ptr->isr.target_ptr, (vsf_flash_t *)flash_ptr, VSF_FLASH_IRQ_READ_MASK);
-    }
 
     return VSF_ERR_NONE;
 }
@@ -268,7 +256,7 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_get_configuration)(
     VSF_HAL_ASSERT(flash_ptr != NULL);
     VSF_HAL_ASSERT(cfg_ptr != NULL);
 
-    cfg_ptr->isr = flash_ptr->isr;
+    /* RP2040 flash has no hardware interrupt; ISR is not applicable. */
     return VSF_ERR_NONE;
 }
 
@@ -277,7 +265,9 @@ vsf_flash_capability_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_capability)
 ) {
     VSF_HAL_ASSERT(flash_ptr != NULL);
     return (vsf_flash_capability_t) {
-        .irq_mask                   = VSF_FLASH_IRQ_ALL_BITS_MASK,
+        /* RP2040 flash erase/program are synchronous ROM calls;
+         * there is no hardware interrupt line. */
+        .irq_mask                   = 0,
         .base_address               = VSF_HW_FLASH0_XIP_BASE,
         .max_size                   = VSF_HW_FLASH0_SIZE,
         .erase_sector_size          = VSF_HW_FLASH0_SECTOR_SIZE,

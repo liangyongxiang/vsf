@@ -82,10 +82,11 @@ typedef struct VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) {
 
 /*============================ IMPLEMENTATION ================================*/
 
-vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
-                                       vsf_gpio_pin_mask_t pin_mask,
-                                       vsf_gpio_cfg_t *cfg_ptr)
-{
+vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask,
+    vsf_gpio_cfg_t *cfg_ptr
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     VSF_HAL_ASSERT(NULL != cfg_ptr);
     VSF_HAL_ASSERT((pin_mask & ~VSF_HW_GPIO_PIN_MASK) == 0);
@@ -161,10 +162,11 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(VSF_MCON
     return VSF_ERR_NONE;
 }
 
-vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_pin_configuration)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
-                                            uint16_t pin_index,
-                                            vsf_gpio_cfg_t *cfg_ptr)
-{
+vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_pin_configuration)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    uint16_t pin_index,
+    vsf_gpio_cfg_t *cfg_ptr
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     VSF_HAL_ASSERT(NULL != cfg_ptr);
     VSF_HAL_ASSERT(pin_index < VSF_HW_GPIO_PIN_COUNT);
@@ -201,10 +203,11 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_pin_configuration)(VSF
     return VSF_ERR_NONE;
 }
 
-void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_direction)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
-                               vsf_gpio_pin_mask_t pin_mask,
-                               vsf_gpio_pin_mask_t direction_mask)
-{
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_direction)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask,
+    vsf_gpio_pin_mask_t direction_mask
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
 
     vsf_gpio_pin_mask_t out_mask = pin_mask & direction_mask;
@@ -217,47 +220,57 @@ void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_direction)(VSF_MCONNECT(VSF
     }
 }
 
-vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_direction)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
-                                              vsf_gpio_pin_mask_t pin_mask)
-{
+vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_direction)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     return sio_hw->gpio_oe & pin_mask;
 }
 
-void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_input)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
-{
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_input)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     sio_hw->gpio_oe_clr = pin_mask;
 }
 
-void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_output)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
-{
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set_output)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     sio_hw->gpio_oe_set = pin_mask;
 }
 
-void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_switch_direction)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
-{
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_switch_direction)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     sio_hw->gpio_oe_togl = pin_mask;
 }
 
-vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_read)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr)
-{
+vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_read)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     return sio_hw->gpio_in;
 }
 
-vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_read_output_register)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr)
-{
+vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_read_output_register)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     return sio_hw->gpio_out;
 }
 
-void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_write)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
-                       vsf_gpio_pin_mask_t pin_mask,
-                       vsf_gpio_pin_mask_t value)
-{
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_write)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask,
+    vsf_gpio_pin_mask_t value
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
 
     /* Push-pull pins in pin_mask: drive via gpio_out atomic set/clr. */
@@ -281,18 +294,24 @@ void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_write)(VSF_MCONNECT(VSF_GPIO_CF
     }
 }
 
-void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
-{
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_set)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_write)(hw_gpio_ptr, pin_mask, pin_mask);
 }
 
-void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_clear)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
-{
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_clear)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_write)(hw_gpio_ptr, pin_mask, 0);
 }
 
-void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_toggle)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
-{
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_toggle)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
 
     vsf_gpio_pin_mask_t pp_mask = pin_mask & ~hw_gpio_ptr->open_drain_mask;
@@ -306,8 +325,10 @@ void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_toggle)(VSF_MCONNECT(VSF_GPIO_C
     }
 }
 
-void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_output_and_set)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
-{
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_output_and_set)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     /* SIO atomic: program gpio_out before enabling OE, so the pin transitions
      * from input (float) directly to output-high with no intermediate state.
      */
@@ -318,15 +339,18 @@ void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_output_and_set)(VSF_MCONNECT(VS
     sio_hw->gpio_oe_clr = pin_mask & hw_gpio_ptr->open_drain_mask;
 }
 
-void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_output_and_clear)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
-{
+void VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_output_and_clear)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     sio_hw->gpio_clr    = pin_mask;
     sio_hw->gpio_oe_set = pin_mask;
 }
 
-vsf_gpio_capability_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_capability)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr)
-{
+vsf_gpio_capability_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_capability)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr
+) {
     return (vsf_gpio_capability_t){
         .is_async                       = 0,
         .support_output_and_set         = 1,
@@ -339,9 +363,10 @@ vsf_gpio_capability_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_capability)(VS
     };
 }
 
-vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_config)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
-                                      vsf_gpio_exti_irq_cfg_t *cfg_ptr)
-{
+vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_config)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_exti_irq_cfg_t *cfg_ptr
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     VSF_HAL_ASSERT(NULL != cfg_ptr);
     hw_gpio_ptr->exti_cfg = *cfg_ptr;
@@ -349,17 +374,20 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_config)(VSF_MCONN
     return VSF_ERR_NONE;
 }
 
-vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_get_configuration)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
-                                                 vsf_gpio_exti_irq_cfg_t *cfg_ptr)
-{
+vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_get_configuration)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_exti_irq_cfg_t *cfg_ptr
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     VSF_HAL_ASSERT(NULL != cfg_ptr);
     *cfg_ptr = hw_gpio_ptr->exti_cfg;
     return VSF_ERR_NONE;
 }
 
-vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_enable)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
-{
+vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_enable)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
         if (!(pin_mask & ((vsf_gpio_pin_mask_t)1u << i))) { continue; }
@@ -375,8 +403,10 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_enable)(VSF_MCONN
     return VSF_ERR_NONE;
 }
 
-vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_disable)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
-{
+vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_disable)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
         if (!(pin_mask & ((vsf_gpio_pin_mask_t)1u << i))) { continue; }
@@ -388,8 +418,10 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_disable)(VSF_MCON
     return VSF_ERR_NONE;
 }
 
-vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_clear)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
-{
+vsf_gpio_pin_mask_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_clear)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_pin_mask_t pin_mask
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     vsf_gpio_pin_mask_t pending = 0;
     for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
@@ -435,8 +467,11 @@ void IO_BANK0_IRQHandler(void)  // quality: allow-hardcoded-irq
     vsf_hal_irq_leave(ctx);
 }
 
-vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_ctrl)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_ctrl_t ctrl, void *param)
-{
+vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_ctrl)(
+    VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
+    vsf_gpio_ctrl_t ctrl,
+    void *param
+) {
     VSF_HAL_ASSERT(NULL != hw_gpio_ptr);
     VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;

@@ -335,6 +335,23 @@ def check_spin_wait_comment(lines: list[ScanLine]) -> list[Finding]:
     return findings
 
 
+_BARE_VOID_CAST_RE = re.compile(r"\(void\)\s*([a-zA-Z_]\w*)\s*;")
+
+
+def check_bare_void_cast(lines: list[ScanLine]) -> list[Finding]:
+    """Bare (void)param; to silence unused-parameter warnings should use
+    VSF_UNUSED_PARAM(param) instead. The macro is defined in
+    vsf/source/utilities/compiler/__common/__type.h and provides a uniform,
+    searchable pattern across all drivers."""
+    def predicate(sl: ScanLine) -> bool:
+        if sl.in_comment:
+            return False
+        return bool(_BARE_VOID_CAST_RE.search(sl.text))
+    return emit(lines, "bare-void-cast",
+                "bare (void)param cast — use VSF_UNUSED_PARAM(param) instead",
+                predicate, reference="Unused parameter convention")
+
+
 RULES = [
     check_hardcoded_instance_name,
     check_instance_index_branch,
@@ -346,6 +363,7 @@ RULES = [
     check_pinmux_in_driver,
     check_macro_backslash_align,
     check_spin_wait_comment,
+    check_bare_void_cast,
 ]
 
 

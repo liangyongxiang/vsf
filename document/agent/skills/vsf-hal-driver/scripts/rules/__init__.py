@@ -3,8 +3,6 @@
 
 from typing import Callable
 
-from checker_base import Finding
-
 from rules.pattern_rules import (
     rule_hardcoded_address,
     rule_macro_backslash_align,

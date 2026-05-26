@@ -11,8 +11,9 @@
 
 rules:
   - id: hardcoded-instance-name
+    node_type: identifier
     patterns:
-      - '\bVSF_HW_[A-Z]+\d+_(?!(?:SIZE|SECTOR_SIZE|PAGE_SIZE|BLOCK_SIZE|XIP_BASE|SECTOR_NUM|CHANNEL_NUM|CHANNEL_COUNT|PER_INSTANCE)\b)[A-Z_]+\b'
+      - '^VSF_HW_[A-Z]+\d+_(?!(?:SIZE|SECTOR_SIZE|PAGE_SIZE|BLOCK_SIZE|XIP_BASE|SECTOR_NUM|CHANNEL_NUM|CHANNEL_COUNT|PER_INSTANCE)$)[A-Z_]+$'
     skip_in_imp_lv0: true
     message: >-
       per-instance literal (VSF_HW_<P><N>_*) outside IMP_LV0 —
@@ -31,8 +32,9 @@ rules:
     reference: Per-instance parameterization in device.h
 
   - id: hardcoded-irq
+    node_type: identifier
     patterns:
-      - '(?<!\w)(?<!VSF_HW_)[A-Z][A-Za-z0-9_]*_(?:IRQn|IRQHandler)\b'
+      - '^(?!VSF_HW_)[A-Z][A-Za-z0-9_]*_(?:IRQn|IRQHandler)$'
     skip_in_imp_lv0: true
     message: >-
       literal IRQ name — should come from VSF_HW_<P><N>_IRQN macro
@@ -40,10 +42,11 @@ rules:
     reference: Per-instance parameterization in device.h
 
   - id: hardcoded-reset
+    node_type: identifier
     patterns:
-      - '\bRESETS_RESET_[A-Z][A-Z0-9_]*_(?:LSB|MSB|BITS|MASK|RESET|ACCESS)\b'
-      - '\b(?:RESET|RST)_[A-Z]+\d+\b'
-      - '\b(?:RESET|RST)_(?:ADC|BUSCTRL|DMA|JTAG|PWM|RTC|SYSCFG|SYSINFO|TBMAN|TIMER|USBCTRL|PLL_SYS|PLL_USB|IO_BANK\d|IO_QSPI|PADS_BANK\d|PADS_QSPI)\b'
+      - '^RESETS_RESET_[A-Z][A-Z0-9_]*_(?:LSB|MSB|BITS|MASK|RESET|ACCESS)$'
+      - '^(?:RESET|RST)_[A-Z]+\d+$'
+      - '^(?:RESET|RST)_(?:ADC|BUSCTRL|DMA|JTAG|PWM|RTC|SYSCFG|SYSINFO|TBMAN|TIMER|USBCTRL|PLL_SYS|PLL_USB|IO_BANK\d|IO_QSPI|PADS_BANK\d|PADS_QSPI)$'
     skip_in_imp_lv0: true
     message: >-
       literal reset bit / register — pass it through as a per-instance
@@ -51,9 +54,10 @@ rules:
     reference: Per-instance parameterization in device.h
 
   - id: hardcoded-clock
+    node_type: identifier
     patterns:
-      - '\b(?:CLK|CLOCK)_[A-Z]+\d+\b'
-      - '\bRCC_[A-Z0-9_]*EN\b'
+      - '^(?:CLK|CLOCK)_[A-Z]+\d+$'
+      - '^RCC_[A-Z0-9_]*EN$'
     skip_in_imp_lv0: true
     message: >-
       literal clock gate — parameterize as a per-instance macro
@@ -70,11 +74,12 @@ rules:
     reference: Macro prefix convention
 
   - id: pinmux-in-driver
+    node_types: [identifier, field_expression]
     patterns:
-      - '\bgpio_set_function\b'
-      - '\bio_bank0_hw\s*->'
-      - '\bsio_hw\s*->\s*gpio_oe\b'
-      - '\bvsf_gpio_port_config_pins\s*\('
+      - '^gpio_set_function$'
+      - '^io_bank0_hw\s*->'
+      - '^sio_hw\s*->\s*gpio_oe$'
+      - '^vsf_gpio_port_config_pins$'
     skip_in_imp_lv0: false
     message: pinmux call in peripheral driver — move to board file
     reference: Board wiring

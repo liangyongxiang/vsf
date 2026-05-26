@@ -31,6 +31,7 @@ from checker_base import (
     preprocess,
     load_pattern_rules,
     check_pattern_rules,
+    check_ast_pattern_rules,
 )
 from rules import ALL_PATTERN_RULES, ALL_FUNC_RULES
 
@@ -70,8 +71,15 @@ def check_file(path: Path) -> tuple[list[Finding], list[Finding]]:
     error_findings: list[Finding] = []
     warn_findings: list[Finding] = []
 
-    # YAML pattern rules
-    for f in check_pattern_rules(lines, _PATTERN_RULES, path):
+    # YAML pattern rules (split by AST vs line-based)
+    ast_rules = [r for r in _PATTERN_RULES if r.get("node_type") or r.get("node_types")]
+    line_rules = [r for r in _PATTERN_RULES if not (r.get("node_type") or r.get("node_types"))]
+
+    for f in check_ast_pattern_rules(text, ast_rules, path):
+        if f.rule_id not in skip:
+            error_findings.append(f)
+
+    for f in check_pattern_rules(lines, line_rules, path):
         if f.rule_id not in skip:
             error_findings.append(f)
 

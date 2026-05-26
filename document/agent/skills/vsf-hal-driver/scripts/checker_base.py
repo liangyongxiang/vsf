@@ -286,6 +286,67 @@ def check_pattern_rules(lines: list[ScanLine], rules: list[dict],
     return findings
 
 
+def check_ast_pattern_rules(text: str, rules: list[dict],
+                            filepath: Path) -> list[Finding]:
+    """Apply pattern-based rules to specific AST node types via tree-sitter.
+
+    Each rule may specify:
+        node_type:   str or list of AST node type names to traverse
+        patterns:    list of regex strings matched against node.text.decode()
+        skip_in_imp_lv0: bool (default True)
+        message, reference: standard Finding fields
+    """
+    tree = _parser().parse(text.encode(), encoding="utf8")
+    root = tree.root_node
+
+    # Collect line-level suppressions
+    suppress: dict[int, set[str]] = {}
+    for i, raw in enumerate(text.splitlines(), start=1):
+        suppress[i] = set(_SUPPRESS_RE.findall(raw))
+
+    # Collect IMP_LV0 line ranges
+    imp_lv0_lines: set[int] = set()
+    for node in _walk_all(root):
+        if node.type in ("preproc_def", "preproc_function_def"):
+            if "_IMP_LV0" in node.text.decode():
+                for ln in range(node.start_point[0] + 1, node.end_point[0] + 2):
+                    imp_lv0_lines.add(ln)
+
+    findings: list[Finding] = []
+
+    for rule in rules:
+        node_types = rule.get("node_type") or rule.get("node_types")
+        if not node_types:
+            continue
+        if isinstance(node_types, str):
+            node_types = [node_types]
+
+        compiled = [re.compile(p) for p in rule["patterns"]]
+        skip_lv0 = rule.get("skip_in_imp_lv0", True)
+        rule_id = rule["id"]
+
+        for node in _walk_all(root):
+            if node.type not in node_types:
+                continue
+
+            line_no = node.start_point[0] + 1
+            if rule_id in suppress.get(line_no, set()):
+                continue
+            if skip_lv0 and line_no in imp_lv0_lines:
+                continue
+
+            node_text = node.text.decode()
+            for r in compiled:
+                if r.search(node_text):
+                    findings.append(Finding(
+                        filepath, line_no, rule_id,
+                        rule["message"], rule.get("reference"),
+                    ))
+                    break
+
+    return findings
+
+
 # ---------------------------------------------------------------- tree helpers
 
 def _walk_all(node: Node):

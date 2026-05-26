@@ -34,13 +34,6 @@
 #define VSF_FLASH_CFG_IMP_PREFIX                vsf_hw
 #define VSF_FLASH_CFG_IMP_UPCASE_PREFIX         VSF_HW
 
-/* RP2040 flash parameters */
-#define RP2040_FLASH_BASE_ADDRESS               XIP_BASE
-#define RP2040_FLASH_SIZE                       (2 * 1024 * 1024)
-#define RP2040_FLASH_SECTOR_SIZE                4096
-#define RP2040_FLASH_PAGE_SIZE                  256
-#define RP2040_FLASH_BLOCK_SIZE                 65536
-
 /* ROM function codes */
 #define ROM_TABLE_CODE(c1, c2)                  ((c1) | ((c2) << 8))
 #define ROM_FUNC_CONNECT_INTERNAL_FLASH         ROM_TABLE_CODE('I', 'F')
@@ -104,7 +97,7 @@ static void __attribute__((section(".time_critical"))) __vsf_rp2040_flash_do_era
     if (connect && exit_xip && erase && flush && enter_xip) {
         connect();
         exit_xip();
-        erase(offset, size, RP2040_FLASH_BLOCK_SIZE, 0xd8);
+        erase(offset, size, VSF_HW_FLASH0_BLOCK_SIZE, 0xd8);
         flush();
         enter_xip();
     }
@@ -194,9 +187,9 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_erase_multi_sector)(
     vsf_flash_size_t size
 ) {
     VSF_HAL_ASSERT(flash_ptr != NULL);
-    VSF_HAL_ASSERT((offset % RP2040_FLASH_SECTOR_SIZE) == 0);
-    VSF_HAL_ASSERT((size % RP2040_FLASH_SECTOR_SIZE) == 0);
-    VSF_HAL_ASSERT((offset + size) <= RP2040_FLASH_SIZE);
+    VSF_HAL_ASSERT((offset % VSF_HW_FLASH0_SECTOR_SIZE) == 0);
+    VSF_HAL_ASSERT((size % VSF_HW_FLASH0_SECTOR_SIZE) == 0);
+    VSF_HAL_ASSERT((offset + size) <= VSF_HW_FLASH0_SIZE);
 
     vsf_gint_state_t irq_state = vsf_protect_interrupt();
     __vsf_rp2040_flash_do_erase(offset, size);
@@ -217,9 +210,9 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_write_multi_sector)(
 ) {
     VSF_HAL_ASSERT(flash_ptr != NULL);
     VSF_HAL_ASSERT(buffer != NULL);
-    VSF_HAL_ASSERT((offset % RP2040_FLASH_PAGE_SIZE) == 0);
-    VSF_HAL_ASSERT((size % RP2040_FLASH_PAGE_SIZE) == 0);
-    VSF_HAL_ASSERT((offset + size) <= RP2040_FLASH_SIZE);
+    VSF_HAL_ASSERT((offset % VSF_HW_FLASH0_PAGE_SIZE) == 0);
+    VSF_HAL_ASSERT((size % VSF_HW_FLASH0_PAGE_SIZE) == 0);
+    VSF_HAL_ASSERT((offset + size) <= VSF_HW_FLASH0_SIZE);
 
     vsf_gint_state_t irq_state = vsf_protect_interrupt();
     __vsf_rp2040_flash_do_program(offset, buffer, size);
@@ -240,9 +233,9 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_read_multi_sector)(
 ) {
     VSF_HAL_ASSERT(flash_ptr != NULL);
     VSF_HAL_ASSERT(buffer != NULL);
-    VSF_HAL_ASSERT((offset + size) <= RP2040_FLASH_SIZE);
+    VSF_HAL_ASSERT((offset + size) <= VSF_HW_FLASH0_SIZE);
 
-    const uint8_t *flash_src = (const uint8_t *)(RP2040_FLASH_BASE_ADDRESS + offset);
+    const uint8_t *flash_src = (const uint8_t *)(VSF_HW_FLASH0_XIP_BASE + offset);
     memcpy(buffer, flash_src, size);
 
     if (flash_ptr->isr.handler_fn != NULL && (flash_ptr->irq_mask & VSF_FLASH_IRQ_READ_MASK)) {
@@ -278,10 +271,10 @@ vsf_flash_capability_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_capability)
     VSF_HAL_ASSERT(flash_ptr != NULL);
     return (vsf_flash_capability_t) {
         .irq_mask                   = VSF_FLASH_IRQ_ALL_BITS_MASK,
-        .base_address               = RP2040_FLASH_BASE_ADDRESS,
-        .max_size                   = RP2040_FLASH_SIZE,
-        .erase_sector_size          = RP2040_FLASH_SECTOR_SIZE,
-        .write_sector_size          = RP2040_FLASH_PAGE_SIZE,
+        .base_address               = VSF_HW_FLASH0_XIP_BASE,
+        .max_size                   = VSF_HW_FLASH0_SIZE,
+        .erase_sector_size          = VSF_HW_FLASH0_SECTOR_SIZE,
+        .write_sector_size          = VSF_HW_FLASH0_PAGE_SIZE,
         .none_sector_aligned_write  = 0,
         .none_sector_aligned_read   = 1,
     };

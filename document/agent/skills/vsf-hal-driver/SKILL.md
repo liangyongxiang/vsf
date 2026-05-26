@@ -3,8 +3,8 @@ name: vsf-hal-driver
 description: |
   Create, implement, modify, audit, or debug VSF HAL LV0 (register-level) drivers.
   **UTILITY SKILL** — INVOKES: vsf-bench (for verification).
-  USE FOR: porting new chips, adding peripherals, fixing driver bugs.
-  DO NOT USE FOR: build/flash/test (use vsf-bench), BSP pinmux changes.
+  USE FOR: porting new chips, adding peripherals, fixing LV0 driver bugs (register/IRQ/clock/DMA, not app logic).
+  DO NOT USE FOR: build/flash/test (use vsf-bench), BSP pinmux, LV1/LV2 layers.
 metadata:
   version: "1.0"
   license: Apache-2.0
@@ -32,15 +32,16 @@ scaffold_peripheral.py --driver-dir source/hal/driver --chip Vendor/Chip --perip
 
 ## Conventions
 
-- Per-instance values via device.h + VSF_MCONNECT in IMP_LV0.
-- Spin-wait loops need comment with <X us.
+- Per-instance values via device.h macros + VSF_MCONNECT.
+- Spin-wait loops need comment with `< X us`.
 - No pinmux in driver (board file only).
 - Unimplemented APIs: return VSF_ERR_NOT_SUPPORT + VSF_HAL_ASSERT(0).
-- Enable clocks before access; fini() disables IRQs, aborts DMA.
+- Enable clocks before access; fini() disables IRQs and aborts DMA.
 
 ## Error handling
 
-- Fix: edit .c/.h directly; run `check-driver-quality.py` before `vsf-bench`.
-- scaffold fails: verify `--chip` path; edit directly if dir exists.
+- Fix: edit .c/.h; run `check-driver-quality.py` before `vsf-bench`.
+- scaffold fails: verify --chip path; edit directly if dir exists.
 - Test fails: run `gpio_io_check` first; check hardware-map.yml for errors.
+- IRQ not firing: verify NVIC enable in init() + handler name matches IMP_LV0 expansion.
 - False positive: only suppress with `// quality: allow-<rule-id>` after confirming; always prefer root cause fix.

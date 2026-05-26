@@ -82,12 +82,16 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_init)(
 
     __rp2040_dma_reset(dma_ptr->rst_bit);
 
+    /* Note: cfg_ptr->prio is NVIC IRQ priority (pre-emption), not DMA channel
+     * arbitration priority.  RP2040 DMA channel arbitration is fixed in
+     * hardware (lower channel number always wins); it cannot be changed. */
     dma_ptr->cfg = *cfg_ptr;
     dma_ptr->channel_mask = 0;
     for (uint8_t i = 0; i < RP2040_DMA_CHANNEL_COUNT; i++) {
         dma_ptr->channels[i].total_count = 0;
     }
 
+    NVIC_SetPriority(dma_ptr->irqn, cfg_ptr->prio);
     NVIC_EnableIRQ(dma_ptr->irqn);
 
     return VSF_ERR_NONE;
@@ -97,6 +101,8 @@ void VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_fini)(
     VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) *dma_ptr)
 {
     VSF_HAL_ASSERT(dma_ptr != NULL);
+
+    NVIC_DisableIRQ(dma_ptr->irqn);
 
     dma_hw_t *hw = dma_ptr->reg;
     /* Spin-wait: abort all channels; each takes a few AHB cycles (< 1 us total). */

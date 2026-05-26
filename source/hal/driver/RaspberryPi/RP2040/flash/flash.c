@@ -50,8 +50,6 @@ typedef struct VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_t) {
 #if VSF_HW_FLASH_CFG_MULTI_CLASS == ENABLED
     vsf_flash_t             vsf_flash;
 #endif
-    vsf_flash_isr_t         isr;
-    vsf_flash_irq_mask_t    irq_mask;
 } VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_t);
 
 typedef void *(*rom_table_lookup_fn)(uint16_t *table, uint32_t code);
@@ -137,8 +135,8 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_init)(
     VSF_HAL_ASSERT(flash_ptr != NULL);
     VSF_HAL_ASSERT(cfg_ptr != NULL);
 
-    flash_ptr->isr = cfg_ptr->isr;
-    flash_ptr->irq_mask = 0;
+    /* RP2040 flash has no hardware interrupt.  erase/program are synchronous
+     * ROM function calls; there is no async completion signal. */
     return VSF_ERR_NONE;
 }
 
@@ -167,7 +165,8 @@ void VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_irq_enable)(
     vsf_flash_irq_mask_t irq_mask
 ) {
     VSF_HAL_ASSERT(flash_ptr != NULL);
-    flash_ptr->irq_mask |= irq_mask;
+    /* RP2040 flash has no hardware interrupt line.  No-op. */
+    (void)irq_mask;
 }
 
 void VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_irq_disable)(
@@ -175,7 +174,8 @@ void VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_irq_disable)(
     vsf_flash_irq_mask_t irq_mask
 ) {
     VSF_HAL_ASSERT(flash_ptr != NULL);
-    flash_ptr->irq_mask &= ~irq_mask;
+    /* RP2040 flash has no hardware interrupt line.  No-op. */
+    (void)irq_mask;
 }
 
 vsf_flash_irq_mask_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_irq_clear)(
@@ -183,6 +183,8 @@ vsf_flash_irq_mask_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_irq_clear)(
     vsf_flash_irq_mask_t irq_mask
 ) {
     VSF_HAL_ASSERT(flash_ptr != NULL);
+    /* RP2040 flash has no hardware interrupt line.  Nothing to clear. */
+    (void)irq_mask;
     return 0;
 }
 

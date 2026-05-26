@@ -284,6 +284,54 @@ def check_irqn_usage(
     return findings
 
 
+def check_driver_h_includes(driver_h: Path, files: set[str]) -> list[tuple[str, str]]:
+    """Check that driver.h includes each peripheral header *before* the
+    corresponding #if VSF_HAL_USE_<PERIPH> template block.
+    """
+    findings: list[tuple[str, str]] = []
+    if not driver_h.is_file():
+        return findings
+
+    text = driver_h.read_text(encoding="utf-8")
+    for short in sorted(files):
+        h_file = f"{short}/{short}.h"
+        # Find the template block for this peripheral
+        block_re = re.compile(
+            rf'#if\s+VSF_HAL_USE_{_macro_suffix(short)}\s*==\s*ENABLED',
+            re.MULTILINE,
+        )
+        for m in block_re.finditer(text):
+            block_start = m.start()
+            # Look for the include in the text *before* this block
+            before = text[:block_start]
+            if h_file not in before:
+                findings.append(
+                    (short, f"{h_file} not included before #if VSF_HAL_USE_{_macro_suffix(short)} in {driver_h.name}")
+                )
+            break   # one check per peripheral
+    return findings
+
+
+def check_device_h_mask(device_h: Path, declarations: dict[str, dict]) -> list[tuple[str, str]]:
+    """Check that every COUNT > 0 peripheral also has a MASK macro."""
+    findings: list[tuple[str, str]] = []
+    if not device_h.is_file():
+        return findings
+
+    text = device_h.read_text(encoding="utf-8")
+    for short, info in sorted(declarations.items()):
+        if info["count"] == 0:
+            continue
+        upper = info["upper"]
+        # Check for VSF_HW_<UPPER>_MASK
+        mask_re = re.compile(rf'^\s*#\s*define\s+VSF_HW_{re.escape(upper)}_MASK\b', re.MULTILINE)
+        if not mask_re.search(text):
+            findings.append(
+                (short, f"VSF_HW_{upper}_COUNT={info['count']} but VSF_HW_{upper}_MASK is missing — required for acquire_from_all")
+            )
+    return findings
+
+
 def audit(
     chip: str,
     driver_dir: Path,
@@ -378,6 +426,18 @@ def audit(
     irqn_findings = check_irqn_usage(chip_dir, periph_irqns)
     for short, msg in irqn_findings:
         print(f"[hardcoded-irq] {short}: {msg}")
+        errors += 1
+
+    # 8. driver.h include order: peripheral headers before template blocks
+    driver_h_include_findings = check_driver_h_includes(driver_h, files)
+    for short, msg in driver_h_include_findings:
+        print(f"[driver-h-include] {short}: {msg}")
+        errors += 1
+
+    # 9. device.h mask macros: every COUNT > 0 needs a MASK macro
+    mask_findings = check_device_h_mask(device_h, declarations)
+    for short, msg in mask_findings:
+        print(f"[missing-mask] {short}: {msg}")
         errors += 1
 
     print()

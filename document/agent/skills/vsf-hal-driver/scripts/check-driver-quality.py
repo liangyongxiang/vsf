@@ -28,10 +28,12 @@ from typing import Iterable
 from checker_base import (
     EXIT_PASS,
     EXIT_ERROR,
+    EXIT_WARNING,
     Finding,
     ScanLine,
     preprocess,
     emit,
+    extract_functions,
 )
 
 
@@ -352,6 +354,26 @@ def check_bare_void_cast(lines: list[ScanLine]) -> list[Finding]:
                 predicate, reference="Unused parameter convention")
 
 
+
+
+# ── debug-logging ──
+_DEBUG_LOG_RE = re.compile(
+    r'\b(vsf_trace_info|vsf_trace_debug|vsf_trace_warning|vsf_trace_error|printf)\s*\(',
+)
+
+
+def check_debug_logging(lines: list[ScanLine]) -> list[Finding]:
+    """Diagnostic output is acceptable during bring-up but must be stripped
+    before the driver is considered complete."""
+    def predicate(sl: ScanLine) -> bool:
+        if sl.in_comment:
+            return False
+        return bool(_DEBUG_LOG_RE.search(sl.text))
+    return emit(lines, "debug-logging",
+                "debug/trace call in driver — remove before marking driver complete",
+                predicate, reference="No debug logging in final driver")
+
+
 RULES = [
     check_hardcoded_instance_name,
     check_instance_index_branch,
@@ -364,6 +386,195 @@ RULES = [
     check_macro_backslash_align,
     check_spin_wait_comment,
     check_bare_void_cast,
+    check_debug_logging,
+]
+
+
+# ---------------------------------------------------------------- function-level checks
+
+
+def _line_in_func(func: dict, needle: str) -> int:
+    """Return 0-based line index of first occurrence of *needle* in function body,
+    or -1 if not found."""
+    for i, line in enumerate(func["lines"]):
+        if needle in line:
+            return i
+    return -1
+
+
+def _func_has_any(func: dict, *needles: str) -> bool:
+    """Return True if any needle appears anywhere in the function body."""
+    body = func["body"]
+    return any(n in body for n in needles)
+
+
+def check_nvic_priority_order(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:
+    """In init(), NVIC_SetPriority must come before NVIC_EnableIRQ."""
+    errors: list[Finding] = []
+    for func in funcs:
+        if "_init" not in func["name"]:
+            continue
+        setprio = _line_in_func(func, "NVIC_SetPriority")
+        enable = _line_in_func(func, "NVIC_EnableIRQ")
+        if enable < 0:
+            continue                    # no NVIC enable — nothing to check
+        if setprio < 0:
+            errors.append(Finding(
+                path, func["start_line"] + enable, "nvic-priority-order",
+                f"{func['name']} calls NVIC_EnableIRQ without preceding NVIC_SetPriority",
+                reference="IRQ enable in init()",
+            ))
+        elif setprio >= enable:
+            errors.append(Finding(
+                path, func["start_line"] + enable, "nvic-priority-order",
+                f"NVIC_EnableIRQ appears before NVIC_SetPriority in {func['name']}",
+                reference="IRQ enable in init()",
+            ))
+    return errors, []
+
+
+def check_init_has_reset(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:
+    """init() that uses NVIC should also deassert the peripheral reset."""
+    warnings: list[Finding] = []
+    reset_markers = ("reset_hw", "resets_hw", "RST_BIT", "rst_bit", "reset &=", "reset |=")
+    for func in funcs:
+        if "_init" not in func["name"]:
+            continue
+        if not _func_has_any(func, "NVIC_EnableIRQ"):
+            continue                    # not a real init — skip
+        if not _func_has_any(func, *reset_markers):
+            warnings.append(Finding(
+                path, func["start_line"], "init-has-reset",
+                f"{func['name']} has NVIC_EnableIRQ but no reset deassert — "
+                f"add reset_hw->reset &= ~rst_bit",
+                reference="Clock and reset",
+                severity="warn",
+            ))
+    return [], warnings
+
+
+def check_init_has_clock(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:
+    """init() that uses NVIC should also enable the peripheral clock gate."""
+    warnings: list[Finding] = []
+    clock_markers = ("clk_bit", "CLK_BIT", "clock_hw", "clock_get_hz",
+                     "AHBENR", "APBENR", "AHB1ENR", "APB1ENR",
+                     "vsf_hw_peripheral_enable", "peripheral_enable")
+    for func in funcs:
+        if "_init" not in func["name"]:
+            continue
+        if not _func_has_any(func, "NVIC_EnableIRQ"):
+            continue
+        if not _func_has_any(func, *clock_markers):
+            warnings.append(Finding(
+                path, func["start_line"], "init-has-clock",
+                f"{func['name']} has NVIC_EnableIRQ but no clock gate enable — "
+                f"add clock enable before register access",
+                reference="Clock and reset",
+                severity="warn",
+            ))
+    return [], warnings
+
+
+def check_fini_nvic_order(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:
+    """fini() must call NVIC_DisableIRQ before clearing peripheral IRQ enable bits."""
+    errors: list[Finding] = []
+    for func in funcs:
+        if "_fini" not in func["name"]:
+            continue
+        disable = _line_in_func(func, "NVIC_DisableIRQ")
+        if disable < 0:
+            continue
+        # Look for peripheral-level IRQ clear (e.g. reg->IER &= ~mask)
+        peri_clear = -1
+        for i, line in enumerate(func["lines"]):
+            if re.search(r'reg->\w+\s*&=\s*~', line):
+                peri_clear = i
+                break
+        if peri_clear >= 0 and disable > peri_clear:
+            errors.append(Finding(
+                path, func["start_line"] + disable, "fini-nvic-order",
+                f"NVIC_DisableIRQ appears after peripheral IRQ clear in {func['name']} — "
+                f"disable NVIC first to prevent racing IRQ pends",
+                reference="IRQ disable in fini()",
+            ))
+    return errors, []
+
+
+def check_irq_disable_nvic_leak(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:
+    """irq_disable() must only clear peripheral-level IRQ bits; never call NVIC_DisableIRQ."""
+    errors: list[Finding] = []
+    for func in funcs:
+        if "_irq_disable" not in func["name"]:
+            continue
+        for i, line in enumerate(func["lines"]):
+            if "NVIC_DisableIRQ" in line:
+                errors.append(Finding(
+                    path, func["start_line"] + i, "irq-disable-nvic-leak",
+                    f"{func['name']} calls NVIC_DisableIRQ — "
+                    f"peripheral irq_disable must only clear reg->IER bits; "
+                    f"NVIC_DisableIRQ belongs in fini()",
+                    reference="NVIC and peripheral IRQ separation",
+                ))
+                break
+    return errors, []
+
+
+def check_init_null_isr(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:
+    """init() with NVIC_EnableIRQ should handle cfg_ptr->isr.handler_fn == NULL
+    by ensuring interrupts are disabled (NVIC_DisableIRQ or clearing peripheral
+    IRQ enable bits)."""
+    warnings: list[Finding] = []
+    for func in funcs:
+        if "_init" not in func["name"]:
+            continue
+        if not _func_has_any(func, "NVIC_EnableIRQ"):
+            continue
+        # Match either explicit == NULL or != NULL branch
+        has_null_check = bool(re.search(
+            r'handler_fn\s*[!=]=\s*NULL|NULL\s*[!=]=\s*handler_fn',
+            func["body"]
+        ))
+        if not has_null_check:
+            warnings.append(Finding(
+                path, func["start_line"], "init-null-isr-no-disable",
+                f"{func['name']} enables NVIC unconditionally — "
+                f"add a handler_fn != NULL guard; when NULL call NVIC_DisableIRQ(irqn)",
+                reference="Init without ISR handler",
+                severity="warn",
+            ))
+    return [], warnings
+
+
+def check_silent_freq_default(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:
+    """cfg_ptr->clock_hz (or freq) being 0 must return VSF_ERR_INVALID_PARAMETER;
+    silently substituting a default hides the misconfiguration."""
+    errors: list[Finding] = []
+    _freq_default_re = re.compile(
+        r'\bif\s*\(\s*(?:freq|clock_hz)\s*==\s*0\s*\)\s*\{?\s*\b(?:freq|clock_hz)\s*=',
+        re.IGNORECASE | re.DOTALL,
+    )
+    for func in funcs:
+        m = _freq_default_re.search(func["body"])
+        if m:
+            # Find the line number of the match
+            line_offset = func["body"][:m.start()].count("\n")
+            errors.append(Finding(
+                path, func["start_line"] + line_offset, "silent-freq-default",
+                f"{func['name']} silently substitutes default frequency for 0 — "
+                f"return VSF_ERR_INVALID_PARAMETER instead",
+                reference="Invalid frequency",
+            ))
+    return errors, []
+
+
+FUNC_RULES = [
+    check_nvic_priority_order,
+    check_init_has_reset,
+    check_init_has_clock,
+    check_fini_nvic_order,
+    check_irq_disable_nvic_leak,
+    check_init_null_isr,
+    check_silent_freq_default,
 ]
 
 
@@ -389,18 +600,30 @@ def filename_skip_rules(path: Path) -> set[str]:
     return skipped
 
 
-def check_file(path: Path) -> list[Finding]:
+def check_file(path: Path) -> tuple[list[Finding], list[Finding]]:
     text = path.read_text()
     lines = preprocess(text)
     skip = filename_skip_rules(path)
-    findings: list[Finding] = []
+    error_findings: list[Finding] = []
+    warn_findings: list[Finding] = []
+
     for rule in RULES:
         for f in rule(lines):
             if f.rule_id in skip:
                 continue
             f.file = path
-            findings.append(f)
-    return findings
+            if f.severity == "warn":
+                warn_findings.append(f)
+            else:
+                error_findings.append(f)
+
+    funcs = extract_functions(text)
+    for checker in FUNC_RULES:
+        errs, warns = checker(funcs, path)
+        error_findings.extend(errs)
+        warn_findings.extend(warns)
+
+    return error_findings, warn_findings
 
 
 # ---------------------------------------------------------------- main
@@ -419,16 +642,22 @@ def main(argv: list[str]) -> int:
             return EXIT_ERROR
         paths.append(p)
 
-    all_findings: list[Finding] = []
+    all_errors: list[Finding] = []
+    all_warns: list[Finding] = []
     for p in paths:
-        all_findings.extend(check_file(p))
+        errs, warns = check_file(p)
+        all_errors.extend(errs)
+        all_warns.extend(warns)
 
-    for f in all_findings:
+    for f in all_errors + all_warns:
         print(f.render())
 
-    if all_findings:
-        print(f"\nFAIL: {len(all_findings)} finding(s) in {len(paths)} file(s)")
+    if all_errors:
+        print(f"\nFAIL: {len(all_errors)} error(s), {len(all_warns)} warning(s)")
         return EXIT_ERROR
+    elif all_warns:
+        print(f"\nPASS: {len(all_warns)} warning(s) (review and proceed)")
+        return EXIT_WARNING
     print(f"PASS: {len(paths)} file(s) clean")
     return EXIT_PASS
 

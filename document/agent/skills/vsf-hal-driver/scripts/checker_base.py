@@ -22,10 +22,12 @@ class Finding:
     rule_id: str
     message: str
     reference: str | None = None
+    severity: str = "error"  # "error" or "warn"
 
     def render(self) -> str:
         ref = f"  (see REFERENCE.md: {self.reference})" if self.reference else ""
-        return f"{self.file}:{self.line}: [{self.rule_id}] {self.message}{ref}"
+        sev_tag = "WARN" if self.severity == "warn" else "FAIL"
+        return f"{self.file}:{self.line}: [{self.rule_id}] {sev_tag}: {self.message}{ref}"
 
 
 # ---------------------------------------------------------------- scan line context
@@ -138,3 +140,145 @@ class ResultAccumulator:
         else:
             print("PASS: all checks passed")
             return EXIT_PASS
+
+
+# ---------------------------------------------------------------- function extraction
+
+
+_KEYWORDS_BEFORE_BRACE = frozenset({
+    "struct", "union", "enum", "typedef", "for", "while", "if",
+    "switch", "do",
+})
+
+
+def extract_functions(text: str) -> list[dict]:
+    """Extract top-level C function definitions from source text.
+
+    Scans line-by-line looking for function signatures that end with ')'
+    and are followed by '{'.  Uses brace counting to find the matching '}'.
+    Filters out struct/enum/union definitions, initialisers, and control-flow
+    blocks.
+
+    Returns a list of dicts with keys:
+        - name: function name
+        - body: full body text (including braces)
+        - start_line: 1-based line number of the function signature start
+        - end_line:   1-based line number of the closing brace
+        - lines:      list of body lines (including the opening-brace line)
+    """
+    lines = text.splitlines()
+    funcs: list[dict] = []
+
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        stripped = line.strip()
+
+        # Skip preprocessor, comments, empty lines
+        if (
+            not stripped
+            or stripped.startswith("#")
+            or stripped.startswith("//")
+            or stripped.startswith("/*")
+            or stripped.endswith("*/")
+        ):
+            i += 1
+            continue
+
+        # Heuristic: a function signature must contain '(' within the first
+        # few lines.  If the current line has no '(' and neither do the next
+        # two lines, this is not a function start.
+        has_paren = "(" in stripped
+        if not has_paren:
+            next_has_paren = any(
+                "(" in lines[k].strip()
+                for k in range(i + 1, min(i + 3, len(lines)))
+                if not lines[k].strip().startswith("#")
+            )
+            if not next_has_paren:
+                i += 1
+                continue
+
+        # Accumulate signature lines until we find )
+        sig_lines: list[str] = []
+        found_open_paren = False
+        found_close_paren = False
+        j = i
+
+        while j < len(lines):
+            sig_lines.append(lines[j])
+            s = lines[j].strip()
+            if "(" in s and not s.startswith("#"):
+                found_open_paren = True
+            if found_open_paren and ")" in s:
+                found_close_paren = True
+            if found_close_paren and "{" in s:
+                break
+            if ";" in s and found_open_paren:
+                # Declaration, not definition
+                break
+            if "{" in s and not found_close_paren:
+                # Not a function (struct, if, etc.)
+                break
+            j += 1
+
+        full_sig = "\n".join(sig_lines)
+
+        # Must have both ) and { in the accumulated signature
+        if not (found_close_paren and "{" in full_sig):
+            i += 1
+            continue
+
+        # Skip declarations
+        if ";" in full_sig:
+            i = j + 1
+            continue
+
+        # Skip struct/enum/union and control-flow blocks by first word
+        first_line = lines[i].strip()
+        skip_prefixes = _KEYWORDS_BEFORE_BRACE
+        if any(first_line.startswith(p) for p in skip_prefixes):
+            i = j + 1
+            continue
+
+        # Skip initialisers (e.g. struct foo bar = { ... }; )
+        if "= {" in full_sig:
+            i = j + 1
+            continue
+
+        # Extract function name
+        sig_flat = full_sig.replace("\n", " ")
+        if "VSF_MCONNECT" in sig_flat:
+            m_name = re.search(r'VSF_MCONNECT\s*\([^)]*,\s*(_\w+)\)', sig_flat)
+            func_name = m_name.group(1) if m_name else "unknown"
+        else:
+            m_name = re.search(r'(\w+)\s*\(', sig_flat)
+            func_name = m_name.group(1) if m_name else "unknown"
+
+        # Extract body with brace counting
+        body_lines: list[str] = []
+        brace_depth = 0
+        k = j
+        while k < len(lines):
+            body_lines.append(lines[k])
+            brace_depth += lines[k].count("{")
+            brace_depth -= lines[k].count("}")
+            k += 1
+            if brace_depth == 0:
+                break
+
+        if brace_depth == 0:
+            funcs.append(
+                {
+                    "name": func_name,
+                    "body": "\n".join(body_lines),
+                    "start_line": i + 1,
+                    "end_line": k,
+                    "lines": body_lines,
+                }
+            )
+            i = k
+        else:
+            i = j + 1
+
+    return funcs

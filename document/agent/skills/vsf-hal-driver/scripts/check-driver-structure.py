@@ -21,7 +21,7 @@ except ImportError:
     print("Error: pyyaml required. Install with: pip install pyyaml", file=sys.stderr)
     sys.exit(1)
 
-from checker_base import ResultAccumulator, EXIT_PASS, EXIT_ERROR, EXIT_WARNING
+from checker_base import ResultAccumulator, EXIT_PASS, EXIT_ERROR, EXIT_WARNING, extract_functions
 
 
 def load_spec(periph: str, script_dir: Path) -> dict:
@@ -221,15 +221,41 @@ def check_source(path: str, spec: dict) -> ResultAccumulator:
 
     # ── Unimplemented API convention ──
     api_prefix = spec.get("api_prefix", spec["periph"])
-    stub_re = re.compile(
-        rf"(?:vsf_err_t|fsm_rt_t|void|uint\w+_t|int\w+_t)\s+\w*{re.escape(api_prefix)}_\w+\s*\([^)]*\)\s*\{{[^}}]*?return\s+VSF_ERR_NONE;[^}}]*?\}}",
-        re.DOTALL,
-    )
-    for stub in stub_re.findall(text):
-        if "VSF_HAL_ASSERT(0)" not in stub:
-            func_name = re.search(rf"\w*{re.escape(api_prefix)}_\w+", stub)
-            if func_name:
-                r.say("WARN", f"stub {func_name.group()} returns VSF_ERR_NONE without VSF_HAL_ASSERT(0)")
+    for func in extract_functions(text):
+        name = func["name"]
+        if api_prefix not in name:
+            continue
+        body = func["body"]
+        lines = [ln.strip() for ln in body.splitlines() if ln.strip() and not ln.strip().startswith("//")]
+        if len(lines) > 5:
+            continue                    # probably a real implementation
+
+        has_assert = "VSF_HAL_ASSERT(0)" in body
+        has_assert_null = bool(re.search(r"VSF_HAL_ASSERT\s*\(\s*NULL\s*!=", body))
+        returns_none = "return VSF_ERR_NONE;" in body
+        returns_not_support = "return VSF_ERR_NOT_SUPPORT;" in body
+        returns_fail = "return VSF_ERR_FAIL;" in body
+        returns_zero = bool(re.search(r"return\s+0\s*;", body))
+
+        # Distinguish stubs from real functions
+        if not (has_assert or returns_none or returns_not_support or returns_fail or returns_zero):
+            continue
+        if any(kw in body for kw in ["reg->", "NVIC_", "if ", "while ", "for ", "switch "]):
+            continue                    # has real logic
+
+        if returns_none:
+            if not has_assert:
+                r.say("FAIL", f"stub {name} returns VSF_ERR_NONE without VSF_HAL_ASSERT(0)")
+            else:
+                r.say("FAIL", f"stub {name} has VSF_HAL_ASSERT(0) but returns VSF_ERR_NONE — should return VSF_ERR_NOT_SUPPORT")
+        elif returns_not_support:
+            if not has_assert:
+                r.say("WARN", f"stub {name} returns VSF_ERR_NOT_SUPPORT without VSF_HAL_ASSERT(0)")
+        elif returns_zero:
+            if not has_assert:
+                r.say("FAIL", f"stub {name} returns 0 without VSF_HAL_ASSERT(0)")
+        elif returns_fail and not has_assert:
+            r.say("WARN", f"stub {name} returns VSF_ERR_FAIL without VSF_HAL_ASSERT(0)")
 
     # ── Peripheral-specific checks ──
     if spec.get("periph") == "gpio":

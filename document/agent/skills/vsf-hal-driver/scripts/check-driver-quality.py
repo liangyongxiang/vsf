@@ -38,7 +38,22 @@ from checker_base import (
 # ---------------------------------------------------------------- rules
 
 
-_INSTANCE_NAME_RE = re.compile(r"\bVSF_HW_[A-Z]+\d+_[A-Z_]+\b")
+_INSTANCE_NAME_RE = re.compile(r"\bVSF_HW_[A-Z]+\d+_([A-Z_]+)\b")
+
+# Suffixes that describe chip-level characteristics (size, base address, etc.)
+# rather than per-instance parameters (REG, IRQN, RST_BIT, CLK_BIT).
+# These are allowed outside IMP_LV0 because they are constants, not instance
+# identifiers that need VSF_MCONNECT parameterization.
+_CHIP_CONSTANT_SUFFIXES = frozenset({
+    "SIZE",
+    "SECTOR_SIZE",
+    "PAGE_SIZE",
+    "BLOCK_SIZE",
+    "XIP_BASE",
+    "SECTOR_NUM",
+    "CHANNEL_NUM",
+    "CHANNEL_COUNT",
+})
 
 
 def check_hardcoded_instance_name(lines: list[ScanLine]) -> list[Finding]:
@@ -47,7 +62,14 @@ def check_hardcoded_instance_name(lines: list[ScanLine]) -> list[Finding]:
     def predicate(sl: ScanLine) -> bool:
         if sl.in_imp_lv0:
             return False
-        return bool(_INSTANCE_NAME_RE.search(sl.text))
+        m = _INSTANCE_NAME_RE.search(sl.text)
+        if not m:
+            return False
+        # Extract suffix from capture group: VSF_HW_<PERIPH><N>_<SUFFIX>
+        suffix = m.group(1)
+        if suffix in _CHIP_CONSTANT_SUFFIXES:
+            return False
+        return True
     return emit(lines, "hardcoded-instance-name",
                  "per-instance literal (VSF_HW_<P><N>_*) outside IMP_LV0 — "
                  "should expand via VSF_MCONNECT(..., __IDX, ...)",

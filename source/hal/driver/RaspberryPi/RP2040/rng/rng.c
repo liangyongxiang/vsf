@@ -86,7 +86,12 @@ vsf_err_t VSF_MCONNECT(VSF_RNG_CFG_IMP_PREFIX, _rng_generate_request)(
         for (uint32_t b = 0; b < 32; b++) {
             word <<= 1;
             word |= (rosc_hw->randombit & 1u);
-            /* Brief delay between samples for uncorrelated bits */
+            // Per RP2040 datasheet §2.17.3: ROSC runs at ~1.8–12 MHz (typ 6.5 MHz).
+            // RANDOMBIT samples a phase-comparator tap; back-to-back reads yield
+            // correlated bits because the oscillator state has not evolved.
+            // A brief delay lets ROSC advance at least one full cycle (> ~80 ns)
+            // before the next sample.
+            // < 1 us
             for (volatile uint32_t d = 0; d < 4; d++);
         }
         buffer[w] = word;
@@ -105,8 +110,8 @@ vsf_err_t VSF_MCONNECT(VSF_RNG_CFG_IMP_PREFIX, _rng_ctrl)(
     void *param)
 {
     VSF_HAL_ASSERT(rng_ptr != NULL);
-    (void)ctrl;
-    (void)param;
+    VSF_UNUSED_PARAM(ctrl);
+    VSF_UNUSED_PARAM(param);
     VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }

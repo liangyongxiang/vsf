@@ -37,12 +37,21 @@
 
 /* Bit positions in the packed vsf_gpio_mode_t. */
 #define __VSF_HW_GPIO_IS_OUTPUT_POS         5
-#define __VSF_HW_GPIO_OD_EMULATED_POS       6
-#define __VSF_HW_GPIO_IS_AF_POS             7
+#define __VSF_HW_GPIO_IS_AF_POS             14
+#define __VSF_HW_GPIO_OD_EMULATED_POS       15
 #define __VSF_HW_GPIO_PULL_POS              8
 #define __VSF_HW_GPIO_PULL_MASK             0x3u
 #define __VSF_HW_GPIO_EXTI_TRIG_POS         10
 #define __VSF_HW_GPIO_EXTI_TRIG_MASK        0xFu
+
+/* PADS_BANK0 bit positions — directly encoded in mode bits [7:6]. */
+#define __RP2040_PADS_PDE                   (1u << 2)
+#define __RP2040_PADS_PUE                   (1u << 3)
+#define __RP2040_PADS_IE                    (1u << 6)   /* mode bit 6 */
+#define __RP2040_PADS_OD                    (1u << 7)   /* mode bit 7 */
+
+/* PADS_BANK0 reset default: SCHMITT=1 (bit 1), DRIVE=01 (bit 4). */
+#define __RP2040_PADS_DEFAULT               0x12
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
@@ -56,11 +65,13 @@
  *           __VSF_HW_GPIO_FUNCSEL_SIO  (for INPUT/OUTPUT/EXTI)
  *           __VSF_HW_GPIO_FUNCSEL_NULL (for ANALOG)
  *   [5]     is_output — direction hint; RP2040 direction is SIO.OE, not PADS
- *   [6]     OD_emulated — open-drain is software-emulated via OE toggling
- *   [7]     is_AF — alternate function mode, FUNCSEL from cfg.alternate_function
+ *   [6]     IE — directly maps to PADS_BANK0 bit 6 (input enable)
+ *   [7]     OD — directly maps to PADS_BANK0 bit 7 (output disable)
  *   [9:8]   pull: 0 = none, 1 = up, 2 = down
  *   [13:10] EXTI trigger — directly maps to IO_BANK0 INTR/INTE 4-bit field
  *           1 = LEVEL_LOW, 2 = LEVEL_HIGH, 4 = EDGE_LOW, 8 = EDGE_HIGH
+ *   [14]    is_AF — alternate function mode, FUNCSEL from cfg.alternate_function
+ *   [15]    OD_emulated — open-drain is software-emulated via OE toggling
  *
  * Hardware reference (RP2040 datasheet, IO_BANK0 / PADS_BANK0 / SIO):
  *   IO_BANK0 GPIOn_CTRL: [4:0] FUNCSEL
@@ -71,27 +82,32 @@
 #define VSF_GPIO_CFG_REIMPLEMENT_TYPE_MODE      ENABLED
 
 typedef enum vsf_gpio_mode_t {
-    /* Base modes — FUNCSEL in bits [4:0], flags in bits [7:5] */
+    /* Base modes — FUNCSEL in bits [4:0], PADS IE/OD in bits [7:6] */
     VSF_GPIO_INPUT              = (__VSF_HW_GPIO_FUNCSEL_SIO << __VSF_HW_GPIO_FUNCSEL_SHIFT)
                                 | (0 << __VSF_HW_GPIO_IS_OUTPUT_POS)
-                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS)
-                                | (0 << __VSF_HW_GPIO_IS_AF_POS),
+                                | __RP2040_PADS_IE
+                                | (0 << __VSF_HW_GPIO_IS_AF_POS)
+                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS),
     VSF_GPIO_ANALOG             = (__VSF_HW_GPIO_FUNCSEL_NULL << __VSF_HW_GPIO_FUNCSEL_SHIFT)
                                 | (0 << __VSF_HW_GPIO_IS_OUTPUT_POS)
-                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS)
-                                | (0 << __VSF_HW_GPIO_IS_AF_POS),
+                                | __RP2040_PADS_OD
+                                | (0 << __VSF_HW_GPIO_IS_AF_POS)
+                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS),
     VSF_GPIO_OUTPUT_PUSH_PULL   = (__VSF_HW_GPIO_FUNCSEL_SIO << __VSF_HW_GPIO_FUNCSEL_SHIFT)
                                 | (1 << __VSF_HW_GPIO_IS_OUTPUT_POS)
-                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS)
-                                | (0 << __VSF_HW_GPIO_IS_AF_POS),
+                                | __RP2040_PADS_IE
+                                | (0 << __VSF_HW_GPIO_IS_AF_POS)
+                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS),
     VSF_GPIO_OUTPUT_OPEN_DRAIN  = (__VSF_HW_GPIO_FUNCSEL_SIO << __VSF_HW_GPIO_FUNCSEL_SHIFT)
                                 | (1 << __VSF_HW_GPIO_IS_OUTPUT_POS)
-                                | (1 << __VSF_HW_GPIO_OD_EMULATED_POS)
-                                | (0 << __VSF_HW_GPIO_IS_AF_POS),
+                                | __RP2040_PADS_IE
+                                | (0 << __VSF_HW_GPIO_IS_AF_POS)
+                                | (1 << __VSF_HW_GPIO_OD_EMULATED_POS),
     VSF_GPIO_AF                 = (0 << __VSF_HW_GPIO_FUNCSEL_SHIFT)
                                 | (0 << __VSF_HW_GPIO_IS_OUTPUT_POS)
-                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS)
-                                | (1 << __VSF_HW_GPIO_IS_AF_POS),
+                                | __RP2040_PADS_IE
+                                | (1 << __VSF_HW_GPIO_IS_AF_POS)
+                                | (0 << __VSF_HW_GPIO_OD_EMULATED_POS),
     VSF_GPIO_EXTI               = VSF_GPIO_INPUT,
 
     /* Pull-up / pull-down */

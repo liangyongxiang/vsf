@@ -49,12 +49,6 @@
 #define VSF_GPIO_CFG_CAPABILITY_SUPPORT_OUTPUT_AND_CLEAR    1
 #define VSF_GPIO_CFG_CAPABILITY_CAN_READ_IN_GPIO_OUTPUT_MODE 1
 
-/* PADS_BANK0 bit positions used when constructing register values. */
-#define __RP2040_PADS_PDE                           (1u << 2)
-#define __RP2040_PADS_PUE                           (1u << 3)
-#define __RP2040_PADS_IE                            (1u << 6)
-#define __RP2040_PADS_OD                            (1u << 7)
-
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 
@@ -99,16 +93,8 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(
         funcsel = cfg_ptr->alternate_function & __VSF_HW_GPIO_FUNCSEL_MASK;
     }
 
-    /* Build PADS value: default DRIVE=01 (bit 4), SCHMITT=1 (bit 1).
-     * All non-ANALOG modes enable the input buffer (IE=1); ANALOG disables
-     * it and sets output-disable (OD=1).
-     */
-    uint32_t pads = 0x12;
-    if (base == VSF_GPIO_ANALOG) {
-        pads |= __RP2040_PADS_OD;
-    } else {
-        pads |= __RP2040_PADS_IE;
-    }
+    /* Bits [7:6] of base directly encode PADS IE/OD. */
+    uint32_t pads = __RP2040_PADS_DEFAULT | (base & (__RP2040_PADS_IE | __RP2040_PADS_OD));
     uint32_t pull = (cfg_ptr->mode >> __VSF_HW_GPIO_PULL_POS) & __VSF_HW_GPIO_PULL_MASK;
     if (pull == 1) {
         pads |= __RP2040_PADS_PUE;
@@ -135,18 +121,13 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(
     }
 
     /* Track EXTI trigger bits per pin. */
+    uint8_t trig = 0;
     if (base == VSF_GPIO_EXTI) {
-        uint8_t trig = (cfg_ptr->mode >> __VSF_HW_GPIO_EXTI_TRIG_POS) & __VSF_HW_GPIO_EXTI_TRIG_MASK;
-        for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
-            if (pin_mask & ((vsf_gpio_pin_mask_t)1u << i)) {
-                hw_gpio_ptr->exti_trigger[i] = trig;
-            }
-        }
-    } else {
-        for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
-            if (pin_mask & ((vsf_gpio_pin_mask_t)1u << i)) {
-                hw_gpio_ptr->exti_trigger[i] = 0;
-            }
+        trig = (cfg_ptr->mode >> __VSF_HW_GPIO_EXTI_TRIG_POS) & __VSF_HW_GPIO_EXTI_TRIG_MASK;
+    }
+    for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
+        if (pin_mask & ((vsf_gpio_pin_mask_t)1u << i)) {
+            hw_gpio_ptr->exti_trigger[i] = trig;
         }
     }
 

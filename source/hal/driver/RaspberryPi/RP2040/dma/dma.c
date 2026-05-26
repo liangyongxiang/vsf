@@ -37,6 +37,30 @@
  * Source: RP2040 datasheet §2.5.7, DMA_CHx_TRANS_COUNT register description. */
 #define VSF_HW_DMA_MAX_TRANSFER_COUNT              ((1u << 24) - 1)
 
+/*============================================================================
+ *  RP2040 DMA 驱动实现状态说明
+ *  ===========================================================================
+ *
+ *  硬件能力：
+ *    - 1 个 DMA 控制器（dma_hw_t），基地址 DMA_BASE
+ *    - 12 个独立通道（VSF_HW_DMA_CHANNEL_NUM）
+ *    - 2 条 NVIC IRQ 输出线（DMA_IRQ_0 / DMA_IRQ_1）
+ *      每条线有独立的使能（inte0/inte1）、状态（ints0/ints1）寄存器
+ *
+ *  已实现：
+ *    - 两条 IRQ 线的 NVIC 向量表入口均已注册（startup_RP2040.c）
+ *    - init() / fini() 对两条 IRQ 线均执行 NVIC 启停
+ *    - irqhandler 分为两条独立路径，各处理对应的 irq_ctrl[]
+ *    - capability() 报告 irq_count = VSF_HW_DMA0_IRQ_Handler_COUNT（2）
+ *
+ *  尚未实现（TODO）：
+ *    - 通道到 IRQ 线的映射选择。当前所有通道的中断固定路由到
+ *      inte0（DMA_IRQ_0），inte1（DMA_IRQ_1）没有通道使用。
+ *    - 若要实现，需在 channel_start / channel_config 层增加 irq 索引
+ *      选择（例如通过 vsf_dma_channel_cfg_t 新增字段，或驱动内部按
+ *      策略分配），并据此写 inte0 或 inte1。
+ *============================================================================*/
+
 /*============================ TYPES =========================================*/
 
 typedef struct vsf_hw_dma_channel_t {
@@ -95,6 +119,10 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_init)(
 
     NVIC_SetPriority(dma_ptr->irqn, cfg_ptr->prio);
     NVIC_EnableIRQ(dma_ptr->irqn);
+#if VSF_HW_DMA0_IRQ_Handler_COUNT > 1
+    NVIC_SetPriority(VSF_HW_DMA0_IRQN_1, cfg_ptr->prio);
+    NVIC_EnableIRQ(VSF_HW_DMA0_IRQN_1);
+#endif
 
     return VSF_ERR_NONE;
 }
@@ -105,6 +133,9 @@ void VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_fini)(
     VSF_HAL_ASSERT(dma_ptr != NULL);
 
     NVIC_DisableIRQ(dma_ptr->irqn);
+#if VSF_HW_DMA0_IRQ_Handler_COUNT > 1
+    NVIC_DisableIRQ(VSF_HW_DMA0_IRQN_1);
+#endif
 
     dma_hw_t *hw = dma_ptr->reg;
     /* Spin-wait: abort all channels; each takes a few AHB cycles (< 1 us total). */
@@ -112,7 +143,9 @@ void VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_fini)(
     while (hw->abort);
     for (uint8_t i = 0; i < VSF_HW_DMA_CHANNEL_NUM; i++) {
         hw->ch[i].ctrl_trig = 0;
-        hw->inte0 &= ~(1u << i);
+        for (uint8_t irq_idx = 0; irq_idx < VSF_HW_DMA0_IRQ_Handler_COUNT; irq_idx++) {
+            hw->irq_ctrl[irq_idx].inte &= ~(1u << i);
+        }
     }
     dma_ptr->channel_mask = 0;
 }
@@ -135,7 +168,7 @@ vsf_dma_capability_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_capability)(
     return (vsf_dma_capability_t) {
         .irq_mask           = VSF_DMA_IRQ_MASK_CPL,
         .channel_count      = VSF_HW_DMA_CHANNEL_NUM,
-        .irq_count          = 1,
+        .irq_count          = VSF_HW_DMA0_IRQ_Handler_COUNT,
         .supported_modes    = VSF_DMA_MEMORY_TO_MEMORY
                             | VSF_DMA_MEMORY_TO_PERIPHERAL
                             | VSF_DMA_PERIPHERAL_TO_MEMORY
@@ -291,6 +324,8 @@ static void __rp2040_dma_channel_start_raw(
     }
 
     if (enable_irq) {
+        /* TODO: 当实现通道到 IRQ 线的映射选择时，此处应根据策略写
+         * inte0 或 inte1，而非固定写 inte0。 */
         hw->inte0 |= (1u << channel);
     }
 
@@ -340,20 +375,20 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_channel_sg_config_desc)(
     VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) *dma_ptr,
     uint8_t channel,
     vsf_dma_isr_t isr,
-    vsf_dma_channel_sg_desc_t *sg_desc_ptr,
+    vsf_dma_channel_sg_desc_t *scatter_gather_cfg,
     uint32_t sg_count)
 {
     VSF_HAL_ASSERT(dma_ptr != NULL);
     VSF_HAL_ASSERT(channel < VSF_HW_DMA_CHANNEL_NUM);
-    VSF_HAL_ASSERT(sg_desc_ptr != NULL);
+    VSF_HAL_ASSERT(scatter_gather_cfg != NULL);
     VSF_HAL_ASSERT(sg_count > 0);
 
-    if ((NULL == dma_ptr) || (NULL == sg_desc_ptr) || (sg_count == 0)) {
+    if ((NULL == dma_ptr) || (NULL == scatter_gather_cfg) || (sg_count == 0)) {
         return VSF_ERR_INVALID_PARAMETER;
     }
 
     vsf_hw_dma_channel_t *chp = &dma_ptr->channels[channel];
-    chp->sg_desc_array = sg_desc_ptr;
+    chp->sg_desc_array = scatter_gather_cfg;
     chp->sg_count = sg_count;
     chp->isr = isr;
 
@@ -428,15 +463,13 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_ctrl)(
     return VSF_ERR_NOT_SUPPORT;
 }
 
-static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
+static void __rp2040_dma_do_irq(
     VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) *dma_ptr,
     uint8_t irq_idx)
 {
     VSF_HAL_ASSERT(dma_ptr != NULL);
 
     dma_hw_t *hw = dma_ptr->reg;
-    /* RP2040 DMA has two IRQ lines (DMA_IRQ_0 / DMA_IRQ_1) with separate
-     * INTS and INTF registers. Access via irq_ctrl[] to avoid per-IRQ branching. */
     uint32_t ints = hw->irq_ctrl[irq_idx].ints;
 
     for (uint8_t ch = 0; ch < VSF_HW_DMA_CHANNEL_NUM; ch++) {
@@ -478,8 +511,16 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
     }
 }
 
+static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
+    VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) *dma_ptr)
+{
+    __rp2040_dma_do_irq(dma_ptr, 0);
+}
+
 /*============================ MACROFIED FUNCTIONS ===========================*/
 
+#define VSF_DMA_CFG_MODE_CHECK_UNIQUE                          VSF_HAL_CHECK_MODE_LOOSE
+#define VSF_DMA_CFG_IRQ_MASK_CHECK_UNIQUE                      VSF_HAL_CHECK_MODE_STRICT
 #define VSF_DMA_CFG_REIMPLEMENT_API_CAPABILITY                 ENABLED
 #define VSF_DMA_CFG_REIMPLEMENT_API_GET_CONFIGURATION          ENABLED
 #define VSF_DMA_CFG_REIMPLEMENT_API_CHANNEL_GET_CONFIGURATION  ENABLED
@@ -503,11 +544,21 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
     {                                                                           \
         uintptr_t ctx = vsf_hal_irq_enter();                                    \
         VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(              \
-            &VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma, __IDX), 0);             \
+            &VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma, __IDX));                \
         vsf_hal_irq_leave(ctx);                                                 \
     }
 
 #include "hal/driver/common/dma/dma_template.inc"
+
+/* IMP_LV0 宏每个 DMA 实例只生成一个 IRQHandler（对应 IRQ 索引 0）。
+ * RP2040 硬件有两条 IRQ 线，因此额外手动定义第二条 handler。
+ * 若将来 VSF HAL 模板支持每个实例生成多个 handler，此处可移除。 */
+VSF_CAL_ROOT void VSF_HW_DMA0_IRQ_1_Handler(void)
+{
+    uintptr_t ctx = vsf_hal_irq_enter();
+    __rp2040_dma_do_irq(&vsf_hw_dma0, 1);
+    vsf_hal_irq_leave(ctx);
+}
 
 #endif      /* VSF_HAL_USE_DMA */
 /* EOF */

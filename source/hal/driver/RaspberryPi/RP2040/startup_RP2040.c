@@ -66,7 +66,8 @@ VSF_MFOREACH(__imp_unprocessed_weak_handler,
     SysTick_Handler,
 
     __Dummy_Handler_DONOTUSE,
-    VSF_HW_DMA0_IRQHandler,
+    VSF_HW_DMA0_IRQ_0_Handler,
+    VSF_HW_DMA0_IRQ_1_Handler,
     UART0_IRQHandler,
     UART1_IRQHandler,
     SPI0_IRQHandler,
@@ -115,8 +116,8 @@ VSF_CAL_ROOT const pFunc __VECTOR_TABLE[] __VECTOR_TABLE_ATTRIBUTE = {
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,
     __Dummy_Handler_DONOTUSE,
-    VSF_HW_DMA0_IRQHandler,     /* IRQ 11: DMA_IRQ_0 */
-    __Dummy_Handler_DONOTUSE,   /* IRQ 12 */
+    VSF_HW_DMA0_IRQ_0_Handler,  /* IRQ 11: DMA_IRQ_0 */
+    VSF_HW_DMA0_IRQ_1_Handler,  /* IRQ 12: DMA_IRQ_1 */
     IO_BANK0_IRQHandler,        /* IRQ 13: IO_IRQ_BANK0 */
     __Dummy_Handler_DONOTUSE,   /* IRQ 14 */
     __Dummy_Handler_DONOTUSE,   /* IRQ 15 */

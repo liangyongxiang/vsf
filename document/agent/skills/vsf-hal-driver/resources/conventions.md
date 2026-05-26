@@ -44,3 +44,11 @@ When a parameter is intentionally unused (e.g. a no-op IRQ handler where the per
 
 ## Clock and teardown
 Enable peripheral clocks before register access. In `fini()`, disable NVIC IRQs and abort any in-flight DMA/transfers before releasing resources.
+
+## Document implemented vs. unimplemented capabilities
+Every driver `.c` file must contain a block comment near the top (before `TYPES` or inside `MACROS`) that lists:
+1. **Hardware capabilities** relevant to this peripheral (e.g., "RP2040 DMA: 12 channels, 2 IRQ lines, 4 transfer widths").
+2. **What the driver currently implements**.
+3. **What is intentionally not yet implemented**, with a brief `TODO` note explaining what would need to change to implement it.
+
+This prevents future maintainers (human or AI) from assuming a feature works when it is only partially wired, and makes capability gaps discoverable without reading the entire datasheet. Any code location that implements a partial or placeholder behavior should also carry an inline `TODO` pointing back to the top-level block comment. Example: see `source/hal/driver/RaspberryPi/RP2040/dma/dma.c`.

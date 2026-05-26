@@ -215,7 +215,11 @@
 #define VSF_HW_DMA0_REG             DMA_BASE
 #define VSF_HW_DMA0_RST_BIT         (1u << RESET_DMA)
 #define VSF_HW_DMA0_IRQN            DMA_IRQ_0_IRQn
-#define VSF_HW_DMA0_IRQHandler      DMA_IRQ_0_Handler
+#define VSF_HW_DMA0_IRQN_1          DMA_IRQ_1_IRQn
+#define VSF_HW_DMA0_IRQHandler      VSF_HW_DMA0_IRQ_0_Handler
+#define VSF_HW_DMA0_IRQ_0_Handler   DMA_IRQ_0_Handler
+#define VSF_HW_DMA0_IRQ_1_Handler   DMA_IRQ_1_Handler
+#define VSF_HW_DMA0_IRQ_Handler_COUNT   2
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/

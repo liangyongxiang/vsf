@@ -226,6 +226,52 @@ class ResultAccumulator:
             return EXIT_PASS
 
 
+# ---------------------------------------------------------------- YAML pattern rule engine
+
+
+def load_pattern_rules(rules_yml: str | Path) -> list[dict]:
+    """Load pattern-based quality rules from a YAML file."""
+    import yaml  # deferred — only import when rules are actually loaded
+    with open(rules_yml, encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    return data.get("rules", [])
+
+
+def check_pattern_rules(lines: list[ScanLine], rules: list[dict],
+                        filepath: Path) -> list[Finding]:
+    """Apply pattern-based rules to preprocessed ScanLines.
+
+    Each rule is a dict with:
+        id, patterns (list of regex strings), skip_in_imp_lv0 (bool),
+        message, reference (optional)
+    """
+    compiled: list[dict] = []
+    for rule in rules:
+        compiled.append({
+            "id": rule["id"],
+            "res": [re.compile(p) for p in rule["patterns"]],
+            "skip_lv0": rule.get("skip_in_imp_lv0", True),
+            "message": rule["message"],
+            "reference": rule.get("reference"),
+        })
+
+    findings: list[Finding] = []
+    for rule in compiled:
+        for sl in lines:
+            if sl.in_comment or rule["id"] in sl.suppress:
+                continue
+            if rule["skip_lv0"] and sl.in_imp_lv0:
+                continue
+            for r in rule["res"]:
+                if r.search(sl.text):
+                    findings.append(Finding(
+                        filepath, sl.lineno, rule["id"],
+                        rule["message"], rule["reference"],
+                    ))
+                    break
+    return findings
+
+
 # ---------------------------------------------------------------- tree helpers
 
 def _walk_all(node: Node):

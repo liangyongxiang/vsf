@@ -34,191 +34,32 @@ from checker_base import (
     preprocess,
     emit,
     extract_functions,
+    load_pattern_rules,
+    check_pattern_rules,
 )
 
-
-# ---------------------------------------------------------------- rules
-
-
-_INSTANCE_NAME_RE = re.compile(r"\bVSF_HW_[A-Z]+\d+_([A-Z_]+)\b")
-
-# Suffixes that describe chip-level characteristics (size, base address, etc.)
-# rather than per-instance parameters (REG, IRQN, RST_BIT, CLK_BIT).
-# These are allowed outside IMP_LV0 because they are constants, not instance
-# identifiers that need VSF_MCONNECT parameterization.
-_CHIP_CONSTANT_SUFFIXES = frozenset({
-    "SIZE",
-    "SECTOR_SIZE",
-    "PAGE_SIZE",
-    "BLOCK_SIZE",
-    "XIP_BASE",
-    "SECTOR_NUM",
-    "CHANNEL_NUM",
-    "CHANNEL_COUNT",
-})
-
-# Extended set for detecting chip-prefixed constants that belong in device.h.
-_CHIP_CONSTANT_SUFFIXES_EXTENDED = _CHIP_CONSTANT_SUFFIXES | frozenset({
-    "PER_INSTANCE",
-})
+_SCRIPT_DIR = Path(__file__).parent.resolve()
+_PATTERN_RULES = load_pattern_rules(_SCRIPT_DIR / "quality-rules.yml")
 
 
-def _extract_chip_prefix(path: Path) -> str | None:
-    """Extract chip name from VSF hal driver path .../driver/<vendor>/<chip>/<periph>/..."""
-    parts = list(path.parts)
-    for i, p in enumerate(parts):
-        if p.lower() == 'driver':
-            # Need at least: driver/vendor/chip/periph/file = 4 more parts
-            if i + 4 < len(parts):
-                return parts[i + 2].upper()
-            break
-    return None
+# ---------------------------------------------------------------- pattern rules (Python: special logic)
 
-
-def check_hardcoded_instance_name(lines: list[ScanLine]) -> list[Finding]:
-    """Driver .c references a specific instance by name (e.g. VSF_HW_USART0_REG)
-    instead of expanding it through VSF_MCONNECT in IMP_LV0."""
-    def predicate(sl: ScanLine) -> bool:
-        if sl.in_imp_lv0:
-            return False
-        m = _INSTANCE_NAME_RE.search(sl.text)
-        if not m:
-            return False
-        # Extract suffix from capture group: VSF_HW_<PERIPH><N>_<SUFFIX>
-        suffix = m.group(1)
-        if suffix in _CHIP_CONSTANT_SUFFIXES:
-            return False
-        return True
-    return emit(lines, "hardcoded-instance-name",
-                 "per-instance literal (VSF_HW_<P><N>_*) outside IMP_LV0 — "
-                 "should expand via VSF_MCONNECT(..., __IDX, ...)",
-                 predicate, reference="Per-instance parameterization in device.h")
-
-
-_INDEX_BRANCH_IF_RE = re.compile(r"\bif\s*\(\s*\w*(?:idx|index|inst|instance)\w*\s*==\s*\d")
-_INDEX_BRANCH_SWITCH_RE = re.compile(r"\bswitch\s*\(\s*\w*(?:idx|index|inst|instance)\w*\s*\)")
-# Pointer equality against a per-instance SDK handle (e.g. `reg == spi0_hw`).
-# Names of the form `<periph><digit>_hw` are the RP2040/pico SDK convention
-# for instance pointers (spi0_hw, spi1_hw, uart0_hw, etc.). Bare `adc_hw`,
-# `dma_hw`, `resets_hw` are single-instance so they don't trigger.
-_INDEX_BRANCH_PTR_RE = re.compile(r"==\s*&?[a-z]+\d+_hw\b|\b[a-z]+\d+_hw\s*==\s*&?\w")
-
-
-def check_instance_index_branch(lines: list[ScanLine]) -> list[Finding]:
-    """Driver dispatches behavior on instance index (e.g. `if (idx == 0)` or
-    `reg == spi0_hw`).  The per-instance differences should be parameterized
-    in device.h, not branched in the driver."""
-    def predicate(sl: ScanLine) -> bool:
-        if sl.in_imp_lv0:
-            return False
-        return bool(_INDEX_BRANCH_IF_RE.search(sl.text)
-                    or _INDEX_BRANCH_SWITCH_RE.search(sl.text)
-                    or _INDEX_BRANCH_PTR_RE.search(sl.text))
-    return emit(lines, "instance-index-branch",
-                 "branching on instance index — parameterize the difference "
-                 "in device.h as a per-instance macro instead",
-                 predicate, reference="Per-instance parameterization in device.h")
-
-
-# Match bare IRQ names like UART0_IRQn, RTC_IRQ_IRQn, I2C0_IRQ_IRQn,
-# TIMER_IRQ_0_IRQHandler, etc.  Skip when preceded by `VSF_HW_`.
-_IRQ_NAME_RE = re.compile(
-    r"(?<![\w])"                  # not part of a longer identifier
-    r"(?<!VSF_HW_)"               # not VSF_HW_-prefixed
-    r"([A-Z][A-Za-z0-9_]*)_(?:IRQn|IRQHandler)\b"
-)
-
-
-def check_hardcoded_irq(lines: list[ScanLine]) -> list[Finding]:
-    def predicate(sl: ScanLine) -> bool:
-        if sl.in_imp_lv0:
-            return False
-        m = _IRQ_NAME_RE.search(sl.text)
-        if not m:
-            return False
-        # Previously this exempted `BASE_IRQn + idx` arithmetic.  That
-        # exemption was too broad: it allowed drivers for multi-instance
-        # peripherals (e.g. RP2040 timer) to bake vendor IRQ names into
-        # the .c file instead of fetching per-instance IRQNs from device.h
-        # via an `irqn` struct field populated in IMP_LV0.  If a driver
-        # genuinely needs arithmetic offset it can suppress inline with
-        # `// quality: allow-hardcoded-irq`.
-        return True
-    return emit(lines, "hardcoded-irq",
-                 "literal IRQ name (e.g. UART0_IRQn) — should come from "
-                 "VSF_HW_<P><N>_IRQN macro and reach the driver via IMP_LV0",
-                 predicate, reference="Per-instance parameterization in device.h")
-
-
-_RESET_NAME_RE = re.compile(
-    # Long form (e.g. RP2040 SDK): RESETS_RESET_<PERIPH>_<FIELD>
-    r"\bRESETS_RESET_[A-Z][A-Z0-9_]*_(?:LSB|MSB|BITS|MASK|RESET|ACCESS)\b"
-    # Short form with trailing digit (e.g. RESET_UART0, RST_UART0)
-    r"|\b(?:RESET|RST)_[A-Z]+\d+\b"
-    # Short form without digit — known RP2040 enum entries for single-instance
-    # peripherals (e.g. RESET_RTC, RESET_ADC). Add more chip vocabularies here
-    # as new ports show up.
-    r"|\b(?:RESET|RST)_(?:ADC|BUSCTRL|DMA|JTAG|PWM|RTC|SYSCFG|SYSINFO|TBMAN|TIMER|USBCTRL|PLL_SYS|PLL_USB|IO_BANK\d|IO_QSPI|PADS_BANK\d|PADS_QSPI)\b"
-)
-
-
-def check_hardcoded_reset(lines: list[ScanLine]) -> list[Finding]:
-    def predicate(sl: ScanLine) -> bool:
-        if sl.in_imp_lv0:
-            return False
-        return bool(_RESET_NAME_RE.search(sl.text))
-    return emit(lines, "hardcoded-reset",
-                 "literal reset bit / register — pass it through as a "
-                 "per-instance macro (VSF_HW_<P><N>_RST_BIT)",
-                 predicate, reference="Per-instance parameterization in device.h")
-
-
-_CLOCK_NAME_RE = re.compile(
-    r"\b(?:CLK|CLOCK)_[A-Z]+\d+\b"
-    r"|\bRCC_[A-Z0-9_]*EN\b"
-)
-
-
-def check_hardcoded_clock(lines: list[ScanLine]) -> list[Finding]:
-    def predicate(sl: ScanLine) -> bool:
-        if sl.in_imp_lv0:
-            return False
-        return bool(_CLOCK_NAME_RE.search(sl.text))
-    return emit(lines, "hardcoded-clock",
-                 "literal clock gate / bit — parameterize as a per-instance "
-                 "macro (VSF_HW_<P><N>_CLK_BIT or similar)",
-                 predicate, reference="Per-instance parameterization in device.h")
-
-
-# Eight or more hex digits, not anchored to a typedef cast that's clearly used
-# as a defensive constant pattern (e.g. masks).
 _LITERAL_ADDR_RE = re.compile(r"\b0x([0-9A-Fa-f]{8,})\b")
 
 
 def _looks_like_mask(hex_digits: str) -> bool:
-    """0xFFFFFFFF, 0x00FFFFFF, 0xFF00FF00 etc. are masks, not addresses.
-    Heuristic: only F and 0 (case-insensitive), or only one unique non-zero
-    nibble."""
     s = hex_digits.upper()
     chars = set(s)
     if chars.issubset(set("F0")):
         return True
     nonzero = chars - {"0"}
-    if len(nonzero) == 1:
-        return True
-    return False
+    return len(nonzero) == 1
 
 
 def check_hardcoded_address(lines: list[ScanLine]) -> list[Finding]:
-    """Hex literals with 8+ digits in a .c body strongly suggest a base
-    address baked into the driver. False positives (e.g. mask constants like
-    0xFFFFFFFF) are filtered out by shape; remaining false positives can be
-    silenced with `// quality: allow-hardcoded-address`."""
     def predicate(sl: ScanLine) -> bool:
         if sl.in_imp_lv0:
             return False
-        # Skip preprocessor lines (defines / includes) — addresses in those
-        # are typically deliberate config.
         if sl.text.lstrip().startswith("#"):
             return False
         m = _LITERAL_ADDR_RE.search(sl.text)
@@ -228,58 +69,10 @@ def check_hardcoded_address(lines: list[ScanLine]) -> list[Finding]:
             return False
         return True
     return emit(lines, "hardcoded-address",
-                 "literal hex address in driver body — wire it through "
-                 "device.h instead",
+                 "literal hex address in driver body — wire it through device.h instead",
                  predicate, reference="Per-instance parameterization in device.h")
 
 
-# Function definitions/prototypes using a plain vsf_hw_<periph>_<api>( signature
-# instead of VSF_MCONNECT(VSF_..._CFG_IMP_PREFIX, _<api>). This catches drivers
-# that haven't been template-migrated yet.
-_PLAIN_PREFIX_DEF_RE = re.compile(
-    r"\b(?:vsf_err_t|fsm_rt_t|void|uint\w+_t|int\w+_t|bool|"
-    r"vsf_\w+)\s+vsf_hw_[a-z]+_[a-z_]+\s*\("
-)
-
-
-def check_missing_vsf_mconnect(lines: list[ScanLine]) -> list[Finding]:
-    def predicate(sl: ScanLine) -> bool:
-        if sl.in_imp_lv0:
-            return False
-        # Function pointer typedefs and IRQ handler dispatch lines are not
-        # what we want to flag — the rule targets API entry points whose name
-        # should be macro-built via VSF_MCONNECT.
-        if "VSF_MCONNECT" in sl.text:
-            return False
-        return bool(_PLAIN_PREFIX_DEF_RE.search(sl.text))
-    return emit(lines, "missing-vsf-mconnect",
-                 "function definition uses hardcoded `vsf_hw_<periph>_` "
-                 "prefix — wrap with VSF_MCONNECT(VSF_..._CFG_IMP_PREFIX, _<api>)",
-                 predicate, reference="Macro prefix convention")
-
-
-_PINMUX_API_RE = re.compile(
-    r"\bgpio_set_function\b"
-    r"|\bio_bank0_hw\s*->"
-    r"|\bsio_hw\s*->\s*gpio_oe\b"
-    r"|\bvsf_gpio_port_config_pins\s*\("
-)
-
-
-def check_pinmux_in_driver(lines: list[ScanLine]) -> list[Finding]:
-    """Pinmux belongs in the board file. Driver .c files should never touch
-    GPIO function selectors or IO banks. The board file passes pins fully
-    configured before init()."""
-    def predicate(sl: ScanLine) -> bool:
-        # We don't skip in_imp_lv0 here — pinmux in IMP_LV0 would be just as wrong.
-        return bool(_PINMUX_API_RE.search(sl.text))
-    return emit(lines, "pinmux-in-driver",
-                 "pinmux call in peripheral driver — move to board file",
-                 predicate, reference="Board wiring")
-
-
-# Multi-line #define macro continuation backslash must align to column 81
-# (content length 80 + '\' at column 81).
 _BACKSLASH_TARGET_COL = 81
 
 
@@ -300,19 +93,18 @@ def check_macro_backslash_align(lines: list[ScanLine]) -> list[Finding]:
                  predicate, reference="Macro formatting convention")
 
 
-def check_spin_wait_comment(lines: list[ScanLine]) -> list[Finding]:
-    """Any `while (cond);` empty-loop polling a hardware register must have an
-    explanatory comment preceding it (see REFERENCE.md: spin-wait convention)."""
-    _SPIN_WAIT_RE = re.compile(r"\bwhile\s*\([^;{]*\)\s*;")
-    _SPIN_WAIT_KEYWORDS = frozenset({
-        "spin-wait", "spinwait", "busy-wait", "busywait",
-        "wait", "poll", "polling",
-        "abort", "reset", "ready", "done", "complete", "completion",
-        "busy", "idle",
-        "cycle", "us", "μs", "microsecond",
-        "delay", "timeout",
-    })
+_SPIN_WAIT_RE = re.compile(r"\bwhile\s*\([^;{]*\)\s*;")
+_SPIN_WAIT_KEYWORDS = frozenset({
+    "spin-wait", "spinwait", "busy-wait", "busywait",
+    "wait", "poll", "polling",
+    "abort", "reset", "ready", "done", "complete", "completion",
+    "busy", "idle",
+    "cycle", "us", "μs", "microsecond",
+    "delay", "timeout",
+})
 
+
+def check_spin_wait_comment(lines: list[ScanLine]) -> list[Finding]:
     def _has_explanation(idx: int) -> bool:
         for j in range(max(0, idx - 3), idx):
             sl = lines[j]
@@ -354,68 +146,24 @@ def check_spin_wait_comment(lines: list[ScanLine]) -> list[Finding]:
     return findings
 
 
-_BARE_VOID_CAST_RE = re.compile(r"\(void\)\s*([a-zA-Z_]\w*)\s*;")
+_CHIP_CONSTANT_SUFFIXES_EXTENDED = frozenset({
+    "SIZE", "SECTOR_SIZE", "PAGE_SIZE", "BLOCK_SIZE",
+    "XIP_BASE", "SECTOR_NUM", "CHANNEL_NUM", "CHANNEL_COUNT",
+    "PER_INSTANCE",
+})
 
 
-def check_bare_void_cast(lines: list[ScanLine]) -> list[Finding]:
-    """Bare (void)param; to silence unused-parameter warnings should use
-    VSF_UNUSED_PARAM(param) instead. The macro is defined in
-    vsf/source/utilities/compiler/__common/__type.h and provides a uniform,
-    searchable pattern across all drivers."""
-    def predicate(sl: ScanLine) -> bool:
-        if sl.in_comment:
-            return False
-        return bool(_BARE_VOID_CAST_RE.search(sl.text))
-    return emit(lines, "bare-void-cast",
-                "bare (void)param cast — use VSF_UNUSED_PARAM(param) instead",
-                predicate, reference="Unused parameter convention")
-
-
-
-
-# ── debug-logging ──
-_DEBUG_LOG_RE = re.compile(
-    r'\b(vsf_trace_info|vsf_trace_debug|vsf_trace_warning|vsf_trace_error|printf)\s*\(',
-)
-
-
-def check_debug_logging(lines: list[ScanLine]) -> list[Finding]:
-    """Diagnostic output is acceptable during bring-up but must be stripped
-    before the driver is considered complete."""
-    def predicate(sl: ScanLine) -> bool:
-        if sl.in_comment:
-            return False
-        return bool(_DEBUG_LOG_RE.search(sl.text))
-    return emit(lines, "debug-logging",
-                "debug/trace call in driver — remove before marking driver complete",
-                predicate, reference="No debug logging in final driver")
-
-
-_MAGIC_COUNT_ASSERT_RE = re.compile(
-    r'VSF_HAL_ASSERT\s*\('
-    r'[^)]*?'
-    r'\b(?:channel|ch|inst|instance|port|pin)\b'
-    r'[^)]*?'
-    r'[<>]=?\s*\b([2-9]|1[0-9])\b'
-    r'[^)]*\)'
-)
-
-
-def check_magic_count_number(lines: list[ScanLine]) -> list[Finding]:
-    """Small integer literals used as channel/instance/port/pin counts should be
-    named constants (VSF_HW_<PERIPH>_CHANNEL_COUNT) from device.h."""
-    def predicate(sl: ScanLine) -> bool:
-        if sl.in_comment:
-            return False
-        return bool(_MAGIC_COUNT_ASSERT_RE.search(sl.text))
-    return emit(lines, "magic-count-number",
-                "magic number in count bound — use VSF_HW_<PERIPH>_CHANNEL_COUNT or similar",
-                predicate, reference="Convention 13: No magic numbers")
+def _extract_chip_prefix(path: Path) -> str | None:
+    parts = list(path.parts)
+    for i, p in enumerate(parts):
+        if p.lower() == 'driver':
+            if i + 4 < len(parts):
+                return parts[i + 2].upper()
+            break
+    return None
 
 
 def check_chip_prefixed_define(lines: list[ScanLine], path: Path) -> list[Finding]:
-    """Chip-level constants must be defined in device.h with VSF_HW_ prefix,
-    not in driver .c/.h files with a chip-specific prefix like RP2040_."""
     if path.name.lower() == "device.h":
         return []
     if path.name.lower().startswith("vsf_board") or path.name.lower() == "board.c":
@@ -437,11 +185,9 @@ def check_chip_prefixed_define(lines: list[ScanLine], path: Path) -> list[Findin
         prefix = m.group(1)
         rest = m.group(2)
 
-        # VSF-prefixed macros follow convention
         if prefix.startswith("VSF") or prefix.startswith("__VSF"):
             continue
 
-        # Check if this is a chip-prefixed constant
         if prefix == chip_prefix:
             if any(s in rest for s in _CHIP_CONSTANT_SUFFIXES_EXTENDED):
                 findings.append(Finding(
@@ -454,20 +200,10 @@ def check_chip_prefixed_define(lines: list[ScanLine], path: Path) -> list[Findin
     return findings
 
 
-RULES = [
-    check_hardcoded_instance_name,
-    check_instance_index_branch,
-    check_hardcoded_irq,
-    check_hardcoded_reset,
-    check_hardcoded_clock,
+PATTERN_RULES = [
     check_hardcoded_address,
-    check_missing_vsf_mconnect,
-    check_pinmux_in_driver,
     check_macro_backslash_align,
     check_spin_wait_comment,
-    check_bare_void_cast,
-    check_debug_logging,
-    check_magic_count_number,
 ]
 
 
@@ -749,7 +485,14 @@ def check_file(path: Path) -> tuple[list[Finding], list[Finding]]:
     error_findings: list[Finding] = []
     warn_findings: list[Finding] = []
 
-    for rule in RULES:
+    # YAML pattern rules (bulk of the checks)
+    for f in check_pattern_rules(lines, _PATTERN_RULES, path):
+        if f.rule_id in skip:
+            continue
+        error_findings.append(f)
+
+    # Python pattern rules (rules with special logic)
+    for rule in PATTERN_RULES:
         for f in rule(lines):
             if f.rule_id in skip:
                 continue
@@ -759,7 +502,7 @@ def check_file(path: Path) -> tuple[list[Finding], list[Finding]]:
             else:
                 error_findings.append(f)
 
-    # Path-dependent check for chip-prefixed constants in driver files
+    # Path-dependent check for chip-prefixed constants
     for f in check_chip_prefixed_define(lines, path):
         if f.rule_id in skip:
             continue

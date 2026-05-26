@@ -95,7 +95,7 @@ def rule_spin_wait_comment(lines: list[ScanLine], path: Path) -> list[Finding]:
 
     findings: list[Finding] = []
     for i, sl in enumerate(lines):
-        if sl.in_comment:
+        if sl.in_comment or sl.in_string_literal:
             continue
         m = _SPIN_WAIT_RE.search(sl.text)
         if not m:
@@ -126,7 +126,7 @@ def rule_chip_prefixed_define(lines: list[ScanLine], path: Path) -> list[Finding
     define_re = re.compile(r'#\s*define\s+([A-Z][A-Z0-9]*)_([A-Z][A-Z0-9_]*)')
 
     for sl in lines:
-        if sl.in_comment:
+        if sl.in_comment or sl.in_string_literal:
             continue
         m = define_re.search(sl.text)
         if not m:

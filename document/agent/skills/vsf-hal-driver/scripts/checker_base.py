@@ -56,6 +56,7 @@ class ScanLine:
     text: str
     in_imp_lv0: bool       # inside a #define ..._IMP_LV0 multi-line macro
     in_comment: bool       # inside a /* */ block comment OR #if 0 block
+    in_string_literal: bool  # inside a "..." string literal
     suppress: set[str]     # rule ids suppressed for this line
 
 
@@ -63,6 +64,16 @@ _SUPPRESS_RE = re.compile(r"//\s*quality:\s*allow-([a-z][a-z0-9-]*)")
 
 
 # ---------------------------------------------------------------- preprocess
+
+def _collect_line_ranges(root: Node, node_type: str) -> set[int]:
+    """Collect all line numbers (1-based) covered by nodes of *node_type*."""
+    lines: set[int] = set()
+    for node in _walk_all(root):
+        if node.type == node_type:
+            for ln in range(node.start_point[0] + 1, node.end_point[0] + 2):
+                lines.add(ln)
+    return lines
+
 
 def preprocess(text: str) -> list[ScanLine]:
     """Tag each line with context derived from the tree-sitter CST."""
@@ -95,6 +106,8 @@ def preprocess(text: str) -> list[ScanLine]:
                 for ln in range(node.start_point[0] + 1, node.end_point[0] + 2):
                     imp_lv0_lines.add(ln)
 
+    string_literal_lines = _collect_line_ranges(root, "string_literal")
+
     result: list[ScanLine] = []
     for idx, raw in enumerate(lines, start=1):
         suppress = set(_SUPPRESS_RE.findall(raw))
@@ -103,6 +116,7 @@ def preprocess(text: str) -> list[ScanLine]:
             text=raw,
             in_imp_lv0=idx in imp_lv0_lines,
             in_comment=idx in comment_lines,
+            in_string_literal=idx in string_literal_lines,
             suppress=suppress,
         ))
     return result
@@ -186,7 +200,7 @@ def emit(lines: Iterable[ScanLine], rule_id: str, message: str,
     rule is not inline-suppressed."""
     out: list[Finding] = []
     for sl in lines:
-        if sl.in_comment or rule_id in sl.suppress:
+        if sl.in_comment or sl.in_string_literal or rule_id in sl.suppress:
             continue
         if predicate(sl):
             out.append(Finding(Path(""), sl.lineno, rule_id, message, reference))
@@ -258,7 +272,7 @@ def check_pattern_rules(lines: list[ScanLine], rules: list[dict],
     findings: list[Finding] = []
     for rule in compiled:
         for sl in lines:
-            if sl.in_comment or rule["id"] in sl.suppress:
+            if sl.in_comment or sl.in_string_literal or rule["id"] in sl.suppress:
                 continue
             if rule["skip_lv0"] and sl.in_imp_lv0:
                 continue

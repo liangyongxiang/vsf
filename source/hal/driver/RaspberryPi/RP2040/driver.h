@@ -33,6 +33,7 @@
 // for clock_num_t
 #   include "hardware/structs/clocks.h"
 
+#   include "gpio/gpio.h"
 #   include "i2c/i2c.h"
 #   include "uart/uart.h"
 #   include "rtc/rtc.h"

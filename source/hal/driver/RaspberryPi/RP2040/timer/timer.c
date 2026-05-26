@@ -60,6 +60,7 @@ typedef struct vsf_hw_timer_t {
     uint32_t                  period;
     vsf_timer_channel_cfg_t   channel_cfg[2];
     uint8_t                   channel_enabled;
+    vsf_timer_irq_mask_t      pending_irq;
 } vsf_hw_timer_t;
 
 /*============================ GLOBAL VARIABLES ==============================*/
@@ -100,6 +101,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_init)(
     timer_ptr->isr = cfg_ptr->isr;
     timer_ptr->period = cfg_ptr->period;
     timer_ptr->channel_enabled = 0;
+    timer_ptr->pending_irq = 0;
 
     uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
     if (timer_ptr->isr.handler_fn != NULL) {
@@ -127,6 +129,7 @@ void VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_fini)(
     }
     NVIC_DisableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
     timer_ptr->channel_enabled = 0;
+    timer_ptr->pending_irq = 0;
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_enable)(
@@ -178,14 +181,13 @@ vsf_timer_irq_mask_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_clear)(
     uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
     uint8_t alarm0 = __rp2040_timer_alarm_index(timer_idx, 0);
     uint8_t alarm1 = __rp2040_timer_alarm_index(timer_idx, 1);
-    uint32_t ints = hw->ints;
     uint32_t alarm_mask = (1u << alarm0) | (1u << alarm1);
 
-    vsf_timer_irq_mask_t result = 0;
-    if (ints & alarm_mask) {
-        result = VSF_TIMER_IRQ_MASK_OVERFLOW;
-        hw->intr = (ints & alarm_mask);
-    }
+    /* Clear any remaining raw interrupt bits. */
+    hw->intr = alarm_mask;
+
+    vsf_timer_irq_mask_t result = timer_ptr->pending_irq;
+    timer_ptr->pending_irq = 0;
     return result;
 }
 
@@ -390,10 +392,13 @@ static void VSF_MCONNECT(__, VSF_TIMER_CFG_IMP_PREFIX, _timer_irqhandler)(
         }
     }
 
-    if ((irq_mask != 0) && (timer_ptr->isr.handler_fn != NULL)) {
-        timer_ptr->isr.handler_fn(timer_ptr->isr.target_ptr,
-                                  (vsf_timer_t *)timer_ptr,
-                                  irq_mask);
+    if (irq_mask != 0) {
+        timer_ptr->pending_irq |= irq_mask;
+        if (timer_ptr->isr.handler_fn != NULL) {
+            timer_ptr->isr.handler_fn(timer_ptr->isr.target_ptr,
+                                      (vsf_timer_t *)timer_ptr,
+                                      irq_mask);
+        }
     }
 }
 

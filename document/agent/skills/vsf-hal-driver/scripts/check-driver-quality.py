@@ -101,13 +101,12 @@ def check_instance_index_branch(lines: list[ScanLine]) -> list[Finding]:
                  predicate, reference="Per-instance parameterization in device.h")
 
 
-# Match bare IRQ names like UART0_IRQn / UART0_IRQHandler.
-# Skip when preceded by `VSF_HW_`, `VSF_MCONNECT` token-paste, `__IDX` macro arg
-# expansion, or part of `_RST_BIT` style suffixes.
+# Match bare IRQ names like UART0_IRQn, RTC_IRQ_IRQn, I2C0_IRQ_IRQn,
+# TIMER_IRQ_0_IRQHandler, etc.  Skip when preceded by `VSF_HW_`.
 _IRQ_NAME_RE = re.compile(
     r"(?<![\w])"                  # not part of a longer identifier
     r"(?<!VSF_HW_)"               # not VSF_HW_-prefixed
-    r"([A-Z][A-Z0-9_]*\d+)_(?:IRQn|IRQHandler)\b"
+    r"([A-Z][A-Za-z0-9_]*)_(?:IRQn|IRQHandler)\b"
 )
 
 
@@ -118,14 +117,13 @@ def check_hardcoded_irq(lines: list[ScanLine]) -> list[Finding]:
         m = _IRQ_NAME_RE.search(sl.text)
         if not m:
             return False
-        # Skip multi-channel offset patterns where a single-instance peripheral
-        # exposes one IRQ per channel and the driver accesses them by base + idx
-        # (e.g. `TIMER_IRQ_0_IRQn + timer_idx`). The driver author cannot
-        # parameterize the vendor's IRQ naming and the arithmetic is itself the
-        # right form.
-        tail = sl.text[m.end():].lstrip()
-        if tail.startswith("+"):
-            return False
+        # Previously this exempted `BASE_IRQn + idx` arithmetic.  That
+        # exemption was too broad: it allowed drivers for multi-instance
+        # peripherals (e.g. RP2040 timer) to bake vendor IRQ names into
+        # the .c file instead of fetching per-instance IRQNs from device.h
+        # via an `irqn` struct field populated in IMP_LV0.  If a driver
+        # genuinely needs arithmetic offset it can suppress inline with
+        # `// quality: allow-hardcoded-irq`.
         return True
     return emit(lines, "hardcoded-irq",
                  "literal IRQ name (e.g. UART0_IRQn) — should come from "

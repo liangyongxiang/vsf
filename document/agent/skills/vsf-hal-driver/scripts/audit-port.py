@@ -55,7 +55,7 @@ def _short_from_upper(upper: str) -> str | None:
 
 
 def scan_device_h(device_h: Path) -> dict[str, dict]:
-    """Parse device.h for VSF_HW_*_COUNT declarations."""
+    """Parse device.h for VSF_HW_*_COUNT declarations and IRQN macro values."""
     text = device_h.read_text(encoding="utf-8")
     results: dict[str, dict] = {}
 
@@ -83,6 +83,26 @@ def scan_device_h(device_h: Path) -> dict[str, dict]:
             results[short] = {"count": 1, "kind": "instance", "upper": upper}
 
     return results
+
+
+def scan_device_h_irqn_values(device_h: Path) -> dict[str, list[str]]:
+    """Parse device.h for VSF_HW_<P><N>_IRQN macro values.
+
+    Returns a mapping: peripheral_short -> list of bare IRQ names
+    (e.g. {"timer": ["TIMER_IRQ_0_IRQn", "TIMER_IRQ_1_IRQn", ...]}).
+    """
+    text = device_h.read_text(encoding="utf-8")
+    irqn_re = re.compile(
+        r'^\s*#\s*define\s+VSF_HW_([A-Z0-9]+)\d+_IRQN\s+([A-Za-z0-9_]+)',
+        re.MULTILINE,
+    )
+    periph_irqns: dict[str, list[str]] = {}
+    for m in irqn_re.finditer(text):
+        upper = m.group(1)
+        bare_name = m.group(2)
+        short = _short_from_upper(upper) or upper.lower()
+        periph_irqns.setdefault(short, []).append(bare_name)
+    return periph_irqns
 
 
 def scan_driver_h(driver_h: Path) -> set[str]:
@@ -217,6 +237,53 @@ def check_include_convention(chip_dir: Path) -> list[tuple[Path, str]]:
     return findings
 
 
+def check_irqn_usage(
+    chip_dir: Path,
+    periph_irqns: dict[str, list[str]],
+) -> list[tuple[str, str]]:
+    """For each peripheral with VSF_HW_*_IRQN macros in device.h, verify that
+    the driver .c file references those macros (via VSF_MCONNECT or directly)
+    rather than baking the bare vendor IRQ names into the driver body.
+    """
+    findings: list[tuple[str, str]] = []
+    if not chip_dir.exists():
+        return findings
+
+    for short, bare_names in periph_irqns.items():
+        c_file = chip_dir / short / f"{short}.c"
+        if not c_file.is_file():
+            continue
+
+        text = c_file.read_text(encoding="utf-8")
+
+        # Does the driver reference its device.h IRQN macros?
+        uses_vsf_macros = bool(
+            re.search(r"VSF_HW_" + re.escape(short.upper()) + r"\d*_IRQN", text)
+            or re.search(r"VSF_MCONNECT.*_IRQN", text, re.DOTALL)
+        )
+        # Also accept the correct pattern: an irqn struct field populated in IMP_LV0
+        has_irqn_field = bool(re.search(r"\.irqn\b", text))
+        if uses_vsf_macros or has_irqn_field:
+            continue
+
+        # Does the driver contain NVIC calls (signs it uses IRQs)?
+        uses_nvic = bool(re.search(r"\bNVIC_(SetPriority|EnableIRQ|DisableIRQ)\b", text))
+        if not uses_nvic:
+            continue
+
+        # Does the driver bake in the bare vendor IRQ names?
+        for bare in bare_names:
+            if re.search(r"\b" + re.escape(bare) + r"\b", text):
+                findings.append(
+                    (short, f"{c_file.name} uses bare IRQ name `{bare}` — "
+                             f"should reference VSF_HW_{short.upper()}*_IRQN via "
+                             f"VSF_MCONNECT in IMP_LV0 and store in an `irqn` field")
+                )
+                break  # one finding per peripheral is enough
+
+    return findings
+
+
 def audit(
     chip: str,
     driver_dir: Path,
@@ -245,6 +312,7 @@ def audit(
     warnings = 0
 
     declarations = scan_device_h(device_h)
+    periph_irqns = scan_device_h_irqn_values(device_h)
     files = scan_peripheral_files(chip_dir)
     template_blocks = scan_driver_h(driver_h) if driver_h.is_file() else set()
     enabled = set()
@@ -304,6 +372,13 @@ def audit(
     for cfile, inc in include_findings:
         print(f"[include-convention] {cfile}: {inc} — use hal/driver/vendor_driver.h instead")
         warnings += 1
+
+    # 7. IRQN macro usage: device.h declares VSF_HW_*_IRQN but driver .c
+    #    bakes in bare vendor IRQ names instead of referencing those macros.
+    irqn_findings = check_irqn_usage(chip_dir, periph_irqns)
+    for short, msg in irqn_findings:
+        print(f"[hardcoded-irq] {short}: {msg}")
+        errors += 1
 
     print()
     if errors:

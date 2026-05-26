@@ -66,8 +66,13 @@ def preprocess(text: str) -> list[ScanLine]:
                 in_comment = False
         else:
             line_in_comment = False
-            if "/*" in raw and "*/" not in raw[raw.find("/*"):]:
-                in_comment = True
+            if "/*" in raw:
+                start = raw.find("/*")
+                if "*/" in raw[start:]:
+                    # Single-line block comment — mark this line only
+                    line_in_comment = True
+                else:
+                    in_comment = True
 
         # IMP_LV0 macro definition tracking.
         if not macro_continues and re.search(r"#\s*define\s+\w*_IMP_LV0\b", raw):

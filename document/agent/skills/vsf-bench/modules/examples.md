@@ -3,9 +3,14 @@
 ## Full build-flash-test loop after driver changes
 
 ```bash
-# After modifying HAL driver code, verify with the full pipeline:
 vsf-bench --all board/pico/hardware-map.yml
 ```
+
+## Pipeline failure handling
+
+- **Build fails:** fix source/config, then retry
+- **Build succeeds but flash fails:** report error and stop — do not proceed to test
+- **Flash succeeds but test fails:** capture verbose output with `vsf-bench --all ... --verbose`, then invoke `Skill("vsf-hal-driver")` for driver debugging
 
 ## Debugging a failing peripheral with IO verification first
 
@@ -18,6 +23,5 @@ vsf-bench --all board/<board>/hardware-map.yml --suite gpio_io_check
 ## Running a single test scenario during driver development
 
 ```bash
-# Build, flash, and test only the UART baud rate scene:
 vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud
 ```

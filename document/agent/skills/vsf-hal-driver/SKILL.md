@@ -1,6 +1,6 @@
 ---
 name: vsf-hal-driver
-description: Debug and implement VSF HAL LV0 drivers. Delegates build/flash/test to vsf-bench.
+description: Create, implement, audit, and debug VSF HAL LV0 drivers. Handles register-level bugs in `.c` files (clock gates, IRQ handlers, register writes). Delegates build/flash/test to vsf-bench.
 metadata:
   version: "1.0"
   license: Apache-2.0
@@ -14,225 +14,70 @@ USE FOR:
 - Debugging LV0 driver register/IRQ/clock/DMA bugs
 
 DO NOT USE FOR:
-- Build, flash, or test only (use vsf-bench — even if driver code was changed)
-- Pinmux-only changes to vsf_board.c with no driver code written
-- LV1/LV2 driver layers or framework wrappers (use diagnose skill for layer isolation)
-- Crashes where a bug ABOVE LV0 (application or LV1 glue) passes bad data to a driver — even if the crash site is inside a driver `.c` file, the root cause is not an LV0 register-level bug
-
-# VSF HAL Driver
+- Build, flash, or test only (use vsf-bench)
+- Pinmux-only changes with no driver code written
+- LV1/LV2 layers or framework wrappers (use diagnose skill)
+- Crashes where a bug ABOVE LV0 passes bad data to a driver
 
 ## Quickstart
 
-### New chip port (full flow, 6 rungs)
+### New chip port (6 rungs)
 
-| Rung | Goal | How | Verify |
-|------|------|-----|--------|
-| R0 | Vendor UART echo on wired pin pair | Build & flash vendor SDK UART example; wire chip TX/RX to host USB-serial adapter | Host byte echoes within ~100ms |
-| R1 | VSF skeleton compiles | `scaffold/chip.py --config chip.yaml` (chip.yaml: `vendor`, `chip`, `cpu` fields); generate instance macros; implement `driver.c` clock setup + watchdog tick + IMP_LV0 | `cmake --build` succeeds; `printf` after `vsf_driver_init()` prints |
-| R2 | Test framework shell over serial | Route debug stream to UART in `vsf_board.c`; enable `VSF_USE_TEST`; flash | `vsf-test scene --list` responds over serial |
-| R3 | First VSF peripheral | Run scaffold → implement .c/.h → static checks → audit → vsf-bench (see "Add peripheral" below) | vsf-bench scenario passes |
-| R4 | System clock verified | Toggle GPIO at systimer-derived rate (e.g., 100ms); wire GPIO to logic analyzer; run scenario | LA measures all gaps within ±5% of expected |
-| R5 | Remaining peripherals one-by-one | For each: read `peripherals/<name>.md` → scaffold → implement → checks → audit → bench | Each peripheral's vsf-bench scenario passes |
+| Rung | Goal | Verify |
+|------|------|--------|
+| R0 | Vendor UART echo on wired pins | Host byte echoes within ~100ms |
+| R1 | VSF skeleton compiles | `cmake --build` passes; printf after `vsf_driver_init()` works |
+| R2 | Test framework shell over serial | `vsf-test scene --list` responds over serial |
+| R3 | First VSF peripheral | vsf-bench scenario passes |
+| R4 | System clock verified | Logic analyzer measures gaps within ±5% of expected |
+| R5 | Remaining peripherals one-by-one | Each peripheral's vsf-bench scenario passes |
 
-Do not skip rungs. Each rung assumes earlier rungs hold — advancing with a broken earlier rung wastes debugging time. All rungs must pass. For detailed steps per rung see `PORTING.md`.
+Do not skip rungs. Each rung assumes earlier rungs hold. Detailed per-rung steps: [porting](modules/porting.md).
 
-### Add peripheral to existing chip
+### Add peripheral
 
-1. `scripts/scaffold/peripheral.py --driver-dir source/hal/driver --chip Vendor/Chip --periph <name>` — copies template .c/.h
-2. Implement register operations in .c/.h; use `VSF_MCONNECT` for instance prefixing, never hardcode instance names
-3. Add IMP_LV0 invocation per instance (reg, irq, rst_bit fields from device.h macros)
-4. Add pinmux to `board/<board>/vsf_board.c` using `vsf_gpio_port_config_pins()` — not raw register writes
-5. Enable peripheral: `scripts/util/enable.py --enable <periph> <vsf_usr_cfg.h>`
-6. Skeleton check: `scripts/check/skeleton.py <template.c> <driver.c>` — verify the scaffolded skeleton (function signatures, macros, struct declarations) was not accidentally broken during implementation. Exit 0 = skeleton preserved; exit 1 = skeleton mismatch that may cause API incompatibility.
-7. Static checks (see Concepts for exit code rules):
-   - `scripts/check/structure.py --periph <name> --side header <file.h>`
-   - `scripts/check/structure.py --periph <name> --side source <file.c>`
-   - `scripts/check/quality.py <file.c>`
-8. Cross-file audit: `scripts/check/audit.py --chip Vendor/Chip`
+1. Scaffold: `scripts/scaffold/peripheral.py --driver-dir source/hal/driver --chip Vendor/Chip --periph <name>`
+2. Implement register operations in .c/.h; use `VSF_MCONNECT(..., __IDX)` for instance prefixing — `VSF_MCONNECT` is a token-paste macro that builds per-instance names from `device.h` macros; never hardcode instance names like `vsf_hw_uart0`
+3. Add `IMP_LV0` invocation per instance — `IMP_LV0` expands per-instance structs and IRQ handlers from `device.h` macros (reg base, IRQn, rst_bit, clk_bit)
+4. Add pinmux in `board/<board>/vsf_board.c` using `vsf_gpio_port_config_pins()` — not raw register writes
+5. Enable: `scripts/util/enable.py --enable <periph> <vsf_usr_cfg.h>`
+6. Skeleton check: `scripts/check/skeleton.py <template.c> <driver.c>` — verify function signatures and structs match the template
+7. Static: `scripts/check/structure.py --periph <name> --side header <file.h>` and `--side source <file.c>`; `scripts/check/quality.py <file.c>`
+8. Audit: `scripts/check/audit.py --chip Vendor/Chip` — cross-file consistency check
 9. Verify: `vsf-bench --all hardware-map.yml --suite <periph>_<scenario>`
 
-### Audit existing driver
+### Debug driver
 
-`scripts/check/audit.py --chip Vendor/Chip` → lists cross-file inconsistencies → fix each → re-run until exit 0 or 2.
+When a driver compiles but produces no I/O (TX, clock, data — nothing on logic analyzer):
 
-## Concepts
+1. Check `init()` for the three required steps:
+   - Reset deassert: `reset_hw->reset &= ~rst_bit;`
+   - Clock gate: `clock_hw->enable |= clk_bit;`
+   - NVIC enable: `NVIC_EnableIRQ(irqn);` with priority from `cfg_ptr->prio`
+2. Check IRQ handler name matches the IMP_LV0 expansion — mismatch = ISR never fires
+3. Check `volatile` on register pointers; spin-wait loops need `// < X us` annotation
+4. Check DMA: `RCC->AHBENR` DMA clock bit enabled; channel mapped to peripheral per reference manual
+5. Check `watchdog_hw->tick = N | WATCHDOG_TICK_ENABLE_BITS` in `driver.c` — missing this makes systimer run at wrong frequency, causing 100× timing errors caught by logic analyzer
+6. Run `gpio_io_check` suite first to rule out wiring before suspecting driver logic
 
-- **LV0:** register-level driver — reads/writes hardware registers directly. LV1 (framework wrappers) and LV2 (application APIs) are out of scope. **Boundary note:** a crash inside the driver `.c` file is an LV0 bug (in scope); a crash in LV1 glue code that calls the driver incorrectly, even if the symptom appears as "driver returns error", is an LV1 bug (out of scope — use the `diagnose` skill or `vsf-bench` to isolate the layer).
-- **IMP_LV0:** macro that expands into per-instance `struct` definitions and IRQ handler stubs, driven by macros in `device.h`.
-- **VSF_MCONNECT:** token-paste macro `VSF_MCONNECT(prefix, suffix, __IDX)` → `prefix##__IDX##suffix` for building per-instance names.
-- **Complete driver checklist:** `device.h` instance macros + `.h` API header + `.c` implementation + `IMP_LV0` block + `vsf_board.c` pinmux + `vsf_usr_cfg.h` enable flag.
-- **Exit code semantics (all scripts):** exit 0 = pass; exit 2 = all findings are known-acceptable warnings (review and proceed); any other exit = errors that must be fixed. Applies to `check/skeleton.py`, `check/structure.py`, `check/quality.py`, and `check/audit.py`.
-- **Reimplement-type macros (`VSF_<PERIPH>_CFG_REIMPLEMENT_TYPE_*`):** every VSF template header declares default enums and structs (mode bits, IRQ masks, config, status, capability, ctrl). When a chip's hardware layout differs from the generic template, or when the structure checker requires values to be visible in the chip-specific header, enable the corresponding macro and redefine the type in the chip's `.h` file. The template then skips its own definition and uses the chip-specific one. Common scenarios:
-  - **`CFG_REIMPLEMENT_TYPE_MODE` / `CFG_REIMPLEMENT_TYPE_CHANNEL_MODE`:** mode bits directly encode hardware register fields (e.g., a serial peripheral's clock-polarity/phase bits placed at the same bit positions as the vendor CR0 register). This eliminates `if/else` translation in `.c` and is the preferred way to implement convention 8.
-  - **`CFG_REIMPLEMENT_TYPE_IRQ_MASK`:** when the peripheral has a non-standard interrupt set, or when `check/structure.py` requires specific mask values (e.g., `VSF_<PERIPH>_IRQ_MASK_OVERFLOW`) to be present in the chip header file. The checker does not preprocess `#include`, so values inside an included template are invisible to it.
-  - **`CFG_REIMPLEMENT_TYPE_CFG` / `CFG_REIMPLEMENT_TYPE_STATUS` / `CFG_REIMPLEMENT_TYPE_CAPABILITY`:** when the chip needs extra fields in the config/status/capability structs (e.g., a chip-specific clock source field).
-  - **`CFG_REIMPLEMENT_TYPE_CTRL` / `CFG_REIMPLEMENT_TYPE_CHANNEL_CTRL`:** when the chip supports vendor-specific control commands beyond the generic set.
+## Example: Silent peripheral
 
-  Pattern: set the macro to `ENABLED`, define the type, then include the template. The same three-step pattern applies to **all** reimplementable types — mode, IRQ mask, cfg, status, capability, ctrl, etc. Only the macro name and the type being defined differ. Example (IRQ mask; mode and other types follow identically):
-  ```c
-  #define VSF_<PERIPH>_CFG_REIMPLEMENT_TYPE_IRQ_MASK     ENABLED
-  typedef enum vsf_<periph>_irq_mask_t {
-      VSF_<PERIPH>_IRQ_MASK_OVERFLOW = (0x01 << 0),
-  } vsf_<periph>_irq_mask_t;
-  #include "hal/driver/common/template/vsf_template_<periph>.h"
-  ```
+**Symptom:** `vsf_hw_<periph>_init()` returns `VSF_ERR_NONE`, firmware boots, but peripheral produces no output. Logic analyzer shows pins at idle level.
 
-## Conventions (enforced by `scripts/check/quality.py`)
-
-1. **No hardcoded instances:** per-instance values (reg base, IRQ number, clock bit, reset bit) must come from `device.h` macros expanded via `VSF_MCONNECT(..., __IDX)` in the IMP_LV0 block. Never write `vsf_hw_uart0` directly in `.c` files.
-2. **Spin-wait annotated:** every `while (reg->flag);` must have a preceding `// < X us` comment with the expected upper-bound duration. Enforced by quality checker.
-3. **No pinmux in driver:** GPIO function selection belongs in `vsf_board.c`, never in the peripheral driver `.c` file.
-4. **Unimplemented APIs:** return `VSF_ERR_NOT_SUPPORT` with `VSF_HAL_ASSERT(0)`. Never emulate missing hardware features in software.
-5. **IRQ in init():** if the peripheral supports interrupts, `init()` must set priority from `cfg_ptr->prio` (`NVIC_SetPriority(irqn, cfg_ptr->prio)`) **before** enabling the IRQ (`NVIC_EnableIRQ(irqn)`). Document if priority is not configurable on this chip. Also required: reset deassert + clock gate enable. Missing any one = driver compiles but produces no I/O.
-6. **IRQ in fini():** `fini()` must disable NVIC IRQ (`NVIC_DisableIRQ(irqn)`) before aborting DMA, clearing peripheral interrupt enable bits, and releasing resources. The disable order matters: NVIC first to prevent new IRQ pends, then peripheral-level cleanup.
-7. **Config fields consumed or documented:** every field in `vsf_<periph>_cfg_t` passed to `init()` must be either read/applied, or documented with `// field_name intentionally unused: <reason>` above the struct store. Never silently ignore config fields — silent ignores leave future readers guessing whether the omission is a bug or a hardware limitation.
-8. **Mode/config bits map hardware registers:** for any peripheral where the chip's register fields naturally align with VSF config values (e.g., GPIO MODER/OTYPER/PUPDR, USART baud/mode bits, I2C speed modes, SPI frame formats), reimplement the corresponding enum/type so that values encode register bits directly. Enable `VSF_<PERIPH>_CFG_REIMPLEMENT_TYPE_MODE` (or `VSF_<PERIPH>_CFG_REIMPLEMENT_TYPE_IRQ_MASK` for interrupt masks) in the chip-specific `.h` and define the enum before including the template header. Driver code then extracts fields with shifts and masks instead of long `if/else` translation functions. This applies to all peripherals — GPIO is just the most common example. When hardware layout prevents perfect bit-to-bit mapping, minimize conversion to the unavoidable cases only.
-9. **No debug logging in final driver:** `vsf_trace_info`, `printf`, and other diagnostic output are acceptable during bring-up, but must be removed before the driver is considered complete. Logging bloats firmware size, slows critical paths, and pollutes test output. Strip all trace calls after the peripheral passes vsf-bench.
-10. **NVIC and peripheral IRQ separation:** `_<periph>_irq_disable()` must **only** clear peripheral-level interrupt enable bits (e.g., `reg->IER &= ~mask`). It must **never** call `NVIC_DisableIRQ()` — that belongs in `fini()`. Rationale: irq_disable/irq_enable are paired APIs; if irq_disable also disables NVIC, a subsequent irq_enable cannot receive interrupts because NVIC is still off. This applies to all peripherals.
-11. **Init without ISR handler → disable IRQs:** if `init()` is called with `cfg_ptr->isr.handler_fn == NULL`, the driver must call `NVIC_DisableIRQ(irqn)` to prevent spurious interrupts when the user only wants polled mode. Do not leave IRQs enabled from a previous configuration or reset default. The peripheral-level IRQ enable bits are managed by the `irq_enable` / `irq_disable` API pair; `init()` owns the NVIC on/off state.
-12. **Invalid frequency → return error:** if `cfg_ptr->clock_hz` (or `freq`) is 0 or otherwise out of range, return `VSF_ERR_INVALID_PARAMETER`. Do not silently substitute a default frequency (e.g., `if (freq == 0) freq = 1000;`) — the caller should receive immediate feedback that the configuration is invalid.
-13. **No magic numbers:** use named macros or `device.h` constants for all hardcoded numeric values (instance counts, register bit positions, timeout limits, etc.). `VSF_HAL_ASSERT(channel < 2)` is a bug — it should be `VSF_HAL_ASSERT(channel < VSF_HW_<PERIPH>_CHANNEL_COUNT)` or similar.
-14. **`driver.h` includes chip-specific peripheral headers:** the chip-level `driver.h` (e.g., `source/hal/driver/Vendor/Chip/driver.h`) must include every chip-specific peripheral header (e.g., `gpio/gpio.h`, `uart/uart.h`, `i2c/i2c.h`) at the top of the file, before the `#if VSF_HAL_USE_<PERIPH>` template blocks. This makes chip-specific constants and reimplemented types (such as `VSF_GPIO_AF`, `GPIO_FUNC_UART`) visible to board code and other consumers that include `driver.h`. Do not rely on the template blocks to bring in these definitions — the templates are conditional and may be disabled.
-15. **Document implemented vs. unimplemented capabilities:** every driver `.c` file must contain a block comment near the top (before `TYPES` or inside `MACROS`) that lists: (a) the hardware capabilities relevant to this peripheral (e.g., "RP2040 DMA: 12 channels, 2 IRQ lines, 4 transfer widths"), (b) what the driver currently implements, and (c) what is intentionally not yet implemented with a brief `TODO` note explaining what would need to change to implement it. This prevents future maintainers (human or AI) from assuming a feature works when it is only partially wired, and makes capability gaps discoverable without reading the entire datasheet. Example: see `source/hal/driver/RaspberryPi/RP2040/dma/dma.c`.
-
-## Examples
-
-### Silent peripheral — init() compiles but no I/O on any pin
-
-**Symptom:** `vsf_hw_<periph>_init()` returns `VSF_ERR_NONE` and the firmware boots, but the peripheral produces no output (TX edge, clock, data — nothing). Logic analyzer shows pins staying at idle level.
-
-**Diagnosis:** Check `init()` for all three required steps:
-- Reset deassert: `reset_hw->reset &= ~rst_bit;` (deassert the peripheral reset line)
-- Clock gate: `clock_hw->enable |= clk_bit;` (enable the peripheral clock)
-- IRQ enable: `NVIC_EnableIRQ(irqn);` and set priority from `cfg_ptr->prio` if configurable
+**Diagnosis:** `init()` is missing one of three required steps:
+- Reset deassert: `reset_hw->reset &= ~rst_bit;`
+- Clock gate: `clock_hw->enable |= clk_bit;`
+- NVIC enable: `NVIC_EnableIRQ(irqn);` and set priority from `cfg_ptr->prio`
 
 Missing any one = no I/O. This is the most common LV0 driver bug across all peripherals.
 
-### Adding a new peripheral to an existing chip port
+**Fix:** Add the missing step to `init()`. After fix, re-run `vsf-bench --all hardware-map.yml --suite <periph>_<scenario>`.
 
-Follow the "Add peripheral" flow in Quickstart. This example focuses on what can go wrong and how to catch it early:
+## Reference
 
-- **Step 1-2 (scaffold/implement):** verify the template copied into `source/hal/driver/<Vendor>/<Chip>/<periph>/`. If the directory already exists, scaffold fails — edit directly.
-- **Step 5 (static checks):** structure check catches missing API functions; quality check catches convention violations. Fix these before audit.
-- **Step 6 (audit):** cross-file check catches IRQ handler declared in `device.h` but not defined in `.c`, or vice versa.
-- **Step 7 (vsf-bench):** only run after all static checks + audit pass. If vsf-bench fails, re-run `gpio_io_check` to rule out wiring before suspecting driver logic.
-
-### New chip port — common pitfalls per rung
-
-Follow the 6-rung ladder in Quickstart. Typical failures:
-- R1: forgetting watchdog tick or PLL config → `vsf_systimer_get_us()` returns 0 or drifts
-- R2: debug stream routed to wrong serial instance → no shell prompt
-- R3: pinmux via raw vendor registers instead of `vsf_port_config_pins()` → driver works only by accident
-- R4: timer running at wrong frequency → 100× timing errors caught by LA tolerance check
-
-### Unsupported config silently accepted — init() returns NONE but feature never works
-
-**Symptom:** `init()` returns `VSF_ERR_NONE`, the application later waits for a callback or event that never arrives. The user files a bug: "IRQ never fires" or "DMA never completes." Root cause is the hardware does not support the feature, but `init()` accepted the configuration silently.
-
-**Fix:** In `init()`, validate every field that expresses a feature the hardware might not support. If the field requests an unsupported capability, return `VSF_ERR_NOT_SUPPORT` immediately. Example pattern:
-
-```c
-/* Hardware has no interrupt line for this peripheral.
- * If user requests interrupt mode, reject at init(). */
-if (cfg_ptr->isr.handler_fn != NULL) {
-    return VSF_ERR_NOT_SUPPORT;
-}
-```
-
-Applies to any peripheral where the chip lacks an IRQ line, DMA channel, configurable priority, or other optional feature that the VSF API allows the user to request.
-
-### Unused config struct fields must be documented
-
-**Symptom:** `vsf_<periph>_cfg_t` has a field (e.g., `prio`) that the chip hardware cannot configure. The `init()` function stores the whole struct but never reads that field — with no comment explaining why. A future maintainer cannot tell whether the omission is a driver bug or intentional.
-
-**Fix:** Document each unused field directly above the struct store in `init()`:
-```c
-// cfg_ptr->prio intentionally unused: <chip> IRQ priority is fixed in hardware
-dma_ptr->cfg = *cfg_ptr;
-```
-Applies to every peripheral type. For every config field: either use it in the driver, or document why the chip hardware doesn't support it.
-
-### Mode bits translated via if/else instead of direct register mapping
-
-**Symptom:** `init()` has a chain of `if (mode & MODE_X) { reg |= BIT; }` to translate VSF mode bits into hardware register bits. The code works but is verbose and brittle — every new mode requires another branch.
-
-**Diagnosis:** Look for `if` blocks inside `init()` that test `cfg_ptr->mode` against individual `VSF_*_MODE_*` constants and then OR bits into a register variable. Example (PL022 SPI):
-```c
-/* Before — translation via if/else */
-if (cfg_ptr->mode & VSF_SPI_MODE_2) { cr0 |= (1u << 6); }  /* CPOL */
-if (cfg_ptr->mode & VSF_SPI_MODE_1) { cr0 |= (1u << 7); }  /* CPHA */
-```
-
-**Fix:** Redefine the mode enum in the chip-specific `.h` so that mode values **directly encode** the hardware register bits. Then extract them with a single mask operation in `init()`. Example:
-
-```c
-/* spi.h — redefine VSF_SPI_CPOL/CPHA to match PL022 CR0 bits [7:6] */
-#define VSF_SPI_CFG_REIMPLEMENT_TYPE_MODE   ENABLED
-typedef enum vsf_spi_mode_t {
-    /* ... other modes unchanged ... */
-    VSF_SPI_CPOL_LOW  = 0x00,
-    VSF_SPI_CPOL_HIGH = (1u << 6),   /* PL022 SPO */
-    VSF_SPI_CPHA_LOW  = 0x00,
-    VSF_SPI_CPHA_HIGH = (1u << 7),   /* PL022 SPH */
-    VSF_SPI_MODE_0 = VSF_SPI_CPOL_LOW  | VSF_SPI_CPHA_LOW,
-    VSF_SPI_MODE_1 = VSF_SPI_CPOL_LOW  | VSF_SPI_CPHA_HIGH,
-    VSF_SPI_MODE_2 = VSF_SPI_CPOL_HIGH | VSF_SPI_CPHA_LOW,
-    VSF_SPI_MODE_3 = VSF_SPI_CPOL_HIGH | VSF_SPI_CPHA_HIGH,
-    /* ... */
-} vsf_spi_mode_t;
-```
-
-```c
-/* spi.c — single-line extraction, no if/else */
-cr0 |= (cfg_ptr->mode & ((1u << 6) | (1u << 7)));
-```
-
-Applies to any peripheral where VSF config bits can be aligned with hardware register fields: GPIO MODER/PUPDR, USART baud/mode, I2C speed, SPI frame format, etc. When hardware layout prevents perfect alignment, minimize conversion to the unavoidable cases only. See convention 8.
-
-## Error Handling and Troubleshooting
-
-### Script failures
-
-| Failure | Cause | Fix |
-|---------|-------|-----|
-| `scaffold/peripheral.py` fails | wrong `--chip` path or target dir already exists | verify path under `source/hal/driver/`; if dir exists, edit directly |
-| `check/skeleton.py` non-zero | function signature changed, macro renamed, or struct declaration removed from template | restore the original template skeleton; implementation should go inside the functions, not alter signatures |
-| `check/structure.py` non-zero | missing required API, wrong prototype, or missing IMP_LV0 | read check output; add missing function/struct; rerun |
-| `check/quality.py` non-zero | style or convention violation | fix the violation; only suppress with `// quality: allow-<rule-id>` after confirming it's a false positive |
-| `check/audit.py` non-zero | cross-file mismatch (e.g., IRQ handler declared but not defined) or `missing-mask` on GPIO | fix mismatch; for GPIO `missing-mask` see note below — GPIO uses `VSF_HW_GPIO_PORT_MASK` not `VSF_HW_GPIO_MASK` |
-| `util/enable.py` fails | peripheral name typo or `vsf_usr_cfg.h` not at expected path | check peripheral name against `peripheral-registry.yml` |
-
-### Runtime failures
-
-| Symptom | Likely cause | Action |
-|---------|-------------|--------|
-| Boot hang / no shell prompt | `vsf_driver_init()` crash — clock setup or NULL deref | add printf after each init step; check PLL lock |
-| Compiles, no I/O on any pin | system timer not running (watchdog tick missing) | verify `watchdog_hw->tick = N \| WATCHDOG_TICK_ENABLE_BITS` in `driver.c` |
-| Single peripheral: compiles, no I/O | init() missing reset, clock, or IRQ step | check all three (see Example: Silent peripheral) |
-| IRQ never fires | NVIC enable missing in init(), or IRQ handler name doesn't match IMP_LV0 expansion | verify `NVIC_EnableIRQ()` called; check handler name against generated macro |
-| DMA transfer never completes | DMA clock not enabled, or channel not assigned to peripheral | check `RCC->AHBENR` DMA clock bit; verify channel mapping in reference manual |
-| vsf-bench fails, all static checks passed | wiring issue or wrong baudrate | run `gpio_io_check` suite first to isolate wiring; check R4 system clock timing |
-| Peripheral works intermittently | missing `volatile` on register pointers, or spin-wait missing `< X us` comment (compiler optimizes away delay) | add volatile; add duration comment |
-
-### Audit `missing-mask` — expected behavior
-
-`check/audit.py` checks that every declared peripheral has either `VSF_HW_<PERIPH>_MASK` or `VSF_HW_<PERIPH>_COUNT` in `device.h` (templates derive one from the other). **GPIO is special:** it uses `VSF_HW_GPIO_PORT_MASK` / `VSF_HW_GPIO_PORT_COUNT`, and `vsf_template_gpio.h` defines `VSF_HW_GPIO_MASK` from `VSF_HW_GPIO_PORT_MASK`. If you see `[missing-mask] gpio` it means `VSF_HW_GPIO_PORT_MASK` or `VSF_HW_GPIO_PORT_COUNT` is missing — not `VSF_HW_GPIO_MASK`.
-
-### Iteration loop
-
-```
-edit .c/.h → structure check → quality check → audit → vsf-bench
-                                                          ↑
-                                          └── fix ────────┘
-```
-
-Stop when vsf-bench passes. If static checks keep failing after several iterations, pause and re-read `conventions.md` — repeated failures usually mean a structural rule is being violated, not a typo. If the same failure persists across 5+ iterations: stop and tell the user — the issue is likely a tooling bug, an undocumented hardware quirk, or a misunderstanding of the convention rules that needs human clarification.
-
-### When tools or documents are unavailable
-
-- `vsf-bench` not installed: `pip install -e vsf.demo/vsf/test/vsf_bench`
-- `scripts/` not on PATH: invoke with full path under `vsf.demo/vsf/document/agent/skills/vsf-hal-driver/scripts/`
-- `PORTING.md` / `REFERENCE.md` / `conventions.md` not accessible: all are in the same directory as this SKILL.md
-- `peripheral-registry.yml` missing: read `scripts/check-specs/<periph>.yml` for per-peripheral API specs
-- **No hardware available:** static checks (structure + quality + audit) can still verify correctness. If all exit 0 or 2, the code is structurally sound — flag to user that hardware testing is pending. This skill hands off to vsf-bench: use `Skill("vsf-bench")` to invoke it, or tell the user to run `vsf-bench --all hardware-map.yml --suite <periph>_<scenario>`.
-- Undocumented vendor registers: flag to user; this skill cannot authoritatively infer NDA-only register behavior
+- [concepts](modules/concepts.md) — LV0, IMP_LV0, VSF_MCONNECT, reimplement-type macros, exit codes
+- [conventions](modules/conventions.md) — 15 conventions enforced by `scripts/check/quality.py`
+- [examples](modules/examples.md) — Unsupported config, unused fields, mode bits via if/else
+- [troubleshooting](modules/troubleshooting.md) — Script failures, runtime failures, iteration loop
+- [porting](modules/porting.md) — Detailed per-rung steps for new chip port
+- [reference](modules/reference.md) — Common patterns, script reference, peripheral specs

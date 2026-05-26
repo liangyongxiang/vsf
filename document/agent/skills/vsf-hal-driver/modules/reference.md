@@ -401,7 +401,7 @@ The HAL is a **thin wrapper** — each driver exposes exactly what the hardware 
 
 **Rationale:** Emulating hardware features inside the driver adds complexity, hides the true hardware capability from the caller, creates blocking code paths, and blurs the line between HAL and application logic. If a caller needs a higher-level abstraction, it builds it on top of the HAL using application-level primitives (timers, threads, IRQs).
 
-**Example — break signalling:** PL011 only supports `SET_BREAK` / `CLEAR_BREAK` (a manual BRK bit). It has no auto-timed break hardware. The RP2040 UART driver implements `SET_BREAK` and `CLEAR_BREAK` as single register writes; `SEND_BREAK` returns `VSF_ERR_NOT_SUPPORT`. A caller that needs a timed break uses `SET_BREAK` + its own timer + `CLEAR_BREAK`. See [peripherals/usart.md](peripherals/usart.md).
+**Example — break signalling:** PL011 only supports `SET_BREAK` / `CLEAR_BREAK` (a manual BRK bit). It has no auto-timed break hardware. The RP2040 UART driver implements `SET_BREAK` and `CLEAR_BREAK` as single register writes; `SEND_BREAK` returns `VSF_ERR_NOT_SUPPORT`. A caller that needs a timed break uses `SET_BREAK` + its own timer + `CLEAR_BREAK`. See [peripherals/usart.md](../peripherals/usart.md).
 
 ### Non-blocking API requirement
 
@@ -485,12 +485,12 @@ Some GPIO drivers also require a chip-specific init call inside `vsf_driver_init
 
 | Peripheral | File |
 |---|---|
-| USART | [peripherals/usart.md](peripherals/usart.md) |
-| GPIO | [peripherals/gpio.md](peripherals/gpio.md) |
-| I2C | [peripherals/i2c.md](peripherals/i2c.md) |
-| SPI | [peripherals/spi.md](peripherals/spi.md) |
-| ADC | [peripherals/adc.md](peripherals/adc.md) |
-| PWM | [peripherals/pwm.md](peripherals/pwm.md) |
+| USART | [peripherals/usart.md](../peripherals/usart.md) |
+| GPIO | [peripherals/gpio.md](../peripherals/gpio.md) |
+| I2C | [peripherals/i2c.md](../peripherals/i2c.md) |
+| SPI | [peripherals/spi.md](../peripherals/spi.md) |
+| ADC | [peripherals/adc.md](../peripherals/adc.md) |
+| PWM | [peripherals/pwm.md](../peripherals/pwm.md) |
 
 ---
 

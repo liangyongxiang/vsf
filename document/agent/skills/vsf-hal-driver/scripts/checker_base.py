@@ -24,8 +24,6 @@ def _parser() -> TSParser:
     return _PARSER
 
 
-
-
 # ---------------------------------------------------------------- exit codes
 
 EXIT_PASS = 0

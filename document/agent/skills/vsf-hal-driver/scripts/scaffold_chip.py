@@ -78,7 +78,6 @@ class Scaffolder:
         self.copy_template_file("__device_name_a__/driver.c", "driver.c")
         startup = self.template_dir / "__series_name_a__" / "__device_name_a__" / "startup.c"
         if startup.exists():
-            import re
             content = self.renderer.replace(startup.read_text(encoding="utf-8"))
             handlers, vectors = self.renderer.startup_entries()
             content = content.replace("{{INTERRUPT_HANDLERS}}", handlers)

@@ -2,7 +2,6 @@
 """Shared helpers for function-level quality rules."""
 
 import re
-from pathlib import Path
 
 
 def line_in_func(func: dict, needle: str) -> int:

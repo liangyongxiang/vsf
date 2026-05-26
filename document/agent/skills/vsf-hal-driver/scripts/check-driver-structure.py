@@ -21,7 +21,7 @@ except ImportError:
     print("Error: pyyaml required. Install with: pip install pyyaml", file=sys.stderr)
     sys.exit(1)
 
-from checker_base import ResultAccumulator, EXIT_PASS, EXIT_ERROR, EXIT_WARNING, extract_functions
+from checker_base import ResultAccumulator, extract_functions
 
 
 def load_spec(periph: str, script_dir: Path) -> dict:

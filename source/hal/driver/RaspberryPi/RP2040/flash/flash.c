@@ -202,9 +202,9 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_erase_multi_sector)(
     VSF_HAL_ASSERT((size % VSF_HW_FLASH0_SECTOR_SIZE) == 0);
     VSF_HAL_ASSERT((offset + size) <= VSF_HW_FLASH0_SIZE);
 
-    vsf_gint_state_t irq_state = vsf_protect_interrupt();
+    vsf_protect_t state = vsf_protect_interrupt();
     __vsf_rp2040_flash_do_erase(offset, size);
-    vsf_unprotect_interrupt(irq_state);
+    vsf_unprotect_interrupt(state);
 
     return VSF_ERR_NONE;
 }
@@ -221,9 +221,9 @@ vsf_err_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_write_multi_sector)(
     VSF_HAL_ASSERT((size % VSF_HW_FLASH0_PAGE_SIZE) == 0);
     VSF_HAL_ASSERT((offset + size) <= VSF_HW_FLASH0_SIZE);
 
-    vsf_gint_state_t irq_state = vsf_protect_interrupt();
+    vsf_protect_t state = vsf_protect_interrupt();
     __vsf_rp2040_flash_do_program(offset, buffer, size);
-    vsf_unprotect_interrupt(irq_state);
+    vsf_unprotect_interrupt(state);
 
     return VSF_ERR_NONE;
 }

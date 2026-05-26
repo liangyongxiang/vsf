@@ -16,14 +16,19 @@ import argparse
 import sys
 from pathlib import Path
 
+# Bootstrap: ensure scripts/ is on sys.path so _lib is importable
+_SCRIPTS_DIR = Path(__file__).parent.parent.resolve()
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+
 try:
     import yaml  # type: ignore[reportMissingModuleSource]
 except ImportError:
     print("Error: pyyaml required. Install with: pip install pyyaml", file=sys.stderr)
     sys.exit(1)
 
-from checker_base import replace_zone
-from _scaffold_common import build_peripheral_macros
+from _lib.checker import replace_zone
+from _lib.scaffold import build_peripheral_macros
 
 
 def generate_macros(yaml_path: Path) -> str:

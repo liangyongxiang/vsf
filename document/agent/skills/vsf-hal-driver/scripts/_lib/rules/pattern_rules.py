@@ -4,7 +4,7 @@
 import re
 from pathlib import Path
 
-from checker_base import Finding, ScanLine, emit
+from ..checker import Finding, ScanLine, emit
 
 _LITERAL_ADDR_RE = re.compile(r"\b0x([0-9A-Fa-f]{8,})\b")
 _BACKSLASH_TARGET_COL = 81

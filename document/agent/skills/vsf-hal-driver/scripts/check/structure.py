@@ -15,17 +15,22 @@ import re
 import sys
 from pathlib import Path
 
+# Bootstrap: ensure scripts/ is on sys.path so _lib is importable
+_SCRIPTS_DIR = Path(__file__).parent.parent.resolve()
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+
 try:
     import yaml  # type: ignore[reportMissingModuleSource]
 except ImportError:
     print("Error: pyyaml required. Install with: pip install pyyaml", file=sys.stderr)
     sys.exit(1)
 
-from checker_base import ResultAccumulator, extract_functions
+from _lib.checker import ResultAccumulator, extract_functions
 
 
 def load_spec(periph: str, script_dir: Path) -> dict:
-    spec_dir = script_dir / "check-specs"
+    spec_dir = script_dir.parent / "check-specs"
     spec_file = spec_dir / f"{periph}.yml"
     if not spec_file.is_file():
         # Fallback: scan all YAML files for matching periph or api_prefix

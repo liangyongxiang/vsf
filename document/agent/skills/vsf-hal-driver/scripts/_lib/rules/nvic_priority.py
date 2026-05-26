@@ -3,8 +3,8 @@
 
 from pathlib import Path
 
-from checker_base import Finding
-from rules._helpers import line_in_func
+from ..checker import Finding
+from ._helpers import line_in_func
 
 
 def check_nvic_priority_order(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:

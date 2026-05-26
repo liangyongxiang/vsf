@@ -3,8 +3,8 @@
 
 from pathlib import Path
 
-from checker_base import Finding
-from rules._helpers import func_has_any, func_has_exemption, CLOCK_EXEMPT_RE, RESET_EXEMPT_RE
+from ..checker import Finding
+from ._helpers import func_has_any, func_has_exemption, CLOCK_EXEMPT_RE, RESET_EXEMPT_RE
 
 
 def check_init_has_reset(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:

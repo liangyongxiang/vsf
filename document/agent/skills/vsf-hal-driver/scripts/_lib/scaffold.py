@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Shared scaffolding logic for scaffold_chip.py and scaffold_peripheral.py."""
 
 import re
@@ -6,7 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, TypeAlias, cast
 
-from checker_base import replace_zone
+from _lib.checker import replace_zone
 
 try:
     import yaml  # type: ignore[reportMissingModuleSource]
@@ -23,7 +22,7 @@ _REGISTRY: dict[str, dict] | None = None
 def _load_registry() -> dict[str, dict]:
     global _REGISTRY
     if _REGISTRY is None:
-        reg_file = Path(__file__).parent / "peripheral-registry.yml"
+        reg_file = Path(__file__).parent.parent / "peripheral-registry.yml"
         if reg_file.is_file():
             _REGISTRY = yaml.safe_load(reg_file.read_text(encoding="utf-8")) or {}
         else:

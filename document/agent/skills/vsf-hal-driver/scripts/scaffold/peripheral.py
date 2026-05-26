@@ -17,7 +17,12 @@ import argparse
 import sys
 from pathlib import Path
 
-from _scaffold_common import ChipConfig, Peripheral, TemplateRenderer, write_peripheral
+# Bootstrap: ensure scripts/ is on sys.path so _lib is importable
+_SCRIPTS_DIR = Path(__file__).parent.parent.resolve()
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+
+from _lib.scaffold import ChipConfig, Peripheral, TemplateRenderer, write_peripheral
 
 
 def scaffold(

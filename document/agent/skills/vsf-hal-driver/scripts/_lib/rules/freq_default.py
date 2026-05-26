@@ -4,7 +4,7 @@
 import re
 from pathlib import Path
 
-from checker_base import Finding
+from ..checker import Finding
 
 
 def check_silent_freq_default(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:

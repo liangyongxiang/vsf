@@ -4,7 +4,7 @@
 import re
 from pathlib import Path
 
-from checker_base import Finding
+from ..checker import Finding
 
 
 def check_mode_bits_translation(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:

@@ -21,7 +21,12 @@ from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Tuple, Optional
 
-from checker_base import extract_functions, _parser, _walk_all
+# Bootstrap: ensure scripts/ is on sys.path so _lib is importable
+_SCRIPTS_DIR = Path(__file__).parent.parent.resolve()
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+
+from _lib.checker import extract_functions, _parser, _walk_all
 
 
 @dataclass

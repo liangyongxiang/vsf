@@ -35,8 +35,8 @@ Read sequentially. Do not skim — verification gates exist because every later 
 
 **How to achieve.**
 
-1. Run `scaffold_chip.py --driver-dir source/hal/driver --config chip.yaml` to copy the template skeleton into `source/hal/driver/<Vendor>/<Chip>/`.
-2. Write a YAML instance map and run `generate-device-peripheral-macros.py --in-place source/hal/driver/<Vendor>/<Chip>/device.h instances.yaml`. Per REFERENCE.md "Per-instance parameterization in device.h", the generated macros are `VSF_HW_<PERIPH>_COUNT` and `VSF_HW_<PERIPH><N>_REG / _IRQN / _IRQHandler` for every instance.
+1. Run `scaffold/chip.py --driver-dir source/hal/driver --config chip.yaml` to copy the template skeleton into `source/hal/driver/<Vendor>/<Chip>/`.
+2. Write a YAML instance map and run `scaffold/macros.py --in-place source/hal/driver/<Vendor>/<Chip>/device.h instances.yaml`. Per REFERENCE.md "Per-instance parameterization in device.h", the generated macros are `VSF_HW_<PERIPH>_COUNT` and `VSF_HW_<PERIPH><N>_REG / _IRQN / _IRQHandler` for every instance.
 3. In `driver.c`'s `vsf_driver_init()`, port the vendor SDK's clock setup (PLL bring-up, peripheral clock gates). If your chip has a watchdog tick required for the system timer (see RP2040 example), enable it here.
 4. Add the chip's CMake fragment so `vsf_demo.elf` links.
 
@@ -99,11 +99,11 @@ vsf-bench --all board/<board>/hardware-map.yml --suite gpio_io_check
 
 **How to achieve.**
 
-1. Run `scaffold_peripheral.py --driver-dir source/hal/driver --chip <Vendor>/<Chip> --periph uart` to copy the template into your chip's tree. See REFERENCE.md "Style migration".
+1. Run `scaffold/peripheral.py --driver-dir source/hal/driver --chip <Vendor>/<Chip> --periph uart` to copy the template into your chip's tree. See REFERENCE.md "Style migration".
 2. Replace template placeholders with your chip's IP details (PL011, DW APB UART, USART, etc.). Use `VSF_MCONNECT` for instance prefixing — never write `vsf_hw_uart0` directly in the `.c` file.
 3. Add `IMP_LV0` invocations for each UART instance. The struct's per-instance fields (`reg`, `irq`, `rst_bit`, etc.) come from the macros you defined in R1.
 4. Add the UART pinmux to `board/<your_board>/vsf_board.c`. Use `vsf_gpio_port_config_pins()` — **not** raw vendor register writes. See [[pico-board-init-cleanup]] for the canonical pattern.
-5. Run `check-driver-structure.py --periph usart --side header <your_uart.h>`, `check-driver-structure.py --periph usart --side source <your_uart.c>`, and `check-driver-quality.py <your_uart.c>`. All three must exit 0 (or 2 with only known-acceptable warnings) before moving on.
+5. Run `check/structure.py --periph usart --side header <your_uart.h>`, `check/structure.py --periph usart --side source <your_uart.c>`, and `check/quality.py <your_uart.c>`. All three must exit 0 (or 2 with only known-acceptable warnings) before moving on.
 
 **Verification.** `vsf-bench-test <hardware-map.yml> --suite usart_baud` reports all cases pass.
 
@@ -121,10 +121,10 @@ vsf-bench --all board/<board>/hardware-map.yml --suite gpio_io_check
 
 **How to achieve.**
 
-1. Run `scaffold_peripheral.py --driver-dir source/hal/driver --chip <Vendor>/<Chip> --periph gpio` to copy the template into your chip's tree.
+1. Run `scaffold/peripheral.py --driver-dir source/hal/driver --chip <Vendor>/<Chip> --periph gpio` to copy the template into your chip's tree.
 2. Implement set, clear, read, and `port_config_pins`. The `alternate_function` field of `vsf_gpio_cfg_t` writes the chip's pin-function selector.
 3. Add the GPIO instance via `IMP_LV0`. Per-port base addresses go in `device.h`.
-4. Run `check-driver-structure.py --periph gpio --side header` and `check-driver-structure.py --periph gpio --side source` on the generated files. Exit 0 (or 2 with known-acceptable warnings) before moving on.
+4. Run `check/structure.py --periph gpio --side header` and `check/structure.py --periph gpio --side source` on the generated files. Exit 0 (or 2 with known-acceptable warnings) before moving on.
 
 **Verification.** Wire a GPIO pin to a logic analyzer channel. Run `vsf-bench-test --suite gpio_toggle`. LA confirms the configured-rate toggle.
 
@@ -163,13 +163,13 @@ vsf-bench --all board/<board>/hardware-map.yml --suite gpio_io_check
 **How to achieve.** For each peripheral (I2C, SPI, ADC, PWM, DMA, RTC, Flash, WDT, Timer):
 
 1. Read `peripherals/<periph>.md` in this skill.
-2. Run `scaffold_peripheral.py --driver-dir source/hal/driver --chip <Vendor>/<Chip> --periph <periph>` to copy the matching template directory.
-3. If the peripheral requires new instance macros in `device.h`, write a YAML instance map and run `generate-device-peripheral-macros.py --in-place device.h instances.yaml`.
+2. Run `scaffold/peripheral.py --driver-dir source/hal/driver --chip <Vendor>/<Chip> --periph <periph>` to copy the matching template directory.
+3. If the peripheral requires new instance macros in `device.h`, write a YAML instance map and run `scaffold/macros.py --in-place device.h instances.yaml`.
 4. Fill in IP-specific register manipulation. Use `IMP_LV0` and `VSF_MCONNECT` per R3a.
 5. Add the peripheral's pinmux to `vsf_board.c` if it needs alternate-function pins.
-6. Run `enable-periph.py --enable <periph> <vsf_usr_cfg.h>` to enable the peripheral.
-7. Run `check-driver-structure.py --periph <periph> --side header`, `check-driver-structure.py --periph <periph> --side source`, and `check-driver-quality.py`. All three must exit 0 (or 2 with only known-acceptable warnings).
-8. Run `audit-port.py --chip <Vendor>/<Chip>` to verify cross-file consistency. Must exit 0 (or 2 with only known-acceptable warnings).
+6. Run `util/enable.py --enable <periph> <vsf_usr_cfg.h>` to enable the peripheral.
+7. Run `check/structure.py --periph <periph> --side header`, `check/structure.py --periph <periph> --side source`, and `check/quality.py`. All three must exit 0 (or 2 with only known-acceptable warnings).
+8. Run `check/audit.py --chip <Vendor>/<Chip>` to verify cross-file consistency. Must exit 0 (or 2 with only known-acceptable warnings).
 9. Run the peripheral's `vsf-bench-test` scenario.
 
 **Verification.** Each peripheral's scenario passes.

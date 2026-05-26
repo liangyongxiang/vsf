@@ -3,7 +3,7 @@
 
 from pathlib import Path
 
-from checker_base import Finding
+from ..checker import Finding
 
 
 def check_irq_disable_nvic_leak(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:

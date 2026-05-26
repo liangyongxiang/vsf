@@ -546,22 +546,22 @@ If migrating an IPCore-based driver (chip wraps an existing IP like PL011), the 
 | Spurious IRQ | Check mask before status read |
 | Pull-up not working | Check PADS base doesn't set conflicting pull bits |
 | `output_and_set` no effect | Verify PADS.OD not set |
-| Template overwrites existing | `scaffold_chip.py` new chips only; edit existing directly |
+| Template overwrites existing | `scaffold/chip.py` new chips only; edit existing directly |
 | `duplicate member` in IPCore struct | Remove explicit `vsf_<periph>_t` -- `implement(vsf_<ip>_<periph>_t)` already includes it |
 | `CHECK_UNIQUE` failure on mode/IRQ bits | See IPCore migration pitfalls table above |
 
 ## Examples
 
 New chip USART (IPCore):
-1. `scaffold_chip.py --driver-dir source/hal/driver/MyVendor/MyChip`
+1. `scaffold/chip.py --driver-dir source/hal/driver/MyVendor/MyChip`
 2. Copy uart.{h,c}, `implement(vsf_pl011_usart_t)`, add reset/NVIC/clock
 3. `VSF_USART_CFG_IMP_LV0`, board.c pinmux+init
 4. Verify: `check-usart-*.py` then vsf-board-run
 
 Existing chip, new GPIO:
-1. `scaffold_peripheral.py --driver-dir source/hal/driver --chip MyVendor/MyChip --periph gpio`
+1. `scaffold/peripheral.py --driver-dir source/hal/driver --chip MyVendor/MyChip --periph gpio`
 2. Implement APIs via register access, `VSF_GPIO_CFG_IMP_LV0`
-3. Verify with `check-driver-structure.py --periph gpio --side header/source`, then vsf-board-run
+3. Verify with `check/structure.py --periph gpio --side header/source`, then vsf-board-run
 
 ## Script Reference
 
@@ -569,30 +569,30 @@ Existing chip, new GPIO:
 
 | Script | Use when... | Input | Exit 0 means |
 |--------|------------|-------|--------------|
-| `scaffold_chip.py` | Starting a brand-new chip port | YAML chip config | Skeleton directory created |
-| `scaffold_peripheral.py` | Adding a peripheral to an existing chip | `--periph <name> --chip Vendor/Chip` | Template files copied and renamed |
-| `generate-device-peripheral-macros.py` | Adding/editing peripheral instances in device.h | YAML instance map | Macros written to device.h zone |
-| `check-driver-structure.py` | Verifying a driver file is structurally complete | `--periph <name> --side header\|source <file>` | All mandatory checks pass |
-| `check-driver-quality.py` | Checking for anti-patterns | One or more `.c`/`.h` files | Zero quality findings |
-| `audit-port.py` | Cross-file consistency check | `--chip Vendor/Chip` | No wiring gaps found |
-| `enable-periph.py` | Toggling `VSF_HAL_USE_*` in vsf_usr_cfg.h | `--enable usart,spi --disable i2c` | All requested toggles applied |
+| `scaffold/chip.py` | Starting a brand-new chip port | YAML chip config | Skeleton directory created |
+| `scaffold/peripheral.py` | Adding a peripheral to an existing chip | `--periph <name> --chip Vendor/Chip` | Template files copied and renamed |
+| `scaffold/macros.py` | Adding/editing peripheral instances in device.h | YAML instance map | Macros written to device.h zone |
+| `check/structure.py` | Verifying a driver file is structurally complete | `--periph <name> --side header\|source <file>` | All mandatory checks pass |
+| `check/quality.py` | Checking for anti-patterns | One or more `.c`/`.h` files | Zero quality findings |
+| `check/audit.py` | Cross-file consistency check | `--chip Vendor/Chip` | No wiring gaps found |
+| `util/enable.py` | Toggling `VSF_HAL_USE_*` in vsf_usr_cfg.h | `--enable usart,spi --disable i2c` | All requested toggles applied |
 | `vsf-bench` | Build + flash + run test scenes | hardware-map.yml | All scenes pass |
 
 ### Typical workflow order
 
 ```
-1. scaffold_chip.py           ← once per chip (R1)
-2. generate-device-peripheral-macros.py  ← edit device.h (R1)
-3. scaffold_peripheral.py     ← one per peripheral (R3a/R3b/R5)
+1. scaffold/chip.py           ← once per chip (R1)
+2. scaffold/macros.py  ← edit device.h (R1)
+3. scaffold/peripheral.py     ← one per peripheral (R3a/R3b/R5)
 4. [edit driver .c / .h]      ← implement register logic
-5. enable-periph.py           ← enable the peripheral (R2)
-6. check-driver-structure.py  ← structural completeness (header + source)
-7. check-driver-quality.py    ← no anti-patterns
-8. audit-port.py              ← cross-file consistency
+5. util/enable.py           ← enable the peripheral (R2)
+6. check/structure.py  ← structural completeness (header + source)
+7. check/quality.py    ← no anti-patterns
+8. check/audit.py              ← cross-file consistency
 9. vsf-bench                  ← build+flash+test on hardware
 ```
 
-**Structure vs quality checkers** — `check-driver-structure.py` verifies the driver *has the right shape* (guard macros present, all mandatory APIs exist, template includes correct, IMP_LV0 defined). It reads peripheral-specific rules from `scripts/check-specs/<periph>.yml`. `check-driver-quality.py` verifies the driver *doesn't have the wrong content* (no hardcoded instances, no pinmux-in-driver, no bare IRQ names). Run structure first (cheap, catches mechanical omissions), then quality.
+**Structure vs quality checkers** — `check/structure.py` verifies the driver *has the right shape* (guard macros present, all mandatory APIs exist, template includes correct, IMP_LV0 defined). It reads peripheral-specific rules from `scripts/check-specs/<periph>.yml`. `check/quality.py` verifies the driver *doesn't have the wrong content* (no hardcoded instances, no pinmux-in-driver, no bare IRQ names). Run structure first (cheap, catches mechanical omissions), then quality.
 
 ### Peripherals with YAML specs
 
@@ -605,4 +605,4 @@ Existing chip, new GPIO:
 | ADC | `check-specs/adc.yml` |
 | PWM | `check-specs/pwm.yml` |
 
-Adding a checker for a new peripheral = adding a YAML file under `scripts/check-specs/`. For complex peripheral-specific logic that YAML cannot express, extend `check-driver-structure.py` with a conditional block (e.g. the GPIO pinmux boundary check).
+Adding a checker for a new peripheral = adding a YAML file under `scripts/check-specs/`. For complex peripheral-specific logic that YAML cannot express, extend `check/structure.py` with a conditional block (e.g. the GPIO pinmux boundary check).

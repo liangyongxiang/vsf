@@ -28,7 +28,7 @@ metadata:
 | Rung | Goal | How | Verify |
 |------|------|-----|--------|
 | R0 | Vendor UART echo on wired pin pair | Build & flash vendor SDK UART example; wire chip TX/RX to host USB-serial adapter | Host byte echoes within ~100ms |
-| R1 | VSF skeleton compiles | `scaffold_chip.py --config chip.yaml` (chip.yaml: `vendor`, `chip`, `cpu` fields); generate instance macros; implement `driver.c` clock setup + watchdog tick + IMP_LV0 | `cmake --build` succeeds; `printf` after `vsf_driver_init()` prints |
+| R1 | VSF skeleton compiles | `scaffold/chip.py --config chip.yaml` (chip.yaml: `vendor`, `chip`, `cpu` fields); generate instance macros; implement `driver.c` clock setup + watchdog tick + IMP_LV0 | `cmake --build` succeeds; `printf` after `vsf_driver_init()` prints |
 | R2 | Test framework shell over serial | Route debug stream to UART in `vsf_board.c`; enable `VSF_USE_TEST`; flash | `vsf-test scene --list` responds over serial |
 | R3 | First VSF peripheral | Run scaffold → implement .c/.h → static checks → audit → vsf-bench (see "Add peripheral" below) | vsf-bench scenario passes |
 | R4 | System clock verified | Toggle GPIO at systimer-derived rate (e.g., 100ms); wire GPIO to logic analyzer; run scenario | LA measures all gaps within ±5% of expected |
@@ -38,22 +38,22 @@ Do not skip rungs. Each rung assumes earlier rungs hold — advancing with a bro
 
 ### Add peripheral to existing chip
 
-1. `scripts/scaffold_peripheral.py --driver-dir source/hal/driver --chip Vendor/Chip --periph <name>` — copies template .c/.h
+1. `scripts/scaffold/peripheral.py --driver-dir source/hal/driver --chip Vendor/Chip --periph <name>` — copies template .c/.h
 2. Implement register operations in .c/.h; use `VSF_MCONNECT` for instance prefixing, never hardcode instance names
 3. Add IMP_LV0 invocation per instance (reg, irq, rst_bit fields from device.h macros)
 4. Add pinmux to `board/<board>/vsf_board.c` using `vsf_gpio_port_config_pins()` — not raw register writes
-5. Enable peripheral: `scripts/enable-periph.py --enable <periph> <vsf_usr_cfg.h>`
-6. Skeleton check: `scripts/check-driver-skeleton.py <template.c> <driver.c>` — verify the scaffolded skeleton (function signatures, macros, struct declarations) was not accidentally broken during implementation. Exit 0 = skeleton preserved; exit 1 = skeleton mismatch that may cause API incompatibility.
+5. Enable peripheral: `scripts/util/enable.py --enable <periph> <vsf_usr_cfg.h>`
+6. Skeleton check: `scripts/check/skeleton.py <template.c> <driver.c>` — verify the scaffolded skeleton (function signatures, macros, struct declarations) was not accidentally broken during implementation. Exit 0 = skeleton preserved; exit 1 = skeleton mismatch that may cause API incompatibility.
 7. Static checks (see Concepts for exit code rules):
-   - `scripts/check-driver-structure.py --periph <name> --side header <file.h>`
-   - `scripts/check-driver-structure.py --periph <name> --side source <file.c>`
-   - `scripts/check-driver-quality.py <file.c>`
-8. Cross-file audit: `scripts/audit-port.py --chip Vendor/Chip`
+   - `scripts/check/structure.py --periph <name> --side header <file.h>`
+   - `scripts/check/structure.py --periph <name> --side source <file.c>`
+   - `scripts/check/quality.py <file.c>`
+8. Cross-file audit: `scripts/check/audit.py --chip Vendor/Chip`
 9. Verify: `vsf-bench --all hardware-map.yml --suite <periph>_<scenario>`
 
 ### Audit existing driver
 
-`scripts/audit-port.py --chip Vendor/Chip` → lists cross-file inconsistencies → fix each → re-run until exit 0 or 2.
+`scripts/check/audit.py --chip Vendor/Chip` → lists cross-file inconsistencies → fix each → re-run until exit 0 or 2.
 
 ## Concepts
 
@@ -61,10 +61,10 @@ Do not skip rungs. Each rung assumes earlier rungs hold — advancing with a bro
 - **IMP_LV0:** macro that expands into per-instance `struct` definitions and IRQ handler stubs, driven by macros in `device.h`.
 - **VSF_MCONNECT:** token-paste macro `VSF_MCONNECT(prefix, suffix, __IDX)` → `prefix##__IDX##suffix` for building per-instance names.
 - **Complete driver checklist:** `device.h` instance macros + `.h` API header + `.c` implementation + `IMP_LV0` block + `vsf_board.c` pinmux + `vsf_usr_cfg.h` enable flag.
-- **Exit code semantics (all scripts):** exit 0 = pass; exit 2 = all findings are known-acceptable warnings (review and proceed); any other exit = errors that must be fixed. Applies to `check-driver-skeleton.py`, `check-driver-structure.py`, `check-driver-quality.py`, and `audit-port.py`.
+- **Exit code semantics (all scripts):** exit 0 = pass; exit 2 = all findings are known-acceptable warnings (review and proceed); any other exit = errors that must be fixed. Applies to `check/skeleton.py`, `check/structure.py`, `check/quality.py`, and `check/audit.py`.
 - **Reimplement-type macros (`VSF_<PERIPH>_CFG_REIMPLEMENT_TYPE_*`):** every VSF template header declares default enums and structs (mode bits, IRQ masks, config, status, capability, ctrl). When a chip's hardware layout differs from the generic template, or when the structure checker requires values to be visible in the chip-specific header, enable the corresponding macro and redefine the type in the chip's `.h` file. The template then skips its own definition and uses the chip-specific one. Common scenarios:
   - **`CFG_REIMPLEMENT_TYPE_MODE` / `CFG_REIMPLEMENT_TYPE_CHANNEL_MODE`:** mode bits directly encode hardware register fields (e.g., a serial peripheral's clock-polarity/phase bits placed at the same bit positions as the vendor CR0 register). This eliminates `if/else` translation in `.c` and is the preferred way to implement convention 8.
-  - **`CFG_REIMPLEMENT_TYPE_IRQ_MASK`:** when the peripheral has a non-standard interrupt set, or when `check-driver-structure.py` requires specific mask values (e.g., `VSF_<PERIPH>_IRQ_MASK_OVERFLOW`) to be present in the chip header file. The checker does not preprocess `#include`, so values inside an included template are invisible to it.
+  - **`CFG_REIMPLEMENT_TYPE_IRQ_MASK`:** when the peripheral has a non-standard interrupt set, or when `check/structure.py` requires specific mask values (e.g., `VSF_<PERIPH>_IRQ_MASK_OVERFLOW`) to be present in the chip header file. The checker does not preprocess `#include`, so values inside an included template are invisible to it.
   - **`CFG_REIMPLEMENT_TYPE_CFG` / `CFG_REIMPLEMENT_TYPE_STATUS` / `CFG_REIMPLEMENT_TYPE_CAPABILITY`:** when the chip needs extra fields in the config/status/capability structs (e.g., a chip-specific clock source field).
   - **`CFG_REIMPLEMENT_TYPE_CTRL` / `CFG_REIMPLEMENT_TYPE_CHANNEL_CTRL`:** when the chip supports vendor-specific control commands beyond the generic set.
 
@@ -77,7 +77,7 @@ Do not skip rungs. Each rung assumes earlier rungs hold — advancing with a bro
   #include "hal/driver/common/template/vsf_template_<periph>.h"
   ```
 
-## Conventions (enforced by `scripts/check-driver-quality.py`)
+## Conventions (enforced by `scripts/check/quality.py`)
 
 1. **No hardcoded instances:** per-instance values (reg base, IRQ number, clock bit, reset bit) must come from `device.h` macros expanded via `VSF_MCONNECT(..., __IDX)` in the IMP_LV0 block. Never write `vsf_hw_uart0` directly in `.c` files.
 2. **Spin-wait annotated:** every `while (reg->flag);` must have a preceding `// < X us` comment with the expected upper-bound duration. Enforced by quality checker.
@@ -195,12 +195,12 @@ Applies to any peripheral where VSF config bits can be aligned with hardware reg
 
 | Failure | Cause | Fix |
 |---------|-------|-----|
-| `scaffold_peripheral.py` fails | wrong `--chip` path or target dir already exists | verify path under `source/hal/driver/`; if dir exists, edit directly |
-| `check-driver-skeleton.py` non-zero | function signature changed, macro renamed, or struct declaration removed from template | restore the original template skeleton; implementation should go inside the functions, not alter signatures |
-| `check-driver-structure.py` non-zero | missing required API, wrong prototype, or missing IMP_LV0 | read check output; add missing function/struct; rerun |
-| `check-driver-quality.py` non-zero | style or convention violation | fix the violation; only suppress with `// quality: allow-<rule-id>` after confirming it's a false positive |
-| `audit-port.py` non-zero | cross-file mismatch (e.g., IRQ handler declared but not defined) or `missing-mask` on GPIO | fix mismatch; for GPIO `missing-mask` see note below — GPIO uses `VSF_HW_GPIO_PORT_MASK` not `VSF_HW_GPIO_MASK` |
-| `enable-periph.py` fails | peripheral name typo or `vsf_usr_cfg.h` not at expected path | check peripheral name against `peripheral-registry.yml` |
+| `scaffold/peripheral.py` fails | wrong `--chip` path or target dir already exists | verify path under `source/hal/driver/`; if dir exists, edit directly |
+| `check/skeleton.py` non-zero | function signature changed, macro renamed, or struct declaration removed from template | restore the original template skeleton; implementation should go inside the functions, not alter signatures |
+| `check/structure.py` non-zero | missing required API, wrong prototype, or missing IMP_LV0 | read check output; add missing function/struct; rerun |
+| `check/quality.py` non-zero | style or convention violation | fix the violation; only suppress with `// quality: allow-<rule-id>` after confirming it's a false positive |
+| `check/audit.py` non-zero | cross-file mismatch (e.g., IRQ handler declared but not defined) or `missing-mask` on GPIO | fix mismatch; for GPIO `missing-mask` see note below — GPIO uses `VSF_HW_GPIO_PORT_MASK` not `VSF_HW_GPIO_MASK` |
+| `util/enable.py` fails | peripheral name typo or `vsf_usr_cfg.h` not at expected path | check peripheral name against `peripheral-registry.yml` |
 
 ### Runtime failures
 
@@ -216,7 +216,7 @@ Applies to any peripheral where VSF config bits can be aligned with hardware reg
 
 ### Audit `missing-mask` — expected behavior
 
-`audit-port.py` checks that every declared peripheral has either `VSF_HW_<PERIPH>_MASK` or `VSF_HW_<PERIPH>_COUNT` in `device.h` (templates derive one from the other). **GPIO is special:** it uses `VSF_HW_GPIO_PORT_MASK` / `VSF_HW_GPIO_PORT_COUNT`, and `vsf_template_gpio.h` defines `VSF_HW_GPIO_MASK` from `VSF_HW_GPIO_PORT_MASK`. If you see `[missing-mask] gpio` it means `VSF_HW_GPIO_PORT_MASK` or `VSF_HW_GPIO_PORT_COUNT` is missing — not `VSF_HW_GPIO_MASK`.
+`check/audit.py` checks that every declared peripheral has either `VSF_HW_<PERIPH>_MASK` or `VSF_HW_<PERIPH>_COUNT` in `device.h` (templates derive one from the other). **GPIO is special:** it uses `VSF_HW_GPIO_PORT_MASK` / `VSF_HW_GPIO_PORT_COUNT`, and `vsf_template_gpio.h` defines `VSF_HW_GPIO_MASK` from `VSF_HW_GPIO_PORT_MASK`. If you see `[missing-mask] gpio` it means `VSF_HW_GPIO_PORT_MASK` or `VSF_HW_GPIO_PORT_COUNT` is missing — not `VSF_HW_GPIO_MASK`.
 
 ### Iteration loop
 

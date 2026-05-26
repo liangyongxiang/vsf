@@ -23,7 +23,12 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from checker_base import (
+# Bootstrap: ensure scripts/ is on sys.path so _lib is importable
+_SCRIPTS_DIR = Path(__file__).parent.parent.resolve()
+if str(_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPTS_DIR))
+
+from _lib.checker import (
     EXIT_PASS,
     EXIT_ERROR,
     EXIT_WARNING,
@@ -33,10 +38,10 @@ from checker_base import (
     check_pattern_rules,
     check_ast_pattern_rules,
 )
-from rules import ALL_PATTERN_RULES, ALL_FUNC_RULES
+from _lib.rules import ALL_PATTERN_RULES, ALL_FUNC_RULES
 
 _SCRIPT_DIR = Path(__file__).parent.resolve()
-_PATTERN_RULES = load_pattern_rules(_SCRIPT_DIR / "quality-rules.yml")
+_PATTERN_RULES = load_pattern_rules(_SCRIPT_DIR.parent / "quality-rules.yml")
 
 
 # Some files are not driver implementations and should be skipped to avoid

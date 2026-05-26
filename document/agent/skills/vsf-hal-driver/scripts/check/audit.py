@@ -34,7 +34,7 @@ _SCRIPT_DIR = Path(__file__).parent.resolve()
 
 
 def _load_registry() -> dict[str, dict]:
-    reg_file = _SCRIPT_DIR / "peripheral-registry.yml"
+    reg_file = _SCRIPT_DIR.parent / "peripheral-registry.yml"
     if reg_file.is_file():
         return yaml.safe_load(reg_file.read_text(encoding="utf-8")) or {}
     return {}

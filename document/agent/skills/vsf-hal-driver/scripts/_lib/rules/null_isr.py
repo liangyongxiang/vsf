@@ -4,8 +4,8 @@
 import re
 from pathlib import Path
 
-from checker_base import Finding
-from rules._helpers import func_has_any
+from ..checker import Finding
+from ._helpers import func_has_any
 
 
 def check_init_null_isr(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:

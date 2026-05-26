@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Shared infrastructure for VSF HAL driver checkers."""
 
 from __future__ import annotations

@@ -170,7 +170,7 @@ void VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_irq_enable)(
 ) {
     VSF_HAL_ASSERT(flash_ptr != NULL);
     /* RP2040 flash has no hardware interrupt line.  No-op. */
-    (void)irq_mask;
+    VSF_UNUSED_PARAM(irq_mask);
 }
 
 void VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_irq_disable)(
@@ -179,7 +179,7 @@ void VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_irq_disable)(
 ) {
     VSF_HAL_ASSERT(flash_ptr != NULL);
     /* RP2040 flash has no hardware interrupt line.  No-op. */
-    (void)irq_mask;
+    VSF_UNUSED_PARAM(irq_mask);
 }
 
 vsf_flash_irq_mask_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_irq_clear)(
@@ -188,7 +188,7 @@ vsf_flash_irq_mask_t VSF_MCONNECT(VSF_FLASH_CFG_IMP_PREFIX, _flash_irq_clear)(
 ) {
     VSF_HAL_ASSERT(flash_ptr != NULL);
     /* RP2040 flash has no hardware interrupt line.  Nothing to clear. */
-    (void)irq_mask;
+    VSF_UNUSED_PARAM(irq_mask);
     return 0;
 }
 

@@ -15,5 +15,8 @@ If the hardware (or this chip port) does not support a feature that the user can
 ## Unimplemented APIs
 Return `VSF_ERR_NOT_SUPPORT` with `VSF_HAL_ASSERT(0)`. Never emulate missing hardware features in software (no busy-wait loops, no software state machines).
 
+## Unused parameters → VSF_UNUSED_PARAM
+When a parameter is intentionally unused (e.g. a no-op IRQ handler where the peripheral has no interrupt line), use `VSF_UNUSED_PARAM(param_name)` instead of the bare `(void)param_name;` cast. The macro is defined in `vsf/source/utilities/compiler/__common/__type.h` and provides a uniform, searchable pattern across all drivers. This prevents silent drift from the project convention and makes it immediately obvious that the parameter is deliberately unused rather than accidentally overlooked.
+
 ## Clock and teardown
 Enable peripheral clocks before register access. In `fini()`, disable NVIC IRQs and abort any in-flight DMA/transfers before releasing resources.

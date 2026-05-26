@@ -55,7 +55,6 @@ def _looks_like_mask(hex_digits: str) -> bool:
     return len(nonzero) == 1
 
 
-_LITERAL_ADDR_RE = re.compile(r"\b0x([0-9A-Fa-f]{8,})\b")
 _BACKSLASH_TARGET_COL = 81
 _SPIN_WAIT_RE = re.compile(r"\bwhile\s*\([^;{]*\)\s*;")
 _SPIN_WAIT_KEYWORDS = frozenset({
@@ -71,14 +70,6 @@ _CHIP_CONSTANT_SUFFIXES_EXTENDED = frozenset({
     "XIP_BASE", "SECTOR_NUM", "CHANNEL_NUM", "CHANNEL_COUNT",
     "PER_INSTANCE",
 })
-
-
-def _looks_like_mask(hex_digits: str) -> bool:
-    s = hex_digits.upper()
-    chars = set(s)
-    if chars.issubset(set("F0")):
-        return True
-    return len(chars - {"0"}) == 1
 
 
 def _extract_chip_prefix(path: Path) -> str | None:

@@ -70,7 +70,9 @@ typedef struct VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_t) {
 static void __vsf_hw_usart_dma_tx_isr(void *target, vsf_dma_t *dma,
                                       int8_t ch, vsf_dma_irq_mask_t mask)
 {
-    (void)dma; (void)ch; (void)mask;
+    VSF_UNUSED_PARAM(dma);
+    VSF_UNUSED_PARAM(ch);
+    VSF_UNUSED_PARAM(mask);
     vsf_hw_usart_t *usart = (vsf_hw_usart_t *)target;
     vsf_pl011_usart_txdma_config(&usart->use_as__vsf_pl011_usart_t, false);
     if (usart->tx_dma_ch >= 0) {
@@ -90,7 +92,9 @@ static void __vsf_hw_usart_dma_tx_isr(void *target, vsf_dma_t *dma,
 static void __vsf_hw_usart_dma_rx_isr(void *target, vsf_dma_t *dma,
                                       int8_t ch, vsf_dma_irq_mask_t mask)
 {
-    (void)dma; (void)ch; (void)mask;
+    VSF_UNUSED_PARAM(dma);
+    VSF_UNUSED_PARAM(ch);
+    VSF_UNUSED_PARAM(mask);
     vsf_hw_usart_t *usart = (vsf_hw_usart_t *)target;
     vsf_pl011_usart_rxdma_config(&usart->use_as__vsf_pl011_usart_t, false);
     if (usart->rx_dma_ch >= 0) {

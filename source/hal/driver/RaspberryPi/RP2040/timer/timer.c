@@ -46,8 +46,6 @@
  * All timers share the same timer_hw register block.
  */
 
-#define RP2040_TIMER_ALARM_PER_INSTANCE           2
-
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 
@@ -56,9 +54,10 @@ typedef struct vsf_hw_timer_t {
     vsf_timer_t               vsf_timer;
 #endif
     void                      *reg;
+    IRQn_Type                 irqn;
     vsf_timer_isr_t           isr;
     uint32_t                  period;
-    vsf_timer_channel_cfg_t   channel_cfg[2];
+    vsf_timer_channel_cfg_t   channel_cfg[VSF_HW_TIMER_CHANNEL_COUNT];
     uint8_t                   channel_enabled;
     vsf_timer_irq_mask_t      pending_irq;
 } vsf_hw_timer_t;
@@ -98,18 +97,19 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_init)(
 {
     VSF_HAL_ASSERT((NULL != timer_ptr) && (NULL != cfg_ptr));
 
+    // no reset: RP2040 timer is always-on, no per-instance reset control
+    // no clock gate: RP2040 timer has no independent clock gate
+
     timer_ptr->isr = cfg_ptr->isr;
     timer_ptr->period = cfg_ptr->period;
     timer_ptr->channel_enabled = 0;
     timer_ptr->pending_irq = 0;
 
-    uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
     if (timer_ptr->isr.handler_fn != NULL) {
-        NVIC_SetPriority(TIMER_IRQ_0_IRQn + timer_idx,
-                         (uint32_t)timer_ptr->isr.prio);
-        NVIC_EnableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
+        NVIC_SetPriority(timer_ptr->irqn, (uint32_t)timer_ptr->isr.prio);
+        NVIC_EnableIRQ(timer_ptr->irqn);
     } else {
-        NVIC_DisableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
+        NVIC_DisableIRQ(timer_ptr->irqn);
     }
 
     return VSF_ERR_NONE;
@@ -123,11 +123,11 @@ void VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_fini)(
     timer_hw_t *hw = (timer_hw_t *)timer_ptr->reg;
     uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
 
-    for (uint8_t ch = 0; ch < RP2040_TIMER_ALARM_PER_INSTANCE; ch++) {
+    for (uint8_t ch = 0; ch < VSF_HW_TIMER_CHANNEL_COUNT; ch++) {
         uint8_t alarm = __rp2040_timer_alarm_index(timer_idx, ch);
         hw->inte &= ~(1u << alarm);
     }
-    NVIC_DisableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
+    NVIC_DisableIRQ(timer_ptr->irqn);
     timer_ptr->channel_enabled = 0;
     timer_ptr->pending_irq = 0;
 }
@@ -153,7 +153,7 @@ void VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_enable)(
     vsf_timer_irq_mask_t irq_mask)
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
-    (void)irq_mask;
+    VSF_UNUSED_PARAM(irq_mask);
 
     /* NVIC is enabled in init() when isr.handler_fn is set.
      * Per-channel alarm enable is handled via timer_ctrl(). */
@@ -164,7 +164,7 @@ void VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_disable)(
     vsf_timer_irq_mask_t irq_mask)
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
-    (void)irq_mask;
+    VSF_UNUSED_PARAM(irq_mask);
 
     /* NVIC is disabled in fini().
      * Per-channel alarm disable is handled via timer_ctrl(). */
@@ -175,7 +175,7 @@ vsf_timer_irq_mask_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_clear)(
     vsf_timer_irq_mask_t irq_mask)
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
-    (void)irq_mask;
+    VSF_UNUSED_PARAM(irq_mask);
 
     timer_hw_t *hw = (timer_hw_t *)timer_ptr->reg;
     uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
@@ -224,7 +224,7 @@ vsf_timer_capability_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_capability)
         .support_output_compare = 0,
         .support_input_capture  = 0,
         .support_one_pulse      = 0,
-        .channel_cnt            = RP2040_TIMER_ALARM_PER_INSTANCE,
+        .channel_cnt            = VSF_HW_TIMER_CHANNEL_COUNT,
     };
 }
 
@@ -242,8 +242,8 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_ctrl)(
     vsf_timer_ctrl_t ctrl, void *param)
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
-    (void)ctrl;
-    (void)param;
+    VSF_UNUSED_PARAM(ctrl);
+    VSF_UNUSED_PARAM(param);
     VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
@@ -253,7 +253,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_config)(
     uint8_t channel, vsf_timer_channel_cfg_t *cfg_ptr)
 {
     VSF_HAL_ASSERT((timer_ptr != NULL) && (cfg_ptr != NULL));
-    VSF_HAL_ASSERT(channel < RP2040_TIMER_ALARM_PER_INSTANCE);
+    VSF_HAL_ASSERT(channel < VSF_HW_TIMER_CHANNEL_COUNT);
 
     timer_ptr->channel_cfg[channel] = *cfg_ptr;
     return VSF_ERR_NONE;
@@ -264,7 +264,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_start)(
     uint8_t channel)
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
-    VSF_HAL_ASSERT(channel < RP2040_TIMER_ALARM_PER_INSTANCE);
+    VSF_HAL_ASSERT(channel < VSF_HW_TIMER_CHANNEL_COUNT);
 
     timer_hw_t *hw = (timer_hw_t *)timer_ptr->reg;
     uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
@@ -284,8 +284,8 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_start)(
     hw->alarm[alarm] = target;
     hw->inte |= (1u << alarm);
 
-    NVIC_ClearPendingIRQ(TIMER_IRQ_0_IRQn + timer_idx);
-    NVIC_EnableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
+    NVIC_ClearPendingIRQ(timer_ptr->irqn);
+    NVIC_EnableIRQ(timer_ptr->irqn);
 
     timer_ptr->channel_enabled |= (1u << channel);
 
@@ -297,7 +297,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_stop)(
     uint8_t channel)
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
-    VSF_HAL_ASSERT(channel < RP2040_TIMER_ALARM_PER_INSTANCE);
+    VSF_HAL_ASSERT(channel < VSF_HW_TIMER_CHANNEL_COUNT);
 
     timer_hw_t *hw = (timer_hw_t *)timer_ptr->reg;
     uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
@@ -316,7 +316,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_request_start)(
     uint8_t channel, vsf_timer_channel_request_t *request_ptr)
 {
     VSF_HAL_ASSERT((timer_ptr != NULL) && (request_ptr != NULL));
-    VSF_HAL_ASSERT(channel < RP2040_TIMER_ALARM_PER_INSTANCE);
+    VSF_HAL_ASSERT(channel < VSF_HW_TIMER_CHANNEL_COUNT);
 
     if (request_ptr->length > 0 && request_ptr->period_buffer != NULL) {
         timer_ptr->channel_cfg[channel].pulse = request_ptr->period_buffer[0];
@@ -330,7 +330,7 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_request_stop)(
     uint8_t channel)
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
-    VSF_HAL_ASSERT(channel < RP2040_TIMER_ALARM_PER_INSTANCE);
+    VSF_HAL_ASSERT(channel < VSF_HW_TIMER_CHANNEL_COUNT);
 
     return VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_stop)(timer_ptr, channel);
 }
@@ -340,9 +340,9 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_channel_ctrl)(
     uint8_t channel, vsf_timer_channel_ctrl_t ctrl, void *param)
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
-    (void)channel;
-    (void)ctrl;
-    (void)param;
+    VSF_UNUSED_PARAM(channel);
+    VSF_UNUSED_PARAM(ctrl);
+    VSF_UNUSED_PARAM(param);
     VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
@@ -424,6 +424,8 @@ static void VSF_MCONNECT(__, VSF_TIMER_CFG_IMP_PREFIX, _timer_irqhandler)(
     VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer, __IDX) = {                   \
         .reg = (void *)VSF_MCONNECT(VSF_TIMER_CFG_IMP_UPCASE_PREFIX,            \
                                      _TIMER, __IDX, _REG),                      \
+        .irqn = VSF_MCONNECT(VSF_TIMER_CFG_IMP_UPCASE_PREFIX,                   \
+                             _TIMER, __IDX, _IRQN),                             \
         __HAL_OP};                                                              \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_TIMER_CFG_IMP_UPCASE_PREFIX, _TIMER,     \
                                    __IDX, _IRQHandler)(void)                    \

@@ -41,6 +41,7 @@ typedef struct VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_t) {
     vsf_rtc_t               vsf_rtc;
 #endif
     rtc_hw_t                *reg;
+    IRQn_Type               irqn;
     uint32_t                rst_bit;
     vsf_rtc_isr_t           isr;
 } VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_t);
@@ -108,7 +109,7 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_init)(
 
     // Configure NVIC if handler provided
     if (rtc_ptr->isr.handler_fn != NULL) {
-        NVIC_SetPriority(RTC_IRQ_IRQn, (uint32_t)rtc_ptr->isr.prio);
+        NVIC_SetPriority(rtc_ptr->irqn, (uint32_t)rtc_ptr->isr.prio);
     }
 
     return VSF_ERR_NONE;
@@ -124,7 +125,7 @@ void VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_fini)(
     __rp2040_rtc_wait_not_active(reg);
 
     // Disable RTC IRQ
-    NVIC_DisableIRQ(RTC_IRQ_IRQn);
+    NVIC_DisableIRQ(rtc_ptr->irqn);
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_enable)(
@@ -236,7 +237,7 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_set_time)(
     vsf_rtc_time_t milliseconds
 ) {
     VSF_HAL_ASSERT(NULL != rtc_ptr);
-    (void)milliseconds;
+    VSF_UNUSED_PARAM(milliseconds);
 
     rtc_hw_t *reg = rtc_ptr->reg;
 
@@ -285,12 +286,12 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_ctrl)(
 
     switch (ctrl) {
     case VSF_RTC_CTRL_IRQ_ENABLE:
-        NVIC_EnableIRQ(RTC_IRQ_IRQn);
+        NVIC_EnableIRQ(rtc_ptr->irqn);
         reg->inte = RTC_INTE_RTC_BITS;
         return VSF_ERR_NONE;
 
     case VSF_RTC_CTRL_IRQ_DISABLE:
-        NVIC_DisableIRQ(RTC_IRQ_IRQn);
+        NVIC_DisableIRQ(rtc_ptr->irqn);
         reg->inte = 0;
         return VSF_ERR_NONE;
 
@@ -361,6 +362,8 @@ static void VSF_MCONNECT(__, VSF_RTC_CFG_IMP_PREFIX, _rtc_irqhandler)(
         VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc, __IDX) = {                   \
         .reg = (rtc_hw_t *)VSF_MCONNECT(VSF_RTC_CFG_IMP_UPCASE_PREFIX,          \
                                      _RTC, __IDX, _REG),                        \
+        .irqn               = VSF_MCONNECT(VSF_RTC_CFG_IMP_UPCASE_PREFIX,       \
+                                     _RTC, __IDX, _IRQN),                       \
         .rst_bit            = VSF_MCONNECT(VSF_RTC_CFG_IMP_UPCASE_PREFIX,       \
                                      _RTC, __IDX, _RST_BIT),                    \
         __HAL_OP                                                                \

@@ -33,6 +33,12 @@
 #define VSF_DMA_CFG_IMP_PREFIX                     vsf_hw
 #define VSF_DMA_CFG_IMP_UPCASE_PREFIX              VSF_HW
 
+/* Per-IRQN initializer for .irqn[] array, used with VSF_MREPEAT in IMP_LV0.
+ * Expands to: [N] = VSF_HW_DMAx_IRQN_N, */
+#define __VSF_DMA_IRQN_ENTRY(__N, __IDX)                                        \
+    [__N] = VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,                         \
+                         _DMA, __IDX, _IRQN_##__N),                             \
+
 /* RP2040 DMA TRANS_COUNT register is 24 bits wide (bits 23:0).
  * Source: RP2040 datasheet §2.5.7, DMA_CHx_TRANS_COUNT register description. */
 #define VSF_HW_DMA_MAX_TRANSFER_COUNT              ((1u << 24) - 1)
@@ -81,7 +87,7 @@ typedef struct VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_t) {
 #endif
     dma_hw_t                *reg;
     uint32_t                rst_bit;
-    IRQn_Type               irqn;
+    IRQn_Type               irqn[VSF_HW_DMA0_IRQ_Handler_COUNT];
     vsf_hw_dma_channel_t    channels[VSF_HW_DMA_CHANNEL_NUM];
     uint16_t                channel_mask;
     vsf_dma_cfg_t           cfg;
@@ -108,6 +114,8 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_init)(
 
     __rp2040_dma_reset(dma_ptr->rst_bit);
 
+    // no clock gate: RP2040 DMA clock is always-on from system bus
+
     /* Note: cfg_ptr->prio is NVIC IRQ priority (pre-emption), not DMA channel
      * arbitration priority.  RP2040 DMA channel arbitration is fixed in
      * hardware (lower channel number always wins); it cannot be changed. */
@@ -117,12 +125,14 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_init)(
         dma_ptr->channels[i].total_count = 0;
     }
 
-    NVIC_SetPriority(dma_ptr->irqn, cfg_ptr->prio);
-    NVIC_EnableIRQ(dma_ptr->irqn);
-#if VSF_HW_DMA0_IRQ_Handler_COUNT > 1
-    NVIC_SetPriority(VSF_HW_DMA0_IRQN_1, cfg_ptr->prio);
-    NVIC_EnableIRQ(VSF_HW_DMA0_IRQN_1);
-#endif
+    for (uint8_t irq_idx = 0; irq_idx < VSF_HW_DMA0_IRQ_Handler_COUNT; irq_idx++) {
+        if (cfg_ptr->isr.handler_fn != NULL) {
+            NVIC_SetPriority(dma_ptr->irqn[irq_idx], cfg_ptr->prio);
+            NVIC_EnableIRQ(dma_ptr->irqn[irq_idx]);
+        } else {
+            NVIC_DisableIRQ(dma_ptr->irqn[irq_idx]);
+        }
+    }
 
     return VSF_ERR_NONE;
 }
@@ -132,10 +142,9 @@ void VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_fini)(
 {
     VSF_HAL_ASSERT(dma_ptr != NULL);
 
-    NVIC_DisableIRQ(dma_ptr->irqn);
-#if VSF_HW_DMA0_IRQ_Handler_COUNT > 1
-    NVIC_DisableIRQ(VSF_HW_DMA0_IRQN_1);
-#endif
+    for (uint8_t irq_idx = 0; irq_idx < VSF_HW_DMA0_IRQ_Handler_COUNT; irq_idx++) {
+        NVIC_DisableIRQ(dma_ptr->irqn[irq_idx]);
+    }
 
     dma_hw_t *hw = dma_ptr->reg;
     /* Spin-wait: abort all channels; each takes a few AHB cycles (< 1 us total). */
@@ -457,8 +466,8 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_ctrl)(
     vsf_dma_ctrl_t ctrl, void *param)
 {
     VSF_HAL_ASSERT(dma_ptr != NULL);
-    (void)ctrl;
-    (void)param;
+    VSF_UNUSED_PARAM(ctrl);
+    VSF_UNUSED_PARAM(param);
     VSF_HAL_ASSERT(0);
     return VSF_ERR_NOT_SUPPORT;
 }
@@ -535,8 +544,9 @@ static void VSF_MCONNECT(__, VSF_DMA_CFG_IMP_PREFIX, _dma_irqhandler)(
                                          _DMA, __IDX, _REG),                    \
         .rst_bit = VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,                  \
                                 _DMA, __IDX, _RST_BIT),                         \
-        .irqn = VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,                     \
-                             _DMA, __IDX, _IRQN),                               \
+        .irqn = {                                                               \
+            VSF_MREPEAT(2, __VSF_DMA_IRQN_ENTRY, __IDX)                         \
+        },                                                                      \
         __HAL_OP                                                                \
     };                                                                          \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_DMA_CFG_IMP_UPCASE_PREFIX,               \

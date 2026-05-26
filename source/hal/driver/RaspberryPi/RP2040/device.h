@@ -196,6 +196,7 @@
 #define VSF_HW_TIMER1_IRQHandler    TIMER_IRQ_1_IRQHandler
 #define VSF_HW_TIMER2_IRQHandler    TIMER_IRQ_2_IRQHandler
 #define VSF_HW_TIMER3_IRQHandler    TIMER_IRQ_3_IRQHandler
+#define VSF_HW_TIMER_CHANNEL_COUNT  2
 
 #define VSF_HW_SPI_COUNT            2
 #define VSF_HW_SPI0_IRQN            SPI0_IRQ_IRQn
@@ -215,6 +216,7 @@
 #define VSF_HW_DMA0_REG             DMA_BASE
 #define VSF_HW_DMA0_RST_BIT         (1u << RESET_DMA)
 #define VSF_HW_DMA0_IRQN            DMA_IRQ_0_IRQn
+#define VSF_HW_DMA0_IRQN_0          VSF_HW_DMA0_IRQN
 #define VSF_HW_DMA0_IRQN_1          DMA_IRQ_1_IRQn
 #define VSF_HW_DMA0_IRQHandler      VSF_HW_DMA0_IRQ_0_Handler
 #define VSF_HW_DMA0_IRQ_0_Handler   DMA_IRQ_0_Handler

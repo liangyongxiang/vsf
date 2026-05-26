@@ -21,6 +21,8 @@ from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Tuple, Optional
 
+from checker_base import extract_functions, _parser, _walk_all
+
 
 @dataclass
 class Anchor:
@@ -31,6 +33,9 @@ class Anchor:
     raw_text: str       # 原始文本（用于显示）
     line_no: int        # 在模板中的起始行号
     is_flexible: bool   # 是否允许值不同
+
+
+_VSF_MCONNECT_RE = re.compile(r'VSF_MCONNECT\s*\([^)]+\)', re.DOTALL)
 
 
 def preprocess_template(content: str) -> str:
@@ -88,49 +93,17 @@ def normalize_whitespace(text: str) -> str:
     return ' '.join(text.split())
 
 
-def extract_function_signature(lines: List[str], start_idx: int) -> Tuple[Optional[str], int]:
-    """提取函数签名（从返回类型到 { 为止）"""
-    sig_lines = []
-    i = start_idx
-    while i < len(lines):
-        sig_lines.append(lines[i])
-        if '{' in lines[i]:
-            break
-        i += 1
-
-    if not sig_lines or '{' not in sig_lines[-1]:
-        return None, start_idx
-
-    raw = '\n'.join(sig_lines)
-    brace_pos = raw.index('{')
-    return raw[:brace_pos + 1], i
-
-
-def extract_multiline_macro(lines: List[str], start_idx: int) -> Tuple[str, int]:
-    """提取多行宏定义（以反斜杠结尾的行）"""
-    macro_lines = []
-    i = start_idx
-    while i < len(lines):
-        macro_lines.append(lines[i])
-        if not lines[i].rstrip().endswith('\\'):
-            break
-        i += 1
-    return '\n'.join(macro_lines), i
-
-
 def extract_macro_name(line: str) -> Optional[str]:
     """从 #define 行提取宏名"""
     match = re.match(r'#define\s+([A-Za-z_][A-Za-z0-9_]*)', line.strip())
     return match.group(1) if match else None
 
 
-def extract_function_name(sig_text: str) -> Optional[str]:
-    """从函数签名中提取 VSF_MCONNECT(...) 函数名部分"""
-    match = re.search(r'(VSF_MCONNECT\s*\([^)]+\))', sig_text, re.DOTALL)
-    if match:
-        # 跨行 VSF_MCONNECT 中的换行和多余空格压缩为单行
-        name = ' '.join(match.group(1).split())
-        return name
+def _extract_vsf_mconnect_name(sig_text: str) -> Optional[str]:
+    """从函数签名中提取 VSF_MCONNECT(...) 完整文本（压缩为单行）"""
+    m = _VSF_MCONNECT_RE.search(sig_text)
+    if m:
+        return ' '.join(m.group(0).split())
     return None
 
 
@@ -219,126 +192,117 @@ def compare_signatures(template_sig: str, driver_sig: str) -> Tuple[bool, str]:
 
 
 def find_function_in_driver(func_name: str, driver_content: str) -> Optional[str]:
-    """在驱动中查找指定函数名的完整签名"""
-    # 构建正则：匹配函数名后跟 ( ... ) {
-    # 转义函数名中的括号
-    escaped = re.escape(func_name)
-    # 函数名可能有换行，所以用更宽松的模式
-    pattern = escaped + r'\s*\([^)]*\)(?:\s*\{)?'
-
-    # 更可靠的方法：找到函数名出现的位置，然后提取到 { 的签名
-    lines = driver_content.split('\n')
-    for i, line in enumerate(lines):
-        if func_name in line:
-            # 从这一行开始提取签名
-            sig, _ = extract_function_signature(lines, i)
-            if sig and func_name in sig:
-                return sig
+    """在驱动中查找指定 VSF_MCONNECT(...) 函数名的完整签名"""
+    funcs = extract_functions(driver_content)
+    for func in funcs:
+        # 从 func["lines"] 中提取签名（到第一个 { 为止）
+        sig_lines = []
+        for line in func["lines"]:
+            sig_lines.append(line)
+            if '{' in line:
+                break
+        sig = '\n'.join(sig_lines)
+        if func_name in sig:
+            return sig
     return None
 
 
 def extract_anchors(content: str) -> List[Anchor]:
-    """从模板内容中提取所有基准点"""
-    anchors = []
-    lines = content.split('\n')
-    i = 0
-    in_multiline_define = False
+    """从模板内容中提取所有基准点（使用 tree-sitter）
 
-    while i < len(lines):
-        line = lines[i]
-        stripped = line.strip()
-        line_no = i + 1
+    *content* 应当已经由 preprocess_template() 过滤过 IPCore 块。
+    """
+    tree = _parser().parse(content.encode(), encoding="utf8")
+    root = tree.root_node
+    anchors: List[Anchor] = []
 
-        # 跟踪多行宏定义
-        if in_multiline_define:
-            if not stripped.endswith('\\'):
-                in_multiline_define = False
-            i += 1
-            continue
-        elif re.match(r'^#\s*define\b', stripped) and stripped.endswith('\\'):
-            in_multiline_define = True
+    for node in _walk_all(root):
+        kind = node.type
 
-        # 跳过空行和纯注释行
-        if not stripped or stripped.startswith('/*') or stripped.startswith('* ') or stripped.startswith('*/'):
-            i += 1
-            continue
-
-        # 1. 函数签名基准点（排除 typedef struct 和宏定义内部）
-        if re.match(r'^(?:static\s+)?[\w_]+(?:\s+[\w_]+)*\s+VSF_MCONNECT\s*\(', stripped) and \
-           not stripped.startswith('typedef'):
-            sig, end_idx = extract_function_signature(lines, i)
-            if sig:
-                func_name = extract_function_name(sig)
-                anchors.append(Anchor(
-                    kind='function_sig',
-                    name=func_name or f'func@{line_no}',
-                    text=normalize_signature(sig),
-                    raw_text=sig,
-                    line_no=line_no,
-                    is_flexible=False
-                ))
-                i = end_idx + 1
+        if kind == "function_definition":
+            # 找到 compound_statement 子节点，签名在它之前
+            compound = None
+            for child in node.children:
+                if child.type == "compound_statement":
+                    compound = child
+                    break
+            if compound is None:
                 continue
 
-        # 2. 多行宏基准点
-        if re.match(r'^#define\s+VSF_[A-Z_]+_CFG_IMP_LV0\s*\(', stripped) and stripped.endswith('\\'):
-            macro, end_idx = extract_multiline_macro(lines, i)
-            macro_name = extract_macro_name(line) or f'macro@{line_no}'
+            sig = node.text[:compound.start_byte - node.start_byte].decode()
+            func_name = _extract_vsf_mconnect_name(sig)
+            if not func_name:
+                continue
+
             anchors.append(Anchor(
-                kind='multiline_macro',
-                name=macro_name,
-                text=normalize_whitespace(macro),
-                raw_text=macro,
-                line_no=line_no,
+                kind='function_sig',
+                name=func_name,
+                text=normalize_signature(sig),
+                raw_text=sig,
+                line_no=node.start_point[0] + 1,
                 is_flexible=False
             ))
-            i = end_idx + 1
-            continue
 
-        # 3. 关键单行宏定义
-        macro_name = extract_macro_name(stripped)
-        if macro_name and macro_name.startswith('VSF_'):
-            key_suffixes = [
-                '_CFG_IMP_PREFIX',
-                '_CFG_IMP_UPCASE_PREFIX',
-                '_CFG_MULTI_CLASS',
-                '_CFG_REIMPLEMENT_API_',
-                '_CFG_MODE_CHECK_UNIQUE',
-                '_CFG_IRQ_MASK_CHECK_UNIQUE',
-            ]
-            if any(s in macro_name for s in key_suffixes):
+        elif kind == "preproc_function_def":
+            macro_text = node.text.decode()
+            first_line = macro_text.split('\n')[0]
+            macro_name = extract_macro_name(first_line)
+            if macro_name and '_IMP_LV0' in macro_name:
                 anchors.append(Anchor(
-                    kind='macro',
+                    kind='multiline_macro',
                     name=macro_name,
-                    text=normalize_whitespace(stripped),
-                    raw_text=stripped,
-                    line_no=line_no,
-                    is_flexible=True
+                    text=normalize_whitespace(macro_text),
+                    raw_text=macro_text,
+                    line_no=node.start_point[0] + 1,
+                    is_flexible=False
                 ))
 
-        # 4. 结构体声明
-        if re.match(r'^typedef\s+struct\s+VSF_MCONNECT\s*\(', stripped):
-            anchors.append(Anchor(
-                kind='struct_decl',
-                name='struct_decl',
-                text=normalize_signature(stripped),
-                raw_text=stripped,
-                line_no=line_no,
-                is_flexible=False
-            ))
+        elif kind == "preproc_def":
+            macro_text = node.text.decode().strip()
+            macro_name = extract_macro_name(macro_text)
+            if macro_name and macro_name.startswith('VSF_'):
+                key_suffixes = [
+                    '_CFG_IMP_PREFIX',
+                    '_CFG_IMP_UPCASE_PREFIX',
+                    '_CFG_MULTI_CLASS',
+                    '_CFG_REIMPLEMENT_API_',
+                    '_CFG_MODE_CHECK_UNIQUE',
+                    '_CFG_IRQ_MASK_CHECK_UNIQUE',
+                ]
+                if any(s in macro_name for s in key_suffixes):
+                    anchors.append(Anchor(
+                        kind='macro',
+                        name=macro_name,
+                        text=normalize_whitespace(macro_text),
+                        raw_text=macro_text,
+                        line_no=node.start_point[0] + 1,
+                        is_flexible=True
+                    ))
 
-        # 5. 模板包含
-        if re.match(r'^#include\s+.*_template\.inc["\']', stripped):
-            anchors.append(Anchor(
-                kind='include',
-                name='_template.inc',
-                text=normalize_whitespace(stripped),
-                raw_text=stripped,
-                line_no=line_no,
-                is_flexible=False
-            ))
+        elif kind == "type_definition":
+            td_text = node.text.decode().strip()
+            first_line = td_text.split('\n')[0].strip()
+            if 'typedef struct' in first_line and 'VSF_MCONNECT' in first_line:
+                anchors.append(Anchor(
+                    kind='struct_decl',
+                    name='struct_decl',
+                    text=normalize_signature(first_line),
+                    raw_text=first_line,
+                    line_no=node.start_point[0] + 1,
+                    is_flexible=False
+                ))
 
-        i += 1
+        elif kind == "preproc_include":
+            inc_text = node.text.decode().strip()
+            if '_template.inc' in inc_text:
+                anchors.append(Anchor(
+                    kind='include',
+                    name='_template.inc',
+                    text=normalize_whitespace(inc_text),
+                    raw_text=inc_text,
+                    line_no=node.start_point[0] + 1,
+                    is_flexible=False
+                ))
 
     return anchors
 
@@ -348,12 +312,7 @@ def match_anchor(anchor: Anchor, driver_content: str) -> Tuple[bool, Optional[st
 
     # 函数签名：使用详细比较
     if anchor.kind == 'function_sig':
-        # 使用原始签名提取函数名（保留原始空格）
-        func_name = extract_function_name(anchor.raw_text)
-        if not func_name:
-            return False, "无法提取函数名"
-
-        driver_sig = find_function_in_driver(func_name, driver_content)
+        driver_sig = find_function_in_driver(anchor.name, driver_content)
         if not driver_sig:
             return False, "函数未实现"
 
@@ -384,7 +343,7 @@ def match_anchor(anchor: Anchor, driver_content: str) -> Tuple[bool, Optional[st
                 key_patterns.append(('exact', norm))
             elif re.search(r'VSF_MCONNECT\s*\([^)]+\)\s*=\s*\{', line):
                 key_patterns.append(('exact', norm))
-            elif re.match(r'^\.[A-Za-z_][A-Za-z0-9_]*\s*=', line):
+            elif re.match(r'\.[A-Za-z_][A-Za-z0-9_]*\s*=', line):
                 field_match = re.match(r'(\.[A-Za-z_][A-Za-z0-9_]*\s*=)', line)
                 if field_match:
                     key_patterns.append(('field', field_match.group(1).strip()))
@@ -472,7 +431,7 @@ def print_report(result: dict):
     print("=" * 70)
     print(f"模板: {result['template']}")
     print(f"驱动: {result['driver']}")
-    print(f"")
+    print("")
     print(f"总基准点数: {result['total']}")
     print(f"匹配:       {result['matched']}")
     print(f"不匹配:     {result['mismatched']}")
@@ -492,7 +451,7 @@ def print_report(result: dict):
             print(f"  模板第 {anchor.line_no} 行")
             print(f"  差异: {reason}")
             if '\n' in anchor.raw_text:
-                print(f"  模板内容:")
+                print("  模板内容:")
                 for line in anchor.raw_text.split('\n'):
                     print(f"    {line}")
             else:

@@ -126,7 +126,7 @@ vsf_err_t VSF_MCONNECT(VSF_DMA_CFG_IMP_PREFIX, _dma_init)(
     }
 
     for (uint8_t irq_idx = 0; irq_idx < VSF_HW_DMA0_IRQ_Handler_COUNT; irq_idx++) {
-        if (cfg_ptr->isr.handler_fn != NULL) {
+        if (cfg_ptr->prio != vsf_arch_prio_invalid) {
             NVIC_SetPriority(dma_ptr->irqn[irq_idx], cfg_ptr->prio);
             NVIC_EnableIRQ(dma_ptr->irqn[irq_idx]);
         } else {

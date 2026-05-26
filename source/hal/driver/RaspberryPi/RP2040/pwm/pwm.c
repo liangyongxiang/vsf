@@ -62,6 +62,8 @@ typedef struct VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_t) {
 #endif
     uint8_t                 slice_idx;
     uint8_t                 is_enabled;
+    IRQn_Type               irqn;
+    uint32_t                rst_bit;
     /* Cached configuration for get_freq */
     uint32_t                clk_sys_hz;
     uint32_t                div_value;      /* 8.4 fixed-point divider */
@@ -74,11 +76,6 @@ typedef struct VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_t) {
 /*============================ PROTOTYPES ====================================*/
 
 /*============================ IMPLEMENTATION ================================*/
-
-static uint32_t __rp2040_pwm_get_clk_sys_hz(void)
-{
-    return clock_get_hz(clk_sys);
-}
 
 /* Compute divider (8.4 fixed-point) from desired frequency and TOP value.
  * divider = clk_sys / freq / (TOP + 1)
@@ -115,6 +112,12 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_init)(
     uint8_t slice = pwm_ptr->slice_idx;
     pwm_slice_hw_t *slice_hw = &pwm_hw->slice[slice];
 
+    /* Deassert reset. All PWM slices share one reset domain on RP2040. */
+    uint32_t rst_bit = pwm_ptr->rst_bit;
+    resets_hw->reset &= ~rst_bit;
+    // spin-wait: reset deassert -> reset_done is a few clk_ref cycles (< 1 us)
+    while (!(resets_hw->reset_done & rst_bit));
+
     /* Disable slice before configuration */
     slice_hw->csr = 0;
     pwm_ptr->is_enabled = 0;
@@ -131,7 +134,7 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_init)(
     slice_hw->cc = 0;
 
     /* Compute divider from requested frequency */
-    uint32_t clk_sys = __rp2040_pwm_get_clk_sys_hz();
+    uint32_t clk_sys = clock_get_hz(clk_sys);
     pwm_ptr->clk_sys_hz = clk_sys;
 
     uint32_t freq = cfg_ptr->freq;
@@ -145,6 +148,14 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_init)(
 
     pwm_ptr->isr = cfg_ptr->isr;
 
+    /* NVIC configuration: RP2040 has a single PWM IRQ shared by all slices. */
+    if (cfg_ptr->isr.handler_fn != NULL) {
+        NVIC_SetPriority(pwm_ptr->irqn, (uint32_t)cfg_ptr->isr.prio);
+        NVIC_EnableIRQ(pwm_ptr->irqn);
+    } else {
+        NVIC_DisableIRQ(pwm_ptr->irqn);
+    }
+
     return VSF_ERR_NONE;
 }
 
@@ -156,6 +167,8 @@ void VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_fini)(
     uint8_t slice = pwm_ptr->slice_idx;
     pwm_hw->slice[slice].csr = 0;
     pwm_ptr->is_enabled = 0;
+
+    NVIC_DisableIRQ(pwm_ptr->irqn);
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_enable)(
@@ -251,7 +264,7 @@ vsf_pwm_capability_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_capability)(
 ) {
     VSF_HAL_ASSERT(pwm_ptr != NULL);
 
-    uint32_t clk_sys = __rp2040_pwm_get_clk_sys_hz();
+    uint32_t clk_sys = clock_get_hz(clk_sys);
     uint32_t max_freq = clk_sys / 1 / 2;    /* divider=1, TOP=1 */
     uint32_t min_freq = clk_sys / 255 / (__RP2040_PWM_MAX_TOP + 1);
     if (min_freq < 1) {
@@ -283,7 +296,7 @@ void VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_irq_enable)(
 
     uint8_t slice = pwm_ptr->slice_idx;
     pwm_hw->inte |= (1u << slice);
-    NVIC_EnableIRQ(VSF_HW_PWM0_IRQN);
+    NVIC_EnableIRQ(pwm_ptr->irqn);
 }
 
 void VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_irq_disable)(
@@ -325,41 +338,30 @@ vsf_pwm_irq_mask_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_irq_clear)(
     VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_t)                                \
         VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm, __IDX) = {                   \
         .slice_idx         = __IDX,                                             \
+        .irqn              = VSF_MCONNECT(VSF_PWM_CFG_IMP_UPCASE_PREFIX,        \
+                                          _PWM, __IDX, _IRQN),                  \
+        .rst_bit           = VSF_MCONNECT(VSF_PWM_CFG_IMP_UPCASE_PREFIX,        \
+                                          _PWM, __IDX, _RST_BIT),               \
         __HAL_OP                                                                \
     };
 
 #include "hal/driver/common/pwm/pwm_template.inc"
 
-extern vsf_hw_pwm_t vsf_hw_pwm0;
-extern vsf_hw_pwm_t vsf_hw_pwm1;
-extern vsf_hw_pwm_t vsf_hw_pwm2;
-extern vsf_hw_pwm_t vsf_hw_pwm3;
-extern vsf_hw_pwm_t vsf_hw_pwm4;
-extern vsf_hw_pwm_t vsf_hw_pwm5;
-extern vsf_hw_pwm_t vsf_hw_pwm6;
-extern vsf_hw_pwm_t vsf_hw_pwm7;
-
-static vsf_hw_pwm_t *__vsf_hw_pwm_instances[VSF_HW_PWM_COUNT] = {
-    &vsf_hw_pwm0, &vsf_hw_pwm1, &vsf_hw_pwm2, &vsf_hw_pwm3,
-    &vsf_hw_pwm4, &vsf_hw_pwm5, &vsf_hw_pwm6, &vsf_hw_pwm7,
-};
-
-VSF_CAL_ROOT void PWM_IRQ_WRAP_IRQHandler(void)
+// RP2040 has one NVIC IRQ line for all 8 PWM slices (shared, not per-instance).
+// The handler lives outside IMP_LV0 for this reason.
+// The handler name omits the slice index to reflect the shared nature.
+VSF_CAL_ROOT void VSF_HW_PWM_IRQHandler(void) // quality: allow-hardcoded-irq
 {
     uintptr_t ctx = vsf_hal_irq_enter();
     uint32_t ints = pwm_hw->ints;
     for (uint8_t slice = 0; slice < VSF_HW_PWM_COUNT; slice++) {
         uint32_t slice_mask = (1u << slice);
         if (ints & slice_mask) {
-            vsf_hw_pwm_t *pwm_ptr = __vsf_hw_pwm_instances[slice];
+            vsf_hw_pwm_t *pwm_ptr = vsf_hw_pwms[slice];
             if (pwm_ptr->isr.handler_fn != NULL) {
                 pwm_ptr->isr.handler_fn(pwm_ptr->isr.target_ptr,
-#if VSF_HW_PWM_CFG_MULTI_CLASS == ENABLED
-                                         &pwm_ptr->vsf_pwm,
-#else
-                                         (vsf_pwm_t *)pwm_ptr,
-#endif
-                                         VSF_PWM_IRQ_MASK_WRAP);
+                                        (vsf_pwm_t *)pwm_ptr,
+                                        VSF_PWM_IRQ_MASK_WRAP);
             }
         }
     }

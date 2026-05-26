@@ -158,15 +158,30 @@
 
 #define VSF_HW_PWM_COUNT            8
 #define VSF_HW_PWM0_IRQN            PWM_IRQ_WRAP_IRQn
-#define VSF_HW_PWM0_IRQHandler      PWM_IRQ_WRAP_IRQHandler
+#define VSF_HW_PWM_IRQHandler       PWM_IRQ_WRAP_IRQHandler
 #define VSF_HW_PWM0_REG             PWM_BASE
+#define VSF_HW_PWM0_RST_BIT         (1u << RESET_PWM)
+#define VSF_HW_PWM1_IRQN            VSF_HW_PWM0_IRQN
 #define VSF_HW_PWM1_REG             PWM_BASE
+#define VSF_HW_PWM1_RST_BIT         VSF_HW_PWM0_RST_BIT
+#define VSF_HW_PWM2_IRQN            VSF_HW_PWM0_IRQN
 #define VSF_HW_PWM2_REG             PWM_BASE
+#define VSF_HW_PWM2_RST_BIT         VSF_HW_PWM0_RST_BIT
+#define VSF_HW_PWM3_IRQN            VSF_HW_PWM0_IRQN
 #define VSF_HW_PWM3_REG             PWM_BASE
+#define VSF_HW_PWM3_RST_BIT         VSF_HW_PWM0_RST_BIT
+#define VSF_HW_PWM4_IRQN            VSF_HW_PWM0_IRQN
 #define VSF_HW_PWM4_REG             PWM_BASE
+#define VSF_HW_PWM4_RST_BIT         VSF_HW_PWM0_RST_BIT
+#define VSF_HW_PWM5_IRQN            VSF_HW_PWM0_IRQN
 #define VSF_HW_PWM5_REG             PWM_BASE
+#define VSF_HW_PWM5_RST_BIT         VSF_HW_PWM0_RST_BIT
+#define VSF_HW_PWM6_IRQN            VSF_HW_PWM0_IRQN
 #define VSF_HW_PWM6_REG             PWM_BASE
+#define VSF_HW_PWM6_RST_BIT         VSF_HW_PWM0_RST_BIT
+#define VSF_HW_PWM7_IRQN            VSF_HW_PWM0_IRQN
 #define VSF_HW_PWM7_REG             PWM_BASE
+#define VSF_HW_PWM7_RST_BIT         VSF_HW_PWM0_RST_BIT
 
 #define VSF_HW_TIMER_COUNT          4
 #define VSF_HW_TIMER0_REG           TIMER_BASE

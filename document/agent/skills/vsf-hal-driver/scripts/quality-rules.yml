@@ -32,7 +32,7 @@ rules:
 
   - id: hardcoded-irq
     patterns:
-      - '(?<![\w])(?<!VSF_HW_)[A-Z][A-Za-z0-9_]*_(?:IRQn|IRQHandler)\b'
+      - '(?<!\w)(?<!VSF_HW_)[A-Z][A-Za-z0-9_]*_(?:IRQn|IRQHandler)\b'
     skip_in_imp_lv0: true
     message: >-
       literal IRQ name — should come from VSF_HW_<P><N>_IRQN macro

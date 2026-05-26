@@ -64,6 +64,23 @@ static void __rp2040_rtc_wait_not_active(rtc_hw_t *reg)
     }
 }
 
+static void __rp2040_rtc_read_stable(rtc_hw_t *reg, uint32_t *out_0, uint32_t *out_1)
+{
+    uint32_t rtc_0, rtc_1;
+    uint32_t prev_0, prev_1;
+
+    do {
+        prev_0 = reg->rtc_0;
+        prev_1 = reg->rtc_1;
+        rtc_0  = reg->rtc_0;
+        rtc_1  = reg->rtc_1;
+        // spin-wait: double-read until stable (crossing clock domains)
+    } while ((rtc_0 != prev_0) || (rtc_1 != prev_1));
+
+    *out_0 = rtc_0;
+    *out_1 = rtc_1;
+}
+
 vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_init)(
     VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_t) *rtc_ptr,
     vsf_rtc_cfg_t *cfg_ptr
@@ -145,15 +162,7 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_get)(
 
     // RP2040 RTC registers are in a slower clock domain.
     uint32_t rtc_0, rtc_1;
-    uint32_t prev_0, prev_1;
-
-    do {
-        prev_0 = reg->rtc_0;
-        prev_1 = reg->rtc_1;
-        rtc_0  = reg->rtc_0;
-        rtc_1  = reg->rtc_1;
-        // spin-wait: double-read until stable (crossing clock domains)
-    } while ((rtc_0 != prev_0) || (rtc_1 != prev_1));
+    __rp2040_rtc_read_stable(reg, &rtc_0, &rtc_1);
 
     rtc_tm->tm_year = (uint16_t)((rtc_1 >> RTC_RTC_1_YEAR_LSB)  & 0xFFF);
     rtc_tm->tm_mon  = (uint8_t) ((rtc_1 >> RTC_RTC_1_MONTH_LSB) & 0xF);
@@ -209,15 +218,7 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_get_time)(
     rtc_hw_t *reg = rtc_ptr->reg;
 
     uint32_t rtc_0, rtc_1;
-    uint32_t prev_0, prev_1;
-
-    do {
-        prev_0 = reg->rtc_0;
-        prev_1 = reg->rtc_1;
-        rtc_0  = reg->rtc_0;
-        rtc_1  = reg->rtc_1;
-        // spin-wait: double-read until stable (crossing clock domains)
-    } while ((rtc_0 != prev_0) || (rtc_1 != prev_1));
+    __rp2040_rtc_read_stable(reg, &rtc_0, &rtc_1);
 
     if (second_ptr != NULL) {
         *second_ptr = ((uint64_t)rtc_1 << 32) | rtc_0;

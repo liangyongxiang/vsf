@@ -57,6 +57,23 @@ _CHIP_CONSTANT_SUFFIXES = frozenset({
     "CHANNEL_COUNT",
 })
 
+# Extended set for detecting chip-prefixed constants that belong in device.h.
+_CHIP_CONSTANT_SUFFIXES_EXTENDED = _CHIP_CONSTANT_SUFFIXES | frozenset({
+    "PER_INSTANCE",
+})
+
+
+def _extract_chip_prefix(path: Path) -> str | None:
+    """Extract chip name from VSF hal driver path .../driver/<vendor>/<chip>/<periph>/..."""
+    parts = list(path.parts)
+    for i, p in enumerate(parts):
+        if p.lower() == 'driver':
+            # Need at least: driver/vendor/chip/periph/file = 4 more parts
+            if i + 4 < len(parts):
+                return parts[i + 2].upper()
+            break
+    return None
+
 
 def check_hardcoded_instance_name(lines: list[ScanLine]) -> list[Finding]:
     """Driver .c references a specific instance by name (e.g. VSF_HW_USART0_REG)
@@ -374,6 +391,69 @@ def check_debug_logging(lines: list[ScanLine]) -> list[Finding]:
                 predicate, reference="No debug logging in final driver")
 
 
+_MAGIC_COUNT_ASSERT_RE = re.compile(
+    r'VSF_HAL_ASSERT\s*\('
+    r'[^)]*?'
+    r'\b(?:channel|ch|inst|instance|port|pin)\b'
+    r'[^)]*?'
+    r'[<>]=?\s*\b([2-9]|1[0-9])\b'
+    r'[^)]*\)'
+)
+
+
+def check_magic_count_number(lines: list[ScanLine]) -> list[Finding]:
+    """Small integer literals used as channel/instance/port/pin counts should be
+    named constants (VSF_HW_<PERIPH>_CHANNEL_COUNT) from device.h."""
+    def predicate(sl: ScanLine) -> bool:
+        if sl.in_comment:
+            return False
+        return bool(_MAGIC_COUNT_ASSERT_RE.search(sl.text))
+    return emit(lines, "magic-count-number",
+                "magic number in count bound — use VSF_HW_<PERIPH>_CHANNEL_COUNT or similar",
+                predicate, reference="Convention 13: No magic numbers")
+
+
+def check_chip_prefixed_define(lines: list[ScanLine], path: Path) -> list[Finding]:
+    """Chip-level constants must be defined in device.h with VSF_HW_ prefix,
+    not in driver .c/.h files with a chip-specific prefix like RP2040_."""
+    if path.name.lower() == "device.h":
+        return []
+    if path.name.lower().startswith("vsf_board") or path.name.lower() == "board.c":
+        return []
+
+    chip_prefix = _extract_chip_prefix(path)
+    if not chip_prefix:
+        return []
+
+    findings: list[Finding] = []
+    _define_re = re.compile(r'#\s*define\s+([A-Z][A-Z0-9]*)_([A-Z][A-Z0-9_]*)')
+
+    for sl in lines:
+        if sl.in_comment:
+            continue
+        m = _define_re.search(sl.text)
+        if not m:
+            continue
+        prefix = m.group(1)
+        rest = m.group(2)
+
+        # VSF-prefixed macros follow convention
+        if prefix.startswith("VSF") or prefix.startswith("__VSF"):
+            continue
+
+        # Check if this is a chip-prefixed constant
+        if prefix == chip_prefix:
+            if any(s in rest for s in _CHIP_CONSTANT_SUFFIXES_EXTENDED):
+                findings.append(Finding(
+                    path, sl.lineno, "chip-prefixed-define",
+                    f"chip-prefixed constant '#define {prefix}_{rest}' in driver file — "
+                    f"move to device.h as VSF_HW_<PERIPH>_...",
+                    reference="Convention 13: No magic numbers",
+                ))
+
+    return findings
+
+
 RULES = [
     check_hardcoded_instance_name,
     check_instance_index_branch,
@@ -387,6 +467,7 @@ RULES = [
     check_spin_wait_comment,
     check_bare_void_cast,
     check_debug_logging,
+    check_magic_count_number,
 ]
 
 
@@ -406,6 +487,26 @@ def _func_has_any(func: dict, *needles: str) -> bool:
     """Return True if any needle appears anywhere in the function body."""
     body = func["body"]
     return any(n in body for n in needles)
+
+
+# Patterns that exempt an init() from clock/reset requirements.
+# Example:  // no clock gate: RP2040 timer is always-on
+_CLOCK_EXEMPT_RE = re.compile(
+    r"//\s*no[-\s]clock[-\s]?gate\b|/\*\s*no[-\s]clock[-\s]?gate\b",
+    re.IGNORECASE,
+)
+_RESET_EXEMPT_RE = re.compile(
+    r"//\s*no[-\s]reset\b|/\*\s*no[-\s]reset\b",
+    re.IGNORECASE,
+)
+
+
+def _func_has_exemption(func: dict, exempt_re: re.Pattern) -> bool:
+    """Return True if the function body contains an exemption comment."""
+    for line in func["lines"]:
+        if exempt_re.search(line):
+            return True
+    return False
 
 
 def check_nvic_priority_order(funcs: list[dict], path: Path) -> tuple[list[Finding], list[Finding]]:
@@ -442,6 +543,8 @@ def check_init_has_reset(funcs: list[dict], path: Path) -> tuple[list[Finding], 
             continue
         if not _func_has_any(func, "NVIC_EnableIRQ"):
             continue                    # not a real init — skip
+        if _func_has_exemption(func, _RESET_EXEMPT_RE):
+            continue
         if not _func_has_any(func, *reset_markers):
             warnings.append(Finding(
                 path, func["start_line"], "init-has-reset",
@@ -463,6 +566,8 @@ def check_init_has_clock(funcs: list[dict], path: Path) -> tuple[list[Finding], 
         if "_init" not in func["name"]:
             continue
         if not _func_has_any(func, "NVIC_EnableIRQ"):
+            continue
+        if _func_has_exemption(func, _CLOCK_EXEMPT_RE):
             continue
         if not _func_has_any(func, *clock_markers):
             warnings.append(Finding(
@@ -622,9 +727,14 @@ def filename_skip_rules(path: Path) -> set[str]:
     skipped: set[str] = set()
     if name == "device.h":
         skipped |= {"hardcoded-instance-name", "hardcoded-irq",
-                    "hardcoded-reset", "hardcoded-clock"}
+                    "hardcoded-reset", "hardcoded-clock",
+                    "chip-prefixed-define"}
     if name.startswith("vsf_board") or name == "board.c":
-        skipped |= {"pinmux-in-driver"}
+        skipped |= {"pinmux-in-driver", "chip-prefixed-define"}
+    # driver.c contains chip-level system initialization (PLL, global resets)
+    # that does not use per-instance IMP_LV0 parameterization.
+    if name == "driver.c":
+        skipped |= {"hardcoded-reset"}
     # A gpio driver legitimately touches GPIO function selectors; the
     # pinmux-in-driver rule targets non-GPIO drivers. Detect by path.
     if "/gpio/" in str(path).replace("\\", "/") or path.name.startswith("gpio."):
@@ -648,6 +758,15 @@ def check_file(path: Path) -> tuple[list[Finding], list[Finding]]:
                 warn_findings.append(f)
             else:
                 error_findings.append(f)
+
+    # Path-dependent check for chip-prefixed constants in driver files
+    for f in check_chip_prefixed_define(lines, path):
+        if f.rule_id in skip:
+            continue
+        if f.severity == "warn":
+            warn_findings.append(f)
+        else:
+            error_findings.append(f)
 
     funcs = extract_functions(text)
     for checker in FUNC_RULES:

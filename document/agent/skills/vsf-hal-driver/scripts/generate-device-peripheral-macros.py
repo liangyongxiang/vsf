@@ -13,7 +13,6 @@ Exit codes:
 """
 
 import argparse
-import re
 import sys
 from pathlib import Path
 
@@ -23,8 +22,13 @@ except ImportError:
     print("Error: pyyaml required. Install with: pip install pyyaml", file=sys.stderr)
     sys.exit(1)
 
+from checker_base import replace_zone
+from _scaffold_common import build_peripheral_macros
+
 
 def generate_macros(yaml_path: Path) -> str:
+    """Load a YAML peripheral map and delegate macro generation to the shared
+    implementation in _scaffold_common."""
     with yaml_path.open(encoding="utf-8") as f:
         data = yaml.safe_load(f)
 
@@ -35,70 +39,7 @@ def generate_macros(yaml_path: Path) -> str:
     if not isinstance(peripherals, dict):
         raise ValueError("'peripherals' must be a mapping")
 
-    lines: list[str] = []
-
-    for name, cfg in peripherals.items():
-        if not isinstance(cfg, dict):
-            continue
-
-        upper = name.upper()
-        if name == "gpio":
-            port_count = int(cfg.get("port_count", 0))
-            pin_count = int(cfg.get("pin_count", 32))
-            lines.extend([
-                "// GPIO",
-                f"#define VSF_HW_GPIO_PORT_COUNT                  {port_count}",
-                f"#define VSF_HW_GPIO_PIN_COUNT                   {pin_count}",
-                "",
-            ])
-        elif "instances" in cfg:
-            instances = cfg["instances"]
-            if not isinstance(instances, list):
-                continue
-
-            indices = []
-            for inst in instances:
-                if isinstance(inst, dict):
-                    indices.append(int(inst.get("index", 0)))
-
-            if not indices:
-                continue
-
-            contiguous = indices == list(range(indices[0], indices[-1] + 1))
-            lines.append(f"// {upper}")
-            lines.append(f"#define VSF_HW_{upper}_COUNT                    {len(indices)}")
-
-            if not (contiguous and indices[0] == 0):
-                mask = sum(1 << idx for idx in indices)
-                lines.append(f"#define VSF_HW_{upper}_MASK                     0x{mask:02X}")
-
-            for inst in instances:
-                if not isinstance(inst, dict):
-                    continue
-                idx = int(inst["index"])
-                lines.append(f"#define VSF_HW_{upper}{idx}_IRQN                    {inst['irqn']}")
-                lines.append(f"#define VSF_HW_{upper}{idx}_IRQHandler              {inst['irq_handler']}")
-                lines.append(f"#define VSF_HW_{upper}{idx}_REG                     {inst['reg']}")
-                if "rst_bit" in inst and inst["rst_bit"]:
-                    lines.append(f"#define VSF_HW_{upper}{idx}_RST_BIT                 {inst['rst_bit']}")
-                if "clk_bit" in inst and inst["clk_bit"]:
-                    lines.append(f"#define VSF_HW_{upper}{idx}_CLK_BIT                 {inst['clk_bit']}")
-            lines.append("")
-        elif "count" in cfg:
-            count = int(cfg["count"])
-            lines.extend([f"// {upper}", f"#define VSF_HW_{upper}_COUNT                     {count}", ""])
-
-    return "\n".join(lines)
-
-
-def replace_zone(content: str, zone_name: str, replacement: str) -> str:
-    begin = f"// {zone_name}\n"
-    end = f"// {zone_name} end\n"
-    start_pos = content.find(begin)
-    end_pos = content.find(end, start_pos)
-    if start_pos == -1 or end_pos == -1:
-        return content
-    return content[:start_pos] + replacement.rstrip("\n") + "\n" + content[end_pos + len(end):]
+    return build_peripheral_macros(peripherals)
 
 
 def main() -> int:

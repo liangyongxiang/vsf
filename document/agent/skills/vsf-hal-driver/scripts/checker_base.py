@@ -279,3 +279,22 @@ def _walk_all(node: Node):
     yield node
     for child in node.children:
         yield from _walk_all(child)
+
+
+# ---------------------------------------------------------------- zone replacement
+
+def replace_zone(content: str, zone_name: str, replacement: str) -> str:
+    """Replace the region delimited by
+    // {zone_name}
+    ...
+    // {zone_name} end
+    with *replacement*.
+    If either marker is missing, returns *content* unchanged.
+    """
+    begin = f"// {zone_name}\n"
+    end = f"// {zone_name} end\n"
+    start_pos = content.find(begin)
+    end_pos = content.find(end, start_pos)
+    if start_pos == -1 or end_pos == -1:
+        return content
+    return content[:start_pos] + replacement.rstrip("\n") + "\n" + content[end_pos + len(end):]

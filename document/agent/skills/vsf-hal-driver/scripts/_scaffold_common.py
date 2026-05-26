@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, TypeAlias, cast
 
+from checker_base import replace_zone
+
 try:
     import yaml  # type: ignore[reportMissingModuleSource]
 except ImportError:
@@ -226,6 +228,74 @@ class ChipConfig:
         return None
 
 
+def build_peripheral_macros(peripherals: dict[str, Any]) -> str:
+    """Generate the device.h peripheral macro block from a peripheral map.
+
+    *peripherals* is a dict mapping peripheral name -> config dict
+    (as loaded from YAML).
+
+    Returns the macro block as a single string (no trailing blank line).
+    """
+    lines: list[str] = []
+
+    for name, cfg in peripherals.items():
+        if not isinstance(cfg, dict):
+            continue
+
+        if name.startswith("usb"):
+            continue
+
+        upper = api_upper(name)
+
+        if name == "gpio":
+            port_count = int(cfg.get("port_count", 0))
+            pin_count = int(cfg.get("pin_count", 32))
+            lines.extend([
+                "// GPIO",
+                f"#define VSF_HW_GPIO_PORT_COUNT                  {port_count}",
+                f"#define VSF_HW_GPIO_PIN_COUNT                   {pin_count}",
+                "",
+            ])
+        elif "instances" in cfg:
+            instances = cfg["instances"]
+            if not isinstance(instances, list):
+                continue
+
+            indices: list[int] = []
+            for inst in instances:
+                if isinstance(inst, dict):
+                    indices.append(int(inst.get("index", 0)))
+
+            if not indices:
+                continue
+
+            contiguous = indices == list(range(indices[0], indices[-1] + 1))
+            lines.append(f"// {upper}")
+            lines.append(f"#define VSF_HW_{upper}_COUNT                    {len(indices)}")
+
+            if not (contiguous and indices[0] == 0):
+                mask = sum(1 << idx for idx in indices)
+                lines.append(f"#define VSF_HW_{upper}_MASK                     0x{mask:02X}")
+
+            for inst in instances:
+                if not isinstance(inst, dict):
+                    continue
+                idx = int(inst["index"])
+                lines.append(f"#define VSF_HW_{upper}{idx}_IRQN                    {inst['irqn']}")
+                lines.append(f"#define VSF_HW_{upper}{idx}_IRQHandler              {inst['irq_handler']}")
+                lines.append(f"#define VSF_HW_{upper}{idx}_REG                     {inst['reg']}")
+                if inst.get("rst_bit"):
+                    lines.append(f"#define VSF_HW_{upper}{idx}_RST_BIT                 {inst['rst_bit']}")
+                if inst.get("clk_bit"):
+                    lines.append(f"#define VSF_HW_{upper}{idx}_CLK_BIT                 {inst['clk_bit']}")
+            lines.append("")
+        elif "count" in cfg:
+            count = int(cfg["count"])
+            lines.extend([f"// {upper}", f"#define VSF_HW_{upper}_COUNT                     {count}", ""])
+
+    return "\n".join(lines)
+
+
 class TemplateRenderer:
     def __init__(self, cfg: ChipConfig) -> None:
         self.cfg = cfg
@@ -239,13 +309,7 @@ class TemplateRenderer:
         return content
 
     def _replace_zone(self, content: str, zone_name: str, replacement: str) -> str:
-        begin = f"// {zone_name}\n"
-        end = f"// {zone_name} end\n"
-        start_pos = content.find(begin)
-        end_pos = content.find(end, start_pos)
-        if start_pos == -1 or end_pos == -1:
-            return content
-        return content[:start_pos] + replacement.rstrip("\n") + "\n" + content[end_pos + len(end):]
+        return replace_zone(content, zone_name, replacement)
 
     def strip_role_blocks(self, content: str) -> str:
         lines: list[str] = []
@@ -284,43 +348,15 @@ class TemplateRenderer:
         return self._replace_zone(content, "template blocks", self.template_blocks())
 
     def peripheral_defines(self) -> str:
-        lines = ["// Software interrupt provided by the device", "#define VSF_DEV_SWI_NUM                             0", ""]
-        for peripheral in self.cfg.peripherals:
-            if peripheral.is_usb:
-                continue
-
-            upper = peripheral.api_upper
-            if peripheral.name == "gpio":
-                port_count = int(peripheral.data.get("port_count", 0))
-                pin_count = int(peripheral.data.get("pin_count", 32))
-                lines.extend([
-                    "// GPIO",
-                    f"#define VSF_HW_GPIO_PORT_COUNT                  {port_count}",
-                    f"#define VSF_HW_GPIO_PIN_COUNT                   {pin_count}",
-                    "",
-                ])
-            elif peripheral.count is not None:
-                lines.extend([f"// {upper}", f"#define VSF_HW_{upper}_COUNT                     {peripheral.count}", ""])
-            elif peripheral.instances:
-                indices = [inst.index for inst in peripheral.instances]
-                contiguous = indices == list(range(indices[0], indices[-1] + 1))
-                lines.append(f"// {upper}")
-                lines.append(f"#define VSF_HW_{upper}_COUNT                    {len(peripheral.instances)}")
-                if not (contiguous and indices[0] == 0):
-                    mask = sum(1 << idx for idx in indices)
-                    lines.append(f"#define VSF_HW_{upper}_MASK                     0x{mask:02X}")
-                for inst in peripheral.instances:
-                    lines.extend([
-                        f"#define VSF_HW_{upper}{inst.index}_IRQN                    {inst.irqn}",
-                        f"#define VSF_HW_{upper}{inst.index}_IRQHandler              {inst.irq_handler}",
-                        f"#define VSF_HW_{upper}{inst.index}_REG                     {inst.reg}",
-                    ])
-                    if inst.rst_bit:
-                        lines.append(f"#define VSF_HW_{upper}{inst.index}_RST_BIT                 {inst.rst_bit}")
-                    if inst.clk_bit:
-                        lines.append(f"#define VSF_HW_{upper}{inst.index}_CLK_BIT                 {inst.clk_bit}")
-                lines.append("")
-        return "\n".join(lines)
+        lines = [
+            "// Software interrupt provided by the device",
+            "#define VSF_DEV_SWI_NUM                             0",
+            "",
+        ]
+        peripherals_dict: dict[str, Any] = {}
+        for p in self.cfg.peripherals:
+            peripherals_dict[p.name] = p.data
+        return "\n".join(lines) + build_peripheral_macros(peripherals_dict)
 
     def peripheral_includes(self) -> str:
         lines: list[str] = []

@@ -31,10 +31,9 @@ from checker_base import (
     EXIT_WARNING,
     Finding,
     ScanLine,
-    preprocess,
     emit,
-    extract_functions,
 )
+from _c_parser import preprocess, extract_functions
 
 
 # ---------------------------------------------------------------- rules

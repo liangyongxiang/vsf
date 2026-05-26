@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""Shared infrastructure for VSF HAL driver checkers.
-
-C parsing is delegated to _c_parser (tree-sitter based).
-"""
+"""Shared infrastructure for VSF HAL driver checkers."""
 
 from __future__ import annotations
 
@@ -10,8 +7,6 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
-
-from _c_parser import preprocess, extract_functions
 
 
 # ---------------------------------------------------------------- exit codes

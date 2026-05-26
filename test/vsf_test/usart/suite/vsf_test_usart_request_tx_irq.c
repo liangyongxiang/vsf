@@ -78,6 +78,14 @@ void vsf_test_usart_request_tx_irq_run(const vsf_test_usart_request_tx_irq_case_
     vsf_trace_info("USART:REQ_TX_IRQ:irq=%lu count=%ld" VSF_TRACE_CFG_LINEEND,
                    (unsigned long)c->suite->req_tx_irq_count, (long)cnt);
 
+    /* TX_CPL means all data is in the TX FIFO, not that the wire is idle.
+     * Poll status until TX FIFO empty and shift register idle before disable,
+     * otherwise the last bytes may be truncated on the physical line. */
+    vsf_usart_status_t status;
+    do {
+        status = vsf_usart_status(usart);
+    } while (!status.txfe || status.is_busy);
+
     while (fsm_rt_cpl != vsf_usart_disable(usart));
     vsf_usart_fini(usart);
 }

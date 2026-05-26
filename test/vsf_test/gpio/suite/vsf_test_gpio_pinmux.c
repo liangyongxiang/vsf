@@ -47,7 +47,7 @@ void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c)
 
     /* Step 2: configure to UART AF via the alternate_function field. */
     vsf_err_t err = vsf_gpio_port_config_pins(gpio, tx_mask | rx_mask, &(vsf_gpio_cfg_t){
-        .mode = (5 << 0),       /* VSF_GPIO_AF slot per template */
+        .mode = VSF_GPIO_AF,
         .alternate_function = vsf_board_get_uart_funcsel(),
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);

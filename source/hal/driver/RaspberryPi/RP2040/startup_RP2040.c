@@ -138,7 +138,10 @@ VSF_CAL_ROOT const pFunc __VECTOR_TABLE[] __VECTOR_TABLE_ATTRIBUTE = {
     __Dummy_Handler_DONOTUSE,   /* IRQ 31 */
 };
 
-uint32_t __attribute__((section(".ram_vector_table"))) ram_vector_table[dimof(__VECTOR_TABLE)];
+/* Placed in RAM by the pico-sdk linker script (memmap_default.ld).
+ * NOTE: section attribute verified with GCC only; IAR / ARMCC / MSVC not
+ * yet tested on this port. */
+uint32_t VSF_CAL_SECTION(".ram_vector_table") ram_vector_table[dimof(__VECTOR_TABLE)];
 
 VSF_CAL_WEAK(vsf_hal_pre_startup_init)
 void vsf_hal_pre_startup_init(void)

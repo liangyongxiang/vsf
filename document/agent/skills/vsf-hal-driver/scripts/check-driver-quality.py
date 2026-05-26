@@ -55,6 +55,11 @@ def filename_skip_rules(path: Path) -> set[str]:
         skipped |= {"hardcoded-reset"}
     if "/gpio/" in str(path).replace("\\", "/") or path.name.startswith("gpio."):
         skipped |= {"pinmux-in-driver"}
+    # Startup files contain the interrupt vector table; bare IRQ names and
+    # reset/clock literals are legitimate there.
+    if path.name.lower().startswith("startup_"):
+        skipped |= {"hardcoded-irq", "hardcoded-instance-name",
+                    "hardcoded-reset", "hardcoded-clock"}
     return skipped
 
 

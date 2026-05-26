@@ -8,6 +8,21 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
 
+import tree_sitter_c as tsc
+from tree_sitter import Language, Parser as TSParser, Node
+
+
+# ---------------------------------------------------------------- tree-sitter init
+
+_PARSER: TSParser | None = None
+
+
+def _parser() -> TSParser:
+    global _PARSER
+    if _PARSER is None:
+        _PARSER = TSParser(Language(tsc.language()))
+    return _PARSER
+
 
 # ---------------------------------------------------------------- exit codes
 
@@ -40,11 +55,126 @@ class ScanLine:
     lineno: int
     text: str
     in_imp_lv0: bool       # inside a #define ..._IMP_LV0 multi-line macro
-    in_comment: bool       # inside a /* */ block comment
+    in_comment: bool       # inside a /* */ block comment OR #if 0 block
     suppress: set[str]     # rule ids suppressed for this line
 
 
 _SUPPRESS_RE = re.compile(r"//\s*quality:\s*allow-([a-z][a-z0-9-]*)")
+
+
+# ---------------------------------------------------------------- preprocess
+
+def preprocess(text: str) -> list[ScanLine]:
+    """Tag each line with context derived from the tree-sitter CST."""
+    tree = _parser().parse(text.encode(), encoding="utf8")
+    root = tree.root_node
+    lines = text.splitlines()
+
+    comment_lines: set[int] = set()
+
+    def _add_range(node: Node):
+        for ln in range(node.start_point[0] + 1, node.end_point[0] + 2):
+            comment_lines.add(ln)
+
+    for node in _walk_all(root):
+        if node.type == "comment":
+            _add_range(node)
+        elif node.type == "preproc_if":
+            for child in node.children:
+                if child.type in ("number_literal", "false"):
+                    if child.text == b"0" or child.text == b"false":
+                        _add_range(node)
+                    break
+                elif child.type in ("identifier", "true"):
+                    break
+
+    imp_lv0_lines: set[int] = set()
+    for node in _walk_all(root):
+        if node.type in ("preproc_def", "preproc_function_def"):
+            if "_IMP_LV0" in node.text.decode():
+                for ln in range(node.start_point[0] + 1, node.end_point[0] + 2):
+                    imp_lv0_lines.add(ln)
+
+    result: list[ScanLine] = []
+    for idx, raw in enumerate(lines, start=1):
+        suppress = set(_SUPPRESS_RE.findall(raw))
+        result.append(ScanLine(
+            lineno=idx,
+            text=raw,
+            in_imp_lv0=idx in imp_lv0_lines,
+            in_comment=idx in comment_lines,
+            suppress=suppress,
+        ))
+    return result
+
+
+# ---------------------------------------------------------------- extract_functions
+
+_VSF_MCONNECT_NAME_RE = re.compile(
+    r'VSF_MCONNECT\s*\([^)]*,\s*(_\w+)\)', re.DOTALL
+)
+
+
+def extract_functions(text: str) -> list[dict]:
+    """Extract top-level C function definitions via tree-sitter AST.
+
+    Returns a list of dicts with keys:
+        name, body, start_line, end_line, lines
+    """
+    tree = _parser().parse(text.encode(), encoding="utf8")
+    root = tree.root_node
+    lines = text.splitlines()
+    funcs: list[dict] = []
+
+    for node in _walk_all(root):
+        if node.type != "function_definition":
+            continue
+
+        name = _extract_function_name(node)
+        start_line = node.start_point[0] + 1
+        end_line = node.end_point[0] + 1
+        body_lines = lines[start_line - 1:end_line]
+
+        funcs.append({
+            "name": name,
+            "body": "\n".join(body_lines),
+            "start_line": start_line,
+            "end_line": end_line,
+            "lines": body_lines,
+        })
+    return funcs
+
+
+def _extract_function_name(node: Node) -> str:
+    sig_flat = node.text.decode().replace("\n", " ")
+
+    m = _VSF_MCONNECT_NAME_RE.search(sig_flat)
+    if m:
+        return m.group(1)
+
+    def _find_declarator_id(n: Node) -> str | None:
+        if n.type == "function_declarator":
+            for cc in n.children:
+                if cc.type == "identifier":
+                    return cc.text.decode()
+                elif cc.type == "field_identifier":
+                    return cc.text.decode()
+                elif cc.type == "parenthesized_declarator":
+                    for ccc in cc.children:
+                        if ccc.type == "field_identifier":
+                            return ccc.text.decode()
+        for child in n.children:
+            result = _find_declarator_id(child)
+            if result:
+                return result
+        return None
+
+    name = _find_declarator_id(node)
+    if name:
+        return name
+
+    m = re.search(r'(\w+)\s*\(', sig_flat)
+    return m.group(1) if m else sig_flat[:60].strip()
 
 
 # ---------------------------------------------------------------- quality rule helpers
@@ -94,3 +224,12 @@ class ResultAccumulator:
         else:
             print("PASS: all checks passed")
             return EXIT_PASS
+
+
+# ---------------------------------------------------------------- tree helpers
+
+def _walk_all(node: Node):
+    """Recursively yield all descendant nodes (including self)."""
+    yield node
+    for child in node.children:
+        yield from _walk_all(child)

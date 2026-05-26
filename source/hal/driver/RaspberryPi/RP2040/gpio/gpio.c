@@ -49,22 +49,11 @@
 #define VSF_GPIO_CFG_CAPABILITY_SUPPORT_OUTPUT_AND_CLEAR    1
 #define VSF_GPIO_CFG_CAPABILITY_CAN_READ_IN_GPIO_OUTPUT_MODE 1
 
-#define __RP2040_FUNCSEL_SIO                        5
-#define __RP2040_FUNCSEL_NULL                       0x1F
-
-/* The default vsf_gpio_mode_t enum keeps VSF_GPIO_AF commented out — drivers
- * that support AF must either redefine the enum or treat AF via
- * cfg.alternate_function. We use the latter convention: when alternate_function
- * is non-zero, the driver writes it directly into FUNCSEL regardless of the
- * mode base. Mode 5 (the slot the template reserves for VSF_GPIO_AF) is also
- * recognized for forward-compatibility with future redefinitions.
- */
-#define __RP2040_VSF_GPIO_AF_VALUE                  (5 << 0)
-
-#define __RP2040_PADS_OD                            (1u << 7)
-#define __RP2040_PADS_IE                            (1u << 6)
-#define __RP2040_PADS_PUE                           (1u << 3)
+/* PADS_BANK0 bit positions used when constructing register values. */
 #define __RP2040_PADS_PDE                           (1u << 2)
+#define __RP2040_PADS_PUE                           (1u << 3)
+#define __RP2040_PADS_IE                            (1u << 6)
+#define __RP2040_PADS_OD                            (1u << 7)
 
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
@@ -91,81 +80,7 @@ typedef struct VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) {
 
 /*============================ IMPLEMENTATION ================================*/
 
-static bool __rp2040_is_af_mode(vsf_gpio_mode_t mode, uint16_t alternate_function)
-{
-    return ((mode & VSF_GPIO_MODE_MASK) == __RP2040_VSF_GPIO_AF_VALUE)
-        || (alternate_function != 0);
-}
-
 /*============================ IMPLEMENTATION ================================*/
-
-/* Map VSF EXTI mode bits to the 4-bit RP2040 INTR/INTE field for a pin.
- * The 4 bits are: LEVEL_LOW=0, LEVEL_HIGH=1, EDGE_LOW=2, EDGE_HIGH=3. */
-static uint8_t __rp2040_exti_trigger_from_mode(vsf_gpio_mode_t mode)
-{
-    vsf_gpio_mode_t exti_mode = mode & VSF_GPIO_EXTI_MODE_MASK;
-    if (exti_mode == VSF_GPIO_EXTI_MODE_LOW_LEVEL)        return 0x1;  /* LEVEL_LOW */
-    if (exti_mode == VSF_GPIO_EXTI_MODE_HIGH_LEVEL)       return 0x2;  /* LEVEL_HIGH */
-    if (exti_mode == VSF_GPIO_EXTI_MODE_FALLING)          return 0x4;  /* EDGE_LOW */
-    if (exti_mode == VSF_GPIO_EXTI_MODE_RISING)           return 0x8;  /* EDGE_HIGH */
-    if (exti_mode == VSF_GPIO_EXTI_MODE_RISING_FALLING)   return 0xC;  /* both EDGE bits */
-    return 0;
-}
-
-static uint32_t __rp2040_pads_value(vsf_gpio_mode_t mode)
-{
-    /* Build the PADS_BANK0 GPIOn register value from the mode bits.
-     * Reset default is 0x56 (IE=1, DRIVE=01, SCHMITT=1, PDE=1). We replace
-     * pull and IE/OD from the mode, while keeping DRIVE/SCHMITT/SLEWFAST.
-     * Note: bit 2 (PDE) is intentionally NOT in the base — the user's pull
-     * selection drives PUE/PDE explicitly.
-     */
-    uint32_t pads = 0x12;   /* DRIVE=01 (bit 4), SCHMITT=1 (bit 1) */
-
-    vsf_gpio_mode_t base = mode & VSF_GPIO_MODE_MASK;
-    if (base == VSF_GPIO_INPUT) {
-        /* Input: enable input buffer. We do NOT set PADS.OD; the SIO.OE
-         * bit alone determines whether the pin drives. This preserves the
-         * ability to switch input→output atomically via SIO. */
-        pads |= __RP2040_PADS_IE;
-    } else if (base == VSF_GPIO_EXTI) {
-        /* EXTI: keep input enabled, but DON'T disable output. The user may
-         * combine EXTI with an output (e.g. self-trigger tests, open-drain
-         * loopback). */
-        pads |= __RP2040_PADS_IE;
-    } else if (base == VSF_GPIO_OUTPUT_PUSH_PULL || base == VSF_GPIO_OUTPUT_OPEN_DRAIN) {
-        /* RP2040 supports simultaneous output+input on the same pin, so
-         * we keep IE=1. This is what backs `can_read_in_gpio_output_mode`
-         * in the capability struct. */
-        pads |= __RP2040_PADS_IE;
-    } else if (base == VSF_GPIO_ANALOG) {
-        /* Analog: input buffer off, output disabled */
-        pads |= __RP2040_PADS_OD;
-    } else {
-        /* AF mode — leave IE on so the peripheral can read; OD off so it can drive */
-        pads |= __RP2040_PADS_IE;
-    }
-
-    vsf_gpio_mode_t pull = mode & VSF_GPIO_PULL_UP_DOWN_MASK;
-    if (pull == VSF_GPIO_PULL_UP) {
-        pads |= __RP2040_PADS_PUE;
-    } else if (pull == VSF_GPIO_PULL_DOWN) {
-        pads |= __RP2040_PADS_PDE;
-    }
-
-    return pads;
-}
-
-static uint32_t __rp2040_funcsel(vsf_gpio_mode_t mode, uint16_t alternate_function)
-{
-    if (__rp2040_is_af_mode(mode, alternate_function)) {
-        return alternate_function & 0x1F;
-    }
-    if ((mode & VSF_GPIO_MODE_MASK) == VSF_GPIO_ANALOG) {
-        return __RP2040_FUNCSEL_NULL;
-    }
-    return __RP2040_FUNCSEL_SIO;
-}
 
 vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr,
                                        vsf_gpio_pin_mask_t pin_mask,
@@ -175,10 +90,32 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(VSF_MCON
     VSF_HAL_ASSERT(NULL != cfg_ptr);
     VSF_HAL_ASSERT((pin_mask & ~VSF_HW_GPIO_PIN_MASK) == 0);
 
-    uint32_t funcsel = __rp2040_funcsel(cfg_ptr->mode, cfg_ptr->alternate_function);
-    uint32_t pads    = __rp2040_pads_value(cfg_ptr->mode);
     vsf_gpio_mode_t base = cfg_ptr->mode & VSF_GPIO_MODE_MASK;
-    bool is_output = (base == VSF_GPIO_OUTPUT_PUSH_PULL) || (base == VSF_GPIO_OUTPUT_OPEN_DRAIN);
+
+    /* FUNCSEL from bits [4:0]; overridden by alternate_function for AF. */
+    uint32_t funcsel = cfg_ptr->mode & 0x1F;
+    if ((cfg_ptr->mode >> 7) & 1) {
+        funcsel = cfg_ptr->alternate_function & 0x1F;
+    }
+
+    /* Build PADS value: default DRIVE=01 (bit 4), SCHMITT=1 (bit 1).
+     * All non-ANALOG modes enable the input buffer (IE=1); ANALOG disables
+     * it and sets output-disable (OD=1).
+     */
+    uint32_t pads = 0x12;
+    if (base == VSF_GPIO_ANALOG) {
+        pads |= __RP2040_PADS_OD;
+    } else {
+        pads |= __RP2040_PADS_IE;
+    }
+    uint32_t pull = (cfg_ptr->mode >> 8) & 3;
+    if (pull == 1) {
+        pads |= __RP2040_PADS_PUE;
+    } else if (pull == 2) {
+        pads |= __RP2040_PADS_PDE;
+    }
+
+    bool is_output = (cfg_ptr->mode >> 5) & 1;
 
     for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
         vsf_gpio_pin_mask_t bit = (vsf_gpio_pin_mask_t)1u << i;
@@ -196,9 +133,9 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(VSF_MCON
         hw_gpio_ptr->open_drain_mask &= ~pin_mask;
     }
 
-    /* Track EXTI trigger bits per pin. exti_irq_enable() consumes these. */
+    /* Track EXTI trigger bits per pin. */
     if (base == VSF_GPIO_EXTI) {
-        uint8_t trig = __rp2040_exti_trigger_from_mode(cfg_ptr->mode);
+        uint8_t trig = (cfg_ptr->mode >> 10) & 0xF;
         for (uint32_t i = 0; i < VSF_HW_GPIO_PIN_COUNT; i++) {
             if (pin_mask & ((vsf_gpio_pin_mask_t)1u << i)) {
                 hw_gpio_ptr->exti_trigger[i] = trig;
@@ -212,19 +149,11 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_port_config_pins)(VSF_MCON
         }
     }
 
-    /* For SIO base modes, also set OE per direction. AF leaves OE controlled
-     * by the peripheral via OEOVER/OEFROMPERI, so we don't touch SIO.OE here.
-     */
-    if (funcsel == __RP2040_FUNCSEL_SIO) {
-        if (is_output && base == VSF_GPIO_OUTPUT_PUSH_PULL) {
+    /* For SIO (FUNCSEL=5), set OE per direction. AF/ANALOG leave OE alone. */
+    if (funcsel == 5) {
+        if (is_output && base != VSF_GPIO_OUTPUT_OPEN_DRAIN) {
             sio_hw->gpio_oe_set = pin_mask;
-        } else if (base == VSF_GPIO_OUTPUT_OPEN_DRAIN) {
-            /* OD emulation: OE starts cleared (line floats); writing 0 drives,
-             * writing 1 releases. gpio_write handles direction toggling.
-             */
-            sio_hw->gpio_oe_clr = pin_mask;
         } else {
-            /* INPUT / EXTI / ANALOG : OE cleared */
             sio_hw->gpio_oe_clr = pin_mask;
         }
     }
@@ -246,10 +175,10 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_pin_configuration)(VSF
 
     /* Re-derive mode from registers + driver-side open-drain tracking. */
     vsf_gpio_mode_t mode;
-    if (funcsel == __RP2040_FUNCSEL_NULL) {
+    if (funcsel == 0x1F) {
         mode = VSF_GPIO_ANALOG;
-    } else if (funcsel != __RP2040_FUNCSEL_SIO) {
-        mode = __RP2040_VSF_GPIO_AF_VALUE;
+    } else if (funcsel != 5) {
+        mode = VSF_GPIO_AF;
     } else if (hw_gpio_ptr->open_drain_mask & bit) {
         mode = VSF_GPIO_OUTPUT_OPEN_DRAIN;
     } else if (sio_hw->gpio_oe & bit) {
@@ -267,7 +196,7 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_get_pin_configuration)(VSF
     }
 
     cfg_ptr->mode               = mode;
-    cfg_ptr->alternate_function = (funcsel == __RP2040_FUNCSEL_SIO || funcsel == __RP2040_FUNCSEL_NULL)
+    cfg_ptr->alternate_function = (funcsel == 5 || funcsel == 0x1F)
                                   ? 0 : funcsel;
     return VSF_ERR_NONE;
 }
@@ -428,10 +357,6 @@ vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_get_configuration
     *cfg_ptr = hw_gpio_ptr->exti_cfg;
     return VSF_ERR_NONE;
 }
-
-/* Map VSF EXTI mode bits to the 4-bit RP2040 INTR/INTE field for a pin.
- * Used by exti_irq_enable() to compute proc0_irq_ctrl.inte bits.
- * Definition is at the top of this file. */
 
 vsf_err_t VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_exti_irq_enable)(VSF_MCONNECT(VSF_GPIO_CFG_IMP_PREFIX, _gpio_t) *hw_gpio_ptr, vsf_gpio_pin_mask_t pin_mask)
 {

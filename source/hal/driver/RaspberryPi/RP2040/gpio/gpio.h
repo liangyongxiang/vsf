@@ -31,37 +31,50 @@
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
 
-/* The minimal RP2040 GPIO driver uses the default vsf_gpio_mode_t enum
- * (VSF_GPIO_CFG_REIMPLEMENT_TYPE_MODE == DISABLED). Mode-bit to register
- * translation lives in gpio.c.
+/* The RP2040 GPIO driver reimplements vsf_gpio_mode_t so that mode bits
+ * directly encode hardware register fields, eliminating manual translation
+ * in gpio.c.
+ *
+ * Bit layout:
+ *   [4:0]   FUNCSEL — written directly to IO_BANK0.GPIOx_CTRL
+ *           5 = SIO (for INPUT/OUTPUT/EXTI), 0x1F = NULL (for ANALOG)
+ *   [5]     is_output — direction hint; RP2040 direction is SIO.OE, not PADS
+ *   [6]     OD_emulated — open-drain is software-emulated via OE toggling
+ *   [7]     is_AF — alternate function mode, FUNCSEL from cfg.alternate_function
+ *   [9:8]   pull: 0 = none, 1 = up, 2 = down
+ *   [13:10] EXTI trigger — directly maps to IO_BANK0 INTR/INTE 4-bit field
+ *           1 = LEVEL_LOW, 2 = LEVEL_HIGH, 4 = EDGE_LOW, 8 = EDGE_HIGH
  *
  * Hardware reference (RP2040 datasheet, IO_BANK0 / PADS_BANK0 / SIO):
- *   IO_BANK0 GPIOn_CTRL
- *     [4:0]   FUNCSEL   pin function (5 = SIO for digital GPIO)
- *     [9:8]   OUTOVER   output override
- *     [13:12] OEOVER    output-enable override
- *     [17:16] INOVER    input override
- *     [29:28] IRQOVER   IRQ override
- *   PADS_BANK0 GPIOn
- *     [7] OD   output disable
- *     [6] IE   input enable
- *     [3] PUE  pull-up enable
- *     [2] PDE  pull-down enable
- *   SIO
- *     gpio_in / gpio_out (+ atomic gpio_set / gpio_clr / gpio_togl)
- *     gpio_oe / gpio_oe_set / gpio_oe_clr
- *
- * Mode → register mapping in this driver:
- *   VSF_GPIO_INPUT             : FUNCSEL=SIO, PADS.IE=1 OD=0, SIO.OE cleared on set_input
- *   VSF_GPIO_OUTPUT_PUSH_PULL  : FUNCSEL=SIO, PADS.IE=0 OD=0, SIO.OE set on set_output
- *   VSF_GPIO_OUTPUT_OPEN_DRAIN : FUNCSEL=SIO, PADS.OD=0, driver toggles SIO.OE to drive low / float
- *   VSF_GPIO_AF                : FUNCSEL = cfg.alternate_function
- *   VSF_GPIO_ANALOG            : FUNCSEL=NULL(0x1f), PADS.IE=0
- *   VSF_GPIO_EXTI              : Same as INPUT (EXTI not implemented in minimal driver)
- *   VSF_GPIO_PULL_UP / DOWN    : PADS.PUE / PADS.PDE
- *
- * EXTI APIs return VSF_ERR_NOT_SUPPORT in the minimal driver.
+ *   IO_BANK0 GPIOn_CTRL: [4:0] FUNCSEL
+ *   PADS_BANK0 GPIOn:    [7] OD, [6] IE, [3] PUE, [2] PDE
+ *   SIO:                 gpio_oe, gpio_out, gpio_in
  */
+
+#define VSF_GPIO_CFG_REIMPLEMENT_TYPE_MODE      ENABLED
+
+typedef enum vsf_gpio_mode_t {
+    /* Base modes — FUNCSEL in bits [4:0], flags in bits [7:5] */
+    VSF_GPIO_INPUT              = (5 << 0) | (0 << 5) | (0 << 6) | (0 << 7),
+    VSF_GPIO_ANALOG             = (0x1F << 0) | (0 << 5) | (0 << 6) | (0 << 7),
+    VSF_GPIO_OUTPUT_PUSH_PULL   = (5 << 0) | (1 << 5) | (0 << 6) | (0 << 7),
+    VSF_GPIO_OUTPUT_OPEN_DRAIN  = (5 << 0) | (1 << 5) | (1 << 6) | (0 << 7),
+    VSF_GPIO_AF                 = (0 << 0) | (0 << 5) | (0 << 6) | (1 << 7),
+    VSF_GPIO_EXTI               = VSF_GPIO_INPUT,
+
+    /* Pull-up / pull-down */
+    VSF_GPIO_NO_PULL_UP_DOWN    = (0 << 8),
+    VSF_GPIO_PULL_UP            = (1 << 8),
+    VSF_GPIO_PULL_DOWN          = (2 << 8),
+
+    /* EXTI trigger modes — values directly usable as RP2040 INTR/INTE field */
+    VSF_GPIO_EXTI_MODE_NONE         = (0 << 10),
+    VSF_GPIO_EXTI_MODE_LOW_LEVEL    = (1 << 10),
+    VSF_GPIO_EXTI_MODE_HIGH_LEVEL   = (2 << 10),
+    VSF_GPIO_EXTI_MODE_FALLING      = (4 << 10),
+    VSF_GPIO_EXTI_MODE_RISING       = (8 << 10),
+    VSF_GPIO_EXTI_MODE_RISING_FALLING = (4 << 10) | (8 << 10),
+} vsf_gpio_mode_t;
 
 /*============================ INCLUDES ======================================*/
 /*============================ PROTOTYPES ====================================*/

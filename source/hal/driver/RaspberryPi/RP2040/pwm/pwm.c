@@ -51,6 +51,9 @@
 #define __RP2040_PWM_MAX_DIV_INT                   255
 #define __RP2040_PWM_MIN_FREQ                      1
 
+/* RP2040 PWM: each slice drives two channels (A/B). */
+#define __RP2040_PWM_CHANNEL_PER_SLICE             2
+
 /*============================ TYPES =========================================*/
 
 typedef struct VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_t) {
@@ -133,7 +136,7 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_init)(
 
     uint32_t freq = cfg_ptr->freq;
     if (freq == 0) {
-        freq = 1000;    /* default 1 kHz */
+        return VSF_ERR_INVALID_PARAMETER;
     }
 
     uint32_t div_16 = __rp2040_pwm_compute_div(clk_sys, freq, top);
@@ -186,7 +189,7 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_set)(
     uint32_t pulse
 ) {
     VSF_HAL_ASSERT(pwm_ptr != NULL);
-    VSF_HAL_ASSERT(channel < 2);
+    VSF_HAL_ASSERT(channel < __RP2040_PWM_CHANNEL_PER_SLICE);
 
     uint8_t slice = pwm_ptr->slice_idx;
     pwm_slice_hw_t *slice_hw = &pwm_hw->slice[slice];
@@ -280,7 +283,7 @@ void VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_irq_enable)(
 
     uint8_t slice = pwm_ptr->slice_idx;
     pwm_hw->inte |= (1u << slice);
-    NVIC_EnableIRQ(PWM_IRQ_WRAP_IRQn);
+    NVIC_EnableIRQ(VSF_HW_PWM0_IRQN);
 }
 
 void VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_irq_disable)(

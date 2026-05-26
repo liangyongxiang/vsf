@@ -142,11 +142,6 @@ vsf_err_t vsf_dw_apb_i2c_init(vsf_dw_apb_i2c_t *dw_apb_i2c_ptr, vsf_i2c_cfg_t *c
     dw_apb_i2c_ptr->need_stop           = 0;
     dw_apb_i2c_ptr->stop_detect         = 0;
 
-    vsf_trace_info("[DW_APB] init done: CON=%08X TAR=%02X HCNT=%04X LCNT=%04X SPKLEN=%02X" VSF_TRACE_CFG_LINEEND,
-                   reg->IC_CON.VALUE, reg->IC_TAR.IC_TAR,
-                   reg->IC_SS_SCL_HCNT.IC_SS_SCL_HCNT, reg->IC_SS_SCL_LCNT.IC_SS_SCL_LCNT,
-                   reg->IC_FS_SPKLEN.IC_FS_SPKLEN);
-
     return VSF_ERR_NONE;
 }
 

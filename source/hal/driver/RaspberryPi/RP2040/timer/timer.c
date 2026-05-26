@@ -101,10 +101,13 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_init)(
     timer_ptr->period = cfg_ptr->period;
     timer_ptr->channel_enabled = 0;
 
+    uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
     if (timer_ptr->isr.handler_fn != NULL) {
-        uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
         NVIC_SetPriority(TIMER_IRQ_0_IRQn + timer_idx,
                          (uint32_t)timer_ptr->isr.prio);
+        NVIC_EnableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
+    } else {
+        NVIC_DisableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
     }
 
     return VSF_ERR_NONE;
@@ -149,8 +152,8 @@ void VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_enable)(
     VSF_HAL_ASSERT(timer_ptr != NULL);
     (void)irq_mask;
 
-    uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
-    NVIC_EnableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
+    /* NVIC is enabled in init() when isr.handler_fn is set.
+     * Per-channel alarm enable is handled via timer_ctrl(). */
 }
 
 void VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_disable)(
@@ -160,8 +163,8 @@ void VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_disable)(
     VSF_HAL_ASSERT(timer_ptr != NULL);
     (void)irq_mask;
 
-    uint8_t timer_idx = __rp2040_timer_idx(timer_ptr);
-    NVIC_DisableIRQ(TIMER_IRQ_0_IRQn + timer_idx);
+    /* NVIC is disabled in fini().
+     * Per-channel alarm disable is handled via timer_ctrl(). */
 }
 
 vsf_timer_irq_mask_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_irq_clear)(

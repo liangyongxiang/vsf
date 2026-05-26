@@ -233,8 +233,9 @@ vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_set_period)(
     uint32_t period)
 {
     VSF_HAL_ASSERT(timer_ptr != NULL);
-    timer_ptr->period = period;
-    return VSF_ERR_NONE;
+    VSF_UNUSED_PARAM(period);
+    VSF_HAL_ASSERT(0);
+    return VSF_ERR_NOT_SUPPORT;
 }
 
 vsf_err_t VSF_MCONNECT(VSF_TIMER_CFG_IMP_PREFIX, _timer_ctrl)(

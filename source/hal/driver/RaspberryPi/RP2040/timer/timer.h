@@ -27,9 +27,25 @@
 #include "../__device.h"
 
 /*============================ MACROS ========================================*/
+
+#define VSF_TIMER_CFG_REIMPLEMENT_TYPE_IRQ_MASK         ENABLED
+#define VSF_TIMER_CFG_REIMPLEMENT_TYPE_CHANNEL_MODE     ENABLED
+
 /*============================ MACROFIED FUNCTIONS ===========================*/
 /*============================ TYPES =========================================*/
+
+typedef enum vsf_timer_irq_mask_t {
+    VSF_TIMER_IRQ_MASK_OVERFLOW = (0x01 << 0),
+} vsf_timer_irq_mask_t;
+
+typedef enum vsf_timer_channel_mode_t {
+    VSF_TIMER_CHANNEL_MODE_BASE = (0x00 << 0),
+    VSF_TIMER_BASE_ONESHOT      = (0x00 << 5),
+    VSF_TIMER_BASE_CONTINUES    = (0x01 << 5),
+} vsf_timer_channel_mode_t;
+
 /*============================ INCLUDES ======================================*/
+#include "hal/driver/common/template/vsf_template_timer.h"
 /*============================ PROTOTYPES ====================================*/
 
 #endif      // VSF_HAL_USE_TIMER

@@ -313,7 +313,15 @@ def check_driver_h_includes(driver_h: Path, files: set[str]) -> list[tuple[str, 
 
 
 def check_device_h_mask(device_h: Path, declarations: dict[str, dict]) -> list[tuple[str, str]]:
-    """Check that every COUNT > 0 peripheral also has a MASK macro."""
+    """Check that every instance-declared peripheral has enough macros for
+    the template to derive MASK (from COUNT) or COUNT (from MASK).
+
+    GPIO is special: it uses VSF_HW_GPIO_PORT_MASK / VSF_HW_GPIO_PORT_COUNT,
+    and vsf_template_gpio.h derives VSF_HW_GPIO_MASK from VSF_HW_GPIO_PORT_MASK.
+    For all other peripherals the template header derives one from the other
+    via VSF_HAL_COUNT_TO_MASK / VSF_HAL_MASK_TO_COUNT, so either macro is
+    sufficient.
+    """
     findings: list[tuple[str, str]] = []
     if not device_h.is_file():
         return findings
@@ -323,11 +331,33 @@ def check_device_h_mask(device_h: Path, declarations: dict[str, dict]) -> list[t
         if info["count"] == 0:
             continue
         upper = info["upper"]
-        # Check for VSF_HW_<UPPER>_MASK
-        mask_re = re.compile(rf'^\s*#\s*define\s+VSF_HW_{re.escape(upper)}_MASK\b', re.MULTILINE)
-        if not mask_re.search(text):
+
+        # GPIO special case: PORT_MASK or PORT_COUNT is enough.
+        if upper == "GPIO":
+            has_port_mask = re.search(
+                r'^\s*#\s*define\s+VSF_HW_GPIO_PORT_MASK\b', text, re.MULTILINE
+            )
+            has_port_count = re.search(
+                r'^\s*#\s*define\s+VSF_HW_GPIO_PORT_COUNT\b', text, re.MULTILINE
+            )
+            if not has_port_mask and not has_port_count:
+                findings.append(
+                    (short, "VSF_HW_GPIO_PORT_COUNT declared but neither VSF_HW_GPIO_PORT_MASK nor VSF_HW_GPIO_PORT_COUNT found")
+                )
+            continue
+
+        # Non-GPIO: MASK and COUNT are mutually sufficient (template derives
+        # one from the other).  scan_device_h already confirmed COUNT exists,
+        # so MASK is optional.  Only flag if neither is present.
+        has_mask = re.search(
+            rf'^\s*#\s*define\s+VSF_HW_{re.escape(upper)}_MASK\b', text, re.MULTILINE
+        )
+        has_count = re.search(
+            rf'^\s*#\s*define\s+VSF_HW_{re.escape(upper)}_COUNT\b', text, re.MULTILINE
+        )
+        if not has_mask and not has_count:
             findings.append(
-                (short, f"VSF_HW_{upper}_COUNT={info['count']} but VSF_HW_{upper}_MASK is missing — required for acquire_from_all")
+                (short, f"VSF_HW_{upper}_COUNT={info['count']} but neither VSF_HW_{upper}_MASK nor VSF_HW_{upper}_COUNT found")
             )
     return findings
 

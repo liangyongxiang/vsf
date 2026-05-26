@@ -145,7 +145,7 @@ Applies to every peripheral type. For every config field: either use it in the d
 | `scaffold_peripheral.py` fails | wrong `--chip` path or target dir already exists | verify path under `source/hal/driver/`; if dir exists, edit directly |
 | `check-driver-structure.py` non-zero | missing required API, wrong prototype, or missing IMP_LV0 | read check output; add missing function/struct; rerun |
 | `check-driver-quality.py` non-zero | style or convention violation | fix the violation; only suppress with `// quality: allow-<rule-id>` after confirming it's a false positive |
-| `audit-port.py` non-zero | cross-file mismatch (e.g., IRQ handler declared but not defined) | fix mismatch; rerun |
+| `audit-port.py` non-zero | cross-file mismatch (e.g., IRQ handler declared but not defined) or `missing-mask` on GPIO | fix mismatch; for GPIO `missing-mask` see note below — GPIO uses `VSF_HW_GPIO_PORT_MASK` not `VSF_HW_GPIO_MASK` |
 | `enable-periph.py` fails | peripheral name typo or `vsf_usr_cfg.h` not at expected path | check peripheral name against `peripheral-registry.yml` |
 
 ### Runtime failures
@@ -159,6 +159,10 @@ Applies to every peripheral type. For every config field: either use it in the d
 | DMA transfer never completes | DMA clock not enabled, or channel not assigned to peripheral | check `RCC->AHBENR` DMA clock bit; verify channel mapping in reference manual |
 | vsf-bench fails, all static checks passed | wiring issue or wrong baudrate | run `gpio_io_check` suite first to isolate wiring; check R4 system clock timing |
 | Peripheral works intermittently | missing `volatile` on register pointers, or spin-wait missing `< X us` comment (compiler optimizes away delay) | add volatile; add duration comment |
+
+### Audit `missing-mask` — expected behavior
+
+`audit-port.py` checks that every declared peripheral has either `VSF_HW_<PERIPH>_MASK` or `VSF_HW_<PERIPH>_COUNT` in `device.h` (templates derive one from the other). **GPIO is special:** it uses `VSF_HW_GPIO_PORT_MASK` / `VSF_HW_GPIO_PORT_COUNT`, and `vsf_template_gpio.h` defines `VSF_HW_GPIO_MASK` from `VSF_HW_GPIO_PORT_MASK`. If you see `[missing-mask] gpio` it means `VSF_HW_GPIO_PORT_MASK` or `VSF_HW_GPIO_PORT_COUNT` is missing — not `VSF_HW_GPIO_MASK`.
 
 ### Iteration loop
 

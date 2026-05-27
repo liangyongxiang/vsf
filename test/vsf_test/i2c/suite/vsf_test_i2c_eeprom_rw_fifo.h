@@ -1,0 +1,40 @@
+/******************************************************************************
+ *   Copyright(C)2009-2024 by VSF Team                                       *
+ *                                                                           *
+ *  Licensed under the Apache License, Version 2.0 (the "License");          *
+ *  you may not use this file except in compliance with the License.         *
+ *  You may obtain a copy of the License at                                  *
+ *                                                                           *
+ *     http://www.apache.org/licenses/LICENSE-2.0                            *
+ *                                                                           *
+ *  Unless required by applicable law or agreed to in writing, software      *
+ *  distributed under the License is distributed on an "AS IS" BASIS,        *
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
+ *  See the License for the specific language governing permissions and       *
+ *  limitations under the License.                                           *
+ *                                                                           *
+ *****************************************************************************/
+
+#ifndef __TEST_I2C_EEPROM_RW_FIFO_H__
+#define __TEST_I2C_EEPROM_RW_FIFO_H__
+
+#include "../vsf_test_i2c.h"
+
+#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*============================ PROTOTYPES ====================================*/
+
+void vsf_test_i2c_eeprom_rw_fifo_run(const vsf_test_i2c_eeprom_rw_fifo_case_t *c);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED */
+
+#endif /* __TEST_I2C_EEPROM_RW_FIFO_H__ */
+/* EOF */

@@ -37,3 +37,21 @@ i2c_slave:
   cases:
     - {idx: 0, master_i2c_idx: 0, slave_i2c_idx: 1,
        host: {hw_req: i2c_slave_wiring}}
+
+i2c_eeprom_rw_fifo:
+  name: i2c_eeprom_rw_fifo
+  suite_timeout_s: 15.0
+  cases:
+    - {idx: 0, i2c_idx: 0, eeprom_addr: 0x50, mem_addr: 0x00, data_len: 1,
+       host: {hw_req: i2c_eeprom}}
+    - {idx: 1, i2c_idx: 0, eeprom_addr: 0x50, mem_addr: 0x10, data_len: 4,
+       host: {hw_req: i2c_eeprom}}
+    - {idx: 2, i2c_idx: 0, eeprom_addr: 0x50, mem_addr: 0x20, data_len: 8,
+       host: {hw_req: i2c_eeprom}}
+
+i2c_slave_fifo:
+  name: i2c_slave_fifo
+  suite_timeout_s: 15.0
+  cases:
+    - {idx: 0, master_i2c_idx: 0, slave_i2c_idx: 1,
+       host: {hw_req: i2c_slave_wiring}}

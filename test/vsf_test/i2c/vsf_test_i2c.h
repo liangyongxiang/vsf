@@ -56,6 +56,14 @@ extern "C" {
 #   define VSF_TEST_I2C_SLAVE_ENABLE            ENABLED
 #endif
 
+#ifndef VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE
+#   define VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE   ENABLED
+#endif
+
+#ifndef VSF_TEST_I2C_SLAVE_FIFO_ENABLE
+#   define VSF_TEST_I2C_SLAVE_FIFO_ENABLE       ENABLED
+#endif
+
 /*============================ TYPES =========================================*/
 
 vsf_class(vsf_test_i2c_suite_base_t) {
@@ -95,6 +103,39 @@ vsf_class(vsf_test_i2c_slave_suite_t) {
     )
 };
 
+vsf_class(vsf_test_i2c_eeprom_rw_fifo_suite_t) {
+    public_member(
+        implement(vsf_test_i2c_suite_base_t)
+    )
+    private_member(
+        volatile vsf_i2c_irq_mask_t irq_mask;
+        uint8_t            write_buf[VSF_TEST_I2C_CASE_MAX_COUNT + 1];
+        uint8_t            read_buf[VSF_TEST_I2C_CASE_MAX_COUNT];
+        volatile bool      done;
+        volatile bool      error;
+        vsf_i2c_cmd_t      cur_cmd;
+        uint_fast16_t      offset;
+    )
+};
+
+vsf_class(vsf_test_i2c_slave_fifo_suite_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_i2c_t *master_i2c;
+        vsf_i2c_t *slave_i2c;
+    )
+    private_member(
+        volatile vsf_i2c_irq_mask_t master_irq_mask;
+        volatile vsf_i2c_irq_mask_t slave_irq_mask;
+        uint8_t    master_buf[16];
+        uint8_t    slave_buf[16];
+        volatile uint_fast16_t  slave_rx_offset;
+        volatile uint_fast16_t  slave_tx_offset;
+        volatile bool  master_done;
+        volatile bool  slave_complete;
+    )
+};
+
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
 typedef struct vsf_test_i2c_eeprom_rw_case_t {
     uint8_t  idx;
@@ -124,6 +165,26 @@ typedef struct vsf_test_i2c_slave_case_t {
     uint8_t  slave_i2c_idx;
     vsf_test_i2c_slave_suite_t *suite;
 } vsf_test_i2c_slave_case_t;
+#endif
+
+#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
+typedef struct vsf_test_i2c_eeprom_rw_fifo_case_t {
+    uint8_t  idx;
+    uint8_t  i2c_idx;
+    uint8_t  eeprom_addr;
+    uint8_t  mem_addr;
+    uint8_t  data_len;
+    vsf_test_i2c_eeprom_rw_fifo_suite_t *suite;
+} vsf_test_i2c_eeprom_rw_fifo_case_t;
+#endif
+
+#if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
+typedef struct vsf_test_i2c_slave_fifo_case_t {
+    uint8_t  idx;
+    uint8_t  master_i2c_idx;
+    uint8_t  slave_i2c_idx;
+    vsf_test_i2c_slave_fifo_suite_t *suite;
+} vsf_test_i2c_slave_fifo_case_t;
 #endif
 
 /*============================ TYPES for bus_scan ============================*/
@@ -229,6 +290,46 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
     }
 #endif
 
+#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
+#define VSF_TEST_I2C_EEPROM_RW_FIFO_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_i2c_eeprom_rw_fifo_suite_t suite_var; \
+    static vsf_test_i2c_eeprom_rw_fifo_case_t __##suite_var##_data[] = { \
+        VSF_TEST_I2C_EEPROM_RW_FIFO_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_I2C_EEPROM_RW_FIFO_CASES(__##suite_var##_data, vsf_test_i2c_eeprom_rw_fifo_run, false) \
+    }; \
+    static vsf_test_i2c_eeprom_rw_fifo_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "i2c_eeprom_rw_fifo", \
+        .hw_req     = "i2c_eeprom", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
+#if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
+#define VSF_TEST_I2C_SLAVE_FIFO_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    static vsf_test_i2c_slave_fifo_suite_t suite_var; \
+    static vsf_test_i2c_slave_fifo_case_t __##suite_var##_data[] = { \
+        VSF_TEST_I2C_SLAVE_FIFO_CASE_DATA(&suite_var) \
+    }; \
+    static vsf_test_case_t __##suite_var##_cases[] = { \
+        VSF_TEST_I2C_SLAVE_FIFO_CASES(__##suite_var##_data, vsf_test_i2c_slave_fifo_run, false) \
+    }; \
+    static vsf_test_i2c_slave_fifo_suite_t suite_var = { \
+        .name       = name_str, \
+        .purpose    = "i2c_slave_fifo", \
+        .hw_req     = "i2c_slave_wiring", \
+        .setup      = setup_fn, \
+        .teardown   = teardown_fn, \
+        .cases      = __##suite_var##_cases, \
+        .case_count = dimof(__##suite_var##_cases), \
+    }
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
@@ -245,6 +346,14 @@ void vsf_test_i2c_eeprom_page_run(const vsf_test_i2c_eeprom_page_case_t *c);
 
 #if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
 void vsf_test_i2c_slave_run(void *arg);
+#endif
+
+#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
+void vsf_test_i2c_eeprom_rw_fifo_run(const vsf_test_i2c_eeprom_rw_fifo_case_t *c);
+#endif
+
+#if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
+void vsf_test_i2c_slave_fifo_run(void *arg);
 #endif
 
 // Framework types — included LAST so this header can be pulled into

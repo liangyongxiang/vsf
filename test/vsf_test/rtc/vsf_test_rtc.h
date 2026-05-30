@@ -84,27 +84,33 @@ vsf_class(vsf_test_rtc_epoch_suite_t) {
 };
 
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-typedef struct vsf_test_rtc_set_get_case_t {
-    uint8_t idx;
-    uint8_t rtc_idx;
-    vsf_test_rtc_set_get_suite_t *suite;
-} vsf_test_rtc_set_get_case_t;
+vsf_class(vsf_test_rtc_set_get_case_t) {
+    public_member(
+        uint8_t idx;
+        uint8_t rtc_idx;
+        vsf_test_rtc_set_get_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-typedef struct vsf_test_rtc_alarm_case_t {
-    uint8_t idx;
-    uint8_t rtc_idx;
-    vsf_test_rtc_alarm_suite_t *suite;
-} vsf_test_rtc_alarm_case_t;
+vsf_class(vsf_test_rtc_alarm_case_t) {
+    public_member(
+        uint8_t idx;
+        uint8_t rtc_idx;
+        vsf_test_rtc_alarm_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
-typedef struct vsf_test_rtc_epoch_case_t {
-    uint8_t idx;
-    uint8_t rtc_idx;
-    vsf_test_rtc_epoch_suite_t *suite;
-} vsf_test_rtc_epoch_case_t;
+vsf_class(vsf_test_rtc_epoch_case_t) {
+    public_member(
+        uint8_t idx;
+        uint8_t rtc_idx;
+        vsf_test_rtc_epoch_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -119,6 +125,7 @@ typedef struct vsf_test_rtc_epoch_case_t {
         VSF_TEST_RTC_SET_GET_CASES(__##suite_var##_data, vsf_test_rtc_set_get_run, false) \
     }; \
     static vsf_test_rtc_set_get_suite_t suite_var = { \
+        .rtc        = VSF_BOARD_RTC_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rtc_set_get", \
         .hw_req     = "none", \
@@ -139,6 +146,7 @@ typedef struct vsf_test_rtc_epoch_case_t {
         VSF_TEST_RTC_ALARM_CASES(__##suite_var##_data, vsf_test_rtc_alarm_run, false) \
     }; \
     static vsf_test_rtc_alarm_suite_t suite_var = { \
+        .rtc        = VSF_BOARD_RTC_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rtc_alarm", \
         .hw_req     = "none", \
@@ -159,6 +167,7 @@ typedef struct vsf_test_rtc_epoch_case_t {
         VSF_TEST_RTC_EPOCH_CASES(__##suite_var##_data, vsf_test_rtc_epoch_run, false) \
     }; \
     static vsf_test_rtc_epoch_suite_t suite_var = { \
+        .rtc        = VSF_BOARD_RTC_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rtc_epoch", \
         .hw_req     = "none", \

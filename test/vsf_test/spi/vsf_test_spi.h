@@ -61,24 +61,28 @@ vsf_class(vsf_test_spi_async_suite_t) {
 };
 
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-typedef struct vsf_test_spi_loopback_case_t {
-    uint8_t  idx;
-    uint32_t mode;
-    uint32_t clock_hz;
-    uint16_t data_len;
-    vsf_test_spi_loopback_suite_t *suite;
-} vsf_test_spi_loopback_case_t;
+vsf_class(vsf_test_spi_loopback_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint32_t mode;
+        uint32_t clock_hz;
+        uint16_t data_len;
+        vsf_test_spi_loopback_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-typedef struct vsf_test_spi_async_case_t {
-    uint8_t  idx;
-    uint32_t mode;
-    uint32_t clock_hz;
-    uint16_t data_len;
-    uint8_t  test_type;
-    vsf_test_spi_async_suite_t *suite;
-} vsf_test_spi_async_case_t;
+vsf_class(vsf_test_spi_async_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint32_t mode;
+        uint32_t clock_hz;
+        uint16_t data_len;
+        uint8_t  test_type;
+        vsf_test_spi_async_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -93,6 +97,7 @@ typedef struct vsf_test_spi_async_case_t {
         VSF_TEST_SPI_LOOPBACK_CASES(__##suite_var##_data, vsf_test_spi_loopback_run, false) \
     }; \
     static vsf_test_spi_loopback_suite_t suite_var = { \
+        .spi        = VSF_BOARD_SPI_INSTANCE, \
         .name       = name_str, \
         .purpose    = "spi_loopback", \
         .hw_req     = "mosi-miso-jumper", \
@@ -113,6 +118,7 @@ typedef struct vsf_test_spi_async_case_t {
         VSF_TEST_SPI_ASYNC_CASES(__##suite_var##_data, vsf_test_spi_async_run, false) \
     }; \
     static vsf_test_spi_async_suite_t suite_var = { \
+        .spi        = VSF_BOARD_SPI_INSTANCE, \
         .name       = name_str, \
         .purpose    = "spi_async", \
         .hw_req     = "mosi-miso-jumper", \

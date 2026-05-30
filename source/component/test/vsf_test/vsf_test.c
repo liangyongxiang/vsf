@@ -48,61 +48,82 @@
 /*============================ LOCAL VARIABLES ===============================*/
 /*============================ GLOBAL VARIABLES ==============================*/
 
-vsf_test_t __vsf_test;
+static vsf_test_t *__vsf_test_self;
 
 /*============================ LOCAL FUNCTIONS ===============================*/
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_init(vsf_test_t *test, const vsf_test_cfg_t *cfg)
+void vsf_test_run(vsf_test_t *test)
 {
-    // backward compat: test parameter kept but ignored;
-    // framework uses global __vsf_test for constructor auto-registration.
-    (void)test;
+    __vsf_test_self = test;
 
-    VSF_ASSERT(cfg != NULL);
+    __vsf_test_self->current_case = NULL;
 
-    __vsf_test.wdt.entries   = cfg->wdt.entries;
-    __vsf_test.wdt.count     = cfg->wdt.count;
+    __VSF_TEST_TRACE_INFO("[TEST] Initialized (%u suites)\r\n", __vsf_test_self->suite_count);
 
-    __vsf_test.reboot.entries = cfg->reboot.entries;
-    __vsf_test.reboot.count   = cfg->reboot.count;
+    vsf_test_shell_init(&__vsf_test_self->shell, __vsf_test_self->suites, __vsf_test_self->suite_count);
 
-    __vsf_test.restart_on_done = cfg->restart_on_done;
+    // --- Run all tests ---
+    __VSF_TEST_TRACE_INFO("[TEST] Starting test framework\r\n");
 
-    __vsf_test.current_case = NULL;
-    __vsf_test.suite_count = 0;
-
-    __VSF_TEST_TRACE_INFO("[TEST] Initialized\r\n");
-}
-
-vsf_test_shell_t *vsf_test_get_shell(void)
-{
-    return &__vsf_test.shell;
-}
-
-bool vsf_test_register_suite(vsf_test_suite_t *suite)
-{
-    VSF_ASSERT(suite != NULL);
-    VSF_ASSERT(suite->name != NULL);
-
-    if (__vsf_test.suite_count >= VSF_TEST_SHELL_MAX_SUITES) {
-        __VSF_TEST_TRACE_ERROR("register_suite: suite table full (count=%u)\r\n",
-                               __vsf_test.suite_count);
-        return false;
+    for (uint8_t i = 0; i < __vsf_test_self->wdt.count; i++) {
+        if (__vsf_test_self->wdt.entries[i].init != NULL) {
+            uint32_t timeout_ms = __vsf_test_self->wdt.entries[i].timeout_ms;
+            if (timeout_ms == 0) {
+                timeout_ms = (i == 0) ? VSF_TEST_CFG_INTERNAL_TIMEOUT_MS
+                                      : VSF_TEST_CFG_EXTERNAL_TIMEOUT_MS;
+            }
+            __VSF_TEST_TRACE_DEBUG("[TEST] WDT[%u]: %u ms\r\n",
+                                   (unsigned)i, (unsigned)timeout_ms);
+            __vsf_test_self->wdt.entries[i].init(&__vsf_test_self->wdt.entries[i], timeout_ms);
+        }
     }
-    __vsf_test.suites[__vsf_test.suite_count++] = suite;
-    vsf_test_shell_register_suite(&__vsf_test.shell, suite);
-    __VSF_TEST_TRACE_DEBUG("[TEST] register suite '%s' at idx %u\r\n",
-                          suite->name, (unsigned)(__vsf_test.suite_count - 1));
-    return true;
+
+    for (uint8_t si = 0; si < __vsf_test_self->suite_count; si++) {
+        vsf_test_suite_t *suite = __vsf_test_self->suites[si];
+        if (suite == NULL || suite->cases == NULL) continue;
+        for (uint16_t ci = 0; ci < suite->case_count; ci++) {
+            vsf_test_run_suite_case(suite, ci);
+        }
+    }
+
+    __VSF_TEST_TRACE_INFO("[TEST] All test cases completed\r\n");
+    __VSF_TEST_TRACE_INFO("\r\n[TEST] ========== Test Summary ==========\r\n");
+
+    uint32_t total = 0, pass_count = 0, fail_count = 0, skip_count = 0;
+    uint32_t wdt_pass_count = 0, wdt_fail_count = 0;
+
+    for (uint8_t si = 0; si < __vsf_test_self->suite_count; si++) {
+        vsf_test_suite_t *suite = __vsf_test_self->suites[si];
+        if (suite == NULL || suite->cases == NULL) continue;
+        for (uint16_t ci = 0; ci < suite->case_count; ci++) {
+            total++;
+            switch (suite->cases[ci].result) {
+            case VSF_TEST_RESULT_PASS:     pass_count++;      break;
+            case VSF_TEST_RESULT_FAIL:     fail_count++;      break;
+            case VSF_TEST_RESULT_SKIP:     skip_count++;      break;
+            case VSF_TEST_RESULT_WDT_PASS: wdt_pass_count++;  break;
+            case VSF_TEST_RESULT_WDT_FAIL: wdt_fail_count++;  break;
+            default: break;
+            }
+        }
+    }
+
+    __VSF_TEST_TRACE_INFO("[TEST] Total test cases: %u\r\n", total);
+    __VSF_TEST_TRACE_INFO("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u\r\n",
+                           pass_count, fail_count, skip_count, wdt_pass_count, wdt_fail_count);
+
+    if (__vsf_test_self->start_shell) {
+        vsf_test_shell_run(&__vsf_test_self->shell);
+    }
 }
 
-void __vsf_test_longjmp(vsf_test_result_t result,
+void vsf_test_assert(vsf_test_result_t result,
                         const char *file_name, uint32_t line,
                         const char *function_name, const char *condition)
 {
-    vsf_test_case_t *case_ptr = __vsf_test.current_case;
+    vsf_test_case_t *case_ptr = __vsf_test_self->current_case;
     if (case_ptr != NULL) {
         case_ptr->result              = result;
         case_ptr->error.function_name = function_name;
@@ -114,7 +135,7 @@ void __vsf_test_longjmp(vsf_test_result_t result,
     __VSF_TEST_TRACE_ERROR("[TEST] Assertion failed: %s:%u in %s() - %s\r\n",
                           file_name, line, function_name, condition ? condition : "");
 
-    longjmp(*__vsf_test.jmp_buf, 1);
+    longjmp(*__vsf_test_self->jmp_buf, 1);
 }
 
 //! \brief Extract test name from test case
@@ -132,7 +153,7 @@ void vsf_test_reboot(vsf_test_result_t result,
                      const char *file_name, uint32_t line,
                      const char *function_name, const char *condition)
 {
-    vsf_test_case_t *case_ptr = __vsf_test.current_case;
+    vsf_test_case_t *case_ptr = __vsf_test_self->current_case;
     if (case_ptr != NULL) {
         case_ptr->result              = result;
         case_ptr->error.function_name = function_name;
@@ -145,10 +166,10 @@ void vsf_test_reboot(vsf_test_result_t result,
     __VSF_TEST_TRACE_ERROR("[TEST] Reboot due to error: %s:%u in %s() - %s\r\n",
                           file_name, line, function_name, condition ? condition : "");
 
-    for (uint8_t i = 0; i < __vsf_test.reboot.count; i++) {
-        if (__vsf_test.reboot.entries[i] != NULL) {
+    for (uint8_t i = 0; i < __vsf_test_self->reboot.count; i++) {
+        if (__vsf_test_self->reboot.entries[i] != NULL) {
             __VSF_TEST_TRACE_INFO("[TEST] Calling reboot[%u]\r\n", (unsigned)i);
-            __vsf_test.reboot.entries[i]();
+            __vsf_test_self->reboot.entries[i]();
         }
     }
     while (1);
@@ -188,9 +209,9 @@ void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
         return;
     }
 
-    for (uint8_t i = 0; i < __vsf_test.wdt.count; i++) {
-        if (__vsf_test.wdt.entries[i].feed != NULL) {
-            __vsf_test.wdt.entries[i].feed(&__vsf_test.wdt.entries[i]);
+    for (uint8_t i = 0; i < __vsf_test_self->wdt.count; i++) {
+        if (__vsf_test_self->wdt.entries[i].feed != NULL) {
+            __vsf_test_self->wdt.entries[i].feed(&__vsf_test_self->wdt.entries[i]);
         }
     }
 
@@ -225,11 +246,11 @@ void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
     }
     vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
 
-    __vsf_test.current_case = test_case;
+    __vsf_test_self->current_case = test_case;
 
     jmp_buf buf;
     test_case->result = VSF_TEST_RESULT_PASS;
-    __vsf_test.jmp_buf = &buf;
+    __vsf_test_self->jmp_buf = &buf;
     if (0 == setjmp(buf)) {
         test_case->jmp_fn(test_case->arg);
     } else {
@@ -254,67 +275,7 @@ void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
     }
 
     test_case->status = VSF_TEST_STATUS_IDLE;
-    __vsf_test.current_case = NULL;
-}
-
-void vsf_test_run_suite(vsf_test_suite_t *suite)
-{
-    if (suite == NULL || suite->cases == NULL) {
-        return;
-    }
-
-    for (uint16_t i = 0; i < suite->case_count; i++) {
-        vsf_test_run_suite_case(suite, i);
-    }
-}
-
-void vsf_test_run_tests(void)
-{
-    __VSF_TEST_TRACE_INFO("[TEST] Starting test framework\r\n");
-
-    for (uint8_t i = 0; i < __vsf_test.wdt.count; i++) {
-        if (__vsf_test.wdt.entries[i].init != NULL) {
-            uint32_t timeout_ms = __vsf_test.wdt.entries[i].timeout_ms;
-            if (timeout_ms == 0) {
-                timeout_ms = (i == 0) ? VSF_TEST_CFG_INTERNAL_TIMEOUT_MS
-                                      : VSF_TEST_CFG_EXTERNAL_TIMEOUT_MS;
-            }
-            __VSF_TEST_TRACE_DEBUG("[TEST] WDT[%u]: %u ms\r\n",
-                                   (unsigned)i, (unsigned)timeout_ms);
-            __vsf_test.wdt.entries[i].init(&__vsf_test.wdt.entries[i], timeout_ms);
-        }
-    }
-
-    for (uint8_t si = 0; si < __vsf_test.suite_count; si++) {
-        vsf_test_run_suite(__vsf_test.suites[si]);
-    }
-
-    __VSF_TEST_TRACE_INFO("[TEST] All test cases completed\r\n");
-
-    __VSF_TEST_TRACE_INFO("\r\n[TEST] ========== Test Summary ==========\r\n");
-
-    uint32_t total = 0, pass_count = 0, fail_count = 0, skip_count = 0;
-    uint32_t wdt_pass_count = 0, wdt_fail_count = 0;
-
-    for (uint8_t si = 0; si < __vsf_test.suite_count; si++) {
-        vsf_test_suite_t *suite = __vsf_test.suites[si];
-        if (suite == NULL || suite->cases == NULL) continue;
-        for (uint16_t ci = 0; ci < suite->case_count; ci++) {
-            total++;
-            switch (suite->cases[ci].result) {
-            case VSF_TEST_RESULT_PASS:     pass_count++;      break;
-            case VSF_TEST_RESULT_FAIL:     fail_count++;      break;
-            case VSF_TEST_RESULT_SKIP:     skip_count++;      break;
-            case VSF_TEST_RESULT_WDT_PASS: wdt_pass_count++;  break;
-            case VSF_TEST_RESULT_WDT_FAIL: wdt_fail_count++;  break;
-            default: break;
-            }
-        }
-    }
-
-    __VSF_TEST_TRACE_INFO("[TEST] Total test cases: %u\r\n", total);
-    __VSF_TEST_TRACE_INFO("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u\r\n",
-                          pass_count, fail_count, skip_count, wdt_pass_count, wdt_fail_count);
+    __vsf_test_self->current_case = NULL;
 }
 
 #endif

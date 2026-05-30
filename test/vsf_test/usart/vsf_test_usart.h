@@ -313,169 +313,209 @@ vsf_class(vsf_test_usart_rx_fifo_threshold_suite_t) {
 
 #if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
 //! \brief USART 波特率测试用例配置条目
-typedef struct vsf_test_usart_baud_case_t {
-    uint8_t  idx;              //! \brief 场景内索引，用于 CASE:marker
-    uint32_t baudrate;         //! \brief 目标波特率
-    uint32_t data_size_bytes;  //! \brief 0=使用字符串payload，>0=使用递增计数器pattern
-    bool     expect_pass;      //! \brief true=预期初始化成功并发送数据，false=预期初始化失败
-    vsf_test_usart_baud_suite_t *suite;
-} vsf_test_usart_baud_case_t;
+vsf_class(vsf_test_usart_baud_case_t) {
+    public_member(
+        uint8_t  idx;              //! \brief 场景内索引，用于 CASE:marker
+        uint32_t baudrate;         //! \brief 目标波特率
+        uint32_t data_size_bytes;  //! \brief 0=使用字符串payload，>0=使用递增计数器pattern
+        bool     expect_pass;      //! \brief true=预期初始化成功并发送数据，false=预期初始化失败
+        vsf_test_usart_baud_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
 //! \brief USART 模式测试用例配置条目
-typedef struct vsf_test_usart_mode_case_t {
-    uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
-    vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（parity/stop/data/...）
-    bool             expect_pass; //! \brief true=预期初始化成功并发送数据，false=预期初始化失败
-    vsf_test_usart_mode_suite_t *suite;
-} vsf_test_usart_mode_case_t;
+vsf_class(vsf_test_usart_mode_case_t) {
+    public_member(
+        uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
+        vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（parity/stop/data/...）
+        bool             expect_pass; //! \brief true=预期初始化成功并发送数据，false=预期初始化失败
+        vsf_test_usart_mode_suite_t *suite;
+    )
+};
 #endif
 
 //! \brief USART RX 数据测试用例配置条目
-typedef struct vsf_test_usart_rx_data_case_t {
-    uint8_t  idx;              //! \brief 场景内索引，用于 CASE:marker
-    uint32_t data_size_bytes;  //! \brief 0=使用字符串payload，>0=使用递增计数器pattern
-    bool     expect_pass;      //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
-    vsf_test_usart_rx_data_suite_t *suite;
-} vsf_test_usart_rx_data_case_t;
+vsf_class(vsf_test_usart_rx_data_case_t) {
+    public_member(
+        uint8_t  idx;              //! \brief 场景内索引，用于 CASE:marker
+        uint32_t data_size_bytes;  //! \brief 0=使用字符串payload，>0=使用递增计数器pattern
+        bool     expect_pass;      //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
+        vsf_test_usart_rx_data_suite_t *suite;
+    )
+};
 
 //! \brief USART RX 波特率测试用例配置条目
-typedef struct vsf_test_usart_rx_baud_case_t {
-    uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
-    uint32_t baudrate;    //! \brief 目标波特率
-    bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
-    vsf_test_usart_rx_baud_suite_t *suite;
-} vsf_test_usart_rx_baud_case_t;
+vsf_class(vsf_test_usart_rx_baud_case_t) {
+    public_member(
+        uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
+        uint32_t baudrate;    //! \brief 目标波特率
+        bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
+        vsf_test_usart_rx_baud_suite_t *suite;
+    )
+};
 
 //! \brief USART RX 模式测试用例配置条目
-typedef struct vsf_test_usart_rx_mode_case_t {
-    uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
-    vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（parity/stop/data/...）
-    bool             expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
-    vsf_test_usart_rx_mode_suite_t *suite;
-} vsf_test_usart_rx_mode_case_t;
+vsf_class(vsf_test_usart_rx_mode_case_t) {
+    public_member(
+        uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
+        vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（parity/stop/data/...）
+        bool             expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
+        vsf_test_usart_rx_mode_suite_t *suite;
+    )
+};
 
 //! \brief USART RX IRQ 测试用例配置条目
-typedef struct vsf_test_usart_rx_irq_case_t {
-    uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
-    bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
-    vsf_test_usart_rx_irq_suite_t *suite;
-} vsf_test_usart_rx_irq_case_t;
+vsf_class(vsf_test_usart_rx_irq_case_t) {
+    public_member(
+        uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
+        bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
+        vsf_test_usart_rx_irq_suite_t *suite;
+    )
+};
 
 //! \brief USART RX 超时测试用例配置条目
-typedef struct vsf_test_usart_rx_timeout_case_t {
-    uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
-    bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
-    vsf_test_usart_rx_timeout_suite_t *suite;
-} vsf_test_usart_rx_timeout_case_t;
+vsf_class(vsf_test_usart_rx_timeout_case_t) {
+    public_member(
+        uint8_t  idx;         //! \brief 场景内索引，用于 CASE:marker
+        bool     expect_pass; //! \brief true=预期初始化成功并接收数据，false=预期初始化失败
+        vsf_test_usart_rx_timeout_suite_t *suite;
+    )
+};
 
 //! \brief USART RX parity error 测试用例配置条目
-typedef struct vsf_test_usart_rx_parity_error_case_t {
-    uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
-    vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（含 parity 配置）
-    bool             expect_pass; //! \brief true=预期检测到 parity error，false=预期初始化失败
-    vsf_test_usart_rx_parity_error_suite_t *suite;
-} vsf_test_usart_rx_parity_error_case_t;
+vsf_class(vsf_test_usart_rx_parity_error_case_t) {
+    public_member(
+        uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
+        vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（含 parity 配置）
+        bool             expect_pass; //! \brief true=预期检测到 parity error，false=预期初始化失败
+        vsf_test_usart_rx_parity_error_suite_t *suite;
+    )
+};
 
 //! \brief USART RX frame error 测试用例配置条目
-typedef struct vsf_test_usart_rx_frame_error_case_t {
-    uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
-    vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（含 stop bit 配置）
-    bool             expect_pass; //! \brief true=预期检测到 frame error，false=预期初始化失败
-    vsf_test_usart_rx_frame_error_suite_t *suite;
-} vsf_test_usart_rx_frame_error_case_t;
+vsf_class(vsf_test_usart_rx_frame_error_case_t) {
+    public_member(
+        uint8_t          idx;         //! \brief 场景内索引，用于 CASE:marker
+        vsf_usart_mode_t mode;        //! \brief USART 模式位掩码（含 stop bit 配置）
+        bool             expect_pass; //! \brief true=预期检测到 frame error，false=预期初始化失败
+        vsf_test_usart_rx_frame_error_suite_t *suite;
+    )
+};
 
 //! \brief USART RX break error 测试用例配置条目
-typedef struct vsf_test_usart_rx_break_error_case_t {
-    uint8_t          idx;
-    vsf_usart_mode_t mode;
-    bool             expect_pass;
-    vsf_test_usart_rx_break_error_suite_t *suite;
-} vsf_test_usart_rx_break_error_case_t;
+vsf_class(vsf_test_usart_rx_break_error_case_t) {
+    public_member(
+        uint8_t          idx;
+        vsf_usart_mode_t mode;
+        bool             expect_pass;
+        vsf_test_usart_rx_break_error_suite_t *suite;
+    )
+};
 
 //! \brief USART RX overflow error 测试用例配置条目
-typedef struct vsf_test_usart_rx_overflow_error_case_t {
-    uint8_t          idx;
-    vsf_usart_mode_t mode;
-    bool             expect_pass;
-    vsf_test_usart_rx_overflow_error_suite_t *suite;
-} vsf_test_usart_rx_overflow_error_case_t;
+vsf_class(vsf_test_usart_rx_overflow_error_case_t) {
+    public_member(
+        uint8_t          idx;
+        vsf_usart_mode_t mode;
+        bool             expect_pass;
+        vsf_test_usart_rx_overflow_error_suite_t *suite;
+    )
+};
 
 //! \brief USART TX break signal 测试用例配置条目
-typedef struct vsf_test_usart_break_signal_case_t {
-    uint8_t  idx;
-    uint32_t baudrate;
-    uint32_t hold_ms;        //! \brief SET_BREAK hold duration in ms
-    vsf_test_usart_break_signal_suite_t *suite;
-} vsf_test_usart_break_signal_case_t;
+vsf_class(vsf_test_usart_break_signal_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint32_t baudrate;
+        uint32_t hold_ms;        //! \brief SET_BREAK hold duration in ms
+        vsf_test_usart_break_signal_suite_t *suite;
+    )
+};
 
 //! \brief USART hardware flow control 测试用例配置条目
-typedef struct vsf_test_usart_hw_flow_control_case_t {
-    uint8_t          idx;
-    vsf_usart_mode_t flow_mode;     //! one of VSF_USART_RTS_HWCONTROL etc.
-    vsf_test_usart_hw_flow_control_suite_t *suite;
-} vsf_test_usart_hw_flow_control_case_t;
+vsf_class(vsf_test_usart_hw_flow_control_case_t) {
+    public_member(
+        uint8_t          idx;
+        vsf_usart_mode_t flow_mode;     //! one of VSF_USART_RTS_HWCONTROL etc.
+        vsf_test_usart_hw_flow_control_suite_t *suite;
+    )
+};
 
 /* ---- Gap-fill PRD: FIFO IRQ + request API + cancel ---- */
 
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
-typedef struct vsf_test_usart_tx_fifo_irq_case_t {
-    uint8_t  idx;
-    uint32_t refill_target;       //! data_size = txfifo_depth * refill_target
-    vsf_test_usart_tx_fifo_irq_suite_t *suite;
-} vsf_test_usart_tx_fifo_irq_case_t;
+vsf_class(vsf_test_usart_tx_fifo_irq_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint32_t refill_target;       //! data_size = txfifo_depth * refill_target
+        vsf_test_usart_tx_fifo_irq_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
-typedef struct vsf_test_usart_rx_fifo_irq_case_t {
-    uint8_t          idx;
-    uint32_t         refill_target;
-    vsf_usart_mode_t threshold_mode;    //! one of VSF_USART_RX_FIFO_THRESHOLD_*
-    vsf_test_usart_rx_fifo_irq_suite_t *suite;
-} vsf_test_usart_rx_fifo_irq_case_t;
+vsf_class(vsf_test_usart_rx_fifo_irq_case_t) {
+    public_member(
+        uint8_t          idx;
+        uint32_t         refill_target;
+        vsf_usart_mode_t threshold_mode;    //! one of VSF_USART_RX_FIFO_THRESHOLD_*
+        vsf_test_usart_rx_fifo_irq_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
-typedef struct vsf_test_usart_request_tx_irq_case_t {
-    uint8_t  idx;
-    uint32_t refill_target;
-    vsf_test_usart_request_tx_irq_suite_t *suite;
-} vsf_test_usart_request_tx_irq_case_t;
+vsf_class(vsf_test_usart_request_tx_irq_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint32_t refill_target;
+        vsf_test_usart_request_tx_irq_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
-typedef struct vsf_test_usart_request_rx_irq_case_t {
-    uint8_t  idx;
-    uint32_t refill_target;
-    vsf_test_usart_request_rx_irq_suite_t *suite;
-} vsf_test_usart_request_rx_irq_case_t;
+vsf_class(vsf_test_usart_request_rx_irq_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint32_t refill_target;
+        vsf_test_usart_request_rx_irq_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
-typedef struct vsf_test_usart_request_cancel_case_t {
-    uint8_t  idx;
-    uint32_t refill_target;
-    uint32_t cancel_after_us;
-    vsf_test_usart_request_cancel_suite_t *suite;
-} vsf_test_usart_request_cancel_case_t;
+vsf_class(vsf_test_usart_request_cancel_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint32_t refill_target;
+        uint32_t cancel_after_us;
+        vsf_test_usart_request_cancel_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
-typedef struct vsf_test_usart_rx_bulk_irq_case_t {
-    uint8_t  idx;
-    uint32_t data_size_bytes;
-    vsf_test_usart_rx_bulk_irq_suite_t *suite;
-} vsf_test_usart_rx_bulk_irq_case_t;
+vsf_class(vsf_test_usart_rx_bulk_irq_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint32_t data_size_bytes;
+        vsf_test_usart_rx_bulk_irq_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
-typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
-    uint8_t          idx;
-    vsf_usart_mode_t threshold_mode;    //! one of VSF_USART_RX_FIFO_THRESHOLD_*
-    uint32_t         expected_bytes;    //! expected bytes when threshold IRQ fires
-    vsf_test_usart_rx_fifo_threshold_suite_t *suite;
-} vsf_test_usart_rx_fifo_threshold_case_t;
+vsf_class(vsf_test_usart_rx_fifo_threshold_case_t) {
+    public_member(
+        uint8_t          idx;
+        vsf_usart_mode_t threshold_mode;    //! one of VSF_USART_RX_FIFO_THRESHOLD_*
+        uint32_t         expected_bytes;    //! expected bytes when threshold IRQ fires
+        vsf_test_usart_rx_fifo_threshold_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -490,6 +530,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_TX_BAUD_CASES(__##suite_var##_data, vsf_test_usart_baud_run, false) \
     }; \
     static vsf_test_usart_baud_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "tx-baud", \
         .hw_req     = "uart1+la", \
@@ -510,6 +551,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_TX_MODE_CASES(__##suite_var##_data, vsf_test_usart_mode_run, false) \
     }; \
     static vsf_test_usart_mode_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "tx-mode", \
         .hw_req     = "uart1+la", \
@@ -530,6 +572,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_DATA_CASES(__##suite_var##_data, vsf_test_usart_rx_data_run, true) \
     }; \
     static vsf_test_usart_rx_data_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-data", \
         .hw_req     = "uart1+la", \
@@ -550,6 +593,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_BAUD_CASES(__##suite_var##_data, vsf_test_usart_rx_baud_run, true) \
     }; \
     static vsf_test_usart_rx_baud_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-baud", \
         .hw_req     = "uart1+la", \
@@ -570,6 +614,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_MODE_CASES(__##suite_var##_data, vsf_test_usart_rx_mode_run, true) \
     }; \
     static vsf_test_usart_rx_mode_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-mode", \
         .hw_req     = "uart1+la", \
@@ -590,6 +635,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_IRQ_CASES(__##suite_var##_data, vsf_test_usart_rx_irq_run, true) \
     }; \
     static vsf_test_usart_rx_irq_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-irq", \
         .hw_req     = "uart1+la", \
@@ -610,6 +656,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_TIMEOUT_CASES(__##suite_var##_data, vsf_test_usart_rx_timeout_run, true) \
     }; \
     static vsf_test_usart_rx_timeout_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-timeout", \
         .hw_req     = "uart1+la", \
@@ -630,6 +677,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_PARITY_ERROR_CASES(__##suite_var##_data, vsf_test_usart_rx_parity_error_run, true) \
     }; \
     static vsf_test_usart_rx_parity_error_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-parity", \
         .hw_req     = "uart1+la", \
@@ -650,6 +698,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_FRAME_ERROR_CASES(__##suite_var##_data, vsf_test_usart_rx_frame_error_run, true) \
     }; \
     static vsf_test_usart_rx_frame_error_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-frame", \
         .hw_req     = "uart1+la", \
@@ -670,6 +719,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_BREAK_ERROR_CASES(__##suite_var##_data, vsf_test_usart_rx_break_error_run, true) \
     }; \
     static vsf_test_usart_rx_break_error_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-break", \
         .hw_req     = "uart1+host", \
@@ -690,6 +740,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_OVERFLOW_ERROR_CASES(__##suite_var##_data, vsf_test_usart_rx_overflow_error_run, true) \
     }; \
     static vsf_test_usart_rx_overflow_error_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-overflow", \
         .hw_req     = "uart1+host", \
@@ -710,6 +761,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_BREAK_SIGNAL_CASES(__##suite_var##_data, vsf_test_usart_break_signal_run, false) \
     }; \
     static vsf_test_usart_break_signal_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "tx-break", \
         .hw_req     = "uart1+la", \
@@ -730,6 +782,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_HW_FLOW_CONTROL_CASES(__##suite_var##_data, vsf_test_usart_hw_flow_control_run, false) \
     }; \
     static vsf_test_usart_hw_flow_control_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rts-cts", \
         .hw_req     = "uart1", \
@@ -750,6 +803,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_TX_FIFO_IRQ_CASES(__##suite_var##_data, vsf_test_usart_tx_fifo_irq_run, true) \
     }; \
     static vsf_test_usart_tx_fifo_irq_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "tx-fifo-irq", \
         .hw_req     = "uart1+la", \
@@ -770,6 +824,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_FIFO_IRQ_CASES(__##suite_var##_data, vsf_test_usart_rx_fifo_irq_run, true) \
     }; \
     static vsf_test_usart_rx_fifo_irq_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-fifo-irq", \
         .hw_req     = "uart1+la+host_send", \
@@ -790,6 +845,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_REQUEST_TX_IRQ_CASES(__##suite_var##_data, vsf_test_usart_request_tx_irq_run, false) \
     }; \
     static vsf_test_usart_request_tx_irq_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "request-tx", \
         .hw_req     = "uart1+la", \
@@ -810,6 +866,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_REQUEST_RX_IRQ_CASES(__##suite_var##_data, vsf_test_usart_request_rx_irq_run, true) \
     }; \
     static vsf_test_usart_request_rx_irq_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "request-rx", \
         .hw_req     = "uart1+la+host_send", \
@@ -830,6 +887,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_REQUEST_CANCEL_CASES(__##suite_var##_data, vsf_test_usart_request_cancel_run, false) \
     }; \
     static vsf_test_usart_request_cancel_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "cancel", \
         .hw_req     = "uart1+la", \
@@ -850,6 +908,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_BULK_IRQ_CASES(__##suite_var##_data, vsf_test_usart_rx_bulk_irq_run, true) \
     }; \
     static vsf_test_usart_rx_bulk_irq_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-bulk-irq", \
         .hw_req     = "uart1+host", \
@@ -870,6 +929,7 @@ typedef struct vsf_test_usart_rx_fifo_threshold_case_t {
         VSF_TEST_USART_RX_FIFO_THRESHOLD_CASES(__##suite_var##_data, vsf_test_usart_rx_fifo_threshold_run, true) \
     }; \
     static vsf_test_usart_rx_fifo_threshold_suite_t suite_var = { \
+        .usart      = VSF_BOARD_USART_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rx-fifo-threshold", \
         .hw_req     = "uart1+host", \

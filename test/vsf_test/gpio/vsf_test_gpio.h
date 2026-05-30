@@ -245,504 +245,302 @@ vsf_class(vsf_test_gpio_io_check_suite_t) {
 };
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
-typedef struct vsf_test_gpio_output_input_case_t {
-    uint8_t idx;
-    uint8_t out_pin;
-    uint8_t in_pin;
-    vsf_test_gpio_output_input_suite_t *suite;
-} vsf_test_gpio_output_input_case_t;
+vsf_class(vsf_test_gpio_output_input_case_t) {
+    public_member(
+        uint8_t idx;
+        uint8_t out_pin;
+        uint8_t in_pin;
+        vsf_test_gpio_output_input_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
-typedef struct vsf_test_gpio_toggle_case_t {
-    uint8_t idx;
-    uint8_t out_pin;
-    uint8_t in_pin;
-    vsf_test_gpio_toggle_suite_t *suite;
-} vsf_test_gpio_toggle_case_t;
+vsf_class(vsf_test_gpio_toggle_case_t) {
+    public_member(
+        uint8_t idx;
+        uint8_t out_pin;
+        uint8_t in_pin;
+        vsf_test_gpio_toggle_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
-typedef struct vsf_test_gpio_direction_case_t {
-    uint8_t idx;
-    uint8_t pin;
-    vsf_test_gpio_direction_suite_t *suite;
-} vsf_test_gpio_direction_case_t;
+vsf_class(vsf_test_gpio_direction_case_t) {
+    public_member(
+        uint8_t idx;
+        uint8_t pin;
+        vsf_test_gpio_direction_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
-typedef struct vsf_test_gpio_atomic_case_t {
-    uint8_t idx;
-    uint8_t out_pin;        //! pin manipulated atomically
-    uint8_t in_pin;         //! pin reading the loopback
-    vsf_test_gpio_atomic_suite_t *suite;
-} vsf_test_gpio_atomic_case_t;
+vsf_class(vsf_test_gpio_atomic_case_t) {
+    public_member(
+        uint8_t idx;
+        uint8_t out_pin;        //! pin manipulated atomically
+        uint8_t in_pin;         //! pin reading the loopback
+        vsf_test_gpio_atomic_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
-typedef struct vsf_test_gpio_pinmux_case_t {
-    uint8_t  idx;
-    uint8_t  tx_pin;        //! GP pin to be muxed to UART TX
-    uint8_t  rx_pin;        //! GP pin to be muxed to UART RX
-    uint32_t baudrate;
-    vsf_usart_t *usart;     //! UART instance backing the pins
-    vsf_test_gpio_pinmux_suite_t *suite;
-} vsf_test_gpio_pinmux_case_t;
+vsf_class(vsf_test_gpio_pinmux_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  tx_pin;        //! GP pin to be muxed to UART TX
+        uint8_t  rx_pin;        //! GP pin to be muxed to UART RX
+        uint32_t baudrate;
+        vsf_usart_t *usart;     //! UART instance backing the pins
+        vsf_test_gpio_pinmux_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
-typedef struct vsf_test_gpio_multi_pin_case_t {
-    uint8_t idx;
-    uint8_t out_pin_a;
-    uint8_t out_pin_b;
-    uint8_t in_pin_a;
-    uint8_t in_pin_b;
-    vsf_test_gpio_multi_pin_suite_t *suite;
-} vsf_test_gpio_multi_pin_case_t;
+vsf_class(vsf_test_gpio_multi_pin_case_t) {
+    public_member(
+        uint8_t idx;
+        uint8_t out_pin_a;
+        uint8_t out_pin_b;
+        uint8_t in_pin_a;
+        uint8_t in_pin_b;
+        vsf_test_gpio_multi_pin_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
-typedef struct vsf_test_gpio_open_drain_case_t {
-    uint8_t idx;
-    uint8_t out_pin;
-    uint8_t in_pin;
-    vsf_test_gpio_open_drain_suite_t *suite;
-} vsf_test_gpio_open_drain_case_t;
+vsf_class(vsf_test_gpio_open_drain_case_t) {
+    public_member(
+        uint8_t idx;
+        uint8_t out_pin;
+        uint8_t in_pin;
+        vsf_test_gpio_open_drain_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_TOGGLE_FREQ_ENABLE == ENABLED
-typedef struct vsf_test_gpio_toggle_freq_case_t {
-    uint8_t  idx;
-    uint8_t  pin;
-    uint32_t toggle_count;
-    vsf_test_gpio_toggle_freq_suite_t *suite;
-} vsf_test_gpio_toggle_freq_case_t;
+vsf_class(vsf_test_gpio_toggle_freq_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  pin;
+        uint32_t toggle_count;
+        vsf_test_gpio_toggle_freq_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
-typedef struct vsf_test_gpio_write_throughput_case_t {
-    uint8_t  idx;
-    uint8_t  pin;
-    uint32_t duration_us;
-    vsf_test_gpio_write_throughput_suite_t *suite;
-} vsf_test_gpio_write_throughput_case_t;
+vsf_class(vsf_test_gpio_write_throughput_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  pin;
+        uint32_t duration_us;
+        vsf_test_gpio_write_throughput_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
-typedef struct vsf_test_gpio_toggle_stress_case_t {
-    uint8_t  idx;
-    uint8_t  out_pin;
-    uint8_t  in_pin;
-    uint32_t stress_count;
-    vsf_test_gpio_toggle_stress_suite_t *suite;
-} vsf_test_gpio_toggle_stress_case_t;
+vsf_class(vsf_test_gpio_toggle_stress_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  out_pin;
+        uint8_t  in_pin;
+        uint32_t stress_count;
+        vsf_test_gpio_toggle_stress_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
-typedef struct vsf_test_gpio_concurrent_prio_case_t {
-    uint8_t  idx;
-    uint8_t  out_pin;
-    uint8_t  in_pin;
-    uint32_t duration_ms;
-    uint32_t callback_period_us;
-    vsf_test_gpio_concurrent_prio_suite_t *suite;
-} vsf_test_gpio_concurrent_prio_case_t;
+vsf_class(vsf_test_gpio_concurrent_prio_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  out_pin;
+        uint8_t  in_pin;
+        uint32_t duration_ms;
+        uint32_t callback_period_us;
+        vsf_test_gpio_concurrent_prio_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
-typedef struct vsf_test_gpio_exti_case_t {
-    uint8_t  idx;
-    uint8_t  out_pin;
-    uint8_t  in_pin;
-    uint32_t trigger_mode;       //! one of VSF_GPIO_EXTI_MODE_* (e.g. _FALLING)
-    vsf_test_gpio_exti_suite_t *suite;
-} vsf_test_gpio_exti_case_t;
+vsf_class(vsf_test_gpio_exti_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  out_pin;
+        uint8_t  in_pin;
+        uint32_t trigger_mode;       //! one of VSF_GPIO_EXTI_MODE_* (e.g. _FALLING)
+        vsf_test_gpio_exti_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
-typedef struct vsf_test_gpio_irq_latency_case_t {
-    uint8_t  idx;
-    uint8_t  pin;
-    uint32_t max_latency_ns;
-    vsf_test_gpio_irq_latency_suite_t *suite;
-} vsf_test_gpio_irq_latency_case_t;
+vsf_class(vsf_test_gpio_irq_latency_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  pin;
+        uint32_t max_latency_ns;
+        vsf_test_gpio_irq_latency_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
-typedef struct vsf_test_gpio_irq_lifecycle_case_t {
-    uint8_t idx;
-    uint8_t pin;
-    vsf_test_gpio_irq_lifecycle_suite_t *suite;
-} vsf_test_gpio_irq_lifecycle_case_t;
+vsf_class(vsf_test_gpio_irq_lifecycle_case_t) {
+    public_member(
+        uint8_t idx;
+        uint8_t pin;
+        vsf_test_gpio_irq_lifecycle_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
-typedef struct vsf_test_gpio_systimer_health_case_t {
-    uint8_t  idx;
-    uint8_t  pin;
-    uint32_t interval_ms;
-    uint32_t toggle_count;
-    vsf_test_gpio_systimer_health_suite_t *suite;
-} vsf_test_gpio_systimer_health_case_t;
+vsf_class(vsf_test_gpio_systimer_health_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  pin;
+        uint32_t interval_ms;
+        uint32_t toggle_count;
+        vsf_test_gpio_systimer_health_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
-typedef struct vsf_test_gpio_analog_mode_case_t {
-    uint8_t idx;
-    uint8_t pin;
-    vsf_test_gpio_analog_mode_suite_t *suite;
-} vsf_test_gpio_analog_mode_case_t;
+vsf_class(vsf_test_gpio_analog_mode_case_t) {
+    public_member(
+        uint8_t idx;
+        uint8_t pin;
+        vsf_test_gpio_analog_mode_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
-typedef struct vsf_test_gpio_io_check_case_t {
-    uint8_t  idx;
-    uint8_t  pin;
-    uint32_t baudrate;
-    vsf_test_gpio_io_check_suite_t *suite;
-} vsf_test_gpio_io_check_case_t;
+vsf_class(vsf_test_gpio_io_check_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  pin;
+        uint32_t baudrate;
+        vsf_test_gpio_io_check_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
 
-#if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
-#define VSF_TEST_GPIO_OUTPUT_INPUT_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_output_input_suite_t suite_var; \
-    static vsf_test_gpio_output_input_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_OUTPUT_INPUT_CASE_DATA(&suite_var) \
+#define VSF_TEST_GPIO_STATIC(sfx_lc, sfx_uc, suite_var, name_str, setup_fn, teardown_fn, hw_req_str) \
+    static vsf_test_gpio_##sfx_lc##_suite_t suite_var; \
+    static vsf_test_gpio_##sfx_lc##_case_t __##suite_var##_data[] = { \
+        VSF_TEST_GPIO_##sfx_uc##_CASE_DATA(&suite_var) \
     }; \
     static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_OUTPUT_INPUT_CASES(__##suite_var##_data, vsf_test_gpio_output_input_run, false) \
+        VSF_TEST_GPIO_##sfx_uc##_CASES(__##suite_var##_data, vsf_test_gpio_##sfx_lc##_run, false) \
     }; \
-    static vsf_test_gpio_output_input_suite_t suite_var = { \
+    static vsf_test_gpio_##sfx_lc##_suite_t suite_var = { \
+        .gpio       = VSF_BOARD_GPIO_INSTANCE, \
         .name       = name_str, \
-        .purpose    = "gpio_output_input", \
-        .hw_req     = "gpio_loopback", \
+        .purpose    = "gpio_" #sfx_lc, \
+        .hw_req     = hw_req_str, \
         .setup      = setup_fn, \
         .teardown   = teardown_fn, \
         .cases      = __##suite_var##_cases, \
         .case_count = dimof(__##suite_var##_cases), \
     }
+
+#if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
+#define VSF_TEST_GPIO_OUTPUT_INPUT_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+    VSF_TEST_GPIO_STATIC(output_input, OUTPUT_INPUT, suite_var, name_str, setup_fn, teardown_fn, "gpio_loopback")
 #endif
 
 #if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
 #define VSF_TEST_GPIO_TOGGLE_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_toggle_suite_t suite_var; \
-    static vsf_test_gpio_toggle_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_TOGGLE_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_TOGGLE_CASES(__##suite_var##_data, vsf_test_gpio_toggle_run, false) \
-    }; \
-    static vsf_test_gpio_toggle_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_toggle", \
-        .hw_req     = "gpio_loopback", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(toggle, TOGGLE, suite_var, name_str, setup_fn, teardown_fn, "gpio_loopback")
 #endif
 
 #if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
 #define VSF_TEST_GPIO_DIRECTION_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_direction_suite_t suite_var; \
-    static vsf_test_gpio_direction_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_DIRECTION_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_DIRECTION_CASES(__##suite_var##_data, vsf_test_gpio_direction_run, false) \
-    }; \
-    static vsf_test_gpio_direction_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_direction", \
-        .hw_req     = "none", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(direction, DIRECTION, suite_var, name_str, setup_fn, teardown_fn, "none")
 #endif
 
 #if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
 #define VSF_TEST_GPIO_ATOMIC_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_atomic_suite_t suite_var; \
-    static vsf_test_gpio_atomic_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_ATOMIC_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_ATOMIC_CASES(__##suite_var##_data, vsf_test_gpio_atomic_run, false) \
-    }; \
-    static vsf_test_gpio_atomic_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_atomic", \
-        .hw_req     = "gpio_loopback+la", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(atomic, ATOMIC, suite_var, name_str, setup_fn, teardown_fn, "gpio_loopback+la")
 #endif
 
 #if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
 #define VSF_TEST_GPIO_PINMUX_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_pinmux_suite_t suite_var; \
-    static vsf_test_gpio_pinmux_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_PINMUX_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_PINMUX_CASES(__##suite_var##_data, vsf_test_gpio_pinmux_run, false) \
-    }; \
-    static vsf_test_gpio_pinmux_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_pinmux", \
-        .hw_req     = "uart1", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(pinmux, PINMUX, suite_var, name_str, setup_fn, teardown_fn, "uart1")
 #endif
 
 #if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
 #define VSF_TEST_GPIO_MULTI_PIN_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_multi_pin_suite_t suite_var; \
-    static vsf_test_gpio_multi_pin_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_MULTI_PIN_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_MULTI_PIN_CASES(__##suite_var##_data, vsf_test_gpio_multi_pin_run, false) \
-    }; \
-    static vsf_test_gpio_multi_pin_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_multi_pin", \
-        .hw_req     = "gpio_loopback(>=4)", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(multi_pin, MULTI_PIN, suite_var, name_str, setup_fn, teardown_fn, "gpio_loopback(>=4)")
 #endif
 
 #if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
 #define VSF_TEST_GPIO_OPEN_DRAIN_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_open_drain_suite_t suite_var; \
-    static vsf_test_gpio_open_drain_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_OPEN_DRAIN_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_OPEN_DRAIN_CASES(__##suite_var##_data, vsf_test_gpio_open_drain_run, false) \
-    }; \
-    static vsf_test_gpio_open_drain_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_open_drain", \
-        .hw_req     = "gpio_loopback+pull_up", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(open_drain, OPEN_DRAIN, suite_var, name_str, setup_fn, teardown_fn, "gpio_loopback+pull_up")
 #endif
 
 #if VSF_TEST_GPIO_TOGGLE_FREQ_ENABLE == ENABLED
 #define VSF_TEST_GPIO_TOGGLE_FREQ_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_toggle_freq_suite_t suite_var; \
-    static vsf_test_gpio_toggle_freq_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_TOGGLE_FREQ_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_TOGGLE_FREQ_CASES(__##suite_var##_data, vsf_test_gpio_toggle_freq_run, false) \
-    }; \
-    static vsf_test_gpio_toggle_freq_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_toggle_freq", \
-        .hw_req     = "none", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(toggle_freq, TOGGLE_FREQ, suite_var, name_str, setup_fn, teardown_fn, "none")
 #endif
 
 #if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
 #define VSF_TEST_GPIO_WRITE_THROUGHPUT_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_write_throughput_suite_t suite_var; \
-    static vsf_test_gpio_write_throughput_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_WRITE_THROUGHPUT_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_WRITE_THROUGHPUT_CASES(__##suite_var##_data, vsf_test_gpio_write_throughput_run, false) \
-    }; \
-    static vsf_test_gpio_write_throughput_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_write_throughput", \
-        .hw_req     = "none", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(write_throughput, WRITE_THROUGHPUT, suite_var, name_str, setup_fn, teardown_fn, "none")
 #endif
 
 #if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
 #define VSF_TEST_GPIO_TOGGLE_STRESS_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_toggle_stress_suite_t suite_var; \
-    static vsf_test_gpio_toggle_stress_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_TOGGLE_STRESS_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_TOGGLE_STRESS_CASES(__##suite_var##_data, vsf_test_gpio_toggle_stress_run, false) \
-    }; \
-    static vsf_test_gpio_toggle_stress_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_toggle_stress", \
-        .hw_req     = "gpio_loopback", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(toggle_stress, TOGGLE_STRESS, suite_var, name_str, setup_fn, teardown_fn, "gpio_loopback")
 #endif
 
 #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
 #define VSF_TEST_GPIO_CONCURRENT_PRIO_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_concurrent_prio_suite_t suite_var; \
-    static vsf_test_gpio_concurrent_prio_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_CONCURRENT_PRIO_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_CONCURRENT_PRIO_CASES(__##suite_var##_data, vsf_test_gpio_concurrent_prio_run, false) \
-    }; \
-    static vsf_test_gpio_concurrent_prio_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_concurrent_prio", \
-        .hw_req     = "none", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(concurrent_prio, CONCURRENT_PRIO, suite_var, name_str, setup_fn, teardown_fn, "none")
 #endif
 
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
 #define VSF_TEST_GPIO_EXTI_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_exti_suite_t suite_var; \
-    static vsf_test_gpio_exti_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_EXTI_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_EXTI_CASES(__##suite_var##_data, vsf_test_gpio_exti_run, false) \
-    }; \
-    static vsf_test_gpio_exti_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_exti", \
-        .hw_req     = "none", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(exti, EXTI, suite_var, name_str, setup_fn, teardown_fn, "none")
 #endif
 
 #if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
 #define VSF_TEST_GPIO_IRQ_LATENCY_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_irq_latency_suite_t suite_var; \
-    static vsf_test_gpio_irq_latency_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_IRQ_LATENCY_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_IRQ_LATENCY_CASES(__##suite_var##_data, vsf_test_gpio_irq_latency_run, false) \
-    }; \
-    static vsf_test_gpio_irq_latency_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_irq_latency", \
-        .hw_req     = "none", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(irq_latency, IRQ_LATENCY, suite_var, name_str, setup_fn, teardown_fn, "none")
 #endif
 
 #if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
 #define VSF_TEST_GPIO_IRQ_LIFECYCLE_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_irq_lifecycle_suite_t suite_var; \
-    static vsf_test_gpio_irq_lifecycle_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_IRQ_LIFECYCLE_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_IRQ_LIFECYCLE_CASES(__##suite_var##_data, vsf_test_gpio_irq_lifecycle_run, false) \
-    }; \
-    static vsf_test_gpio_irq_lifecycle_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_irq_lifecycle", \
-        .hw_req     = "none", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(irq_lifecycle, IRQ_LIFECYCLE, suite_var, name_str, setup_fn, teardown_fn, "none")
 #endif
 
 #if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
 #define VSF_TEST_GPIO_SYSTIMER_HEALTH_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_systimer_health_suite_t suite_var; \
-    static vsf_test_gpio_systimer_health_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_SYSTIMER_HEALTH_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_SYSTIMER_HEALTH_CASES(__##suite_var##_data, vsf_test_gpio_systimer_health_run, false) \
-    }; \
-    static vsf_test_gpio_systimer_health_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_systimer_health", \
-        .hw_req     = "la", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(systimer_health, SYSTIMER_HEALTH, suite_var, name_str, setup_fn, teardown_fn, "la")
 #endif
 
 #if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
 #define VSF_TEST_GPIO_ANALOG_MODE_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_analog_mode_suite_t suite_var; \
-    static vsf_test_gpio_analog_mode_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_ANALOG_MODE_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_ANALOG_MODE_CASES(__##suite_var##_data, vsf_test_gpio_analog_mode_run, false) \
-    }; \
-    static vsf_test_gpio_analog_mode_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_analog_mode", \
-        .hw_req     = "none", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(analog_mode, ANALOG_MODE, suite_var, name_str, setup_fn, teardown_fn, "none")
 #endif
 
 #if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
 #define VSF_TEST_GPIO_IO_CHECK_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_gpio_io_check_suite_t suite_var; \
-    static vsf_test_gpio_io_check_case_t __##suite_var##_data[] = { \
-        VSF_TEST_GPIO_IO_CHECK_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_GPIO_IO_CHECK_CASES(__##suite_var##_data, vsf_test_gpio_io_check_run, false) \
-    }; \
-    static vsf_test_gpio_io_check_suite_t suite_var = { \
-        .name       = name_str, \
-        .purpose    = "gpio_io_check", \
-        .hw_req     = "la", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
+    VSF_TEST_GPIO_STATIC(io_check, IO_CHECK, suite_var, name_str, setup_fn, teardown_fn, "la")
 #endif
 
 /*============================ PROTOTYPES ====================================*/

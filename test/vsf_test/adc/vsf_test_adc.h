@@ -63,24 +63,28 @@ vsf_class(vsf_test_adc_temperature_suite_t) {
 };
 
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-typedef struct vsf_test_adc_oneshot_case_t {
-    uint8_t  idx;
-    uint8_t  channel;
-    uint16_t expected_min;
-    uint16_t expected_max;
-    vsf_test_adc_oneshot_suite_t *suite;
-} vsf_test_adc_oneshot_case_t;
+vsf_class(vsf_test_adc_oneshot_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  channel;
+        uint16_t expected_min;
+        uint16_t expected_max;
+        vsf_test_adc_oneshot_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-typedef struct vsf_test_adc_temperature_case_t {
-    uint8_t  idx;
-    uint8_t  channel_count;   /* total ADC channels (e.g. 5 for 4 ext + 1 temp) */
-    uint8_t  sensor_channel;  /* internal temperature sensor channel index */
-    uint16_t temp_raw_min;    /* minimum plausible raw sample at room temp */
-    uint16_t temp_raw_max;    /* maximum plausible raw sample at room temp */
-    vsf_test_adc_temperature_suite_t *suite;
-} vsf_test_adc_temperature_case_t;
+vsf_class(vsf_test_adc_temperature_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  channel_count;   /* total ADC channels (e.g. 5 for 4 ext + 1 temp) */
+        uint8_t  sensor_channel;  /* internal temperature sensor channel index */
+        uint16_t temp_raw_min;    /* minimum plausible raw sample at room temp */
+        uint16_t temp_raw_max;    /* maximum plausible raw sample at room temp */
+        vsf_test_adc_temperature_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
@@ -93,12 +97,14 @@ vsf_class(vsf_test_adc_stream_suite_t) {
     )
 };
 
-typedef struct vsf_test_adc_stream_case_t {
-    uint8_t  idx;
-    uint8_t  channel;
-    uint16_t sample_count;
-    vsf_test_adc_stream_suite_t *suite;
-} vsf_test_adc_stream_case_t;
+vsf_class(vsf_test_adc_stream_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  channel;
+        uint16_t sample_count;
+        vsf_test_adc_stream_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -113,6 +119,7 @@ typedef struct vsf_test_adc_stream_case_t {
         VSF_TEST_ADC_ONESHOT_CASES(__##suite_var##_data, vsf_test_adc_oneshot_run, false) \
     }; \
     static vsf_test_adc_oneshot_suite_t suite_var = { \
+        .adc        = VSF_BOARD_ADC_INSTANCE, \
         .name       = name_str, \
         .purpose    = "adc_oneshot", \
         .hw_req     = "none", \
@@ -133,6 +140,7 @@ typedef struct vsf_test_adc_stream_case_t {
         VSF_TEST_ADC_TEMPERATURE_CASES(__##suite_var##_data, vsf_test_adc_temperature_run, false) \
     }; \
     static vsf_test_adc_temperature_suite_t suite_var = { \
+        .adc        = VSF_BOARD_ADC_INSTANCE, \
         .name       = name_str, \
         .purpose    = "adc_temperature", \
         .hw_req     = "none", \
@@ -153,6 +161,7 @@ typedef struct vsf_test_adc_stream_case_t {
         VSF_TEST_ADC_STREAM_CASES(__##suite_var##_data, vsf_test_adc_stream_run, false) \
     }; \
     static vsf_test_adc_stream_suite_t suite_var = { \
+        .adc        = VSF_BOARD_ADC_INSTANCE, \
         .name       = name_str, \
         .purpose    = "adc_stream", \
         .hw_req     = "none", \

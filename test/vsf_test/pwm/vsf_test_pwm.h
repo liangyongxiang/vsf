@@ -65,34 +65,38 @@ vsf_class(vsf_test_pwm_dual_channel_suite_t) {
 };
 
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-typedef struct vsf_test_pwm_basic_case_t {
-    uint8_t  idx;
-    uint8_t  slice;
-    uint8_t  channel;
-    uint8_t  gpio;
-    uint32_t freq_hz;
-    uint32_t period;
-    uint32_t pulse;
-    uint32_t run_ms;
-    vsf_test_pwm_basic_suite_t *suite;
-} vsf_test_pwm_basic_case_t;
+vsf_class(vsf_test_pwm_basic_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  slice;
+        uint8_t  channel;
+        uint8_t  gpio;
+        uint32_t freq_hz;
+        uint32_t period;
+        uint32_t pulse;
+        uint32_t run_ms;
+        vsf_test_pwm_basic_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
-typedef struct vsf_test_pwm_dual_channel_case_t {
-    uint8_t  idx;
-    uint8_t  slice;
-    uint8_t  channel_a;
-    uint8_t  channel_b;
-    uint8_t  gpio_a;
-    uint8_t  gpio_b;
-    uint32_t freq_hz;
-    uint32_t period;
-    uint32_t pulse_a;
-    uint32_t pulse_b;
-    uint32_t run_ms;
-    vsf_test_pwm_dual_channel_suite_t *suite;
-} vsf_test_pwm_dual_channel_case_t;
+vsf_class(vsf_test_pwm_dual_channel_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  slice;
+        uint8_t  channel_a;
+        uint8_t  channel_b;
+        uint8_t  gpio_a;
+        uint8_t  gpio_b;
+        uint32_t freq_hz;
+        uint32_t period;
+        uint32_t pulse_a;
+        uint32_t pulse_b;
+        uint32_t run_ms;
+        vsf_test_pwm_dual_channel_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
@@ -102,16 +106,18 @@ vsf_class(vsf_test_pwm_irq_suite_t) {
     )
 };
 
-typedef struct vsf_test_pwm_irq_case_t {
-    uint8_t  idx;
-    uint8_t  slice;
-    uint8_t  channel;
-    uint32_t freq_hz;
-    uint32_t period;
-    uint32_t pulse;
-    uint32_t test_ms;
-    vsf_test_pwm_irq_suite_t *suite;
-} vsf_test_pwm_irq_case_t;
+vsf_class(vsf_test_pwm_irq_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  slice;
+        uint8_t  channel;
+        uint32_t freq_hz;
+        uint32_t period;
+        uint32_t pulse;
+        uint32_t test_ms;
+        vsf_test_pwm_irq_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -126,6 +132,7 @@ typedef struct vsf_test_pwm_irq_case_t {
         VSF_TEST_PWM_BASIC_CASES(__##suite_var##_data, vsf_test_pwm_basic_run, false) \
     }; \
     static vsf_test_pwm_basic_suite_t suite_var = { \
+        .pwm        = VSF_BOARD_PWM_INSTANCE, \
         .name       = name_str, \
         .purpose    = "pwm_basic", \
         .hw_req     = "none", \
@@ -146,6 +153,7 @@ typedef struct vsf_test_pwm_irq_case_t {
         VSF_TEST_PWM_DUAL_CHANNEL_CASES(__##suite_var##_data, vsf_test_pwm_dual_channel_run, false) \
     }; \
     static vsf_test_pwm_dual_channel_suite_t suite_var = { \
+        .pwm        = VSF_BOARD_PWM_INSTANCE, \
         .name       = name_str, \
         .purpose    = "pwm_dual_channel", \
         .hw_req     = "none", \
@@ -166,6 +174,7 @@ typedef struct vsf_test_pwm_irq_case_t {
         VSF_TEST_PWM_IRQ_CASES(__##suite_var##_data, vsf_test_pwm_irq_run, false) \
     }; \
     static vsf_test_pwm_irq_suite_t suite_var = { \
+        .pwm        = VSF_BOARD_PWM_INSTANCE, \
         .name       = name_str, \
         .purpose    = "pwm_irq", \
         .hw_req     = "none", \

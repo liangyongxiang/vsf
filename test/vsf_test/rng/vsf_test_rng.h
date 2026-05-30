@@ -51,11 +51,13 @@ vsf_class(vsf_test_rng_basic_suite_t) {
 };
 
 #if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
-typedef struct vsf_test_rng_basic_case_t {
-    uint8_t  idx;
-    uint8_t  word_count;
-    vsf_test_rng_basic_suite_t *suite;
-} vsf_test_rng_basic_case_t;
+vsf_class(vsf_test_rng_basic_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  word_count;
+        vsf_test_rng_basic_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -70,6 +72,7 @@ typedef struct vsf_test_rng_basic_case_t {
         VSF_TEST_RNG_BASIC_CASES(__##suite_var##_data, vsf_test_rng_basic_run, false) \
     }; \
     static vsf_test_rng_basic_suite_t suite_var = { \
+        .rng        = VSF_BOARD_RNG_INSTANCE, \
         .name       = name_str, \
         .purpose    = "rng_basic", \
         .hw_req     = "none", \

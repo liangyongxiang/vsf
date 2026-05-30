@@ -72,27 +72,33 @@ vsf_class(vsf_test_dma_scatter_gather_suite_t) {
 };
 
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-typedef struct vsf_test_dma_mem2mem_case_t {
-    uint8_t  idx;
-    bool     expect_pass;
-    vsf_test_dma_mem2mem_suite_t *suite;
-} vsf_test_dma_mem2mem_case_t;
+vsf_class(vsf_test_dma_mem2mem_case_t) {
+    public_member(
+        uint8_t  idx;
+        bool     expect_pass;
+        vsf_test_dma_mem2mem_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-typedef struct vsf_test_dma_mem2mem_irq_case_t {
-    uint8_t  idx;
-    bool     expect_pass;
-    vsf_test_dma_mem2mem_irq_suite_t *suite;
-} vsf_test_dma_mem2mem_irq_case_t;
+vsf_class(vsf_test_dma_mem2mem_irq_case_t) {
+    public_member(
+        uint8_t  idx;
+        bool     expect_pass;
+        vsf_test_dma_mem2mem_irq_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-typedef struct vsf_test_dma_scatter_gather_case_t {
-    uint8_t  idx;
-    bool     expect_pass;
-    vsf_test_dma_scatter_gather_suite_t *suite;
-} vsf_test_dma_scatter_gather_case_t;
+vsf_class(vsf_test_dma_scatter_gather_case_t) {
+    public_member(
+        uint8_t  idx;
+        bool     expect_pass;
+        vsf_test_dma_scatter_gather_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -107,6 +113,7 @@ typedef struct vsf_test_dma_scatter_gather_case_t {
         VSF_TEST_DMA_MEM2MEM_CASES(__##suite_var##_data, vsf_test_dma_mem2mem_run, false) \
     }; \
     static vsf_test_dma_mem2mem_suite_t suite_var = { \
+        .dma        = VSF_BOARD_DMA_INSTANCE, \
         .name       = name_str, \
         .purpose    = "dma_mem2mem", \
         .hw_req     = "none", \
@@ -127,6 +134,7 @@ typedef struct vsf_test_dma_scatter_gather_case_t {
         VSF_TEST_DMA_MEM2MEM_IRQ_CASES(__##suite_var##_data, vsf_test_dma_mem2mem_irq_run, false) \
     }; \
     static vsf_test_dma_mem2mem_irq_suite_t suite_var = { \
+        .dma        = VSF_BOARD_DMA_INSTANCE, \
         .name       = name_str, \
         .purpose    = "dma_mem2mem_irq", \
         .hw_req     = "none", \
@@ -147,6 +155,7 @@ typedef struct vsf_test_dma_scatter_gather_case_t {
         VSF_TEST_DMA_SCATTER_GATHER_CASES(__##suite_var##_data, vsf_test_dma_scatter_gather_run, false) \
     }; \
     static vsf_test_dma_scatter_gather_suite_t suite_var = { \
+        .dma        = VSF_BOARD_DMA_INSTANCE, \
         .name       = name_str, \
         .purpose    = "dma_scatter_gather", \
         .hw_req     = "none", \

@@ -84,24 +84,28 @@ vsf_class(vsf_test_timer_periodic_suite_t) {
 };
 
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-typedef struct vsf_test_timer_oneshot_case_t {
-    uint8_t  idx;
-    uint8_t  timer_idx;
-    uint8_t  channel;
-    uint32_t period_us;
-    vsf_test_timer_oneshot_suite_t *suite;
-} vsf_test_timer_oneshot_case_t;
+vsf_class(vsf_test_timer_oneshot_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  timer_idx;
+        uint8_t  channel;
+        uint32_t period_us;
+        vsf_test_timer_oneshot_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-typedef struct vsf_test_timer_periodic_case_t {
-    uint8_t  idx;
-    uint8_t  timer_idx;
-    uint8_t  channel;
-    uint32_t period_us;
-    uint8_t  count;
-    vsf_test_timer_periodic_suite_t *suite;
-} vsf_test_timer_periodic_case_t;
+vsf_class(vsf_test_timer_periodic_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  timer_idx;
+        uint8_t  channel;
+        uint32_t period_us;
+        uint8_t  count;
+        vsf_test_timer_periodic_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
@@ -115,13 +119,15 @@ vsf_class(vsf_test_timer_async_suite_t) {
     )
 };
 
-typedef struct vsf_test_timer_async_case_t {
-    uint8_t  idx;
-    uint8_t  timer_idx;
-    uint8_t  channel;
-    uint32_t period_us;
-    vsf_test_timer_async_suite_t *suite;
-} vsf_test_timer_async_case_t;
+vsf_class(vsf_test_timer_async_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  timer_idx;
+        uint8_t  channel;
+        uint32_t period_us;
+        vsf_test_timer_async_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -136,6 +142,7 @@ typedef struct vsf_test_timer_async_case_t {
         VSF_TEST_TIMER_ONESHOT_CASES(__##suite_var##_data, vsf_test_timer_oneshot_run, false) \
     }; \
     static vsf_test_timer_oneshot_suite_t suite_var = { \
+        .timer      = VSF_BOARD_TIMER_INSTANCE, \
         .name       = name_str, \
         .purpose    = "timer_oneshot", \
         .hw_req     = "none", \
@@ -156,6 +163,7 @@ typedef struct vsf_test_timer_async_case_t {
         VSF_TEST_TIMER_PERIODIC_CASES(__##suite_var##_data, vsf_test_timer_periodic_run, false) \
     }; \
     static vsf_test_timer_periodic_suite_t suite_var = { \
+        .timer      = VSF_BOARD_TIMER_INSTANCE, \
         .name       = name_str, \
         .purpose    = "timer_periodic", \
         .hw_req     = "none", \
@@ -176,6 +184,7 @@ typedef struct vsf_test_timer_async_case_t {
         VSF_TEST_TIMER_ASYNC_CASES(__##suite_var##_data, vsf_test_timer_async_run, false) \
     }; \
     static vsf_test_timer_async_suite_t suite_var = { \
+        .timer      = VSF_BOARD_TIMER_INSTANCE, \
         .name       = name_str, \
         .purpose    = "timer_async", \
         .hw_req     = "none", \

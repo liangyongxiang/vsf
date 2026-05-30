@@ -60,12 +60,14 @@ vsf_class(vsf_test_flash_erase_program_read_suite_t) {
 };
 
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-typedef struct vsf_test_flash_erase_program_read_case_t {
-    uint8_t  idx;
-    uint32_t offset;
-    uint32_t size;
-    vsf_test_flash_erase_program_read_suite_t *suite;
-} vsf_test_flash_erase_program_read_case_t;
+vsf_class(vsf_test_flash_erase_program_read_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint32_t offset;
+        uint32_t size;
+        vsf_test_flash_erase_program_read_suite_t *suite;
+    )
+};
 #endif
 
 vsf_class(vsf_test_flash_boundary_suite_t) {
@@ -78,12 +80,14 @@ vsf_class(vsf_test_flash_boundary_suite_t) {
 };
 
 #if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-typedef struct vsf_test_flash_boundary_case_t {
-    uint8_t  idx;
-    uint32_t offset;
-    uint32_t size;
-    vsf_test_flash_boundary_suite_t *suite;
-} vsf_test_flash_boundary_case_t;
+vsf_class(vsf_test_flash_boundary_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint32_t offset;
+        uint32_t size;
+        vsf_test_flash_boundary_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
@@ -98,6 +102,7 @@ typedef struct vsf_test_flash_boundary_case_t {
         VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASES(__##suite_var##_data, vsf_test_flash_erase_program_read_run, false) \
     }; \
     static vsf_test_flash_erase_program_read_suite_t suite_var = { \
+        .flash      = VSF_BOARD_FLASH_INSTANCE, \
         .name       = name_str, \
         .purpose    = "flash_erase_program_read", \
         .hw_req     = "none", \
@@ -118,6 +123,7 @@ typedef struct vsf_test_flash_boundary_case_t {
         VSF_TEST_FLASH_BOUNDARY_CASES(__##suite_var##_data, vsf_test_flash_boundary_run, false) \
     }; \
     static vsf_test_flash_boundary_suite_t suite_var = { \
+        .flash      = VSF_BOARD_FLASH_INSTANCE, \
         .name       = name_str, \
         .purpose    = "flash_boundary", \
         .hw_req     = "none", \

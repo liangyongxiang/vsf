@@ -137,54 +137,64 @@ vsf_class(vsf_test_i2c_slave_fifo_suite_t) {
 };
 
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-typedef struct vsf_test_i2c_eeprom_rw_case_t {
-    uint8_t  idx;
-    uint8_t  i2c_idx;
-    uint8_t  eeprom_addr;
-    uint8_t  mem_addr;
-    uint8_t  data_len;
-    vsf_test_i2c_eeprom_rw_suite_t *suite;
-} vsf_test_i2c_eeprom_rw_case_t;
+vsf_class(vsf_test_i2c_eeprom_rw_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  i2c_idx;
+        uint8_t  eeprom_addr;
+        uint8_t  mem_addr;
+        uint8_t  data_len;
+        vsf_test_i2c_eeprom_rw_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
-typedef struct vsf_test_i2c_eeprom_page_case_t {
-    uint8_t  idx;
-    uint8_t  i2c_idx;
-    uint8_t  eeprom_addr;
-    uint8_t  mem_addr;
-    uint8_t  data_len;
-    vsf_test_i2c_eeprom_page_suite_t *suite;
-} vsf_test_i2c_eeprom_page_case_t;
+vsf_class(vsf_test_i2c_eeprom_page_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  i2c_idx;
+        uint8_t  eeprom_addr;
+        uint8_t  mem_addr;
+        uint8_t  data_len;
+        vsf_test_i2c_eeprom_page_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
-typedef struct vsf_test_i2c_slave_case_t {
-    uint8_t  idx;
-    uint8_t  master_i2c_idx;
-    uint8_t  slave_i2c_idx;
-    vsf_test_i2c_slave_suite_t *suite;
-} vsf_test_i2c_slave_case_t;
+vsf_class(vsf_test_i2c_slave_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  master_i2c_idx;
+        uint8_t  slave_i2c_idx;
+        vsf_test_i2c_slave_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
-typedef struct vsf_test_i2c_eeprom_rw_fifo_case_t {
-    uint8_t  idx;
-    uint8_t  i2c_idx;
-    uint8_t  eeprom_addr;
-    uint8_t  mem_addr;
-    uint8_t  data_len;
-    vsf_test_i2c_eeprom_rw_fifo_suite_t *suite;
-} vsf_test_i2c_eeprom_rw_fifo_case_t;
+vsf_class(vsf_test_i2c_eeprom_rw_fifo_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  i2c_idx;
+        uint8_t  eeprom_addr;
+        uint8_t  mem_addr;
+        uint8_t  data_len;
+        vsf_test_i2c_eeprom_rw_fifo_suite_t *suite;
+    )
+};
 #endif
 
 #if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
-typedef struct vsf_test_i2c_slave_fifo_case_t {
-    uint8_t  idx;
-    uint8_t  master_i2c_idx;
-    uint8_t  slave_i2c_idx;
-    vsf_test_i2c_slave_fifo_suite_t *suite;
-} vsf_test_i2c_slave_fifo_case_t;
+vsf_class(vsf_test_i2c_slave_fifo_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  master_i2c_idx;
+        uint8_t  slave_i2c_idx;
+        vsf_test_i2c_slave_fifo_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ TYPES for bus_scan ============================*/
@@ -200,18 +210,20 @@ vsf_class(vsf_test_i2c_bus_scan_suite_t) {
     )
 };
 
-typedef struct vsf_test_i2c_bus_scan_case_t {
-    uint8_t  idx;
-    uint8_t  scl_pin;
-    uint8_t  sda_pin;
-    vsf_test_i2c_bus_scan_suite_t *suite;
-} vsf_test_i2c_bus_scan_case_t;
+vsf_class(vsf_test_i2c_bus_scan_case_t) {
+    public_member(
+        uint8_t  idx;
+        uint8_t  scl_pin;
+        uint8_t  sda_pin;
+        vsf_test_i2c_bus_scan_suite_t *suite;
+    )
+};
 #endif
 
 /*============================ STATIC INIT MACROS ============================*/
 
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-#define VSF_TEST_I2C_EEPROM_RW_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+#define VSF_TEST_I2C_EEPROM_RW_STATIC(suite_var, name_str, setup_fn, teardown_fn, i2c_ptr) \
     static vsf_test_i2c_eeprom_rw_suite_t suite_var; \
     static vsf_test_i2c_eeprom_rw_case_t __##suite_var##_data[] = { \
         VSF_TEST_I2C_EEPROM_RW_CASE_DATA(&suite_var) \
@@ -220,6 +232,7 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
         VSF_TEST_I2C_EEPROM_RW_CASES(__##suite_var##_data, vsf_test_i2c_eeprom_rw_run, false) \
     }; \
     static vsf_test_i2c_eeprom_rw_suite_t suite_var = { \
+        .i2c        = i2c_ptr, \
         .name       = name_str, \
         .purpose    = "i2c_eeprom_rw", \
         .hw_req     = "i2c_eeprom", \
@@ -231,7 +244,7 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
 #endif
 
 #if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
-#define VSF_TEST_I2C_BUS_SCAN_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+#define VSF_TEST_I2C_BUS_SCAN_STATIC(suite_var, name_str, setup_fn, teardown_fn, i2c_ptr) \
     static vsf_test_i2c_bus_scan_suite_t suite_var; \
     static vsf_test_i2c_bus_scan_case_t __##suite_var##_data[] = { \
         VSF_TEST_I2C_BUS_SCAN_CASE_DATA(&suite_var) \
@@ -240,6 +253,7 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
         VSF_TEST_I2C_BUS_SCAN_CASES(__##suite_var##_data, vsf_test_i2c_bus_scan_run, false) \
     }; \
     static vsf_test_i2c_bus_scan_suite_t suite_var = { \
+        .i2c        = i2c_ptr, \
         .name       = name_str, \
         .purpose    = "i2c_bus_scan", \
         .hw_req     = "i2c_eeprom", \
@@ -251,7 +265,7 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
 #endif
 
 #if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
-#define VSF_TEST_I2C_EEPROM_PAGE_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+#define VSF_TEST_I2C_EEPROM_PAGE_STATIC(suite_var, name_str, setup_fn, teardown_fn, i2c_ptr) \
     static vsf_test_i2c_eeprom_page_suite_t suite_var; \
     static vsf_test_i2c_eeprom_page_case_t __##suite_var##_data[] = { \
         VSF_TEST_I2C_EEPROM_PAGE_CASE_DATA(&suite_var) \
@@ -260,6 +274,7 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
         VSF_TEST_I2C_EEPROM_PAGE_CASES(__##suite_var##_data, vsf_test_i2c_eeprom_page_run, false) \
     }; \
     static vsf_test_i2c_eeprom_page_suite_t suite_var = { \
+        .i2c        = i2c_ptr, \
         .name       = name_str, \
         .purpose    = "i2c_eeprom_page", \
         .hw_req     = "i2c_eeprom", \
@@ -271,7 +286,7 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
 #endif
 
 #if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
-#define VSF_TEST_I2C_SLAVE_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+#define VSF_TEST_I2C_SLAVE_STATIC(suite_var, name_str, setup_fn, teardown_fn, master_ptr, slave_ptr) \
     static vsf_test_i2c_slave_suite_t suite_var; \
     static vsf_test_i2c_slave_case_t __##suite_var##_data[] = { \
         VSF_TEST_I2C_SLAVE_CASE_DATA(&suite_var) \
@@ -280,6 +295,8 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
         VSF_TEST_I2C_SLAVE_CASES(__##suite_var##_data, vsf_test_i2c_slave_run, false) \
     }; \
     static vsf_test_i2c_slave_suite_t suite_var = { \
+        .master_i2c = master_ptr, \
+        .slave_i2c  = slave_ptr, \
         .name       = name_str, \
         .purpose    = "i2c_slave", \
         .hw_req     = "i2c0+i2c1+wired", \
@@ -291,7 +308,7 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
 #endif
 
 #if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
-#define VSF_TEST_I2C_EEPROM_RW_FIFO_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+#define VSF_TEST_I2C_EEPROM_RW_FIFO_STATIC(suite_var, name_str, setup_fn, teardown_fn, i2c_ptr) \
     static vsf_test_i2c_eeprom_rw_fifo_suite_t suite_var; \
     static vsf_test_i2c_eeprom_rw_fifo_case_t __##suite_var##_data[] = { \
         VSF_TEST_I2C_EEPROM_RW_FIFO_CASE_DATA(&suite_var) \
@@ -300,6 +317,7 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
         VSF_TEST_I2C_EEPROM_RW_FIFO_CASES(__##suite_var##_data, vsf_test_i2c_eeprom_rw_fifo_run, false) \
     }; \
     static vsf_test_i2c_eeprom_rw_fifo_suite_t suite_var = { \
+        .i2c        = i2c_ptr, \
         .name       = name_str, \
         .purpose    = "i2c_eeprom_rw_fifo", \
         .hw_req     = "i2c_eeprom", \
@@ -311,7 +329,7 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
 #endif
 
 #if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
-#define VSF_TEST_I2C_SLAVE_FIFO_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
+#define VSF_TEST_I2C_SLAVE_FIFO_STATIC(suite_var, name_str, setup_fn, teardown_fn, master_ptr, slave_ptr) \
     static vsf_test_i2c_slave_fifo_suite_t suite_var; \
     static vsf_test_i2c_slave_fifo_case_t __##suite_var##_data[] = { \
         VSF_TEST_I2C_SLAVE_FIFO_CASE_DATA(&suite_var) \
@@ -320,6 +338,8 @@ typedef struct vsf_test_i2c_bus_scan_case_t {
         VSF_TEST_I2C_SLAVE_FIFO_CASES(__##suite_var##_data, vsf_test_i2c_slave_fifo_run, false) \
     }; \
     static vsf_test_i2c_slave_fifo_suite_t suite_var = { \
+        .master_i2c = master_ptr, \
+        .slave_i2c  = slave_ptr, \
         .name       = name_str, \
         .purpose    = "i2c_slave_fifo", \
         .hw_req     = "i2c_slave_wiring", \

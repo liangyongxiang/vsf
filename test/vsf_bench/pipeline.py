@@ -66,7 +66,7 @@ def flash_phase(board, build_dir: Path) -> None:
 # ---------------------------------------------------------------------------
 
 def _query_firmware_suites(ser: SerialInstrument) -> set[str]:
-    ser.send("vsf-test suite --list\r\n")
+    ser.send("vsf-test list-suites\r\n")
     time.sleep(0.3)
     output = ser.read_all(timeout=2.0)
     suites: set[str] = set()
@@ -81,8 +81,8 @@ def _query_firmware_suites(ser: SerialInstrument) -> set[str]:
 
 def _build_run_cmd(suite: str, case: str | None) -> str:
     if case:
-        return f"vsf-test run {suite}.{case}\r\n"
-    return f"vsf-test run {suite}\r\n"
+        return f"vsf-test run-case {suite} {case}\r\n"
+    return f"vsf-test run-suite {suite}\r\n"
 
 
 def _find_scenario_for_suite(params: dict, suite_name: str) -> tuple[str, dict] | None:
@@ -142,31 +142,10 @@ def _drain_repl(ser: SerialInstrument) -> None:
 def _send_shuffle_seed(
     ser: SerialInstrument, suite_name: str, seed: int
 ) -> bool:
-    """Send shuffle seed to firmware and validate ack. Returns True on success.
-
-    On failure, prints a diagnostic message and returns False so the caller
-    can skip the suite without aborting the entire run.
-    """
-    ser.send(f"vsf-test config shuffle {seed}\r\n")
-    try:
-        ack = ser.expect(r"shuffle on \(seed=|Unknown config key", timeout=1.0)
-    except TimeoutError:
-        print(
-            f"[vsf-bench] FAIL: {suite_name}: shuffle config ack not received "
-            f"within 1 s — firmware likely lacks shuffle support "
-            f"(update firmware or drop --random)"
-        )
-        return False
-    if "Unknown" in ack:
-        print(
-            f"[vsf-bench] FAIL: {suite_name}: firmware does not support shuffle. "
-            f"Drop --random or rebuild firmware."
-        )
-        return False
-    # Drain any residual REPL chars (prompt etc.) so the run command's
-    # Suite ack: lands in a clean buffer.
-    ser.read_all(timeout=0.1)
-    print(f"[vsf-bench] {suite_name}: shuffle seed={seed}")
+    """Shuffle is no longer supported in the simplified shell (removed in shell
+    simplification). This is a no-op for backward CLI compatibility.
+    --random still works on the host side (Python randomizes suite order)."""
+    print(f"[vsf-bench] {suite_name}: shuffle seed={seed} (host-side only)")
     return True
 
 

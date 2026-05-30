@@ -113,68 +113,56 @@ vsf_class(vsf_test_rtc_epoch_case_t) {
 };
 #endif
 
+/*============================ STATIC TABLE TYPES ============================*/
+
+VSF_TEST_DECLARE_TABLE(vsf_test_rtc_set_get_table_t, vsf_test_rtc_set_get_suite_t, vsf_test_rtc_set_get_case_t, VSF_TEST_RTC_SET_GET_CASE_COUNT);
+VSF_TEST_DECLARE_TABLE(vsf_test_rtc_alarm_table_t, vsf_test_rtc_alarm_suite_t, vsf_test_rtc_alarm_case_t, VSF_TEST_RTC_ALARM_CASE_COUNT);
+VSF_TEST_DECLARE_TABLE(vsf_test_rtc_epoch_table_t, vsf_test_rtc_epoch_suite_t, vsf_test_rtc_epoch_case_t, VSF_TEST_RTC_EPOCH_CASE_COUNT);
+
 /*============================ STATIC INIT MACROS ============================*/
 
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-#define VSF_TEST_RTC_SET_GET_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_rtc_set_get_suite_t suite_var; \
-    static vsf_test_rtc_set_get_case_t __##suite_var##_data[] = { \
-        VSF_TEST_RTC_SET_GET_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_RTC_SET_GET_CASES(__##suite_var##_data, vsf_test_rtc_set_get_run, false) \
-    }; \
-    static vsf_test_rtc_set_get_suite_t suite_var = { \
-        .rtc        = VSF_BOARD_RTC_INSTANCE, \
-        .name       = name_str, \
-        .purpose    = "rtc_set_get", \
-        .hw_req     = "none", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
+#define VSF_TEST_RTC_SET_GET_STATIC(suite_var, name_str) \
+    static vsf_test_rtc_set_get_table_t suite_var = { \
+        .suite = { \
+            .name       = name_str, \
+            .cases      = suite_var.cases, \
+            .case_count = VSF_TEST_RTC_SET_GET_CASE_COUNT, \
+            .peripheral_type = VSF_PERIPHERAL_TYPE_RTC, \
+            .rtc        = VSF_BOARD_RTC_INSTANCE, \
+        }, \
+        .data  = { VSF_TEST_RTC_SET_GET_CASE_DATA(&suite_var.suite) }, \
+        .cases = { VSF_TEST_RTC_SET_GET_CASES(suite_var.data, vsf_test_rtc_set_get_run, false) }, \
     }
 #endif
 
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-#define VSF_TEST_RTC_ALARM_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_rtc_alarm_suite_t suite_var; \
-    static vsf_test_rtc_alarm_case_t __##suite_var##_data[] = { \
-        VSF_TEST_RTC_ALARM_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_RTC_ALARM_CASES(__##suite_var##_data, vsf_test_rtc_alarm_run, false) \
-    }; \
-    static vsf_test_rtc_alarm_suite_t suite_var = { \
-        .rtc        = VSF_BOARD_RTC_INSTANCE, \
-        .name       = name_str, \
-        .purpose    = "rtc_alarm", \
-        .hw_req     = "none", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
+#define VSF_TEST_RTC_ALARM_STATIC(suite_var, name_str) \
+    static vsf_test_rtc_alarm_table_t suite_var = { \
+        .suite = { \
+            .name       = name_str, \
+            .cases      = suite_var.cases, \
+            .case_count = VSF_TEST_RTC_ALARM_CASE_COUNT, \
+            .peripheral_type = VSF_PERIPHERAL_TYPE_RTC, \
+            .rtc        = VSF_BOARD_RTC_INSTANCE, \
+        }, \
+        .data  = { VSF_TEST_RTC_ALARM_CASE_DATA(&suite_var.suite) }, \
+        .cases = { VSF_TEST_RTC_ALARM_CASES(suite_var.data, vsf_test_rtc_alarm_run, false) }, \
     }
 #endif
 
 #if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
-#define VSF_TEST_RTC_EPOCH_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_rtc_epoch_suite_t suite_var; \
-    static vsf_test_rtc_epoch_case_t __##suite_var##_data[] = { \
-        VSF_TEST_RTC_EPOCH_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_RTC_EPOCH_CASES(__##suite_var##_data, vsf_test_rtc_epoch_run, false) \
-    }; \
-    static vsf_test_rtc_epoch_suite_t suite_var = { \
-        .rtc        = VSF_BOARD_RTC_INSTANCE, \
-        .name       = name_str, \
-        .purpose    = "rtc_epoch", \
-        .hw_req     = "none", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
+#define VSF_TEST_RTC_EPOCH_STATIC(suite_var, name_str) \
+    static vsf_test_rtc_epoch_table_t suite_var = { \
+        .suite = { \
+            .name       = name_str, \
+            .cases      = suite_var.cases, \
+            .case_count = VSF_TEST_RTC_EPOCH_CASE_COUNT, \
+            .peripheral_type = VSF_PERIPHERAL_TYPE_RTC, \
+            .rtc        = VSF_BOARD_RTC_INSTANCE, \
+        }, \
+        .data  = { VSF_TEST_RTC_EPOCH_CASE_DATA(&suite_var.suite) }, \
+        .cases = { VSF_TEST_RTC_EPOCH_CASES(suite_var.data, vsf_test_rtc_epoch_run, false) }, \
     }
 #endif
 

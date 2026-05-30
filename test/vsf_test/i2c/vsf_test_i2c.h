@@ -220,133 +220,85 @@ vsf_class(vsf_test_i2c_bus_scan_case_t) {
 };
 #endif
 
+/*============================ STATIC TABLE TYPES ============================*/
+
+VSF_TEST_DECLARE_TABLE(vsf_test_i2c_eeprom_rw_table_t, vsf_test_i2c_eeprom_rw_suite_t, vsf_test_i2c_eeprom_rw_case_t, VSF_TEST_I2C_EEPROM_RW_CASE_COUNT);
+VSF_TEST_DECLARE_TABLE(vsf_test_i2c_bus_scan_table_t, vsf_test_i2c_bus_scan_suite_t, vsf_test_i2c_bus_scan_case_t, VSF_TEST_I2C_BUS_SCAN_CASE_COUNT);
+VSF_TEST_DECLARE_TABLE(vsf_test_i2c_eeprom_page_table_t, vsf_test_i2c_eeprom_page_suite_t, vsf_test_i2c_eeprom_page_case_t, VSF_TEST_I2C_EEPROM_PAGE_CASE_COUNT);
+VSF_TEST_DECLARE_TABLE(vsf_test_i2c_eeprom_rw_fifo_table_t, vsf_test_i2c_eeprom_rw_fifo_suite_t, vsf_test_i2c_eeprom_rw_fifo_case_t, VSF_TEST_I2C_EEPROM_RW_FIFO_CASE_COUNT);
+VSF_TEST_DECLARE_TABLE(vsf_test_i2c_slave_table_t, vsf_test_i2c_slave_suite_t, vsf_test_i2c_slave_case_t, VSF_TEST_I2C_SLAVE_CASE_COUNT);
+
 /*============================ STATIC INIT MACROS ============================*/
 
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-#define VSF_TEST_I2C_EEPROM_RW_STATIC(suite_var, name_str, setup_fn, teardown_fn, i2c_ptr) \
-    static vsf_test_i2c_eeprom_rw_suite_t suite_var; \
-    static vsf_test_i2c_eeprom_rw_case_t __##suite_var##_data[] = { \
-        VSF_TEST_I2C_EEPROM_RW_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_I2C_EEPROM_RW_CASES(__##suite_var##_data, vsf_test_i2c_eeprom_rw_run, false) \
-    }; \
-    static vsf_test_i2c_eeprom_rw_suite_t suite_var = { \
-        .i2c        = i2c_ptr, \
-        .name       = name_str, \
-        .purpose    = "i2c_eeprom_rw", \
-        .hw_req     = "i2c_eeprom", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
+#define VSF_TEST_I2C_EEPROM_RW_STATIC(suite_var, name_str) \
+    static vsf_test_i2c_eeprom_rw_table_t suite_var = { \
+        .suite = { \
+            .name       = name_str, \
+            .cases      = suite_var.cases, \
+            .case_count = VSF_TEST_I2C_EEPROM_RW_CASE_COUNT, \
+            .peripheral_type = VSF_PERIPHERAL_TYPE_I2C, \
+        }, \
+        .data  = { VSF_TEST_I2C_EEPROM_RW_CASE_DATA(&suite_var.suite) }, \
+        .cases = { VSF_TEST_I2C_EEPROM_RW_CASES(suite_var.data, vsf_test_i2c_eeprom_rw_run, false) }, \
     }
 #endif
 
 #if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
-#define VSF_TEST_I2C_BUS_SCAN_STATIC(suite_var, name_str, setup_fn, teardown_fn, i2c_ptr) \
-    static vsf_test_i2c_bus_scan_suite_t suite_var; \
-    static vsf_test_i2c_bus_scan_case_t __##suite_var##_data[] = { \
-        VSF_TEST_I2C_BUS_SCAN_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_I2C_BUS_SCAN_CASES(__##suite_var##_data, vsf_test_i2c_bus_scan_run, false) \
-    }; \
-    static vsf_test_i2c_bus_scan_suite_t suite_var = { \
-        .i2c        = i2c_ptr, \
-        .name       = name_str, \
-        .purpose    = "i2c_bus_scan", \
-        .hw_req     = "i2c_eeprom", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
+#define VSF_TEST_I2C_BUS_SCAN_STATIC(suite_var, name_str) \
+    static vsf_test_i2c_bus_scan_table_t suite_var = { \
+        .suite = { \
+            .name       = name_str, \
+            .cases      = suite_var.cases, \
+            .case_count = VSF_TEST_I2C_BUS_SCAN_CASE_COUNT, \
+            .peripheral_type = VSF_PERIPHERAL_TYPE_I2C, \
+        }, \
+        .data  = { VSF_TEST_I2C_BUS_SCAN_CASE_DATA(&suite_var.suite) }, \
+        .cases = { VSF_TEST_I2C_BUS_SCAN_CASES(suite_var.data, vsf_test_i2c_bus_scan_run, false) }, \
     }
 #endif
 
 #if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
-#define VSF_TEST_I2C_EEPROM_PAGE_STATIC(suite_var, name_str, setup_fn, teardown_fn, i2c_ptr) \
-    static vsf_test_i2c_eeprom_page_suite_t suite_var; \
-    static vsf_test_i2c_eeprom_page_case_t __##suite_var##_data[] = { \
-        VSF_TEST_I2C_EEPROM_PAGE_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_I2C_EEPROM_PAGE_CASES(__##suite_var##_data, vsf_test_i2c_eeprom_page_run, false) \
-    }; \
-    static vsf_test_i2c_eeprom_page_suite_t suite_var = { \
-        .i2c        = i2c_ptr, \
-        .name       = name_str, \
-        .purpose    = "i2c_eeprom_page", \
-        .hw_req     = "i2c_eeprom", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
-    }
-#endif
-
-#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
-#define VSF_TEST_I2C_SLAVE_STATIC(suite_var, name_str, setup_fn, teardown_fn, master_ptr, slave_ptr) \
-    static vsf_test_i2c_slave_suite_t suite_var; \
-    static vsf_test_i2c_slave_case_t __##suite_var##_data[] = { \
-        VSF_TEST_I2C_SLAVE_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_I2C_SLAVE_CASES(__##suite_var##_data, vsf_test_i2c_slave_run, false) \
-    }; \
-    static vsf_test_i2c_slave_suite_t suite_var = { \
-        .master_i2c = master_ptr, \
-        .slave_i2c  = slave_ptr, \
-        .name       = name_str, \
-        .purpose    = "i2c_slave", \
-        .hw_req     = "i2c0+i2c1+wired", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
+#define VSF_TEST_I2C_EEPROM_PAGE_STATIC(suite_var, name_str) \
+    static vsf_test_i2c_eeprom_page_table_t suite_var = { \
+        .suite = { \
+            .name       = name_str, \
+            .cases      = suite_var.cases, \
+            .case_count = VSF_TEST_I2C_EEPROM_PAGE_CASE_COUNT, \
+            .peripheral_type = VSF_PERIPHERAL_TYPE_I2C, \
+        }, \
+        .data  = { VSF_TEST_I2C_EEPROM_PAGE_CASE_DATA(&suite_var.suite) }, \
+        .cases = { VSF_TEST_I2C_EEPROM_PAGE_CASES(suite_var.data, vsf_test_i2c_eeprom_page_run, false) }, \
     }
 #endif
 
 #if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
-#define VSF_TEST_I2C_EEPROM_RW_FIFO_STATIC(suite_var, name_str, setup_fn, teardown_fn, i2c_ptr) \
-    static vsf_test_i2c_eeprom_rw_fifo_suite_t suite_var; \
-    static vsf_test_i2c_eeprom_rw_fifo_case_t __##suite_var##_data[] = { \
-        VSF_TEST_I2C_EEPROM_RW_FIFO_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_I2C_EEPROM_RW_FIFO_CASES(__##suite_var##_data, vsf_test_i2c_eeprom_rw_fifo_run, false) \
-    }; \
-    static vsf_test_i2c_eeprom_rw_fifo_suite_t suite_var = { \
-        .i2c        = i2c_ptr, \
-        .name       = name_str, \
-        .purpose    = "i2c_eeprom_rw_fifo", \
-        .hw_req     = "i2c_eeprom", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
+#define VSF_TEST_I2C_EEPROM_RW_FIFO_STATIC(suite_var, name_str) \
+    static vsf_test_i2c_eeprom_rw_fifo_table_t suite_var = { \
+        .suite = { \
+            .name       = name_str, \
+            .cases      = suite_var.cases, \
+            .case_count = VSF_TEST_I2C_EEPROM_RW_FIFO_CASE_COUNT, \
+            .peripheral_type = VSF_PERIPHERAL_TYPE_I2C, \
+        }, \
+        .data  = { VSF_TEST_I2C_EEPROM_RW_FIFO_CASE_DATA(&suite_var.suite) }, \
+        .cases = { VSF_TEST_I2C_EEPROM_RW_FIFO_CASES(suite_var.data, vsf_test_i2c_eeprom_rw_fifo_run, false) }, \
     }
 #endif
 
-#if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
-#define VSF_TEST_I2C_SLAVE_FIFO_STATIC(suite_var, name_str, setup_fn, teardown_fn, master_ptr, slave_ptr) \
-    static vsf_test_i2c_slave_fifo_suite_t suite_var; \
-    static vsf_test_i2c_slave_fifo_case_t __##suite_var##_data[] = { \
-        VSF_TEST_I2C_SLAVE_FIFO_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_I2C_SLAVE_FIFO_CASES(__##suite_var##_data, vsf_test_i2c_slave_fifo_run, false) \
-    }; \
-    static vsf_test_i2c_slave_fifo_suite_t suite_var = { \
-        .master_i2c = master_ptr, \
-        .slave_i2c  = slave_ptr, \
-        .name       = name_str, \
-        .purpose    = "i2c_slave_fifo", \
-        .hw_req     = "i2c_slave_wiring", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
+#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
+#define VSF_TEST_I2C_SLAVE_STATIC(suite_var, name_str, master_ptr, slave_ptr) \
+    static vsf_test_i2c_slave_table_t suite_var = { \
+        .suite = { \
+            .name       = name_str, \
+            .cases      = suite_var.cases, \
+            .case_count = VSF_TEST_I2C_SLAVE_CASE_COUNT, \
+            .peripheral_type = VSF_PERIPHERAL_TYPE_I2C_SLAVE, \
+            .master_i2c = master_ptr, \
+            .slave_i2c  = slave_ptr, \
+        }, \
+        .data  = { VSF_TEST_I2C_SLAVE_CASE_DATA(&suite_var.suite) }, \
+        .cases = { VSF_TEST_I2C_SLAVE_CASES(suite_var.data, vsf_test_i2c_slave_run, false) }, \
     }
 #endif
 

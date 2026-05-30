@@ -243,6 +243,23 @@ typedef enum vsf_test_result_t {
     VSF_TEST_RESULT_FAIL = 2,
 } vsf_test_result_t;
 
+typedef enum vsf_peripheral_type_t {
+    VSF_PERIPHERAL_TYPE_NONE   = 0,
+    VSF_PERIPHERAL_TYPE_GPIO,
+    VSF_PERIPHERAL_TYPE_USART,
+    VSF_PERIPHERAL_TYPE_SPI,
+    VSF_PERIPHERAL_TYPE_I2C,
+    VSF_PERIPHERAL_TYPE_ADC,
+    VSF_PERIPHERAL_TYPE_PWM,
+    VSF_PERIPHERAL_TYPE_TIMER,
+    VSF_PERIPHERAL_TYPE_RTC,
+    VSF_PERIPHERAL_TYPE_WDT,
+    VSF_PERIPHERAL_TYPE_RNG,
+    VSF_PERIPHERAL_TYPE_DMA,
+    VSF_PERIPHERAL_TYPE_FLASH,
+    VSF_PERIPHERAL_TYPE_I2C_SLAVE,
+} vsf_peripheral_type_t;
+
 typedef void vsf_test_reboot_t(void);
 
 vsf_class(vsf_test_wdt_t) {
@@ -262,21 +279,15 @@ vsf_class(vsf_test_wdt_t) {
 
 typedef void vsf_test_jmp_fn_t(void *arg);
 
-//! \brief Test Suite — first-class grouping of related Test Cases.
-//!
-//! Each scenario extends vsf_test_suite_t via PLOOC `implement(vsf_test_suite_t)`
-//! and adds its scenario-specific fields (typically a HAL handle).
-//!
-//! The dispatcher (vsf_test_run_case) emits a Capture Marker
-//! "<suite.name>:CASE:<case.case_idx>" before each case and
-//! "<suite.name>:CASE:<case.case_idx>:DONE" after each case, removing the
-//! need for scenario _run functions to print them themselves.
-//!
-//! `setup(suite)` runs once before the first case of the suite; `teardown`
-//! runs once after the last case. Both may be NULL.
 dcl_simple_class(vsf_test_suite_t)
 typedef bool vsf_test_suite_setup_fn_t(vsf_test_suite_t *suite);
 typedef void vsf_test_suite_teardown_fn_t(vsf_test_suite_t *suite);
+
+//! \brief Test Suite — pure logic, no HAL binding.
+//!
+//! Each scenario extends vsf_test_suite_t via PLOOC and adds its
+//! scenario-specific fields (typically a HAL handle slot that the framework
+//! fills at runtime from the matching instance).
 
 vsf_class(vsf_test_case_t) {
     public_member(
@@ -299,14 +310,26 @@ vsf_class(vsf_test_case_t) {
 vsf_class(vsf_test_suite_t) {
     public_member(
         const char                     *name;          //!< also used as Capture Marker tag
-        const char                     *purpose;       //!< short description, e.g. "rx-baud"
-        const char                     *hw_req;        //!< hardware requirements, e.g. "uart1+la"
-        vsf_test_suite_setup_fn_t      *setup;         //!< NULL = skip; return false to skip all cases
-        vsf_test_suite_teardown_fn_t   *teardown;      //!< NULL = skip
         uint16_t                       case_count;     //!< per-suite case array length
         vsf_test_case_t               *cases;          //!< per-suite case array
+        vsf_peripheral_type_t          peripheral_type;//!<< which HAL type this suite needs (0 = none)
     )
 };
+
+/*! \brief Declare a static test table type.
+    \param table_name  typedef name (e.g. vsf_test_usart_baud_table_t)
+    \param suite_t     per-scenario suite type (extends vsf_test_suite_t)
+    \param case_t      per-scenario case param type
+    \param count       compile-time case count macro */
+#define VSF_TEST_DECLARE_TABLE(table_name, suite_t, case_t, count) \
+    typedef struct { suite_t suite; case_t data[count]; vsf_test_case_t cases[count]; } table_name
+
+typedef struct vsf_test_inst_t {
+    vsf_peripheral_type_t       peripheral_type; //!< which HAL interface this instance satisfies
+    void                       *hal_handle;      //!< pointer to HAL hardware struct (e.g. &vsf_hw_usart1)
+    vsf_test_suite_setup_fn_t  *setup;           //!< called once before first case for this instance
+    vsf_test_suite_teardown_fn_t *teardown;      //!< called once after last case for this instance
+} vsf_test_inst_t;
 
 typedef struct vsf_test_t {
     //! Without a watchdog, we can still can test.
@@ -338,6 +361,10 @@ typedef struct vsf_test_t {
     //! Registered suites array and count — populated at compile time.
     vsf_test_suite_t **suites;
     uint8_t            suite_count;
+
+    //! Peripheral instances array and count — populated at compile time.
+    vsf_test_inst_t  **instances;
+    uint8_t            instance_count;
 
     //! Embedded shell REPL — started by vsf_test_run() after init.
     vsf_test_shell_t shell;
@@ -392,55 +419,22 @@ extern void vsf_test_busy_wait_ms(uint32_t ms);
 extern void vsf_test_busy_wait_us(uint32_t us);
 
 /* ========================== Test Suite primitive ========================== */
+
 /**
- @brief Register a Test Suite. The framework records the suite in its internal
- registry and forwards it to the shell. Cases must already be populated in
- `suite->cases[]` and `suite->case_count` before calling this function.
-
- The suite's `setup` (if non-NULL) is called once before its first case;
- `teardown` (if non-NULL) is called once after its last case.
-
- @param[in] suite: pointer to a `vsf_test_suite_t` (typically the base of a
-            PLOOC-extended scenario-specific suite struct)
- @return true on success; false if suite table is full
+ @brief Run a single test case within a suite. No setup/teardown is performed
+ — the caller is responsible for calling setup before the first case and
+ teardown after the last case.
+ @param[in] suite: pointer to the suite containing the case
+ @param[in] local_idx: index of the case within the suite's cases array
  */
-/*============================ STATIC SUITE INITIALIZATION =====================*/
+extern void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx);
 
-// Boards override these to bind HAL instances at compile time.
-// Each macro expands to a compile-time constant (address of a global).
-#ifndef VSF_BOARD_GPIO_INSTANCE
-#   define VSF_BOARD_GPIO_INSTANCE      NULL
-#endif
-#ifndef VSF_BOARD_USART_INSTANCE
-#   define VSF_BOARD_USART_INSTANCE     NULL
-#endif
-#ifndef VSF_BOARD_SPI_INSTANCE
-#   define VSF_BOARD_SPI_INSTANCE       NULL
-#endif
-#ifndef VSF_BOARD_ADC_INSTANCE
-#   define VSF_BOARD_ADC_INSTANCE       NULL
-#endif
-#ifndef VSF_BOARD_PWM_INSTANCE
-#   define VSF_BOARD_PWM_INSTANCE       NULL
-#endif
-#ifndef VSF_BOARD_TIMER_INSTANCE
-#   define VSF_BOARD_TIMER_INSTANCE     NULL
-#endif
-#ifndef VSF_BOARD_RTC_INSTANCE
-#   define VSF_BOARD_RTC_INSTANCE       NULL
-#endif
-#ifndef VSF_BOARD_WDT_INSTANCE
-#   define VSF_BOARD_WDT_INSTANCE       NULL
-#endif
-#ifndef VSF_BOARD_RNG_INSTANCE
-#   define VSF_BOARD_RNG_INSTANCE       NULL
-#endif
-#ifndef VSF_BOARD_DMA_INSTANCE
-#   define VSF_BOARD_DMA_INSTANCE       NULL
-#endif
-#ifndef VSF_BOARD_FLASH_INSTANCE
-#   define VSF_BOARD_FLASH_INSTANCE     NULL
-#endif
+/**
+ @brief Run all cases in a suite. Calls setup before the first case and
+ teardown after the last case. If setup returns false, all cases are skipped.
+ @param[in] suite: pointer to the suite to run
+ */
+extern void vsf_test_run_suite(vsf_test_suite_t *suite);
 
 /*============================ LOCAL VARIABLES ===============================*/
 /*============================ GLOBAL VARIABLES ==============================*/

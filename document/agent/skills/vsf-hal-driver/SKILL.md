@@ -36,7 +36,7 @@ DO NOT USE FOR:
 
 Do not skip rungs. Each rung assumes earlier rungs hold. Detailed per-rung steps: [porting](modules/porting.md).
 
-**Done when:** All peripherals in `vsf_usr_cfg.h` pass `vsf-bench --all hardware-map.yml`.
+**Done when:** All peripherals in `vsf_usr_cfg.h` pass `vsf-bench --all hardware-map.yml`. This is the **final regression gate** — `--all` without `--suite` runs every enabled suite and is time-consuming. During development, use `--suite` to run only the peripheral you're working on (see Verify step below).
 
 **If no hardware:** All static checks (skeleton + structure + quality + audit) exit 0 or 2 = structurally sound; flag hardware testing as pending.
 
@@ -58,6 +58,8 @@ Do not skip rungs. Each rung assumes earlier rungs hold. Detailed per-rung steps
 
 **Verify:**
 9. `vsf-bench --all hardware-map.yml --suite <periph>_<scenario>`
+   - **Testing strategy:** `--suite <name>` limits the run to one peripheral's tests — fast, targeted feedback during development. `--all` without `--suite` runs every enabled suite (build + flash + all tests), which is slow. **Only use `--all` without `--suite` for final regression** after all peripherals are done.
+   - If firmware is already flashed and you only need to re-run tests (no code changed): `vsf-bench --test hardware-map.yml --suite <periph>_<scenario>` skips build and flash.
    - If vsf-bench unavailable: run static checks (steps 6-8) only; flag to user that hardware testing is pending
    - If serial not responding: check hardware-map serial config and re-flash; run `gpio_io_check` first to rule out wiring
 

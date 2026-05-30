@@ -24,14 +24,21 @@ DO NOT USE FOR:
 - **Hardware map:** `hardware-map.yml` defines `build.source_dir`, `serial.port`/`baudrate`, `flash.runner` (swd or uf2).
 - **Script signature:** `def run(project_root, serial, la=None)`. Scripts validate only — orchestrator sends triggers. Exception = FAIL, normal return = PASS.
 
+## Testing strategy
+
+**`--all` without `--suite` runs every enabled suite — slow. Only use for final regression.** During development, always limit with `--suite` to the peripheral you're working on. If the firmware is already flashed, `--test` skips build+flash for even faster iteration.
+
 ## Quickstart
 
 ```bash
-# Full pipeline (build + flash + test)
+# Full regression (build + flash + ALL suites) — SLOW, final gate only
 vsf-bench --all board/<board>/hardware-map.yml
 
-# Specific suite
+# Development: build + flash + single suite (fast)
 vsf-bench --all board/<board>/hardware-map.yml --suite <name>
+
+# Fastest iteration: test-only, no rebuild (firmware already flashed)
+vsf-bench --test board/<board>/hardware-map.yml --suite <name>
 
 # Individual steps (for isolating failures)
 vsf-bench --build  board/<board>/hardware-map.yml

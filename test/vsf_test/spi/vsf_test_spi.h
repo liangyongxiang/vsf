@@ -85,47 +85,40 @@ vsf_class(vsf_test_spi_async_case_t) {
 };
 #endif
 
+/*============================ STATIC TABLE TYPES ============================*/
+
+VSF_TEST_DECLARE_TABLE(vsf_test_spi_loopback_table_t, vsf_test_spi_loopback_suite_t, vsf_test_spi_loopback_case_t, VSF_TEST_SPI_LOOPBACK_CASE_COUNT);
+VSF_TEST_DECLARE_TABLE(vsf_test_spi_async_table_t, vsf_test_spi_async_suite_t, vsf_test_spi_async_case_t, VSF_TEST_SPI_ASYNC_CASE_COUNT);
+
 /*============================ STATIC INIT MACROS ============================*/
 
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-#define VSF_TEST_SPI_LOOPBACK_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_spi_loopback_suite_t suite_var; \
-    static vsf_test_spi_loopback_case_t __##suite_var##_data[] = { \
-        VSF_TEST_SPI_LOOPBACK_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_SPI_LOOPBACK_CASES(__##suite_var##_data, vsf_test_spi_loopback_run, false) \
-    }; \
-    static vsf_test_spi_loopback_suite_t suite_var = { \
-        .spi        = VSF_BOARD_SPI_INSTANCE, \
-        .name       = name_str, \
-        .purpose    = "spi_loopback", \
-        .hw_req     = "mosi-miso-jumper", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
+#define VSF_TEST_SPI_LOOPBACK_STATIC(suite_var, name_str) \
+    static vsf_test_spi_loopback_table_t suite_var = { \
+        .suite = { \
+            .name       = name_str, \
+            .cases      = suite_var.cases, \
+            .case_count = VSF_TEST_SPI_LOOPBACK_CASE_COUNT, \
+            .peripheral_type = VSF_PERIPHERAL_TYPE_SPI, \
+            .spi        = VSF_BOARD_SPI_INSTANCE, \
+        }, \
+        .data  = { VSF_TEST_SPI_LOOPBACK_CASE_DATA(&suite_var.suite) }, \
+        .cases = { VSF_TEST_SPI_LOOPBACK_CASES(suite_var.data, vsf_test_spi_loopback_run, false) }, \
     }
 #endif
 
 #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-#define VSF_TEST_SPI_ASYNC_STATIC(suite_var, name_str, setup_fn, teardown_fn) \
-    static vsf_test_spi_async_suite_t suite_var; \
-    static vsf_test_spi_async_case_t __##suite_var##_data[] = { \
-        VSF_TEST_SPI_ASYNC_CASE_DATA(&suite_var) \
-    }; \
-    static vsf_test_case_t __##suite_var##_cases[] = { \
-        VSF_TEST_SPI_ASYNC_CASES(__##suite_var##_data, vsf_test_spi_async_run, false) \
-    }; \
-    static vsf_test_spi_async_suite_t suite_var = { \
-        .spi        = VSF_BOARD_SPI_INSTANCE, \
-        .name       = name_str, \
-        .purpose    = "spi_async", \
-        .hw_req     = "mosi-miso-jumper", \
-        .setup      = setup_fn, \
-        .teardown   = teardown_fn, \
-        .cases      = __##suite_var##_cases, \
-        .case_count = dimof(__##suite_var##_cases), \
+#define VSF_TEST_SPI_ASYNC_STATIC(suite_var, name_str) \
+    static vsf_test_spi_async_table_t suite_var = { \
+        .suite = { \
+            .name       = name_str, \
+            .cases      = suite_var.cases, \
+            .case_count = VSF_TEST_SPI_ASYNC_CASE_COUNT, \
+            .peripheral_type = VSF_PERIPHERAL_TYPE_SPI, \
+            .spi        = VSF_BOARD_SPI_INSTANCE, \
+        }, \
+        .data  = { VSF_TEST_SPI_ASYNC_CASE_DATA(&suite_var.suite) }, \
+        .cases = { VSF_TEST_SPI_ASYNC_CASES(suite_var.data, vsf_test_spi_async_run, false) }, \
     }
 #endif
 

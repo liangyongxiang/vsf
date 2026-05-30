@@ -96,7 +96,9 @@ void vsf_test_run(vsf_test_t *test)
         }
     }
 
-    vsf_test_shell_init(&__vsf_test_self->shell, __vsf_test_self->suites, __vsf_test_self->suite_count);
+    vsf_test_shell_init(&__vsf_test_self->shell,
+                        __vsf_test_self->suites, __vsf_test_self->suite_count,
+                        __vsf_test_self->instances, __vsf_test_self->instance_count);
     vsf_test_shell_run(&__vsf_test_self->shell);
 }
 
@@ -182,19 +184,6 @@ void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
         }
     }
 
-    // Setup runs once before the first case of the suite.
-    if (local_idx == 0) {
-        if (suite->setup != NULL) {
-            if (!suite->setup(suite)) {
-                // Skip all cases in this suite
-                for (uint16_t i = 0; i < suite->case_count; i++) {
-                    suite->cases[i].result = VSF_TEST_RESULT_SKIP;
-                }
-                return;
-            }
-        }
-    }
-
     test_case->error.function_name = NULL;
     test_case->error.file_name     = NULL;
     test_case->error.condition     = NULL;
@@ -218,15 +207,26 @@ void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
 #if VSF_TEST_CFG_EMIT_MARKERS == ENABLED
     __emit_case_done(suite->name, test_case->case_idx);
 #endif
-    // Teardown runs once after the last case.
-    if (local_idx == suite->case_count - 1) {
-        if (suite->teardown != NULL) suite->teardown(suite);
-#if VSF_TEST_CFG_EMIT_MARKERS == ENABLED
-        __emit_suite_end(suite->name);
-#endif
-    }
 
     __vsf_test_self->current_case = NULL;
+}
+
+static void __vsf_test_run_suite_all_cases(vsf_test_suite_t *suite)
+{
+    for (uint16_t i = 0; i < suite->case_count; i++) {
+        vsf_test_run_suite_case(suite, i);
+    }
+}
+
+void vsf_test_run_suite(vsf_test_suite_t *suite)
+{
+    if (suite == NULL || suite->cases == NULL) {
+        return;
+    }
+    __vsf_test_run_suite_all_cases(suite);
+#if VSF_TEST_CFG_EMIT_MARKERS == ENABLED
+    __emit_suite_end(suite->name);
+#endif
 }
 
 #endif

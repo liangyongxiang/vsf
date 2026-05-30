@@ -143,6 +143,10 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
         suffix = "  \\" if i < len(cases) - 1 else ""
         lines.append(f"    {{ .jmp_fn = (vsf_test_jmp_fn_t *)(run_fn), .arg = &data_ref[{i}], .case_idx = {i}, .needs_ready_handshake = ready }}{comma}{suffix}")
 
+    # case count for static table allocation
+    lines.append(f"#define VSF_TEST_{upper}_CASE_COUNT  {len(cases)}")
+    lines.append("")
+
     lines.append(f"#ifndef VSF_TEST_{upper}_ENABLE")
     lines.append(f"#   define VSF_TEST_{upper}_ENABLE  ENABLED")
     lines.append(f"#endif")

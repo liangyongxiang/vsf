@@ -7,8 +7,9 @@
 extern "C" {
 #endif
 
-/* Forward declaration — vsf_test_suite_t is defined later in vsf_test.h */
-typedef struct vsf_test_suite_t vsf_test_suite_t;
+/* Forward declarations — defined later in vsf_test.h */
+typedef struct vsf_test_suite_t  vsf_test_suite_t;
+typedef struct vsf_test_inst_t   vsf_test_inst_t;
 
 #ifndef VSF_TEST_SHELL_MAX_MATCHES
 #   define VSF_TEST_SHELL_MAX_MATCHES   96
@@ -17,9 +18,13 @@ typedef struct vsf_test_suite_t vsf_test_suite_t;
 typedef struct vsf_test_shell_t {
     vsf_test_suite_t **suites;
     uint8_t            suite_count;
+    vsf_test_inst_t  **instances;
+    uint8_t            instance_count;
 } vsf_test_shell_t;
 
-void vsf_test_shell_init(vsf_test_shell_t *shell, vsf_test_suite_t **suites, uint8_t count);
+void vsf_test_shell_init(vsf_test_shell_t *shell,
+                         vsf_test_suite_t **suites, uint8_t suite_count,
+                         vsf_test_inst_t **instances, uint8_t instance_count);
 void vsf_test_shell_run(vsf_test_shell_t *shell);
 
 #ifdef __cplusplus

@@ -90,43 +90,6 @@ vsf_class(vsf_test_flash_boundary_case_t) {
 };
 #endif
 
-/*============================ STATIC TABLE TYPES ============================*/
-
-VSF_TEST_DECLARE_TABLE(vsf_test_flash_erase_program_read_table_t, vsf_test_flash_erase_program_read_suite_t, vsf_test_flash_erase_program_read_case_t, VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_flash_boundary_table_t, vsf_test_flash_boundary_suite_t, vsf_test_flash_boundary_case_t, VSF_TEST_FLASH_BOUNDARY_CASE_COUNT);
-
-/*============================ STATIC INIT MACROS ============================*/
-
-#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-#define VSF_TEST_FLASH_ERASE_PROGRAM_READ_STATIC(suite_var, name_str) \
-    static vsf_test_flash_erase_program_read_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_FLASH, \
-            .flash      = VSF_BOARD_FLASH_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASES(suite_var.data, vsf_test_flash_erase_program_read_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-#define VSF_TEST_FLASH_BOUNDARY_STATIC(suite_var, name_str) \
-    static vsf_test_flash_boundary_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_FLASH_BOUNDARY_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_FLASH, \
-            .flash      = VSF_BOARD_FLASH_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_FLASH_BOUNDARY_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_FLASH_BOUNDARY_CASES(suite_var.data, vsf_test_flash_boundary_run, false) }, \
-    }
-#endif
-
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED

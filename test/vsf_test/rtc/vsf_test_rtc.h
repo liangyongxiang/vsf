@@ -113,59 +113,6 @@ vsf_class(vsf_test_rtc_epoch_case_t) {
 };
 #endif
 
-/*============================ STATIC TABLE TYPES ============================*/
-
-VSF_TEST_DECLARE_TABLE(vsf_test_rtc_set_get_table_t, vsf_test_rtc_set_get_suite_t, vsf_test_rtc_set_get_case_t, VSF_TEST_RTC_SET_GET_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_rtc_alarm_table_t, vsf_test_rtc_alarm_suite_t, vsf_test_rtc_alarm_case_t, VSF_TEST_RTC_ALARM_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_rtc_epoch_table_t, vsf_test_rtc_epoch_suite_t, vsf_test_rtc_epoch_case_t, VSF_TEST_RTC_EPOCH_CASE_COUNT);
-
-/*============================ STATIC INIT MACROS ============================*/
-
-#if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-#define VSF_TEST_RTC_SET_GET_STATIC(suite_var, name_str) \
-    static vsf_test_rtc_set_get_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_RTC_SET_GET_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_RTC, \
-            .rtc        = VSF_BOARD_RTC_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_RTC_SET_GET_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_RTC_SET_GET_CASES(suite_var.data, vsf_test_rtc_set_get_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-#define VSF_TEST_RTC_ALARM_STATIC(suite_var, name_str) \
-    static vsf_test_rtc_alarm_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_RTC_ALARM_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_RTC, \
-            .rtc        = VSF_BOARD_RTC_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_RTC_ALARM_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_RTC_ALARM_CASES(suite_var.data, vsf_test_rtc_alarm_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
-#define VSF_TEST_RTC_EPOCH_STATIC(suite_var, name_str) \
-    static vsf_test_rtc_epoch_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_RTC_EPOCH_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_RTC, \
-            .rtc        = VSF_BOARD_RTC_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_RTC_EPOCH_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_RTC_EPOCH_CASES(suite_var.data, vsf_test_rtc_epoch_run, false) }, \
-    }
-#endif
-
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED

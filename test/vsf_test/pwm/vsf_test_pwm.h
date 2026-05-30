@@ -120,59 +120,6 @@ vsf_class(vsf_test_pwm_irq_case_t) {
 };
 #endif
 
-/*============================ STATIC TABLE TYPES ============================*/
-
-VSF_TEST_DECLARE_TABLE(vsf_test_pwm_basic_table_t, vsf_test_pwm_basic_suite_t, vsf_test_pwm_basic_case_t, VSF_TEST_PWM_BASIC_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_pwm_dual_channel_table_t, vsf_test_pwm_dual_channel_suite_t, vsf_test_pwm_dual_channel_case_t, VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_pwm_irq_table_t, vsf_test_pwm_irq_suite_t, vsf_test_pwm_irq_case_t, VSF_TEST_PWM_IRQ_CASE_COUNT);
-
-/*============================ STATIC INIT MACROS ============================*/
-
-#if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-#define VSF_TEST_PWM_BASIC_STATIC(suite_var, name_str) \
-    static vsf_test_pwm_basic_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_PWM_BASIC_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_PWM, \
-            .pwm        = VSF_BOARD_PWM_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_PWM_BASIC_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_PWM_BASIC_CASES(suite_var.data, vsf_test_pwm_basic_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
-#define VSF_TEST_PWM_DUAL_CHANNEL_STATIC(suite_var, name_str) \
-    static vsf_test_pwm_dual_channel_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_PWM, \
-            .pwm        = VSF_BOARD_PWM_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_PWM_DUAL_CHANNEL_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_PWM_DUAL_CHANNEL_CASES(suite_var.data, vsf_test_pwm_dual_channel_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
-#define VSF_TEST_PWM_IRQ_STATIC(suite_var, name_str) \
-    static vsf_test_pwm_irq_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_PWM_IRQ_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_PWM, \
-            .pwm        = VSF_BOARD_PWM_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_PWM_IRQ_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_PWM_IRQ_CASES(suite_var.data, vsf_test_pwm_irq_run, false) }, \
-    }
-#endif
-
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED

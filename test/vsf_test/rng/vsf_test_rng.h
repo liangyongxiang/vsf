@@ -60,27 +60,6 @@ vsf_class(vsf_test_rng_basic_case_t) {
 };
 #endif
 
-/*============================ STATIC TABLE TYPES ============================*/
-
-VSF_TEST_DECLARE_TABLE(vsf_test_rng_basic_table_t, vsf_test_rng_basic_suite_t, vsf_test_rng_basic_case_t, VSF_TEST_RNG_BASIC_CASE_COUNT);
-
-/*============================ STATIC INIT MACROS ============================*/
-
-#if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
-#define VSF_TEST_RNG_BASIC_STATIC(suite_var, name_str) \
-    static vsf_test_rng_basic_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_RNG_BASIC_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_RNG, \
-            .rng        = VSF_BOARD_RNG_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_RNG_BASIC_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_RNG_BASIC_CASES(suite_var.data, vsf_test_rng_basic_run, false) }, \
-    }
-#endif
-
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_RNG_BASIC_ENABLE == ENABLED

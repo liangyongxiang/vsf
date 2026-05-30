@@ -107,59 +107,6 @@ vsf_class(vsf_test_adc_stream_case_t) {
 };
 #endif
 
-/*============================ STATIC TABLE TYPES ============================*/
-
-VSF_TEST_DECLARE_TABLE(vsf_test_adc_oneshot_table_t, vsf_test_adc_oneshot_suite_t, vsf_test_adc_oneshot_case_t, VSF_TEST_ADC_ONESHOT_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_adc_temperature_table_t, vsf_test_adc_temperature_suite_t, vsf_test_adc_temperature_case_t, VSF_TEST_ADC_TEMPERATURE_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_adc_stream_table_t, vsf_test_adc_stream_suite_t, vsf_test_adc_stream_case_t, VSF_TEST_ADC_STREAM_CASE_COUNT);
-
-/*============================ STATIC INIT MACROS ============================*/
-
-#if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-#define VSF_TEST_ADC_ONESHOT_STATIC(suite_var, name_str) \
-    static vsf_test_adc_oneshot_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_ADC_ONESHOT_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_ADC, \
-            .adc        = VSF_BOARD_ADC_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_ADC_ONESHOT_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_ADC_ONESHOT_CASES(suite_var.data, vsf_test_adc_oneshot_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-#define VSF_TEST_ADC_TEMPERATURE_STATIC(suite_var, name_str) \
-    static vsf_test_adc_temperature_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_ADC_TEMPERATURE_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_ADC, \
-            .adc        = VSF_BOARD_ADC_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_ADC_TEMPERATURE_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_ADC_TEMPERATURE_CASES(suite_var.data, vsf_test_adc_temperature_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
-#define VSF_TEST_ADC_STREAM_STATIC(suite_var, name_str) \
-    static vsf_test_adc_stream_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_ADC_STREAM_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_ADC, \
-            .adc        = VSF_BOARD_ADC_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_ADC_STREAM_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_ADC_STREAM_CASES(suite_var.data, vsf_test_adc_stream_run, false) }, \
-    }
-#endif
-
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED

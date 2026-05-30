@@ -81,43 +81,6 @@ vsf_class(vsf_test_wdt_reboot_case_t) {
 };
 #endif
 
-/*============================ STATIC TABLE TYPES ============================*/
-
-VSF_TEST_DECLARE_TABLE(vsf_test_wdt_basic_table_t, vsf_test_wdt_basic_suite_t, vsf_test_wdt_basic_case_t, VSF_TEST_WDT_BASIC_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_wdt_reboot_table_t, vsf_test_wdt_reboot_suite_t, vsf_test_wdt_reboot_case_t, VSF_TEST_WDT_REBOOT_CASE_COUNT);
-
-/*============================ STATIC INIT MACROS ============================*/
-
-#if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
-#define VSF_TEST_WDT_BASIC_STATIC(suite_var, name_str) \
-    static vsf_test_wdt_basic_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_WDT_BASIC_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_WDT, \
-            .wdt        = VSF_BOARD_WDT_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_WDT_BASIC_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_WDT_BASIC_CASES(suite_var.data, vsf_test_wdt_basic_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
-#define VSF_TEST_WDT_REBOOT_STATIC(suite_var, name_str) \
-    static vsf_test_wdt_reboot_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_WDT_REBOOT_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_WDT, \
-            .wdt        = VSF_BOARD_WDT_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_WDT_REBOOT_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_WDT_REBOOT_CASES(suite_var.data, vsf_test_wdt_reboot_run, false) }, \
-    }
-#endif
-
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED

@@ -130,59 +130,6 @@ vsf_class(vsf_test_timer_async_case_t) {
 };
 #endif
 
-/*============================ STATIC TABLE TYPES ============================*/
-
-VSF_TEST_DECLARE_TABLE(vsf_test_timer_oneshot_table_t, vsf_test_timer_oneshot_suite_t, vsf_test_timer_oneshot_case_t, VSF_TEST_TIMER_ONESHOT_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_timer_periodic_table_t, vsf_test_timer_periodic_suite_t, vsf_test_timer_periodic_case_t, VSF_TEST_TIMER_PERIODIC_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_timer_async_table_t, vsf_test_timer_async_suite_t, vsf_test_timer_async_case_t, VSF_TEST_TIMER_ASYNC_CASE_COUNT);
-
-/*============================ STATIC INIT MACROS ============================*/
-
-#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-#define VSF_TEST_TIMER_ONESHOT_STATIC(suite_var, name_str) \
-    static vsf_test_timer_oneshot_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_TIMER_ONESHOT_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_TIMER, \
-            .timer      = VSF_BOARD_TIMER_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_TIMER_ONESHOT_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_TIMER_ONESHOT_CASES(suite_var.data, vsf_test_timer_oneshot_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-#define VSF_TEST_TIMER_PERIODIC_STATIC(suite_var, name_str) \
-    static vsf_test_timer_periodic_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_TIMER_PERIODIC_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_TIMER, \
-            .timer      = VSF_BOARD_TIMER_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_TIMER_PERIODIC_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_TIMER_PERIODIC_CASES(suite_var.data, vsf_test_timer_periodic_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
-#define VSF_TEST_TIMER_ASYNC_STATIC(suite_var, name_str) \
-    static vsf_test_timer_async_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_TIMER_ASYNC_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_TIMER, \
-            .timer      = VSF_BOARD_TIMER_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_TIMER_ASYNC_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_TIMER_ASYNC_CASES(suite_var.data, vsf_test_timer_async_run, false) }, \
-    }
-#endif
-
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED

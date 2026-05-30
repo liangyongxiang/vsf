@@ -101,59 +101,6 @@ vsf_class(vsf_test_dma_scatter_gather_case_t) {
 };
 #endif
 
-/*============================ STATIC TABLE TYPES ============================*/
-
-VSF_TEST_DECLARE_TABLE(vsf_test_dma_mem2mem_table_t, vsf_test_dma_mem2mem_suite_t, vsf_test_dma_mem2mem_case_t, VSF_TEST_DMA_MEM2MEM_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_dma_mem2mem_irq_table_t, vsf_test_dma_mem2mem_irq_suite_t, vsf_test_dma_mem2mem_irq_case_t, VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT);
-VSF_TEST_DECLARE_TABLE(vsf_test_dma_scatter_gather_table_t, vsf_test_dma_scatter_gather_suite_t, vsf_test_dma_scatter_gather_case_t, VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT);
-
-/*============================ STATIC INIT MACROS ============================*/
-
-#if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-#define VSF_TEST_DMA_MEM2MEM_STATIC(suite_var, name_str) \
-    static vsf_test_dma_mem2mem_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_DMA_MEM2MEM_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_DMA, \
-            .dma        = VSF_BOARD_DMA_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_DMA_MEM2MEM_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_DMA_MEM2MEM_CASES(suite_var.data, vsf_test_dma_mem2mem_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-#define VSF_TEST_DMA_MEM2MEM_IRQ_STATIC(suite_var, name_str) \
-    static vsf_test_dma_mem2mem_irq_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_DMA, \
-            .dma        = VSF_BOARD_DMA_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_DMA_MEM2MEM_IRQ_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_DMA_MEM2MEM_IRQ_CASES(suite_var.data, vsf_test_dma_mem2mem_irq_run, false) }, \
-    }
-#endif
-
-#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-#define VSF_TEST_DMA_SCATTER_GATHER_STATIC(suite_var, name_str) \
-    static vsf_test_dma_scatter_gather_table_t suite_var = { \
-        .suite = { \
-            .name       = name_str, \
-            .cases      = suite_var.cases, \
-            .case_count = VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT, \
-            .peripheral_type = VSF_PERIPHERAL_TYPE_DMA, \
-            .dma        = VSF_BOARD_DMA_INSTANCE, \
-        }, \
-        .data  = { VSF_TEST_DMA_SCATTER_GATHER_CASE_DATA(&suite_var.suite) }, \
-        .cases = { VSF_TEST_DMA_SCATTER_GATHER_CASES(suite_var.data, vsf_test_dma_scatter_gather_run, false) }, \
-    }
-#endif
-
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED

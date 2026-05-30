@@ -142,7 +142,7 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_init)(
         return VSF_ERR_INVALID_PARAMETER;
     }
 
-    uint32_t div_16 = __rp2040_pwm_compute_div(clk_sys, freq, top);
+    uint32_t div_16 = __rp2040_pwm_compute_div(sys_hz, freq, top);
     pwm_ptr->div_value = div_16;
     slice_hw->div = div_16;
 

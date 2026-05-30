@@ -6,29 +6,29 @@ Tool name: **`vsf-bench`**
 
 ```bash
 # Full pipeline: build + flash + test all scenes
-vsf-bench --all board/<board>/hardware-map.yml
+vsf-bench --all vsf.demo/board/<board>/hardware-map.yml
 
 # Run specific scene (all cases)
-vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud
+vsf-bench --all vsf.demo/board/<board>/hardware-map.yml --suite usart_baud
 
-# Run specific case by parameter value
-vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud --case 921600
+# Run specific case by parameter value (requires --test-params)
+vsf-bench --all vsf.demo/board/<board>/hardware-map.yml --suite usart_baud --case 921600 --test-params vsf.demo/application/component/vsf-test/test_params.yml
 
 # Run specific case by index (fallback)
-vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud --case-index 7
+vsf-bench --all vsf.demo/board/<board>/hardware-map.yml --suite usart_baud --case-index 7
 
 # Run multiple scenes
-vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud --suite usart_mode
+vsf-bench --all vsf.demo/board/<board>/hardware-map.yml --suite usart_baud --suite usart_mode
 
 # Override default script for a scene
-vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud --script path/to/custom.py
+vsf-bench --all vsf.demo/board/<board>/hardware-map.yml --suite usart_baud --script path/to/custom.py
 
 # Individual steps
-vsf-bench --build  board/<board>/hardware-map.yml
-vsf-bench --flash  board/<board>/hardware-map.yml
-vsf-bench --test   board/<board>/hardware-map.yml
-vsf-bench --build --flash board/<board>/hardware-map.yml
-vsf-bench --build --test  board/<board>/hardware-map.yml
+vsf-bench --build  vsf.demo/board/<board>/hardware-map.yml
+vsf-bench --flash  vsf.demo/board/<board>/hardware-map.yml
+vsf-bench --test   vsf.demo/board/<board>/hardware-map.yml
+vsf-bench --build --flash vsf.demo/board/<board>/hardware-map.yml
+vsf-bench --build --test  vsf.demo/board/<board>/hardware-map.yml
 ```
 
 ## Orchestrator Behavior
@@ -50,17 +50,23 @@ After the trigger, the script runs immediately. The script waits for completion 
 Scripts are **validation-only**. They do NOT send trigger commands.
 
 ```python
-def run(project_root: Path, serial: SerialInstrument) -> None:
+def run(serial: SerialInstrument) -> None:
     serial.expect_test_summary("gpio_toggle")
 ```
 
 For scripts that need LA decode:
 
 ```python
-def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument) -> None:
+def run(serial: SerialInstrument, la: LogicAnalyzerInstrument | None = None) -> None:
     serial.expect_test_summary("usart_baud", timeout=120.0)
-    la.stop()
-    la.wait(timeout=30.0)
+```
+
+Decode phase (called after LA capture stops):
+
+```python
+def decode(la: LogicAnalyzerInstrument,
+           decode_start_ns: int | None = None,
+           decode_end_ns: int | None = None) -> None:
     # decode markers, assert results...
 ```
 
@@ -96,9 +102,17 @@ The orchestrator scans `vsf.demo/vsf/test/vsf_test/*/suite/` relative to the pro
 
 ## Logic Analyzer
 
-Configured via `hardware-map.yml` → `logic_analyzer` section.
+LA is **auto-detected**: if a script defines `decode()`, the orchestrator treats it as LA-needing and starts a capture. If the script has no `decode()`, no LA is used for that scene.
 
-Per-scene capture: LA starts before trigger, stops after script returns (or when script calls `la.stop()`). `dsview-cli` needs ~3s to initialize; the orchestrator adds this delay automatically for LA-using scenes.
+Hardware config: `hardware-map.yml` contains an optional `logic_analyzer` section with `device`, `samplerate`, and `channels`. No `cli` field is needed — `dsview-cli` is resolved from `PATH`.
+
+To run without an LA, use a hardware-map that omits the `logic_analyzer` section (e.g. `hardware-map-no-la.yml`).
+
+Capture modes (`--la-mode`):
+- `shared` (default): one continuous capture for the entire run. Fastest, smallest file count.
+- `per-suite`: one capture per suite. Larger files, but decode windows are isolated.
+
+`dsview-cli` needs ~3s to initialize; the orchestrator adds this delay automatically for LA-using scenes.
 
 ## Audit Log
 
@@ -114,5 +128,5 @@ Written to `logs/<timestamp>-<run_name>/vsf-bench.jsonl`. Each line is a JSON ev
 | No serial data | Verify port path in hardware-map.yml `serial` field |
 | Garbled output | Verify baud rate matches board firmware config |
 | `Scene not found` in firmware | Scene is disabled in firmware config (e.g. `VSF_TEST_USART_RX_BAUD_ENABLE = DISABLED`). Use `--suite` to select only enabled scenes. |
-| `LA capture did not finish` | dsview-cli device not found; check `logic_analyzer` section in hardware-map.yml |
+| `LA capture did not finish` | dsview-cli not in PATH or device not found; ensure dsview-cli is installed and in PATH |
 | Script sees empty buffer | Previous `expect()` timed out but `_leftover` preserved data; should work with fixed serial_instrument |

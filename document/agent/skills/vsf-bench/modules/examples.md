@@ -3,7 +3,7 @@
 ## Full build-flash-test loop after driver changes
 
 ```bash
-vsf-bench --all board/pico/hardware-map.yml
+vsf-bench --all vsf.demo/board/rp2040/hardware-map.yml
 ```
 
 ## Pipeline failure handling
@@ -16,12 +16,12 @@ vsf-bench --all board/pico/hardware-map.yml
 
 ```bash
 # Before debugging any peripheral, rule out wiring issues:
-vsf-bench --all board/<board>/hardware-map.yml --suite gpio_io_check
+vsf-bench --all vsf.demo/board/<board>/hardware-map.yml --suite gpio_io_check
 # If gpio_io_check passes but usart_baud fails, the issue is in the driver, not wiring.
 ```
 
 ## Running a single test scenario during driver development
 
 ```bash
-vsf-bench --all board/<board>/hardware-map.yml --suite usart_baud
+vsf-bench --all vsf.demo/board/<board>/hardware-map.yml --suite usart_baud
 ```

@@ -22,7 +22,8 @@ DO NOT USE FOR:
 
 - **Orchestrator flow:** `build → flash → for each scene: send trigger → run script`. Trigger is `vsf-test run <scene>` over serial.
 - **Hardware map:** `hardware-map.yml` defines `build.source_dir`, `serial.port`/`baudrate`, `flash.runner` (swd or uf2).
-- **Script signature:** `def run(project_root, serial, la=None)`. Scripts validate only — orchestrator sends triggers. Exception = FAIL, normal return = PASS.
+- **Script signature:** `def run(serial, la=None)`. Scripts validate only — orchestrator sends triggers. Exception = FAIL, normal return = PASS.
+- **Path model:** All paths are cwd-relative or absolute. No `project_root` parameter.
 
 ## Testing strategy
 
@@ -32,25 +33,25 @@ DO NOT USE FOR:
 
 ```bash
 # Full regression (build + flash + ALL suites) — SLOW, final gate only
-vsf-bench --all board/<board>/hardware-map.yml
+vsf-bench --all vsf.demo/board/<board>/hardware-map.yml
 
 # Development: build + flash + single suite (fast)
-vsf-bench --all board/<board>/hardware-map.yml --suite <name>
+vsf-bench --all vsf.demo/board/<board>/hardware-map.yml --suite <name>
 
 # Fastest iteration: test-only, no rebuild (firmware already flashed)
-vsf-bench --test board/<board>/hardware-map.yml --suite <name>
+vsf-bench --test vsf.demo/board/<board>/hardware-map.yml --suite <name>
 
 # Individual steps (for isolating failures)
-vsf-bench --build  board/<board>/hardware-map.yml
-vsf-bench --flash  board/<board>/hardware-map.yml
-vsf-bench --test   board/<board>/hardware-map.yml
+vsf-bench --build  vsf.demo/board/<board>/hardware-map.yml
+vsf-bench --flash  vsf.demo/board/<board>/hardware-map.yml
+vsf-bench --test   vsf.demo/board/<board>/hardware-map.yml
 ```
 
 ## Example: Full loop after driver changes
 
 ```bash
 # Build, flash, and run all test suites:
-vsf-bench --all board/pico/hardware-map.yml
+vsf-bench --all vsf.demo/board/rp2040/hardware-map.yml
 
 # If build succeeds but flash fails: stop — do not test
 # If flash succeeds but test fails: check logs for timeout, LA, or driver bug
@@ -75,7 +76,7 @@ If vsf-bench not installed: `pip install -e vsf.demo/vsf/test/vsf_bench`.
 
 - **Hardware required for flash/test:** `--flash` and `--test` need a connected board. Use `--build` only if no hardware.
 - **Test assumes firmware running:** `--test` alone does not flash first. For cold start, use `--all`.
-- **hardware-map.yml required:** tool cannot infer board config. If missing, copy from `board/pico/hardware-map.yml` as template and edit for your board.
+- **hardware-map.yml required:** tool cannot infer board config. If missing, copy from `vsf.demo/board/rp2040/hardware-map.yml` as template and edit for your board.
 - **No incremental builds:** always clean-rebuilds.
 
 ## Reference (optional supplementary reading)

@@ -7,8 +7,6 @@ Scripts are auto-discovered by vsf-bench. The orchestrator handles triggering;
 scripts only validate output.
 """
 
-from pathlib import Path
-
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 
@@ -20,7 +18,7 @@ SCENE_NAME = "<scene_name>"  # replace with actual scene name
 # Use when the firmware self-reports results and the host only needs to
 # confirm the test summary (no logic analyzer required).
 # ---------------------------------------------------------------------------
-def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrument | None = None) -> None:
+def run(serial: SerialInstrument, la: LogicAnalyzerInstrument | None = None) -> None:
     serial.expect_test_summary(SCENE_NAME)
 
 
@@ -34,14 +32,10 @@ def run(project_root: Path, serial: SerialInstrument, la: LogicAnalyzerInstrumen
 # after stopping the LA and merging captures.
 # ---------------------------------------------------------------------------
 # def decode(
-#     project_root: Path,
 #     la: LogicAnalyzerInstrument,
 #     decode_start_ns: int | None = None,
 #     decode_end_ns: int | None = None,
 # ) -> None:
-#     # Stop the LA capture (if not already stopped by the orchestrator)
-#     # la.stop()
-#
 #     # Example: read decoded CSV rows from a UART channel
 #     # rows = la.read_csv_rows(la.output_dir / "uart_decoded.csv")
 #     # payload = b"Hello VSF\r\n"

@@ -14,7 +14,8 @@
  *                                                                           *
  *****************************************************************************/
 
-#include "vsf_test_suite_registry.h"
+#include "vsf_test_suites.h"
+#include "vsf_board.h"
 
 /*============================ SCENARIO STATE INSTANCE ========================*/
 

@@ -134,8 +134,8 @@ vsf_err_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_init)(
     slice_hw->cc = 0;
 
     /* Compute divider from requested frequency */
-    uint32_t clk_sys = clock_get_hz(clk_sys);
-    pwm_ptr->clk_sys_hz = clk_sys;
+    uint32_t sys_hz = clock_get_hz(clk_sys);
+    pwm_ptr->clk_sys_hz = sys_hz;
 
     uint32_t freq = cfg_ptr->freq;
     if (freq == 0) {
@@ -264,9 +264,9 @@ vsf_pwm_capability_t VSF_MCONNECT(VSF_PWM_CFG_IMP_PREFIX, _pwm_capability)(
 ) {
     VSF_HAL_ASSERT(pwm_ptr != NULL);
 
-    uint32_t clk_sys = clock_get_hz(clk_sys);
-    uint32_t max_freq = clk_sys / 1 / 2;    /* divider=1, TOP=1 */
-    uint32_t min_freq = clk_sys / 255 / (__RP2040_PWM_MAX_TOP + 1);
+    uint32_t sys_hz = clock_get_hz(clk_sys);
+    uint32_t max_freq = sys_hz / 1 / 2;    /* divider=1, TOP=1 */
+    uint32_t min_freq = sys_hz / 255 / (__RP2040_PWM_MAX_TOP + 1);
     if (min_freq < 1) {
         min_freq = 1;
     }

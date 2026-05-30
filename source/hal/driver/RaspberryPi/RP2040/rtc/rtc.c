@@ -202,8 +202,7 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_set)(
                  | ((uint32_t)(rtc_tm->tm_min  & 0x3F)  << RTC_SETUP_1_MIN_LSB)
                  | ((uint32_t)(rtc_tm->tm_sec  & 0x3F)  << RTC_SETUP_1_SEC_LSB);
 
-    reg->ctrl = RTC_CTRL_LOAD_BITS;
-    reg->ctrl = RTC_CTRL_RTC_ENABLE_BITS;
+    reg->ctrl = RTC_CTRL_LOAD_BITS | RTC_CTRL_RTC_ENABLE_BITS;
     __rp2040_rtc_wait_active(reg);
 
     return VSF_ERR_NONE;
@@ -247,8 +246,7 @@ vsf_err_t VSF_MCONNECT(VSF_RTC_CFG_IMP_PREFIX, _rtc_set_time)(
     reg->setup_0 = (uint32_t)(seconds & 0xFFFFFFFF);
     reg->setup_1 = (uint32_t)(seconds >> 32);
 
-    reg->ctrl = RTC_CTRL_LOAD_BITS;
-    reg->ctrl = RTC_CTRL_RTC_ENABLE_BITS;
+    reg->ctrl = RTC_CTRL_LOAD_BITS | RTC_CTRL_RTC_ENABLE_BITS;
     __rp2040_rtc_wait_active(reg);
 
     return VSF_ERR_NONE;

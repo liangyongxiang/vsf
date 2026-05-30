@@ -172,6 +172,7 @@ void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
         return;
     }
     vsf_test_case_t *test_case = &suite->cases[local_idx];
+    test_case->suite = suite;
 
     // Skip cases explicitly marked (e.g., by setup returning false).
     if (test_case->result == VSF_TEST_RESULT_SKIP) {

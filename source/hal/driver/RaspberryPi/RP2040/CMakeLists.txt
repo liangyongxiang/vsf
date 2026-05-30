@@ -18,10 +18,6 @@ add_subdirectory(spi)
 add_subdirectory(rng)
 add_subdirectory(dma)
 
-vsf_add_include_directories(
-    generated/pico_base
-)
-
 # include boot_stage2
 if(NOT TARGET bs2_default_library)
     add_subdirectory(${PICO_SDK_PATH}/src/rp2040/boot_stage2 ${CMAKE_CURRENT_BINARY_DIR}/boot_stage2)

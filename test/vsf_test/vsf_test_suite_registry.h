@@ -158,70 +158,70 @@ typedef struct {
     vsf_test_case_t i2c_slave_fifo[VSF_TEST_I2C_SLAVE_FIFO_CASE_COUNT];
 #endif
 #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-    vsf_test_case_t spi0_async[VSF_TEST_SPI_ASYNC_CASE_COUNT];
+    vsf_test_case_t spi_async[VSF_TEST_SPI_ASYNC_CASE_COUNT];
 #endif
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-    vsf_test_case_t spi0_loopback[VSF_TEST_SPI_LOOPBACK_CASE_COUNT];
+    vsf_test_case_t spi_loopback[VSF_TEST_SPI_LOOPBACK_CASE_COUNT];
 #endif
 #if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
-    vsf_test_case_t rng0_basic[VSF_TEST_RNG_BASIC_CASE_COUNT];
+    vsf_test_case_t rng_basic[VSF_TEST_RNG_BASIC_CASE_COUNT];
 #endif
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-    vsf_test_case_t adc0_oneshot[VSF_TEST_ADC_ONESHOT_CASE_COUNT];
+    vsf_test_case_t adc_oneshot[VSF_TEST_ADC_ONESHOT_CASE_COUNT];
 #endif
 #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
-    vsf_test_case_t adc0_stream[VSF_TEST_ADC_STREAM_CASE_COUNT];
+    vsf_test_case_t adc_stream[VSF_TEST_ADC_STREAM_CASE_COUNT];
 #endif
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-    vsf_test_case_t adc0_temperature[VSF_TEST_ADC_TEMPERATURE_CASE_COUNT];
+    vsf_test_case_t adc_temperature[VSF_TEST_ADC_TEMPERATURE_CASE_COUNT];
 #endif
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-    vsf_test_case_t pwm0_basic[VSF_TEST_PWM_BASIC_CASE_COUNT];
+    vsf_test_case_t pwm_basic[VSF_TEST_PWM_BASIC_CASE_COUNT];
 #endif
 #if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
-    vsf_test_case_t pwm0_dual_channel[VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT];
+    vsf_test_case_t pwm_dual_channel[VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT];
 #endif
 #if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
-    vsf_test_case_t pwm0_irq[VSF_TEST_PWM_IRQ_CASE_COUNT];
+    vsf_test_case_t pwm_irq[VSF_TEST_PWM_IRQ_CASE_COUNT];
 #endif
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-    vsf_test_case_t dma0_mem2mem[VSF_TEST_DMA_MEM2MEM_CASE_COUNT];
+    vsf_test_case_t dma_mem2mem[VSF_TEST_DMA_MEM2MEM_CASE_COUNT];
 #endif
 #if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-    vsf_test_case_t dma0_mem2mem_irq[VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT];
+    vsf_test_case_t dma_mem2mem_irq[VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT];
 #endif
 #if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-    vsf_test_case_t dma0_scatter_gather[VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT];
+    vsf_test_case_t dma_scatter_gather[VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT];
 #endif
 #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
-    vsf_test_case_t timer0_async[VSF_TEST_TIMER_ASYNC_CASE_COUNT];
+    vsf_test_case_t timer_async[VSF_TEST_TIMER_ASYNC_CASE_COUNT];
 #endif
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-    vsf_test_case_t timer0_oneshot[VSF_TEST_TIMER_ONESHOT_CASE_COUNT];
+    vsf_test_case_t timer_oneshot[VSF_TEST_TIMER_ONESHOT_CASE_COUNT];
 #endif
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-    vsf_test_case_t timer0_periodic[VSF_TEST_TIMER_PERIODIC_CASE_COUNT];
+    vsf_test_case_t timer_periodic[VSF_TEST_TIMER_PERIODIC_CASE_COUNT];
 #endif
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-    vsf_test_case_t rtc0_alarm[VSF_TEST_RTC_ALARM_CASE_COUNT];
+    vsf_test_case_t rtc_alarm[VSF_TEST_RTC_ALARM_CASE_COUNT];
 #endif
 #if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
-    vsf_test_case_t rtc0_epoch[VSF_TEST_RTC_EPOCH_CASE_COUNT];
+    vsf_test_case_t rtc_epoch[VSF_TEST_RTC_EPOCH_CASE_COUNT];
 #endif
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-    vsf_test_case_t rtc0_set_get[VSF_TEST_RTC_SET_GET_CASE_COUNT];
+    vsf_test_case_t rtc_set_get[VSF_TEST_RTC_SET_GET_CASE_COUNT];
 #endif
 #if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-    vsf_test_case_t flash0_boundary[VSF_TEST_FLASH_BOUNDARY_CASE_COUNT];
+    vsf_test_case_t flash_boundary[VSF_TEST_FLASH_BOUNDARY_CASE_COUNT];
 #endif
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-    vsf_test_case_t flash0_erase_program_read[VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT];
+    vsf_test_case_t flash_erase_program_read[VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT];
 #endif
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
-    vsf_test_case_t wdt0_basic[VSF_TEST_WDT_BASIC_CASE_COUNT];
+    vsf_test_case_t wdt_basic[VSF_TEST_WDT_BASIC_CASE_COUNT];
 #endif
 #if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
-    vsf_test_case_t wdt0_reboot[VSF_TEST_WDT_REBOOT_CASE_COUNT];
+    vsf_test_case_t wdt_reboot[VSF_TEST_WDT_REBOOT_CASE_COUNT];
 #endif
 } vsf_test_all_cases_t;
 
@@ -356,70 +356,70 @@ typedef struct {
     vsf_test_i2c_slave_fifo_params_t i2c_slave_fifo[VSF_TEST_I2C_SLAVE_FIFO_CASE_COUNT];
 #endif
 #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-    vsf_test_spi_async_params_t spi0_async[VSF_TEST_SPI_ASYNC_CASE_COUNT];
+    vsf_test_spi_async_params_t spi_async[VSF_TEST_SPI_ASYNC_CASE_COUNT];
 #endif
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-    vsf_test_spi_loopback_params_t spi0_loopback[VSF_TEST_SPI_LOOPBACK_CASE_COUNT];
+    vsf_test_spi_loopback_params_t spi_loopback[VSF_TEST_SPI_LOOPBACK_CASE_COUNT];
 #endif
 #if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
-    vsf_test_rng_basic_params_t rng0_basic[VSF_TEST_RNG_BASIC_CASE_COUNT];
+    vsf_test_rng_basic_params_t rng_basic[VSF_TEST_RNG_BASIC_CASE_COUNT];
 #endif
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-    vsf_test_adc_oneshot_params_t adc0_oneshot[VSF_TEST_ADC_ONESHOT_CASE_COUNT];
+    vsf_test_adc_oneshot_params_t adc_oneshot[VSF_TEST_ADC_ONESHOT_CASE_COUNT];
 #endif
 #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
-    vsf_test_adc_stream_params_t adc0_stream[VSF_TEST_ADC_STREAM_CASE_COUNT];
+    vsf_test_adc_stream_params_t adc_stream[VSF_TEST_ADC_STREAM_CASE_COUNT];
 #endif
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-    vsf_test_adc_temperature_params_t adc0_temperature[VSF_TEST_ADC_TEMPERATURE_CASE_COUNT];
+    vsf_test_adc_temperature_params_t adc_temperature[VSF_TEST_ADC_TEMPERATURE_CASE_COUNT];
 #endif
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-    vsf_test_pwm_basic_params_t pwm0_basic[VSF_TEST_PWM_BASIC_CASE_COUNT];
+    vsf_test_pwm_basic_params_t pwm_basic[VSF_TEST_PWM_BASIC_CASE_COUNT];
 #endif
 #if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
-    vsf_test_pwm_dual_channel_params_t pwm0_dual_channel[VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT];
+    vsf_test_pwm_dual_channel_params_t pwm_dual_channel[VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT];
 #endif
 #if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
-    vsf_test_pwm_irq_params_t pwm0_irq[VSF_TEST_PWM_IRQ_CASE_COUNT];
+    vsf_test_pwm_irq_params_t pwm_irq[VSF_TEST_PWM_IRQ_CASE_COUNT];
 #endif
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-    vsf_test_dma_mem2mem_params_t dma0_mem2mem[VSF_TEST_DMA_MEM2MEM_CASE_COUNT];
+    vsf_test_dma_mem2mem_params_t dma_mem2mem[VSF_TEST_DMA_MEM2MEM_CASE_COUNT];
 #endif
 #if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-    vsf_test_dma_mem2mem_irq_params_t dma0_mem2mem_irq[VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT];
+    vsf_test_dma_mem2mem_irq_params_t dma_mem2mem_irq[VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT];
 #endif
 #if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-    vsf_test_dma_scatter_gather_params_t dma0_scatter_gather[VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT];
+    vsf_test_dma_scatter_gather_params_t dma_scatter_gather[VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT];
 #endif
 #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
-    vsf_test_timer_async_params_t timer0_async[VSF_TEST_TIMER_ASYNC_CASE_COUNT];
+    vsf_test_timer_async_params_t timer_async[VSF_TEST_TIMER_ASYNC_CASE_COUNT];
 #endif
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-    vsf_test_timer_oneshot_params_t timer0_oneshot[VSF_TEST_TIMER_ONESHOT_CASE_COUNT];
+    vsf_test_timer_oneshot_params_t timer_oneshot[VSF_TEST_TIMER_ONESHOT_CASE_COUNT];
 #endif
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-    vsf_test_timer_periodic_params_t timer0_periodic[VSF_TEST_TIMER_PERIODIC_CASE_COUNT];
+    vsf_test_timer_periodic_params_t timer_periodic[VSF_TEST_TIMER_PERIODIC_CASE_COUNT];
 #endif
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-    vsf_test_rtc_alarm_params_t rtc0_alarm[VSF_TEST_RTC_ALARM_CASE_COUNT];
+    vsf_test_rtc_alarm_params_t rtc_alarm[VSF_TEST_RTC_ALARM_CASE_COUNT];
 #endif
 #if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
-    vsf_test_rtc_epoch_params_t rtc0_epoch[VSF_TEST_RTC_EPOCH_CASE_COUNT];
+    vsf_test_rtc_epoch_params_t rtc_epoch[VSF_TEST_RTC_EPOCH_CASE_COUNT];
 #endif
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-    vsf_test_rtc_set_get_params_t rtc0_set_get[VSF_TEST_RTC_SET_GET_CASE_COUNT];
+    vsf_test_rtc_set_get_params_t rtc_set_get[VSF_TEST_RTC_SET_GET_CASE_COUNT];
 #endif
 #if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-    vsf_test_flash_boundary_params_t flash0_boundary[VSF_TEST_FLASH_BOUNDARY_CASE_COUNT];
+    vsf_test_flash_boundary_params_t flash_boundary[VSF_TEST_FLASH_BOUNDARY_CASE_COUNT];
 #endif
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-    vsf_test_flash_erase_program_read_params_t flash0_erase_program_read[VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT];
+    vsf_test_flash_erase_program_read_params_t flash_erase_program_read[VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT];
 #endif
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
-    vsf_test_wdt_basic_params_t wdt0_basic[VSF_TEST_WDT_BASIC_CASE_COUNT];
+    vsf_test_wdt_basic_params_t wdt_basic[VSF_TEST_WDT_BASIC_CASE_COUNT];
 #endif
 #if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
-    vsf_test_wdt_reboot_params_t wdt0_reboot[VSF_TEST_WDT_REBOOT_CASE_COUNT];
+    vsf_test_wdt_reboot_params_t wdt_reboot[VSF_TEST_WDT_REBOOT_CASE_COUNT];
 #endif
 } vsf_test_all_params_t;
 

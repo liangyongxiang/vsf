@@ -153,70 +153,70 @@ static const vsf_test_all_params_t __vsf_test_params = {
     .i2c_slave_fifo = { VSF_TEST_I2C_SLAVE_FIFO_PARAMS_INIT },
 #endif
 #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-    .spi0_async = { VSF_TEST_SPI_ASYNC_PARAMS_INIT },
+    .spi_async = { VSF_TEST_SPI_ASYNC_PARAMS_INIT },
 #endif
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-    .spi0_loopback = { VSF_TEST_SPI_LOOPBACK_PARAMS_INIT },
+    .spi_loopback = { VSF_TEST_SPI_LOOPBACK_PARAMS_INIT },
 #endif
 #if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
-    .rng0_basic = { VSF_TEST_RNG_BASIC_PARAMS_INIT },
+    .rng_basic = { VSF_TEST_RNG_BASIC_PARAMS_INIT },
 #endif
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-    .adc0_oneshot = { VSF_TEST_ADC_ONESHOT_PARAMS_INIT },
+    .adc_oneshot = { VSF_TEST_ADC_ONESHOT_PARAMS_INIT },
 #endif
 #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
-    .adc0_stream = { VSF_TEST_ADC_STREAM_PARAMS_INIT },
+    .adc_stream = { VSF_TEST_ADC_STREAM_PARAMS_INIT },
 #endif
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-    .adc0_temperature = { VSF_TEST_ADC_TEMPERATURE_PARAMS_INIT },
+    .adc_temperature = { VSF_TEST_ADC_TEMPERATURE_PARAMS_INIT },
 #endif
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-    .pwm0_basic = { VSF_TEST_PWM_BASIC_PARAMS_INIT },
+    .pwm_basic = { VSF_TEST_PWM_BASIC_PARAMS_INIT },
 #endif
 #if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
-    .pwm0_dual_channel = { VSF_TEST_PWM_DUAL_CHANNEL_PARAMS_INIT },
+    .pwm_dual_channel = { VSF_TEST_PWM_DUAL_CHANNEL_PARAMS_INIT },
 #endif
 #if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
-    .pwm0_irq = { VSF_TEST_PWM_IRQ_PARAMS_INIT },
+    .pwm_irq = { VSF_TEST_PWM_IRQ_PARAMS_INIT },
 #endif
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-    .dma0_mem2mem = { VSF_TEST_DMA_MEM2MEM_PARAMS_INIT },
+    .dma_mem2mem = { VSF_TEST_DMA_MEM2MEM_PARAMS_INIT },
 #endif
 #if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-    .dma0_mem2mem_irq = { VSF_TEST_DMA_MEM2MEM_IRQ_PARAMS_INIT },
+    .dma_mem2mem_irq = { VSF_TEST_DMA_MEM2MEM_IRQ_PARAMS_INIT },
 #endif
 #if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-    .dma0_scatter_gather = { VSF_TEST_DMA_SCATTER_GATHER_PARAMS_INIT },
+    .dma_scatter_gather = { VSF_TEST_DMA_SCATTER_GATHER_PARAMS_INIT },
 #endif
 #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
-    .timer0_async = { VSF_TEST_TIMER_ASYNC_PARAMS_INIT },
+    .timer_async = { VSF_TEST_TIMER_ASYNC_PARAMS_INIT },
 #endif
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-    .timer0_oneshot = { VSF_TEST_TIMER_ONESHOT_PARAMS_INIT },
+    .timer_oneshot = { VSF_TEST_TIMER_ONESHOT_PARAMS_INIT },
 #endif
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-    .timer0_periodic = { VSF_TEST_TIMER_PERIODIC_PARAMS_INIT },
+    .timer_periodic = { VSF_TEST_TIMER_PERIODIC_PARAMS_INIT },
 #endif
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-    .rtc0_alarm = { VSF_TEST_RTC_ALARM_PARAMS_INIT },
+    .rtc_alarm = { VSF_TEST_RTC_ALARM_PARAMS_INIT },
 #endif
 #if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
-    .rtc0_epoch = { VSF_TEST_RTC_EPOCH_PARAMS_INIT },
+    .rtc_epoch = { VSF_TEST_RTC_EPOCH_PARAMS_INIT },
 #endif
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-    .rtc0_set_get = { VSF_TEST_RTC_SET_GET_PARAMS_INIT },
+    .rtc_set_get = { VSF_TEST_RTC_SET_GET_PARAMS_INIT },
 #endif
 #if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-    .flash0_boundary = { VSF_TEST_FLASH_BOUNDARY_PARAMS_INIT },
+    .flash_boundary = { VSF_TEST_FLASH_BOUNDARY_PARAMS_INIT },
 #endif
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-    .flash0_erase_program_read = { VSF_TEST_FLASH_ERASE_PROGRAM_READ_PARAMS_INIT },
+    .flash_erase_program_read = { VSF_TEST_FLASH_ERASE_PROGRAM_READ_PARAMS_INIT },
 #endif
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
-    .wdt0_basic = { VSF_TEST_WDT_BASIC_PARAMS_INIT },
+    .wdt_basic = { VSF_TEST_WDT_BASIC_PARAMS_INIT },
 #endif
 #if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
-    .wdt0_reboot = { VSF_TEST_WDT_REBOOT_PARAMS_INIT },
+    .wdt_reboot = { VSF_TEST_WDT_REBOOT_PARAMS_INIT },
 #endif
 };
 
@@ -351,70 +351,70 @@ static vsf_test_all_cases_t __all_cases = {
     .i2c_slave_fifo = { VSF_TEST_I2C_SLAVE_FIFO_CASES(__vsf_test_params.i2c_slave_fifo, vsf_test_i2c_slave_fifo_run, false) },
 #endif
 #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-    .spi0_async = { VSF_TEST_SPI_ASYNC_CASES(__vsf_test_params.spi0_async, vsf_test_spi_async_run, false) },
+    .spi_async = { VSF_TEST_SPI_ASYNC_CASES(__vsf_test_params.spi_async, vsf_test_spi_async_run, false) },
 #endif
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-    .spi0_loopback = { VSF_TEST_SPI_LOOPBACK_CASES(__vsf_test_params.spi0_loopback, vsf_test_spi_loopback_run, false) },
+    .spi_loopback = { VSF_TEST_SPI_LOOPBACK_CASES(__vsf_test_params.spi_loopback, vsf_test_spi_loopback_run, false) },
 #endif
 #if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
-    .rng0_basic = { VSF_TEST_RNG_BASIC_CASES(__vsf_test_params.rng0_basic, vsf_test_rng_basic_run, false) },
+    .rng_basic = { VSF_TEST_RNG_BASIC_CASES(__vsf_test_params.rng_basic, vsf_test_rng_basic_run, false) },
 #endif
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-    .adc0_oneshot = { VSF_TEST_ADC_ONESHOT_CASES(__vsf_test_params.adc0_oneshot, vsf_test_adc_oneshot_run, false) },
+    .adc_oneshot = { VSF_TEST_ADC_ONESHOT_CASES(__vsf_test_params.adc_oneshot, vsf_test_adc_oneshot_run, false) },
 #endif
 #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
-    .adc0_stream = { VSF_TEST_ADC_STREAM_CASES(__vsf_test_params.adc0_stream, vsf_test_adc_stream_run, false) },
+    .adc_stream = { VSF_TEST_ADC_STREAM_CASES(__vsf_test_params.adc_stream, vsf_test_adc_stream_run, false) },
 #endif
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-    .adc0_temperature = { VSF_TEST_ADC_TEMPERATURE_CASES(__vsf_test_params.adc0_temperature, vsf_test_adc_temperature_run, false) },
+    .adc_temperature = { VSF_TEST_ADC_TEMPERATURE_CASES(__vsf_test_params.adc_temperature, vsf_test_adc_temperature_run, false) },
 #endif
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-    .pwm0_basic = { VSF_TEST_PWM_BASIC_CASES(__vsf_test_params.pwm0_basic, vsf_test_pwm_basic_run, false) },
+    .pwm_basic = { VSF_TEST_PWM_BASIC_CASES(__vsf_test_params.pwm_basic, vsf_test_pwm_basic_run, false) },
 #endif
 #if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
-    .pwm0_dual_channel = { VSF_TEST_PWM_DUAL_CHANNEL_CASES(__vsf_test_params.pwm0_dual_channel, vsf_test_pwm_dual_channel_run, false) },
+    .pwm_dual_channel = { VSF_TEST_PWM_DUAL_CHANNEL_CASES(__vsf_test_params.pwm_dual_channel, vsf_test_pwm_dual_channel_run, false) },
 #endif
 #if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
-    .pwm0_irq = { VSF_TEST_PWM_IRQ_CASES(__vsf_test_params.pwm0_irq, vsf_test_pwm_irq_run, false) },
+    .pwm_irq = { VSF_TEST_PWM_IRQ_CASES(__vsf_test_params.pwm_irq, vsf_test_pwm_irq_run, false) },
 #endif
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-    .dma0_mem2mem = { VSF_TEST_DMA_MEM2MEM_CASES(__vsf_test_params.dma0_mem2mem, vsf_test_dma_mem2mem_run, false) },
+    .dma_mem2mem = { VSF_TEST_DMA_MEM2MEM_CASES(__vsf_test_params.dma_mem2mem, vsf_test_dma_mem2mem_run, false) },
 #endif
 #if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-    .dma0_mem2mem_irq = { VSF_TEST_DMA_MEM2MEM_IRQ_CASES(__vsf_test_params.dma0_mem2mem_irq, vsf_test_dma_mem2mem_irq_run, false) },
+    .dma_mem2mem_irq = { VSF_TEST_DMA_MEM2MEM_IRQ_CASES(__vsf_test_params.dma_mem2mem_irq, vsf_test_dma_mem2mem_irq_run, false) },
 #endif
 #if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-    .dma0_scatter_gather = { VSF_TEST_DMA_SCATTER_GATHER_CASES(__vsf_test_params.dma0_scatter_gather, vsf_test_dma_scatter_gather_run, false) },
+    .dma_scatter_gather = { VSF_TEST_DMA_SCATTER_GATHER_CASES(__vsf_test_params.dma_scatter_gather, vsf_test_dma_scatter_gather_run, false) },
 #endif
 #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
-    .timer0_async = { VSF_TEST_TIMER_ASYNC_CASES(__vsf_test_params.timer0_async, vsf_test_timer_async_run, false) },
+    .timer_async = { VSF_TEST_TIMER_ASYNC_CASES(__vsf_test_params.timer_async, vsf_test_timer_async_run, false) },
 #endif
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-    .timer0_oneshot = { VSF_TEST_TIMER_ONESHOT_CASES(__vsf_test_params.timer0_oneshot, vsf_test_timer_oneshot_run, false) },
+    .timer_oneshot = { VSF_TEST_TIMER_ONESHOT_CASES(__vsf_test_params.timer_oneshot, vsf_test_timer_oneshot_run, false) },
 #endif
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-    .timer0_periodic = { VSF_TEST_TIMER_PERIODIC_CASES(__vsf_test_params.timer0_periodic, vsf_test_timer_periodic_run, false) },
+    .timer_periodic = { VSF_TEST_TIMER_PERIODIC_CASES(__vsf_test_params.timer_periodic, vsf_test_timer_periodic_run, false) },
 #endif
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-    .rtc0_alarm = { VSF_TEST_RTC_ALARM_CASES(__vsf_test_params.rtc0_alarm, vsf_test_rtc_alarm_run, false) },
+    .rtc_alarm = { VSF_TEST_RTC_ALARM_CASES(__vsf_test_params.rtc_alarm, vsf_test_rtc_alarm_run, false) },
 #endif
 #if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
-    .rtc0_epoch = { VSF_TEST_RTC_EPOCH_CASES(__vsf_test_params.rtc0_epoch, vsf_test_rtc_epoch_run, false) },
+    .rtc_epoch = { VSF_TEST_RTC_EPOCH_CASES(__vsf_test_params.rtc_epoch, vsf_test_rtc_epoch_run, false) },
 #endif
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-    .rtc0_set_get = { VSF_TEST_RTC_SET_GET_CASES(__vsf_test_params.rtc0_set_get, vsf_test_rtc_set_get_run, false) },
+    .rtc_set_get = { VSF_TEST_RTC_SET_GET_CASES(__vsf_test_params.rtc_set_get, vsf_test_rtc_set_get_run, false) },
 #endif
 #if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-    .flash0_boundary = { VSF_TEST_FLASH_BOUNDARY_CASES(__vsf_test_params.flash0_boundary, vsf_test_flash_boundary_run, false) },
+    .flash_boundary = { VSF_TEST_FLASH_BOUNDARY_CASES(__vsf_test_params.flash_boundary, vsf_test_flash_boundary_run, false) },
 #endif
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-    .flash0_erase_program_read = { VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASES(__vsf_test_params.flash0_erase_program_read, vsf_test_flash_erase_program_read_run, false) },
+    .flash_erase_program_read = { VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASES(__vsf_test_params.flash_erase_program_read, vsf_test_flash_erase_program_read_run, false) },
 #endif
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
-    .wdt0_basic = { VSF_TEST_WDT_BASIC_CASES(__vsf_test_params.wdt0_basic, vsf_test_wdt_basic_run, false) },
+    .wdt_basic = { VSF_TEST_WDT_BASIC_CASES(__vsf_test_params.wdt_basic, vsf_test_wdt_basic_run, false) },
 #endif
 #if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
-    .wdt0_reboot = { VSF_TEST_WDT_REBOOT_CASES(__vsf_test_params.wdt0_reboot, vsf_test_wdt_reboot_run, false) },
+    .wdt_reboot = { VSF_TEST_WDT_REBOOT_CASES(__vsf_test_params.wdt_reboot, vsf_test_wdt_reboot_run, false) },
 #endif
 };
 
@@ -768,7 +768,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
         {
             .name       = "spi_async",
-            .cases      = __all_cases.spi0_async,
+            .cases      = __all_cases.spi_async,
             .case_count = VSF_TEST_SPI_ASYNC_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_SPI,
         },
@@ -776,7 +776,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
         {
             .name       = "spi_loopback",
-            .cases      = __all_cases.spi0_loopback,
+            .cases      = __all_cases.spi_loopback,
             .case_count = VSF_TEST_SPI_LOOPBACK_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_SPI,
         },
@@ -784,7 +784,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
         {
             .name       = "rng_basic",
-            .cases      = __all_cases.rng0_basic,
+            .cases      = __all_cases.rng_basic,
             .case_count = VSF_TEST_RNG_BASIC_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_RNG,
         },
@@ -792,7 +792,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
         {
             .name       = "adc_oneshot",
-            .cases      = __all_cases.adc0_oneshot,
+            .cases      = __all_cases.adc_oneshot,
             .case_count = VSF_TEST_ADC_ONESHOT_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_ADC,
         },
@@ -800,7 +800,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
         {
             .name       = "adc_stream",
-            .cases      = __all_cases.adc0_stream,
+            .cases      = __all_cases.adc_stream,
             .case_count = VSF_TEST_ADC_STREAM_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_ADC,
         },
@@ -808,7 +808,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
         {
             .name       = "adc_temperature",
-            .cases      = __all_cases.adc0_temperature,
+            .cases      = __all_cases.adc_temperature,
             .case_count = VSF_TEST_ADC_TEMPERATURE_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_ADC,
         },
@@ -816,7 +816,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
         {
             .name       = "pwm_basic",
-            .cases      = __all_cases.pwm0_basic,
+            .cases      = __all_cases.pwm_basic,
             .case_count = VSF_TEST_PWM_BASIC_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_PWM,
         },
@@ -824,7 +824,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
         {
             .name       = "pwm_dual_channel",
-            .cases      = __all_cases.pwm0_dual_channel,
+            .cases      = __all_cases.pwm_dual_channel,
             .case_count = VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_PWM,
         },
@@ -832,7 +832,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
         {
             .name       = "pwm_irq",
-            .cases      = __all_cases.pwm0_irq,
+            .cases      = __all_cases.pwm_irq,
             .case_count = VSF_TEST_PWM_IRQ_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_PWM,
         },
@@ -840,7 +840,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
         {
             .name       = "dma_mem2mem",
-            .cases      = __all_cases.dma0_mem2mem,
+            .cases      = __all_cases.dma_mem2mem,
             .case_count = VSF_TEST_DMA_MEM2MEM_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_DMA,
         },
@@ -848,7 +848,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
         {
             .name       = "dma_mem2mem_irq",
-            .cases      = __all_cases.dma0_mem2mem_irq,
+            .cases      = __all_cases.dma_mem2mem_irq,
             .case_count = VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_DMA,
         },
@@ -856,7 +856,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
         {
             .name       = "dma_scatter_gather",
-            .cases      = __all_cases.dma0_scatter_gather,
+            .cases      = __all_cases.dma_scatter_gather,
             .case_count = VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_DMA,
         },
@@ -864,7 +864,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
         {
             .name       = "timer_async",
-            .cases      = __all_cases.timer0_async,
+            .cases      = __all_cases.timer_async,
             .case_count = VSF_TEST_TIMER_ASYNC_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_TIMER,
         },
@@ -872,7 +872,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
         {
             .name       = "timer_oneshot",
-            .cases      = __all_cases.timer0_oneshot,
+            .cases      = __all_cases.timer_oneshot,
             .case_count = VSF_TEST_TIMER_ONESHOT_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_TIMER,
         },
@@ -880,7 +880,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
         {
             .name       = "timer_periodic",
-            .cases      = __all_cases.timer0_periodic,
+            .cases      = __all_cases.timer_periodic,
             .case_count = VSF_TEST_TIMER_PERIODIC_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_TIMER,
         },
@@ -888,7 +888,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
         {
             .name       = "rtc_alarm",
-            .cases      = __all_cases.rtc0_alarm,
+            .cases      = __all_cases.rtc_alarm,
             .case_count = VSF_TEST_RTC_ALARM_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_RTC,
         },
@@ -896,7 +896,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
         {
             .name       = "rtc_epoch",
-            .cases      = __all_cases.rtc0_epoch,
+            .cases      = __all_cases.rtc_epoch,
             .case_count = VSF_TEST_RTC_EPOCH_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_RTC,
         },
@@ -904,7 +904,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
         {
             .name       = "rtc_set_get",
-            .cases      = __all_cases.rtc0_set_get,
+            .cases      = __all_cases.rtc_set_get,
             .case_count = VSF_TEST_RTC_SET_GET_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_RTC,
         },
@@ -912,7 +912,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
         {
             .name       = "flash_boundary",
-            .cases      = __all_cases.flash0_boundary,
+            .cases      = __all_cases.flash_boundary,
             .case_count = VSF_TEST_FLASH_BOUNDARY_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_FLASH,
         },
@@ -920,7 +920,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
         {
             .name       = "flash_erase_program_read",
-            .cases      = __all_cases.flash0_erase_program_read,
+            .cases      = __all_cases.flash_erase_program_read,
             .case_count = VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_FLASH,
         },
@@ -928,7 +928,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
         {
             .name       = "wdt_basic",
-            .cases      = __all_cases.wdt0_basic,
+            .cases      = __all_cases.wdt_basic,
             .case_count = VSF_TEST_WDT_BASIC_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_WDT,
         },
@@ -936,7 +936,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
 #if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
         {
             .name       = "wdt_reboot",
-            .cases      = __all_cases.wdt0_reboot,
+            .cases      = __all_cases.wdt_reboot,
             .case_count = VSF_TEST_WDT_REBOOT_CASE_COUNT,
             .peripheral_type = VSF_PERIPHERAL_TYPE_WDT,
         },

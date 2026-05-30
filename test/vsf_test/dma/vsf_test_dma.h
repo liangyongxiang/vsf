@@ -41,6 +41,15 @@ extern "C" {
 #   define VSF_TEST_DMA_SCATTER_GATHER_ENABLE  ENABLED
 #endif
 
+#ifndef VSF_TEST_DMA_ENABLE
+#   define VSF_TEST_DMA_ENABLE    ENABLED
+#endif
+
+
+#include "suite/vsf_test_dma_mem2mem_irq.h"
+#include "suite/vsf_test_dma_scatter_gather.h"
+
+
 /*============================ TYPES =========================================*/
 
 
@@ -72,6 +81,38 @@ vsf_class(vsf_test_dma_scatter_gather_params_t) {
         bool     expect_pass;
     )
 };
+#endif
+
+
+#if VSF_TEST_DMA_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
+    vsf_test_case_t dma_mem2mem[VSF_TEST_DMA_MEM2MEM_CASE_COUNT];
+#endif
+#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
+    vsf_test_case_t dma_mem2mem_irq[VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
+    vsf_test_case_t dma_scatter_gather[VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT];
+#endif
+} vsf_test_dma_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_dma_cases_t;
+#endif
+#if VSF_TEST_DMA_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
+    vsf_test_dma_mem2mem_params_t dma_mem2mem[VSF_TEST_DMA_MEM2MEM_CASE_COUNT];
+#endif
+#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
+    vsf_test_dma_mem2mem_irq_params_t dma_mem2mem_irq[VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
+    vsf_test_dma_scatter_gather_params_t dma_scatter_gather[VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT];
+#endif
+} vsf_test_dma_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_dma_params_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/
@@ -116,8 +157,6 @@ void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_te
     __vsf_test_dma_mem2mem_irq_suite \
     __vsf_test_dma_scatter_gather_suite
 
-#include "suite/vsf_test_dma_mem2mem_irq.h"
-#include "suite/vsf_test_dma_scatter_gather.h"
 
 #endif /* __VSF_TEST_DMA_H__ */
 /* EOF */

@@ -102,6 +102,17 @@ extern "C" {
 #   define VSF_TEST_GPIO_IO_CHECK_ENABLE          DISABLED
 #endif
 
+#ifndef VSF_TEST_GPIO_ENABLE
+#   define VSF_TEST_GPIO_ENABLE    ENABLED
+#endif
+
+
+#include "suite/vsf_test_gpio_concurrent_prio.h"
+#include "suite/vsf_test_gpio_exti.h"
+#include "suite/vsf_test_gpio_irq_latency.h"
+#include "suite/vsf_test_gpio_irq_lifecycle.h"
+
+
 /*============================ TYPES =========================================*/
 
 // Per-suite context (populated by __vsf_test in main.c)
@@ -299,6 +310,122 @@ vsf_class(vsf_test_gpio_io_check_params_t) {
 };
 #endif
 
+
+#if VSF_TEST_GPIO_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
+    vsf_test_case_t gpio_analog_mode[VSF_TEST_GPIO_ANALOG_MODE_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
+    vsf_test_case_t gpio_atomic[VSF_TEST_GPIO_ATOMIC_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
+    vsf_test_case_t gpio_concurrent_prio[VSF_TEST_GPIO_CONCURRENT_PRIO_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
+    vsf_test_case_t gpio_direction[VSF_TEST_GPIO_DIRECTION_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
+    vsf_test_case_t gpio_exti[VSF_TEST_GPIO_EXTI_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
+    vsf_test_case_t gpio_io_check[VSF_TEST_GPIO_IO_CHECK_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
+    vsf_test_case_t gpio_irq_latency[VSF_TEST_GPIO_IRQ_LATENCY_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
+    vsf_test_case_t gpio_irq_lifecycle[VSF_TEST_GPIO_IRQ_LIFECYCLE_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
+    vsf_test_case_t gpio_multi_pin[VSF_TEST_GPIO_MULTI_PIN_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
+    vsf_test_case_t gpio_open_drain[VSF_TEST_GPIO_OPEN_DRAIN_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
+    vsf_test_case_t gpio_output_input[VSF_TEST_GPIO_OUTPUT_INPUT_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
+    vsf_test_case_t gpio_pinmux[VSF_TEST_GPIO_PINMUX_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
+    vsf_test_case_t gpio_systimer_health[VSF_TEST_GPIO_SYSTIMER_HEALTH_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
+    vsf_test_case_t gpio_toggle[VSF_TEST_GPIO_TOGGLE_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_TOGGLE_FREQ_ENABLE == ENABLED
+    vsf_test_case_t gpio_toggle_freq[VSF_TEST_GPIO_TOGGLE_FREQ_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
+    vsf_test_case_t gpio_toggle_stress[VSF_TEST_GPIO_TOGGLE_STRESS_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
+    vsf_test_case_t gpio_write_throughput[VSF_TEST_GPIO_WRITE_THROUGHPUT_CASE_COUNT];
+#endif
+} vsf_test_gpio_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_gpio_cases_t;
+#endif
+#if VSF_TEST_GPIO_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
+    vsf_test_gpio_analog_mode_params_t gpio_analog_mode[VSF_TEST_GPIO_ANALOG_MODE_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
+    vsf_test_gpio_atomic_params_t gpio_atomic[VSF_TEST_GPIO_ATOMIC_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
+    vsf_test_gpio_concurrent_prio_params_t gpio_concurrent_prio[VSF_TEST_GPIO_CONCURRENT_PRIO_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
+    vsf_test_gpio_direction_params_t gpio_direction[VSF_TEST_GPIO_DIRECTION_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
+    vsf_test_gpio_exti_params_t gpio_exti[VSF_TEST_GPIO_EXTI_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
+    vsf_test_gpio_io_check_params_t gpio_io_check[VSF_TEST_GPIO_IO_CHECK_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
+    vsf_test_gpio_irq_latency_params_t gpio_irq_latency[VSF_TEST_GPIO_IRQ_LATENCY_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
+    vsf_test_gpio_irq_lifecycle_params_t gpio_irq_lifecycle[VSF_TEST_GPIO_IRQ_LIFECYCLE_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
+    vsf_test_gpio_multi_pin_params_t gpio_multi_pin[VSF_TEST_GPIO_MULTI_PIN_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
+    vsf_test_gpio_open_drain_params_t gpio_open_drain[VSF_TEST_GPIO_OPEN_DRAIN_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
+    vsf_test_gpio_output_input_params_t gpio_output_input[VSF_TEST_GPIO_OUTPUT_INPUT_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
+    vsf_test_gpio_pinmux_params_t gpio_pinmux[VSF_TEST_GPIO_PINMUX_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
+    vsf_test_gpio_systimer_health_params_t gpio_systimer_health[VSF_TEST_GPIO_SYSTIMER_HEALTH_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
+    vsf_test_gpio_toggle_params_t gpio_toggle[VSF_TEST_GPIO_TOGGLE_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_TOGGLE_FREQ_ENABLE == ENABLED
+    vsf_test_gpio_toggle_freq_params_t gpio_toggle_freq[VSF_TEST_GPIO_TOGGLE_FREQ_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
+    vsf_test_gpio_toggle_stress_params_t gpio_toggle_stress[VSF_TEST_GPIO_TOGGLE_STRESS_CASE_COUNT];
+#endif
+#if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
+    vsf_test_gpio_write_throughput_params_t gpio_write_throughput[VSF_TEST_GPIO_WRITE_THROUGHPUT_CASE_COUNT];
+#endif
+} vsf_test_gpio_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_gpio_params_t;
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
@@ -485,10 +612,6 @@ void vsf_test_gpio_io_check_run(const vsf_test_suite_t *suite, const vsf_test_ca
     __vsf_test_gpio_toggle_stress_suite \
     __vsf_test_gpio_write_throughput_suite
 
-#include "suite/vsf_test_gpio_concurrent_prio.h"
-#include "suite/vsf_test_gpio_exti.h"
-#include "suite/vsf_test_gpio_irq_latency.h"
-#include "suite/vsf_test_gpio_irq_lifecycle.h"
 
 #endif  /* __VSF_TEST_GPIO_H__ */
 /* EOF */

@@ -43,6 +43,11 @@ extern "C" {
 #   define VSF_TEST_PWM_IRQ_ENABLE             ENABLED
 #endif
 
+#ifndef VSF_TEST_PWM_ENABLE
+#   define VSF_TEST_PWM_ENABLE    ENABLED
+#endif
+
+
 /*============================ TYPES =========================================*/
 
 
@@ -94,6 +99,38 @@ vsf_class(vsf_test_pwm_irq_params_t) {
         uint32_t test_ms;
     )
 };
+#endif
+
+
+#if VSF_TEST_PWM_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
+    vsf_test_case_t pwm_basic[VSF_TEST_PWM_BASIC_CASE_COUNT];
+#endif
+#if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
+    vsf_test_case_t pwm_dual_channel[VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT];
+#endif
+#if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
+    vsf_test_case_t pwm_irq[VSF_TEST_PWM_IRQ_CASE_COUNT];
+#endif
+} vsf_test_pwm_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_pwm_cases_t;
+#endif
+#if VSF_TEST_PWM_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
+    vsf_test_pwm_basic_params_t pwm_basic[VSF_TEST_PWM_BASIC_CASE_COUNT];
+#endif
+#if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
+    vsf_test_pwm_dual_channel_params_t pwm_dual_channel[VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT];
+#endif
+#if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
+    vsf_test_pwm_irq_params_t pwm_irq[VSF_TEST_PWM_IRQ_CASE_COUNT];
+#endif
+} vsf_test_pwm_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_pwm_params_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

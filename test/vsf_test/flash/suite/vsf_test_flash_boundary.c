@@ -74,7 +74,7 @@ void vsf_test_flash_boundary_run(const vsf_test_suite_t *suite, const vsf_test_c
 
     /* Prepare test pattern. */
     for (uint32_t i = 0; i < size; i++) {
-        vsf_test_suite_data.flash_boundary.write_buf[i] = (uint8_t)(0xA5 + i);
+        vsf_test_suite_data.flash.flash_boundary.write_buf[i] = (uint8_t)(0xA5 + i);
     }
 
     /* Phase 1: Erase. */
@@ -82,14 +82,14 @@ void vsf_test_flash_boundary_run(const vsf_test_suite_t *suite, const vsf_test_c
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     /* Phase 2: Program across page boundary. */
-    err = vsf_flash_write_multi_sector(flash, offset, vsf_test_suite_data.flash_boundary.write_buf, size);
+    err = vsf_flash_write_multi_sector(flash, offset, vsf_test_suite_data.flash.flash_boundary.write_buf, size);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     /* Phase 3: Read back and verify. */
-    err = vsf_flash_read_multi_sector(flash, offset, vsf_test_suite_data.flash_boundary.read_buf, size);
+    err = vsf_flash_read_multi_sector(flash, offset, vsf_test_suite_data.flash.flash_boundary.read_buf, size);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     for (uint32_t i = 0; i < size; i++) {
-        VSF_TEST_ASSERT(vsf_test_suite_data.flash_boundary.read_buf[i] == vsf_test_suite_data.flash_boundary.write_buf[i]);
+        VSF_TEST_ASSERT(vsf_test_suite_data.flash.flash_boundary.read_buf[i] == vsf_test_suite_data.flash.flash_boundary.write_buf[i]);
     }
 
     vsf_trace_info("FLASH:BOUNDARY:PASS offset=%lu size=%lu pages=%lu-%lu"

@@ -38,6 +38,11 @@ extern "C" {
 #   define VSF_TEST_WDT_REBOOT_ENABLE          DISABLED
 #endif
 
+#ifndef VSF_TEST_WDT_ENABLE
+#   define VSF_TEST_WDT_ENABLE    ENABLED
+#endif
+
+
 /*============================ TYPES =========================================*/
 
 
@@ -61,6 +66,32 @@ vsf_class(vsf_test_wdt_reboot_params_t) {
         uint16_t timeout_ms;
     )
 };
+#endif
+
+
+#if VSF_TEST_WDT_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
+    vsf_test_case_t wdt_basic[VSF_TEST_WDT_BASIC_CASE_COUNT];
+#endif
+#if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
+    vsf_test_case_t wdt_reboot[VSF_TEST_WDT_REBOOT_CASE_COUNT];
+#endif
+} vsf_test_wdt_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_wdt_cases_t;
+#endif
+#if VSF_TEST_WDT_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
+    vsf_test_wdt_basic_params_t wdt_basic[VSF_TEST_WDT_BASIC_CASE_COUNT];
+#endif
+#if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
+    vsf_test_wdt_reboot_params_t wdt_reboot[VSF_TEST_WDT_REBOOT_CASE_COUNT];
+#endif
+} vsf_test_wdt_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_wdt_params_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

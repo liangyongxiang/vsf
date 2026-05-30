@@ -81,7 +81,7 @@ void vsf_test_i2c_slave_run(const vsf_test_suite_t *suite, const vsf_test_case_t
     void **handles = (void **)fixture;
     vsf_i2c_t *master_i2c = (vsf_i2c_t *)handles[0];
     vsf_i2c_t *slave_i2c  = (vsf_i2c_t *)handles[1];
-    __i2c_slave_state_t *st = &vsf_test_suite_data.i2c_slave.i2c_slave_state;
+    __i2c_slave_state_t *st = &vsf_test_suite_data.i2c.i2c_slave.i2c_slave_state;
 
     memset(st, 0, sizeof(*st));
 

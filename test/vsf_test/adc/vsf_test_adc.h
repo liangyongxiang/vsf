@@ -41,6 +41,14 @@ extern "C" {
 #   define VSF_TEST_ADC_STREAM_ENABLE          ENABLED
 #endif
 
+#ifndef VSF_TEST_ADC_ENABLE
+#   define VSF_TEST_ADC_ENABLE    ENABLED
+#endif
+
+
+#include "suite/vsf_test_adc_stream.h"
+
+
 /*============================ TYPES =========================================*/
 
 
@@ -78,6 +86,38 @@ vsf_class(vsf_test_adc_stream_params_t) {
         uint16_t sample_count;
     )
 };
+#endif
+
+
+#if VSF_TEST_ADC_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
+    vsf_test_case_t adc_oneshot[VSF_TEST_ADC_ONESHOT_CASE_COUNT];
+#endif
+#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
+    vsf_test_case_t adc_stream[VSF_TEST_ADC_STREAM_CASE_COUNT];
+#endif
+#if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
+    vsf_test_case_t adc_temperature[VSF_TEST_ADC_TEMPERATURE_CASE_COUNT];
+#endif
+} vsf_test_adc_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_adc_cases_t;
+#endif
+#if VSF_TEST_ADC_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
+    vsf_test_adc_oneshot_params_t adc_oneshot[VSF_TEST_ADC_ONESHOT_CASE_COUNT];
+#endif
+#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
+    vsf_test_adc_stream_params_t adc_stream[VSF_TEST_ADC_STREAM_CASE_COUNT];
+#endif
+#if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
+    vsf_test_adc_temperature_params_t adc_temperature[VSF_TEST_ADC_TEMPERATURE_CASE_COUNT];
+#endif
+} vsf_test_adc_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_adc_params_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/
@@ -122,7 +162,6 @@ void vsf_test_adc_stream_run(const vsf_test_suite_t *suite, const vsf_test_case_
     __vsf_test_adc_stream_suite \
     __vsf_test_adc_temperature_suite
 
-#include "suite/vsf_test_adc_stream.h"
 
 #endif /* __VSF_TEST_ADC_H__ */
 /* EOF */

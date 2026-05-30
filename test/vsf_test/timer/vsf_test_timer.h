@@ -50,6 +50,16 @@ extern "C" {
 #   define VSF_TEST_TIMER_ASYNC_ENABLE           ENABLED
 #endif
 
+#ifndef VSF_TEST_TIMER_ENABLE
+#   define VSF_TEST_TIMER_ENABLE    ENABLED
+#endif
+
+
+#include "suite/vsf_test_timer_async.h"
+#include "suite/vsf_test_timer_oneshot.h"
+#include "suite/vsf_test_timer_periodic.h"
+
+
 /*============================ TYPES =========================================*/
 
 
@@ -88,6 +98,38 @@ vsf_class(vsf_test_timer_async_params_t) {
         uint32_t period_us;
     )
 };
+#endif
+
+
+#if VSF_TEST_TIMER_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
+    vsf_test_case_t timer_async[VSF_TEST_TIMER_ASYNC_CASE_COUNT];
+#endif
+#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
+    vsf_test_case_t timer_oneshot[VSF_TEST_TIMER_ONESHOT_CASE_COUNT];
+#endif
+#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
+    vsf_test_case_t timer_periodic[VSF_TEST_TIMER_PERIODIC_CASE_COUNT];
+#endif
+} vsf_test_timer_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_timer_cases_t;
+#endif
+#if VSF_TEST_TIMER_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
+    vsf_test_timer_async_params_t timer_async[VSF_TEST_TIMER_ASYNC_CASE_COUNT];
+#endif
+#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
+    vsf_test_timer_oneshot_params_t timer_oneshot[VSF_TEST_TIMER_ONESHOT_CASE_COUNT];
+#endif
+#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
+    vsf_test_timer_periodic_params_t timer_periodic[VSF_TEST_TIMER_PERIODIC_CASE_COUNT];
+#endif
+} vsf_test_timer_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_timer_params_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/
@@ -136,9 +178,6 @@ void vsf_test_timer_async_run(const vsf_test_suite_t *suite, const vsf_test_case
     __vsf_test_timer_oneshot_suite \
     __vsf_test_timer_periodic_suite
 
-#include "suite/vsf_test_timer_async.h"
-#include "suite/vsf_test_timer_oneshot.h"
-#include "suite/vsf_test_timer_periodic.h"
 
 #endif /* __VSF_TEST_TIMER_H__ */
 /* EOF */

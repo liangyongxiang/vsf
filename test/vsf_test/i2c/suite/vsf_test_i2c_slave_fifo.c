@@ -25,9 +25,9 @@ static void __master_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
 {
     (void)i2c_ptr;
     vsf_test_suite_t *suite = target_ptr;
-    vsf_test_suite_data.i2c_slave_fifo.master_irq_mask |= irq_mask;
+    vsf_test_suite_data.i2c.i2c_slave_fifo.master_irq_mask |= irq_mask;
     if (irq_mask & VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE) {
-        vsf_test_suite_data.i2c_slave_fifo.master_done = true;
+        vsf_test_suite_data.i2c.i2c_slave_fifo.master_done = true;
     }
 }
 
@@ -35,24 +35,24 @@ static void __slave_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
                         vsf_i2c_irq_mask_t irq_mask)
 {
     vsf_test_suite_t *suite = target_ptr;
-    vsf_test_suite_data.i2c_slave_fifo.slave_irq_mask |= irq_mask;
+    vsf_test_suite_data.i2c.i2c_slave_fifo.slave_irq_mask |= irq_mask;
 
     /* Slave receive via fifo_transfer: read available bytes from RX FIFO. */
     if (irq_mask & VSF_I2C_IRQ_MASK_SLAVE_RX) {
-        uint_fast16_t remaining = VSF_TEST_I2C_SLAVE_FIFO_SLAVE_BUF_SIZE - vsf_test_suite_data.i2c_slave_fifo.slave_rx_offset;
+        uint_fast16_t remaining = VSF_TEST_I2C_SLAVE_FIFO_SLAVE_BUF_SIZE - vsf_test_suite_data.i2c.i2c_slave_fifo.slave_rx_offset;
         uint_fast16_t got = vsf_i2c_slave_fifo_transfer(i2c_ptr, false,
-            remaining, vsf_test_suite_data.i2c_slave_fifo.slave_buf + vsf_test_suite_data.i2c_slave_fifo.slave_rx_offset);
-        vsf_test_suite_data.i2c_slave_fifo.slave_rx_offset += got;
+            remaining, vsf_test_suite_data.i2c.i2c_slave_fifo.slave_buf + vsf_test_suite_data.i2c.i2c_slave_fifo.slave_rx_offset);
+        vsf_test_suite_data.i2c.i2c_slave_fifo.slave_rx_offset += got;
     }
     if (irq_mask & (VSF_I2C_IRQ_MASK_SLAVE_TRANSFER_COMPLETE | VSF_I2C_IRQ_MASK_SLAVE_STOP_DETECT)) {
-        vsf_test_suite_data.i2c_slave_fifo.slave_complete = true;
+        vsf_test_suite_data.i2c.i2c_slave_fifo.slave_complete = true;
     }
 }
 
 static bool __wait_master_done(vsf_test_suite_t *suite, uint32_t timeout_ms)
 {
     while (timeout_ms-- > 0) {
-        if (vsf_test_suite_data.i2c_slave_fifo.master_done) return true;
+        if (vsf_test_suite_data.i2c.i2c_slave_fifo.master_done) return true;
         vsf_test_busy_wait_ms(1);
     }
     return false;
@@ -61,7 +61,7 @@ static bool __wait_master_done(vsf_test_suite_t *suite, uint32_t timeout_ms)
 static bool __wait_slave_complete(vsf_test_suite_t *suite, uint32_t timeout_ms)
 {
     while (timeout_ms-- > 0) {
-        if (vsf_test_suite_data.i2c_slave_fifo.slave_complete) return true;
+        if (vsf_test_suite_data.i2c.i2c_slave_fifo.slave_complete) return true;
         vsf_test_busy_wait_ms(1);
     }
     return false;
@@ -75,13 +75,13 @@ void vsf_test_i2c_slave_fifo_run(const vsf_test_suite_t *suite, const vsf_test_c
     vsf_i2c_t *slave_i2c  = (vsf_i2c_t *)handles[1];
 
     /* Zero all per-run state. */
-    vsf_test_suite_data.i2c_slave_fifo.master_irq_mask = 0;
-    vsf_test_suite_data.i2c_slave_fifo.slave_irq_mask  = 0;
-    memset(vsf_test_suite_data.i2c_slave_fifo.master_buf, 0, sizeof(vsf_test_suite_data.i2c_slave_fifo.master_buf));
-    memset(vsf_test_suite_data.i2c_slave_fifo.slave_buf, 0, sizeof(vsf_test_suite_data.i2c_slave_fifo.slave_buf));
-    vsf_test_suite_data.i2c_slave_fifo.slave_rx_offset = 0;
-    vsf_test_suite_data.i2c_slave_fifo.master_done     = false;
-    vsf_test_suite_data.i2c_slave_fifo.slave_complete  = false;
+    vsf_test_suite_data.i2c.i2c_slave_fifo.master_irq_mask = 0;
+    vsf_test_suite_data.i2c.i2c_slave_fifo.slave_irq_mask  = 0;
+    memset(vsf_test_suite_data.i2c.i2c_slave_fifo.master_buf, 0, sizeof(vsf_test_suite_data.i2c.i2c_slave_fifo.master_buf));
+    memset(vsf_test_suite_data.i2c.i2c_slave_fifo.slave_buf, 0, sizeof(vsf_test_suite_data.i2c.i2c_slave_fifo.slave_buf));
+    vsf_test_suite_data.i2c.i2c_slave_fifo.slave_rx_offset = 0;
+    vsf_test_suite_data.i2c.i2c_slave_fifo.master_done     = false;
+    vsf_test_suite_data.i2c.i2c_slave_fifo.slave_complete  = false;
 
     /* ---- Init slave (fifo-driven RX) ---- */
     vsf_err_t err = vsf_i2c_init(slave_i2c, &(vsf_i2c_cfg_t){
@@ -117,23 +117,23 @@ void vsf_test_i2c_slave_fifo_run(const vsf_test_suite_t *suite, const vsf_test_c
 
     /* ---- Slave receive via FIFO (master writes) ---- */
     for (uint8_t i = 0; i < VSF_TEST_I2C_SLAVE_FIFO_MASTER_BUF_SIZE; i++) {
-        vsf_test_suite_data.i2c_slave_fifo.master_buf[i] = (uint8_t)(0xA0 + i);
-        vsf_test_suite_data.i2c_slave_fifo.slave_buf[i] = 0;
+        vsf_test_suite_data.i2c.i2c_slave_fifo.master_buf[i] = (uint8_t)(0xA0 + i);
+        vsf_test_suite_data.i2c.i2c_slave_fifo.slave_buf[i] = 0;
     }
-    vsf_test_suite_data.i2c_slave_fifo.master_done     = false;
-    vsf_test_suite_data.i2c_slave_fifo.slave_complete  = false;
-    vsf_test_suite_data.i2c_slave_fifo.slave_rx_offset = 0;
+    vsf_test_suite_data.i2c.i2c_slave_fifo.master_done     = false;
+    vsf_test_suite_data.i2c.i2c_slave_fifo.slave_complete  = false;
+    vsf_test_suite_data.i2c.i2c_slave_fifo.slave_rx_offset = 0;
 
     err = vsf_i2c_master_request(master_i2c, VSF_TEST_I2C_SLAVE_FIFO_ADDR,
         VSF_I2C_CMD_START | VSF_I2C_CMD_STOP | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_7_BITS,
-        16, vsf_test_suite_data.i2c_slave_fifo.master_buf);
+        16, vsf_test_suite_data.i2c.i2c_slave_fifo.master_buf);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     VSF_TEST_ASSERT(__wait_master_done(suite, VSF_TEST_I2C_SLAVE_FIFO_TIMEOUT_MS));
     VSF_TEST_ASSERT(__wait_slave_complete(suite, VSF_TEST_I2C_SLAVE_FIFO_TIMEOUT_MS));
 
     for (uint8_t i = 0; i < VSF_TEST_I2C_SLAVE_FIFO_MASTER_BUF_SIZE; i++) {
-        VSF_TEST_ASSERT(vsf_test_suite_data.i2c_slave_fifo.slave_buf[i] == vsf_test_suite_data.i2c_slave_fifo.master_buf[i]);
+        VSF_TEST_ASSERT(vsf_test_suite_data.i2c.i2c_slave_fifo.slave_buf[i] == vsf_test_suite_data.i2c.i2c_slave_fifo.master_buf[i]);
     }
 
     vsf_trace_info("I2C:SLAVE_FIFO:RX:PASS" VSF_TRACE_CFG_LINEEND);

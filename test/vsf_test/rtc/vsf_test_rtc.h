@@ -50,6 +50,14 @@ extern "C" {
 #   define VSF_TEST_RTC_EPOCH_ENABLE            ENABLED
 #endif
 
+#ifndef VSF_TEST_RTC_ENABLE
+#   define VSF_TEST_RTC_ENABLE    ENABLED
+#endif
+
+
+#include "suite/vsf_test_rtc_alarm.h"
+
+
 /*============================ TYPES =========================================*/
 
 
@@ -81,6 +89,38 @@ vsf_class(vsf_test_rtc_epoch_params_t) {
         uint8_t rtc_idx;
     )
 };
+#endif
+
+
+#if VSF_TEST_RTC_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
+    vsf_test_case_t rtc_alarm[VSF_TEST_RTC_ALARM_CASE_COUNT];
+#endif
+#if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
+    vsf_test_case_t rtc_epoch[VSF_TEST_RTC_EPOCH_CASE_COUNT];
+#endif
+#if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
+    vsf_test_case_t rtc_set_get[VSF_TEST_RTC_SET_GET_CASE_COUNT];
+#endif
+} vsf_test_rtc_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_rtc_cases_t;
+#endif
+#if VSF_TEST_RTC_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
+    vsf_test_rtc_alarm_params_t rtc_alarm[VSF_TEST_RTC_ALARM_CASE_COUNT];
+#endif
+#if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
+    vsf_test_rtc_epoch_params_t rtc_epoch[VSF_TEST_RTC_EPOCH_CASE_COUNT];
+#endif
+#if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
+    vsf_test_rtc_set_get_params_t rtc_set_get[VSF_TEST_RTC_SET_GET_CASE_COUNT];
+#endif
+} vsf_test_rtc_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_rtc_params_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/
@@ -129,7 +169,6 @@ void vsf_test_rtc_epoch_run(const vsf_test_suite_t *suite, const vsf_test_case_t
     __vsf_test_rtc_epoch_suite \
     __vsf_test_rtc_set_get_suite
 
-#include "suite/vsf_test_rtc_alarm.h"
 
 #endif /* __VSF_TEST_RTC_H__ */
 /* EOF */

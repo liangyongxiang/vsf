@@ -64,6 +64,19 @@ extern "C" {
 #   define VSF_TEST_I2C_SLAVE_FIFO_ENABLE       ENABLED
 #endif
 
+#ifndef VSF_TEST_I2C_ENABLE
+#   define VSF_TEST_I2C_ENABLE    ENABLED
+#endif
+
+
+#include "suite/vsf_test_i2c_bus_scan.h"
+#include "suite/vsf_test_i2c_eeprom_page.h"
+#include "suite/vsf_test_i2c_eeprom_rw.h"
+#include "suite/vsf_test_i2c_eeprom_rw_fifo.h"
+#include "suite/vsf_test_i2c_slave.h"
+#include "suite/vsf_test_i2c_slave_fifo.h"
+
+
 /*============================ TYPES =========================================*/
 
 
@@ -139,6 +152,56 @@ vsf_class(vsf_test_i2c_bus_scan_params_t) {
         uint8_t  sda_pin;
     )
 };
+#endif
+
+
+#if VSF_TEST_I2C_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
+    vsf_test_case_t i2c_bus_scan[VSF_TEST_I2C_BUS_SCAN_CASE_COUNT];
+#endif
+#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
+    vsf_test_case_t i2c_eeprom_page[VSF_TEST_I2C_EEPROM_PAGE_CASE_COUNT];
+#endif
+#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
+    vsf_test_case_t i2c_eeprom_rw[VSF_TEST_I2C_EEPROM_RW_CASE_COUNT];
+#endif
+#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
+    vsf_test_case_t i2c_eeprom_rw_fifo[VSF_TEST_I2C_EEPROM_RW_FIFO_CASE_COUNT];
+#endif
+#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
+    vsf_test_case_t i2c_slave[VSF_TEST_I2C_SLAVE_CASE_COUNT];
+#endif
+#if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
+    vsf_test_case_t i2c_slave_fifo[VSF_TEST_I2C_SLAVE_FIFO_CASE_COUNT];
+#endif
+} vsf_test_i2c_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_i2c_cases_t;
+#endif
+#if VSF_TEST_I2C_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
+    vsf_test_i2c_bus_scan_params_t i2c_bus_scan[VSF_TEST_I2C_BUS_SCAN_CASE_COUNT];
+#endif
+#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
+    vsf_test_i2c_eeprom_page_params_t i2c_eeprom_page[VSF_TEST_I2C_EEPROM_PAGE_CASE_COUNT];
+#endif
+#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
+    vsf_test_i2c_eeprom_rw_params_t i2c_eeprom_rw[VSF_TEST_I2C_EEPROM_RW_CASE_COUNT];
+#endif
+#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
+    vsf_test_i2c_eeprom_rw_fifo_params_t i2c_eeprom_rw_fifo[VSF_TEST_I2C_EEPROM_RW_FIFO_CASE_COUNT];
+#endif
+#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
+    vsf_test_i2c_slave_params_t i2c_slave[VSF_TEST_I2C_SLAVE_CASE_COUNT];
+#endif
+#if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
+    vsf_test_i2c_slave_fifo_params_t i2c_slave_fifo[VSF_TEST_I2C_SLAVE_FIFO_CASE_COUNT];
+#endif
+} vsf_test_i2c_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_i2c_params_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/
@@ -217,12 +280,6 @@ void vsf_test_i2c_slave_fifo_run(const vsf_test_suite_t *suite, const vsf_test_c
     __vsf_test_i2c_slave_suite \
     __vsf_test_i2c_slave_fifo_suite
 
-#include "suite/vsf_test_i2c_bus_scan.h"
-#include "suite/vsf_test_i2c_eeprom_page.h"
-#include "suite/vsf_test_i2c_eeprom_rw.h"
-#include "suite/vsf_test_i2c_eeprom_rw_fifo.h"
-#include "suite/vsf_test_i2c_slave.h"
-#include "suite/vsf_test_i2c_slave_fifo.h"
 
 #endif /* __VSF_TEST_I2C_H__ */
 /* EOF */

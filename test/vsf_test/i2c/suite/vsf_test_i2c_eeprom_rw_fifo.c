@@ -44,14 +44,14 @@ static void __i2c_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
 {
     (void)i2c_ptr;
     vsf_test_suite_t *suite = target_ptr;
-    vsf_test_suite_data.i2c_eeprom_rw_fifo.irq_mask |= irq_mask;
+    vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.irq_mask |= irq_mask;
 }
 
 static bool __wait_irq(vsf_test_suite_t *suite,
                        vsf_i2c_irq_mask_t check_mask, uint32_t timeout_ms)
 {
     while (timeout_ms-- > 0) {
-        if (vsf_test_suite_data.i2c_eeprom_rw_fifo.irq_mask & check_mask) return true;
+        if (vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.irq_mask & check_mask) return true;
         vsf_test_busy_wait_ms(1);
     }
     return false;
@@ -77,14 +77,14 @@ static bool __eeprom_ack_poll(vsf_test_suite_t *suite,
                                uint8_t *dummy_buf, uint32_t max_ms)
 {
     while (max_ms-- > 0) {
-        vsf_test_suite_data.i2c_eeprom_rw_fifo.irq_mask = 0;
+        vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.irq_mask = 0;
         vsf_err_t err = vsf_i2c_master_request(i2c, eeprom_addr,
             VSF_I2C_CMD_START | VSF_I2C_CMD_STOP | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_7_BITS,
             1, dummy_buf);
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
         if (__wait_irq(suite,
             VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE | VSF_I2C_IRQ_MASK_MASTER_ERR, 10)) {
-            if (vsf_test_suite_data.i2c_eeprom_rw_fifo.irq_mask & VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE) {
+            if (vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.irq_mask & VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE) {
                 return true;
             }
         }
@@ -102,9 +102,9 @@ void vsf_test_i2c_eeprom_rw_fifo_run(const vsf_test_suite_t *suite, const vsf_te
     VSF_TEST_ASSERT(data_len > 0);
     VSF_TEST_ASSERT(data_len <= VSF_TEST_I2C_CASE_MAX_COUNT);
 
-    memset(vsf_test_suite_data.i2c_eeprom_rw_fifo.write_buf, 0, sizeof(vsf_test_suite_data.i2c_eeprom_rw_fifo.write_buf));
-    memset(vsf_test_suite_data.i2c_eeprom_rw_fifo.read_buf, 0, sizeof(vsf_test_suite_data.i2c_eeprom_rw_fifo.read_buf));
-    vsf_test_suite_data.i2c_eeprom_rw_fifo.irq_mask = 0;
+    memset(vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.write_buf, 0, sizeof(vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.write_buf));
+    memset(vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.read_buf, 0, sizeof(vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.read_buf));
+    vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.irq_mask = 0;
 
     vsf_err_t err = vsf_i2c_init(i2c, &(vsf_i2c_cfg_t){
         .mode       = VSF_I2C_MODE_MASTER | VSF_I2C_ADDR_7_BITS | VSF_I2C_SPEED_STANDARD_MODE,
@@ -120,9 +120,9 @@ void vsf_test_i2c_eeprom_rw_fifo_run(const vsf_test_suite_t *suite, const vsf_te
     vsf_i2c_irq_enable(i2c,
         VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE | VSF_I2C_IRQ_MASK_MASTER_ERR);
 
-    vsf_test_suite_data.i2c_eeprom_rw_fifo.write_buf[0] = p->mem_addr;
+    vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.write_buf[0] = p->mem_addr;
     for (uint8_t i = 0; i < data_len; i++) {
-        vsf_test_suite_data.i2c_eeprom_rw_fifo.write_buf[1 + i] = (uint8_t)(0xA0 + i);
+        vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.write_buf[1 + i] = (uint8_t)(0xA0 + i);
     }
 
     /* Phase 1: FIFO write [mem_addr, payload] to EEPROM.
@@ -131,33 +131,33 @@ void vsf_test_i2c_eeprom_rw_fifo_run(const vsf_test_suite_t *suite, const vsf_te
      * request-based i2c_eeprom_rw suite. */
     VSF_TEST_ASSERT(__fifo_write(i2c, p->eeprom_addr,
         VSF_I2C_CMD_START | VSF_I2C_CMD_STOP | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_7_BITS,
-        data_len + 1, vsf_test_suite_data.i2c_eeprom_rw_fifo.write_buf, VSF_TEST_I2C_FIFO_TIMEOUT_MS));
+        data_len + 1, vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.write_buf, VSF_TEST_I2C_FIFO_TIMEOUT_MS));
 
     /* Phase 1.5: ACK poll until EEPROM write cycle completes. */
     VSF_TEST_ASSERT(__eeprom_ack_poll(suite, i2c, p->eeprom_addr,
-                                      &vsf_test_suite_data.i2c_eeprom_rw_fifo.write_buf[0], VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS));
+                                      &vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.write_buf[0], VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS));
 
     /* Phase 2a: Set memory address (write phase, no stop). */
-    vsf_test_suite_data.i2c_eeprom_rw_fifo.irq_mask = 0;
+    vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.irq_mask = 0;
     err = vsf_i2c_master_request(i2c, p->eeprom_addr,
         VSF_I2C_CMD_START | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_NO_STOP | VSF_I2C_CMD_7_BITS,
-        1, &vsf_test_suite_data.i2c_eeprom_rw_fifo.write_buf[0]);
+        1, &vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.write_buf[0]);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     VSF_TEST_ASSERT(__wait_irq(suite,
         VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE | VSF_I2C_IRQ_MASK_MASTER_ERR, 1000));
-    VSF_TEST_ASSERT(vsf_test_suite_data.i2c_eeprom_rw_fifo.irq_mask & VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE);
+    VSF_TEST_ASSERT(vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.irq_mask & VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE);
 
     /* Phase 2b: Read data back (request API). */
-    vsf_test_suite_data.i2c_eeprom_rw_fifo.irq_mask = 0;
+    vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.irq_mask = 0;
     err = vsf_i2c_master_request(i2c, p->eeprom_addr,
         VSF_I2C_CMD_RESTART | VSF_I2C_CMD_STOP | VSF_I2C_CMD_READ | VSF_I2C_CMD_7_BITS,
-        data_len, vsf_test_suite_data.i2c_eeprom_rw_fifo.read_buf);
+        data_len, vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.read_buf);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     VSF_TEST_ASSERT(__wait_irq(suite,
         VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE, VSF_TEST_I2C_FIFO_TIMEOUT_MS));
 
     for (uint8_t i = 0; i < data_len; i++) {
-        VSF_TEST_ASSERT(vsf_test_suite_data.i2c_eeprom_rw_fifo.read_buf[i] == vsf_test_suite_data.i2c_eeprom_rw_fifo.write_buf[1 + i]);
+        VSF_TEST_ASSERT(vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.read_buf[i] == vsf_test_suite_data.i2c.i2c_eeprom_rw_fifo.write_buf[1 + i]);
     }
 
     vsf_trace_info("I2C:EEPROM_RW_FIFO:PASS len=%u" VSF_TRACE_CFG_LINEEND,

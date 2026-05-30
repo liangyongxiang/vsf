@@ -39,6 +39,14 @@ extern "C" {
 #   define VSF_TEST_SPI_ASYNC_ENABLE            ENABLED
 #endif
 
+#ifndef VSF_TEST_SPI_ENABLE
+#   define VSF_TEST_SPI_ENABLE    ENABLED
+#endif
+
+
+#include "suite/vsf_test_spi_async.h"
+
+
 /*============================ TYPES =========================================*/
 
 
@@ -65,6 +73,32 @@ vsf_class(vsf_test_spi_async_params_t) {
         uint8_t  test_type;
     )
 };
+#endif
+
+
+#if VSF_TEST_SPI_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
+    vsf_test_case_t spi_async[VSF_TEST_SPI_ASYNC_CASE_COUNT];
+#endif
+#if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
+    vsf_test_case_t spi_loopback[VSF_TEST_SPI_LOOPBACK_CASE_COUNT];
+#endif
+} vsf_test_spi_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_spi_cases_t;
+#endif
+#if VSF_TEST_SPI_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
+    vsf_test_spi_async_params_t spi_async[VSF_TEST_SPI_ASYNC_CASE_COUNT];
+#endif
+#if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
+    vsf_test_spi_loopback_params_t spi_loopback[VSF_TEST_SPI_LOOPBACK_CASE_COUNT];
+#endif
+} vsf_test_spi_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_spi_params_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/
@@ -97,7 +131,6 @@ void vsf_test_spi_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t
     __vsf_test_spi_async_suite \
     __vsf_test_spi_loopback_suite
 
-#include "suite/vsf_test_spi_async.h"
 
 #endif /* __VSF_TEST_SPI_H__ */
 /* EOF */

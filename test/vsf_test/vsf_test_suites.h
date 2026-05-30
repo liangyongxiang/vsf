@@ -36,485 +36,155 @@
 #include "dma/vsf_test_dma.h"
 
 typedef union {
-#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
-    vsf_test_adc_stream_data_t adc_stream;
+#if VSF_TEST_ADC_ENABLE == ENABLED
+    struct {
+    #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
+        vsf_test_adc_stream_data_t adc_stream;
+    #endif
+    } adc;
 #endif
-#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-    vsf_test_dma_mem2mem_irq_data_t dma_mem2mem_irq;
+#if VSF_TEST_DMA_ENABLE == ENABLED
+    struct {
+    #if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
+        vsf_test_dma_mem2mem_irq_data_t dma_mem2mem_irq;
+    #endif
+    #if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
+        vsf_test_dma_scatter_gather_data_t dma_scatter_gather;
+    #endif
+    } dma;
 #endif
-#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-    vsf_test_dma_scatter_gather_data_t dma_scatter_gather;
+#if VSF_TEST_FLASH_ENABLE == ENABLED
+    struct {
+    #if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
+        vsf_test_flash_boundary_data_t flash_boundary;
+    #endif
+    #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
+        vsf_test_flash_erase_program_read_data_t flash_erase_program_read;
+    #endif
+    } flash;
 #endif
-#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-    vsf_test_flash_boundary_data_t flash_boundary;
+#if VSF_TEST_GPIO_ENABLE == ENABLED
+    struct {
+    #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
+        vsf_test_gpio_concurrent_prio_data_t gpio_concurrent_prio;
+    #endif
+    #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
+        vsf_test_gpio_exti_data_t gpio_exti;
+    #endif
+    #if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
+        vsf_test_gpio_irq_latency_data_t gpio_irq_latency;
+    #endif
+    #if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
+        vsf_test_gpio_irq_lifecycle_data_t gpio_irq_lifecycle;
+    #endif
+    } gpio;
 #endif
-#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-    vsf_test_flash_erase_program_read_data_t flash_erase_program_read;
+#if VSF_TEST_I2C_ENABLE == ENABLED
+    struct {
+    #if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
+        vsf_test_i2c_bus_scan_data_t i2c_bus_scan;
+    #endif
+    #if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
+        vsf_test_i2c_eeprom_page_data_t i2c_eeprom_page;
+    #endif
+    #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
+        vsf_test_i2c_eeprom_rw_data_t i2c_eeprom_rw;
+    #endif
+    #if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
+        vsf_test_i2c_eeprom_rw_fifo_data_t i2c_eeprom_rw_fifo;
+    #endif
+    #if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
+        vsf_test_i2c_slave_data_t i2c_slave;
+    #endif
+    #if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
+        vsf_test_i2c_slave_fifo_data_t i2c_slave_fifo;
+    #endif
+    } i2c;
 #endif
-#if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
-    vsf_test_gpio_concurrent_prio_data_t gpio_concurrent_prio;
+#if VSF_TEST_RTC_ENABLE == ENABLED
+    struct {
+    #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
+        vsf_test_rtc_alarm_data_t rtc_alarm;
+    #endif
+    } rtc;
 #endif
-#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
-    vsf_test_gpio_exti_data_t gpio_exti;
+#if VSF_TEST_SPI_ENABLE == ENABLED
+    struct {
+    #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
+        vsf_test_spi_async_data_t spi_async;
+    #endif
+    } spi;
 #endif
-#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
-    vsf_test_gpio_irq_latency_data_t gpio_irq_latency;
+#if VSF_TEST_TIMER_ENABLE == ENABLED
+    struct {
+    #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
+        vsf_test_timer_async_data_t timer_async;
+    #endif
+    #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
+        vsf_test_timer_oneshot_data_t timer_oneshot;
+    #endif
+    #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
+        vsf_test_timer_periodic_data_t timer_periodic;
+    #endif
+    } timer;
 #endif
-#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
-    vsf_test_gpio_irq_lifecycle_data_t gpio_irq_lifecycle;
-#endif
-#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
-    vsf_test_i2c_bus_scan_data_t i2c_bus_scan;
-#endif
-#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
-    vsf_test_i2c_eeprom_page_data_t i2c_eeprom_page;
-#endif
-#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-    vsf_test_i2c_eeprom_rw_data_t i2c_eeprom_rw;
-#endif
-#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
-    vsf_test_i2c_eeprom_rw_fifo_data_t i2c_eeprom_rw_fifo;
-#endif
-#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
-    vsf_test_i2c_slave_data_t i2c_slave;
-#endif
-#if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
-    vsf_test_i2c_slave_fifo_data_t i2c_slave_fifo;
-#endif
-#if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-    vsf_test_rtc_alarm_data_t rtc_alarm;
-#endif
-#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-    vsf_test_spi_async_data_t spi_async;
-#endif
-#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
-    vsf_test_timer_async_data_t timer_async;
-#endif
-#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-    vsf_test_timer_oneshot_data_t timer_oneshot;
-#endif
-#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-    vsf_test_timer_periodic_data_t timer_periodic;
-#endif
-#if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
-    vsf_test_usart_request_rx_irq_data_t usart_request_rx_irq;
-#endif
-#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
-    vsf_test_usart_request_tx_irq_data_t usart_request_tx_irq;
-#endif
-#if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
-    vsf_test_usart_rx_bulk_irq_data_t usart_rx_bulk_irq;
-#endif
-#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
-    vsf_test_usart_rx_data_data_t usart_rx_data;
-#endif
-#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
-    vsf_test_usart_rx_fifo_irq_data_t usart_rx_fifo_irq;
-#endif
-#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
-    vsf_test_usart_rx_fifo_threshold_data_t usart_rx_fifo_threshold;
-#endif
-#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
-    vsf_test_usart_tx_fifo_irq_data_t usart_tx_fifo_irq;
+#if VSF_TEST_USART_ENABLE == ENABLED
+    struct {
+    #if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
+        vsf_test_usart_request_rx_irq_data_t usart_request_rx_irq;
+    #endif
+    #if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
+        vsf_test_usart_request_tx_irq_data_t usart_request_tx_irq;
+    #endif
+    #if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
+        vsf_test_usart_rx_bulk_irq_data_t usart_rx_bulk_irq;
+    #endif
+    #if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
+        vsf_test_usart_rx_data_data_t usart_rx_data;
+    #endif
+    #if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
+        vsf_test_usart_rx_fifo_irq_data_t usart_rx_fifo_irq;
+    #endif
+    #if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
+        vsf_test_usart_rx_fifo_threshold_data_t usart_rx_fifo_threshold;
+    #endif
+    #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
+        vsf_test_usart_tx_fifo_irq_data_t usart_tx_fifo_irq;
+    #endif
+    } usart;
 #endif
 } vsf_test_suite_data_t;
 
 /*============================ TYPES =========================================*/
 
 typedef struct {
-#if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
-    vsf_test_case_t gpio_analog_mode[VSF_TEST_GPIO_ANALOG_MODE_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
-    vsf_test_case_t gpio_atomic[VSF_TEST_GPIO_ATOMIC_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
-    vsf_test_case_t gpio_concurrent_prio[VSF_TEST_GPIO_CONCURRENT_PRIO_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
-    vsf_test_case_t gpio_direction[VSF_TEST_GPIO_DIRECTION_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
-    vsf_test_case_t gpio_exti[VSF_TEST_GPIO_EXTI_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
-    vsf_test_case_t gpio_io_check[VSF_TEST_GPIO_IO_CHECK_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
-    vsf_test_case_t gpio_irq_latency[VSF_TEST_GPIO_IRQ_LATENCY_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
-    vsf_test_case_t gpio_irq_lifecycle[VSF_TEST_GPIO_IRQ_LIFECYCLE_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
-    vsf_test_case_t gpio_multi_pin[VSF_TEST_GPIO_MULTI_PIN_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
-    vsf_test_case_t gpio_open_drain[VSF_TEST_GPIO_OPEN_DRAIN_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
-    vsf_test_case_t gpio_output_input[VSF_TEST_GPIO_OUTPUT_INPUT_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
-    vsf_test_case_t gpio_pinmux[VSF_TEST_GPIO_PINMUX_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
-    vsf_test_case_t gpio_systimer_health[VSF_TEST_GPIO_SYSTIMER_HEALTH_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
-    vsf_test_case_t gpio_toggle[VSF_TEST_GPIO_TOGGLE_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_TOGGLE_FREQ_ENABLE == ENABLED
-    vsf_test_case_t gpio_toggle_freq[VSF_TEST_GPIO_TOGGLE_FREQ_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
-    vsf_test_case_t gpio_toggle_stress[VSF_TEST_GPIO_TOGGLE_STRESS_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
-    vsf_test_case_t gpio_write_throughput[VSF_TEST_GPIO_WRITE_THROUGHPUT_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
-    vsf_test_case_t usart_request_cancel[VSF_TEST_USART_REQUEST_CANCEL_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
-    vsf_test_case_t usart_request_rx_irq[VSF_TEST_USART_REQUEST_RX_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
-    vsf_test_case_t usart_request_tx_irq[VSF_TEST_USART_REQUEST_TX_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_baud[VSF_TEST_USART_RX_BAUD_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_break_error[VSF_TEST_USART_RX_BREAK_ERROR_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_bulk_irq[VSF_TEST_USART_RX_BULK_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_data[VSF_TEST_USART_RX_DATA_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_fifo_irq[VSF_TEST_USART_RX_FIFO_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_fifo_threshold[VSF_TEST_USART_RX_FIFO_THRESHOLD_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_frame_error[VSF_TEST_USART_RX_FRAME_ERROR_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_irq[VSF_TEST_USART_RX_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_mode[VSF_TEST_USART_RX_MODE_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_overflow_error[VSF_TEST_USART_RX_OVERFLOW_ERROR_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_parity_error[VSF_TEST_USART_RX_PARITY_ERROR_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
-    vsf_test_case_t usart_rx_timeout[VSF_TEST_USART_RX_TIMEOUT_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
-    vsf_test_case_t usart_baud[VSF_TEST_USART_TX_BAUD_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
-    vsf_test_case_t usart_tx_fifo_irq[VSF_TEST_USART_TX_FIFO_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
-    vsf_test_case_t usart_mode[VSF_TEST_USART_TX_MODE_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
-    vsf_test_case_t usart_break_signal[VSF_TEST_USART_BREAK_SIGNAL_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
-    vsf_test_case_t usart_hw_flow_control[VSF_TEST_USART_HW_FLOW_CONTROL_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
-    vsf_test_case_t i2c_bus_scan[VSF_TEST_I2C_BUS_SCAN_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
-    vsf_test_case_t i2c_eeprom_page[VSF_TEST_I2C_EEPROM_PAGE_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-    vsf_test_case_t i2c_eeprom_rw[VSF_TEST_I2C_EEPROM_RW_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
-    vsf_test_case_t i2c_eeprom_rw_fifo[VSF_TEST_I2C_EEPROM_RW_FIFO_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
-    vsf_test_case_t i2c_slave[VSF_TEST_I2C_SLAVE_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
-    vsf_test_case_t i2c_slave_fifo[VSF_TEST_I2C_SLAVE_FIFO_CASE_COUNT];
-#endif
-#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-    vsf_test_case_t spi_async[VSF_TEST_SPI_ASYNC_CASE_COUNT];
-#endif
-#if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-    vsf_test_case_t spi_loopback[VSF_TEST_SPI_LOOPBACK_CASE_COUNT];
-#endif
-#if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
-    vsf_test_case_t rng_basic[VSF_TEST_RNG_BASIC_CASE_COUNT];
-#endif
-#if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-    vsf_test_case_t adc_oneshot[VSF_TEST_ADC_ONESHOT_CASE_COUNT];
-#endif
-#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
-    vsf_test_case_t adc_stream[VSF_TEST_ADC_STREAM_CASE_COUNT];
-#endif
-#if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-    vsf_test_case_t adc_temperature[VSF_TEST_ADC_TEMPERATURE_CASE_COUNT];
-#endif
-#if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-    vsf_test_case_t pwm_basic[VSF_TEST_PWM_BASIC_CASE_COUNT];
-#endif
-#if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
-    vsf_test_case_t pwm_dual_channel[VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT];
-#endif
-#if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
-    vsf_test_case_t pwm_irq[VSF_TEST_PWM_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-    vsf_test_case_t dma_mem2mem[VSF_TEST_DMA_MEM2MEM_CASE_COUNT];
-#endif
-#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-    vsf_test_case_t dma_mem2mem_irq[VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-    vsf_test_case_t dma_scatter_gather[VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT];
-#endif
-#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
-    vsf_test_case_t timer_async[VSF_TEST_TIMER_ASYNC_CASE_COUNT];
-#endif
-#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-    vsf_test_case_t timer_oneshot[VSF_TEST_TIMER_ONESHOT_CASE_COUNT];
-#endif
-#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-    vsf_test_case_t timer_periodic[VSF_TEST_TIMER_PERIODIC_CASE_COUNT];
-#endif
-#if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-    vsf_test_case_t rtc_alarm[VSF_TEST_RTC_ALARM_CASE_COUNT];
-#endif
-#if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
-    vsf_test_case_t rtc_epoch[VSF_TEST_RTC_EPOCH_CASE_COUNT];
-#endif
-#if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-    vsf_test_case_t rtc_set_get[VSF_TEST_RTC_SET_GET_CASE_COUNT];
-#endif
-#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-    vsf_test_case_t flash_boundary[VSF_TEST_FLASH_BOUNDARY_CASE_COUNT];
-#endif
-#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-    vsf_test_case_t flash_erase_program_read[VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT];
-#endif
-#if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
-    vsf_test_case_t wdt_basic[VSF_TEST_WDT_BASIC_CASE_COUNT];
-#endif
-#if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
-    vsf_test_case_t wdt_reboot[VSF_TEST_WDT_REBOOT_CASE_COUNT];
-#endif
+    vsf_test_adc_cases_t adc;
+    vsf_test_dma_cases_t dma;
+    vsf_test_flash_cases_t flash;
+    vsf_test_gpio_cases_t gpio;
+    vsf_test_i2c_cases_t i2c;
+    vsf_test_pwm_cases_t pwm;
+    vsf_test_rng_cases_t rng;
+    vsf_test_rtc_cases_t rtc;
+    vsf_test_spi_cases_t spi;
+    vsf_test_timer_cases_t timer;
+    vsf_test_usart_cases_t usart;
+    vsf_test_wdt_cases_t wdt;
 } vsf_test_all_cases_t;
 
 typedef struct {
-#if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
-    vsf_test_gpio_analog_mode_params_t gpio_analog_mode[VSF_TEST_GPIO_ANALOG_MODE_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
-    vsf_test_gpio_atomic_params_t gpio_atomic[VSF_TEST_GPIO_ATOMIC_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
-    vsf_test_gpio_concurrent_prio_params_t gpio_concurrent_prio[VSF_TEST_GPIO_CONCURRENT_PRIO_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
-    vsf_test_gpio_direction_params_t gpio_direction[VSF_TEST_GPIO_DIRECTION_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
-    vsf_test_gpio_exti_params_t gpio_exti[VSF_TEST_GPIO_EXTI_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
-    vsf_test_gpio_io_check_params_t gpio_io_check[VSF_TEST_GPIO_IO_CHECK_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
-    vsf_test_gpio_irq_latency_params_t gpio_irq_latency[VSF_TEST_GPIO_IRQ_LATENCY_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
-    vsf_test_gpio_irq_lifecycle_params_t gpio_irq_lifecycle[VSF_TEST_GPIO_IRQ_LIFECYCLE_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
-    vsf_test_gpio_multi_pin_params_t gpio_multi_pin[VSF_TEST_GPIO_MULTI_PIN_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
-    vsf_test_gpio_open_drain_params_t gpio_open_drain[VSF_TEST_GPIO_OPEN_DRAIN_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
-    vsf_test_gpio_output_input_params_t gpio_output_input[VSF_TEST_GPIO_OUTPUT_INPUT_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
-    vsf_test_gpio_pinmux_params_t gpio_pinmux[VSF_TEST_GPIO_PINMUX_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
-    vsf_test_gpio_systimer_health_params_t gpio_systimer_health[VSF_TEST_GPIO_SYSTIMER_HEALTH_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
-    vsf_test_gpio_toggle_params_t gpio_toggle[VSF_TEST_GPIO_TOGGLE_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_TOGGLE_FREQ_ENABLE == ENABLED
-    vsf_test_gpio_toggle_freq_params_t gpio_toggle_freq[VSF_TEST_GPIO_TOGGLE_FREQ_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
-    vsf_test_gpio_toggle_stress_params_t gpio_toggle_stress[VSF_TEST_GPIO_TOGGLE_STRESS_CASE_COUNT];
-#endif
-#if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
-    vsf_test_gpio_write_throughput_params_t gpio_write_throughput[VSF_TEST_GPIO_WRITE_THROUGHPUT_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
-    vsf_test_usart_request_cancel_params_t usart_request_cancel[VSF_TEST_USART_REQUEST_CANCEL_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
-    vsf_test_usart_request_rx_irq_params_t usart_request_rx_irq[VSF_TEST_USART_REQUEST_RX_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
-    vsf_test_usart_request_tx_irq_params_t usart_request_tx_irq[VSF_TEST_USART_REQUEST_TX_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
-    vsf_test_usart_rx_baud_params_t usart_rx_baud[VSF_TEST_USART_RX_BAUD_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
-    vsf_test_usart_rx_break_error_params_t usart_rx_break_error[VSF_TEST_USART_RX_BREAK_ERROR_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
-    vsf_test_usart_rx_bulk_irq_params_t usart_rx_bulk_irq[VSF_TEST_USART_RX_BULK_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
-    vsf_test_usart_rx_data_params_t usart_rx_data[VSF_TEST_USART_RX_DATA_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
-    vsf_test_usart_rx_fifo_irq_params_t usart_rx_fifo_irq[VSF_TEST_USART_RX_FIFO_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
-    vsf_test_usart_rx_fifo_threshold_params_t usart_rx_fifo_threshold[VSF_TEST_USART_RX_FIFO_THRESHOLD_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-    vsf_test_usart_rx_frame_error_params_t usart_rx_frame_error[VSF_TEST_USART_RX_FRAME_ERROR_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
-    vsf_test_usart_rx_irq_params_t usart_rx_irq[VSF_TEST_USART_RX_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
-    vsf_test_usart_rx_mode_params_t usart_rx_mode[VSF_TEST_USART_RX_MODE_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
-    vsf_test_usart_rx_overflow_error_params_t usart_rx_overflow_error[VSF_TEST_USART_RX_OVERFLOW_ERROR_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-    vsf_test_usart_rx_parity_error_params_t usart_rx_parity_error[VSF_TEST_USART_RX_PARITY_ERROR_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
-    vsf_test_usart_rx_timeout_params_t usart_rx_timeout[VSF_TEST_USART_RX_TIMEOUT_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
-    vsf_test_usart_baud_params_t usart_baud[VSF_TEST_USART_TX_BAUD_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
-    vsf_test_usart_tx_fifo_irq_params_t usart_tx_fifo_irq[VSF_TEST_USART_TX_FIFO_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
-    vsf_test_usart_mode_params_t usart_mode[VSF_TEST_USART_TX_MODE_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
-    vsf_test_usart_break_signal_params_t usart_break_signal[VSF_TEST_USART_BREAK_SIGNAL_CASE_COUNT];
-#endif
-#if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
-    vsf_test_usart_hw_flow_control_params_t usart_hw_flow_control[VSF_TEST_USART_HW_FLOW_CONTROL_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
-    vsf_test_i2c_bus_scan_params_t i2c_bus_scan[VSF_TEST_I2C_BUS_SCAN_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
-    vsf_test_i2c_eeprom_page_params_t i2c_eeprom_page[VSF_TEST_I2C_EEPROM_PAGE_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-    vsf_test_i2c_eeprom_rw_params_t i2c_eeprom_rw[VSF_TEST_I2C_EEPROM_RW_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
-    vsf_test_i2c_eeprom_rw_fifo_params_t i2c_eeprom_rw_fifo[VSF_TEST_I2C_EEPROM_RW_FIFO_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
-    vsf_test_i2c_slave_params_t i2c_slave[VSF_TEST_I2C_SLAVE_CASE_COUNT];
-#endif
-#if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
-    vsf_test_i2c_slave_fifo_params_t i2c_slave_fifo[VSF_TEST_I2C_SLAVE_FIFO_CASE_COUNT];
-#endif
-#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-    vsf_test_spi_async_params_t spi_async[VSF_TEST_SPI_ASYNC_CASE_COUNT];
-#endif
-#if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-    vsf_test_spi_loopback_params_t spi_loopback[VSF_TEST_SPI_LOOPBACK_CASE_COUNT];
-#endif
-#if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
-    vsf_test_rng_basic_params_t rng_basic[VSF_TEST_RNG_BASIC_CASE_COUNT];
-#endif
-#if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-    vsf_test_adc_oneshot_params_t adc_oneshot[VSF_TEST_ADC_ONESHOT_CASE_COUNT];
-#endif
-#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
-    vsf_test_adc_stream_params_t adc_stream[VSF_TEST_ADC_STREAM_CASE_COUNT];
-#endif
-#if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-    vsf_test_adc_temperature_params_t adc_temperature[VSF_TEST_ADC_TEMPERATURE_CASE_COUNT];
-#endif
-#if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-    vsf_test_pwm_basic_params_t pwm_basic[VSF_TEST_PWM_BASIC_CASE_COUNT];
-#endif
-#if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
-    vsf_test_pwm_dual_channel_params_t pwm_dual_channel[VSF_TEST_PWM_DUAL_CHANNEL_CASE_COUNT];
-#endif
-#if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
-    vsf_test_pwm_irq_params_t pwm_irq[VSF_TEST_PWM_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
-    vsf_test_dma_mem2mem_params_t dma_mem2mem[VSF_TEST_DMA_MEM2MEM_CASE_COUNT];
-#endif
-#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-    vsf_test_dma_mem2mem_irq_params_t dma_mem2mem_irq[VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT];
-#endif
-#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-    vsf_test_dma_scatter_gather_params_t dma_scatter_gather[VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT];
-#endif
-#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
-    vsf_test_timer_async_params_t timer_async[VSF_TEST_TIMER_ASYNC_CASE_COUNT];
-#endif
-#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-    vsf_test_timer_oneshot_params_t timer_oneshot[VSF_TEST_TIMER_ONESHOT_CASE_COUNT];
-#endif
-#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-    vsf_test_timer_periodic_params_t timer_periodic[VSF_TEST_TIMER_PERIODIC_CASE_COUNT];
-#endif
-#if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-    vsf_test_rtc_alarm_params_t rtc_alarm[VSF_TEST_RTC_ALARM_CASE_COUNT];
-#endif
-#if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
-    vsf_test_rtc_epoch_params_t rtc_epoch[VSF_TEST_RTC_EPOCH_CASE_COUNT];
-#endif
-#if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-    vsf_test_rtc_set_get_params_t rtc_set_get[VSF_TEST_RTC_SET_GET_CASE_COUNT];
-#endif
-#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-    vsf_test_flash_boundary_params_t flash_boundary[VSF_TEST_FLASH_BOUNDARY_CASE_COUNT];
-#endif
-#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-    vsf_test_flash_erase_program_read_params_t flash_erase_program_read[VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT];
-#endif
-#if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
-    vsf_test_wdt_basic_params_t wdt_basic[VSF_TEST_WDT_BASIC_CASE_COUNT];
-#endif
-#if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
-    vsf_test_wdt_reboot_params_t wdt_reboot[VSF_TEST_WDT_REBOOT_CASE_COUNT];
-#endif
+    vsf_test_adc_params_t adc;
+    vsf_test_dma_params_t dma;
+    vsf_test_flash_params_t flash;
+    vsf_test_gpio_params_t gpio;
+    vsf_test_i2c_params_t i2c;
+    vsf_test_pwm_params_t pwm;
+    vsf_test_rng_params_t rng;
+    vsf_test_rtc_params_t rtc;
+    vsf_test_spi_params_t spi;
+    vsf_test_timer_params_t timer;
+    vsf_test_usart_params_t usart;
+    vsf_test_wdt_params_t wdt;
 } vsf_test_all_params_t;
 
 /*============================ GLOBAL VARIABLES ==============================*/

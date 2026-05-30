@@ -131,6 +131,20 @@ extern "C" {
 #   define VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE DISABLED
 #endif
 
+#ifndef VSF_TEST_USART_ENABLE
+#   define VSF_TEST_USART_ENABLE    ENABLED
+#endif
+
+
+#include "suite/vsf_test_usart_request_rx_irq.h"
+#include "suite/vsf_test_usart_request_tx_irq.h"
+#include "suite/vsf_test_usart_rx_bulk_irq.h"
+#include "suite/vsf_test_usart_rx_data.h"
+#include "suite/vsf_test_usart_rx_fifo_irq.h"
+#include "suite/vsf_test_usart_rx_fifo_threshold.h"
+#include "suite/vsf_test_usart_tx_fifo_irq.h"
+
+
 /*============================ TYPES =========================================*/
 
 // Per-suite context (populated by __vsf_test in main.c)
@@ -344,6 +358,140 @@ vsf_class(vsf_test_usart_rx_fifo_threshold_params_t) {
         uint32_t         expected_bytes;    //! expected bytes when threshold IRQ fires
     )
 };
+#endif
+
+
+#if VSF_TEST_USART_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
+    vsf_test_case_t usart_request_cancel[VSF_TEST_USART_REQUEST_CANCEL_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
+    vsf_test_case_t usart_request_rx_irq[VSF_TEST_USART_REQUEST_RX_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
+    vsf_test_case_t usart_request_tx_irq[VSF_TEST_USART_REQUEST_TX_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_baud[VSF_TEST_USART_RX_BAUD_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_break_error[VSF_TEST_USART_RX_BREAK_ERROR_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_bulk_irq[VSF_TEST_USART_RX_BULK_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_data[VSF_TEST_USART_RX_DATA_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_fifo_irq[VSF_TEST_USART_RX_FIFO_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_fifo_threshold[VSF_TEST_USART_RX_FIFO_THRESHOLD_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_frame_error[VSF_TEST_USART_RX_FRAME_ERROR_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_irq[VSF_TEST_USART_RX_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_mode[VSF_TEST_USART_RX_MODE_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_overflow_error[VSF_TEST_USART_RX_OVERFLOW_ERROR_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_parity_error[VSF_TEST_USART_RX_PARITY_ERROR_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
+    vsf_test_case_t usart_rx_timeout[VSF_TEST_USART_RX_TIMEOUT_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
+    vsf_test_case_t usart_baud[VSF_TEST_USART_TX_BAUD_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
+    vsf_test_case_t usart_tx_fifo_irq[VSF_TEST_USART_TX_FIFO_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
+    vsf_test_case_t usart_mode[VSF_TEST_USART_TX_MODE_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
+    vsf_test_case_t usart_break_signal[VSF_TEST_USART_BREAK_SIGNAL_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
+    vsf_test_case_t usart_hw_flow_control[VSF_TEST_USART_HW_FLOW_CONTROL_CASE_COUNT];
+#endif
+} vsf_test_usart_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_usart_cases_t;
+#endif
+#if VSF_TEST_USART_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
+    vsf_test_usart_request_cancel_params_t usart_request_cancel[VSF_TEST_USART_REQUEST_CANCEL_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
+    vsf_test_usart_request_rx_irq_params_t usart_request_rx_irq[VSF_TEST_USART_REQUEST_RX_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
+    vsf_test_usart_request_tx_irq_params_t usart_request_tx_irq[VSF_TEST_USART_REQUEST_TX_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
+    vsf_test_usart_rx_baud_params_t usart_rx_baud[VSF_TEST_USART_RX_BAUD_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
+    vsf_test_usart_rx_break_error_params_t usart_rx_break_error[VSF_TEST_USART_RX_BREAK_ERROR_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
+    vsf_test_usart_rx_bulk_irq_params_t usart_rx_bulk_irq[VSF_TEST_USART_RX_BULK_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
+    vsf_test_usart_rx_data_params_t usart_rx_data[VSF_TEST_USART_RX_DATA_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
+    vsf_test_usart_rx_fifo_irq_params_t usart_rx_fifo_irq[VSF_TEST_USART_RX_FIFO_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
+    vsf_test_usart_rx_fifo_threshold_params_t usart_rx_fifo_threshold[VSF_TEST_USART_RX_FIFO_THRESHOLD_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
+    vsf_test_usart_rx_frame_error_params_t usart_rx_frame_error[VSF_TEST_USART_RX_FRAME_ERROR_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
+    vsf_test_usart_rx_irq_params_t usart_rx_irq[VSF_TEST_USART_RX_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
+    vsf_test_usart_rx_mode_params_t usart_rx_mode[VSF_TEST_USART_RX_MODE_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
+    vsf_test_usart_rx_overflow_error_params_t usart_rx_overflow_error[VSF_TEST_USART_RX_OVERFLOW_ERROR_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
+    vsf_test_usart_rx_parity_error_params_t usart_rx_parity_error[VSF_TEST_USART_RX_PARITY_ERROR_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
+    vsf_test_usart_rx_timeout_params_t usart_rx_timeout[VSF_TEST_USART_RX_TIMEOUT_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
+    vsf_test_usart_baud_params_t usart_baud[VSF_TEST_USART_TX_BAUD_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
+    vsf_test_usart_tx_fifo_irq_params_t usart_tx_fifo_irq[VSF_TEST_USART_TX_FIFO_IRQ_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
+    vsf_test_usart_mode_params_t usart_mode[VSF_TEST_USART_TX_MODE_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
+    vsf_test_usart_break_signal_params_t usart_break_signal[VSF_TEST_USART_BREAK_SIGNAL_CASE_COUNT];
+#endif
+#if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
+    vsf_test_usart_hw_flow_control_params_t usart_hw_flow_control[VSF_TEST_USART_HW_FLOW_CONTROL_CASE_COUNT];
+#endif
+} vsf_test_usart_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_usart_params_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/
@@ -564,13 +712,6 @@ void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_suite_t *suite, const v
     __vsf_test_usart_break_signal_suite \
     __vsf_test_usart_hw_flow_control_suite
 
-#include "suite/vsf_test_usart_request_rx_irq.h"
-#include "suite/vsf_test_usart_request_tx_irq.h"
-#include "suite/vsf_test_usart_rx_bulk_irq.h"
-#include "suite/vsf_test_usart_rx_data.h"
-#include "suite/vsf_test_usart_rx_fifo_irq.h"
-#include "suite/vsf_test_usart_rx_fifo_threshold.h"
-#include "suite/vsf_test_usart_tx_fifo_irq.h"
 
 #endif /* __VSF_TEST_USART_H__ */
 /* EOF */

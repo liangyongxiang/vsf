@@ -71,7 +71,7 @@ void vsf_test_usart_rx_data_run(const vsf_test_suite_t *suite, const vsf_test_ca
                     uint_fast16_t want = expected_len - rx_len;
                     if (want > count) { want = count; }
                     uint_fast16_t got = vsf_usart_rxfifo_read(
-                        (vsf_usart_t *)fixture, &vsf_test_suite_data.usart_rx_data.rx_data_buf[rx_len], want);
+                        (vsf_usart_t *)fixture, &vsf_test_suite_data.usart.usart_rx_data.rx_data_buf[rx_len], want);
                     rx_len += got;
                 } else {
                     vsf_test_busy_wait_ms(1);
@@ -82,7 +82,7 @@ void vsf_test_usart_rx_data_run(const vsf_test_suite_t *suite, const vsf_test_ca
             VSF_TEST_ASSERT(rx_len == expected_len);
 
             for (uint32_t i = 0; i < expected_len; i++) {
-                VSF_TEST_ASSERT(vsf_test_suite_data.usart_rx_data.rx_data_buf[i] == (uint8_t)(i & 0xFF));
+                VSF_TEST_ASSERT(vsf_test_suite_data.usart.usart_rx_data.rx_data_buf[i] == (uint8_t)(i & 0xFF));
             }
 
             vsf_trace_info("USART:RX_DATA:sz=%lu" VSF_TRACE_CFG_LINEEND,

@@ -41,6 +41,15 @@ extern "C" {
 #   define VSF_TEST_FLASH_BOUNDARY_ENABLE               DISABLED
 #endif
 
+#ifndef VSF_TEST_FLASH_ENABLE
+#   define VSF_TEST_FLASH_ENABLE    ENABLED
+#endif
+
+
+#include "suite/vsf_test_flash_boundary.h"
+#include "suite/vsf_test_flash_erase_program_read.h"
+
+
 /*============================ TYPES =========================================*/
 
 
@@ -64,6 +73,32 @@ vsf_class(vsf_test_flash_boundary_params_t) {
         uint32_t size;
     )
 };
+#endif
+
+
+#if VSF_TEST_FLASH_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
+    vsf_test_case_t flash_boundary[VSF_TEST_FLASH_BOUNDARY_CASE_COUNT];
+#endif
+#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
+    vsf_test_case_t flash_erase_program_read[VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT];
+#endif
+} vsf_test_flash_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_flash_cases_t;
+#endif
+#if VSF_TEST_FLASH_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
+    vsf_test_flash_boundary_params_t flash_boundary[VSF_TEST_FLASH_BOUNDARY_CASE_COUNT];
+#endif
+#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
+    vsf_test_flash_erase_program_read_params_t flash_erase_program_read[VSF_TEST_FLASH_ERASE_PROGRAM_READ_CASE_COUNT];
+#endif
+} vsf_test_flash_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_flash_params_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/
@@ -100,8 +135,6 @@ void vsf_test_flash_boundary_run(const vsf_test_suite_t *suite, const vsf_test_c
     __vsf_test_flash_boundary_suite \
     __vsf_test_flash_erase_program_read_suite
 
-#include "suite/vsf_test_flash_boundary.h"
-#include "suite/vsf_test_flash_erase_program_read.h"
 
 #endif /* __VSF_TEST_FLASH_H__ */
 /* EOF */

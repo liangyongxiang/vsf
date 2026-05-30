@@ -29,7 +29,7 @@ static void __dma_mem2mem_irq_handler(void *target_ptr, vsf_dma_t *dma_ptr,
     (void)channel;
     (void)irq_mask;
     vsf_test_suite_t *suite = target_ptr;
-    vsf_test_suite_data.dma_mem2mem_irq.irq_fired = true;
+    vsf_test_suite_data.dma.dma_mem2mem_irq.irq_fired = true;
 }
 
 
@@ -51,7 +51,7 @@ void vsf_test_dma_mem2mem_irq_run(const vsf_test_suite_t *suite, const vsf_test_
         src_buf[i] = (uint8_t)(0xA5 + i);
     }
 
-    vsf_test_suite_data.dma_mem2mem_irq.irq_fired = false;
+    vsf_test_suite_data.dma.dma_mem2mem_irq.irq_fired = false;
 
     vsf_err_t err = vsf_dma_init(dma, &(vsf_dma_cfg_t){0});
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -82,8 +82,8 @@ void vsf_test_dma_mem2mem_irq_run(const vsf_test_suite_t *suite, const vsf_test_
 
     /* Wait for IRQ (with timeout fallback) */
     uint32_t timeout = 10000;
-    while (!vsf_test_suite_data.dma_mem2mem_irq.irq_fired && timeout-- > 0);
-    VSF_TEST_ASSERT(vsf_test_suite_data.dma_mem2mem_irq.irq_fired);
+    while (!vsf_test_suite_data.dma.dma_mem2mem_irq.irq_fired && timeout-- > 0);
+    VSF_TEST_ASSERT(vsf_test_suite_data.dma.dma_mem2mem_irq.irq_fired);
 
     uint32_t transferred = vsf_dma_channel_get_transferred_count(dma, ch);
     VSF_TEST_ASSERT(transferred == DMA_MEM2MEM_IRQ_BUF_SIZE);

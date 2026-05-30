@@ -35,6 +35,11 @@ extern "C" {
 #   define VSF_TEST_RNG_BASIC_ENABLE           ENABLED
 #endif
 
+#ifndef VSF_TEST_RNG_ENABLE
+#   define VSF_TEST_RNG_ENABLE    ENABLED
+#endif
+
+
 /*============================ TYPES =========================================*/
 
 
@@ -46,6 +51,26 @@ vsf_class(vsf_test_rng_basic_params_t) {
         uint8_t  word_count;
     )
 };
+#endif
+
+
+#if VSF_TEST_RNG_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
+    vsf_test_case_t rng_basic[VSF_TEST_RNG_BASIC_CASE_COUNT];
+#endif
+} vsf_test_rng_cases_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_rng_cases_t;
+#endif
+#if VSF_TEST_RNG_ENABLE == ENABLED
+typedef struct {
+#if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
+    vsf_test_rng_basic_params_t rng_basic[VSF_TEST_RNG_BASIC_CASE_COUNT];
+#endif
+} vsf_test_rng_params_t;
+#else
+typedef struct { uint8_t __dummy; } vsf_test_rng_params_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

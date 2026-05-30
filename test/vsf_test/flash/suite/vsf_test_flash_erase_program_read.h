@@ -19,21 +19,26 @@
 #define __TEST_FLASH_ERASE_PROGRAM_READ_H__
 
 #include "../vsf_test_flash.h"
+/*============================ MACROS ========================================*/
+
 #ifndef VSF_TEST_FLASH_ERASE_PROGRAM_READ_BUF_SIZE
 #   define VSF_TEST_FLASH_ERASE_PROGRAM_READ_BUF_SIZE        512
-#endif
-
-#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-typedef struct {
-    uint8_t write_buf[VSF_TEST_FLASH_ERASE_PROGRAM_READ_BUF_SIZE];
-    uint8_t read_buf[VSF_TEST_FLASH_ERASE_PROGRAM_READ_BUF_SIZE];
-} vsf_test_flash_erase_program_read_var_t;
 #endif
 
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
 
 #ifdef __cplusplus
 extern "C" {
+#endif
+
+
+/*============================ TYPES =========================================*/
+
+#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
+typedef struct {
+    uint8_t write_buf[VSF_TEST_FLASH_ERASE_PROGRAM_READ_BUF_SIZE];
+    uint8_t read_buf[VSF_TEST_FLASH_ERASE_PROGRAM_READ_BUF_SIZE];
+} vsf_test_flash_erase_program_read_var_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

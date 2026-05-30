@@ -21,6 +21,14 @@
 #include "../vsf_test_gpio.h"
 
 #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*============================ TYPES =========================================*/
+
+#if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
 typedef struct {
     vsf_gpio_pin_mask_t out_mask;
     uint32_t period_us;
@@ -29,11 +37,7 @@ typedef struct {
 } vsf_test_gpio_concurrent_prio_var_t;
 #endif
 
-#if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+/*============================ PROTOTYPES ====================================*/
 
 void vsf_test_gpio_concurrent_prio_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 

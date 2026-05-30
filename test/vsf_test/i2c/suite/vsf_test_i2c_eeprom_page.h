@@ -18,6 +18,8 @@
 #define __TEST_I2C_EEPROM_PAGE_H__
 
 #include "../vsf_test_i2c.h"
+/*============================ MACROS ========================================*/
+
 #ifndef VSF_TEST_I2C_EEPROM_PAGE_WRITE_BUF_SIZE
 #   define VSF_TEST_I2C_EEPROM_PAGE_WRITE_BUF_SIZE        17
 #endif
@@ -26,17 +28,20 @@
 #endif
 
 #if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+/*============================ TYPES =========================================*/
+
+#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
 typedef struct {
     volatile vsf_i2c_irq_mask_t irq_mask;
     uint8_t write_buf[VSF_TEST_I2C_EEPROM_PAGE_WRITE_BUF_SIZE];
     uint8_t read_buf[VSF_TEST_I2C_EEPROM_PAGE_READ_BUF_SIZE];
 } vsf_test_i2c_eeprom_page_var_t;
-#endif
-
-#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
-
-#ifdef __cplusplus
-extern "C" {
 #endif
 
 /*============================ PROTOTYPES ====================================*/

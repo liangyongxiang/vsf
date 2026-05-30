@@ -19,20 +19,25 @@
 #define __TEST_USART_RX_DATA_H__
 
 #include "../vsf_test_usart.h"
+/*============================ MACROS ========================================*/
+
 #ifndef VSF_TEST_USART_RX_DATA_BUF_SIZE
 #   define VSF_TEST_USART_RX_DATA_BUF_SIZE        4096
-#endif
-
-#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
-typedef struct {
-    uint8_t rx_data_buf[VSF_TEST_USART_RX_DATA_BUF_SIZE];
-} vsf_test_usart_rx_data_var_t;
 #endif
 
 #if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
 
 #ifdef __cplusplus
 extern "C" {
+#endif
+
+
+/*============================ TYPES =========================================*/
+
+#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
+typedef struct {
+    uint8_t rx_data_buf[VSF_TEST_USART_RX_DATA_BUF_SIZE];
+} vsf_test_usart_rx_data_var_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

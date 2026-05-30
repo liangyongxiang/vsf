@@ -19,9 +19,14 @@
 #define __TEST_USART_TX_FIFO_IRQ_H__
 
 #include "../vsf_test_usart.h"
+
+/*============================ MACROS ========================================*/
+
 #ifndef VSF_TEST_USART_TX_FIFO_IRQ_BUF_SIZE
 #   define VSF_TEST_USART_TX_FIFO_IRQ_BUF_SIZE        256
 #endif
+
+/*============================ TYPES =========================================*/
 
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
 typedef struct {
@@ -32,18 +37,12 @@ typedef struct {
 } vsf_test_usart_tx_fifo_irq_var_t;
 #endif
 
-#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+/*============================ PROTOTYPES ====================================*/
 
 void vsf_test_usart_tx_fifo_irq_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif
 
 #endif /* __TEST_USART_TX_FIFO_IRQ_H__ */

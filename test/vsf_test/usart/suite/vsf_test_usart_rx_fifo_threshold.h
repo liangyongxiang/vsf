@@ -19,12 +19,18 @@
 #define __VSF_TEST_USART_RX_FIFO_THRESHOLD_H__
 
 #include "../vsf_test_usart.h"
-#ifndef VSF_TEST_USART_RX_FIFO_THRESHOLD_JUNK_SIZE
-#   define VSF_TEST_USART_RX_FIFO_THRESHOLD_JUNK_SIZE        16
-#endif
+
+/*============================ MACROS ========================================*/
+
 #ifndef VSF_TEST_USART_RX_FIFO_THRESHOLD_BUF_SIZE
 #   define VSF_TEST_USART_RX_FIFO_THRESHOLD_BUF_SIZE        64
 #endif
+
+#ifndef VSF_TEST_USART_RX_FIFO_THRESHOLD_JUNK_SIZE
+#   define VSF_TEST_USART_RX_FIFO_THRESHOLD_JUNK_SIZE        16
+#endif
+
+/*============================ TYPES =========================================*/
 
 #if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
 typedef struct {
@@ -39,18 +45,12 @@ typedef struct {
 } vsf_test_usart_rx_fifo_threshold_var_t;
 #endif
 
-#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+/*============================ PROTOTYPES ====================================*/
 
 void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif
 
 #endif /* __VSF_TEST_USART_RX_FIFO_THRESHOLD_H__ */

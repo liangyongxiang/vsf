@@ -21,6 +21,14 @@
 #include "../vsf_test_gpio.h"
 
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*============================ TYPES =========================================*/
+
+#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
 typedef struct {
     vsf_gpio_pin_mask_t expected_pin;
     volatile uint32_t count;
@@ -28,11 +36,7 @@ typedef struct {
 } vsf_test_gpio_exti_var_t;
 #endif
 
-#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+/*============================ PROTOTYPES ====================================*/
 
 void vsf_test_gpio_exti_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 

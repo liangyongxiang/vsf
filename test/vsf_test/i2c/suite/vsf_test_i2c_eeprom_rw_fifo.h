@@ -19,12 +19,23 @@
 #define __TEST_I2C_EEPROM_RW_FIFO_H__
 
 #include "../vsf_test_i2c.h"
+/*============================ MACROS ========================================*/
+
 #ifndef VSF_TEST_I2C_EEPROM_RW_FIFO_WRITE_BUF_SIZE
 #   define VSF_TEST_I2C_EEPROM_RW_FIFO_WRITE_BUF_SIZE        17
 #endif
 #ifndef VSF_TEST_I2C_EEPROM_RW_FIFO_READ_BUF_SIZE
 #   define VSF_TEST_I2C_EEPROM_RW_FIFO_READ_BUF_SIZE        16
 #endif
+
+#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+/*============================ TYPES =========================================*/
 
 #if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
 typedef struct {
@@ -36,12 +47,6 @@ typedef struct {
     vsf_i2c_cmd_t cur_cmd;
     uint_fast16_t offset;
 } vsf_test_i2c_eeprom_rw_fifo_var_t;
-#endif
-
-#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
-
-#ifdef __cplusplus
-extern "C" {
 #endif
 
 /*============================ PROTOTYPES ====================================*/

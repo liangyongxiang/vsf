@@ -19,16 +19,22 @@
 
 #include "../vsf_test_i2c.h"
 
-#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
-typedef struct {
-    volatile vsf_i2c_irq_mask_t irq_mask;
-} vsf_test_i2c_bus_scan_var_t;
-#endif
+/*============================ MACROS ========================================*/
+
 
 #if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
 
 #ifdef __cplusplus
 extern "C" {
+#endif
+
+
+/*============================ TYPES =========================================*/
+
+#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
+typedef struct {
+    volatile vsf_i2c_irq_mask_t irq_mask;
+} vsf_test_i2c_bus_scan_var_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

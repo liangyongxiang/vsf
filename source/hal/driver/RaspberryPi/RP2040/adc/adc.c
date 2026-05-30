@@ -44,6 +44,7 @@ typedef struct VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_t) {
     vsf_adc_t               vsf_adc;
 #endif
     adc_hw_t                *reg;
+    IRQn_Type               irqn;
     uint32_t                rst_bit;
     vsf_adc_isr_t           isr;
     vsf_adc_cfg_t           cfg;
@@ -90,6 +91,12 @@ vsf_err_t VSF_MCONNECT(VSF_ADC_CFG_IMP_PREFIX, _adc_init)(
     // Store config
     adc_ptr->cfg = *cfg_ptr;
     adc_ptr->isr = cfg_ptr->isr;
+
+    if (cfg_ptr->isr.handler_fn != NULL) {
+        NVIC_SetPriority(adc_ptr->irqn, (uint32_t)cfg_ptr->isr.prio);
+        NVIC_EnableIRQ(adc_ptr->irqn);
+    }
+
     adc_ptr->status.is_enabled = false;
     adc_ptr->status.is_busy    = false;
 
@@ -420,6 +427,7 @@ static void VSF_MCONNECT(__, VSF_ADC_CFG_IMP_PREFIX, _adc_irqhandler)(
                                         __IDX, _REG),                           \
         .rst_bit = VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX, _ADC, __IDX,     \
                                 _RST_BIT),                                      \
+        .irqn    = VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX, _ADC, __IDX, _IRQN), \
         __HAL_OP};                                                              \
     VSF_CAL_ROOT void VSF_MCONNECT(VSF_ADC_CFG_IMP_UPCASE_PREFIX, _ADC, __IDX,  \
                                    _IRQHandler)(void) {                         \

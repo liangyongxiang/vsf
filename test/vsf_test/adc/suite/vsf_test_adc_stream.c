@@ -2,9 +2,11 @@
 
 #define __VSF_TEST_ADC_CLASS_IMPLEMENT
 #include "vsf_test_adc_stream.h"
+#include "vsf_test_suites.h"
 /*============================ LOCAL VARIABLES ===============================*/
 
-static volatile bool __completed;
+
+#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
 
 static void __adc_isr(void *target_ptr, vsf_adc_t *adc_ptr,
 
@@ -13,13 +15,11 @@ static void __adc_isr(void *target_ptr, vsf_adc_t *adc_ptr,
     (void)adc_ptr;
     vsf_test_suite_t *suite = target_ptr;
     if (irq_mask & VSF_ADC_IRQ_MASK_CPL) {
-        __completed = true;
+        vsf_test_suites.adc_stream.completed = true;
     }
 }
 
 
-
-#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
 
 /*============================ MACROS ========================================*/
 
@@ -54,7 +54,7 @@ void vsf_test_adc_stream_run(const vsf_test_suite_t *suite, const vsf_test_case_
     while (fsm_rt_cpl != vsf_adc_enable(adc));
 
     /* --- Test 1: Stream 100 samples from temp sensor --- */
-    __completed = false;
+    vsf_test_suites.adc_stream.completed = false;
 
     vsf_adc_channel_cfg_t ch_cfg = {
         .channel       = 4,
@@ -69,10 +69,10 @@ void vsf_test_adc_stream_run(const vsf_test_suite_t *suite, const vsf_test_case_
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     uint32_t timeout_ms = 500;
-    while (!__completed && timeout_ms-- > 0) {
+    while (!vsf_test_suites.adc_stream.completed && timeout_ms-- > 0) {
         vsf_test_busy_wait_ms(1);
     }
-    VSF_TEST_ASSERT(__completed);
+    VSF_TEST_ASSERT(vsf_test_suites.adc_stream.completed);
 
     for (uint32_t i = 0; i < ADC_STREAM_SAMPLE_COUNT; i++) {
         VSF_TEST_ASSERT(samples[i] <= 0x0FFF);
@@ -80,16 +80,16 @@ void vsf_test_adc_stream_run(const vsf_test_suite_t *suite, const vsf_test_case_
 
     /* --- Test 2: Rapid fire 1-sample requests --- */
     for (uint32_t i = 0; i < ADC_STREAM_RAPID_COUNT; i++) {
-        __completed = false;
+        vsf_test_suites.adc_stream.completed = false;
         uint16_t single = 0;
         err = vsf_adc_channel_request(adc, &single, 1);
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
         timeout_ms = 100;
-        while (!__completed && timeout_ms-- > 0) {
+        while (!vsf_test_suites.adc_stream.completed && timeout_ms-- > 0) {
             vsf_test_busy_wait_ms(1);
         }
-        VSF_TEST_ASSERT(__completed);
+        VSF_TEST_ASSERT(vsf_test_suites.adc_stream.completed);
         VSF_TEST_ASSERT(single <= 0x0FFF);
     }
 

@@ -1,7 +1,11 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_i2c_slave.h"
+#include "vsf_test_suites.h"
 /*============================ LOCAL VARIABLES ===============================*/
+
+
+#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
 
 typedef struct {
     volatile vsf_i2c_irq_mask_t master_irq_mask;
@@ -10,11 +14,7 @@ typedef struct {
     uint8_t slave_buf[16];
 } __i2c_slave_state_t;
 
-static __i2c_slave_state_t __i2c_slave_state;
 
-
-
-#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
 
 /*============================ MACROS ========================================*/
 
@@ -81,7 +81,7 @@ void vsf_test_i2c_slave_run(const vsf_test_suite_t *suite, const vsf_test_case_t
     void **handles = (void **)fixture;
     vsf_i2c_t *master_i2c = (vsf_i2c_t *)handles[0];
     vsf_i2c_t *slave_i2c  = (vsf_i2c_t *)handles[1];
-    __i2c_slave_state_t *st = &__i2c_slave_state;
+    __i2c_slave_state_t *st = &vsf_test_suites.i2c_slave.i2c_slave_state;
 
     memset(st, 0, sizeof(*st));
 

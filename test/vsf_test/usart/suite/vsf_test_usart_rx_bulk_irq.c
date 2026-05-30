@@ -18,14 +18,9 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_usart_rx_bulk_irq.h"
+#include "vsf_test_suites.h"
 /*============================ LOCAL VARIABLES ===============================*/
 
-static uint8_t __rx_bulk_irq_buf[4096];
-static volatile bool __done;
-static uint8_t *__dst;
-static volatile uint32_t __isr_count;
-static uint_fast16_t __received;
-static uint_fast16_t __target;
 
 #if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
 
@@ -44,23 +39,23 @@ static void __rx_bulk_irq_handler(void *target, vsf_usart_t *usart,
 
     vsf_test_suite_t *suite = target;
 
-    while (__received < __target) {
+    while (vsf_test_suites.usart_rx_bulk_irq.received < vsf_test_suites.usart_rx_bulk_irq.target) {
         uint_fast16_t avail = vsf_usart_rxfifo_get_data_count(usart);
         if (avail == 0) { break; }
 
-        uint_fast16_t want = __target - __received;
+        uint_fast16_t want = vsf_test_suites.usart_rx_bulk_irq.target - vsf_test_suites.usart_rx_bulk_irq.received;
         if (want > avail) { want = avail; }
         uint_fast16_t got = vsf_usart_rxfifo_read(
-            usart, __dst + __received, want);
-        __received += got;
-        __isr_count++;
+            usart, vsf_test_suites.usart_rx_bulk_irq.dst + vsf_test_suites.usart_rx_bulk_irq.received, want);
+        vsf_test_suites.usart_rx_bulk_irq.received += got;
+        vsf_test_suites.usart_rx_bulk_irq.isr_count++;
 
         if (got < want) { break; }
     }
 
-    if (__received >= __target) {
+    if (vsf_test_suites.usart_rx_bulk_irq.received >= vsf_test_suites.usart_rx_bulk_irq.target) {
         vsf_usart_irq_disable(usart, VSF_USART_IRQ_MASK_RX);
-        __done = true;
+        vsf_test_suites.usart_rx_bulk_irq.done = true;
     }
 }
 
@@ -72,11 +67,11 @@ void vsf_test_usart_rx_bulk_irq_run(const vsf_test_suite_t *suite, const vsf_tes
     vsf_usart_t *usart = (vsf_usart_t *)fixture;
 
     /* Per-case state must be re-initialised before each run. */
-    __dst       = __rx_bulk_irq_buf;
-    __target    = p->data_size_bytes;
-    __received  = 0;
-    __isr_count = 0;
-    __done      = false;
+    vsf_test_suites.usart_rx_bulk_irq.dst       = vsf_test_suites.usart_rx_bulk_irq.rx_bulk_irq_buf;
+    vsf_test_suites.usart_rx_bulk_irq.target    = p->data_size_bytes;
+    vsf_test_suites.usart_rx_bulk_irq.received  = 0;
+    vsf_test_suites.usart_rx_bulk_irq.isr_count = 0;
+    vsf_test_suites.usart_rx_bulk_irq.done      = false;
 
     vsf_err_t err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
@@ -100,23 +95,23 @@ void vsf_test_usart_rx_bulk_irq_run(const vsf_test_suite_t *suite, const vsf_tes
     uint32_t max_ms = (p->data_size_bytes * 10 * 10) / (VSF_TEST_RX_BULK_IRQ_DEFAULT_BAUDRATE / 1000);
     if (max_ms < 1000) { max_ms = 1000; }
     uint32_t elapsed_ms = 0;
-    while (!__done && elapsed_ms < max_ms) {
+    while (!vsf_test_suites.usart_rx_bulk_irq.done && elapsed_ms < max_ms) {
         vsf_test_busy_wait_ms(10);
         elapsed_ms += 10;
     }
 
-    VSF_TEST_ASSERT(__done);
-    VSF_TEST_ASSERT(__received == p->data_size_bytes);
-    VSF_TEST_ASSERT(__isr_count > 0);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_rx_bulk_irq.done);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_rx_bulk_irq.received == p->data_size_bytes);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_rx_bulk_irq.isr_count > 0);
 
     /* Verify byte-level correctness: incrementing-counter pattern. */
     for (uint32_t i = 0; i < p->data_size_bytes; i++) {
-        VSF_TEST_ASSERT(__rx_bulk_irq_buf[i] == (uint8_t)(i & 0xFF));
+        VSF_TEST_ASSERT(vsf_test_suites.usart_rx_bulk_irq.rx_bulk_irq_buf[i] == (uint8_t)(i & 0xFF));
     }
 
     vsf_trace_info("USART:RX_BULK_IRQ:sz=%lu isr=%lu" VSF_TRACE_CFG_LINEEND,
                    (unsigned long)p->data_size_bytes,
-                   (unsigned long)__isr_count);
+                   (unsigned long)vsf_test_suites.usart_rx_bulk_irq.isr_count);
 
     while (fsm_rt_cpl != vsf_usart_disable(usart));
     vsf_usart_fini(usart);

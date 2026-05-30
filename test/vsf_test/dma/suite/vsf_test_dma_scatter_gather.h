@@ -28,6 +28,10 @@
 #   define VSF_TEST_DMA_SCATTER_GATHER_CASE_COUNT     1
 #endif
 
+#ifndef VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE
+#   define VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE        64
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);

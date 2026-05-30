@@ -18,16 +18,13 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_spi_async.h"
+#include "vsf_test_suites.h"
 /*============================ LOCAL VARIABLES ===============================*/
-
-#define SPI_ASYNC_MAX_DATA_LEN              256
-
-static uint8_t __spi_async_tx_buf[SPI_ASYNC_MAX_DATA_LEN];
-static uint8_t __spi_async_rx_buf[SPI_ASYNC_MAX_DATA_LEN];
-
 
 
 #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
+
+
 
 /*============================ TYPES =========================================*/
 
@@ -55,8 +52,8 @@ static void __vsf_test_spi_async_handler(void *target_ptr, vsf_spi_t *spi_ptr,
 static void __spi_async_prepare_buffers(uint16_t len)
 {
     for (uint16_t i = 0; i < len; i++) {
-        __spi_async_tx_buf[i] = (uint8_t)(0xA5 + i);
-        __spi_async_rx_buf[i] = 0;
+        vsf_test_suites.spi_async.spi_async_tx_buf[i] = (uint8_t)(0xA5 + i);
+        vsf_test_suites.spi_async.spi_async_rx_buf[i] = 0;
     }
 }
 
@@ -67,8 +64,8 @@ void vsf_test_spi_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t
     vsf_test_spi_async_ctx_t ctx = { .done = false, .irq_mask = 0 };
 
     uint16_t data_len = p->data_len;
-    if (data_len == 0 || data_len > SPI_ASYNC_MAX_DATA_LEN) {
-        data_len = SPI_ASYNC_MAX_DATA_LEN;
+    if (data_len == 0 || data_len > VSF_TEST_SPI_ASYNC_MAX_DATA_LEN) {
+        data_len = VSF_TEST_SPI_ASYNC_MAX_DATA_LEN;
     }
 
     vsf_err_t err = vsf_spi_init(spi, &(vsf_spi_cfg_t){
@@ -96,8 +93,8 @@ void vsf_test_spi_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t
         ctx.done = false;
         ctx.irq_mask = 0;
 
-        err = vsf_spi_request_transfer(spi, __spi_async_tx_buf,
-                                       __spi_async_rx_buf, data_len);
+        err = vsf_spi_request_transfer(spi, vsf_test_suites.spi_async.spi_async_tx_buf,
+                                       vsf_test_suites.spi_async.spi_async_rx_buf, data_len);
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
         /* Wait for completion */
@@ -110,7 +107,7 @@ void vsf_test_spi_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t
 
         /* Verify data */
         for (uint16_t i = 0; i < data_len; i++) {
-            if (__spi_async_rx_buf[i] != __spi_async_tx_buf[i]) {
+            if (vsf_test_suites.spi_async.spi_async_rx_buf[i] != vsf_test_suites.spi_async.spi_async_tx_buf[i]) {
                 pass = false;
                 break;
             }
@@ -127,7 +124,7 @@ void vsf_test_spi_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t
         ctx.done = false;
         ctx.irq_mask = 0;
 
-        err = vsf_spi_request_transfer(spi, __spi_async_tx_buf, NULL, data_len);
+        err = vsf_spi_request_transfer(spi, vsf_test_suites.spi_async.spi_async_tx_buf, NULL, data_len);
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
         uint32_t timeout = 100000;
@@ -144,12 +141,12 @@ void vsf_test_spi_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t
         /* --- Test 2: RX-only async transfer --- */
         vsf_trace_info("SPI:ASYNC:RX_ONLY_START" VSF_TRACE_CFG_LINEEND);
         for (uint16_t i = 0; i < data_len; i++) {
-            __spi_async_rx_buf[i] = 0;
+            vsf_test_suites.spi_async.spi_async_rx_buf[i] = 0;
         }
         ctx.done = false;
         ctx.irq_mask = 0;
 
-        err = vsf_spi_request_transfer(spi, NULL, __spi_async_rx_buf, data_len);
+        err = vsf_spi_request_transfer(spi, NULL, vsf_test_suites.spi_async.spi_async_rx_buf, data_len);
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
         uint32_t timeout = 100000;
@@ -170,8 +167,8 @@ void vsf_test_spi_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t
         ctx.done = false;
         ctx.irq_mask = 0;
 
-        err = vsf_spi_request_transfer(spi, __spi_async_tx_buf,
-                                       __spi_async_rx_buf, data_len);
+        err = vsf_spi_request_transfer(spi, vsf_test_suites.spi_async.spi_async_tx_buf,
+                                       vsf_test_suites.spi_async.spi_async_rx_buf, data_len);
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
         /* Cancel immediately (before completion) */

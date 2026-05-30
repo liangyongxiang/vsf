@@ -19,12 +19,10 @@
 
 #define __VSF_TEST_USART_CLASS_IMPLEMENT
 #include "vsf_test_usart_request_rx_irq.h"
+#include "vsf_test_suites.h"
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static volatile bool __req_rx_cpl;
-static volatile uint32_t __req_rx_irq_count;
-static uint8_t __req_rx_buf[256];
 
 #if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
 
@@ -32,9 +30,9 @@ static void __req_rx_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t 
 
 {
     vsf_test_suite_t *suite = target;
-    __req_rx_irq_count++;
+    vsf_test_suites.usart_request_rx_irq.req_rx_irq_count++;
     if (irq_mask & VSF_USART_IRQ_MASK_RX_CPL) {
-        __req_rx_cpl = true;
+        vsf_test_suites.usart_request_rx_irq.req_rx_cpl = true;
     }
 }
 
@@ -50,11 +48,11 @@ void vsf_test_usart_request_rx_irq_run(const vsf_test_suite_t *suite, const vsf_
     vsf_usart_capability_t cap = vsf_usart_capability(usart);
     uint32_t total = (uint32_t)cap.rxfifo_depth * p->refill_target;
     if (total < 32) { total = 32; }
-    if (total > sizeof(__req_rx_buf)) { total = sizeof(__req_rx_buf); }
+    if (total > sizeof(vsf_test_suites.usart_request_rx_irq.req_rx_buf)) { total = sizeof(vsf_test_suites.usart_request_rx_irq.req_rx_buf); }
 
     /* Per-case state in suite: must be re-initialised before each run. */
-    __req_rx_cpl       = false;
-    __req_rx_irq_count = 0;
+    vsf_test_suites.usart_request_rx_irq.req_rx_cpl       = false;
+    vsf_test_suites.usart_request_rx_irq.req_rx_irq_count = 0;
 
     vsf_err_t err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
@@ -72,21 +70,21 @@ void vsf_test_usart_request_rx_irq_run(const vsf_test_suite_t *suite, const vsf_
      * when the fifo2req adapter has drained all requested bytes. */
     vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_RX_CPL);
 
-    err = vsf_usart_request_rx(usart, __req_rx_buf, total);
+    err = vsf_usart_request_rx(usart, vsf_test_suites.usart_request_rx_irq.req_rx_buf, total);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     /* Wait for host data. */
     uint32_t timeout_ms = (total * 10000 / 115200) + 2000;
     uint32_t waited = 0;
-    while (!__req_rx_cpl && waited < timeout_ms) {
+    while (!vsf_test_suites.usart_request_rx_irq.req_rx_cpl && waited < timeout_ms) {
         vsf_test_busy_wait_ms(1);
         waited++;
     }
-    VSF_TEST_ASSERT(__req_rx_cpl);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_request_rx_irq.req_rx_cpl);
     int_fast32_t cnt = vsf_usart_get_rx_count(usart);
     VSF_TEST_ASSERT(cnt == (int_fast32_t)total);
     vsf_trace_info("USART:REQ_RX_IRQ:irq=%lu count=%ld" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)__req_rx_irq_count, (long)cnt);
+                   (unsigned long)vsf_test_suites.usart_request_rx_irq.req_rx_irq_count, (long)cnt);
 
     while (fsm_rt_cpl != vsf_usart_disable(usart));
     vsf_usart_fini(usart);

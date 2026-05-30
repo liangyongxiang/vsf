@@ -19,13 +19,10 @@
 
 #define __VSF_TEST_USART_CLASS_IMPLEMENT
 #include "vsf_test_usart_tx_fifo_irq.h"
+#include "vsf_test_suites.h"
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static volatile uint32_t __isr_count;
-static uint_fast16_t __remaining;
-static const uint8_t *__src;
-static volatile bool __done;
 
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
 
@@ -33,20 +30,20 @@ static void __tx_fifo_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t
 {
     if (!(irq_mask & VSF_USART_IRQ_MASK_TX)) { return; }
     vsf_test_suite_t *suite = target;
-    __isr_count++;
+    vsf_test_suites.usart_tx_fifo_irq.isr_count++;
     /* Refill in one large request — txfifo_write reports the actual count
      * written when the FIFO fills, even on PL011 where get_free_count
      * returns only 0/1. */
-    while (__remaining > 0) {
-        uint_fast16_t want = (__remaining > 64) ? 64 : (uint_fast16_t)__remaining;
-        uint_fast16_t wrote = vsf_usart_txfifo_write(usart, (void *)__src, want);
-        __src       += wrote;
-        __remaining -= wrote;
+    while (vsf_test_suites.usart_tx_fifo_irq.remaining > 0) {
+        uint_fast16_t want = (vsf_test_suites.usart_tx_fifo_irq.remaining > 64) ? 64 : (uint_fast16_t)vsf_test_suites.usart_tx_fifo_irq.remaining;
+        uint_fast16_t wrote = vsf_usart_txfifo_write(usart, (void *)vsf_test_suites.usart_tx_fifo_irq.src, want);
+        vsf_test_suites.usart_tx_fifo_irq.src       += wrote;
+        vsf_test_suites.usart_tx_fifo_irq.remaining -= wrote;
         if (wrote < want) { break; }  /* FIFO full */
     }
-    if (__remaining == 0) {
+    if (vsf_test_suites.usart_tx_fifo_irq.remaining == 0) {
         vsf_usart_irq_disable(usart, VSF_USART_IRQ_MASK_TX);
-        __done = true;
+        vsf_test_suites.usart_tx_fifo_irq.done = true;
     }
 }
 
@@ -67,10 +64,10 @@ void vsf_test_usart_tx_fifo_irq_run(const vsf_test_suite_t *suite, const vsf_tes
     for (uint32_t i = 0; i < total; i++) { buf[i] = (uint8_t)('A' + (i % 26)); }
 
     /* Per-case state in suite: must be re-initialised before each run. */
-    __src       = buf;
-    __remaining = total;
-    __isr_count = 0;
-    __done      = false;
+    vsf_test_suites.usart_tx_fifo_irq.src       = buf;
+    vsf_test_suites.usart_tx_fifo_irq.remaining = total;
+    vsf_test_suites.usart_tx_fifo_irq.isr_count = 0;
+    vsf_test_suites.usart_tx_fifo_irq.done      = false;
 
     vsf_err_t err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
@@ -89,24 +86,24 @@ void vsf_test_usart_tx_fifo_irq_run(const vsf_test_suite_t *suite, const vsf_tes
      * how many slots are free. Instead request `txfifo_depth` bytes and rely
      * on txfifo_write returning the partial count when the FIFO fills. */
     uint_fast16_t prefill_request = cap.txfifo_depth;
-    if (prefill_request > __remaining) {
-        prefill_request = (uint_fast16_t)__remaining;
+    if (prefill_request > vsf_test_suites.usart_tx_fifo_irq.remaining) {
+        prefill_request = (uint_fast16_t)vsf_test_suites.usart_tx_fifo_irq.remaining;
     }
-    uint_fast16_t wrote = vsf_usart_txfifo_write(usart, (void *)__src, prefill_request);
-    __src       += wrote;
-    __remaining -= wrote;
+    uint_fast16_t wrote = vsf_usart_txfifo_write(usart, (void *)vsf_test_suites.usart_tx_fifo_irq.src, prefill_request);
+    vsf_test_suites.usart_tx_fifo_irq.src       += wrote;
+    vsf_test_suites.usart_tx_fifo_irq.remaining -= wrote;
     vsf_usart_irq_enable(usart, VSF_USART_IRQ_MASK_TX);
 
     /* Wait for ISR to drain everything. Fixed iteration bound — immune to
      * CI scheduler jitter and avoids fragile baud-rate arithmetic. */
     #define TX_FIFO_IRQ_POLL_MAX_ITER 5000   /* ~5 s equivalent with 1 ms step */
-    for (uint32_t iter = 0; iter < TX_FIFO_IRQ_POLL_MAX_ITER && !__done; iter++) {
+    for (uint32_t iter = 0; iter < TX_FIFO_IRQ_POLL_MAX_ITER && !vsf_test_suites.usart_tx_fifo_irq.done; iter++) {
         vsf_test_busy_wait_ms(1);
     }
-    VSF_TEST_ASSERT(__done);
-    VSF_TEST_ASSERT(__isr_count > 0);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_tx_fifo_irq.done);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_tx_fifo_irq.isr_count > 0);
     vsf_trace_info("USART:TX_FIFO_IRQ:isr=%lu total=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)__isr_count, (unsigned long)total);
+                   (unsigned long)vsf_test_suites.usart_tx_fifo_irq.isr_count, (unsigned long)total);
 
     while (fsm_rt_cpl != vsf_usart_disable(usart));
     vsf_usart_fini(usart);

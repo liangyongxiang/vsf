@@ -19,12 +19,10 @@
 
 #define __VSF_TEST_GPIO_CLASS_IMPLEMENT
 #include "vsf_test_gpio_exti.h"
+#include "vsf_test_suites.h"
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_gpio_pin_mask_t __expected_pin;
-static volatile uint32_t __count;
-static bool __disable_on_fire;
 
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
 
@@ -32,12 +30,12 @@ static void __exti_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_t p
 
 {
     vsf_test_suite_t *suite = target;
-    if (pin_mask & __expected_pin) {
-        __count++;
-        if (__disable_on_fire) {
+    if (pin_mask & vsf_test_suites.gpio_exti.expected_pin) {
+        vsf_test_suites.gpio_exti.count++;
+        if (vsf_test_suites.gpio_exti.disable_on_fire) {
             /* Level-trigger ISR storm guard. Disable the source after the
              * first hit; the main thread re-enables if it wants more. */
-            vsf_gpio_exti_irq_disable(gpio, __expected_pin);
+            vsf_gpio_exti_irq_disable(gpio, vsf_test_suites.gpio_exti.expected_pin);
         }
     }
 }
@@ -62,9 +60,9 @@ void vsf_test_gpio_exti_run(const vsf_test_suite_t *suite, const vsf_test_case_t
                     || p->trigger_mode == VSF_GPIO_EXTI_MODE_HIGH_LEVEL);
 
     /* Per-case state in suite: must be re-initialised before each run. */
-    __count           = 0;
-    __expected_pin    = in_mask;
-    __disable_on_fire = level_trig;
+    vsf_test_suites.gpio_exti.count           = 0;
+    vsf_test_suites.gpio_exti.expected_pin    = in_mask;
+    vsf_test_suites.gpio_exti.disable_on_fire = level_trig;
 
     /* Pre-park the output pin at the IDLE level (opposite of "active") so
      * configuring EXTI does not see a spurious trigger. */
@@ -103,7 +101,7 @@ void vsf_test_gpio_exti_run(const vsf_test_suite_t *suite, const vsf_test_case_t
 
     /* Clear any pending edge that the mode switch produced. */
     vsf_gpio_exti_irq_clear(gpio, in_mask);
-    __count = 0;
+    vsf_test_suites.gpio_exti.count = 0;
 
     /* Drive to ACTIVE state — trigger one event (edge) or sustained ISRs
      * (level, but handler self-disables after first hit). */
@@ -113,7 +111,7 @@ void vsf_test_gpio_exti_run(const vsf_test_suite_t *suite, const vsf_test_case_t
         vsf_gpio_set(gpio, out_mask);
     }
     vsf_test_busy_wait_ms(1);
-    uint32_t after_active = __count;
+    uint32_t after_active = vsf_test_suites.gpio_exti.count;
     VSF_TEST_ASSERT(after_active >= 1);
 
     /* For dual-edge mode, also drive the opposite transition and expect
@@ -126,7 +124,7 @@ void vsf_test_gpio_exti_run(const vsf_test_suite_t *suite, const vsf_test_case_t
             vsf_gpio_clear(gpio, out_mask);
         }
         vsf_test_busy_wait_ms(1);
-        VSF_TEST_ASSERT(__count > after_active);
+        VSF_TEST_ASSERT(vsf_test_suites.gpio_exti.count > after_active);
     }
 
     /* For edge-triggered (single-edge) modes, also verify the IRQ truly
@@ -134,7 +132,7 @@ void vsf_test_gpio_exti_run(const vsf_test_suite_t *suite, const vsf_test_case_t
      * edge then the active edge again, expect no count change. */
     if (!level_trig && p->trigger_mode != VSF_GPIO_EXTI_MODE_RISING_FALLING) {
         vsf_gpio_exti_irq_disable(gpio, in_mask);
-        uint32_t baseline = __count;
+        uint32_t baseline = vsf_test_suites.gpio_exti.count;
         /* idle → active → idle → active (extra noise) */
         if (active_low) {
             vsf_gpio_set(gpio, out_mask);
@@ -147,7 +145,7 @@ void vsf_test_gpio_exti_run(const vsf_test_suite_t *suite, const vsf_test_case_t
         }
         vsf_test_busy_wait_ms(1);
         vsf_gpio_exti_irq_clear(gpio, in_mask);
-        VSF_TEST_ASSERT(__count == baseline);
+        VSF_TEST_ASSERT(vsf_test_suites.gpio_exti.count == baseline);
     }
 
     /* Phase-3 API completeness check (usart-gpio-coverage-gaps PRD):
@@ -162,7 +160,7 @@ void vsf_test_gpio_exti_run(const vsf_test_suite_t *suite, const vsf_test_case_t
     vsf_gpio_set_input(gpio, in_mask);
 
     vsf_trace_info("GPIO:EXTI:trigger=0x%x count=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned)p->trigger_mode, (unsigned long)__count);
+                   (unsigned)p->trigger_mode, (unsigned long)vsf_test_suites.gpio_exti.count);
 }
 
 #endif /* VSF_TEST_GPIO_EXTI_ENABLE == ENABLED */

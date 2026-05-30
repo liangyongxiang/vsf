@@ -30,6 +30,7 @@ file(GLOB_RECURSE RNG_SRCS   ${CMAKE_CURRENT_LIST_DIR}/rng/*.c)
 file(GLOB_RECURSE DMA_SRCS   ${CMAKE_CURRENT_LIST_DIR}/dma/*.c)
 
 vsf_add_sources(
+    ${CMAKE_CURRENT_LIST_DIR}/vsf_test_suites.c
     ${USART_SRCS}
     ${GPIO_SRCS}
     ${I2C_SRCS}

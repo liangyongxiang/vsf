@@ -19,14 +19,10 @@
 
 #define __VSF_TEST_USART_CLASS_IMPLEMENT
 #include "vsf_test_usart_rx_fifo_irq.h"
+#include "vsf_test_suites.h"
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static volatile uint32_t __isr_count;
-static uint_fast16_t __received;
-static uint_fast16_t __target;
-static uint8_t *__dst;
-static volatile bool __done;
 
 #if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
 
@@ -42,19 +38,19 @@ static void __rx_fifo_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t
 {
     if (!(irq_mask & (VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT))) { return; }
     vsf_test_suite_t *suite = target;
-    __isr_count++;
-    while (__received < __target) {
+    vsf_test_suites.usart_rx_fifo_irq.isr_count++;
+    while (vsf_test_suites.usart_rx_fifo_irq.received < vsf_test_suites.usart_rx_fifo_irq.target) {
         uint_fast16_t avail = vsf_usart_rxfifo_get_data_count(usart);
         if (avail == 0) { break; }
-        uint_fast16_t want = __target - __received;
+        uint_fast16_t want = vsf_test_suites.usart_rx_fifo_irq.target - vsf_test_suites.usart_rx_fifo_irq.received;
         if (want > avail) { want = avail; }
-        uint_fast16_t got = vsf_usart_rxfifo_read(usart, __dst + __received, want);
-        __received += got;
+        uint_fast16_t got = vsf_usart_rxfifo_read(usart, vsf_test_suites.usart_rx_fifo_irq.dst + vsf_test_suites.usart_rx_fifo_irq.received, want);
+        vsf_test_suites.usart_rx_fifo_irq.received += got;
         if (got == 0) { break; }
     }
-    if (__received >= __target) {
+    if (vsf_test_suites.usart_rx_fifo_irq.received >= vsf_test_suites.usart_rx_fifo_irq.target) {
         vsf_usart_irq_disable(usart, VSF_USART_IRQ_MASK_RX | VSF_USART_IRQ_MASK_RX_TIMEOUT);
-        __done = true;
+        vsf_test_suites.usart_rx_fifo_irq.done = true;
     }
 }
 
@@ -74,11 +70,11 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_suite_t *suite, const vsf_tes
     if (total > sizeof(buf)) { total = sizeof(buf); }
 
     /* Per-case state in suite: must be re-initialised before each run. */
-    __dst       = buf;
-    __received  = 0;
-    __target    = total;
-    __isr_count = 0;
-    __done      = false;
+    vsf_test_suites.usart_rx_fifo_irq.dst       = buf;
+    vsf_test_suites.usart_rx_fifo_irq.received  = 0;
+    vsf_test_suites.usart_rx_fifo_irq.target    = total;
+    vsf_test_suites.usart_rx_fifo_irq.isr_count = 0;
+    vsf_test_suites.usart_rx_fifo_irq.done      = false;
 
     /* Enable threshold IRQ at the requested level (no timeout) — distinguishes
      * from rx_irq and exercises NOT_EMPTY / HALF_FULL / FULL across cases. */
@@ -100,13 +96,13 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_suite_t *suite, const vsf_tes
 
     /* Wait for host data. Fixed iteration bound — immune to CI jitter. */
     #define RX_FIFO_IRQ_POLL_MAX_ITER 8000   /* ~8 s equivalent with 1 ms step */
-    for (uint32_t iter = 0; iter < RX_FIFO_IRQ_POLL_MAX_ITER && !__done; iter++) {
+    for (uint32_t iter = 0; iter < RX_FIFO_IRQ_POLL_MAX_ITER && !vsf_test_suites.usart_rx_fifo_irq.done; iter++) {
         vsf_test_busy_wait_ms(1);
     }
-    VSF_TEST_ASSERT(__done);
-    VSF_TEST_ASSERT(__isr_count > 0);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_rx_fifo_irq.done);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_rx_fifo_irq.isr_count > 0);
     vsf_trace_info("USART:RX_FIFO_IRQ:isr=%lu got=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)__isr_count, (unsigned long)__received);
+                   (unsigned long)vsf_test_suites.usart_rx_fifo_irq.isr_count, (unsigned long)vsf_test_suites.usart_rx_fifo_irq.received);
 
     while (fsm_rt_cpl != vsf_usart_disable(usart));
     vsf_usart_fini(usart);

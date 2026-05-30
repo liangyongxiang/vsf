@@ -19,22 +19,19 @@
 
 #define __VSF_TEST_GPIO_CLASS_IMPLEMENT
 #include "vsf_test_gpio_irq_latency.h"
+#include "vsf_test_suites.h"
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static vsf_gpio_pin_mask_t __expected_pin;
-static volatile vsf_systimer_tick_t __isr_tick;
-static volatile bool __fired;
-static vsf_systimer_tick_t __trigger_tick;
 
 #if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
 
 static void __latency_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_t pin_mask)
 {
     vsf_test_suite_t *suite = target;
-    if (pin_mask & __expected_pin) {
-        __isr_tick = vsf_systimer_get();
-        __fired = true;
+    if (pin_mask & vsf_test_suites.gpio_irq_latency.expected_pin) {
+        vsf_test_suites.gpio_irq_latency.isr_tick = vsf_systimer_get();
+        vsf_test_suites.gpio_irq_latency.fired = true;
     }
 }
 
@@ -51,10 +48,10 @@ void vsf_test_gpio_irq_latency_run(const vsf_test_suite_t *suite, const vsf_test
     VSF_TEST_GPIO_ASSERT_CAPABILITY(gpio);
 
     /* Per-case state in suite: must be re-initialised before each run. */
-    __expected_pin = pin_mask;
-    __fired        = false;
-    __isr_tick     = 0;
-    __trigger_tick = 0;
+    vsf_test_suites.gpio_irq_latency.expected_pin = pin_mask;
+    vsf_test_suites.gpio_irq_latency.fired        = false;
+    vsf_test_suites.gpio_irq_latency.isr_tick     = 0;
+    vsf_test_suites.gpio_irq_latency.trigger_tick = 0;
 
     /* Configure pin as EXTI rising edge — driven by SIO from the same test
      * (self-trigger; no external wiring needed). */
@@ -82,20 +79,20 @@ void vsf_test_gpio_irq_latency_run(const vsf_test_suite_t *suite, const vsf_test
     uint32_t worst_ticks = 0;
     const uint32_t ITERATIONS = 8;
     for (uint32_t i = 0; i < ITERATIONS; i++) {
-        __fired = false;
-        __isr_tick = 0;
+        vsf_test_suites.gpio_irq_latency.fired = false;
+        vsf_test_suites.gpio_irq_latency.isr_tick = 0;
         vsf_gpio_clear(gpio, pin_mask);
         vsf_test_busy_wait_ms(1);
         vsf_gpio_exti_irq_clear(gpio, pin_mask);
 
-        __trigger_tick = vsf_systimer_get();
+        vsf_test_suites.gpio_irq_latency.trigger_tick = vsf_systimer_get();
         vsf_gpio_set(gpio, pin_mask);   /* rising edge → EXTI fires */
         /* Spin until ISR captures its tick. */
-        for (uint32_t spin = 0; spin < 100000 && !__fired; spin++) {
+        for (uint32_t spin = 0; spin < 100000 && !vsf_test_suites.gpio_irq_latency.fired; spin++) {
             __asm__ volatile("nop");
         }
-        VSF_TEST_ASSERT(__fired);
-        uint32_t delta = (uint32_t)(__isr_tick - __trigger_tick);
+        VSF_TEST_ASSERT(vsf_test_suites.gpio_irq_latency.fired);
+        uint32_t delta = (uint32_t)(vsf_test_suites.gpio_irq_latency.isr_tick - vsf_test_suites.gpio_irq_latency.trigger_tick);
         if (delta > worst_ticks) { worst_ticks = delta; }
     }
 

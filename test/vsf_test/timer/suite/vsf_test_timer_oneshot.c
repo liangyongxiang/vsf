@@ -2,9 +2,11 @@
 
 #define __VSF_TEST_TIMER_CLASS_IMPLEMENT
 #include "vsf_test_timer_oneshot.h"
+#include "vsf_test_suites.h"
 /*============================ LOCAL VARIABLES ===============================*/
 
-static volatile bool __fired;
+
+#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
 
 static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
                         vsf_timer_irq_mask_t irq_mask)
@@ -12,13 +14,11 @@ static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
     (void)timer_ptr;
     vsf_test_suite_t *suite = target_ptr;
     if (irq_mask & VSF_TIMER_IRQ_MASK_OVERFLOW) {
-        __fired = true;
+        vsf_test_suites.timer_oneshot.fired = true;
     }
 }
 
 
-
-#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
 
 /*============================ MACROS ========================================*/
 
@@ -35,7 +35,7 @@ void vsf_test_timer_oneshot_run(const vsf_test_suite_t *suite, const vsf_test_ca
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
 
-    __fired = false;
+    vsf_test_suites.timer_oneshot.fired = false;
 
     vsf_timer_capability_t cap = vsf_timer_capability(timer);
     VSF_TEST_ASSERT(cap.channel_cnt >= 1);
@@ -66,11 +66,11 @@ void vsf_test_timer_oneshot_run(const vsf_test_suite_t *suite, const vsf_test_ca
 
     /* Wait up to ~150ms for the alarm to fire */
     uint32_t timeout_ms = 150;
-    while (!__fired && timeout_ms-- > 0) {
+    while (!vsf_test_suites.timer_oneshot.fired && timeout_ms-- > 0) {
         vsf_test_busy_wait_ms(1);
     }
 
-    VSF_TEST_ASSERT(__fired);
+    VSF_TEST_ASSERT(vsf_test_suites.timer_oneshot.fired);
 
     vsf_trace_info("TIMER:ONESHOT:PASS" VSF_TRACE_CFG_LINEEND);
 

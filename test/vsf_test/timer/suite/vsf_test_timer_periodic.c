@@ -2,9 +2,9 @@
 
 #define __VSF_TEST_TIMER_CLASS_IMPLEMENT
 #include "vsf_test_timer_periodic.h"
+#include "vsf_test_suites.h"
 /*============================ LOCAL VARIABLES ===============================*/
 
-static volatile uint32_t __counter;
 
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
 
@@ -21,8 +21,8 @@ static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
     (void)timer_ptr;
     vsf_test_suite_t *suite = target_ptr;
     if (irq_mask & VSF_TIMER_IRQ_MASK_OVERFLOW) {
-        if (__counter < TIMER_PERIODIC_COUNT) {
-            __counter++;
+        if (vsf_test_suites.timer_periodic.counter < TIMER_PERIODIC_COUNT) {
+            vsf_test_suites.timer_periodic.counter++;
         }
     }
 }
@@ -37,7 +37,7 @@ void vsf_test_timer_periodic_run(const vsf_test_suite_t *suite, const vsf_test_c
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
 
-    __counter = 0;
+    vsf_test_suites.timer_periodic.counter = 0;
 
     vsf_timer_capability_t cap = vsf_timer_capability(timer);
     VSF_TEST_ASSERT(cap.channel_cnt >= 1);
@@ -68,11 +68,11 @@ void vsf_test_timer_periodic_run(const vsf_test_suite_t *suite, const vsf_test_c
 
     /* Wait up to ~200ms for all 5 periodic interrupts to fire */
     uint32_t timeout_ms = 200;
-    while (__counter < TIMER_PERIODIC_COUNT && timeout_ms-- > 0) {
+    while (vsf_test_suites.timer_periodic.counter < TIMER_PERIODIC_COUNT && timeout_ms-- > 0) {
         vsf_test_busy_wait_ms(1);
     }
 
-    VSF_TEST_ASSERT(__counter == TIMER_PERIODIC_COUNT);
+    VSF_TEST_ASSERT(vsf_test_suites.timer_periodic.counter == TIMER_PERIODIC_COUNT);
 
     vsf_trace_info("TIMER:PERIODIC:PASS" VSF_TRACE_CFG_LINEEND);
 

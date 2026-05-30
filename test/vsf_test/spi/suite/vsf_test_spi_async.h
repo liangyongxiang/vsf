@@ -28,6 +28,10 @@
 #   define VSF_TEST_SPI_ASYNC_CASE_COUNT     1
 #endif
 
+#ifndef VSF_TEST_SPI_ASYNC_MAX_DATA_LEN
+#   define VSF_TEST_SPI_ASYNC_MAX_DATA_LEN      256
+#endif
+
 #ifndef VSF_TEST_SPI_ASYNC_CASES_INIT
 #define VSF_TEST_SPI_ASYNC_CASES_INIT                                       \
     { 0 }

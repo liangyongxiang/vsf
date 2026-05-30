@@ -18,16 +18,9 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_usart_rx_fifo_threshold.h"
+#include "vsf_test_suites.h"
 /*============================ LOCAL VARIABLES ===============================*/
 
-static uint8_t __rx_fifo_threshold_buf[64];
-static volatile bool __threshold_fired;
-static volatile uint32_t __bytes_at_threshold;
-static volatile uint32_t __isr_count;
-static volatile bool __done;
-static uint8_t *__dst;
-static uint32_t __target;
-static volatile uint32_t __received;
 
 #if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
 
@@ -50,27 +43,27 @@ static void __rx_fifo_threshold_handler(void *target, vsf_usart_t *usart,
      * if we read only 1 byte the level may drop below threshold and the
      * remaining bytes stall because no new data is arriving. */
     while (vsf_usart_rxfifo_get_data_count(usart) > 0) {
-        uint_fast16_t want = __target - __received;
+        uint_fast16_t want = vsf_test_suites.usart_rx_fifo_threshold.target - vsf_test_suites.usart_rx_fifo_threshold.received;
         if (want == 0) break;
         uint_fast16_t got = vsf_usart_rxfifo_read(
-            usart, __dst + __received, want);
+            usart, vsf_test_suites.usart_rx_fifo_threshold.dst + vsf_test_suites.usart_rx_fifo_threshold.received, want);
         if (got == 0) break;
-        __received += got;
+        vsf_test_suites.usart_rx_fifo_threshold.received += got;
     }
 
     /* Record total bytes received at the first threshold fire.  Because we
      * drain the entire FIFO in one ISR visit, this equals the threshold
      * level (assuming the host sent exactly that many bytes). */
-    if (!__threshold_fired) {
-        __threshold_fired = true;
-        __bytes_at_threshold = __received;
+    if (!vsf_test_suites.usart_rx_fifo_threshold.threshold_fired) {
+        vsf_test_suites.usart_rx_fifo_threshold.threshold_fired = true;
+        vsf_test_suites.usart_rx_fifo_threshold.bytes_at_threshold = vsf_test_suites.usart_rx_fifo_threshold.received;
     }
 
-    __isr_count++;
+    vsf_test_suites.usart_rx_fifo_threshold.isr_count++;
 
-    if (__received >= __target) {
+    if (vsf_test_suites.usart_rx_fifo_threshold.received >= vsf_test_suites.usart_rx_fifo_threshold.target) {
         vsf_usart_irq_disable(usart, VSF_USART_IRQ_MASK_RX);
-        __done = true;
+        vsf_test_suites.usart_rx_fifo_threshold.done = true;
     }
 }
 
@@ -82,13 +75,13 @@ void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_suite_t *suite, const v
     vsf_usart_t *usart = (vsf_usart_t *)fixture;
 
     /* Per-case state must be re-initialised before each run. */
-    __dst                = __rx_fifo_threshold_buf;
-    __target             = p->expected_bytes;
-    __received           = 0;
-    __isr_count          = 0;
-    __done               = false;
-    __threshold_fired    = false;
-    __bytes_at_threshold = 0;
+    vsf_test_suites.usart_rx_fifo_threshold.dst                = vsf_test_suites.usart_rx_fifo_threshold.rx_fifo_threshold_buf;
+    vsf_test_suites.usart_rx_fifo_threshold.target             = p->expected_bytes;
+    vsf_test_suites.usart_rx_fifo_threshold.received           = 0;
+    vsf_test_suites.usart_rx_fifo_threshold.isr_count          = 0;
+    vsf_test_suites.usart_rx_fifo_threshold.done               = false;
+    vsf_test_suites.usart_rx_fifo_threshold.threshold_fired    = false;
+    vsf_test_suites.usart_rx_fifo_threshold.bytes_at_threshold = 0;
 
     vsf_err_t err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
@@ -120,29 +113,29 @@ void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_suite_t *suite, const v
      * 10 bits/byte @ 115200 = ~87 us/byte.  32 bytes ~ 3 ms.
      * 1 s timeout is generous headroom for host-side scheduling. */
     uint32_t elapsed_ms = 0;
-    while (!__done && elapsed_ms < 1000) {
+    while (!vsf_test_suites.usart_rx_fifo_threshold.done && elapsed_ms < 1000) {
         vsf_test_busy_wait_ms(1);
         elapsed_ms++;
     }
 
-    VSF_TEST_ASSERT(__done);
-    VSF_TEST_ASSERT(__received == p->expected_bytes);
-    VSF_TEST_ASSERT(__isr_count > 0);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_rx_fifo_threshold.done);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_rx_fifo_threshold.received == p->expected_bytes);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_rx_fifo_threshold.isr_count > 0);
 
     /* Core assertion: threshold IRQ fired at exactly the expected byte count. */
-    VSF_TEST_ASSERT(__bytes_at_threshold == p->expected_bytes);
+    VSF_TEST_ASSERT(vsf_test_suites.usart_rx_fifo_threshold.bytes_at_threshold == p->expected_bytes);
 
     /* Verify byte-level correctness: incrementing-counter pattern. */
     for (uint32_t i = 0; i < p->expected_bytes; i++) {
-        VSF_TEST_ASSERT(__rx_fifo_threshold_buf[i] == (uint8_t)(i & 0xFF));
+        VSF_TEST_ASSERT(vsf_test_suites.usart_rx_fifo_threshold.rx_fifo_threshold_buf[i] == (uint8_t)(i & 0xFF));
     }
 
     vsf_trace_info("USART:RX_FIFO_THRESHOLD:thr=%s exp=%lu got=%lu isr=%lu" VSF_TRACE_CFG_LINEEND,
                    (p->threshold_mode == VSF_USART_RX_FIFO_THRESHOLD_HALF_FULL) ? "HALF" :
                    (p->threshold_mode == VSF_USART_RX_FIFO_THRESHOLD_FULL) ? "FULL" : "?",
                    (unsigned long)p->expected_bytes,
-                   (unsigned long)__bytes_at_threshold,
-                   (unsigned long)__isr_count);
+                   (unsigned long)vsf_test_suites.usart_rx_fifo_threshold.bytes_at_threshold,
+                   (unsigned long)vsf_test_suites.usart_rx_fifo_threshold.isr_count);
 
     while (fsm_rt_cpl != vsf_usart_disable(usart));
     vsf_usart_fini(usart);

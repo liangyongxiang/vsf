@@ -19,17 +19,11 @@
 
 #define __VSF_TEST_GPIO_CLASS_IMPLEMENT
 #include "vsf_test_gpio_concurrent_prio.h"
+#include "vsf_test_suites.h"
 /*============================ LOCAL VARIABLES ===============================*/
-
-static vsf_gpio_pin_mask_t __out_mask;
-static uint32_t __period_us;
-static volatile uint32_t __callback_toggles;
-static volatile uint32_t __main_toggles;
-
 
 
 #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
-
 
 /*============================ IMPLEMENTATION ================================*/
 
@@ -49,10 +43,10 @@ void vsf_test_gpio_concurrent_prio_run(const vsf_test_suite_t *suite, const vsf_
     vsf_gpio_clear(gpio, out_mask);
 
     /* Per-case state in suite: must be re-initialised before each run. */
-    __out_mask         = out_mask;
-    __period_us        = p->callback_period_us;
-    __callback_toggles = 0;
-    __main_toggles     = 0;
+    vsf_test_suites.gpio_concurrent_prio.out_mask         = out_mask;
+    vsf_test_suites.gpio_concurrent_prio.period_us        = p->callback_period_us;
+    vsf_test_suites.gpio_concurrent_prio.callback_toggles = 0;
+    vsf_test_suites.gpio_concurrent_prio.main_toggles     = 0;
 
     /* Concurrent toggle test: two toggle streams at different rates.
      * Stream A: high-frequency burst (1 k toggles / ms loop).
@@ -65,12 +59,12 @@ void vsf_test_gpio_concurrent_prio_run(const vsf_test_suite_t *suite, const vsf_
     for (uint32_t elapsed = 0; elapsed < duration_us; elapsed++) {
         /* Stream A: high-frequency toggle. */
         vsf_gpio_toggle(gpio, out_mask);
-        __main_toggles++;
+        vsf_test_suites.gpio_concurrent_prio.main_toggles++;
 
         /* Stream B: periodic toggle at callback_period_us. */
         if (elapsed >= next_callback) {
             vsf_gpio_toggle(gpio, out_mask);
-            __callback_toggles++;
+            vsf_test_suites.gpio_concurrent_prio.callback_toggles++;
             next_callback += p->callback_period_us;
         }
 
@@ -78,11 +72,11 @@ void vsf_test_gpio_concurrent_prio_run(const vsf_test_suite_t *suite, const vsf_
     }
 
     vsf_trace_info("GPIO:CONCURRENT:cb=%lu main=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)__callback_toggles,
-                   (unsigned long)__main_toggles);
+                   (unsigned long)vsf_test_suites.gpio_concurrent_prio.callback_toggles,
+                   (unsigned long)vsf_test_suites.gpio_concurrent_prio.main_toggles);
     /* Both streams must have run. */
-    VSF_TEST_ASSERT(__callback_toggles > 0);
-    VSF_TEST_ASSERT(__main_toggles > 0);
+    VSF_TEST_ASSERT(vsf_test_suites.gpio_concurrent_prio.callback_toggles > 0);
+    VSF_TEST_ASSERT(vsf_test_suites.gpio_concurrent_prio.main_toggles > 0);
 }
 
 #endif /* VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED */

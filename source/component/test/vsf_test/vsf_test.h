@@ -198,9 +198,10 @@
 #            define VSF_TEST_CFG_USE_TRACE ENABLED
 #        endif
 
-//!< Test case array size
-#        ifndef VSF_TEST_CFG_ARRAY_SIZE
-#            define VSF_TEST_CFG_ARRAY_SIZE 128
+//!< Emit Capture Markers (CASE:N / READY / DONE / :END) for host-side LA decode.
+//!< Disabled by default — only needed when vsf-bench decodes LA captures.
+#        ifndef VSF_TEST_CFG_EMIT_MARKERS
+#            define VSF_TEST_CFG_EMIT_MARKERS DISABLED
 #        endif
 
 //!< Marker settle delay in milliseconds. Framework emits CASE/READY then
@@ -236,32 +237,11 @@
 
 /*============================ TYPES =========================================*/
 
-typedef enum vsf_test_status_t {
-    VSF_TEST_STATUS_IDLE    = 0,
-    VSF_TEST_STATUS_RUNNING = 1,
-} vsf_test_status_t;
-
-typedef enum vsf_test_req_t {
-    VSF_TEST_REQ_NO_SUPPORT = 0,
-    VSF_TEST_REQ_SUPPORT    = 1,
-} vsf_test_req_t;
-
 typedef enum vsf_test_result_t {
-    VSF_TEST_RESULT_PASS               = 0x0u << 0,
-    VSF_TEST_RESULT_SKIP               = 0x1u << 0,
-    VSF_TEST_RESULT_WDT_PASS           = 0x2u << 0,
-    VSF_TEST_RESULT_FAIL               = 0x3u << 0,
-    VSF_TEST_RESULT_ASSERT_FAIL        = VSF_TEST_RESULT_FAIL,
-    VSF_TEST_RESULT_WDT_FAIL           = 0x4u << 0,
-    VSF_TEST_RESULT_ASSIST_FAIL        = 0x5u << 0,
-    VSF_TEST_RESULT_FAULT_HANDLER_FAIL = 0x6u << 0,
+    VSF_TEST_RESULT_PASS = 0,
+    VSF_TEST_RESULT_SKIP = 1,
+    VSF_TEST_RESULT_FAIL = 2,
 } vsf_test_result_t;
-
-//! Test the type of the function.
-//! All test functions use setjmp/longjmp style with VSF_TEST_ASSERT.
-typedef enum vsf_test_type_t {
-    VSF_TEST_TYPE_LONGJMP_FN = 0,
-} vsf_test_type_t;
 
 typedef void vsf_test_reboot_t(void);
 
@@ -300,43 +280,13 @@ typedef void vsf_test_suite_teardown_fn_t(vsf_test_suite_t *suite);
 
 vsf_class(vsf_test_case_t) {
     public_member(
-        //! Test function (setjmp/longjmp style). Use VSF_TEST_ASSERT for failures.
         vsf_test_jmp_fn_t *jmp_fn;
+        uint8_t            case_idx;
+        vsf_test_suite_t  *suite;
+        void              *arg;
+        bool               needs_ready_handshake;
+        uint8_t            result;
 
-        //! @ref vsf_test_type_t — currently only VSF_TEST_TYPE_LONGJMP_FN.
-        uint8_t type;
-
-        //! If the result of the test is expected to be a watchdog reset. Then set
-        //! this variable to one
-        uint8_t expect_wdt;
-
-        //! If the test is expected to trigger an assertion (e.g., null pointer check),
-        //! then set this variable to one. When an assertion is triggered, the test will
-        //! be considered as PASS instead of FAIL.
-        uint8_t expect_assert;
-
-        //! Scene-local case index (0..suite->case_count-1). Used by the dispatcher
-        //! to format the Capture Marker and the [TEST] # N: Running '<name>' line.
-        uint8_t case_idx;
-
-        //! Owning Test Suite. The dispatcher prints `<suite->name>:CASE:<case_idx>`
-        //! before invoking the test function and `<...>:DONE` after.
-        vsf_test_suite_t *suite;
-
-        //! Argument pointer passed directly to the test function.
-        void *arg;
-
-        //! Runtime status: IDLE or RUNNING. Used by WDT recovery.
-        uint8_t status;
-
-        //! When true, the framework emits <suite>:CASE:<N>:READY before the
-        //! settle delay. Set by scenarios that require host-side synchronization.
-        bool needs_ready_handshake;
-
-        //! Result of this test case (VSF_TEST_RESULT_*). Set by the dispatcher.
-        uint8_t result;
-
-        //! Error details when an assertion or exception occurs.
         struct {
             const char *function_name;
             const char *file_name;
@@ -385,21 +335,11 @@ typedef struct vsf_test_t {
     jmp_buf *jmp_buf;
 #        endif
 
-    //! Restart from the beginning when test completes or errors occur.
-    //! Note: data-sync resume is not supported in the current configuration.
-    bool restart_on_done;
-
-    //! Registered suites — pointer to linker-section array (static init)
-    //! or dynamically-allocated fallback. suite_count reflects live entries.
+    //! Registered suites array and count — populated at compile time.
     vsf_test_suite_t **suites;
     uint8_t            suite_count;
-    uint8_t            suite_capacity;
 
-    //! If true, vsf_test_run() starts the REPL shell and never returns.
-    bool start_shell;
-
-    //! Embedded shell instance — every vsf_test_add_* call also registers
-    //! the case here. vsf_test_shell_init() activates the REPL.
+    //! Embedded shell REPL — started by vsf_test_run() after init.
     vsf_test_shell_t shell;
 } vsf_test_t;
 
@@ -504,10 +444,6 @@ extern void vsf_test_busy_wait_us(uint32_t us);
 
 /*============================ LOCAL VARIABLES ===============================*/
 /*============================ GLOBAL VARIABLES ==============================*/
-
-/*============================ INCLUDES ======================================*/
-
-#        include "./port/vsf_test_port_hal.h"
 
 #    endif
 #endif

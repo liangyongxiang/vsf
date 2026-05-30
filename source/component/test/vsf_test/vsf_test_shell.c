@@ -3,7 +3,6 @@
 #include "component/test/vsf_test/vsf_test.h"
 
 #include <string.h>
-#include <stdio.h>
 
 #include "./vsf_test_shell.h"
 
@@ -148,23 +147,21 @@ static void __execute_cases(vsf_test_shell_t *shell, vsf_test_suite_t *suite,
 static void __print_summary(vsf_test_suite_t *suite)
 {
     uint32_t total = suite->case_count;
-    uint32_t pass = 0, fail = 0, skip = 0, wdt_pass = 0, wdt_fail = 0;
+    uint32_t pass = 0, fail = 0, skip = 0;
     for (uint16_t i = 0; i < total; i++) {
         vsf_test_result_t r = (vsf_test_result_t)suite->cases[i].result;
         switch (r) {
-        case VSF_TEST_RESULT_PASS:     pass++;      break;
-        case VSF_TEST_RESULT_FAIL:     fail++;      break;
-        case VSF_TEST_RESULT_SKIP:     skip++;      break;
-        case VSF_TEST_RESULT_WDT_PASS: wdt_pass++;  break;
-        case VSF_TEST_RESULT_WDT_FAIL: wdt_fail++;  break;
+        case VSF_TEST_RESULT_PASS: pass++; break;
+        case VSF_TEST_RESULT_FAIL: fail++; break;
+        case VSF_TEST_RESULT_SKIP: skip++; break;
         default: break;
         }
     }
     vsf_trace_info("[TEST] All test cases completed" VSF_TRACE_CFG_LINEEND);
     vsf_trace_info("[TEST] ========== Test Summary ==========" VSF_TRACE_CFG_LINEEND);
     vsf_trace_info("[TEST] Total test cases: %u" VSF_TRACE_CFG_LINEEND, total);
-    vsf_trace_info("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u" VSF_TRACE_CFG_LINEEND,
-                   pass, fail, skip, wdt_pass, wdt_fail);
+    vsf_trace_info("[TEST] Pass: %u, Fail: %u, Skip: %u" VSF_TRACE_CFG_LINEEND,
+                   pass, fail, skip);
 }
 
 static void __run_selection(vsf_test_shell_t *shell)
@@ -313,7 +310,7 @@ static void __cmd_run(vsf_test_shell_t *shell, char *args)
             }
         }
 
-        uint32_t total = 0, pass = 0, fail = 0, skip = 0, wdt_pass = 0, wdt_fail = 0;
+        uint32_t total = 0, pass = 0, fail = 0, skip = 0;
         for (uint8_t m = 0; m < match_count; m++) {
             shell->cur_suite = (int8_t)matches[m];
             shell->cur_case  = -1;
@@ -330,11 +327,9 @@ static void __cmd_run(vsf_test_shell_t *shell, char *args)
             for (uint16_t i = start; i < end; i++) {
                 vsf_test_result_t r = (vsf_test_result_t)suite->cases[i].result;
                 switch (r) {
-                case VSF_TEST_RESULT_PASS:     pass++;      break;
-                case VSF_TEST_RESULT_FAIL:     fail++;      break;
-                case VSF_TEST_RESULT_SKIP:     skip++;      break;
-                case VSF_TEST_RESULT_WDT_PASS: wdt_pass++;  break;
-                case VSF_TEST_RESULT_WDT_FAIL: wdt_fail++;  break;
+                case VSF_TEST_RESULT_PASS: pass++; break;
+                case VSF_TEST_RESULT_FAIL: fail++; break;
+                case VSF_TEST_RESULT_SKIP: skip++; break;
                 default: break;
                 }
             }
@@ -348,8 +343,8 @@ static void __cmd_run(vsf_test_shell_t *shell, char *args)
         vsf_trace_info("[TEST] All test cases completed" VSF_TRACE_CFG_LINEEND);
         vsf_trace_info("[TEST] ========== Test Summary ==========" VSF_TRACE_CFG_LINEEND);
         vsf_trace_info("[TEST] Total test cases: %u" VSF_TRACE_CFG_LINEEND, total);
-        vsf_trace_info("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u" VSF_TRACE_CFG_LINEEND,
-                       pass, fail, skip, wdt_pass, wdt_fail);
+        vsf_trace_info("[TEST] Pass: %u, Fail: %u, Skip: %u" VSF_TRACE_CFG_LINEEND,
+                       pass, fail, skip);
         return;
     }
 

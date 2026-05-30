@@ -50,6 +50,27 @@
 
 static vsf_test_t *__vsf_test_self;
 
+#if VSF_TEST_CFG_EMIT_MARKERS == ENABLED
+static void __emit_case_start(const char *suite_name, uint8_t case_idx, bool needs_ready)
+{
+    __VSF_TEST_TRACE_INFO("%s:CASE:%u\r\n", suite_name, (unsigned)case_idx);
+    if (needs_ready) {
+        __VSF_TEST_TRACE_INFO("%s:CASE:%u:READY\r\n", suite_name, (unsigned)case_idx);
+    }
+    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+}
+
+static void __emit_case_done(const char *suite_name, uint8_t case_idx)
+{
+    __VSF_TEST_TRACE_INFO("%s:CASE:%u:DONE\r\n", suite_name, (unsigned)case_idx);
+}
+
+static void __emit_suite_end(const char *suite_name)
+{
+    __VSF_TEST_TRACE_INFO("%s:END\r\n", suite_name);
+}
+#endif
+
 /*============================ LOCAL FUNCTIONS ===============================*/
 
 /*============================ IMPLEMENTATION ================================*/
@@ -61,11 +82,6 @@ void vsf_test_run(vsf_test_t *test)
     __vsf_test_self->current_case = NULL;
 
     __VSF_TEST_TRACE_INFO("[TEST] Initialized (%u suites)\r\n", __vsf_test_self->suite_count);
-
-    vsf_test_shell_init(&__vsf_test_self->shell, __vsf_test_self->suites, __vsf_test_self->suite_count);
-
-    // --- Run all tests ---
-    __VSF_TEST_TRACE_INFO("[TEST] Starting test framework\r\n");
 
     for (uint8_t i = 0; i < __vsf_test_self->wdt.count; i++) {
         if (__vsf_test_self->wdt.entries[i].init != NULL) {
@@ -80,43 +96,8 @@ void vsf_test_run(vsf_test_t *test)
         }
     }
 
-    for (uint8_t si = 0; si < __vsf_test_self->suite_count; si++) {
-        vsf_test_suite_t *suite = __vsf_test_self->suites[si];
-        if (suite == NULL || suite->cases == NULL) continue;
-        for (uint16_t ci = 0; ci < suite->case_count; ci++) {
-            vsf_test_run_suite_case(suite, ci);
-        }
-    }
-
-    __VSF_TEST_TRACE_INFO("[TEST] All test cases completed\r\n");
-    __VSF_TEST_TRACE_INFO("\r\n[TEST] ========== Test Summary ==========\r\n");
-
-    uint32_t total = 0, pass_count = 0, fail_count = 0, skip_count = 0;
-    uint32_t wdt_pass_count = 0, wdt_fail_count = 0;
-
-    for (uint8_t si = 0; si < __vsf_test_self->suite_count; si++) {
-        vsf_test_suite_t *suite = __vsf_test_self->suites[si];
-        if (suite == NULL || suite->cases == NULL) continue;
-        for (uint16_t ci = 0; ci < suite->case_count; ci++) {
-            total++;
-            switch (suite->cases[ci].result) {
-            case VSF_TEST_RESULT_PASS:     pass_count++;      break;
-            case VSF_TEST_RESULT_FAIL:     fail_count++;      break;
-            case VSF_TEST_RESULT_SKIP:     skip_count++;      break;
-            case VSF_TEST_RESULT_WDT_PASS: wdt_pass_count++;  break;
-            case VSF_TEST_RESULT_WDT_FAIL: wdt_fail_count++;  break;
-            default: break;
-            }
-        }
-    }
-
-    __VSF_TEST_TRACE_INFO("[TEST] Total test cases: %u\r\n", total);
-    __VSF_TEST_TRACE_INFO("[TEST] Pass: %u, Fail: %u, Skip: %u, WDT Pass: %u, WDT Fail: %u\r\n",
-                           pass_count, fail_count, skip_count, wdt_pass_count, wdt_fail_count);
-
-    if (__vsf_test_self->start_shell) {
-        vsf_test_shell_run(&__vsf_test_self->shell);
-    }
+    vsf_test_shell_init(&__vsf_test_self->shell, __vsf_test_self->suites, __vsf_test_self->suite_count);
+    vsf_test_shell_run(&__vsf_test_self->shell);
 }
 
 void vsf_test_assert(vsf_test_result_t result,
@@ -138,11 +119,8 @@ void vsf_test_assert(vsf_test_result_t result,
     longjmp(*__vsf_test_self->jmp_buf, 1);
 }
 
-//! \brief Extract test name from test case
-static const char *__vsf_test_get_name(vsf_test_case_t *test_case, char *name_buf, size_t name_buf_size)
+static const char *__vsf_test_get_name(vsf_test_case_t *test_case)
 {
-    (void)name_buf;
-    (void)name_buf_size;
     if (test_case->suite != NULL && test_case->suite->name != NULL) {
         return test_case->suite->name;
     }
@@ -160,7 +138,6 @@ void vsf_test_reboot(vsf_test_result_t result,
         case_ptr->error.file_name     = file_name;
         case_ptr->error.condition     = condition;
         case_ptr->error.line          = line;
-        case_ptr->status              = VSF_TEST_STATUS_IDLE;
     }
 
     __VSF_TEST_TRACE_ERROR("[TEST] Reboot due to error: %s:%u in %s() - %s\r\n",
@@ -194,16 +171,6 @@ void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
     }
     vsf_test_case_t *test_case = &suite->cases[local_idx];
 
-    // WDT recovery: if a prior run was interrupted by WDT, status is still RUNNING.
-    if (test_case->status == VSF_TEST_STATUS_RUNNING) {
-        __VSF_TEST_TRACE_INFO("[TEST] suite '%s' case %u: WDT timeout detected\r\n",
-                              suite->name, (unsigned)local_idx);
-        test_case->result = test_case->expect_wdt ? VSF_TEST_RESULT_WDT_PASS
-                                                  : VSF_TEST_RESULT_WDT_FAIL;
-        test_case->status = VSF_TEST_STATUS_IDLE;
-        return;
-    }
-
     // Skip cases explicitly marked (e.g., by setup returning false).
     if (test_case->result == VSF_TEST_RESULT_SKIP) {
         return;
@@ -233,18 +200,11 @@ void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
     test_case->error.condition     = NULL;
     test_case->error.line          = 0;
 
-    test_case->status = VSF_TEST_STATUS_RUNNING;
-
-    static char name_buf[64];
-    const char *test_name = __vsf_test_get_name(test_case, name_buf, sizeof(name_buf));
+    const char *test_name = __vsf_test_get_name(test_case);
     __VSF_TEST_TRACE_INFO("[TEST] Running '%s'\r\n", test_name);
-    /* Suite-aware dispatch: framework owns the start / DONE / END Capture
-     * Markers and the setup / teardown lifecycle hooks. */
-    __VSF_TEST_TRACE_INFO("%s:CASE:%u\r\n", suite->name, (unsigned)test_case->case_idx);
-    if (test_case->needs_ready_handshake) {
-        __VSF_TEST_TRACE_INFO("%s:CASE:%u:READY\r\n", suite->name, (unsigned)test_case->case_idx);
-    }
-    vsf_test_busy_wait_ms(VSF_TEST_MARKER_DELAY_MS);
+#if VSF_TEST_CFG_EMIT_MARKERS == ENABLED
+    __emit_case_start(suite->name, test_case->case_idx, test_case->needs_ready_handshake);
+#endif
 
     __vsf_test_self->current_case = test_case;
 
@@ -253,28 +213,19 @@ void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
     __vsf_test_self->jmp_buf = &buf;
     if (0 == setjmp(buf)) {
         test_case->jmp_fn(test_case->arg);
-    } else {
-        if (test_case->expect_assert) {
-            test_case->result = VSF_TEST_RESULT_PASS;
-            test_case->error.function_name = NULL;
-            test_case->error.file_name     = NULL;
-            test_case->error.condition     = NULL;
-            test_case->error.line          = 0;
-        }
     }
 
-    __VSF_TEST_TRACE_INFO("%s:CASE:%u:DONE\r\n", suite->name, (unsigned)test_case->case_idx);
+#if VSF_TEST_CFG_EMIT_MARKERS == ENABLED
+    __emit_case_done(suite->name, test_case->case_idx);
+#endif
     // Teardown runs once after the last case.
     if (local_idx == suite->case_count - 1) {
         if (suite->teardown != NULL) suite->teardown(suite);
-        /* Scenario-level boundary marker. Host decoders use this to bound
-         * the last case's payload window; without it, the last case has
-         * no upper bound and decode would extend to end-of-capture,
-         * picking up unrelated bytes from later suites. */
-        __VSF_TEST_TRACE_INFO("%s:END\r\n", suite->name);
+#if VSF_TEST_CFG_EMIT_MARKERS == ENABLED
+        __emit_suite_end(suite->name);
+#endif
     }
 
-    test_case->status = VSF_TEST_STATUS_IDLE;
     __vsf_test_self->current_case = NULL;
 }
 

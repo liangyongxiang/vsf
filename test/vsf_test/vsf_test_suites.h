@@ -22,20 +22,20 @@
 #ifndef __VSF_TEST_SUITES_H__
 #define __VSF_TEST_SUITES_H__
 
-#include "test/vsf_test/usart/vsf_test_usart.h"
-#include "test/vsf_test/gpio/vsf_test_gpio.h"
-#include "test/vsf_test/i2c/vsf_test_i2c.h"
-#include "test/vsf_test/rtc/vsf_test_rtc.h"
-#include "test/vsf_test/flash/vsf_test_flash.h"
-#include "test/vsf_test/wdt/vsf_test_wdt.h"
-#include "test/vsf_test/adc/vsf_test_adc.h"
-#include "test/vsf_test/pwm/vsf_test_pwm.h"
-#include "test/vsf_test/timer/vsf_test_timer.h"
-#include "test/vsf_test/spi/vsf_test_spi.h"
-#include "test/vsf_test/spi/suite/vsf_test_spi_async.h"
-#include "test/vsf_test/rng/vsf_test_rng.h"
-#include "test/vsf_test/dma/vsf_test_dma.h"
-#include "test/vsf_test/dma/suite/vsf_test_dma_scatter_gather.h"
+#include "usart/vsf_test_usart.h"
+#include "gpio/vsf_test_gpio.h"
+#include "i2c/vsf_test_i2c.h"
+#include "rtc/vsf_test_rtc.h"
+#include "flash/vsf_test_flash.h"
+#include "wdt/vsf_test_wdt.h"
+#include "adc/vsf_test_adc.h"
+#include "pwm/vsf_test_pwm.h"
+#include "timer/vsf_test_timer.h"
+#include "spi/vsf_test_spi.h"
+#include "spi/suite/vsf_test_spi_async.h"
+#include "rng/vsf_test_rng.h"
+#include "dma/vsf_test_dma.h"
+#include "dma/suite/vsf_test_dma_scatter_gather.h"
 
 #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
 typedef struct {

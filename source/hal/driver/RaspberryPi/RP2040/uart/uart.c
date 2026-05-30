@@ -137,17 +137,6 @@ vsf_err_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_init)(
         usart_ptr->rx_dma    = NULL;
     }
 
-    uint32_t rst_bit = usart_ptr->rst_bit;
-    /* Cycle the peripheral through reset so re-init from a previously-active
-     * state (e.g. a prior scenario that left UART1 enabled) starts clean.
-     * The earlier "only de-assert" pattern silently no-op'd on re-init. */
-    resets_hw->reset = resets_hw->reset | rst_bit;
-    // spin-wait: wait for reset to assert
-    while (resets_hw->reset_done & rst_bit);
-    resets_hw->reset = resets_hw->reset & ~rst_bit;
-    // spin-wait: wait for reset to de-assert
-    while (!(resets_hw->reset_done & rst_bit));
-
     vsf_err_t err = vsf_pl011_usart_init(
         &usart_ptr->use_as__vsf_pl011_usart_t, cfg_ptr, clock_get_hz(clk_peri));
 
@@ -192,12 +181,11 @@ void VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_fini)(
 
     vsf_pl011_usart_fini(&usart_ptr->use_as__vsf_pl011_usart_t);
 
-    /* Hold the UART peripheral in reset so it stays inert until the next
-     * vsf_hw_usart_init() brings it back out. Symmetric with the
-     * set-then-clear cycle init does, and protects scenarios that don't
-     * fini explicitly. */
+    /* Disable IRQ; do NOT hold the peripheral in reset.
+     * The prior reset-on-fini pattern caused intermittent live-locks
+     * in the init de-reset wait on rapid re-init (usart_mode case 9+).
+     * PL011 re-init from a disabled state is safe without reset. */
     NVIC_DisableIRQ(usart_ptr->irqn);
-    resets_hw->reset = resets_hw->reset | usart_ptr->rst_bit;
 }
 
 fsm_rt_t VSF_MCONNECT(VSF_USART_CFG_IMP_PREFIX, _usart_enable)(

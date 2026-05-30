@@ -30,7 +30,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_dma_scatter_gather_run(vsf_test_case_t *tc);
+void vsf_test_dma_scatter_gather_run(void *arg);
 
 #endif /* __VSF_TEST_DMA_SCATTER_GATHER_H__ */
 /* EOF */

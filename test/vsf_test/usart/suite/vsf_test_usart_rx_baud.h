@@ -28,7 +28,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_usart_rx_baud_run(vsf_test_case_t *tc);
+void vsf_test_usart_rx_baud_run(const vsf_test_usart_rx_baud_case_t *c);
 
 #ifdef __cplusplus
 }

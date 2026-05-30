@@ -20,42 +20,34 @@
 #define __VSF_TEST_GPIO_CLASS_IMPLEMENT
 #include "vsf_test_gpio_irq_latency.h"
 
-/*============================ LOCAL VARIABLES ===============================*/
-
-static vsf_gpio_pin_mask_t __expected_pin;
-static volatile vsf_systimer_tick_t __isr_tick;
-static volatile bool __fired;
-static vsf_systimer_tick_t __trigger_tick;
-
 #if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
+
 
 static void __latency_handler(void *target, vsf_gpio_t *gpio, vsf_gpio_pin_mask_t pin_mask)
 {
-    vsf_test_suite_t *suite = target;
-    if (pin_mask & __expected_pin) {
-        __isr_tick = vsf_systimer_get();
-        __fired = true;
+    vsf_test_gpio_irq_latency_suite_t *suite = (vsf_test_gpio_irq_latency_suite_t *)target;
+    if (pin_mask & suite->expected_pin) {
+        suite->isr_tick = vsf_systimer_get();
+        suite->fired = true;
     }
 }
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_irq_latency_run(vsf_test_case_t *tc)
+void vsf_test_gpio_irq_latency_run(const vsf_test_gpio_irq_latency_case_t *c)
 {
-    vsf_test_gpio_irq_latency_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_gpio_t *gpio = (vsf_gpio_t *)suite->arg;
-    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << p->pin;
+    vsf_gpio_t *gpio = c->suite->gpio;
+    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
     VSF_TEST_GPIO_ASSERT_CAPABILITY(gpio);
 
     /* Per-case state in suite: must be re-initialised before each run. */
-    __expected_pin = pin_mask;
-    __fired        = false;
-    __isr_tick     = 0;
-    __trigger_tick = 0;
+    c->suite->expected_pin = pin_mask;
+    c->suite->fired        = false;
+    c->suite->isr_tick     = 0;
+    c->suite->trigger_tick = 0;
 
     /* Configure pin as EXTI rising edge — driven by SIO from the same test
      * (self-trigger; no external wiring needed). */
@@ -66,7 +58,7 @@ void vsf_test_gpio_irq_latency_run(vsf_test_case_t *tc)
 
     err = vsf_gpio_exti_irq_config(gpio, &(vsf_gpio_exti_irq_cfg_t){
         .handler_fn = __latency_handler,
-        .target_ptr = suite,
+        .target_ptr = c->suite,
         .prio       = vsf_arch_prio_highest,
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -83,20 +75,20 @@ void vsf_test_gpio_irq_latency_run(vsf_test_case_t *tc)
     uint32_t worst_ticks = 0;
     const uint32_t ITERATIONS = 8;
     for (uint32_t i = 0; i < ITERATIONS; i++) {
-        __fired = false;
-        __isr_tick = 0;
+        c->suite->fired = false;
+        c->suite->isr_tick = 0;
         vsf_gpio_clear(gpio, pin_mask);
         vsf_test_busy_wait_ms(1);
         vsf_gpio_exti_irq_clear(gpio, pin_mask);
 
-        __trigger_tick = vsf_systimer_get();
+        c->suite->trigger_tick = vsf_systimer_get();
         vsf_gpio_set(gpio, pin_mask);   /* rising edge → EXTI fires */
         /* Spin until ISR captures its tick. */
-        for (uint32_t spin = 0; spin < 100000 && !__fired; spin++) {
+        for (uint32_t spin = 0; spin < 100000 && !c->suite->fired; spin++) {
             __asm__ volatile("nop");
         }
-        VSF_TEST_ASSERT(__fired);
-        uint32_t delta = (uint32_t)(__isr_tick - __trigger_tick);
+        VSF_TEST_ASSERT(c->suite->fired);
+        uint32_t delta = (uint32_t)(c->suite->isr_tick - c->suite->trigger_tick);
         if (delta > worst_ticks) { worst_ticks = delta; }
     }
 
@@ -106,8 +98,8 @@ void vsf_test_gpio_irq_latency_run(vsf_test_case_t *tc)
     vsf_trace_info("GPIO:IRQ_LATENCY:worst_ticks=%lu worst_ns=%lu max=%lu" VSF_TRACE_CFG_LINEEND,
                    (unsigned long)worst_ticks,
                    (unsigned long)worst_ns,
-                   (unsigned long)p->max_latency_ns);
-    VSF_TEST_ASSERT(worst_ns <= p->max_latency_ns);
+                   (unsigned long)c->max_latency_ns);
+    VSF_TEST_ASSERT(worst_ns <= c->max_latency_ns);
 
     vsf_gpio_exti_irq_disable(gpio, pin_mask);
     vsf_gpio_set_input(gpio, pin_mask);

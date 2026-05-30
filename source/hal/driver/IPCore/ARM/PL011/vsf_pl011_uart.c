@@ -49,6 +49,13 @@ vsf_err_t vsf_pl011_usart_init(vsf_pl011_usart_t *pl011_usart_ptr, vsf_usart_cfg
     vsf_pl011_usart_reg_t *reg = pl011_usart_ptr->reg;
     pl011_usart_ptr->isr = cfg_ptr->isr;
 
+    /* Ensure UART is disabled before reconfiguring.  This also flushes
+     * the TX path so the baud-rate change does not corrupt in-flight bytes. */
+    reg->UARTCR.UARTEN = 0;
+
+    if (clk_hz == 0) {
+        return VSF_ERR_INVALID_PARAMETER;
+    }
     // baudrate range check (see PL011_BAUD_* macros above for the formula).
     if ((cfg_ptr->baudrate == 0)
      || (cfg_ptr->baudrate > clk_hz / PL011_BAUD_OVERSAMPLE)
@@ -94,6 +101,15 @@ void vsf_pl011_usart_fini(vsf_pl011_usart_t *pl011_usart_ptr)
     VSF_HAL_ASSERT(pl011_usart_ptr != NULL);
     vsf_pl011_usart_reg_t *reg = pl011_usart_ptr->reg;
     reg->UARTCR.UARTEN = 0;
+
+    /* Clear stale error flags and drain the RX FIFO so the next session
+     * starts clean.  A preceding break-error test leaves BE set; without
+     * this the next init sees corrupt RX data. */
+    reg->UARTECR.VALUE = 0xFF;
+    reg->UARTICR.VALUE = 0xFFFF;
+    for (uint_fast8_t guard = 0; guard < 64 && !reg->UARTFR.RXFE; guard++) {
+        (void)reg->UARTDR.VALUE;
+    }
 }
 
 vsf_usart_capability_t vsf_pl011_usart_capability(vsf_pl011_usart_t *pl011_usart_ptr, uint_fast32_t clk_hz)

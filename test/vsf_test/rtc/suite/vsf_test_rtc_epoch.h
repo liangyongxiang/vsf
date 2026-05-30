@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_rtc_epoch_run(vsf_test_case_t *tc);
+void vsf_test_rtc_epoch_run(void *arg);
 
 #endif /* __VSF_TEST_RTC_EPOCH_H__ */
 /* EOF */

@@ -25,13 +25,11 @@
 /*============================ IMPLEMENTATION ================================*/
 
 /* Functional-only check. LA glitch detection lives host-side. */
-void vsf_test_gpio_atomic_run(vsf_test_case_t *tc)
+void vsf_test_gpio_atomic_run(const vsf_test_gpio_atomic_case_t *c)
 {
-    vsf_test_gpio_atomic_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_gpio_t *gpio = (vsf_gpio_t *)suite->arg;
-    vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << p->out_pin;
-    vsf_gpio_pin_mask_t in_mask  = (vsf_gpio_pin_mask_t)1u << p->in_pin;
+    vsf_gpio_t *gpio = c->suite->gpio;
+    vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << c->out_pin;
+    vsf_gpio_pin_mask_t in_mask  = (vsf_gpio_pin_mask_t)1u << c->in_pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */

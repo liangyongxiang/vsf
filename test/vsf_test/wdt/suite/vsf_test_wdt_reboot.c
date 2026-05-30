@@ -16,11 +16,10 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_wdt_reboot_run(vsf_test_case_t *tc)
+void vsf_test_wdt_reboot_run(void *arg)
 {
-    vsf_test_wdt_reboot_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_wdt_t *wdt = (vsf_wdt_t *)suite->arg;
+    vsf_test_wdt_reboot_case_t *c = (vsf_test_wdt_reboot_case_t *)arg;
+    vsf_wdt_t *wdt = c->suite->wdt;
 
     vsf_wdt_capability_t cap = vsf_wdt_capability(wdt);
     VSF_TEST_ASSERT(cap.support_reset_soc == 1);

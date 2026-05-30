@@ -28,7 +28,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_i2c_eeprom_rw_fifo_run(vsf_test_case_t *tc);
+void vsf_test_i2c_eeprom_rw_fifo_run(const vsf_test_i2c_eeprom_rw_fifo_case_t *c);
 
 #ifdef __cplusplus
 }

@@ -28,13 +28,11 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_output_input_run(vsf_test_case_t *tc)
+void vsf_test_gpio_output_input_run(const vsf_test_gpio_output_input_case_t *c)
 {
-    vsf_test_gpio_output_input_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_gpio_t *gpio = (vsf_gpio_t *)suite->arg;
-    vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << p->out_pin;
-    vsf_gpio_pin_mask_t in_mask  = (vsf_gpio_pin_mask_t)1u << p->in_pin;
+    vsf_gpio_t *gpio = c->suite->gpio;
+    vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << c->out_pin;
+    vsf_gpio_pin_mask_t in_mask  = (vsf_gpio_pin_mask_t)1u << c->in_pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
@@ -53,7 +51,7 @@ void vsf_test_gpio_output_input_run(vsf_test_case_t *tc)
      * get_pin_configuration() must report the output mode we just set.
      * Catches drivers that "accept" the cfg without actually applying it. */
     vsf_gpio_cfg_t got = {0};
-    err = vsf_gpio_get_pin_configuration(gpio, p->out_pin, &got);
+    err = vsf_gpio_get_pin_configuration(gpio, c->out_pin, &got);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     VSF_TEST_ASSERT((got.mode & VSF_GPIO_MODE_MASK) ==
                     (VSF_GPIO_OUTPUT_PUSH_PULL & VSF_GPIO_MODE_MASK));
@@ -61,7 +59,7 @@ void vsf_test_gpio_output_input_run(vsf_test_case_t *tc)
     /* Configure pin B as input only if it's a different pin (otherwise we'd
      * overwrite the OUTPUT_PUSH_PULL config). Self-loopback exploits the
      * fact that RP2040 supports simultaneous SIO output + input on one pin. */
-    if (p->in_pin != p->out_pin) {
+    if (c->in_pin != c->out_pin) {
         err = vsf_gpio_port_config_pins(gpio, in_mask, &(vsf_gpio_cfg_t){
             .mode = VSF_GPIO_INPUT | VSF_GPIO_NO_PULL_UP_DOWN,
         });

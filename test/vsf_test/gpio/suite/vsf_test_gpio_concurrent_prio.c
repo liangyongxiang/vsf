@@ -19,26 +19,16 @@
 
 #define __VSF_TEST_GPIO_CLASS_IMPLEMENT
 #include "vsf_test_gpio_concurrent_prio.h"
-/*============================ LOCAL VARIABLES ===============================*/
-
-static vsf_gpio_pin_mask_t __out_mask;
-static uint32_t __period_us;
-static volatile uint32_t __callback_toggles;
-static volatile uint32_t __main_toggles;
-
-
 
 #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
 
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_concurrent_prio_run(vsf_test_case_t *tc)
+void vsf_test_gpio_concurrent_prio_run(const vsf_test_gpio_concurrent_prio_case_t *c)
 {
-    vsf_test_gpio_concurrent_prio_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_gpio_t *gpio = (vsf_gpio_t *)suite->arg;
-    vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << p->out_pin;
+    vsf_gpio_t *gpio = c->suite->gpio;
+    vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << c->out_pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
@@ -50,40 +40,40 @@ void vsf_test_gpio_concurrent_prio_run(vsf_test_case_t *tc)
     vsf_gpio_clear(gpio, out_mask);
 
     /* Per-case state in suite: must be re-initialised before each run. */
-    __out_mask         = out_mask;
-    __period_us        = p->callback_period_us;
-    __callback_toggles = 0;
-    __main_toggles     = 0;
+    c->suite->out_mask         = out_mask;
+    c->suite->period_us        = c->callback_period_us;
+    c->suite->callback_toggles = 0;
+    c->suite->main_toggles     = 0;
 
     /* Concurrent toggle test: two toggle streams at different rates.
      * Stream A: high-frequency burst (1 k toggles / ms loop).
      * Stream B: periodic toggle at callback_period_us intervals.
      * Both run in the main loop; the test verifies sustained toggle
      * activity across the full duration. */
-    uint32_t duration_us = p->duration_ms * 1000;
-    uint32_t next_callback = p->callback_period_us;
+    uint32_t duration_us = c->duration_ms * 1000;
+    uint32_t next_callback = c->callback_period_us;
 
     for (uint32_t elapsed = 0; elapsed < duration_us; elapsed++) {
         /* Stream A: high-frequency toggle. */
         vsf_gpio_toggle(gpio, out_mask);
-        __main_toggles++;
+        c->suite->main_toggles++;
 
         /* Stream B: periodic toggle at callback_period_us. */
         if (elapsed >= next_callback) {
             vsf_gpio_toggle(gpio, out_mask);
-            __callback_toggles++;
-            next_callback += p->callback_period_us;
+            c->suite->callback_toggles++;
+            next_callback += c->callback_period_us;
         }
 
         vsf_test_busy_wait_us(1);
     }
 
     vsf_trace_info("GPIO:CONCURRENT:cb=%lu main=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)__callback_toggles,
-                   (unsigned long)__main_toggles);
+                   (unsigned long)c->suite->callback_toggles,
+                   (unsigned long)c->suite->main_toggles);
     /* Both streams must have run. */
-    VSF_TEST_ASSERT(__callback_toggles > 0);
-    VSF_TEST_ASSERT(__main_toggles > 0);
+    VSF_TEST_ASSERT(c->suite->callback_toggles > 0);
+    VSF_TEST_ASSERT(c->suite->main_toggles > 0);
 }
 
 #endif /* VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED */

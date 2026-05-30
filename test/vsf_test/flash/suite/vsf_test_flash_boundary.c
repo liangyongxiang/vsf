@@ -23,26 +23,18 @@
 #if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
 
 #include <string.h>
-/*============================ LOCAL VARIABLES ===============================*/
-
-/*============================ LOCAL VARIABLES ===============================*/
-
-static uint8_t __write_buf[512];
-static uint8_t __read_buf[512];
-
-
 
 /*============================ MACROS ========================================*/
 
+/*============================ LOCAL VARIABLES ===============================*/
+
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_flash_boundary_run(vsf_test_case_t *tc)
+void vsf_test_flash_boundary_run(const vsf_test_flash_boundary_case_t *c)
 {
-    vsf_test_flash_boundary_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_flash_t *flash = (vsf_flash_t *)suite->arg;
-    uint32_t offset = p->offset;
-    uint32_t size = p->size;
+    vsf_flash_t *flash = c->suite->flash;
+    uint32_t offset = c->offset;
+    uint32_t size = c->size;
 
     VSF_TEST_ASSERT(size > 0);
 
@@ -77,7 +69,7 @@ void vsf_test_flash_boundary_run(vsf_test_case_t *tc)
 
     /* Prepare test pattern. */
     for (uint32_t i = 0; i < size; i++) {
-        __write_buf[i] = (uint8_t)(0xA5 + i);
+        c->suite->write_buf[i] = (uint8_t)(0xA5 + i);
     }
 
     /* Phase 1: Erase. */
@@ -85,14 +77,14 @@ void vsf_test_flash_boundary_run(vsf_test_case_t *tc)
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     /* Phase 2: Program across page boundary. */
-    err = vsf_flash_write_multi_sector(flash, offset, __write_buf, size);
+    err = vsf_flash_write_multi_sector(flash, offset, c->suite->write_buf, size);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     /* Phase 3: Read back and verify. */
-    err = vsf_flash_read_multi_sector(flash, offset, __read_buf, size);
+    err = vsf_flash_read_multi_sector(flash, offset, c->suite->read_buf, size);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     for (uint32_t i = 0; i < size; i++) {
-        VSF_TEST_ASSERT(__read_buf[i] == __write_buf[i]);
+        VSF_TEST_ASSERT(c->suite->read_buf[i] == c->suite->write_buf[i]);
     }
 
     vsf_trace_info("FLASH:BOUNDARY:PASS offset=%lu size=%lu pages=%lu-%lu"

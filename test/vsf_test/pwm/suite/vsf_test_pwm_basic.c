@@ -9,11 +9,10 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_pwm_basic_run(vsf_test_case_t *tc)
+void vsf_test_pwm_basic_run(void *arg)
 {
-    vsf_test_pwm_basic_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_pwm_t *pwm = (vsf_pwm_t *)suite->arg;
+    vsf_test_pwm_basic_case_t *c = (vsf_test_pwm_basic_case_t *)arg;
+    vsf_pwm_t *pwm = c->suite->pwm;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */

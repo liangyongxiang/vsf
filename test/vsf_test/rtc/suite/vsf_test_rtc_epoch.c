@@ -10,11 +10,10 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_rtc_epoch_run(vsf_test_case_t *tc)
+void vsf_test_rtc_epoch_run(void *arg)
 {
-    vsf_test_rtc_epoch_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_rtc_t *rtc = (vsf_rtc_t *)suite->arg;
+    vsf_test_rtc_epoch_case_t *c = (vsf_test_rtc_epoch_case_t *)arg;
+    vsf_rtc_t *rtc = c->suite->rtc;
 
     /* Case 1: Set and get epoch time */
     vsf_rtc_time_t set_seconds = 1700000000;

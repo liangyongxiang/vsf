@@ -24,12 +24,10 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_direction_run(vsf_test_case_t *tc)
+void vsf_test_gpio_direction_run(const vsf_test_gpio_direction_case_t *c)
 {
-    vsf_test_gpio_direction_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_gpio_t *gpio = (vsf_gpio_t *)suite->arg;
-    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << p->pin;
+    vsf_gpio_t *gpio = c->suite->gpio;
+    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
@@ -63,7 +61,7 @@ void vsf_test_gpio_direction_run(vsf_test_case_t *tc)
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     vsf_gpio_cfg_t got = { 0 };
-    err = vsf_gpio_get_pin_configuration(gpio, p->pin, &got);
+    err = vsf_gpio_get_pin_configuration(gpio, c->pin, &got);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     VSF_TEST_ASSERT((got.mode & VSF_GPIO_MODE_MASK)         == VSF_GPIO_INPUT);
     VSF_TEST_ASSERT((got.mode & VSF_GPIO_PULL_UP_DOWN_MASK) == VSF_GPIO_PULL_UP);

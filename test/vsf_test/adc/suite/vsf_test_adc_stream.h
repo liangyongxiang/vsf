@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_adc_stream_run(vsf_test_case_t *tc);
+void vsf_test_adc_stream_run(void *arg);
 
 #endif /* __VSF_TEST_ADC_STREAM_H__ */
 /* EOF */

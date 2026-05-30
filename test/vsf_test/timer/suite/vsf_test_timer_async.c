@@ -2,23 +2,6 @@
 
 #define __VSF_TEST_TIMER_CLASS_IMPLEMENT
 #include "vsf_test_timer_async.h"
-/*============================ LOCAL VARIABLES ===============================*/
-
-static volatile uint8_t __counter;
-
-static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
-                        vsf_timer_irq_mask_t irq_mask)
-{
-    (void)timer_ptr;
-    vsf_test_suite_t *suite = target_ptr;
-    if (irq_mask & VSF_TIMER_IRQ_MASK_OVERFLOW) {
-        if (__counter < 255) {
-            __counter++;
-        }
-    }
-}
-
-
 
 #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
 
@@ -27,15 +10,28 @@ static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
 #define TIMER_ASYNC_PERIOD_US     10000
 #define TIMER_ASYNC_COUNT         10
 
+/*============================ LOCAL VARIABLES ===============================*/
+
+static void __timer_isr(void *target_ptr, vsf_timer_t *timer_ptr,
+                        vsf_timer_irq_mask_t irq_mask)
+{
+    (void)timer_ptr;
+    vsf_test_timer_async_suite_t *suite = (vsf_test_timer_async_suite_t *)target_ptr;
+    if (irq_mask & VSF_TIMER_IRQ_MASK_OVERFLOW) {
+        if (suite->counter < 255) {
+            suite->counter++;
+        }
+    }
+}
+
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_timer_async_run(vsf_test_case_t *tc)
+void vsf_test_timer_async_run(void *arg)
 {
-    vsf_test_timer_async_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_timer_t *timer = (vsf_timer_t *)suite->arg;
+    vsf_test_timer_async_case_t *c = (vsf_test_timer_async_case_t *)arg;
+    vsf_timer_t *timer = c->suite->timer;
 
-    __counter = 0;
+    c->suite->counter = 0;
 
     vsf_timer_capability_t cap = vsf_timer_capability(timer);
     VSF_TEST_ASSERT(cap.channel_cnt >= 1);
@@ -45,7 +41,7 @@ void vsf_test_timer_async_run(vsf_test_case_t *tc)
         .period = TIMER_ASYNC_PERIOD_US,
         .isr = {
             .handler_fn = __timer_isr,
-            .target_ptr = suite,
+            .target_ptr = c->suite,
             .prio       = vsf_arch_prio_0,
         },
     });
@@ -53,7 +49,7 @@ void vsf_test_timer_async_run(vsf_test_case_t *tc)
     while (fsm_rt_cpl != vsf_timer_enable(timer));
 
     /* --- Test 1: Async oneshot via channel_request_start --- */
-    __counter = 0;
+    c->suite->counter = 0;
     uint32_t period_buf = TIMER_ASYNC_PERIOD_US;
     err = vsf_timer_channel_request_start(timer, 0, &(vsf_timer_channel_request_t){
         .length = 1,
@@ -66,10 +62,10 @@ void vsf_test_timer_async_run(vsf_test_case_t *tc)
     VSF_TEST_ASSERT(status.value != 0);
 
     uint32_t timeout_ms = 150;
-    while (__counter < 1 && timeout_ms-- > 0) {
+    while (c->suite->counter < 1 && timeout_ms-- > 0) {
         vsf_test_busy_wait_ms(1);
     }
-    VSF_TEST_ASSERT(__counter == 1);
+    VSF_TEST_ASSERT(c->suite->counter == 1);
 
     /* irq_clear should return overflow mask after alarm fired, then 0 */
     vsf_timer_irq_mask_t cleared = vsf_timer_irq_clear(timer, VSF_TIMER_IRQ_MASK_OVERFLOW);
@@ -82,7 +78,7 @@ void vsf_test_timer_async_run(vsf_test_case_t *tc)
     VSF_TEST_ASSERT(status.value == 0);
 
     /* --- Test 2: Async periodic via channel_request_start --- */
-    __counter = 0;
+    c->suite->counter = 0;
     err = vsf_timer_channel_config(timer, 0, &(vsf_timer_channel_cfg_t){
         .mode  = VSF_TIMER_CHANNEL_MODE_BASE | VSF_TIMER_BASE_CONTINUES,
         .pulse = TIMER_ASYNC_PERIOD_US,
@@ -96,13 +92,13 @@ void vsf_test_timer_async_run(vsf_test_case_t *tc)
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     timeout_ms = 200;
-    while (__counter < TIMER_ASYNC_COUNT && timeout_ms-- > 0) {
+    while (c->suite->counter < TIMER_ASYNC_COUNT && timeout_ms-- > 0) {
         vsf_test_busy_wait_ms(1);
     }
-    VSF_TEST_ASSERT(__counter == TIMER_ASYNC_COUNT);
+    VSF_TEST_ASSERT(c->suite->counter == TIMER_ASYNC_COUNT);
 
     /* --- Test 3: Async stop via channel_request_stop --- */
-    __counter = 0;
+    c->suite->counter = 0;
     err = vsf_timer_channel_request_start(timer, 0, &(vsf_timer_channel_request_t){
         .length = 1,
         .period_buffer = &period_buf,
@@ -110,17 +106,17 @@ void vsf_test_timer_async_run(vsf_test_case_t *tc)
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     timeout_ms = 50;
-    while (__counter < 3 && timeout_ms-- > 0) {
+    while (c->suite->counter < 3 && timeout_ms-- > 0) {
         vsf_test_busy_wait_ms(1);
     }
-    VSF_TEST_ASSERT(__counter >= 3);
+    VSF_TEST_ASSERT(c->suite->counter >= 3);
 
     err = vsf_timer_channel_request_stop(timer, 0);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
-    uint8_t count_after_stop = __counter;
+    uint8_t count_after_stop = c->suite->counter;
     vsf_test_busy_wait_ms(50);
-    VSF_TEST_ASSERT(__counter == count_after_stop);
+    VSF_TEST_ASSERT(c->suite->counter == count_after_stop);
 
     vsf_trace_info("TIMER:ASYNC:PASS" VSF_TRACE_CFG_LINEEND);
 

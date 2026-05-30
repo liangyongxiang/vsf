@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_adc_oneshot_run(vsf_test_case_t *tc);
+void vsf_test_adc_oneshot_run(void *arg);
 
 #endif /* __VSF_TEST_ADC_ONESHOT_H__ */
 /* EOF */

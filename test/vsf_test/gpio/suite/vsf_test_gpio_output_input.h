@@ -28,7 +28,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_gpio_output_input_run(vsf_test_case_t *tc);
+void vsf_test_gpio_output_input_run(const vsf_test_gpio_output_input_case_t *c);
 
 #ifdef __cplusplus
 }

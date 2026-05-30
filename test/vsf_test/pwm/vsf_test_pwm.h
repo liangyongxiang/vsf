@@ -45,11 +45,27 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
+vsf_class(vsf_test_pwm_suite_base_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_pwm_t *pwm;
+    )
+};
 
+vsf_class(vsf_test_pwm_basic_suite_t) {
+    public_member(
+        implement(vsf_test_pwm_suite_base_t)
+    )
+};
 
+vsf_class(vsf_test_pwm_dual_channel_suite_t) {
+    public_member(
+        implement(vsf_test_pwm_suite_base_t)
+    )
+};
 
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-vsf_class(vsf_test_pwm_basic_params_t) {
+vsf_class(vsf_test_pwm_basic_case_t) {
     public_member(
         uint8_t  idx;
         uint8_t  slice;
@@ -59,12 +75,13 @@ vsf_class(vsf_test_pwm_basic_params_t) {
         uint32_t period;
         uint32_t pulse;
         uint32_t run_ms;
+        vsf_test_pwm_basic_suite_t *suite;
     )
 };
 #endif
 
 #if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
-vsf_class(vsf_test_pwm_dual_channel_params_t) {
+vsf_class(vsf_test_pwm_dual_channel_case_t) {
     public_member(
         uint8_t  idx;
         uint8_t  slice;
@@ -77,13 +94,19 @@ vsf_class(vsf_test_pwm_dual_channel_params_t) {
         uint32_t pulse_a;
         uint32_t pulse_b;
         uint32_t run_ms;
+        vsf_test_pwm_dual_channel_suite_t *suite;
     )
 };
 #endif
 
 #if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
+vsf_class(vsf_test_pwm_irq_suite_t) {
+    public_member(
+        implement(vsf_test_pwm_suite_base_t)
+    )
+};
 
-vsf_class(vsf_test_pwm_irq_params_t) {
+vsf_class(vsf_test_pwm_irq_case_t) {
     public_member(
         uint8_t  idx;
         uint8_t  slice;
@@ -92,6 +115,7 @@ vsf_class(vsf_test_pwm_irq_params_t) {
         uint32_t period;
         uint32_t pulse;
         uint32_t test_ms;
+        vsf_test_pwm_irq_suite_t *suite;
     )
 };
 #endif
@@ -99,15 +123,15 @@ vsf_class(vsf_test_pwm_irq_params_t) {
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
-void vsf_test_pwm_basic_run(vsf_test_case_t *tc);
+void vsf_test_pwm_basic_run(void *arg);
 #endif
 
 #if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
-void vsf_test_pwm_dual_channel_run(vsf_test_case_t *tc);
+void vsf_test_pwm_dual_channel_run(void *arg);
 #endif
 
 #if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
-void vsf_test_pwm_irq_run(vsf_test_case_t *tc);
+void vsf_test_pwm_irq_run(void *arg);
 #endif
 
 #ifdef __cplusplus

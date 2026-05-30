@@ -40,25 +40,43 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
+vsf_class(vsf_test_wdt_suite_base_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_wdt_t *wdt;
+    )
+};
 
+vsf_class(vsf_test_wdt_basic_suite_t) {
+    public_member(
+        implement(vsf_test_wdt_suite_base_t)
+    )
+};
 
+vsf_class(vsf_test_wdt_reboot_suite_t) {
+    public_member(
+        implement(vsf_test_wdt_suite_base_t)
+    )
+};
 
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
-vsf_class(vsf_test_wdt_basic_params_t) {
+vsf_class(vsf_test_wdt_basic_case_t) {
     public_member(
         uint8_t  idx;
         uint16_t timeout_ms;
         uint8_t  feed_count;
         uint16_t feed_interval_ms;
+        vsf_test_wdt_basic_suite_t *suite;
     )
 };
 #endif
 
 #if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
-vsf_class(vsf_test_wdt_reboot_params_t) {
+vsf_class(vsf_test_wdt_reboot_case_t) {
     public_member(
         uint8_t  idx;
         uint16_t timeout_ms;
+        vsf_test_wdt_reboot_suite_t *suite;
     )
 };
 #endif
@@ -66,11 +84,11 @@ vsf_class(vsf_test_wdt_reboot_params_t) {
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
-void vsf_test_wdt_basic_run(vsf_test_case_t *tc);
+void vsf_test_wdt_basic_run(void *arg);
 #endif
 
 #if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
-void vsf_test_wdt_reboot_run(vsf_test_case_t *tc);
+void vsf_test_wdt_reboot_run(void *arg);
 #endif
 
 #include "component/test/vsf_test/vsf_test.h"

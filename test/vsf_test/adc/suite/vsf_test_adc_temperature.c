@@ -13,11 +13,10 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_adc_temperature_run(vsf_test_case_t *tc)
+void vsf_test_adc_temperature_run(void *arg)
 {
-    vsf_test_adc_temperature_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_adc_t *adc = (vsf_adc_t *)suite->arg;
+    vsf_test_adc_temperature_case_t *c = (vsf_test_adc_temperature_case_t *)arg;
+    vsf_adc_t *adc = c->suite->adc;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
@@ -36,7 +35,7 @@ void vsf_test_adc_temperature_run(vsf_test_case_t *tc)
 
     /* Sample internal temperature sensor. */
     vsf_adc_channel_cfg_t ch_cfg = {
-        .channel       = p->sensor_channel,
+        .channel       = c->sensor_channel,
         .mode          = VSF_ADC_CHANNEL_GAIN_1 | VSF_ADC_CHANNEL_REF_VDD_1,
         .sample_cycles = 0,
     };

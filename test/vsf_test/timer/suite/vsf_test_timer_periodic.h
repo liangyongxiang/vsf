@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_timer_periodic_run(vsf_test_case_t *tc);
+void vsf_test_timer_periodic_run(void *arg);
 
 #endif /* __VSF_TEST_TIMER_PERIODIC_H__ */
 /* EOF */

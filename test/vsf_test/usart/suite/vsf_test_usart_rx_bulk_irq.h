@@ -9,7 +9,7 @@
 extern "C" {
 #endif
 
-void vsf_test_usart_rx_bulk_irq_run(vsf_test_case_t *tc);
+void vsf_test_usart_rx_bulk_irq_run(const vsf_test_usart_rx_bulk_irq_case_t *c);
 
 #ifdef __cplusplus
 }

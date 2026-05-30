@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_pwm_dual_channel_run(vsf_test_case_t *tc);
+void vsf_test_pwm_dual_channel_run(void *arg);
 
 #endif /* __VSF_TEST_PWM_DUAL_CHANNEL_H__ */
 /* EOF */

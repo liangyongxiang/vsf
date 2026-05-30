@@ -277,8 +277,7 @@ vsf_class(vsf_test_wdt_t) {
     )
 };
 
-typedef struct vsf_test_case_t vsf_test_case_t;
-typedef void vsf_test_jmp_fn_t(vsf_test_case_t *tc);
+typedef void vsf_test_jmp_fn_t(void *arg);
 
 dcl_simple_class(vsf_test_suite_t)
 typedef bool vsf_test_suite_setup_fn_t(vsf_test_suite_t *suite);
@@ -314,9 +313,16 @@ vsf_class(vsf_test_suite_t) {
         uint16_t                       case_count;     //!< per-suite case array length
         vsf_test_case_t               *cases;          //!< per-suite case array
         vsf_peripheral_type_t          peripheral_type;//!<< which HAL type this suite needs (0 = none)
-        void                          *arg;            //!< HAL handle(s), injected by instance matcher
     )
 };
+
+/*! \brief Declare a static test table type.
+    \param table_name  typedef name (e.g. vsf_test_usart_baud_table_t)
+    \param suite_t     per-scenario suite type (extends vsf_test_suite_t)
+    \param case_t      per-scenario case param type
+    \param count       compile-time case count macro */
+#define VSF_TEST_DECLARE_TABLE(table_name, suite_t, case_t, count) \
+    typedef struct { suite_t suite; case_t data[count]; vsf_test_case_t cases[count]; } table_name
 
 typedef struct vsf_test_inst_t {
     vsf_peripheral_type_t       peripheral_type; //!< which HAL interface this instance satisfies
@@ -353,7 +359,7 @@ typedef struct vsf_test_t {
 #        endif
 
     //! Registered suites array and count — populated at compile time.
-    vsf_test_suite_t  *suites;
+    vsf_test_suite_t **suites;
     uint8_t            suite_count;
 
     //! Peripheral instances array and count — populated at compile time.

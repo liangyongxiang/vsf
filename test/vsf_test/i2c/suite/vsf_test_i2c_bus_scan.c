@@ -18,9 +18,12 @@
 
 #define __VSF_TEST_I2C_CLASS_IMPLEMENT
 #include "vsf_test_i2c_bus_scan.h"
-/*============================ LOCAL VARIABLES ===============================*/
 
-static volatile vsf_i2c_irq_mask_t __irq_mask;
+#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
+
+/*============================ MACROS ========================================*/
+
+/*============================ LOCAL VARIABLES ===============================*/
 
 /*============================ LOCAL FUNCTIONS ===============================*/
 
@@ -28,10 +31,11 @@ static void __bus_scan_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
                             vsf_i2c_irq_mask_t irq_mask)
 {
     (void)i2c_ptr;
-    __irq_mask = irq_mask;
+    vsf_test_i2c_bus_scan_suite_t *suite = (vsf_test_i2c_bus_scan_suite_t *)target_ptr;
+    suite->irq_mask = irq_mask;
 }
 
-static int __bus_scan_once(vsf_test_suite_t *suite,
+static int __bus_scan_once(vsf_test_i2c_bus_scan_suite_t *suite,
                             vsf_gpio_i2c_t *gpio_i2c, uint8_t scl, uint8_t sda)
 {
     gpio_i2c->scl_pin = scl;
@@ -48,12 +52,12 @@ static int __bus_scan_once(vsf_test_suite_t *suite,
 
     int found = 0;
     for (uint8_t addr = 0x08; addr <= 0x77; addr++) {
-        __irq_mask = 0;
+        suite->irq_mask = 0;
         vsf_i2c_master_request(i2c, addr,
             VSF_I2C_CMD_START | VSF_I2C_CMD_STOP
             | VSF_I2C_CMD_7_BITS | VSF_I2C_CMD_WRITE,
             0, NULL);
-        if (!(__irq_mask & VSF_I2C_IRQ_MASK_MASTER_ADDRESS_NACK)) {
+        if (!(suite->irq_mask & VSF_I2C_IRQ_MASK_MASTER_ADDRESS_NACK)) {
             found++;
         }
     }
@@ -67,34 +71,26 @@ static int __bus_scan_once(vsf_test_suite_t *suite,
     return found;
 }
 
-
-
-#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
-
-/*============================ MACROS ========================================*/
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_i2c_bus_scan_run(vsf_test_case_t *tc)
+void vsf_test_i2c_bus_scan_run(const vsf_test_i2c_bus_scan_case_t *c)
 {
-    vsf_test_i2c_bus_scan_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
-    vsf_gpio_i2c_t **gpio_i2c_arr = (vsf_gpio_i2c_t **)suite->arg;
-    vsf_gpio_i2c_t *gpio_i2c = gpio_i2c_arr[p->idx];
+    vsf_test_i2c_bus_scan_suite_t *suite = c->suite;
+    vsf_gpio_i2c_t *gpio_i2c = suite->gpio_i2c[c->idx];
 
-    uint8_t scl = p->scl_pin;
-    uint8_t sda = p->sda_pin;
+    uint8_t scl = c->scl_pin;
+    uint8_t sda = c->sda_pin;
 
     vsf_trace_info("--- I2C scan (SCL=GP%u, SDA=GP%u) ---"
                    VSF_TRACE_CFG_LINEEND, scl, sda);
-    int found = __bus_scan_once(suite, gpio_i2c, scl, sda);
+    int found = __bus_scan_once(c->suite, gpio_i2c, scl, sda);
     vsf_trace_info("  Devices found: %d" VSF_TRACE_CFG_LINEEND, found);
 
     bool swapped = false;
     if (found == 0) {
         vsf_trace_info("  No response.  Trying swapped SCL/SDA..."
                        VSF_TRACE_CFG_LINEEND);
-        found = __bus_scan_once(suite, gpio_i2c, sda, scl);
+        found = __bus_scan_once(c->suite, gpio_i2c, sda, scl);
         vsf_trace_info("  Devices found (swapped): %d" VSF_TRACE_CFG_LINEEND,
                        found);
         swapped = (found > 0);

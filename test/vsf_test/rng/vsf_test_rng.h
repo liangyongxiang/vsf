@@ -37,13 +37,25 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
+vsf_class(vsf_test_rng_suite_base_t) {
+    public_member(
+        implement(vsf_test_suite_t)
+        vsf_rng_t *rng;
+    )
+};
 
+vsf_class(vsf_test_rng_basic_suite_t) {
+    public_member(
+        implement(vsf_test_rng_suite_base_t)
+    )
+};
 
 #if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
-vsf_class(vsf_test_rng_basic_params_t) {
+vsf_class(vsf_test_rng_basic_case_t) {
     public_member(
         uint8_t  idx;
         uint8_t  word_count;
+        vsf_test_rng_basic_suite_t *suite;
     )
 };
 #endif
@@ -51,7 +63,7 @@ vsf_class(vsf_test_rng_basic_params_t) {
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
-void vsf_test_rng_basic_run(vsf_test_case_t *tc);
+void vsf_test_rng_basic_run(void *arg);
 #endif
 
 #ifdef __cplusplus

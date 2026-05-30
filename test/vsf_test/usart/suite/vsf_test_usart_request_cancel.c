@@ -24,16 +24,14 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_request_cancel_run(vsf_test_case_t *tc)
+void vsf_test_usart_request_cancel_run(const vsf_test_usart_request_cancel_case_t *c)
 {
-    vsf_test_usart_request_cancel_params_t *p = tc->arg;
-    vsf_test_suite_t *suite = tc->suite;
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
-    vsf_usart_t *usart = (vsf_usart_t *)suite->arg;
+    vsf_usart_t *usart = c->suite->usart;
 
     vsf_usart_capability_t cap = vsf_usart_capability(usart);
-    uint32_t total = (uint32_t)cap.txfifo_depth * p->refill_target;
+    uint32_t total = (uint32_t)cap.txfifo_depth * c->refill_target;
     if (total < 64) { total = 64; }
     static uint8_t buf[256];
     if (total > sizeof(buf)) { total = sizeof(buf); }
@@ -52,7 +50,7 @@ void vsf_test_usart_request_cancel_run(vsf_test_case_t *tc)
 
     /* Let some bytes drain through the line before pulling the cancel. */
     uint32_t waited = 0;
-    while (waited < p->cancel_after_us) {
+    while (waited < c->cancel_after_us) {
         vsf_test_busy_wait_ms(1);
         waited += 1000;
     }

@@ -28,7 +28,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_usart_rx_timeout_run(vsf_test_case_t *tc);
+void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c);
 
 #ifdef __cplusplus
 }

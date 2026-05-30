@@ -29,19 +29,19 @@ extern "C" {
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_parity_error_run(vsf_test_case_t *tc);
+void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_case_t *c);
 #endif
 
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_frame_error_run(vsf_test_case_t *tc);
+void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c);
 #endif
 
 #if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_break_error_run(vsf_test_case_t *tc);
+void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_t *c);
 #endif
 
 #if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_overflow_error_run(vsf_test_case_t *tc);
+void vsf_test_usart_rx_overflow_error_run(const vsf_test_usart_rx_overflow_error_case_t *c);
 #endif
 
 #ifdef __cplusplus

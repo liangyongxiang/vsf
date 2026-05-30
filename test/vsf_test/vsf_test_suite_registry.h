@@ -427,5 +427,5 @@ typedef struct {
 
 extern const vsf_test_inst_t __board_test_instances[];
 extern uint8_t __board_test_instance_count;
-extern const vsf_test_suite_t __vsf_test_suites[];
-extern uint8_t __vsf_test_suite_count;
+extern const vsf_test_suite_t vsf_test_suite_list[];
+extern uint8_t vsf_test_suite_count;

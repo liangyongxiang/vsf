@@ -420,7 +420,7 @@ static vsf_test_all_cases_t __all_cases = {
 
 /*============================ SUITES ========================================*/
 
-const vsf_test_suite_t __vsf_test_suites[] = {
+const vsf_test_suite_t vsf_test_suite_list[] = {
 #if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
         {
             .name       = "gpio_analog_mode",
@@ -942,7 +942,7 @@ const vsf_test_suite_t __vsf_test_suites[] = {
         },
 #endif
 };
-uint8_t __vsf_test_suite_count = dimof(__vsf_test_suites);
+uint8_t vsf_test_suite_count = dimof(vsf_test_suite_list);
 
 /*============================ REGISTRY ======================================*/
 

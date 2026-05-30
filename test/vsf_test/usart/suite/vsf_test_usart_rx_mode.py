@@ -5,7 +5,6 @@ payload; `decode()` confirms on-wire bytes match.
 """
 
 from dataclasses import dataclass
-from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument, load_test_params, read_framework_windows
 
 
@@ -33,8 +32,8 @@ def _parse_cases(scenario: dict) -> list[Case]:
     return cases
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
-    params = load_test_params(project_root)
+def run(serial: SerialInstrument) -> None:
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("rx_mode", {})
     cases = _parse_cases(scenario)
     assert len(cases) > 0, "No cases found in test_params"
@@ -60,10 +59,10 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     aux.close()
 
 
-def decode(project_root: Path, la: LogicAnalyzerInstrument,
+def decode(la: LogicAnalyzerInstrument,
            decode_start_ns: int | None = None,
            decode_end_ns: int | None = None) -> None:
-    params = load_test_params(project_root)
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("rx_mode", {})
     cases = _parse_cases(scenario)
 
@@ -73,7 +72,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     out_dir = la.output_dir
 
     windows = read_framework_windows(
-        la, "usart_rx_mode", project_root,
+        la, "usart_rx_mode",
         decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
     )
     window_by_idx = {w.case_idx: w for w in windows}

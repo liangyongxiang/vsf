@@ -15,7 +15,6 @@ def add_shared_test_args(parser: argparse.ArgumentParser) -> None:
     Callers should add their own entry-point-specific flags *after* calling
     this function (e.g. `--build/--flash/--test/--all` for the unified runner).
     """
-    parser.add_argument("--project-root", type=str, default=None)
     parser.add_argument("--log-dir", type=str, default=None)
     parser.add_argument("--source-dir", type=str, default=None,
                         help="Override build source_dir from hardware-map.yml")
@@ -24,6 +23,8 @@ def add_shared_test_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--suite", action="append", default=None)
     parser.add_argument("--case", action="append", default=None)
     parser.add_argument("--case-index", action="append", type=int, default=None)
+    parser.add_argument("--test-params", type=str, default=None,
+                        help="Path to test_params.yml (required for non-numeric --case values)")
     parser.add_argument("--script", type=argparse.FileType(), default=None)
     parser.add_argument(
         "--la-mode",

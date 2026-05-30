@@ -7,10 +7,6 @@ vs end of each case, how the per-case `[start_ns, end_ns)` window is built.
   * TX: windows bounded by `CASE:N` → next `CASE:N+1` (or `END` for last)
   * RX: when READY markers are present, windows bounded by `CASE:N:READY`
     → `CASE:N:DONE`; otherwise falls back to CASE:N → next CASE/END.
-
-Scenario decoders pass `project_root` so this module loads marker config
-(channel, baudrate) once internally; scenario code carries no Capture Marker
-knowledge.
 """
 
 import re
@@ -92,7 +88,6 @@ def _read_marker_channel(
 def read_framework_windows(
     la: LogicAnalyzerInstrument,
     suite_name: str,
-    project_root: Path,
     decode_start_ns: int | None = None,
     decode_end_ns: int | None = None,
     marker_baud: int = 115200,

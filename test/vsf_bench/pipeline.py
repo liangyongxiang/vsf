@@ -12,6 +12,7 @@ the `--build/--flash/--test/--all` flags.
 
 import inspect
 import json
+import shutil
 import sys
 import time
 from datetime import datetime
@@ -159,7 +160,6 @@ def _run_script_phase1(
     suite_name: str,
     case: str | None,
     script_module,
-    project_root: Path,
     ser: SerialInstrument,
 ) -> bool:
     """Send trigger, run script.run(). Returns True on PASS."""
@@ -194,7 +194,7 @@ def _run_script_phase1(
 
     try:
         if script_module is not None:
-            script_module.run(project_root, ser)
+            script_module.run(ser)
         else:
             ser.expect_test_summary(suite_name, timeout=1.5)
         __bprint(f"PASS phase1: {suite_name}{case_tag}")
@@ -204,7 +204,7 @@ def _run_script_phase1(
         return False
 
 
-def _call_decode(mod, project_root: Path, la: LogicAnalyzerInstrument,
+def _call_decode(mod, la: LogicAnalyzerInstrument,
                  start_ns: int | None, end_ns: int | None,
                  marker_baud: int = 115200) -> None:
     """Invoke a script's decode() with whichever signature it accepts."""
@@ -217,7 +217,7 @@ def _call_decode(mod, project_root: Path, la: LogicAnalyzerInstrument,
         kwargs["decode_end_ns"] = end_ns
     if "marker_baud" in params:
         kwargs["marker_baud"] = marker_baud
-    mod.decode(project_root, la, **kwargs)
+    mod.decode(la, **kwargs)
 
 
 def _new_la(la_cfg, cli_path: Path, capture_path: Path) -> LogicAnalyzerInstrument:
@@ -243,13 +243,13 @@ def _mk_log_dir(log_dir: Path | None, ordered_suites: list[tuple[str, Path | Non
 
 def run_test_phase(
     board,
-    project_root: Path,
     suite_names: list[str] | None,
     script_override: Path | None,
     case_specs: list[str],
     la_mode: str,
     log_dir: Path | None,
     shuffle_seed: int | None = None,
+    test_params_yml: Path | None = None,
 ) -> bool:
     """Run suites against firmware that is already flashed and running.
 
@@ -270,8 +270,10 @@ def run_test_phase(
     # Resolve non-numeric --case values to indices via YAML lookup
     if case_specs and len(ordered_suites) == 1:
         suite_name = ordered_suites[0][0]
-        # test_params.yml is cwd-relative by convention
-        test_params_yml = Path("application/component/vsf-test/test_params.yml")
+        if test_params_yml is None:
+            raise ValueError(
+                "Non-numeric --case values require --test-params to locate test_params.yml"
+            )
         params = load_test_params(
             test_params_yml=test_params_yml,
             board_pins_path=board.board_pins,
@@ -293,7 +295,14 @@ def run_test_phase(
     ser.open()
 
     la_cfg = board.logic_analyzer
-    cli_path = Path(la_cfg.cli) if la_cfg else None
+    cli_path = None
+    if la_cfg is not None:
+        if la_cfg.cli:
+            cli_path = Path(la_cfg.cli)
+        else:
+            cli_path = shutil.which("dsview-cli")
+            if cli_path:
+                cli_path = Path(cli_path)
 
     try:
         ser.expect("VSF Test Ready", timeout=10.0)
@@ -323,13 +332,13 @@ def run_test_phase(
 
     if la_mode == "shared" and any_needs_la:
         overall_pass = _test_loop_shared_la(
-            loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs,
+            loaded, ser, la_cfg, cli_path, run_dir, case_specs,
             board,
             shuffle_seed=shuffle_seed,
         )
     else:
         overall_pass = _test_loop_per_suite(
-            loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs,
+            loaded, ser, la_cfg, cli_path, run_dir, case_specs,
             shuffle_seed=shuffle_seed,
         )
 
@@ -344,7 +353,7 @@ def run_test_phase(
 
 
 def _test_loop_shared_la(
-    loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs,
+    loaded, ser, la_cfg, cli_path, run_dir, case_specs,
     board,
     shuffle_seed: int | None = None,
 ) -> bool:
@@ -384,7 +393,7 @@ def _test_loop_shared_la(
             case_tag = f".{case}" if case else ""
             __bprint(f"Suite: {suite_name}{case_tag}")
             t_start = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
-            ok = _run_script_phase1(suite_name, case, mod, project_root, ser)
+            ok = _run_script_phase1(suite_name, case, mod, ser)
             t_end = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
             if not ok:
                 overall_pass = False
@@ -404,7 +413,7 @@ def _test_loop_shared_la(
         decode_end = t_end + SHARED_WINDOW_PAD_NS
         __bprint(f"Decoding (shared): {suite_name}  window=[{decode_start/1e9:.2f}s,{decode_end/1e9:.2f}s]")
         try:
-            _call_decode(mod, project_root, shared_la, decode_start, decode_end, board.baud)
+            _call_decode(mod, shared_la, decode_start, decode_end, board.baud)
             __bprint(f"PASS decode: {suite_name}")
         except (AssertionError, RuntimeError, KeyError, AttributeError, FileNotFoundError) as e:
             __bprint(f"FAIL decode: {suite_name}: {e}")
@@ -414,7 +423,7 @@ def _test_loop_shared_la(
 
 
 def _test_loop_per_suite(
-    loaded, project_root, ser, la_cfg, cli_path, run_dir, case_specs,
+    loaded, ser, la_cfg, cli_path, run_dir, case_specs,
     shuffle_seed: int | None = None,
 ) -> bool:
     """Per-suite LA mode: one capture per suite (or no LA at all)."""
@@ -438,7 +447,7 @@ def _test_loop_per_suite(
                 scene_la.start(180.0)
                 scene_la.wait_until_started(timeout=5.0)
 
-            ok = _run_script_phase1(suite_name, case, mod, project_root, ser)
+            ok = _run_script_phase1(suite_name, case, mod, ser)
             if not ok:
                 overall_pass = False
 
@@ -451,7 +460,7 @@ def _test_loop_per_suite(
 
             if ok and mod is not None and hasattr(mod, "decode") and scene_la is not None:
                 try:
-                    _call_decode(mod, project_root, scene_la, None, None, board.baud)
+                    _call_decode(mod, scene_la, None, None, board.baud)
                     __bprint(f"PASS decode: {suite_name}{case_tag}")
                 except (AssertionError, RuntimeError, KeyError, AttributeError, FileNotFoundError) as e:
                     __bprint(f"FAIL decode: {suite_name}{case_tag}: {e}")

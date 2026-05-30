@@ -89,8 +89,9 @@ def load(path: str | Path) -> BoardConfig:
         la_cfg = None
         la_raw = entry.get("logic_analyzer")
         if la_raw:
+            cli_raw = la_raw.get("cli")
             la_cfg = LogicAnalyzerConfig(
-                cli=_resolve_yaml_path(la_raw["cli"], yaml_dir),
+                cli=_resolve_yaml_path(cli_raw, yaml_dir) if cli_raw else None,
                 device=la_raw.get("device", "DSLogic"),
                 samplerate=la_raw.get("samplerate", "10M"),
                 capture_duration=float(la_raw.get("capture_duration", 120)),

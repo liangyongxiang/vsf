@@ -7,7 +7,6 @@ READY → DONE pair.
 """
 
 from dataclasses import dataclass
-from pathlib import Path
 
 
 RP2040_CLK_PERI = 125_000_000
@@ -36,8 +35,8 @@ def _parse_cases(scenario: dict) -> list[Case]:
     return cases
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
-    params = load_test_params(project_root)
+def run(serial: SerialInstrument) -> None:
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("rx_baud", {})
     cases = _parse_cases(scenario)
     assert len(cases) > 0, "No cases found in test_params"
@@ -63,10 +62,10 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     aux.close()
 
 
-def decode(project_root: Path, la: LogicAnalyzerInstrument,
+def decode(la: LogicAnalyzerInstrument,
            decode_start_ns: int | None = None,
            decode_end_ns: int | None = None) -> None:
-    params = load_test_params(project_root)
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("rx_baud", {})
     cases = _parse_cases(scenario)
     pass_cases = [c for c in cases if _expect_pass(c.baud)]
@@ -78,7 +77,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     out_dir = la.output_dir
 
     windows = read_framework_windows(
-        la, "usart_rx_baud", project_root,
+        la, "usart_rx_baud",
         decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
     )
     window_by_idx = {w.case_idx: w for w in windows}

@@ -7,14 +7,13 @@ asserts data integrity.
 No host-side serial interaction required — this is an internal test.
 """
 
-from pathlib import Path
 from vsf_bench import SerialInstrument, load_test_params
 
 
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
-    params = load_test_params(project_root)
+def run(serial: SerialInstrument) -> None:
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("dma_mem2mem", {})
     timeout_s = float(scenario.get("timeout_s", 10.0))
 

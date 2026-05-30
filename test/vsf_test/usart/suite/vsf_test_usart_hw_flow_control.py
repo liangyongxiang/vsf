@@ -7,11 +7,10 @@ generate CTS edges. The firmware asserts cts_count >= 1; no host UART
 is needed.
 """
 
-from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
 
 
-def run(project_root: Path, serial: SerialInstrument,
+def run(serial: SerialInstrument,
         la: LogicAnalyzerInstrument | None = None) -> None:
     serial.expect_test_summary("usart_hw_flow_control")

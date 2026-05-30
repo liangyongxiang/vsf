@@ -6,7 +6,6 @@ receives via RX IRQ handler and asserts every byte matches.
 Requires the aux serial fixture: host drives /dev/ttyUSB0 → Pico UART1 RX.
 """
 
-from pathlib import Path
 
 from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
 
@@ -18,8 +17,8 @@ def _gen_pattern(size: int) -> bytes:
     return bytes(i & 0xFF for i in range(size))
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
-    params = load_test_params(project_root)
+def run(serial: SerialInstrument) -> None:
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("rx_bulk_irq", {})
     cases = scenario.get("cases", [])
     if not cases:
@@ -57,11 +56,11 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
 
     aux.close()
 
-def decode(project_root: Path, la: LogicAnalyzerInstrument,
+def decode(la: LogicAnalyzerInstrument,
            decode_start_ns: int | None = None,
            decode_end_ns: int | None = None,
            marker_baud: int = 115200) -> None:
-    params = load_test_params(project_root)
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("rx_bulk_irq", {})
     cases = scenario.get("cases", [])
     if not cases:
@@ -71,7 +70,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     out_dir = la.output_dir
 
     windows = read_framework_windows(
-        la, "usart_rx_bulk_irq", project_root,
+        la, "usart_rx_bulk_irq",
         decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
         marker_baud=marker_baud,
     )

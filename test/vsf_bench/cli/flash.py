@@ -18,12 +18,10 @@ from vsf_bench import pipeline
 
 def main():
     parser = argparse.ArgumentParser(prog="vsf-bench-flash")
-    parser.add_argument("--project-root", type=Path, default=Path.cwd())
     parser.add_argument("hardware_map")
     args = parser.parse_args()
 
-    project_root = args.project_root.resolve()
-    hardware_map_path = project_root / args.hardware_map
+    hardware_map_path = Path(args.hardware_map)
 
     try:
         board = pipeline.load_board(hardware_map_path)
@@ -31,7 +29,7 @@ def main():
         print(f"[vsf-bench-flash] Config error: {e}", file=sys.stderr)
         sys.exit(2)
 
-    build_dir = project_root / board.build.build_dir
+    build_dir = Path(board.build.build_dir)
     if not build_dir.exists():
         print(f"[vsf-bench-flash] Build directory missing: {build_dir}", file=sys.stderr)
         print(f"[vsf-bench-flash] Run vsf-bench-build first.", file=sys.stderr)

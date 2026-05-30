@@ -6,24 +6,23 @@ the test framework summary line and asserts all cases passed.
 TX via fifo2req adapter; re-uses UART1.
 """
 
-from pathlib import Path
 from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument
 
 
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
+def run(serial: SerialInstrument) -> None:
     serial.expect_test_summary("usart_request_tx_irq")
 
 
-def decode(project_root: Path, la: LogicAnalyzerInstrument,
+def decode(la: LogicAnalyzerInstrument,
            decode_start_ns: int | None = None,
            decode_end_ns: int | None = None) -> None:
     dut_ch = la.channel("uart1_tx")
     out_dir = la.output_dir
 
     windows = read_framework_windows(
-        la, "usart_request_tx_irq", project_root,
+        la, "usart_request_tx_irq",
         decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
     )
     assert len(windows) > 0, "No framework windows found"

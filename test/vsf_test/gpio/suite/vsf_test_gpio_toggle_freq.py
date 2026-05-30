@@ -13,25 +13,24 @@ decode skips the assertion and only verifies the firmware trace was
 emitted (per PRD `gpio-toggle-perf` "no LA fallback" path).
 """
 
-from pathlib import Path
 from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
 
 
-def run(project_root: Path, serial: SerialInstrument,
+def run(serial: SerialInstrument,
         la: LogicAnalyzerInstrument | None = None) -> None:
     serial.expect_test_summary("gpio_toggle_freq")
 
 
-def decode(project_root: Path, la: LogicAnalyzerInstrument,
+def decode(la: LogicAnalyzerInstrument,
            decode_start_ns: int | None = None,
            decode_end_ns: int | None = None) -> None:
-    params = load_test_params(project_root)
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("gpio_toggle_freq", {})
     cases = list(scenario.get("cases", []))
     assert len(cases) > 0, "No cases found in test_params"
 
     windows = read_framework_windows(
-        la, "gpio_toggle_freq", project_root,
+        la, "gpio_toggle_freq",
         decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
     )
     window_by_idx = {w.case_idx: w for w in windows}

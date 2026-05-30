@@ -6,13 +6,12 @@ Two-phase test:
    "VSF Test Ready" after the reset.
 """
 
-from pathlib import Path
 
 from vsf_bench import SerialInstrument
 
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
+def run(serial: SerialInstrument) -> None:
     # Wait for WDT:ARMED marker — confirms the firmware armed the watchdog.
     serial.expect("WDT:ARMED", timeout=5.0)
 

@@ -10,22 +10,21 @@ clocks its own break, so a self-comparison is tautological. The LA
 provides the independent reference.
 """
 
-from pathlib import Path
 from vsf_bench import read_framework_windows, LogicAnalyzerInstrument, SerialInstrument, load_test_params
 
 
-def run(project_root: Path, serial: SerialInstrument,
+def run(serial: SerialInstrument,
         la: LogicAnalyzerInstrument | None = None) -> None:
-    params = load_test_params(project_root)
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("usart_break_signal", {})
     timeout_s = float(scenario.get("timeout_s", 1.5))
     serial.expect_test_summary("usart_break_signal", timeout=timeout_s)
 
 
-def decode(project_root: Path, la: LogicAnalyzerInstrument,
+def decode(la: LogicAnalyzerInstrument,
            decode_start_ns: int | None = None,
            decode_end_ns: int | None = None) -> None:
-    params = load_test_params(project_root)
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("usart_break_signal", {})
     cases = list(scenario.get("cases", []))
     assert len(cases) > 0, "No cases found in test_params"
@@ -38,7 +37,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     dut_channel = la.channel(dut_channel_role)
 
     windows = read_framework_windows(
-        la, "usart_break_signal", project_root,
+        la, "usart_break_signal",
         decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
     )
     window_by_idx = {w.case_idx: w for w in windows}

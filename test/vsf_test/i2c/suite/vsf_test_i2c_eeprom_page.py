@@ -3,10 +3,9 @@
 Firmware performs I2C EEPROM page-boundary write and verifies data internally.
 """
 
-from pathlib import Path
 from vsf_bench import SerialInstrument
 
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
+def run(serial: SerialInstrument) -> None:
     serial.expect_test_summary("i2c_eeprom_page", timeout=10.0)

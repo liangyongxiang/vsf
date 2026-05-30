@@ -5,17 +5,16 @@ looped back, and asserts rx matches tx. Host script just checks
 the test summary.
 """
 
-from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
 
 
-def run(project_root: Path, serial: SerialInstrument,
+def run(serial: SerialInstrument,
         la: LogicAnalyzerInstrument | None = None) -> None:
     serial.expect_test_summary("spi_loopback")
 
 
-def decode(project_root: Path, la: LogicAnalyzerInstrument,
+def decode(la: LogicAnalyzerInstrument,
            decode_start_ns: int | None = None,
            decode_end_ns: int | None = None) -> None:
     """Decode SPI signals from LA capture.

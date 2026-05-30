@@ -8,10 +8,9 @@ firmware confirms read() returns 0 with pull-up or pull-down asserted —
 no external wiring needed.
 """
 
-from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
+def run(serial: SerialInstrument) -> None:
     serial.expect_test_summary("gpio_analog_mode")

@@ -7,7 +7,6 @@ was reached.
 Requires the aux serial fixture: host drives /dev/ttyUSB0 -> Pico UART1 RX.
 """
 
-from pathlib import Path
 
 from vsf_bench import SerialInstrument, load_test_params
 
@@ -19,8 +18,8 @@ def _gen_pattern(size: int) -> bytes:
     return bytes(i & 0xFF for i in range(size))
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
-    params = load_test_params(project_root)
+def run(serial: SerialInstrument) -> None:
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("rx_fifo_threshold", {})
     cases = scenario.get("cases", [])
     if not cases:

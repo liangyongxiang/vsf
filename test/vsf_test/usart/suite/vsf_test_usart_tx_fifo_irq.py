@@ -6,10 +6,9 @@ the test framework summary line and asserts all cases passed.
 TX side only — re-uses UART1 wiring already in hardware-map.
 """
 
-from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument
 
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
+def run(serial: SerialInstrument) -> None:
     serial.expect_test_summary("usart_tx_fifo_irq")

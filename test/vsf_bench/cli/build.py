@@ -18,14 +18,12 @@ from vsf_bench import pipeline
 
 def main():
     parser = argparse.ArgumentParser(prog="vsf-bench-build")
-    parser.add_argument("--project-root", type=Path, default=Path.cwd())
     parser.add_argument("--source-dir", type=str, default=None)
     parser.add_argument("--build-dir", type=str, default=None)
     parser.add_argument("hardware_map")
     args = parser.parse_args()
 
-    project_root = args.project_root.resolve()
-    hardware_map_path = project_root / args.hardware_map
+    hardware_map_path = Path(args.hardware_map)
 
     try:
         board = pipeline.load_board(hardware_map_path)

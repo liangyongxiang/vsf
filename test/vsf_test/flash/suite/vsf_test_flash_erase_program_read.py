@@ -4,10 +4,9 @@ Firmware performs erase → verify 0xFF → write pattern → verify pattern
 internally. This script waits for the test summary.
 """
 
-from pathlib import Path
 from vsf_bench import SerialInstrument
 
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
+def run(serial: SerialInstrument) -> None:
     serial.expect_test_summary("flash_erase_program_read", timeout=10.0)

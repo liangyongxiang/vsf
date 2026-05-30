@@ -32,7 +32,6 @@ def parse_args():
 
 def main():
     args = parse_args()
-    project_root = Path(args.project_root).resolve() if args.project_root else Path.cwd()
 
     do_build = args.build or args.all
     do_flash = args.flash or args.all
@@ -42,7 +41,7 @@ def main():
         print("[vsf-bench] Error: at least one of --build, --flash, --test, --all is required")
         sys.exit(2)
 
-    hardware_map_path = project_root / args.hardware_map
+    hardware_map_path = Path(args.hardware_map)
     try:
         board = pipeline.load_board(hardware_map_path)
     except Exception as e:
@@ -90,16 +89,18 @@ def main():
 
     log_dir = Path(args.log_dir) if args.log_dir else None
 
+    test_params_yml = Path(args.test_params) if args.test_params else None
+
     try:
         overall_pass = pipeline.run_test_phase(
             board=board,
-            project_root=project_root,
             suite_names=args.suite,
             script_override=Path(args.script) if args.script else None,
             case_specs=case_specs,
             la_mode=args.la_mode,
             log_dir=log_dir,
             shuffle_seed=shuffle_seed,
+            test_params_yml=test_params_yml,
         )
     except Exception as e:
         print(f"[vsf-bench] Test phase error: {e}", file=sys.stderr)

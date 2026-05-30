@@ -37,10 +37,10 @@ class BuildConfig:
 
 @dataclass
 class LogicAnalyzerConfig:
-    cli: str
-    device: str
-    samplerate: str
-    capture_duration: float
+    cli: str | None = None
+    device: str = "DSLogic"
+    samplerate: str = "10M"
+    capture_duration: float = 120.0
     channels: dict[str, str] = field(default_factory=dict)
 
 

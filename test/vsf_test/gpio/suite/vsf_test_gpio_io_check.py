@@ -12,25 +12,24 @@ Both pins are verified as GPIO outputs before any peripheral-specific
 scenario runs, so a miswired LA probe is caught early.
 """
 
-from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument, load_test_params
 
 
 BAUDRATE = 115200
 
 
-def run(project_root: Path, serial: SerialInstrument,
+def run(serial: SerialInstrument,
         la: LogicAnalyzerInstrument | None = None) -> None:
-    params = load_test_params(project_root)
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("gpio_io_check", {})
     timeout_s = float(scenario.get("timeout_s", 5.0))
     serial.expect_test_summary("gpio_io_check", timeout=timeout_s)
 
 
-def decode(project_root: Path, la: LogicAnalyzerInstrument,
+def decode(la: LogicAnalyzerInstrument,
            decode_start_ns: int | None = None,
            decode_end_ns: int | None = None) -> None:
-    params = load_test_params(project_root)
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("gpio_io_check", {})
     cases = scenario.get("cases", [])
     if not cases:

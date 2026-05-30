@@ -6,7 +6,7 @@ Environment variable:
     VSF_TEST_GLOBAL_PARAMS_DIR  —  absolute or project-relative path to the
                                     global test-params directory.  If unset,
                                     the loader defaults to
-                                    <project_root>/vsf.demo/vsf/test/vsf_test/params.
+                                    the script-relative vsf_test/params directory.
 """
 
 from __future__ import annotations
@@ -187,7 +187,7 @@ def load_test_params(
     """Load aggregated test params.
 
     Args:
-        test_params_yml: Path to the root test_params.yml.
+        test_params_yml: Path to the root test_params.yml (required).
         board_pins_path: Optional path to vsf_test_board_pins.h for pin macro resolution.
         global_base: Optional global params directory (absolute or cwd-relative).
                      Falls back to VSF_TEST_GLOBAL_PARAMS_DIR env var,

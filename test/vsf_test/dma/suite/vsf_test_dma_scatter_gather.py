@@ -6,12 +6,11 @@ Tests three scatter-gather patterns using RP2040 DMA with ISR chaining:
 3. Gather write (contiguous src -> non-contiguous dst)
 """
 
-from pathlib import Path
 from vsf_bench import SerialInstrument, load_test_params
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
-    params = load_test_params(project_root)
+def run(serial: SerialInstrument) -> None:
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("dma_scatter_gather", {})
     timeout_s = float(scenario.get("timeout_s", 10.0))
 

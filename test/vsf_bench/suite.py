@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 
-def discover_suites(_project_root: Path | None = None) -> dict[str, Path]:
+def discover_suites() -> dict[str, Path]:
     """Walk the test tree and return {suite_name: script_path}.
 
     Discovers `vsf_test_<suite>.py` files under `vsf/test/vsf_test/`.
@@ -43,7 +43,7 @@ def load_script_module(path: Path):
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     if not hasattr(mod, "run"):
-        raise AttributeError(f"Test script {path} must define run(project_root, serial)")
+        raise AttributeError(f"Test script {path} must define run(serial)")
     return mod
 
 

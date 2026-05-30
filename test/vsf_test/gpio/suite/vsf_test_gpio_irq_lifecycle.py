@@ -5,18 +5,17 @@ disable / re-enable / clear / get_configuration) on a self-triggered
 pin. Firmware asserts internally.
 """
 
-from pathlib import Path
 from vsf_bench import load_test_params, read_framework_windows, LogicAnalyzerInstrument, SerialInstrument
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
+def run(serial: SerialInstrument) -> None:
     serial.expect_test_summary("gpio_irq_lifecycle")
 
-def decode(project_root: Path, la: LogicAnalyzerInstrument,
+def decode(la: LogicAnalyzerInstrument,
            decode_start_ns: int | None = None,
            decode_end_ns: int | None = None,
            marker_baud: int = 115200) -> None:
-    params = load_test_params(project_root)
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("gpio_irq_lifecycle", {})
     cases = scenario.get("cases", [])
     if not cases:
@@ -30,7 +29,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
         return
 
     windows = read_framework_windows(
-        la, "gpio_irq_lifecycle", project_root,
+        la, "gpio_irq_lifecycle",
         decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
         marker_baud=marker_baud,
     )

@@ -6,7 +6,6 @@ so the firmware sees parity errors and asserts via VSF_TEST_ASSERT.
 """
 
 from dataclasses import dataclass
-from pathlib import Path
 from vsf_bench import LogicAnalyzerInstrument, SerialInstrument, load_test_params, read_framework_windows
 
 
@@ -36,8 +35,8 @@ def _parse_cases(scenario: dict) -> list[Case]:
     return cases
 
 
-def run(project_root: Path, serial: SerialInstrument) -> None:
-    params = load_test_params(project_root)
+def run(serial: SerialInstrument) -> None:
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("rx_parity_error", {})
     cases = _parse_cases(scenario)
     assert len(cases) > 0, "No cases found in test_params"
@@ -65,7 +64,7 @@ def run(project_root: Path, serial: SerialInstrument) -> None:
     aux.close()
     print(f"[PASS] rx_parity_error: {len(cases)} case(s) completed")
 
-def decode(project_root: Path, la: LogicAnalyzerInstrument,
+def decode(la: LogicAnalyzerInstrument,
            decode_start_ns: int | None = None,
            decode_end_ns: int | None = None,
            marker_baud: int = 115200) -> None:
@@ -75,7 +74,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     flags in its CSV output. If dsview-cli does not yet support this, the
     assertion will need to be relaxed or the decoder enhanced upstream.
     """
-    params = load_test_params(project_root)
+    params = load_test_params("vsf.demo/application/component/vsf-test/test_params.yml")
     scenario = params.get("rx_parity_error", {})
     cases = _parse_cases(scenario)
     if not cases:
@@ -85,7 +84,7 @@ def decode(project_root: Path, la: LogicAnalyzerInstrument,
     out_dir = la.output_dir
 
     windows = read_framework_windows(
-        la, "usart_rx_parity_error", project_root,
+        la, "usart_rx_parity_error",
         decode_start_ns=decode_start_ns, decode_end_ns=decode_end_ns,
         marker_baud=marker_baud,
     )

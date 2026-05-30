@@ -101,6 +101,12 @@ typedef struct {
 typedef struct { uint8_t __dummy; } vsf_test_spi_params_t;
 #endif
 
+typedef union {
+#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
+    vsf_test_spi_async_data_t spi_async;
+#endif
+} vsf_test_spi_data_t;
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED

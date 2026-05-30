@@ -132,6 +132,18 @@ typedef struct {
 typedef struct { uint8_t __dummy; } vsf_test_timer_params_t;
 #endif
 
+typedef union {
+#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
+    vsf_test_timer_async_data_t timer_async;
+#endif
+#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
+    vsf_test_timer_oneshot_data_t timer_oneshot;
+#endif
+#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
+    vsf_test_timer_periodic_data_t timer_periodic;
+#endif
+} vsf_test_timer_data_t;
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED

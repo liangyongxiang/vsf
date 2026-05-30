@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_usart_break_signal.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
 

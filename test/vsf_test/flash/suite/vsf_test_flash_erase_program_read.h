@@ -18,7 +18,9 @@
 #ifndef __TEST_FLASH_ERASE_PROGRAM_READ_H__
 #define __TEST_FLASH_ERASE_PROGRAM_READ_H__
 
-#include "../vsf_test_flash.h"
+#include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
+#   include "test_params_generated.h"
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_FLASH_ERASE_PROGRAM_READ_BUF_SIZE

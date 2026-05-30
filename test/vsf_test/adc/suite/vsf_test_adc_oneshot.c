@@ -1,6 +1,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_adc_oneshot.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
 

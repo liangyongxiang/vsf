@@ -1,6 +1,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_pwm_basic.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
 

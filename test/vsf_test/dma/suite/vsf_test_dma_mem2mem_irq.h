@@ -20,7 +20,9 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "../vsf_test_dma.h"
+#include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
+#   include "test_params_generated.h"
 
 /*============================ MACROS ========================================*/
 

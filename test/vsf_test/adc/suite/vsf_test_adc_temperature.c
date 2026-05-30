@@ -1,6 +1,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_adc_temperature.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
 

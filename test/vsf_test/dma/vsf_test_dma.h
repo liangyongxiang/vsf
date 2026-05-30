@@ -115,6 +115,15 @@ typedef struct {
 typedef struct { uint8_t __dummy; } vsf_test_dma_params_t;
 #endif
 
+typedef union {
+#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
+    vsf_test_dma_mem2mem_irq_data_t dma_mem2mem_irq;
+#endif
+#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
+    vsf_test_dma_scatter_gather_data_t dma_scatter_gather;
+#endif
+} vsf_test_dma_data_t;
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED

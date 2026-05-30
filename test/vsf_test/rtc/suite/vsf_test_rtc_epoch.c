@@ -1,6 +1,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_rtc_epoch.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
 

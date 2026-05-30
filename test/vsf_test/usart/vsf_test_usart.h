@@ -494,6 +494,30 @@ typedef struct {
 typedef struct { uint8_t __dummy; } vsf_test_usart_params_t;
 #endif
 
+typedef union {
+#if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
+    vsf_test_usart_request_rx_irq_data_t usart_request_rx_irq;
+#endif
+#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
+    vsf_test_usart_request_tx_irq_data_t usart_request_tx_irq;
+#endif
+#if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
+    vsf_test_usart_rx_bulk_irq_data_t usart_rx_bulk_irq;
+#endif
+#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
+    vsf_test_usart_rx_data_data_t usart_rx_data;
+#endif
+#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
+    vsf_test_usart_rx_fifo_irq_data_t usart_rx_fifo_irq;
+#endif
+#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
+    vsf_test_usart_rx_fifo_threshold_data_t usart_rx_fifo_threshold;
+#endif
+#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
+    vsf_test_usart_tx_fifo_irq_data_t usart_tx_fifo_irq;
+#endif
+} vsf_test_usart_data_t;
+
 /*============================ PROTOTYPES ====================================*/
 
 /* ---- TX suites ---- */

@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_gpio_io_check.h"
+#include "vsf_test_suites.h"
 /*============================ LOCAL VARIABLES ===============================*/
 
 static void __gpio_bitbang_uart_byte(vsf_gpio_t *gpio,

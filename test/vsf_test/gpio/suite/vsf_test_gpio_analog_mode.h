@@ -18,7 +18,9 @@
 #ifndef __TEST_GPIO_ANALOG_MODE_H__
 #define __TEST_GPIO_ANALOG_MODE_H__
 
-#include "../vsf_test_gpio.h"
+#include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
+#   include "test_params_generated.h"
 
 #if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
 

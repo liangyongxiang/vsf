@@ -18,7 +18,9 @@
 #ifndef __TEST_USART_BREAK_SIGNAL_H__
 #define __TEST_USART_BREAK_SIGNAL_H__
 
-#include "../vsf_test_usart.h"
+#include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
+#   include "test_params_generated.h"
 
 #if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
 

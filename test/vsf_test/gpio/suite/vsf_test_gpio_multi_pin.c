@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_gpio_multi_pin.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
 

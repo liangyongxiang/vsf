@@ -17,7 +17,9 @@
 #ifndef __TEST_I2C_EEPROM_PAGE_H__
 #define __TEST_I2C_EEPROM_PAGE_H__
 
-#include "../vsf_test_i2c.h"
+#include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
+#   include "test_params_generated.h"
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_I2C_EEPROM_PAGE_WRITE_BUF_SIZE

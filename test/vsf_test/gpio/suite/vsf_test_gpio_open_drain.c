@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_gpio_open_drain.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
 

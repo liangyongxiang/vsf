@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_usart_rx_irq.h"
+#include "vsf_test_suites.h"
 /*============================ LOCAL VARIABLES ===============================*/
 
 typedef struct __rx_irq_ctx_t {

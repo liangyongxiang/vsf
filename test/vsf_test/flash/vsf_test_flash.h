@@ -101,6 +101,15 @@ typedef struct {
 typedef struct { uint8_t __dummy; } vsf_test_flash_params_t;
 #endif
 
+typedef union {
+#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
+    vsf_test_flash_boundary_data_t flash_boundary;
+#endif
+#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
+    vsf_test_flash_erase_program_read_data_t flash_erase_program_read;
+#endif
+} vsf_test_flash_data_t;
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED

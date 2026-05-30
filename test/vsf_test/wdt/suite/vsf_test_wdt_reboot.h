@@ -1,7 +1,9 @@
 #ifndef __TEST_WDT_REBOOT_H__
 #define __TEST_WDT_REBOOT_H__
 
-#include "../vsf_test_wdt.h"
+#include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
+#   include "test_params_generated.h"
 
 #if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
 

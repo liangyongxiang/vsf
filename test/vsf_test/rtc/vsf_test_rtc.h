@@ -123,6 +123,12 @@ typedef struct {
 typedef struct { uint8_t __dummy; } vsf_test_rtc_params_t;
 #endif
 
+typedef union {
+#if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
+    vsf_test_rtc_alarm_data_t rtc_alarm;
+#endif
+} vsf_test_rtc_data_t;
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED

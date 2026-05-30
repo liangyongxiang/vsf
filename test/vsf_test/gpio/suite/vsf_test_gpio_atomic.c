@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_gpio_atomic.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
 

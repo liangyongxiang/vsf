@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_gpio_analog_mode.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
 

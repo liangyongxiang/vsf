@@ -19,6 +19,7 @@
 
 #define __VSF_TEST_USART_CLASS_IMPLEMENT
 #include "vsf_test_usart_hw_flow_control.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
 

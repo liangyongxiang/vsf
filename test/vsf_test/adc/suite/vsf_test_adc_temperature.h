@@ -1,7 +1,9 @@
 #ifndef __TEST_ADC_TEMPERATURE_H__
 #define __TEST_ADC_TEMPERATURE_H__
 
-#include "../vsf_test_adc.h"
+#include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
+#   include "test_params_generated.h"
 
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
 

@@ -426,6 +426,21 @@ typedef struct {
 typedef struct { uint8_t __dummy; } vsf_test_gpio_params_t;
 #endif
 
+typedef union {
+#if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
+    vsf_test_gpio_concurrent_prio_data_t gpio_concurrent_prio;
+#endif
+#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
+    vsf_test_gpio_exti_data_t gpio_exti;
+#endif
+#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
+    vsf_test_gpio_irq_latency_data_t gpio_irq_latency;
+#endif
+#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
+    vsf_test_gpio_irq_lifecycle_data_t gpio_irq_lifecycle;
+#endif
+} vsf_test_gpio_data_t;
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED

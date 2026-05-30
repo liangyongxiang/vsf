@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_dma_mem2mem.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
 

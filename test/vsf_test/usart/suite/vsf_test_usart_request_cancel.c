@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_usart_request_cancel.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
 

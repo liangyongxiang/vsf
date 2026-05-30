@@ -18,7 +18,9 @@
 #ifndef __TEST_USART_RX_ERROR_H__
 #define __TEST_USART_RX_ERROR_H__
 
-#include "../vsf_test_usart.h"
+#include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
+#   include "test_params_generated.h"
 
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
 

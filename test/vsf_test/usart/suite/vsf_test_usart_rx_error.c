@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_usart_rx_error.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED || VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
 

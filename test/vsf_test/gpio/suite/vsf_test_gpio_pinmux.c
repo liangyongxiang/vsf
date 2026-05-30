@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_gpio_pinmux.h"
+#include "vsf_test_suites.h"
 #include "vsf_board.h"
 
 #if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED

@@ -1,6 +1,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_rtc_set_get.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
 

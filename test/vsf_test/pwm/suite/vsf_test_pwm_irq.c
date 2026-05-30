@@ -1,6 +1,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_pwm_irq.h"
+#include "vsf_test_suites.h"
 
 #include "hardware/structs/pwm.h"
 

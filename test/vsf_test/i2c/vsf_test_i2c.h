@@ -204,6 +204,27 @@ typedef struct {
 typedef struct { uint8_t __dummy; } vsf_test_i2c_params_t;
 #endif
 
+typedef union {
+#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
+    vsf_test_i2c_bus_scan_data_t i2c_bus_scan;
+#endif
+#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
+    vsf_test_i2c_eeprom_page_data_t i2c_eeprom_page;
+#endif
+#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
+    vsf_test_i2c_eeprom_rw_data_t i2c_eeprom_rw;
+#endif
+#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
+    vsf_test_i2c_eeprom_rw_fifo_data_t i2c_eeprom_rw_fifo;
+#endif
+#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
+    vsf_test_i2c_slave_data_t i2c_slave;
+#endif
+#if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
+    vsf_test_i2c_slave_fifo_data_t i2c_slave_fifo;
+#endif
+} vsf_test_i2c_data_t;
+
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED

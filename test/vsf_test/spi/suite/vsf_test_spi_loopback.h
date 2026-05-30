@@ -20,7 +20,9 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "../vsf_test_spi.h"
+#include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
+#   include "test_params_generated.h"
 #ifndef VSF_TEST_SPI_LOOPBACK_MAX_DATA_LEN
 #   define VSF_TEST_SPI_LOOPBACK_MAX_DATA_LEN        256
 #endif

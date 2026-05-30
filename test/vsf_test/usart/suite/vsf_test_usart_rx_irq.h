@@ -18,7 +18,9 @@
 #ifndef __TEST_USART_RX_IRQ_H__
 #define __TEST_USART_RX_IRQ_H__
 
-#include "../vsf_test_usart.h"
+#include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
+#   include "test_params_generated.h"
 #ifndef VSF_TEST_USART_RX_IRQ_JUNK_SIZE
 #   define VSF_TEST_USART_RX_IRQ_JUNK_SIZE        16
 #endif

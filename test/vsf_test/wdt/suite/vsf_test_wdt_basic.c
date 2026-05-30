@@ -1,6 +1,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_wdt_basic.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
 

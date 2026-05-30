@@ -1,6 +1,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_pwm_dual_channel.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
 

@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_spi_loopback.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
 

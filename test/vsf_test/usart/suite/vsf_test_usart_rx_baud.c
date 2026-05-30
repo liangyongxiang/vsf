@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_usart_rx_baud.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
 

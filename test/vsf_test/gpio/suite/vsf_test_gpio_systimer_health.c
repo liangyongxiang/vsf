@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_gpio_systimer_health.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
 

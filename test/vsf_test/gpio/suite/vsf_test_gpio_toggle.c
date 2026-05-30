@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_gpio_toggle.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
 

@@ -3,7 +3,9 @@
 
 /*============================ INCLUDES ======================================*/
 
-#include "../vsf_test_i2c.h"
+#include "vsf.h"
+#   include "component/test/vsf_test/vsf_test.h"
+#   include "test_params_generated.h"
 #ifndef VSF_TEST_I2C_SLAVE_MASTER_BUF_SIZE
 #   define VSF_TEST_I2C_SLAVE_MASTER_BUF_SIZE        16
 #endif

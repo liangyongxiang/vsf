@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_gpio_write_throughput.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
 

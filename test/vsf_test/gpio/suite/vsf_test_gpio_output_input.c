@@ -18,6 +18,7 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_gpio_output_input.h"
+#include "vsf_test_suites.h"
 
 #if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
 

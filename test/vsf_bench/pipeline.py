@@ -369,6 +369,8 @@ def _test_loop_shared_la(
                 if not _send_shuffle_seed(ser, suite_name, shuffle_seed):
                     overall_pass = False
                     continue
+            case_tag = f".{case}" if case else ""
+            print(f"\n[vsf-bench] [{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}] Suite: {suite_name}{case_tag}")
             t_start = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
             ok = _run_script_phase1(suite_name, case, mod, project_root, ser)
             t_end = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
@@ -410,7 +412,7 @@ def _test_loop_per_suite(
         cases_to_run = case_specs if case_specs else [None]
         for case in cases_to_run:
             case_tag = f".{case}" if case else ""
-            print(f"\n[vsf-bench] Suite: {suite_name}{case_tag}")
+            print(f"\n[vsf-bench] [{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}] Suite: {suite_name}{case_tag}")
             if shuffle_seed is not None and case is None:
                 if not _send_shuffle_seed(ser, suite_name, shuffle_seed):
                     overall_pass = False

@@ -19,11 +19,18 @@ add_subdirectory(rng)
 add_subdirectory(dma)
 
 vsf_add_include_directories(
-    vendor/generated/pico_base
+    generated/pico_base
 )
 
 # include boot_stage2
-add_subdirectory(${PICO_SDK_PATH}/src/rp2_common/boot_stage2 ${CMAKE_CURRENT_BINARY_DIR}/boot_stage2)
+if(NOT TARGET bs2_default_library)
+    add_subdirectory(${PICO_SDK_PATH}/src/rp2040/boot_stage2 ${CMAKE_CURRENT_BINARY_DIR}/boot_stage2)
+endif()
+# Workaround: pico-sdk 2.x boot_stage2 CMake adds
+#   target_link_libraries(bs2_default_library INTERFACE "$<TARGET_OBJECTS:bs2_default_library>")
+# which causes the .o to appear twice on the link line with CMake 4.x
+# (once from OBJECT-library auto-propagation, once from the genex).
+set_target_properties(bs2_default_library PROPERTIES INTERFACE_LINK_LIBRARIES "boot_stage2_headers")
 target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC
     bs2_default_library
 )

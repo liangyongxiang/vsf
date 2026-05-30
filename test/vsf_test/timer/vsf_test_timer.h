@@ -136,5 +136,9 @@ void vsf_test_timer_async_run(const vsf_test_suite_t *suite, const vsf_test_case
     __vsf_test_timer_oneshot_suite \
     __vsf_test_timer_periodic_suite
 
+#include "suite/vsf_test_timer_async.h"
+#include "suite/vsf_test_timer_oneshot.h"
+#include "suite/vsf_test_timer_periodic.h"
+
 #endif /* __VSF_TEST_TIMER_H__ */
 /* EOF */

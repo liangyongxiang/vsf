@@ -19,6 +19,16 @@
 #define __TEST_USART_REQUEST_TX_IRQ_H__
 
 #include "../vsf_test_usart.h"
+#ifndef VSF_TEST_USART_REQUEST_TX_IRQ_BUF_SIZE
+#   define VSF_TEST_USART_REQUEST_TX_IRQ_BUF_SIZE        256
+#endif
+
+#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
+typedef struct {
+    volatile bool req_tx_cpl;
+    volatile uint32_t req_tx_irq_count;
+} vsf_test_usart_request_tx_irq_var_t;
+#endif
 
 #if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
 

@@ -32,6 +32,14 @@
 #   define VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE        64
 #endif
 
+#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
+typedef struct {
+    uint8_t sg_src_buf[VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE * 8];
+    uint8_t sg_dst_buf[VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE * 8];
+    volatile bool sg_done;
+} vsf_test_dma_scatter_gather_var_t;
+#endif
+
 /*============================ PROTOTYPES ====================================*/
 
 void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);

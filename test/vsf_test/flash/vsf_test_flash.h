@@ -100,5 +100,8 @@ void vsf_test_flash_boundary_run(const vsf_test_suite_t *suite, const vsf_test_c
     __vsf_test_flash_boundary_suite \
     __vsf_test_flash_erase_program_read_suite
 
+#include "suite/vsf_test_flash_boundary.h"
+#include "suite/vsf_test_flash_erase_program_read.h"
+
 #endif /* __VSF_TEST_FLASH_H__ */
 /* EOF */

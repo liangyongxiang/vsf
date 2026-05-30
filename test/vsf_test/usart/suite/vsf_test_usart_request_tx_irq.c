@@ -48,7 +48,7 @@ void vsf_test_usart_request_tx_irq_run(const vsf_test_suite_t *suite, const vsf_
     vsf_usart_capability_t cap = vsf_usart_capability(usart);
     uint32_t total = (uint32_t)cap.txfifo_depth * p->refill_target;
     if (total < 32) { total = 32; }
-    static uint8_t buf[256];
+    static uint8_t buf[VSF_TEST_USART_REQUEST_TX_IRQ_BUF_SIZE];
     if (total > sizeof(buf)) { total = sizeof(buf); }
     for (uint32_t i = 0; i < total; i++) { buf[i] = (uint8_t)('a' + (i % 26)); }
 

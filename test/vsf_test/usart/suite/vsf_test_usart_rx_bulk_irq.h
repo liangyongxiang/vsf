@@ -2,6 +2,20 @@
 #define __VSF_TEST_USART_RX_BULK_IRQ_H__
 
 #include "../vsf_test_usart.h"
+#ifndef VSF_TEST_USART_RX_BULK_IRQ_BUF_SIZE
+#   define VSF_TEST_USART_RX_BULK_IRQ_BUF_SIZE        4096
+#endif
+
+#if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
+typedef struct {
+    uint8_t rx_bulk_irq_buf[VSF_TEST_USART_RX_BULK_IRQ_BUF_SIZE];
+    volatile bool done;
+    uint8_t *dst;
+    volatile uint32_t isr_count;
+    uint_fast16_t received;
+    uint_fast16_t target;
+} vsf_test_usart_rx_bulk_irq_var_t;
+#endif
 
 #if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
 

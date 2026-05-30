@@ -97,5 +97,7 @@ void vsf_test_spi_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t
     __vsf_test_spi_async_suite \
     __vsf_test_spi_loopback_suite
 
+#include "suite/vsf_test_spi_async.h"
+
 #endif /* __VSF_TEST_SPI_H__ */
 /* EOF */

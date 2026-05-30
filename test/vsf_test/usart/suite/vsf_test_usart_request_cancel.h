@@ -19,6 +19,9 @@
 #define __TEST_USART_REQUEST_CANCEL_H__
 
 #include "../vsf_test_usart.h"
+#ifndef VSF_TEST_USART_REQUEST_CANCEL_BUF_SIZE
+#   define VSF_TEST_USART_REQUEST_CANCEL_BUF_SIZE        256
+#endif
 
 #if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
 

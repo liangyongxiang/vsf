@@ -19,6 +19,9 @@
 #define __TEST_USART_RX_IRQ_H__
 
 #include "../vsf_test_usart.h"
+#ifndef VSF_TEST_USART_RX_IRQ_JUNK_SIZE
+#   define VSF_TEST_USART_RX_IRQ_JUNK_SIZE        16
+#endif
 
 #if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
 

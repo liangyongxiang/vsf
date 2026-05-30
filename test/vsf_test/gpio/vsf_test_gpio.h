@@ -485,5 +485,10 @@ void vsf_test_gpio_io_check_run(const vsf_test_suite_t *suite, const vsf_test_ca
     __vsf_test_gpio_toggle_stress_suite \
     __vsf_test_gpio_write_throughput_suite
 
+#include "suite/vsf_test_gpio_concurrent_prio.h"
+#include "suite/vsf_test_gpio_exti.h"
+#include "suite/vsf_test_gpio_irq_latency.h"
+#include "suite/vsf_test_gpio_irq_lifecycle.h"
+
 #endif  /* __VSF_TEST_GPIO_H__ */
 /* EOF */

@@ -19,6 +19,19 @@
 #define __TEST_USART_RX_FIFO_IRQ_H__
 
 #include "../vsf_test_usart.h"
+#ifndef VSF_TEST_USART_RX_FIFO_IRQ_BUF_SIZE
+#   define VSF_TEST_USART_RX_FIFO_IRQ_BUF_SIZE        256
+#endif
+
+#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
+typedef struct {
+    volatile uint32_t isr_count;
+    uint_fast16_t received;
+    uint_fast16_t target;
+    uint8_t *dst;
+    volatile bool done;
+} vsf_test_usart_rx_fifo_irq_var_t;
+#endif
 
 #if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
 

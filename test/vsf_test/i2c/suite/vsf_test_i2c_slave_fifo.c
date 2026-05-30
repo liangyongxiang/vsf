@@ -39,7 +39,7 @@ static void __slave_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
 
     /* Slave receive via fifo_transfer: read available bytes from RX FIFO. */
     if (irq_mask & VSF_I2C_IRQ_MASK_SLAVE_RX) {
-        uint_fast16_t remaining = 16 - vsf_test_suites.i2c_slave_fifo.slave_rx_offset;
+        uint_fast16_t remaining = VSF_TEST_I2C_SLAVE_FIFO_SLAVE_BUF_SIZE - vsf_test_suites.i2c_slave_fifo.slave_rx_offset;
         uint_fast16_t got = vsf_i2c_slave_fifo_transfer(i2c_ptr, false,
             remaining, vsf_test_suites.i2c_slave_fifo.slave_buf + vsf_test_suites.i2c_slave_fifo.slave_rx_offset);
         vsf_test_suites.i2c_slave_fifo.slave_rx_offset += got;
@@ -116,7 +116,7 @@ void vsf_test_i2c_slave_fifo_run(const vsf_test_suite_t *suite, const vsf_test_c
         VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE | VSF_I2C_IRQ_MASK_MASTER_ERR);
 
     /* ---- Slave receive via FIFO (master writes) ---- */
-    for (uint8_t i = 0; i < 16; i++) {
+    for (uint8_t i = 0; i < VSF_TEST_I2C_SLAVE_FIFO_MASTER_BUF_SIZE; i++) {
         vsf_test_suites.i2c_slave_fifo.master_buf[i] = (uint8_t)(0xA0 + i);
         vsf_test_suites.i2c_slave_fifo.slave_buf[i] = 0;
     }
@@ -132,7 +132,7 @@ void vsf_test_i2c_slave_fifo_run(const vsf_test_suite_t *suite, const vsf_test_c
     VSF_TEST_ASSERT(__wait_master_done(suite, VSF_TEST_I2C_SLAVE_FIFO_TIMEOUT_MS));
     VSF_TEST_ASSERT(__wait_slave_complete(suite, VSF_TEST_I2C_SLAVE_FIFO_TIMEOUT_MS));
 
-    for (uint8_t i = 0; i < 16; i++) {
+    for (uint8_t i = 0; i < VSF_TEST_I2C_SLAVE_FIFO_MASTER_BUF_SIZE; i++) {
         VSF_TEST_ASSERT(vsf_test_suites.i2c_slave_fifo.slave_buf[i] == vsf_test_suites.i2c_slave_fifo.master_buf[i]);
     }
 

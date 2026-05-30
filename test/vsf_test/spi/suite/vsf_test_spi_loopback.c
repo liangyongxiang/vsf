@@ -23,7 +23,7 @@
 
 /*============================ MACROS ========================================*/
 
-#define SPI_LOOPBACK_MAX_DATA_LEN              256
+#define VSF_TEST_SPI_LOOPBACK_MAX_DATA_LEN              256
 
 /*============================ LOCAL VARIABLES ===============================*/
 
@@ -35,8 +35,8 @@ void vsf_test_spi_loopback_run(const vsf_test_suite_t *suite, const vsf_test_cas
     vsf_spi_t *spi = (vsf_spi_t *)fixture;
 
     uint16_t data_len = p->data_len;
-    if (data_len == 0 || data_len > SPI_LOOPBACK_MAX_DATA_LEN) {
-        data_len = SPI_LOOPBACK_MAX_DATA_LEN;
+    if (data_len == 0 || data_len > VSF_TEST_SPI_LOOPBACK_MAX_DATA_LEN) {
+        data_len = VSF_TEST_SPI_LOOPBACK_MAX_DATA_LEN;
     }
 
     vsf_err_t err = vsf_spi_init(spi, &(vsf_spi_cfg_t){
@@ -48,8 +48,8 @@ void vsf_test_spi_loopback_run(const vsf_test_suite_t *suite, const vsf_test_cas
 
     while (fsm_rt_cpl != vsf_spi_enable(spi));
 
-    uint8_t tx_buf[SPI_LOOPBACK_MAX_DATA_LEN];
-    uint8_t rx_buf[SPI_LOOPBACK_MAX_DATA_LEN] = {0};
+    uint8_t tx_buf[VSF_TEST_SPI_LOOPBACK_MAX_DATA_LEN];
+    uint8_t rx_buf[VSF_TEST_SPI_LOOPBACK_MAX_DATA_LEN] = {0};
 
     for (uint16_t i = 0; i < data_len; i++) {
         tx_buf[i] = (uint8_t)(0xA5 + i);

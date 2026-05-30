@@ -5,6 +5,12 @@
 
 #include "../vsf_test_timer.h"
 
+#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
+typedef struct {
+    volatile uint8_t counter;
+} vsf_test_timer_async_var_t;
+#endif
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_TIMER_ASYNC_CASE_COUNT

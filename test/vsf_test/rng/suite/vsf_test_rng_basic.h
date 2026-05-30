@@ -4,6 +4,9 @@
 /*============================ INCLUDES ======================================*/
 
 #include "../vsf_test_rng.h"
+#ifndef VSF_TEST_RNG_BASIC_BUF_SIZE
+#   define VSF_TEST_RNG_BASIC_BUF_SIZE        16
+#endif
 
 /*============================ MACROS ========================================*/
 

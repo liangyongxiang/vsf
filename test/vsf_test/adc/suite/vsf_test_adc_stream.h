@@ -5,6 +5,12 @@
 
 #include "../vsf_test_adc.h"
 
+#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
+typedef struct {
+    volatile bool completed;
+} vsf_test_adc_stream_var_t;
+#endif
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_ADC_STREAM_CASE_COUNT

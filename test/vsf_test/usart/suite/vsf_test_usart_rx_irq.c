@@ -94,7 +94,7 @@ void vsf_test_usart_rx_irq_run(const vsf_test_suite_t *suite, const vsf_test_cas
         // leave garbage in the FIFO across suite boundaries). Without this,
         // the ISR fires immediately on enable and pollutes ctx.buf.
         {
-            uint8_t junk[16];
+            uint8_t junk[VSF_TEST_USART_RX_IRQ_JUNK_SIZE];
             while (vsf_usart_rxfifo_get_data_count((vsf_usart_t *)fixture) > 0) {
                 if (vsf_usart_rxfifo_read((vsf_usart_t *)fixture, junk, sizeof(junk)) == 0) break;
             }

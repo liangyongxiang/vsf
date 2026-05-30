@@ -5,6 +5,12 @@
 
 #include "../vsf_test_rtc.h"
 
+#if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
+typedef struct {
+    volatile bool alarm_triggered;
+} vsf_test_rtc_alarm_var_t;
+#endif
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_RTC_ALARM_CASE_COUNT

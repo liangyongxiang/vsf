@@ -129,5 +129,7 @@ void vsf_test_rtc_epoch_run(const vsf_test_suite_t *suite, const vsf_test_case_t
     __vsf_test_rtc_epoch_suite \
     __vsf_test_rtc_set_get_suite
 
+#include "suite/vsf_test_rtc_alarm.h"
+
 #endif /* __VSF_TEST_RTC_H__ */
 /* EOF */

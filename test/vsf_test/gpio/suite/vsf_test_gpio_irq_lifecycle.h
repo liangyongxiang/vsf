@@ -21,6 +21,13 @@
 #include "../vsf_test_gpio.h"
 
 #if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
+typedef struct {
+    volatile uint32_t lifecycle_count;
+    vsf_gpio_pin_mask_t lifecycle_pin;
+} vsf_test_gpio_irq_lifecycle_var_t;
+#endif
+
+#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
 
 #ifdef __cplusplus
 extern "C" {

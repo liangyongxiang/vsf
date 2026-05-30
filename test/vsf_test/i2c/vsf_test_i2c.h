@@ -217,5 +217,12 @@ void vsf_test_i2c_slave_fifo_run(const vsf_test_suite_t *suite, const vsf_test_c
     __vsf_test_i2c_slave_suite \
     __vsf_test_i2c_slave_fifo_suite
 
+#include "suite/vsf_test_i2c_bus_scan.h"
+#include "suite/vsf_test_i2c_eeprom_page.h"
+#include "suite/vsf_test_i2c_eeprom_rw.h"
+#include "suite/vsf_test_i2c_eeprom_rw_fifo.h"
+#include "suite/vsf_test_i2c_slave.h"
+#include "suite/vsf_test_i2c_slave_fifo.h"
+
 #endif /* __VSF_TEST_I2C_H__ */
 /* EOF */

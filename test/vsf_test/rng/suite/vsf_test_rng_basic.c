@@ -16,8 +16,8 @@ void vsf_test_rng_basic_run(const vsf_test_suite_t *suite, const vsf_test_case_t
     vsf_err_t err = vsf_rng_init(rng);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
-    uint32_t buffer[16];
-    uint8_t word_count = p->word_count > 16 ? 16 : p->word_count;
+    uint32_t buffer[VSF_TEST_RNG_BASIC_BUF_SIZE];
+    uint8_t word_count = p->word_count > VSF_TEST_RNG_BASIC_BUF_SIZE ? VSF_TEST_RNG_BASIC_BUF_SIZE : p->word_count;
 
     err = vsf_rng_generate_request(rng, buffer, word_count, NULL, NULL);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);

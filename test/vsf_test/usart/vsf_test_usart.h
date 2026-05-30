@@ -564,5 +564,13 @@ void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_suite_t *suite, const v
     __vsf_test_usart_break_signal_suite \
     __vsf_test_usart_hw_flow_control_suite
 
+#include "suite/vsf_test_usart_request_rx_irq.h"
+#include "suite/vsf_test_usart_request_tx_irq.h"
+#include "suite/vsf_test_usart_rx_bulk_irq.h"
+#include "suite/vsf_test_usart_rx_data.h"
+#include "suite/vsf_test_usart_rx_fifo_irq.h"
+#include "suite/vsf_test_usart_rx_fifo_threshold.h"
+#include "suite/vsf_test_usart_tx_fifo_irq.h"
+
 #endif /* __VSF_TEST_USART_H__ */
 /* EOF */

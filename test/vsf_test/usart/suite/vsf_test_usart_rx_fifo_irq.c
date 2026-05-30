@@ -66,7 +66,7 @@ void vsf_test_usart_rx_fifo_irq_run(const vsf_test_suite_t *suite, const vsf_tes
     vsf_usart_capability_t cap = vsf_usart_capability(usart);
     VSF_TEST_ASSERT(cap.rxfifo_depth > 0);
     uint32_t total = (uint32_t)cap.rxfifo_depth * p->refill_target;
-    static uint8_t buf[256];
+    static uint8_t buf[VSF_TEST_USART_RX_FIFO_IRQ_BUF_SIZE];
     if (total > sizeof(buf)) { total = sizeof(buf); }
 
     /* Per-case state in suite: must be re-initialised before each run. */

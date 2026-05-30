@@ -116,5 +116,8 @@ void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_te
     __vsf_test_dma_mem2mem_irq_suite \
     __vsf_test_dma_scatter_gather_suite
 
+#include "suite/vsf_test_dma_mem2mem_irq.h"
+#include "suite/vsf_test_dma_scatter_gather.h"
+
 #endif /* __VSF_TEST_DMA_H__ */
 /* EOF */

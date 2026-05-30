@@ -5,6 +5,12 @@
 
 #include "../vsf_test_timer.h"
 
+#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
+typedef struct {
+    volatile bool fired;
+} vsf_test_timer_oneshot_var_t;
+#endif
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_TIMER_ONESHOT_CASE_COUNT

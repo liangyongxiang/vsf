@@ -21,6 +21,14 @@
 #include "../vsf_test_gpio.h"
 
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
+typedef struct {
+    vsf_gpio_pin_mask_t expected_pin;
+    volatile uint32_t count;
+    bool disable_on_fire;
+} vsf_test_gpio_exti_var_t;
+#endif
+
+#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
 
 #ifdef __cplusplus
 extern "C" {

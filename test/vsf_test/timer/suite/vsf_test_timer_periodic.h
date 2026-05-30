@@ -5,6 +5,12 @@
 
 #include "../vsf_test_timer.h"
 
+#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
+typedef struct {
+    volatile uint32_t counter;
+} vsf_test_timer_periodic_var_t;
+#endif
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_TIMER_PERIODIC_CASE_COUNT

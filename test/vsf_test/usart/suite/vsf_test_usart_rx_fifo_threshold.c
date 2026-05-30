@@ -101,7 +101,7 @@ void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_suite_t *suite, const v
      * RX threshold interrupt; otherwise a stale byte can trigger a
      * spurious immediate fire with bytes_at_threshold == 0. */
     {
-        uint8_t junk[16];
+        uint8_t junk[VSF_TEST_USART_RX_FIFO_THRESHOLD_JUNK_SIZE];
         while (vsf_usart_rxfifo_get_data_count(usart) > 0) {
             if (vsf_usart_rxfifo_read(usart, junk, sizeof(junk)) == 0) break;
         }

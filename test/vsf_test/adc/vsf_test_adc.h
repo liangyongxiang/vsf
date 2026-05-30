@@ -122,5 +122,7 @@ void vsf_test_adc_stream_run(const vsf_test_suite_t *suite, const vsf_test_case_
     __vsf_test_adc_stream_suite \
     __vsf_test_adc_temperature_suite
 
+#include "suite/vsf_test_adc_stream.h"
+
 #endif /* __VSF_TEST_ADC_H__ */
 /* EOF */

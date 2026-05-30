@@ -21,6 +21,9 @@
 /*============================ INCLUDES ======================================*/
 
 #include "../vsf_test_spi.h"
+#ifndef VSF_TEST_SPI_LOOPBACK_MAX_DATA_LEN
+#   define VSF_TEST_SPI_LOOPBACK_MAX_DATA_LEN        256
+#endif
 
 /*============================ MACROS ========================================*/
 

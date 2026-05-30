@@ -22,6 +22,12 @@
 
 #include "../vsf_test_dma.h"
 
+#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
+typedef struct {
+    volatile bool irq_fired;
+} vsf_test_dma_mem2mem_irq_var_t;
+#endif
+
 /*============================ MACROS ========================================*/
 
 #ifndef VSF_TEST_DMA_MEM2MEM_IRQ_CASE_COUNT

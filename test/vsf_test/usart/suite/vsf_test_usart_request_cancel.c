@@ -34,7 +34,7 @@ void vsf_test_usart_request_cancel_run(const vsf_test_suite_t *suite, const vsf_
     vsf_usart_capability_t cap = vsf_usart_capability(usart);
     uint32_t total = (uint32_t)cap.txfifo_depth * p->refill_target;
     if (total < 64) { total = 64; }
-    static uint8_t buf[256];
+    static uint8_t buf[VSF_TEST_USART_REQUEST_CANCEL_BUF_SIZE];
     if (total > sizeof(buf)) { total = sizeof(buf); }
     for (uint32_t i = 0; i < total; i++) { buf[i] = (uint8_t)(i & 0xFF); }
 

@@ -21,6 +21,15 @@
 #include "../vsf_test_gpio.h"
 
 #if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
+typedef struct {
+    vsf_gpio_pin_mask_t expected_pin;
+    volatile vsf_systimer_tick_t isr_tick;
+    volatile bool fired;
+    vsf_systimer_tick_t trigger_tick;
+} vsf_test_gpio_irq_latency_var_t;
+#endif
+
+#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
 
 #ifdef __cplusplus
 extern "C" {

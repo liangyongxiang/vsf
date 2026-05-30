@@ -32,15 +32,15 @@ static void __vsf_test_pwm_irq_handler(void *target_ptr, vsf_pwm_t *pwm_ptr,
     }
 }
 
-void vsf_test_pwm_irq_run(void *arg)
+void vsf_test_pwm_irq_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
-    vsf_test_pwm_irq_case_t *c = (vsf_test_pwm_irq_case_t *)arg;
-    vsf_pwm_t *pwm = c->suite->pwm;
+    vsf_test_pwm_irq_params_t *p = tc->arg;
+    vsf_pwm_t *pwm = (vsf_pwm_t *)fixture;
     vsf_test_pwm_irq_ctx_t ctx = { .wrap_count = 0 };
 
     /* Initialize PWM with ISR callback */
     vsf_err_t err = vsf_pwm_init(pwm, &(vsf_pwm_cfg_t){
-        .freq = c->freq_hz,
+        .freq = p->freq_hz,
         .isr = {
             .handler_fn = __vsf_test_pwm_irq_handler,
             .target_ptr = &ctx,
@@ -49,7 +49,7 @@ void vsf_test_pwm_irq_run(void *arg)
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     /* Set duty cycle */
-    err = vsf_pwm_set(pwm, c->channel, c->period, c->pulse);
+    err = vsf_pwm_set(pwm, p->channel, p->period, p->pulse);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     /* Enable PWM output */
@@ -59,14 +59,14 @@ void vsf_test_pwm_irq_run(void *arg)
     vsf_trace_info("PWM:IRQ:POLL_START" VSF_TRACE_CFG_LINEEND);
     uint32_t poll_wraps = 0;
     uint32_t poll_t0 = timer_hw->timerawl;
-    pwm_hw->inte |= (1u << c->slice);
+    pwm_hw->inte |= (1u << p->slice);
     while ((timer_hw->timerawl - poll_t0) < 500000) {
-        if (pwm_hw->ints & (1u << c->slice)) {
+        if (pwm_hw->ints & (1u << p->slice)) {
             poll_wraps++;
-            pwm_hw->intr = (1u << c->slice);
+            pwm_hw->intr = (1u << p->slice);
         }
     }
-    pwm_hw->inte &= ~(1u << c->slice);
+    pwm_hw->inte &= ~(1u << p->slice);
     vsf_trace_info("PWM:IRQ:POLL_DONE=%u" VSF_TRACE_CFG_LINEEND, (unsigned)poll_wraps);
 
     /* --- Test 1: Wrap interrupt fires at expected rate --- */
@@ -76,14 +76,14 @@ void vsf_test_pwm_irq_run(void *arg)
     uint32_t wrap_before = ctx.wrap_count;
     vsf_trace_info("PWM:IRQ:WAIT_START" VSF_TRACE_CFG_LINEEND);
     uint32_t t0 = timer_hw->timerawl;
-    vsf_test_busy_wait_ms(c->test_ms);
+    vsf_test_busy_wait_ms(p->test_ms);
     uint32_t t1 = timer_hw->timerawl;
     vsf_trace_info("PWM:IRQ:WAIT_DONE" VSF_TRACE_CFG_LINEEND);
     uint32_t wrap_after = ctx.wrap_count;
 
     vsf_pwm_irq_disable(pwm, VSF_PWM_IRQ_MASK_WRAP);
 
-    uint32_t expected_wraps = (c->freq_hz * c->test_ms) / 1000;
+    uint32_t expected_wraps = (p->freq_hz * p->test_ms) / 1000;
     uint32_t actual_wraps = wrap_after - wrap_before;
     uint32_t actual_freq = vsf_pwm_get_freq(pwm);
     uint32_t elapsed_us = t1 - t0;
@@ -92,8 +92,8 @@ void vsf_test_pwm_irq_run(void *arg)
                    (unsigned)expected_wraps, (unsigned)actual_wraps);
 
     /* Debug: read actual hardware registers to diagnose frequency discrepancy */
-    uint32_t div_reg = pwm_hw->slice[c->slice].div;
-    uint32_t top_reg = pwm_hw->slice[c->slice].top;
+    uint32_t div_reg = pwm_hw->slice[p->slice].div;
+    uint32_t top_reg = pwm_hw->slice[p->slice].top;
     vsf_trace_info("PWM:IRQ:DIV=%u TOP=%u" VSF_TRACE_CFG_LINEEND,
                    (unsigned)div_reg, (unsigned)top_reg);
 
@@ -113,13 +113,13 @@ void vsf_test_pwm_irq_run(void *arg)
 
     /* --- Test 2: IRQ disable stops callbacks --- */
     uint32_t wrap_after_disable = ctx.wrap_count;
-    vsf_test_busy_wait_ms(c->test_ms / 2);
+    vsf_test_busy_wait_ms(p->test_ms / 2);
     VSF_TEST_ASSERT(ctx.wrap_count == wrap_after_disable);
 
     /* --- Test 3: IRQ enable resumes callbacks --- */
     vsf_pwm_irq_enable(pwm, VSF_PWM_IRQ_MASK_WRAP);
     wrap_before = ctx.wrap_count;
-    vsf_test_busy_wait_ms(c->test_ms / 2);
+    vsf_test_busy_wait_ms(p->test_ms / 2);
     wrap_after = ctx.wrap_count;
     vsf_pwm_irq_disable(pwm, VSF_PWM_IRQ_MASK_WRAP);
     VSF_TEST_ASSERT(wrap_after > wrap_before);

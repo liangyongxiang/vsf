@@ -30,10 +30,10 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_dma_mem2mem_run(void *arg)
+void vsf_test_dma_mem2mem_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
-    vsf_test_dma_mem2mem_case_t *c = (vsf_test_dma_mem2mem_case_t *)arg;
-    vsf_dma_t *dma = c->suite->dma;
+    vsf_test_dma_mem2mem_params_t *p = tc->arg;
+    vsf_dma_t *dma = (vsf_dma_t *)fixture;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */

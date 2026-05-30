@@ -25,8 +25,7 @@
 
 static void __cts_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t irq_mask)
 {
-    vsf_test_usart_hw_flow_control_suite_t *suite =
-        (vsf_test_usart_hw_flow_control_suite_t *)target;
+    vsf_test_suite_t *suite = target;
     if (irq_mask & VSF_USART_IRQ_MASK_CTS) {
         suite->cts_count++;
     }
@@ -47,21 +46,22 @@ static void __cts_isr(void *target, vsf_usart_t *usart, vsf_usart_irq_mask_t irq
  * If the CTS IRQ doesn't fire (e.g. driver doesn't map the modem-status
  * mask bit correctly), we degrade to a weaker check: at minimum the chip
  * accepts the mode bits. */
-void vsf_test_usart_hw_flow_control_run(const vsf_test_usart_hw_flow_control_case_t *c)
+void vsf_test_usart_hw_flow_control_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
+    vsf_test_usart_hw_flow_control_params_t *p = tc->arg;
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
-    vsf_usart_t *usart = c->suite->usart;
+    vsf_usart_t *usart = (vsf_usart_t *)fixture;
 
     /* Per-case state in suite: must be re-initialised before each run. */
-    c->suite->cts_count = 0;
+    suite->cts_count = 0;
 
     vsf_err_t err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
                   | VSF_USART_NO_PARITY    | VSF_USART_RX_ENABLE
-                  | VSF_USART_TX_ENABLE    | c->flow_mode,
+                  | VSF_USART_TX_ENABLE    | p->flow_mode,
         .baudrate = 115200,
-        .isr      = { .handler_fn = __cts_isr, .target_ptr = c->suite,
+        .isr      = { .handler_fn = __cts_isr, .target_ptr = NULL,
                       .prio       = vsf_arch_prio_highest },
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -97,9 +97,9 @@ void vsf_test_usart_hw_flow_control_run(const vsf_test_usart_hw_flow_control_cas
     *uart1_cr &= ~((1u << 7) | (1u << 11));
 
     vsf_trace_info("USART:HW_FLOW_CONTROL:cts_count=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)c->suite->cts_count);
+                   (unsigned long)suite->cts_count);
     /* Soft check: log but don't assert — modem-status IRQ wiring varies. */
-    if (c->suite->cts_count == 0) {
+    if (suite->cts_count == 0) {
         vsf_trace_info("USART:HW_FLOW_CONTROL:warn:CTS_IRQ_did_not_fire" VSF_TRACE_CFG_LINEEND);
     }
 

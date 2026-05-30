@@ -33,10 +33,11 @@
  * stretches by ~100×. The LA decode catches that. The firmware-side trace
  * cannot, because it compares the systimer against itself.
  */
-void vsf_test_gpio_systimer_health_run(const vsf_test_gpio_systimer_health_case_t *c)
+void vsf_test_gpio_systimer_health_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
-    vsf_gpio_t *gpio = c->suite->gpio;
-    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
+    vsf_test_gpio_systimer_health_params_t *p = tc->arg;
+    vsf_gpio_t *gpio = (vsf_gpio_t *)fixture;
+    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << p->pin;
 
     VSF_TEST_GPIO_ASSERT_CAPABILITY(gpio);
 
@@ -47,8 +48,8 @@ void vsf_test_gpio_systimer_health_run(const vsf_test_gpio_systimer_health_case_
     vsf_test_busy_wait_ms(1);
 
     vsf_systimer_tick_t start = vsf_systimer_get();
-    for (uint32_t i = 0; i < c->toggle_count; i++) {
-        vsf_test_busy_wait_ms(c->interval_ms);
+    for (uint32_t i = 0; i < p->toggle_count; i++) {
+        vsf_test_busy_wait_ms(p->interval_ms);
         vsf_gpio_toggle(gpio, pin_mask);
     }
     vsf_systimer_tick_t end = vsf_systimer_get();
@@ -58,8 +59,8 @@ void vsf_test_gpio_systimer_health_run(const vsf_test_gpio_systimer_health_case_
     uint64_t total_us = vsf_systimer_tick_to_us(end - start);
     vsf_trace_info("GPIO:SYSTIMER_HEALTH:interval_ms=%lu toggle_count=%lu total_us=%llu"
                    VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)c->interval_ms,
-                   (unsigned long)c->toggle_count,
+                   (unsigned long)p->interval_ms,
+                   (unsigned long)p->toggle_count,
                    (unsigned long long)total_us);
 }
 

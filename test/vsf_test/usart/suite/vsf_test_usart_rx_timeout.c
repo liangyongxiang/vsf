@@ -18,6 +18,22 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_usart_rx_timeout.h"
+/*============================ LOCAL VARIABLES ===============================*/
+
+typedef struct __rx_timeout_ctx_t {
+    bool     timeout_triggered;
+} __rx_timeout_ctx_t;
+
+static void __rx_timeout_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart_irq_mask_t irq_mask)
+{
+    __rx_timeout_ctx_t *ctx = (__rx_timeout_ctx_t *)target_ptr;
+
+    if (irq_mask & VSF_USART_IRQ_MASK_RX_TIMEOUT) {
+        ctx->timeout_triggered = true;
+    }
+}
+
+
 
 #if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
 
@@ -44,30 +60,14 @@
 #   define VSF_TEST_RX_TIMEOUT_US          10000
 #endif
 
-/*============================ TYPES =========================================*/
-
-typedef struct __rx_timeout_ctx_t {
-    bool     timeout_triggered;
-} __rx_timeout_ctx_t;
-
-/*============================ LOCAL VARIABLES ===============================*/
-
-static void __rx_timeout_handler(void *target_ptr, vsf_usart_t *usart_ptr, vsf_usart_irq_mask_t irq_mask)
-{
-    __rx_timeout_ctx_t *ctx = (__rx_timeout_ctx_t *)target_ptr;
-
-    if (irq_mask & VSF_USART_IRQ_MASK_RX_TIMEOUT) {
-        ctx->timeout_triggered = true;
-    }
-}
-
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
+void vsf_test_usart_rx_timeout_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
+    vsf_test_usart_rx_timeout_params_t *p = tc->arg;
     __rx_timeout_ctx_t ctx = { .timeout_triggered = false };
 
-    vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init((vsf_usart_t *)fixture, &(vsf_usart_cfg_t){
         .mode       = VSF_TEST_RX_TIMEOUT_DEFAULT_MODE,
         .baudrate   = VSF_TEST_RX_TIMEOUT_DEFAULT_BAUDRATE,
         .rx_timeout = VSF_TEST_RX_TIMEOUT_US,
@@ -78,11 +78,11 @@ void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
         },
     });
 
-    if (c->expect_pass) {
+    if (p->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_enable((vsf_usart_t *)fixture));
 
-        vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_RX_TIMEOUT);
+        vsf_usart_irq_enable((vsf_usart_t *)fixture, VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_TIMEOUT_PAYLOAD_DRAIN_MS * 10;
@@ -91,15 +91,15 @@ void vsf_test_usart_rx_timeout_run(const vsf_test_usart_rx_timeout_case_t *c)
             elapsed_ms += 10;
         }
 
-        vsf_usart_irq_disable(c->suite->usart, VSF_USART_IRQ_MASK_RX_TIMEOUT);
+        vsf_usart_irq_disable((vsf_usart_t *)fixture, VSF_USART_IRQ_MASK_RX_TIMEOUT);
 
         VSF_TEST_ASSERT(ctx.timeout_triggered);
 
-        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_disable((vsf_usart_t *)fixture));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-    vsf_usart_fini(c->suite->usart);
+    vsf_usart_fini((vsf_usart_t *)fixture);
 }
 
 #endif /* VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED */

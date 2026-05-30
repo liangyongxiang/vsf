@@ -18,23 +18,6 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_gpio_io_check.h"
-
-#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
-
-/*============================ MACROS ========================================*/
-
-/* Number of rounds to repeat the per-pin bit-bang sequence.
- * Multiple rounds ensure at least one full capture even if the LA
- * started mid-round. */
-#ifndef VSF_TEST_GPIO_IO_CHECK_ROUNDS
-#   define VSF_TEST_GPIO_IO_CHECK_ROUNDS    3
-#endif
-
-/* Idle time between rounds (microseconds). */
-#ifndef VSF_TEST_GPIO_IO_CHECK_ROUND_GAP_US
-#   define VSF_TEST_GPIO_IO_CHECK_ROUND_GAP_US  1000
-#endif
-
 /*============================ LOCAL VARIABLES ===============================*/
 
 static void __gpio_bitbang_uart_byte(vsf_gpio_t *gpio,
@@ -61,12 +44,31 @@ static void __gpio_bitbang_uart_byte(vsf_gpio_t *gpio,
     vsf_test_busy_wait_us(bit_period_us);
 }
 
+
+
+#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
+
+/*============================ MACROS ========================================*/
+
+/* Number of rounds to repeat the per-pin bit-bang sequence.
+ * Multiple rounds ensure at least one full capture even if the LA
+ * started mid-round. */
+#ifndef VSF_TEST_GPIO_IO_CHECK_ROUNDS
+#   define VSF_TEST_GPIO_IO_CHECK_ROUNDS    3
+#endif
+
+/* Idle time between rounds (microseconds). */
+#ifndef VSF_TEST_GPIO_IO_CHECK_ROUND_GAP_US
+#   define VSF_TEST_GPIO_IO_CHECK_ROUND_GAP_US  1000
+#endif
+
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c)
+void vsf_test_gpio_io_check_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
-    vsf_gpio_t *gpio = c->suite->gpio;
-    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
+    vsf_test_gpio_io_check_params_t *p = tc->arg;
+    vsf_gpio_t *gpio = (vsf_gpio_t *)fixture;
+    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << p->pin;
 
     /* Bit period = 1e6 / baudrate (microseconds).
      * 115200 baud → ~8.68 µs.  Round-to-nearest to keep the actual baudrate
@@ -74,8 +76,8 @@ void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c)
      *
      * Pins declared in gpio.yml: GP8 (uart1_tx) and GP9 (uart1_rx).
      * Both are safe as GPIO output when UART1 is not in use. */
-    uint32_t bit_period_us = (1000000u + c->baudrate / 2) / c->baudrate;
-    uint8_t byte = 0x50 + c->pin;
+    uint32_t bit_period_us = (1000000u + p->baudrate / 2) / p->baudrate;
+    uint8_t byte = 0x50 + p->pin;
 
     /* Configure pin as push-pull output, idle high (UART idle state). */
     vsf_gpio_port_config_pins(gpio, pin_mask, &(vsf_gpio_cfg_t){
@@ -90,7 +92,7 @@ void vsf_test_gpio_io_check_run(const vsf_test_gpio_io_check_case_t *c)
     }
 
     vsf_trace_info("GPIO:IO_CHECK:pin=%u byte=0x%02x rounds=%u" VSF_TRACE_CFG_LINEEND,
-                   (unsigned)c->pin, (unsigned)byte,
+                   (unsigned)p->pin, (unsigned)byte,
                    (unsigned)VSF_TEST_GPIO_IO_CHECK_ROUNDS);
 }
 

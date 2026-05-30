@@ -277,11 +277,10 @@ vsf_class(vsf_test_wdt_t) {
     )
 };
 
-typedef void vsf_test_jmp_fn_t(void *arg);
+typedef struct vsf_test_case_t vsf_test_case_t;
+typedef void vsf_test_jmp_fn_t(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 
 dcl_simple_class(vsf_test_suite_t)
-typedef bool vsf_test_suite_setup_fn_t(vsf_test_suite_t *suite);
-typedef void vsf_test_suite_teardown_fn_t(vsf_test_suite_t *suite);
 
 //! \brief Test Suite — pure logic, no HAL binding.
 //!
@@ -293,17 +292,8 @@ vsf_class(vsf_test_case_t) {
     public_member(
         vsf_test_jmp_fn_t *jmp_fn;
         uint8_t            case_idx;
-        vsf_test_suite_t  *suite;
         void              *arg;
         bool               needs_ready_handshake;
-        uint8_t            result;
-
-        struct {
-            const char *function_name;
-            const char *file_name;
-            const char *condition;
-            uint32_t    line;
-        } error;
     )
 };
 
@@ -311,24 +301,14 @@ vsf_class(vsf_test_suite_t) {
     public_member(
         const char                     *name;          //!< also used as Capture Marker tag
         uint16_t                       case_count;     //!< per-suite case array length
-        vsf_test_case_t               *cases;          //!< per-suite case array
+        const vsf_test_case_t         *cases;          //!< per-suite case array (flash)
         vsf_peripheral_type_t          peripheral_type;//!<< which HAL type this suite needs (0 = none)
     )
 };
 
-/*! \brief Declare a static test table type.
-    \param table_name  typedef name (e.g. vsf_test_usart_baud_table_t)
-    \param suite_t     per-scenario suite type (extends vsf_test_suite_t)
-    \param case_t      per-scenario case param type
-    \param count       compile-time case count macro */
-#define VSF_TEST_DECLARE_TABLE(table_name, suite_t, case_t, count) \
-    typedef struct { suite_t suite; case_t data[count]; vsf_test_case_t cases[count]; } table_name
-
 typedef struct vsf_test_inst_t {
-    vsf_peripheral_type_t       peripheral_type; //!< which HAL interface this instance satisfies
-    void                       *hal_handle;      //!< pointer to HAL hardware struct (e.g. &vsf_hw_usart1)
-    vsf_test_suite_setup_fn_t  *setup;           //!< called once before first case for this instance
-    vsf_test_suite_teardown_fn_t *teardown;      //!< called once after last case for this instance
+    vsf_peripheral_type_t        peripheral_type; //!< which HAL interface this instance satisfies
+    const void                  *context;         //!< opaque hardware context, passed as fixture to jmp_fn
 } vsf_test_inst_t;
 
 typedef struct vsf_test_t {
@@ -352,18 +332,32 @@ typedef struct vsf_test_t {
 
     //! Current test case pointer — set by vsf_test_run_case before invoking
     //! the test function, used by vsf_test_assert and vsf_test_reboot.
-    vsf_test_case_t *current_case;
+    const vsf_test_case_t *current_case;
+
+    //! Current suite pointer — set before running cases in a suite.
+    const vsf_test_suite_t *current_suite;
+
+    //! Result and error info for the currently running case — written by
+    //! vsf_test_assert / vsf_test_reboot, read by the runner after the case
+    //! function returns. Only one copy exists; reused across all cases.
+    uint8_t result;
+    struct {
+        const char *function_name;
+        const char *file_name;
+        const char *condition;
+        uint32_t    line;
+    } error;
 
 #        if VSF_TEST_CFG_LONGJMP == ENABLED
     jmp_buf *jmp_buf;
 #        endif
 
     //! Registered suites array and count — populated at compile time.
-    vsf_test_suite_t **suites;
-    uint8_t            suite_count;
+    const vsf_test_suite_t *suites;
+    uint8_t                 suite_count;
 
     //! Peripheral instances array and count — populated at compile time.
-    vsf_test_inst_t  **instances;
+    const vsf_test_inst_t  *instances;
     uint8_t            instance_count;
 
     //! Embedded shell REPL — started by vsf_test_run() after init.
@@ -418,6 +412,23 @@ extern void vsf_test_reboot(vsf_test_result_t result,
 extern void vsf_test_busy_wait_ms(uint32_t ms);
 extern void vsf_test_busy_wait_us(uint32_t us);
 
+/**
+ @brief Board-provided hardware init for the test framework.
+ Fills wdt, reboot entries, peripheral instances, and instance count.
+ Called once from main before vsf_test_run().
+ @param[in,out] test: pointer to vsf_test_t to initialize hardware fields
+ */
+extern void vsf_test_hw_setup(vsf_test_t *test);
+
+/**
+ @brief GPIO config hook called before/after running test cases on an instance.
+ Board override (weak): configure pinmux / GPIO for the peripheral under test.
+ @param[in] peripheral_type: VSF_PERIPHERAL_TYPE_* of the instance under test
+ @param[in] arg: HAL handle (or array of handles) for the instance, same as suite->arg
+ @param[in] init: true before cases, false after cases (teardown)
+ */
+extern void vsf_test_gpio_config(vsf_peripheral_type_t peripheral_type, const void *fixture, bool init);
+
 /* ========================== Test Suite primitive ========================== */
 
 /**
@@ -427,14 +438,14 @@ extern void vsf_test_busy_wait_us(uint32_t us);
  @param[in] suite: pointer to the suite containing the case
  @param[in] local_idx: index of the case within the suite's cases array
  */
-extern void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx);
+extern vsf_test_result_t vsf_test_run_suite_case(const vsf_test_suite_t *suite, uint16_t local_idx, const void *fixture);
 
 /**
  @brief Run all cases in a suite. Calls setup before the first case and
  teardown after the last case. If setup returns false, all cases are skipped.
  @param[in] suite: pointer to the suite to run
  */
-extern void vsf_test_run_suite(vsf_test_suite_t *suite);
+extern void vsf_test_run_suite(const vsf_test_suite_t *suite);
 
 /*============================ LOCAL VARIABLES ===============================*/
 /*============================ GLOBAL VARIABLES ==============================*/

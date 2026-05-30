@@ -79,7 +79,8 @@ void vsf_test_run(vsf_test_t *test)
 {
     __vsf_test_self = test;
 
-    __vsf_test_self->current_case = NULL;
+    __vsf_test_self->current_case  = NULL;
+    __vsf_test_self->current_suite = NULL;
 
     __VSF_TEST_TRACE_INFO("[TEST] Initialized (%u suites)\r\n", __vsf_test_self->suite_count);
 
@@ -106,14 +107,11 @@ void vsf_test_assert(vsf_test_result_t result,
                         const char *file_name, uint32_t line,
                         const char *function_name, const char *condition)
 {
-    vsf_test_case_t *case_ptr = __vsf_test_self->current_case;
-    if (case_ptr != NULL) {
-        case_ptr->result              = result;
-        case_ptr->error.function_name = function_name;
-        case_ptr->error.file_name     = file_name;
-        case_ptr->error.condition     = condition;
-        case_ptr->error.line          = line;
-    }
+    __vsf_test_self->result              = result;
+    __vsf_test_self->error.function_name = function_name;
+    __vsf_test_self->error.file_name     = file_name;
+    __vsf_test_self->error.condition     = condition;
+    __vsf_test_self->error.line          = line;
 
     __VSF_TEST_TRACE_ERROR("[TEST] Assertion failed: %s:%u in %s() - %s\r\n",
                           file_name, line, function_name, condition ? condition : "");
@@ -121,10 +119,10 @@ void vsf_test_assert(vsf_test_result_t result,
     longjmp(*__vsf_test_self->jmp_buf, 1);
 }
 
-static const char *__vsf_test_get_name(vsf_test_case_t *test_case)
+static const char *__vsf_test_get_name(void)
 {
-    if (test_case->suite != NULL && test_case->suite->name != NULL) {
-        return test_case->suite->name;
+    if (__vsf_test_self->current_suite != NULL && __vsf_test_self->current_suite->name != NULL) {
+        return __vsf_test_self->current_suite->name;
     }
     return "unknown";
 }
@@ -133,14 +131,11 @@ void vsf_test_reboot(vsf_test_result_t result,
                      const char *file_name, uint32_t line,
                      const char *function_name, const char *condition)
 {
-    vsf_test_case_t *case_ptr = __vsf_test_self->current_case;
-    if (case_ptr != NULL) {
-        case_ptr->result              = result;
-        case_ptr->error.function_name = function_name;
-        case_ptr->error.file_name     = file_name;
-        case_ptr->error.condition     = condition;
-        case_ptr->error.line          = line;
-    }
+    __vsf_test_self->result              = result;
+    __vsf_test_self->error.function_name = function_name;
+    __vsf_test_self->error.file_name     = file_name;
+    __vsf_test_self->error.condition     = condition;
+    __vsf_test_self->error.line          = line;
 
     __VSF_TEST_TRACE_ERROR("[TEST] Reboot due to error: %s:%u in %s() - %s\r\n",
                           file_name, line, function_name, condition ? condition : "");
@@ -152,6 +147,14 @@ void vsf_test_reboot(vsf_test_result_t result,
         }
     }
     while (1);
+}
+
+VSF_CAL_WEAK(vsf_test_gpio_config)
+void vsf_test_gpio_config(vsf_peripheral_type_t peripheral_type, const void *fixture, bool init)
+{
+    (void)peripheral_type;
+    (void)fixture;
+    (void)init;
 }
 
 VSF_CAL_WEAK(vsf_test_busy_wait_ms)
@@ -166,18 +169,12 @@ void vsf_test_busy_wait_us(uint32_t us)
     for (volatile uint32_t i = 0; i < us * (VSF_TEST_CFG_BUSY_WAIT_CYCLES_PER_MS / 1000); i++);
 }
 
-void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
+vsf_test_result_t vsf_test_run_suite_case(const vsf_test_suite_t *suite, uint16_t local_idx, const void *fixture)
 {
     if (suite == NULL || local_idx >= suite->case_count || suite->cases == NULL) {
-        return;
+        return VSF_TEST_RESULT_SKIP;
     }
-    vsf_test_case_t *test_case = &suite->cases[local_idx];
-    test_case->suite = suite;
-
-    // Skip cases explicitly marked (e.g., by setup returning false).
-    if (test_case->result == VSF_TEST_RESULT_SKIP) {
-        return;
-    }
+    const vsf_test_case_t *test_case = &suite->cases[local_idx];
 
     for (uint8_t i = 0; i < __vsf_test_self->wdt.count; i++) {
         if (__vsf_test_self->wdt.entries[i].feed != NULL) {
@@ -185,41 +182,44 @@ void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
         }
     }
 
-    test_case->error.function_name = NULL;
-    test_case->error.file_name     = NULL;
-    test_case->error.condition     = NULL;
-    test_case->error.line          = 0;
+    __vsf_test_self->current_case   = test_case;
+    __vsf_test_self->current_suite  = suite;
+    __vsf_test_self->result         = VSF_TEST_RESULT_PASS;
+    __vsf_test_self->error.function_name = NULL;
+    __vsf_test_self->error.file_name     = NULL;
+    __vsf_test_self->error.condition     = NULL;
+    __vsf_test_self->error.line          = 0;
 
-    const char *test_name = __vsf_test_get_name(test_case);
+    const char *test_name = __vsf_test_get_name();
     __VSF_TEST_TRACE_INFO("[TEST] Running '%s'\r\n", test_name);
 #if VSF_TEST_CFG_EMIT_MARKERS == ENABLED
     __emit_case_start(suite->name, test_case->case_idx, test_case->needs_ready_handshake);
 #endif
 
-    __vsf_test_self->current_case = test_case;
-
     jmp_buf buf;
-    test_case->result = VSF_TEST_RESULT_PASS;
     __vsf_test_self->jmp_buf = &buf;
     if (0 == setjmp(buf)) {
-        test_case->jmp_fn(test_case->arg);
+        test_case->jmp_fn(suite, test_case, fixture);
     }
 
 #if VSF_TEST_CFG_EMIT_MARKERS == ENABLED
     __emit_case_done(suite->name, test_case->case_idx);
 #endif
 
-    __vsf_test_self->current_case = NULL;
+    vsf_test_result_t result = (vsf_test_result_t)__vsf_test_self->result;
+    __vsf_test_self->current_case  = NULL;
+    __vsf_test_self->current_suite = NULL;
+    return result;
 }
 
-static void __vsf_test_run_suite_all_cases(vsf_test_suite_t *suite)
+static void __vsf_test_run_suite_all_cases(const vsf_test_suite_t *suite)
 {
     for (uint16_t i = 0; i < suite->case_count; i++) {
-        vsf_test_run_suite_case(suite, i);
+        vsf_test_run_suite_case(suite, i, NULL);
     }
 }
 
-void vsf_test_run_suite(vsf_test_suite_t *suite)
+void vsf_test_run_suite(const vsf_test_suite_t *suite)
 {
     if (suite == NULL || suite->cases == NULL) {
         return;

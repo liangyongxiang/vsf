@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_i2c_slave_run(void *arg);
+void vsf_test_i2c_slave_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 
 #endif /* __VSF_TEST_I2C_SLAVE_H__ */
 /* EOF */

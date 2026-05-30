@@ -11,10 +11,10 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_adc_oneshot_run(void *arg)
+void vsf_test_adc_oneshot_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
-    vsf_test_adc_oneshot_case_t *c = (vsf_test_adc_oneshot_case_t *)arg;
-    vsf_adc_t *adc = c->suite->adc;
+    vsf_test_adc_oneshot_params_t *p = tc->arg;
+    vsf_adc_t *adc = (vsf_adc_t *)fixture;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */

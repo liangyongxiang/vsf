@@ -24,13 +24,14 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_multi_pin_run(const vsf_test_gpio_multi_pin_case_t *c)
+void vsf_test_gpio_multi_pin_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
-    vsf_gpio_t *gpio = c->suite->gpio;
-    vsf_gpio_pin_mask_t oa = (vsf_gpio_pin_mask_t)1u << c->out_pin_a;
-    vsf_gpio_pin_mask_t ob = (vsf_gpio_pin_mask_t)1u << c->out_pin_b;
-    vsf_gpio_pin_mask_t ia = (vsf_gpio_pin_mask_t)1u << c->in_pin_a;
-    vsf_gpio_pin_mask_t ib = (vsf_gpio_pin_mask_t)1u << c->in_pin_b;
+    vsf_test_gpio_multi_pin_params_t *p = tc->arg;
+    vsf_gpio_t *gpio = (vsf_gpio_t *)fixture;
+    vsf_gpio_pin_mask_t oa = (vsf_gpio_pin_mask_t)1u << p->out_pin_a;
+    vsf_gpio_pin_mask_t ob = (vsf_gpio_pin_mask_t)1u << p->out_pin_b;
+    vsf_gpio_pin_mask_t ia = (vsf_gpio_pin_mask_t)1u << p->in_pin_a;
+    vsf_gpio_pin_mask_t ib = (vsf_gpio_pin_mask_t)1u << p->in_pin_b;
     vsf_gpio_pin_mask_t out_mask = oa | ob;
     vsf_gpio_pin_mask_t in_mask  = ia | ib;
 

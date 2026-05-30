@@ -29,19 +29,19 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_spi_loopback_run(void *arg)
+void vsf_test_spi_loopback_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
-    vsf_test_spi_loopback_case_t *c = (vsf_test_spi_loopback_case_t *)arg;
-    vsf_spi_t *spi = c->suite->spi;
+    vsf_test_spi_loopback_params_t *p = tc->arg;
+    vsf_spi_t *spi = (vsf_spi_t *)fixture;
 
-    uint16_t data_len = c->data_len;
+    uint16_t data_len = p->data_len;
     if (data_len == 0 || data_len > SPI_LOOPBACK_MAX_DATA_LEN) {
         data_len = SPI_LOOPBACK_MAX_DATA_LEN;
     }
 
     vsf_err_t err = vsf_spi_init(spi, &(vsf_spi_cfg_t){
-        .mode      = VSF_SPI_MASTER | c->mode | VSF_SPI_DATASIZE_8,
-        .clock_hz  = c->clock_hz,
+        .mode      = VSF_SPI_MASTER | p->mode | VSF_SPI_DATASIZE_8,
+        .clock_hz  = p->clock_hz,
         .isr       = { NULL, NULL, vsf_arch_prio_0 },
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);

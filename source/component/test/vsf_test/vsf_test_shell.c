@@ -41,27 +41,16 @@ static void __read_line(char *buf, size_t buf_size)
 static int __find_suite_by_name(vsf_test_shell_t *shell, const char *name)
 {
     for (uint8_t i = 0; i < shell->suite_count; i++) {
-        if (shell->suites[i] != NULL && shell->suites[i]->name != NULL
-            && strcmp(shell->suites[i]->name, name) == 0) {
+        const vsf_test_suite_t *suite = &shell->suites[i];
+        if (suite->name != NULL && strcmp(suite->name, name) == 0) {
             return (int)i;
         }
     }
     return -1;
 }
 
-static void __print_summary(vsf_test_suite_t *suite)
+static void __print_summary(uint32_t total, uint32_t pass, uint32_t fail, uint32_t skip)
 {
-    uint32_t total = suite->case_count;
-    uint32_t pass = 0, fail = 0, skip = 0;
-    for (uint16_t i = 0; i < total; i++) {
-        vsf_test_result_t r = (vsf_test_result_t)suite->cases[i].result;
-        switch (r) {
-        case VSF_TEST_RESULT_PASS: pass++; break;
-        case VSF_TEST_RESULT_FAIL: fail++; break;
-        case VSF_TEST_RESULT_SKIP: skip++; break;
-        default: break;
-        }
-    }
     vsf_trace_info("[TEST] All test cases completed" VSF_TRACE_CFG_LINEEND);
     vsf_trace_info("[TEST] ========== Test Summary ==========" VSF_TRACE_CFG_LINEEND);
     vsf_trace_info("[TEST] Total test cases: %u" VSF_TRACE_CFG_LINEEND, total);
@@ -69,46 +58,35 @@ static void __print_summary(vsf_test_suite_t *suite)
                    pass, fail, skip);
 }
 
-static void *__suite_hal_ptr(vsf_test_suite_t *suite)
+static void __count_result(vsf_test_result_t r, uint32_t *pass, uint32_t *fail, uint32_t *skip)
 {
-    return (uint8_t *)suite + sizeof(vsf_test_suite_t);
+    switch (r) {
+    case VSF_TEST_RESULT_PASS: (*pass)++; break;
+    case VSF_TEST_RESULT_FAIL: (*fail)++; break;
+    case VSF_TEST_RESULT_SKIP: (*skip)++; break;
+    default: break;
+    }
 }
 
-static void __run_suite_against_instance(vsf_test_suite_t *suite,
-                                          vsf_test_inst_t *inst)
+static void __run_suite_against_instance(const vsf_test_suite_t *suite,
+                                          const vsf_test_inst_t *inst,
+                                          uint32_t *pass, uint32_t *fail, uint32_t *skip)
 {
-    void *saved = NULL;
-    void **hal_field = NULL;
-
-    if (suite->peripheral_type != VSF_PERIPHERAL_TYPE_NONE && inst->hal_handle != NULL) {
-        hal_field = (void **)__suite_hal_ptr(suite);
-        saved = *hal_field;
-        *hal_field = inst->hal_handle;
-    }
-
-    if (inst->setup != NULL) {
-        if (!inst->setup(suite)) {
-            if (hal_field != NULL) *hal_field = saved;
-            return;
-        }
-    }
+    vsf_test_gpio_config(suite->peripheral_type, inst->context, true);
 
     for (uint16_t ci = 0; ci < suite->case_count; ci++) {
-        vsf_test_run_suite_case(suite, ci);
+        vsf_test_result_t r = vsf_test_run_suite_case(suite, ci, inst->context);
+        __count_result(r, pass, fail, skip);
     }
 
-    if (inst->teardown != NULL) {
-        inst->teardown(suite);
-    }
+    vsf_test_gpio_config(suite->peripheral_type, inst->context, false);
 #if VSF_TEST_CFG_EMIT_MARKERS == ENABLED
     vsf_trace_info("%s:END" VSF_TRACE_CFG_LINEEND, suite->name);
 #endif
-
-    if (hal_field != NULL) *hal_field = saved;
 }
 
 static void __run_suite_with_instances(vsf_test_shell_t *shell,
-                                        vsf_test_suite_t *suite,
+                                        const vsf_test_suite_t *suite,
                                         const char *name)
 {
     vsf_peripheral_type_t pt = suite->peripheral_type;
@@ -116,23 +94,13 @@ static void __run_suite_with_instances(vsf_test_shell_t *shell,
     uint8_t inst_run = 0;
 
     for (uint8_t ii = 0; ii < shell->instance_count; ii++) {
-        vsf_test_inst_t *inst = shell->instances[ii];
+        const vsf_test_inst_t *inst = &shell->instances[ii];
         if (inst == NULL || inst->peripheral_type != pt) continue;
 
         vsf_trace_info("Suite ack: %s (instance %u)" VSF_TRACE_CFG_LINEEND,
                        name, (unsigned)inst_run);
-        __run_suite_against_instance(suite, inst);
-
+        __run_suite_against_instance(suite, inst, &pass_all, &fail_all, &skip_all);
         total_all += suite->case_count;
-        for (uint16_t ci = 0; ci < suite->case_count; ci++) {
-            vsf_test_result_t r = (vsf_test_result_t)suite->cases[ci].result;
-            switch (r) {
-            case VSF_TEST_RESULT_PASS: pass_all++; break;
-            case VSF_TEST_RESULT_FAIL: fail_all++; break;
-            case VSF_TEST_RESULT_SKIP: skip_all++; break;
-            default: break;
-            }
-        }
         inst_run++;
     }
 
@@ -146,7 +114,7 @@ static void __run_suite_with_instances(vsf_test_shell_t *shell,
     } else {
         vsf_trace_info("Suite ack: %s" VSF_TRACE_CFG_LINEEND, name);
         vsf_test_run_suite(suite);
-        __print_summary(suite);
+        // vsf_test_run_suite discards per-case results — summary is printed by the suite
     }
 }
 
@@ -159,7 +127,7 @@ static void __cmd_list_suites(vsf_test_shell_t *shell)
     vsf_trace_info("Scenes:" VSF_TRACE_CFG_LINEEND);
     for (uint8_t i = 0; i < shell->suite_count; i++) {
         vsf_trace_info("  %u %s" VSF_TRACE_CFG_LINEEND,
-                       i, shell->suites[i]->name);
+                       i, shell->suites[i].name);
     }
 }
 
@@ -170,8 +138,8 @@ static void __cmd_list_cases(vsf_test_shell_t *shell, const char *name)
         vsf_trace_info("Suite not found: %s" VSF_TRACE_CFG_LINEEND, name);
         return;
     }
-    vsf_test_suite_t *suite = shell->suites[idx];
-    uint16_t count = (suite != NULL && suite->cases != NULL) ? suite->case_count : 0;
+    const vsf_test_suite_t *suite = &shell->suites[idx];
+    uint16_t count = (suite->cases != NULL) ? suite->case_count : 0;
     vsf_trace_info("Cases in '%s':" VSF_TRACE_CFG_LINEEND, suite->name);
     for (uint16_t i = 0; i < count; i++) {
         vsf_trace_info("  %u" VSF_TRACE_CFG_LINEEND, i);
@@ -181,8 +149,8 @@ static void __cmd_list_cases(vsf_test_shell_t *shell, const char *name)
 static void __cmd_run_all(vsf_test_shell_t *shell)
 {
     for (uint8_t si = 0; si < shell->suite_count; si++) {
-        vsf_test_suite_t *s = shell->suites[si];
-        if (s == NULL || s->cases == NULL) continue;
+        const vsf_test_suite_t *s = &shell->suites[si];
+        if (s->cases == NULL) continue;
         __run_suite_with_instances(shell, s, s->name);
     }
 }
@@ -194,7 +162,7 @@ static void __cmd_run_suite(vsf_test_shell_t *shell, const char *name)
         vsf_trace_info("Suite not found: %s" VSF_TRACE_CFG_LINEEND, name);
         return;
     }
-    __run_suite_with_instances(shell, shell->suites[idx], name);
+    __run_suite_with_instances(shell, &shell->suites[idx], name);
 }
 
 static void __cmd_run_inst(vsf_test_shell_t *shell, const char *name)
@@ -204,7 +172,7 @@ static void __cmd_run_inst(vsf_test_shell_t *shell, const char *name)
         vsf_trace_info("Suite not found: %s" VSF_TRACE_CFG_LINEEND, name);
         return;
     }
-    __run_suite_with_instances(shell, shell->suites[idx], name);
+    __run_suite_with_instances(shell, &shell->suites[idx], name);
 }
 
 static void __cmd_run_case(vsf_test_shell_t *shell, const char *name, int case_idx)
@@ -214,14 +182,16 @@ static void __cmd_run_case(vsf_test_shell_t *shell, const char *name, int case_i
         vsf_trace_info("Suite not found: %s" VSF_TRACE_CFG_LINEEND, name);
         return;
     }
-    vsf_test_suite_t *suite = shell->suites[idx];
+    const vsf_test_suite_t *suite = &shell->suites[idx];
     if (case_idx < 0 || case_idx >= (int)suite->case_count) {
         vsf_trace_info("Case not found: %d" VSF_TRACE_CFG_LINEEND, case_idx);
         return;
     }
     vsf_trace_info("Suite ack: %s.%d" VSF_TRACE_CFG_LINEEND, name, case_idx);
 
-    vsf_test_run_suite_case(suite, (uint16_t)case_idx);
+    vsf_test_result_t r = vsf_test_run_suite_case(suite, (uint16_t)case_idx, NULL);
+    uint32_t pass = 0, fail = 0, skip = 0;
+    __count_result(r, &pass, &fail, &skip);
 
     if (case_idx == (int)(suite->case_count - 1)) {
 #if VSF_TEST_CFG_EMIT_MARKERS == ENABLED
@@ -229,7 +199,7 @@ static void __cmd_run_case(vsf_test_shell_t *shell, const char *name, int case_i
 #endif
     }
 
-    __print_summary(suite);
+    __print_summary(suite->case_count, pass, fail, skip);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -276,8 +246,8 @@ static void __dispatch(vsf_test_shell_t *shell, char *line)
 /* ------------------------------------------------------------------------ */
 
 void vsf_test_shell_init(vsf_test_shell_t *shell,
-                         vsf_test_suite_t **suites, uint8_t suite_count,
-                         vsf_test_inst_t **instances, uint8_t instance_count)
+                         const vsf_test_suite_t *suites, uint8_t suite_count,
+                         const vsf_test_inst_t *instances, uint8_t instance_count)
 {
     shell->suites         = suites;
     shell->suite_count    = suite_count;

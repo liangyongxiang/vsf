@@ -30,7 +30,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_dma_mem2mem_irq_run(void *arg);
+void vsf_test_dma_mem2mem_irq_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 
 #endif /* __VSF_TEST_DMA_MEM2MEM_IRQ_H__ */
 /* EOF */

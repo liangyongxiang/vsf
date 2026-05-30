@@ -5,15 +5,13 @@ Usage:
     python gen_suite_registry.py <input.yml> <output.h>
 
 Reads test_params.yml (and its includes) and generates the
-vsf_test_suite_registry.h file with zero local macros.
+vsf_test_suite_registry.h file.
 
 Generated regions:
-  1. Table type declarations (typedef struct { ... } table_t)
-  2. Static suite definitions
-  3. Suite entries array
-
-Hand-written sections (pinmux callbacks, peripheral instances, registry struct)
-are preserved as template constants in this script.
+  1. Aggregated data types (all_cases_t, all_params_t)
+  2. Aggregated static data (__all_suites[], __all_cases)
+  3. Peripheral instances + params inside __vsf_test_data struct
+  4. Registry (__vsf_test_registry)
 """
 
 import argparse
@@ -41,32 +39,52 @@ PERIPHERAL_ORDER = [
     "adc", "pwm", "dma", "timer", "rtc", "flash", "wdt",
 ]
 
+# Map peripheral -> (type macro, arg value for single-handle suites)
 PERIPHERAL_MAP = {
-    "gpio":  {"type": "VSF_PERIPHERAL_TYPE_GPIO",  "field": ".gpio = VSF_BOARD_GPIO_INSTANCE"},
-    "usart": {"type": "VSF_PERIPHERAL_TYPE_USART", "field": ".usart = VSF_BOARD_USART_INSTANCE"},
-    "i2c":   {"type": "VSF_PERIPHERAL_TYPE_I2C",   "field": ".i2c = VSF_BOARD_I2C0_INSTANCE"},
-    "spi":   {"type": "VSF_PERIPHERAL_TYPE_SPI",   "field": ".spi = VSF_BOARD_SPI_INSTANCE"},
-    "rng":   {"type": "VSF_PERIPHERAL_TYPE_RNG",   "field": ".rng = VSF_BOARD_RNG_INSTANCE"},
-    "adc":   {"type": "VSF_PERIPHERAL_TYPE_ADC",   "field": ".adc = VSF_BOARD_ADC_INSTANCE"},
-    "pwm":   {"type": "VSF_PERIPHERAL_TYPE_PWM",   "field": ".pwm = VSF_BOARD_PWM_INSTANCE"},
-    "dma":   {"type": "VSF_PERIPHERAL_TYPE_DMA",   "field": ".dma = VSF_BOARD_DMA_INSTANCE"},
-    "timer": {"type": "VSF_PERIPHERAL_TYPE_TIMER", "field": ".timer = VSF_BOARD_TIMER_INSTANCE"},
-    "rtc":   {"type": "VSF_PERIPHERAL_TYPE_RTC",   "field": ".rtc = VSF_BOARD_RTC_INSTANCE"},
-    "flash": {"type": "VSF_PERIPHERAL_TYPE_FLASH", "field": ".flash = VSF_BOARD_FLASH_INSTANCE"},
-    "wdt":   {"type": "VSF_PERIPHERAL_TYPE_WDT",   "field": ".wdt = VSF_BOARD_WDT_INSTANCE"},
+    "gpio":  ("VSF_PERIPHERAL_TYPE_GPIO",  "VSF_BOARD_GPIO_INSTANCE"),
+    "usart": ("VSF_PERIPHERAL_TYPE_USART", "VSF_BOARD_USART_INSTANCE"),
+    "i2c":   ("VSF_PERIPHERAL_TYPE_I2C",   "VSF_BOARD_I2C0_INSTANCE"),
+    "spi":   ("VSF_PERIPHERAL_TYPE_SPI",   "VSF_BOARD_SPI_INSTANCE"),
+    "rng":   ("VSF_PERIPHERAL_TYPE_RNG",   "VSF_BOARD_RNG_INSTANCE"),
+    "adc":   ("VSF_PERIPHERAL_TYPE_ADC",   "VSF_BOARD_ADC_INSTANCE"),
+    "pwm":   ("VSF_PERIPHERAL_TYPE_PWM",   "VSF_BOARD_PWM_INSTANCE"),
+    "dma":   ("VSF_PERIPHERAL_TYPE_DMA",   "VSF_BOARD_DMA_INSTANCE"),
+    "timer": ("VSF_PERIPHERAL_TYPE_TIMER", "VSF_BOARD_TIMER_INSTANCE"),
+    "rtc":   ("VSF_PERIPHERAL_TYPE_RTC",   "VSF_BOARD_RTC_INSTANCE"),
+    "flash": ("VSF_PERIPHERAL_TYPE_FLASH", "VSF_BOARD_FLASH_INSTANCE"),
+    "wdt":   ("VSF_PERIPHERAL_TYPE_WDT",   "VSF_BOARD_WDT_INSTANCE"),
 }
 
-# Scenarios that need special instance field binding
-OVERRIDE_FIELDS = {
-    "gpio_pinmux": ".gpio = VSF_BOARD_GPIO_INSTANCE, .usart = VSF_BOARD_PINMUX_USART_INSTANCE",
+# Multi-handle scenarios: arg points to a handles array
+MULTI_HANDLE_ARGS = {
+    "gpio_pinmux":     "__gpio_pinmux_handles",
+    "i2c_slave":       "__i2c_slave_handles",
+    "i2c_slave_fifo":  "__i2c_slave_handles",
 }
 
-# i2c_slave: special peripheral type and instance fields
 I2C_SLAVE_TYPE = "VSF_PERIPHERAL_TYPE_I2C_SLAVE"
-I2C_SLAVE_FIELD = ".master_i2c = VSF_BOARD_I2C0_INSTANCE, .slave_i2c = VSF_BOARD_I2C1_INSTANCE"
 
-# Peripherals whose variable/suite names include an instance suffix (e.g., __adc0_oneshot, "adc0_oneshot")
+# Peripherals whose variable/suite names include an instance suffix
 PERI_WITH_INSTANCE_SUFFIX = {"adc", "pwm", "dma", "timer", "rtc", "flash", "wdt", "rng", "spi"}
+
+# Fixed instance table: (peripheral_type, hal_handle, setup_fn, teardown_fn)
+_INSTANCE_ENTRIES = [
+    ("VSF_PERIPHERAL_TYPE_I2C",       "VSF_BOARD_I2C0_INSTANCE",     "__setup_i2c0",      "__teardown_i2c0"),
+    ("VSF_PERIPHERAL_TYPE_I2C",       "VSF_BOARD_I2C1_INSTANCE",     "__setup_i2c1",      "__teardown_i2c1"),
+    ("VSF_PERIPHERAL_TYPE_I2C_SLAVE", "NULL",                        "__setup_i2c_slave", "__teardown_i2c_slave"),
+    ("VSF_PERIPHERAL_TYPE_USART",     "VSF_BOARD_USART_INSTANCE",    "__setup_usart1",    "__teardown_usart1"),
+    ("VSF_PERIPHERAL_TYPE_SPI",       "VSF_BOARD_SPI_INSTANCE",      "NULL",              "NULL"),
+    ("VSF_PERIPHERAL_TYPE_ADC",       "VSF_BOARD_ADC_INSTANCE",      "NULL",              "NULL"),
+    ("VSF_PERIPHERAL_TYPE_PWM",       "VSF_BOARD_PWM_INSTANCE",      "NULL",              "NULL"),
+    ("VSF_PERIPHERAL_TYPE_DMA",       "VSF_BOARD_DMA_INSTANCE",      "NULL",              "NULL"),
+    ("VSF_PERIPHERAL_TYPE_TIMER",     "VSF_BOARD_TIMER_INSTANCE",    "NULL",              "NULL"),
+    ("VSF_PERIPHERAL_TYPE_RTC",       "VSF_BOARD_RTC_INSTANCE",      "NULL",              "NULL"),
+    ("VSF_PERIPHERAL_TYPE_FLASH",     "VSF_BOARD_FLASH_INSTANCE",    "NULL",              "NULL"),
+    ("VSF_PERIPHERAL_TYPE_WDT",       "VSF_BOARD_WDT_INSTANCE",      "NULL",              "NULL"),
+    ("VSF_PERIPHERAL_TYPE_RNG",       "VSF_BOARD_RNG_INSTANCE",      "NULL",              "NULL"),
+    ("VSF_PERIPHERAL_TYPE_GPIO",      "VSF_BOARD_GPIO_INSTANCE",     "NULL",              "NULL"),
+]
+
 
 # ---------------------------------------------------------------------------
 # Hand-written template sections
@@ -78,7 +96,6 @@ _HEADER = """\
  *                                                                           *
  *  Licensed under the Apache License, Version 2.0 (the "License");          *
  *  you may not use this file except in compliance with the License.         *
- *  You may obtain a copy of the License at                                  *
  *                                                                           *
  *     http://www.apache.org/licenses/LICENSE-2.0                            *
  *                                                                           *
@@ -99,17 +116,41 @@ _HEADER = """\
 
 /*============================ LOCAL FUNCTIONS ===============================*/
 
-#define DEFINE_PINMUX_CB(name) \\
-    static bool __setup_##name(vsf_test_suite_t *s) { \\
-        (void)s; vsf_board_pinmux_##name##_init(); return true; \\
-    } \\
-    static void __teardown_##name(vsf_test_suite_t *s) { \\
-        (void)s; vsf_board_pinmux_##name##_fini(); \\
-    }
+static bool __setup_usart1(vsf_test_suite_t *s)
+{
+    (void)s;
+    vsf_board_pinmux_usart1_init();
+    return true;
+}
+static void __teardown_usart1(vsf_test_suite_t *s)
+{
+    (void)s;
+    vsf_board_pinmux_usart1_fini();
+}
 
-DEFINE_PINMUX_CB(usart1)
-DEFINE_PINMUX_CB(i2c0)
-DEFINE_PINMUX_CB(i2c1)
+static bool __setup_i2c0(vsf_test_suite_t *s)
+{
+    (void)s;
+    vsf_board_pinmux_i2c0_init();
+    return true;
+}
+static void __teardown_i2c0(vsf_test_suite_t *s)
+{
+    (void)s;
+    vsf_board_pinmux_i2c0_fini();
+}
+
+static bool __setup_i2c1(vsf_test_suite_t *s)
+{
+    (void)s;
+    vsf_board_pinmux_i2c1_init();
+    return true;
+}
+static void __teardown_i2c1(vsf_test_suite_t *s)
+{
+    (void)s;
+    vsf_board_pinmux_i2c1_fini();
+}
 
 static bool __setup_i2c_slave(vsf_test_suite_t *s)
 {
@@ -124,81 +165,15 @@ static void __teardown_i2c_slave(vsf_test_suite_t *s)
     vsf_board_pinmux_i2c0_fini();
     vsf_board_pinmux_i2c1_fini();
 }
-"""
 
-_INSTANCES = """\
-/*============================ PERIPHERAL INSTANCES ============================*/
+/*============================ MULTI-HANDLE ARRAYS ===========================*/
 
-#define VSF_TEST_INST(name, ptype, handle, setup_fn, teardown_fn) \\
-    static vsf_test_inst_t __inst_##name = {                        \\
-        .peripheral_type = ptype,                                   \\
-        .hal_handle      = handle,                                  \\
-        .setup           = setup_fn,                                \\
-        .teardown        = teardown_fn,                             \\
-    }
-
-#define VSF_TEST_INST_ENTRIES \\
-    VSF_TEST_INST_ENTRY(i2c0,      VSF_PERIPHERAL_TYPE_I2C,       VSF_BOARD_I2C0_INSTANCE,     __setup_i2c0,      __teardown_i2c0)      \\
-    VSF_TEST_INST_ENTRY(i2c1,      VSF_PERIPHERAL_TYPE_I2C,       VSF_BOARD_I2C1_INSTANCE,     __setup_i2c1,      __teardown_i2c1)      \\
-    VSF_TEST_INST_ENTRY(i2c_slave, VSF_PERIPHERAL_TYPE_I2C_SLAVE, NULL,                        __setup_i2c_slave, __teardown_i2c_slave) \\
-    VSF_TEST_INST_ENTRY(usart1,    VSF_PERIPHERAL_TYPE_USART,     VSF_BOARD_USART_INSTANCE,    __setup_usart1,    __teardown_usart1)    \\
-    VSF_TEST_INST_ENTRY(spi0,      VSF_PERIPHERAL_TYPE_SPI,       VSF_BOARD_SPI_INSTANCE,      NULL,              NULL)                 \\
-    VSF_TEST_INST_ENTRY(adc0,      VSF_PERIPHERAL_TYPE_ADC,       VSF_BOARD_ADC_INSTANCE,      NULL,              NULL)                 \\
-    VSF_TEST_INST_ENTRY(pwm0,      VSF_PERIPHERAL_TYPE_PWM,       VSF_BOARD_PWM_INSTANCE,      NULL,              NULL)                 \\
-    VSF_TEST_INST_ENTRY(dma0,      VSF_PERIPHERAL_TYPE_DMA,       VSF_BOARD_DMA_INSTANCE,      NULL,              NULL)                 \\
-    VSF_TEST_INST_ENTRY(timer0,    VSF_PERIPHERAL_TYPE_TIMER,     VSF_BOARD_TIMER_INSTANCE,    NULL,              NULL)                 \\
-    VSF_TEST_INST_ENTRY(rtc0,      VSF_PERIPHERAL_TYPE_RTC,       VSF_BOARD_RTC_INSTANCE,      NULL,              NULL)                 \\
-    VSF_TEST_INST_ENTRY(flash0,    VSF_PERIPHERAL_TYPE_FLASH,     VSF_BOARD_FLASH_INSTANCE,    NULL,              NULL)                 \\
-    VSF_TEST_INST_ENTRY(wdt0,      VSF_PERIPHERAL_TYPE_WDT,       VSF_BOARD_WDT_INSTANCE,      NULL,              NULL)                 \\
-    VSF_TEST_INST_ENTRY(rng0,      VSF_PERIPHERAL_TYPE_RNG,       VSF_BOARD_RNG_INSTANCE,      NULL,              NULL)                 \\
-    VSF_TEST_INST_ENTRY(gpio0,     VSF_PERIPHERAL_TYPE_GPIO,      VSF_BOARD_GPIO_INSTANCE,     NULL,              NULL)
-
-#define VSF_TEST_INST_ENTRY(name, ptype, handle, setup_fn, teardown_fn) \\
-    VSF_TEST_INST(name, ptype, handle, setup_fn, teardown_fn);
-VSF_TEST_INST_ENTRIES
-#undef VSF_TEST_INST_ENTRY
-
-static vsf_test_inst_t *__vsf_test_instances[] = {
-#define VSF_TEST_INST_ENTRY(name, ptype, handle, setup_fn, teardown_fn) \\
-    &__inst_##name,
-VSF_TEST_INST_ENTRIES
-#undef VSF_TEST_INST_ENTRY
-};
-"""
-
-_REGISTRY = """\
-/*============================ REGISTRY ========================================*/
-
-typedef struct vsf_test_registry_t {
-    vsf_test_reboot_t  **reboot_entries;
-    uint8_t              reboot_count;
-    vsf_test_suite_t   **suite_entries;
-    uint8_t              suite_count;
-    vsf_test_inst_t    **inst_entries;
-    uint8_t              inst_count;
-    vsf_test_t           test;
-} vsf_test_registry_t;
-
-static vsf_test_reboot_t *__vsf_test_reboot_entries[] = {
-    vsf_arch_reset,
+static void *__gpio_pinmux_handles[] = {
+    VSF_BOARD_GPIO_INSTANCE, VSF_BOARD_PINMUX_USART_INSTANCE,
 };
 
-static vsf_test_registry_t __vsf_test_registry = {
-    .reboot_entries = __vsf_test_reboot_entries,
-    .reboot_count   = dimof(__vsf_test_reboot_entries),
-    .suite_entries  = __vsf_test_suite_entries,
-    .suite_count    = dimof(__vsf_test_suite_entries),
-    .inst_entries   = __vsf_test_instances,
-    .inst_count     = dimof(__vsf_test_instances),
-    .test = {
-        .suites         = __vsf_test_suite_entries,
-        .suite_count    = dimof(__vsf_test_suite_entries),
-        .instances      = __vsf_test_instances,
-        .instance_count = dimof(__vsf_test_instances),
-        .wdt            = { .entries = NULL, .count = 0 },
-        .reboot         = { .entries = __vsf_test_reboot_entries,
-                            .count   = dimof(__vsf_test_reboot_entries) },
-    },
+static void *__i2c_slave_handles[] = {
+    VSF_BOARD_I2C0_INSTANCE, VSF_BOARD_I2C1_INSTANCE,
 };
 """
 
@@ -213,13 +188,7 @@ def get_peripheral(name: str) -> str:
 
 
 def get_type_suffix(name: str) -> str:
-    """Extract type-name suffix from scenario name.
-
-    Only usart_tx_baud and usart_tx_mode strip the 'tx_' prefix to match
-    the existing type names in vsf_test_usart.h
-    (e.g., usart_tx_baud -> baud, matching vsf_test_usart_baud_suite_t).
-    All other scenarios keep their full suffix.
-    """
+    """Extract type-name suffix from scenario name."""
     if name == "usart_tx_baud":
         return "baud"
     if name == "usart_tx_mode":
@@ -233,22 +202,8 @@ def _instance_suffix(peripheral: str) -> str:
     return "0" if peripheral in PERI_WITH_INSTANCE_SUFFIX else ""
 
 
-def get_var_name(name: str) -> str:
-    """Generate variable name for the suite table.
-
-    Examples: __gpio_output_input, __usart_baud, __adc0_oneshot, __spi0_loopback
-    """
-    peripheral = get_peripheral(name)
-    suffix = get_type_suffix(name)
-    inst = _instance_suffix(peripheral)
-    return f"__{peripheral}{inst}_{suffix}"
-
-
 def get_suite_name_str(name: str) -> str:
-    """Generate suite name string.
-
-    Examples: "gpio_output_input", "usart_baud", "adc0_oneshot", "spi0_loopback"
-    """
+    """Generate suite name string."""
     peripheral = get_peripheral(name)
     suffix = get_type_suffix(name)
     inst = _instance_suffix(peripheral)
@@ -257,118 +212,199 @@ def get_suite_name_str(name: str) -> str:
 
 def is_rx_scenario(name: str) -> bool:
     """RX scenarios need ready handshake (true), TX scenarios don't (false)."""
-    # usart_rx_data, usart_rx_baud, usart_request_rx_irq, etc.
     return "_rx_" in name
 
 
 def get_enable_macro(name: str) -> str:
-    """VSF_TEST_{NAME_UPPER}_ENABLE."""
     return f"VSF_TEST_{name.upper()}_ENABLE"
 
 
 def get_count_macro(name: str) -> str:
-    """VSF_TEST_{NAME_UPPER}_CASE_COUNT."""
     return f"VSF_TEST_{name.upper()}_CASE_COUNT"
 
 
 def get_case_data_macro(name: str) -> str:
-    """VSF_TEST_{NAME_UPPER}_CASE_DATA."""
-    return f"VSF_TEST_{name.upper()}_CASE_DATA"
+    return f"VSF_TEST_{name.upper()}_PARAMS_INIT"
 
 
 def get_cases_macro(name: str) -> str:
-    """VSF_TEST_{NAME_UPPER}_CASES."""
     return f"VSF_TEST_{name.upper()}_CASES"
 
 
 def get_peripheral_type(name: str) -> str:
-    """Get VSF_PERIPHERAL_TYPE_* for a scenario."""
-    if name.startswith("i2c_slave"):
-        return I2C_SLAVE_TYPE
+    if name in MULTI_HANDLE_ARGS:
+        return "VSF_PERIPHERAL_TYPE_NONE"
     peripheral = get_peripheral(name)
-    return PERIPHERAL_MAP[peripheral]["type"]
+    return PERIPHERAL_MAP[peripheral][0]
 
 
-def get_instance_field(name: str) -> str:
-    """Get instance field binding for a scenario."""
-    if name in OVERRIDE_FIELDS:
-        return OVERRIDE_FIELDS[name]
-    if name.startswith("i2c_slave"):
-        return I2C_SLAVE_FIELD
+def get_arg_value(name: str) -> str:
+    """Generate .arg value for a scenario."""
+    if name in MULTI_HANDLE_ARGS:
+        return MULTI_HANDLE_ARGS[name]
     peripheral = get_peripheral(name)
-    return PERIPHERAL_MAP[peripheral]["field"]
+    return PERIPHERAL_MAP[peripheral][1]
+
+
+def _get_field_name(name: str) -> str:
+    """Field name in the aggregated struct: e.g. 'gpio_analog_mode'."""
+    return get_suite_name_str(name)
 
 
 # ---------------------------------------------------------------------------
 # Generators
 # ---------------------------------------------------------------------------
 
-def generate_table_type_decl(name: str) -> str:
-    """Generate typedef struct { ... } table_t; for one scenario.
+def generate_all_types(scenarios: list[tuple[str, dict]]) -> str:
+    """Generate aggregated case and param struct types."""
+    cases_lines = ["typedef struct {"]
+    params_lines = ["typedef struct {"]
 
-    Wrapped in #if ENABLE == ENABLED because the underlying suite_t/case_t
-    types in vsf_test_*.h may be conditionally compiled.
+    for _scenario_key, sc in scenarios:
+        name = sc["name"]
+        enable = get_enable_macro(name)
+        peripheral = get_peripheral(name)
+        suffix = get_type_suffix(name)
+        count = get_count_macro(name)
+        field = _get_field_name(name)
+
+        cases_lines.append(f"#if {enable} == ENABLED")
+        cases_lines.append(f"    vsf_test_case_t {field}[{count}];")
+        cases_lines.append(f"#endif")
+
+        params_lines.append(f"#if {enable} == ENABLED")
+        params_lines.append(f"    vsf_test_{peripheral}_{suffix}_params_t {field}[{count}];")
+        params_lines.append(f"#endif")
+
+    cases_lines.append("} vsf_test_all_cases_t;")
+    params_lines.append("} vsf_test_all_params_t;")
+
+    lines = [
+        "/*============================ AGGREGATED DATA TYPES ========================*/",
+        "",
+        *cases_lines,
+        "",
+        *params_lines,
+        "",
+        "typedef struct {",
+        "    vsf_test_t test;",
+        "    vsf_test_all_cases_t *cases;",
+        "    const vsf_test_all_params_t *params;",
+        "} vsf_test_registry_t;",
+    ]
+    return "\n".join(lines)
+
+
+def generate_all_data(scenarios: list[tuple[str, dict]]) -> str:
+    """Generate __vsf_test_params, __all_cases, __vsf_test_data, __vsf_test_registry.
+
+    Order matters: each variable only references previously-defined variables.
+    1. __vsf_test_params — const, no external refs
+    2. __all_cases       — refs __vsf_test_params.xxx
+    3. __vsf_test_data   — const, contains instances + embedded suites[]
+    4. __vsf_test_registry — refs __vsf_test_data, __all_cases, __vsf_test_params
     """
-    enable = get_enable_macro(name)
-    peripheral = get_peripheral(name)
-    suffix = get_type_suffix(name)
-    count = get_count_macro(name)
+    instance_count = len(_INSTANCE_ENTRIES)
+    suite_count = len(scenarios)
 
-    lines = [
-        f"#if {enable} == ENABLED",
-        f"typedef struct {{",
-        f"    vsf_test_{peripheral}_{suffix}_suite_t suite;",
-        f"    vsf_test_{peripheral}_{suffix}_case_t data[{count}];",
-        f"    vsf_test_case_t cases[{count}];",
-        f"}} vsf_test_{peripheral}_{suffix}_table_t;",
-        f"#endif",
+    # --- 1. __vsf_test_params (const, standalone) ---
+    params_lines = ["static const vsf_test_all_params_t __vsf_test_params = {"]
+    for _scenario_key, sc in scenarios:
+        name = sc["name"]
+        enable = get_enable_macro(name)
+        case_data = get_case_data_macro(name)
+        field = _get_field_name(name)
+        params_lines.append(f"#if {enable} == ENABLED")
+        params_lines.append(f"    .{field} = {{ {case_data} }},")
+        params_lines.append(f"#endif")
+    params_lines.append("};")
+
+    # --- 2. __all_cases ---
+    cases_lines = ["static vsf_test_all_cases_t __all_cases = {"]
+    for _scenario_key, sc in scenarios:
+        name = sc["name"]
+        enable = get_enable_macro(name)
+        cases = get_cases_macro(name)
+        run_fn = f"vsf_test_{get_peripheral(name)}_{get_type_suffix(name)}_run"
+        ready = "true" if is_rx_scenario(name) else "false"
+        field = _get_field_name(name)
+        cases_lines.append(f"#if {enable} == ENABLED")
+        cases_lines.append(f"    .{field} = {{ {cases}(__vsf_test_params.{field}, {run_fn}, {ready}) }},")
+        cases_lines.append(f"#endif")
+    cases_lines.append("};")
+
+    # --- 3. __vsf_test_data (instances + embedded suites) ---
+    data_lines = [
+        "/*============================ PERIPHERAL INSTANCES ============================*/",
+        "",
+        "static const struct {",
+        f"    vsf_test_inst_t instances[{instance_count}];",
+        f"    vsf_test_suite_t suites[{suite_count}];",
+        "} __vsf_test_data = {",
+        "    .instances = {",
     ]
-    return "\n".join(lines)
+    for ptype, handle, setup, teardown in _INSTANCE_ENTRIES:
+        data_lines.append("        {")
+        data_lines.append(f"            .peripheral_type = {ptype},")
+        data_lines.append(f"            .hal_handle      = {handle},")
+        data_lines.append(f"            .setup           = {setup},")
+        data_lines.append(f"            .teardown        = {teardown},")
+        data_lines.append("        },")
+    data_lines.append("    },")
+    data_lines.append("    .suites = {")
+    for _scenario_key, sc in scenarios:
+        name = sc["name"]
+        enable = get_enable_macro(name)
+        count = get_count_macro(name)
+        ptype = get_peripheral_type(name)
+        arg = get_arg_value(name)
+        suite_str = get_suite_name_str(name)
+        field = _get_field_name(name)
+        data_lines.append(f"#if {enable} == ENABLED")
+        data_lines.append(f"        {{")
+        data_lines.append(f"            .name       = \"{suite_str}\",")
+        data_lines.append(f"            .cases      = __all_cases.{field},")
+        data_lines.append(f"            .case_count = {count},")
+        data_lines.append(f"            .peripheral_type = {ptype},")
+        data_lines.append(f"            .arg        = {arg},")
+        data_lines.append(f"        }},")
+        data_lines.append(f"#endif")
+    data_lines.append("    },")
+    data_lines.append("};")
 
-
-def generate_static_def(name: str) -> str:
-    """Generate static suite definition for one scenario."""
-    enable = get_enable_macro(name)
-    peripheral = get_peripheral(name)
-    suffix = get_type_suffix(name)
-    var = get_var_name(name)
-    suite_str = get_suite_name_str(name)
-    table_t = f"vsf_test_{peripheral}_{suffix}_table_t"
-    count = get_count_macro(name)
-    ptype = get_peripheral_type(name)
-    field = get_instance_field(name)
-    case_data = get_case_data_macro(name)
-    cases = get_cases_macro(name)
-    run_fn = f"vsf_test_{peripheral}_{suffix}_run"
-    ready = "true" if is_rx_scenario(name) else "false"
-
-    lines = [
-        f"#if {enable} == ENABLED",
-        f"static {table_t} {var} = {{",
-        f"    .suite = {{",
-        f"        .name       = \"{suite_str}\",",
-        f"        .cases      = {var}.cases,",
-        f"        .case_count = {count},",
-        f"        .peripheral_type = {ptype},",
-        f"        {field},",
-        f"    }},",
-        f"    .data  = {{ {case_data}(&{var}.suite) }},",
-        f"    .cases = {{ {cases}({var}.data, {run_fn}, {ready}) }},",
-        f"}};",
-        f"#endif",
+    # --- 4. __vsf_test_registry ---
+    registry_lines = [
+        "static vsf_test_reboot_t *__vsf_test_reboot_entries[] = {",
+        "    vsf_arch_reset,",
+        "};",
+        "",
+        "static vsf_test_registry_t __vsf_test_registry = {",
+        "    .test = {",
+        "        .wdt = { .entries = NULL, .count = 0 },",
+        "        .reboot = { .entries = __vsf_test_reboot_entries,",
+        "                    .count   = dimof(__vsf_test_reboot_entries) },",
+        "        .suites      = __vsf_test_data.suites,",
+        f"        .suite_count = dimof(__vsf_test_data.suites),",
+        "        .instances   = __vsf_test_data.instances,",
+        f"        .instance_count = dimof(__vsf_test_data.instances),",
+        "    },",
+        "    .cases = &__all_cases,",
+        "    .params = &__vsf_test_params,",
+        "};",
     ]
-    return "\n".join(lines)
-
-
-def generate_entry(name: str) -> str:
-    """Generate one entry in __vsf_test_suite_entries[]."""
-    enable = get_enable_macro(name)
-    var = get_var_name(name)
 
     lines = [
-        f"#if {enable} == ENABLED",
-        f"    &{var}.suite.use_as__vsf_test_suite_t,",
-        f"#endif",
+        "/*============================ STATIC DATA ==================================*/",
+        "",
+        *params_lines,
+        "",
+        *cases_lines,
+        "",
+        *data_lines,
+        "",
+        "/*============================ REGISTRY ======================================*/",
+        "",
+        *registry_lines,
     ]
     return "\n".join(lines)
 
@@ -378,15 +414,9 @@ def generate_entry(name: str) -> str:
 # ---------------------------------------------------------------------------
 
 def load_scenarios(yml_path: Path, project_root: Path) -> list[tuple[str, dict]]:
-    """Load YAML and return list of (scenario_key, scenario_dict) tuples.
-
-    Scenarios are sorted by peripheral order, then alphabetically within
-    each peripheral group.
-    """
     global_base = project_root / "vsf.demo" / "vsf" / "test" / "vsf_test" / "params"
     params = load_yaml_with_includes(yml_path, global_base=global_base)
 
-    # Extract scenario entries
     scenarios = []
     for key, value in params.items():
         if key == "marker" or not isinstance(value, dict):
@@ -396,7 +426,6 @@ def load_scenarios(yml_path: Path, project_root: Path) -> list[tuple[str, dict]]
             continue
         scenarios.append((key, value))
 
-    # Sort by peripheral order, then by key
     def sort_key(item):
         key, sc = item
         name = sc.get("name", key)
@@ -412,7 +441,6 @@ def load_scenarios(yml_path: Path, project_root: Path) -> list[tuple[str, dict]]
 
 
 def generate_registry(yml_path: Path, project_root: Path) -> str:
-    """Generate the full vsf_test_suite_registry.h content."""
     scenarios = load_scenarios(yml_path, project_root)
 
     lines = []
@@ -421,36 +449,12 @@ def generate_registry(yml_path: Path, project_root: Path) -> str:
     lines.append(_HEADER)
     lines.append("")
 
-    # Region 1: Table type declarations
-    lines.append("/*============================ TABLE TYPE DECLARATIONS =======================*/")
-    lines.append("")
-    for _scenario_key, sc in scenarios:
-        name = sc["name"]
-        lines.append(generate_table_type_decl(name))
-        lines.append("")
-
-    # Region 2: Static suite definitions
-    lines.append("/*============================ STATIC SUITE DEFINITIONS =====================*/")
-    lines.append("")
-    for _scenario_key, sc in scenarios:
-        name = sc["name"]
-        lines.append(generate_static_def(name))
-        lines.append("")
-
-    # Hand-written: peripheral instances
-    lines.append(_INSTANCES)
+    # Region 1: Aggregated data types
+    lines.append(generate_all_types(scenarios))
     lines.append("")
 
-    # Region 3: Suite entries array
-    lines.append("static vsf_test_suite_t *__vsf_test_suite_entries[] = {")
-    for _scenario_key, sc in scenarios:
-        name = sc["name"]
-        lines.append(generate_entry(name))
-    lines.append("};")
-    lines.append("")
-
-    # Hand-written: registry struct
-    lines.append(_REGISTRY)
+    # Region 2: Aggregated static data (includes instances + registry)
+    lines.append(generate_all_data(scenarios))
     lines.append("")
 
     return "\n".join(lines)
@@ -460,7 +464,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Generate vsf_test_suite_registry.h from test params YAML"
     )
-    parser.add_argument("yml", type=Path, help="Input YAML file (e.g., application/component/vsf-test/test_params.yml)")
+    parser.add_argument("yml", type=Path, help="Input YAML file")
     parser.add_argument("out", type=Path, help="Output C header file")
     parser.add_argument("--project-root", type=Path, default=Path.cwd(),
                         help="Project root directory (default: cwd)")
@@ -470,7 +474,7 @@ def main() -> int:
         print(f"Error: {args.yml} not found", file=sys.stderr)
         return 1
 
-    content = generate_registry(args.yml, args.project_root)
+    content = generate_registry(args.yml, project_root=args.project_root)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(content)
     print(f"Generated: {args.out}")

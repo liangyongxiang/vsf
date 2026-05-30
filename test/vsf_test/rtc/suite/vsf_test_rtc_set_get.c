@@ -11,10 +11,10 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_rtc_set_get_run(void *arg)
+void vsf_test_rtc_set_get_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
-    vsf_test_rtc_set_get_case_t *c = (vsf_test_rtc_set_get_case_t *)arg;
-    vsf_rtc_t *rtc = c->suite->rtc;
+    vsf_test_rtc_set_get_params_t *p = tc->arg;
+    vsf_rtc_t *rtc = (vsf_rtc_t *)fixture;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */

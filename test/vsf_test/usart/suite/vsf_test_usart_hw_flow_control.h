@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-void vsf_test_usart_hw_flow_control_run(const vsf_test_usart_hw_flow_control_case_t *c);
+void vsf_test_usart_hw_flow_control_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 
 #ifdef __cplusplus
 }

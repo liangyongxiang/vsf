@@ -52,63 +52,33 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_rtc_suite_base_t) {
-    public_member(
-        implement(vsf_test_suite_t)
-        vsf_rtc_t *rtc;
-    )
-};
 
-vsf_class(vsf_test_rtc_set_get_suite_t) {
-    public_member(
-        implement(vsf_test_rtc_suite_base_t)
-    )
-};
 
-vsf_class(vsf_test_rtc_alarm_suite_t) {
-    public_member(
-        implement(vsf_test_suite_t)
-        /* Immutable suite config (set once by main.c, never modified by run). */
-        vsf_rtc_t *rtc;
-    )
-    private_member(
-        /* Per-case mutable state (run() MUST re-initialise before each case). */
-        volatile bool alarm_triggered;
-    )
-};
 
-vsf_class(vsf_test_rtc_epoch_suite_t) {
-    public_member(
-        implement(vsf_test_rtc_suite_base_t)
-    )
-};
 
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-vsf_class(vsf_test_rtc_set_get_case_t) {
+vsf_class(vsf_test_rtc_set_get_params_t) {
     public_member(
         uint8_t idx;
         uint8_t rtc_idx;
-        vsf_test_rtc_set_get_suite_t *suite;
     )
 };
 #endif
 
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-vsf_class(vsf_test_rtc_alarm_case_t) {
+vsf_class(vsf_test_rtc_alarm_params_t) {
     public_member(
         uint8_t idx;
         uint8_t rtc_idx;
-        vsf_test_rtc_alarm_suite_t *suite;
     )
 };
 #endif
 
 #if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
-vsf_class(vsf_test_rtc_epoch_case_t) {
+vsf_class(vsf_test_rtc_epoch_params_t) {
     public_member(
         uint8_t idx;
         uint8_t rtc_idx;
-        vsf_test_rtc_epoch_suite_t *suite;
     )
 };
 #endif
@@ -116,15 +86,15 @@ vsf_class(vsf_test_rtc_epoch_case_t) {
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
-void vsf_test_rtc_set_get_run(void *arg);
+void vsf_test_rtc_set_get_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 #endif
 
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-void vsf_test_rtc_alarm_run(void *arg);
+void vsf_test_rtc_alarm_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 #endif
 
 #if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
-void vsf_test_rtc_epoch_run(void *arg);
+void vsf_test_rtc_epoch_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 #endif
 
 // Framework types — included LAST so this header can be pulled into

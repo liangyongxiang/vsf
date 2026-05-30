@@ -16,15 +16,15 @@ typedef struct vsf_test_inst_t   vsf_test_inst_t;
 #endif
 
 typedef struct vsf_test_shell_t {
-    vsf_test_suite_t **suites;
-    uint8_t            suite_count;
-    vsf_test_inst_t  **instances;
-    uint8_t            instance_count;
+    const vsf_test_suite_t *suites;
+    uint8_t                 suite_count;
+    const vsf_test_inst_t  *instances;
+    uint8_t                 instance_count;
 } vsf_test_shell_t;
 
 void vsf_test_shell_init(vsf_test_shell_t *shell,
-                         vsf_test_suite_t **suites, uint8_t suite_count,
-                         vsf_test_inst_t **instances, uint8_t instance_count);
+                         const vsf_test_suite_t *suites, uint8_t suite_count,
+                         const vsf_test_inst_t *instances, uint8_t instance_count);
 void vsf_test_shell_run(vsf_test_shell_t *shell);
 
 #ifdef __cplusplus

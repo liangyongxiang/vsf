@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_toggle_stress_run(const vsf_test_gpio_toggle_stress_case_t *c);
+void vsf_test_gpio_toggle_stress_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 
 #ifdef __cplusplus
 }

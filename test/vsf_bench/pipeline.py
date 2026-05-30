@@ -26,6 +26,12 @@ from vsf_bench.suite import discover_suites, load_script_module, script_needs_la
 from vsf_bench.test_params import load_test_params
 
 
+def __bprint(*args, **kwargs):
+    """Print with [vsf-bench] prefix and ISO timestamp."""
+    ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+    print(f"[vsf-bench] [{ts}]", *args, **kwargs)
+
+
 def load_board(hardware_map_path: Path):
     """Read hardware-map.yml and return a validated board config."""
     board = load_hardware_map(str(hardware_map_path))
@@ -42,10 +48,10 @@ def build_phase(board, project_root: Path) -> Path:
     builder_cls = get_builder_class(builder_cfg.type)
     if builder_cls is None:
         raise RuntimeError(f"Unknown builder type: {builder_cfg.type}")
-    print(f"[vsf-bench] Building ({board.build.source_dir}) via {build_tool}...")
+    __bprint(f"Building ({board.build.source_dir}) via {build_tool}...")
     builder = builder_cls(board.build, project_root)
     build_dir = builder.build()
-    print(f"[vsf-bench] Build complete: {build_dir}")
+    __bprint(f"Build complete: {build_dir}")
     return build_dir
 
 
@@ -56,9 +62,9 @@ def flash_phase(board, build_dir: Path) -> None:
     if runner_cls is None:
         raise RuntimeError(f"Unknown runner type: {runner_cfg.type}")
     runner = runner_cls(runner_cfg)
-    print(f"[vsf-bench] Flashing via {board.active_runner}...")
+    __bprint(f"Flashing via {board.active_runner}...")
     runner.flash(build_dir)
-    print("[vsf-bench] Flash complete")
+    __bprint("Flash complete")
 
 
 # ---------------------------------------------------------------------------
@@ -145,7 +151,7 @@ def _send_shuffle_seed(
     """Shuffle is no longer supported in the simplified shell (removed in shell
     simplification). This is a no-op for backward CLI compatibility.
     --random still works on the host side (Python randomizes suite order)."""
-    print(f"[vsf-bench] {suite_name}: shuffle seed={seed} (host-side only)")
+    __bprint(f"{suite_name}: shuffle seed={seed} (host-side only)")
     return True
 
 
@@ -161,7 +167,7 @@ def _run_script_phase1(
     cmd = _build_run_cmd(suite_name, case)
     _drain_repl(ser)
     ser.send(cmd)
-    print(f"[vsf-bench] Triggered: {cmd.strip()}")
+    __bprint(f"Triggered: {cmd.strip()}")
 
     # vsf-test-shell emits "Suite ack: <name>" on a successful lookup or
     # "Suite not found: <name>" / "Case not found: <case>" otherwise. One
@@ -177,13 +183,13 @@ def _run_script_phase1(
             if attempt == 1:
                 _drain_repl(ser)
                 ser.send(cmd)
-                print(f"[vsf-bench] Retrying: {cmd.strip()}")
+                __bprint(f"Retrying: {cmd.strip()}")
             else:
-                print(f"[vsf-bench] FAIL: {suite_name}{case_tag}: no shell ack within 1s")
+                __bprint(f"FAIL: {suite_name}{case_tag}: no shell ack within 1s")
                 return False
     assert ack is not None
     if "not found" in ack:
-        print(f"[vsf-bench] FAIL: {suite_name}{case_tag}: {ack.strip()}")
+        __bprint(f"FAIL: {suite_name}{case_tag}: {ack.strip()}")
         return False
 
     try:
@@ -191,10 +197,10 @@ def _run_script_phase1(
             script_module.run(project_root, ser)
         else:
             ser.expect_test_summary(suite_name, timeout=1.5)
-        print(f"[vsf-bench] PASS phase1: {suite_name}{case_tag}")
+        __bprint(f"PASS phase1: {suite_name}{case_tag}")
         return True
     except (TimeoutError, AssertionError, RuntimeError, KeyError, AttributeError) as e:
-        print(f"[vsf-bench] FAIL: {suite_name}{case_tag}: {e}")
+        __bprint(f"FAIL: {suite_name}{case_tag}: {e}")
         return False
 
 
@@ -255,8 +261,8 @@ def run_test_phase(
     if not ordered_suites:
         raise RuntimeError("No suites discovered")
 
-    print(f"[vsf-bench] Suites: {[s for s, _ in ordered_suites]}")
-    print(f"[vsf-bench] LA mode: {la_mode}")
+    __bprint(f"Suites: {[s for s, _ in ordered_suites]}")
+    __bprint(f"LA mode: {la_mode}")
 
     if case_specs and len(ordered_suites) > 1:
         raise ValueError("--case/--case-index requires exactly one --suite")
@@ -272,7 +278,7 @@ def run_test_phase(
             else:
                 idx = _resolve_case_value(params, suite_name, spec)
                 resolved.append(str(idx))
-                print(f"[vsf-bench] Resolved --case {spec} -> index {idx}")
+                __bprint(f"Resolved --case {spec} -> index {idx}")
         case_specs = resolved
 
     run_dir = _mk_log_dir(log_dir, ordered_suites)
@@ -287,7 +293,7 @@ def run_test_phase(
     try:
         ser.expect("VSF Test Ready", timeout=10.0)
     except TimeoutError:
-        print("[vsf-bench] Warning: REPL banner not seen, continuing anyway")
+        __bprint("Warning: REPL banner not seen, continuing anyway")
 
     # When no explicit --suite filter, intersect with what the firmware reports.
     if not suite_names:
@@ -296,8 +302,8 @@ def run_test_phase(
             skipped = [s for s, _ in ordered_suites if s not in fw_suites]
             ordered_suites = [(s, p) for s, p in ordered_suites if s in fw_suites]
             if skipped:
-                print(f"[vsf-bench] Skipped (not in firmware): {skipped}")
-        print(f"[vsf-bench] Effective suites: {[s for s, _ in ordered_suites]}")
+                __bprint(f"Skipped (not in firmware): {skipped}")
+        __bprint(f"Effective suites: {[s for s, _ in ordered_suites]}")
 
     loaded: list[tuple[str, Path | None, object | None, bool]] = []
     for suite_name, script_path in ordered_suites:
@@ -327,7 +333,8 @@ def run_test_phase(
     with open(log_path, "a") as f:
         verdict = "pass" if overall_pass else "fail"
         f.write(json.dumps({"verdict": verdict}) + "\n")
-    print(f"\n[vsf-bench] {'PASS' if overall_pass else 'FAIL'}")
+    print()
+    __bprint(f"{'PASS' if overall_pass else 'FAIL'}")
     return overall_pass
 
 
@@ -361,7 +368,7 @@ def _test_loop_shared_la(
             shared_la.start(300.0)
             shared_la.wait_until_started(timeout=5.0)
             la_start_t = time.monotonic()
-            print(f"[vsf-bench] Shared LA started -> {shared_capture}")
+            __bprint(f"Shared LA started -> {shared_capture}")
 
         cases_to_run = case_specs if case_specs else [None]
         for case in cases_to_run:
@@ -370,7 +377,7 @@ def _test_loop_shared_la(
                     overall_pass = False
                     continue
             case_tag = f".{case}" if case else ""
-            print(f"\n[vsf-bench] [{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}] Suite: {suite_name}{case_tag}")
+            __bprint(f"Suite: {suite_name}{case_tag}")
             t_start = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
             ok = _run_script_phase1(suite_name, case, mod, project_root, ser)
             t_end = int((time.monotonic() - la_start_t) * 1e9) if la_start_t is not None else 0
@@ -380,22 +387,22 @@ def _test_loop_shared_la(
                 suite_windows.append((suite_name, mod, t_start, t_end))
 
         if i == last_la_idx and shared_la is not None:
-            print("[vsf-bench] Stopping shared LA...")
+            __bprint("Stopping shared LA...")
             shared_la.stop()
             try:
                 shared_la.wait(timeout=30.0)
             except (TimeoutError, RuntimeError) as e:
-                print(f"[vsf-bench] LA wait warning: {e}")
+                __bprint(f"LA wait warning: {e}")
 
     for suite_name, mod, t_start, t_end in suite_windows:
         decode_start = max(0, t_start - SHARED_WINDOW_PAD_NS)
         decode_end = t_end + SHARED_WINDOW_PAD_NS
-        print(f"\n[vsf-bench] Decoding (shared): {suite_name}  window=[{decode_start/1e9:.2f}s,{decode_end/1e9:.2f}s]")
+        __bprint(f"Decoding (shared): {suite_name}  window=[{decode_start/1e9:.2f}s,{decode_end/1e9:.2f}s]")
         try:
             _call_decode(mod, project_root, shared_la, decode_start, decode_end, board.baud)
-            print(f"[vsf-bench] PASS decode: {suite_name}")
+            __bprint(f"PASS decode: {suite_name}")
         except (AssertionError, RuntimeError, KeyError, AttributeError, FileNotFoundError) as e:
-            print(f"[vsf-bench] FAIL decode: {suite_name}: {e}")
+            __bprint(f"FAIL decode: {suite_name}: {e}")
             overall_pass = False
 
     return overall_pass
@@ -412,7 +419,7 @@ def _test_loop_per_suite(
         cases_to_run = case_specs if case_specs else [None]
         for case in cases_to_run:
             case_tag = f".{case}" if case else ""
-            print(f"\n[vsf-bench] [{datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]}] Suite: {suite_name}{case_tag}")
+            __bprint(f"Suite: {suite_name}{case_tag}")
             if shuffle_seed is not None and case is None:
                 if not _send_shuffle_seed(ser, suite_name, shuffle_seed):
                     overall_pass = False
@@ -435,14 +442,14 @@ def _test_loop_per_suite(
                 try:
                     scene_la.wait(timeout=15.0)
                 except (TimeoutError, RuntimeError) as e:
-                    print(f"[vsf-bench] LA wait warning: {e}")
+                    __bprint(f"LA wait warning: {e}")
 
             if ok and mod is not None and hasattr(mod, "decode") and scene_la is not None:
                 try:
                     _call_decode(mod, project_root, scene_la, None, None, board.baud)
-                    print(f"[vsf-bench] PASS decode: {suite_name}{case_tag}")
+                    __bprint(f"PASS decode: {suite_name}{case_tag}")
                 except (AssertionError, RuntimeError, KeyError, AttributeError, FileNotFoundError) as e:
-                    print(f"[vsf-bench] FAIL decode: {suite_name}{case_tag}: {e}")
+                    __bprint(f"FAIL decode: {suite_name}{case_tag}: {e}")
                     overall_pass = False
 
     return overall_pass

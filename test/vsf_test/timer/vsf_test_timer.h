@@ -52,80 +52,40 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_timer_suite_base_t) {
-    public_member(
-        implement(vsf_test_suite_t)
-        vsf_timer_t *timer;
-    )
-};
 
-vsf_class(vsf_test_timer_oneshot_suite_t) {
-    public_member(
-        implement(vsf_test_suite_t)
-        /* Immutable suite config (set once by main.c, never modified by run). */
-        vsf_timer_t *timer;
-    )
-    private_member(
-        /* Per-case mutable state (run() MUST re-initialise before each case). */
-        volatile bool fired;
-    )
-};
 
-vsf_class(vsf_test_timer_periodic_suite_t) {
-    public_member(
-        implement(vsf_test_suite_t)
-        /* Immutable suite config (set once by main.c, never modified by run). */
-        vsf_timer_t *timer;
-    )
-    private_member(
-        /* Per-case mutable state (run() MUST re-initialise before each case). */
-        volatile uint8_t counter;
-    )
-};
 
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-vsf_class(vsf_test_timer_oneshot_case_t) {
+vsf_class(vsf_test_timer_oneshot_params_t) {
     public_member(
         uint8_t  idx;
         uint8_t  timer_idx;
         uint8_t  channel;
         uint32_t period_us;
-        vsf_test_timer_oneshot_suite_t *suite;
     )
 };
 #endif
 
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-vsf_class(vsf_test_timer_periodic_case_t) {
+vsf_class(vsf_test_timer_periodic_params_t) {
     public_member(
         uint8_t  idx;
         uint8_t  timer_idx;
         uint8_t  channel;
         uint32_t period_us;
         uint8_t  count;
-        vsf_test_timer_periodic_suite_t *suite;
     )
 };
 #endif
 
 #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
-vsf_class(vsf_test_timer_async_suite_t) {
-    public_member(
-        implement(vsf_test_suite_t)
-        vsf_timer_t *timer;
-    )
-    private_member(
-        volatile uint8_t counter;
-    )
-};
 
-vsf_class(vsf_test_timer_async_case_t) {
+vsf_class(vsf_test_timer_async_params_t) {
     public_member(
         uint8_t  idx;
         uint8_t  timer_idx;
         uint8_t  channel;
         uint32_t period_us;
-        vsf_test_timer_async_suite_t *suite;
     )
 };
 #endif
@@ -133,15 +93,15 @@ vsf_class(vsf_test_timer_async_case_t) {
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-void vsf_test_timer_oneshot_run(void *arg);
+void vsf_test_timer_oneshot_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 #endif
 
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-void vsf_test_timer_periodic_run(void *arg);
+void vsf_test_timer_periodic_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 #endif
 
 #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
-void vsf_test_timer_async_run(void *arg);
+void vsf_test_timer_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 #endif
 
 // Framework types — included LAST so this header can be pulled into

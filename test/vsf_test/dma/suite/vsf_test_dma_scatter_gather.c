@@ -16,18 +16,17 @@
  *****************************************************************************/
 
 #include "vsf_test_dma_scatter_gather.h"
-
-#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-
-/*============================ MACROS ========================================*/
+/*============================ LOCAL VARIABLES ===============================*/
 
 #define SG_TEST_BUF_SIZE        64
-
-/*============================ LOCAL VARIABLES ===============================*/
 
 static uint8_t __sg_src_buf[SG_TEST_BUF_SIZE * 8];
 static uint8_t __sg_dst_buf[SG_TEST_BUF_SIZE * 8];
 static volatile bool __sg_done;
+
+
+
+#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
 
 /*============================ PROTOTYPES ====================================*/
 
@@ -97,11 +96,10 @@ static bool __sg_verify_gather_write(void)
     return true;
 }
 
-void vsf_test_dma_scatter_gather_run(void *arg)
+void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
-    vsf_test_dma_scatter_gather_case_t *c =
-        (vsf_test_dma_scatter_gather_case_t *)arg;
-    vsf_dma_t *dma = c->suite->dma;
+    vsf_test_dma_scatter_gather_params_t *p = tc->arg;
+    vsf_dma_t *dma = (vsf_dma_t *)fixture;
 
     vsf_err_t err = vsf_dma_init(dma, &(vsf_dma_cfg_t){0});
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -125,7 +123,7 @@ void vsf_test_dma_scatter_gather_run(void *arg)
     __sg_prepare_buffers();
     bool pass = true;
 
-    switch (c->idx) {
+    switch (p->idx) {
     case 0: {
         /* --- Test 0: Two-segment M2M --- */
         vsf_trace_info("DMA:SG:TWO_SEGMENT_START" VSF_TRACE_CFG_LINEEND);

@@ -35,7 +35,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_spi_async_run(void *arg);
+void vsf_test_spi_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
 
 #endif /* __VSF_TEST_SPI_ASYNC_H__ */
 /* EOF */

@@ -18,21 +18,6 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_usart_baud.h"
-
-#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
-
-/*============================ MACROS ========================================*/
-
-#ifndef VSF_TEST_BAUD_PAYLOAD
-#   define VSF_TEST_BAUD_PAYLOAD            "Hello VSF\r\n"
-#endif
-#ifndef VSF_TEST_BAUD_PAYLOAD_DRAIN_MS
-#   define VSF_TEST_BAUD_PAYLOAD_DRAIN_MS   500
-#endif
-#ifndef VSF_TEST_BAUD_DEFAULT_MODE
-#   define VSF_TEST_BAUD_DEFAULT_MODE        (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_TX_ENABLE)
-#endif
-
 /*============================ LOCAL VARIABLES ===============================*/
 
 /*============================ LOCAL FUNCTIONS ===============================*/
@@ -55,74 +40,91 @@ static void __usart_send_bulk(vsf_usart_t *usart, uint32_t len)
     }
 }
 
+
+
+#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
+
+/*============================ MACROS ========================================*/
+
+#ifndef VSF_TEST_BAUD_PAYLOAD
+#   define VSF_TEST_BAUD_PAYLOAD            "Hello VSF\r\n"
+#endif
+#ifndef VSF_TEST_BAUD_PAYLOAD_DRAIN_MS
+#   define VSF_TEST_BAUD_PAYLOAD_DRAIN_MS   500
+#endif
+#ifndef VSF_TEST_BAUD_DEFAULT_MODE
+#   define VSF_TEST_BAUD_DEFAULT_MODE        (VSF_USART_NO_PARITY | VSF_USART_1_STOPBIT | VSF_USART_8_BIT_LENGTH | VSF_USART_TX_ENABLE)
+#endif
+
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_usart_baud_run(const vsf_test_usart_baud_case_t *c)
+void vsf_test_usart_baud_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
+    vsf_test_usart_baud_params_t *p = tc->arg;
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
-    vsf_usart_capability_t cap = vsf_usart_capability(c->suite->usart);
-    bool expect_pass = (c->baudrate >= cap.min_baudrate)
-                    && (c->baudrate <= cap.max_baudrate)
-                    && (c->baudrate != 0);
+    vsf_usart_capability_t cap = vsf_usart_capability((vsf_usart_t *)fixture);
+    bool expect_pass = (p->baudrate >= cap.min_baudrate)
+                    && (p->baudrate <= cap.max_baudrate)
+                    && (p->baudrate != 0);
 
-    vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
+    vsf_err_t err = vsf_usart_init((vsf_usart_t *)fixture, &(vsf_usart_cfg_t){
         .mode     = VSF_TEST_BAUD_DEFAULT_MODE,
-        .baudrate = c->baudrate,
+        .baudrate = p->baudrate,
     });
 
     if (expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_enable((vsf_usart_t *)fixture));
 
         /* Phase-3 API completeness check (usart-gpio-coverage-gaps PRD):
          * get_configuration() must round-trip the values we passed to init().
          * Catches drivers that "accept" a baudrate but quietly clamp or drop
          * mode bits without telling the caller. */
         vsf_usart_cfg_t got = {0};
-        vsf_err_t cfg_err = vsf_usart_get_configuration(c->suite->usart, &got);
+        vsf_err_t cfg_err = vsf_usart_get_configuration((vsf_usart_t *)fixture, &got);
         if (cfg_err == VSF_ERR_NONE) {
-            VSF_TEST_ASSERT(got.baudrate == c->baudrate);
+            VSF_TEST_ASSERT(got.baudrate == p->baudrate);
             VSF_TEST_ASSERT(got.mode == VSF_TEST_BAUD_DEFAULT_MODE);
         }
 
-        if (c->data_size_bytes > 0) {
-            __usart_send_bulk(c->suite->usart, c->data_size_bytes);
+        if (p->data_size_bytes > 0) {
+            __usart_send_bulk((vsf_usart_t *)fixture, p->data_size_bytes);
             /* Scale drain: 10 bits/byte @ baudrate, ms = bytes * 10 * 1000 / baudrate */
-            uint32_t drain_ms = (c->data_size_bytes * 10 * 1000) / c->baudrate;
+            uint32_t drain_ms = (p->data_size_bytes * 10 * 1000) / p->baudrate;
             if (drain_ms < 100) { drain_ms = 100; }
             vsf_test_busy_wait_ms(drain_ms);
         } else {
-            __usart_send_str(c->suite->usart, VSF_TEST_BAUD_PAYLOAD);
+            __usart_send_str((vsf_usart_t *)fixture, VSF_TEST_BAUD_PAYLOAD);
             vsf_test_busy_wait_ms(VSF_TEST_BAUD_PAYLOAD_DRAIN_MS);
         }
 
         /* Phase-3 API completeness check: after TX drain, status() must
          * report tx-fifo-empty and not-busy. Catches drivers that never
          * update status() after a TX completes. */
-        vsf_usart_status_t st = vsf_usart_status(c->suite->usart);
+        vsf_usart_status_t st = vsf_usart_status((vsf_usart_t *)fixture);
         VSF_TEST_ASSERT(st.txfe);
         VSF_TEST_ASSERT(!st.is_busy);
 
-        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_disable((vsf_usart_t *)fixture));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-    vsf_usart_fini(c->suite->usart);
+    vsf_usart_fini((vsf_usart_t *)fixture);
 
     /* Phase-3 API completeness check (usart-gpio-coverage-gaps PRD):
      * fini/disable lifecycle — after a full disable+fini, a second init+
      * enable+disable+fini cycle must succeed. Catches drivers that leak
      * state between init() calls or fail to reset the peripheral on fini. */
     if (expect_pass) {
-        err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
+        err = vsf_usart_init((vsf_usart_t *)fixture, &(vsf_usart_cfg_t){
             .mode     = VSF_TEST_BAUD_DEFAULT_MODE,
-            .baudrate = c->baudrate,
+            .baudrate = p->baudrate,
         });
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
-        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
-        vsf_usart_fini(c->suite->usart);
+        while (fsm_rt_cpl != vsf_usart_enable((vsf_usart_t *)fixture));
+        while (fsm_rt_cpl != vsf_usart_disable((vsf_usart_t *)fixture));
+        vsf_usart_fini((vsf_usart_t *)fixture);
     }
 }
 

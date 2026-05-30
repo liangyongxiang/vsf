@@ -16,14 +16,9 @@
  *****************************************************************************/
 
 #include "vsf_test_dma_mem2mem_irq.h"
-
-#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-
-/*============================ MACROS ========================================*/
-
-#define DMA_MEM2MEM_IRQ_BUF_SIZE                   32
-
 /*============================ LOCAL VARIABLES ===============================*/
+
+static volatile bool __irq_fired;
 
 static void __dma_mem2mem_irq_handler(void *target_ptr, vsf_dma_t *dma_ptr,
                                        int8_t channel, vsf_dma_irq_mask_t irq_mask)
@@ -31,17 +26,23 @@ static void __dma_mem2mem_irq_handler(void *target_ptr, vsf_dma_t *dma_ptr,
     (void)dma_ptr;
     (void)channel;
     (void)irq_mask;
-    vsf_test_dma_mem2mem_irq_suite_t *suite =
-        (vsf_test_dma_mem2mem_irq_suite_t *)target_ptr;
-    suite->irq_fired = true;
+    vsf_test_suite_t *suite = target_ptr;
+    __irq_fired = true;
 }
 
+
+
+#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
+
+/*============================ MACROS ========================================*/
+
+#define DMA_MEM2MEM_IRQ_BUF_SIZE                   32
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_dma_mem2mem_irq_run(void *arg)
+void vsf_test_dma_mem2mem_irq_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture)
 {
-    vsf_test_dma_mem2mem_irq_case_t *c = (vsf_test_dma_mem2mem_irq_case_t *)arg;
-    vsf_dma_t *dma = c->suite->dma;
+    vsf_test_dma_mem2mem_irq_params_t *p = tc->arg;
+    vsf_dma_t *dma = (vsf_dma_t *)fixture;
 
     uint8_t src_buf[DMA_MEM2MEM_IRQ_BUF_SIZE];
     uint8_t dst_buf[DMA_MEM2MEM_IRQ_BUF_SIZE] = {0};
@@ -50,7 +51,7 @@ void vsf_test_dma_mem2mem_irq_run(void *arg)
         src_buf[i] = (uint8_t)(0xA5 + i);
     }
 
-    c->suite->irq_fired = false;
+    __irq_fired = false;
 
     vsf_err_t err = vsf_dma_init(dma, &(vsf_dma_cfg_t){0});
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
@@ -66,7 +67,7 @@ void vsf_test_dma_mem2mem_irq_run(void *arg)
               | VSF_DMA_DST_ADDR_INCREMENT,
         .isr = {
             .handler_fn = __dma_mem2mem_irq_handler,
-            .target_ptr = c->suite,
+            .target_ptr = NULL,
         },
         .irq_mask = VSF_DMA_IRQ_MASK_CPL,
         .prio = vsf_arch_prio_invalid,
@@ -81,8 +82,8 @@ void vsf_test_dma_mem2mem_irq_run(void *arg)
 
     /* Wait for IRQ (with timeout fallback) */
     uint32_t timeout = 10000;
-    while (!c->suite->irq_fired && timeout-- > 0);
-    VSF_TEST_ASSERT(c->suite->irq_fired);
+    while (!__irq_fired && timeout-- > 0);
+    VSF_TEST_ASSERT(__irq_fired);
 
     uint32_t transferred = vsf_dma_channel_get_transferred_count(dma, ch);
     VSF_TEST_ASSERT(transferred == DMA_MEM2MEM_IRQ_BUF_SIZE);

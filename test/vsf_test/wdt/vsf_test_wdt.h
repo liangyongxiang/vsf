@@ -79,5 +79,23 @@ void vsf_test_wdt_reboot_run(const vsf_test_suite_t *suite, const vsf_test_case_
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_WDT_BASIC_ENABLE == ENABLED
+#   define __vsf_test_wdt_basic_suite { .name = "wdt_basic", .cases = __wdt_basic_cases, .case_count = dimof(__wdt_basic_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_WDT },
+#else
+#   define __vsf_test_wdt_basic_suite
+#endif
+#if VSF_TEST_WDT_REBOOT_ENABLE == ENABLED
+#   define __vsf_test_wdt_reboot_suite { .name = "wdt_reboot", .cases = __wdt_reboot_cases, .case_count = dimof(__wdt_reboot_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_WDT },
+#else
+#   define __vsf_test_wdt_reboot_suite
+#endif
+
+#define VSF_TEST_WDT_SUITES \
+    __vsf_test_wdt_basic_suite \
+    __vsf_test_wdt_reboot_suite
+
 #endif /* __VSF_TEST_WDT_H__ */
 /* EOF */

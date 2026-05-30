@@ -438,5 +438,131 @@ void vsf_test_usart_rx_fifo_threshold_run(const vsf_test_suite_t *suite, const v
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_USART_REQUEST_CANCEL_ENABLE == ENABLED
+#   define __vsf_test_usart_request_cancel_suite { .name = "usart_request_cancel", .cases = __usart_request_cancel_cases, .case_count = dimof(__usart_request_cancel_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_request_cancel_suite
+#endif
+#if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
+#   define __vsf_test_usart_request_rx_irq_suite { .name = "usart_request_rx_irq", .cases = __usart_request_rx_irq_cases, .case_count = dimof(__usart_request_rx_irq_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_request_rx_irq_suite
+#endif
+#if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
+#   define __vsf_test_usart_request_tx_irq_suite { .name = "usart_request_tx_irq", .cases = __usart_request_tx_irq_cases, .case_count = dimof(__usart_request_tx_irq_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_request_tx_irq_suite
+#endif
+#if VSF_TEST_USART_RX_BAUD_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_baud_suite { .name = "usart_rx_baud", .cases = __usart_rx_baud_cases, .case_count = dimof(__usart_rx_baud_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_baud_suite
+#endif
+#if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_break_error_suite { .name = "usart_rx_break_error", .cases = __usart_rx_break_error_cases, .case_count = dimof(__usart_rx_break_error_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_break_error_suite
+#endif
+#if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_bulk_irq_suite { .name = "usart_rx_bulk_irq", .cases = __usart_rx_bulk_irq_cases, .case_count = dimof(__usart_rx_bulk_irq_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_bulk_irq_suite
+#endif
+#if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_data_suite { .name = "usart_rx_data", .cases = __usart_rx_data_cases, .case_count = dimof(__usart_rx_data_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_data_suite
+#endif
+#if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_fifo_irq_suite { .name = "usart_rx_fifo_irq", .cases = __usart_rx_fifo_irq_cases, .case_count = dimof(__usart_rx_fifo_irq_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_fifo_irq_suite
+#endif
+#if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_fifo_threshold_suite { .name = "usart_rx_fifo_threshold", .cases = __usart_rx_fifo_threshold_cases, .case_count = dimof(__usart_rx_fifo_threshold_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_fifo_threshold_suite
+#endif
+#if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_frame_error_suite { .name = "usart_rx_frame_error", .cases = __usart_rx_frame_error_cases, .case_count = dimof(__usart_rx_frame_error_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_frame_error_suite
+#endif
+#if VSF_TEST_USART_RX_IRQ_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_irq_suite { .name = "usart_rx_irq", .cases = __usart_rx_irq_cases, .case_count = dimof(__usart_rx_irq_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_irq_suite
+#endif
+#if VSF_TEST_USART_RX_MODE_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_mode_suite { .name = "usart_rx_mode", .cases = __usart_rx_mode_cases, .case_count = dimof(__usart_rx_mode_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_mode_suite
+#endif
+#if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_overflow_error_suite { .name = "usart_rx_overflow_error", .cases = __usart_rx_overflow_error_cases, .case_count = dimof(__usart_rx_overflow_error_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_overflow_error_suite
+#endif
+#if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_parity_error_suite { .name = "usart_rx_parity_error", .cases = __usart_rx_parity_error_cases, .case_count = dimof(__usart_rx_parity_error_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_parity_error_suite
+#endif
+#if VSF_TEST_USART_RX_TIMEOUT_ENABLE == ENABLED
+#   define __vsf_test_usart_rx_timeout_suite { .name = "usart_rx_timeout", .cases = __usart_rx_timeout_cases, .case_count = dimof(__usart_rx_timeout_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_rx_timeout_suite
+#endif
+#if VSF_TEST_USART_TX_BAUD_ENABLE == ENABLED
+#   define __vsf_test_usart_baud_suite { .name = "usart_baud", .cases = __usart_baud_cases, .case_count = dimof(__usart_baud_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_baud_suite
+#endif
+#if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
+#   define __vsf_test_usart_tx_fifo_irq_suite { .name = "usart_tx_fifo_irq", .cases = __usart_tx_fifo_irq_cases, .case_count = dimof(__usart_tx_fifo_irq_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_tx_fifo_irq_suite
+#endif
+#if VSF_TEST_USART_TX_MODE_ENABLE == ENABLED
+#   define __vsf_test_usart_mode_suite { .name = "usart_mode", .cases = __usart_mode_cases, .case_count = dimof(__usart_mode_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_mode_suite
+#endif
+#if VSF_TEST_USART_BREAK_SIGNAL_ENABLE == ENABLED
+#   define __vsf_test_usart_break_signal_suite { .name = "usart_break_signal", .cases = __usart_break_signal_cases, .case_count = dimof(__usart_break_signal_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_break_signal_suite
+#endif
+#if VSF_TEST_USART_HW_FLOW_CONTROL_ENABLE == ENABLED
+#   define __vsf_test_usart_hw_flow_control_suite { .name = "usart_hw_flow_control", .cases = __usart_hw_flow_control_cases, .case_count = dimof(__usart_hw_flow_control_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_USART },
+#else
+#   define __vsf_test_usart_hw_flow_control_suite
+#endif
+
+#define VSF_TEST_USART_SUITES \
+    __vsf_test_usart_request_cancel_suite \
+    __vsf_test_usart_request_rx_irq_suite \
+    __vsf_test_usart_request_tx_irq_suite \
+    __vsf_test_usart_rx_baud_suite \
+    __vsf_test_usart_rx_break_error_suite \
+    __vsf_test_usart_rx_bulk_irq_suite \
+    __vsf_test_usart_rx_data_suite \
+    __vsf_test_usart_rx_fifo_irq_suite \
+    __vsf_test_usart_rx_fifo_threshold_suite \
+    __vsf_test_usart_rx_frame_error_suite \
+    __vsf_test_usart_rx_irq_suite \
+    __vsf_test_usart_rx_mode_suite \
+    __vsf_test_usart_rx_overflow_error_suite \
+    __vsf_test_usart_rx_parity_error_suite \
+    __vsf_test_usart_rx_timeout_suite \
+    __vsf_test_usart_baud_suite \
+    __vsf_test_usart_tx_fifo_irq_suite \
+    __vsf_test_usart_mode_suite \
+    __vsf_test_usart_break_signal_suite \
+    __vsf_test_usart_hw_flow_control_suite
+
 #endif /* __VSF_TEST_USART_H__ */
 /* EOF */

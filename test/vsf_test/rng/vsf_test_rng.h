@@ -58,5 +58,17 @@ void vsf_test_rng_basic_run(const vsf_test_suite_t *suite, const vsf_test_case_t
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_RNG_BASIC_ENABLE == ENABLED
+#   define __vsf_test_rng_basic_suite { .name = "rng_basic", .cases = __rng_basic_cases, .case_count = dimof(__rng_basic_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_RNG },
+#else
+#   define __vsf_test_rng_basic_suite
+#endif
+
+#define VSF_TEST_RNG_SUITES \
+    __vsf_test_rng_basic_suite
+
 #endif /* __VSF_TEST_RNG_H__ */
 /* EOF */

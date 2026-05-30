@@ -112,5 +112,29 @@ void vsf_test_timer_async_run(const vsf_test_suite_t *suite, const vsf_test_case
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
+#   define __vsf_test_timer_async_suite { .name = "timer_async", .cases = __timer_async_cases, .case_count = dimof(__timer_async_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_TIMER },
+#else
+#   define __vsf_test_timer_async_suite
+#endif
+#if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
+#   define __vsf_test_timer_oneshot_suite { .name = "timer_oneshot", .cases = __timer_oneshot_cases, .case_count = dimof(__timer_oneshot_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_TIMER },
+#else
+#   define __vsf_test_timer_oneshot_suite
+#endif
+#if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
+#   define __vsf_test_timer_periodic_suite { .name = "timer_periodic", .cases = __timer_periodic_cases, .case_count = dimof(__timer_periodic_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_TIMER },
+#else
+#   define __vsf_test_timer_periodic_suite
+#endif
+
+#define VSF_TEST_TIMER_SUITES \
+    __vsf_test_timer_async_suite \
+    __vsf_test_timer_oneshot_suite \
+    __vsf_test_timer_periodic_suite
+
 #endif /* __VSF_TEST_TIMER_H__ */
 /* EOF */

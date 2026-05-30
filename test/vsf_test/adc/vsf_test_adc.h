@@ -98,5 +98,29 @@ void vsf_test_adc_stream_run(const vsf_test_suite_t *suite, const vsf_test_case_
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
+#   define __vsf_test_adc_oneshot_suite { .name = "adc_oneshot", .cases = __adc_oneshot_cases, .case_count = dimof(__adc_oneshot_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_ADC },
+#else
+#   define __vsf_test_adc_oneshot_suite
+#endif
+#if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
+#   define __vsf_test_adc_stream_suite { .name = "adc_stream", .cases = __adc_stream_cases, .case_count = dimof(__adc_stream_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_ADC },
+#else
+#   define __vsf_test_adc_stream_suite
+#endif
+#if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
+#   define __vsf_test_adc_temperature_suite { .name = "adc_temperature", .cases = __adc_temperature_cases, .case_count = dimof(__adc_temperature_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_ADC },
+#else
+#   define __vsf_test_adc_temperature_suite
+#endif
+
+#define VSF_TEST_ADC_SUITES \
+    __vsf_test_adc_oneshot_suite \
+    __vsf_test_adc_stream_suite \
+    __vsf_test_adc_temperature_suite
+
 #endif /* __VSF_TEST_ADC_H__ */
 /* EOF */

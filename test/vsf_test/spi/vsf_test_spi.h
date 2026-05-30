@@ -79,5 +79,23 @@ void vsf_test_spi_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
+#   define __vsf_test_spi_async_suite { .name = "spi_async", .cases = __spi_async_cases, .case_count = dimof(__spi_async_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_SPI },
+#else
+#   define __vsf_test_spi_async_suite
+#endif
+#if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
+#   define __vsf_test_spi_loopback_suite { .name = "spi_loopback", .cases = __spi_loopback_cases, .case_count = dimof(__spi_loopback_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_SPI },
+#else
+#   define __vsf_test_spi_loopback_suite
+#endif
+
+#define VSF_TEST_SPI_SUITES \
+    __vsf_test_spi_async_suite \
+    __vsf_test_spi_loopback_suite
+
 #endif /* __VSF_TEST_SPI_H__ */
 /* EOF */

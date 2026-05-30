@@ -114,5 +114,29 @@ void vsf_test_pwm_irq_run(const vsf_test_suite_t *suite, const vsf_test_case_t *
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_PWM_BASIC_ENABLE == ENABLED
+#   define __vsf_test_pwm_basic_suite { .name = "pwm_basic", .cases = __pwm_basic_cases, .case_count = dimof(__pwm_basic_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_PWM },
+#else
+#   define __vsf_test_pwm_basic_suite
+#endif
+#if VSF_TEST_PWM_DUAL_CHANNEL_ENABLE == ENABLED
+#   define __vsf_test_pwm_dual_channel_suite { .name = "pwm_dual_channel", .cases = __pwm_dual_channel_cases, .case_count = dimof(__pwm_dual_channel_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_PWM },
+#else
+#   define __vsf_test_pwm_dual_channel_suite
+#endif
+#if VSF_TEST_PWM_IRQ_ENABLE == ENABLED
+#   define __vsf_test_pwm_irq_suite { .name = "pwm_irq", .cases = __pwm_irq_cases, .case_count = dimof(__pwm_irq_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_PWM },
+#else
+#   define __vsf_test_pwm_irq_suite
+#endif
+
+#define VSF_TEST_PWM_SUITES \
+    __vsf_test_pwm_basic_suite \
+    __vsf_test_pwm_dual_channel_suite \
+    __vsf_test_pwm_irq_suite
+
 #endif /* __VSF_TEST_PWM_H__ */
 /* EOF */

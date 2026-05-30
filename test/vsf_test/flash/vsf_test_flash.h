@@ -82,5 +82,23 @@ void vsf_test_flash_boundary_run(const vsf_test_suite_t *suite, const vsf_test_c
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
+#   define __vsf_test_flash_boundary_suite { .name = "flash_boundary", .cases = __flash_boundary_cases, .case_count = dimof(__flash_boundary_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_FLASH },
+#else
+#   define __vsf_test_flash_boundary_suite
+#endif
+#if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
+#   define __vsf_test_flash_erase_program_read_suite { .name = "flash_erase_program_read", .cases = __flash_erase_program_read_cases, .case_count = dimof(__flash_erase_program_read_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_FLASH },
+#else
+#   define __vsf_test_flash_erase_program_read_suite
+#endif
+
+#define VSF_TEST_FLASH_SUITES \
+    __vsf_test_flash_boundary_suite \
+    __vsf_test_flash_erase_program_read_suite
+
 #endif /* __VSF_TEST_FLASH_H__ */
 /* EOF */

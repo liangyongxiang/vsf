@@ -105,5 +105,29 @@ void vsf_test_rtc_epoch_run(const vsf_test_suite_t *suite, const vsf_test_case_t
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
+#   define __vsf_test_rtc_alarm_suite { .name = "rtc_alarm", .cases = __rtc_alarm_cases, .case_count = dimof(__rtc_alarm_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_RTC },
+#else
+#   define __vsf_test_rtc_alarm_suite
+#endif
+#if VSF_TEST_RTC_EPOCH_ENABLE == ENABLED
+#   define __vsf_test_rtc_epoch_suite { .name = "rtc_epoch", .cases = __rtc_epoch_cases, .case_count = dimof(__rtc_epoch_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_RTC },
+#else
+#   define __vsf_test_rtc_epoch_suite
+#endif
+#if VSF_TEST_RTC_SET_GET_ENABLE == ENABLED
+#   define __vsf_test_rtc_set_get_suite { .name = "rtc_set_get", .cases = __rtc_set_get_cases, .case_count = dimof(__rtc_set_get_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_RTC },
+#else
+#   define __vsf_test_rtc_set_get_suite
+#endif
+
+#define VSF_TEST_RTC_SUITES \
+    __vsf_test_rtc_alarm_suite \
+    __vsf_test_rtc_epoch_suite \
+    __vsf_test_rtc_set_get_suite
+
 #endif /* __VSF_TEST_RTC_H__ */
 /* EOF */

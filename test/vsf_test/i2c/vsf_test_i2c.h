@@ -175,5 +175,47 @@ void vsf_test_i2c_slave_fifo_run(const vsf_test_suite_t *suite, const vsf_test_c
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
+#   define __vsf_test_i2c_bus_scan_suite { .name = "i2c_bus_scan", .cases = __i2c_bus_scan_cases, .case_count = dimof(__i2c_bus_scan_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_I2C },
+#else
+#   define __vsf_test_i2c_bus_scan_suite
+#endif
+#if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
+#   define __vsf_test_i2c_eeprom_page_suite { .name = "i2c_eeprom_page", .cases = __i2c_eeprom_page_cases, .case_count = dimof(__i2c_eeprom_page_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_I2C },
+#else
+#   define __vsf_test_i2c_eeprom_page_suite
+#endif
+#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
+#   define __vsf_test_i2c_eeprom_rw_suite { .name = "i2c_eeprom_rw", .cases = __i2c_eeprom_rw_cases, .case_count = dimof(__i2c_eeprom_rw_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_I2C },
+#else
+#   define __vsf_test_i2c_eeprom_rw_suite
+#endif
+#if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
+#   define __vsf_test_i2c_eeprom_rw_fifo_suite { .name = "i2c_eeprom_rw_fifo", .cases = __i2c_eeprom_rw_fifo_cases, .case_count = dimof(__i2c_eeprom_rw_fifo_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_I2C },
+#else
+#   define __vsf_test_i2c_eeprom_rw_fifo_suite
+#endif
+#if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
+#   define __vsf_test_i2c_slave_suite { .name = "i2c_slave", .cases = __i2c_slave_cases, .case_count = dimof(__i2c_slave_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_NONE },
+#else
+#   define __vsf_test_i2c_slave_suite
+#endif
+#if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
+#   define __vsf_test_i2c_slave_fifo_suite { .name = "i2c_slave_fifo", .cases = __i2c_slave_fifo_cases, .case_count = dimof(__i2c_slave_fifo_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_NONE },
+#else
+#   define __vsf_test_i2c_slave_fifo_suite
+#endif
+
+#define VSF_TEST_I2C_SUITES \
+    __vsf_test_i2c_bus_scan_suite \
+    __vsf_test_i2c_eeprom_page_suite \
+    __vsf_test_i2c_eeprom_rw_suite \
+    __vsf_test_i2c_eeprom_rw_fifo_suite \
+    __vsf_test_i2c_slave_suite \
+    __vsf_test_i2c_slave_fifo_suite
+
 #endif /* __VSF_TEST_I2C_H__ */
 /* EOF */

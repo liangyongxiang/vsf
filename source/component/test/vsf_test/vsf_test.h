@@ -258,6 +258,7 @@ typedef enum vsf_peripheral_type_t {
     VSF_PERIPHERAL_TYPE_DMA,
     VSF_PERIPHERAL_TYPE_FLASH,
     VSF_PERIPHERAL_TYPE_I2C_SLAVE,
+    VSF_PERIPHERAL_TYPE_GPIO_PINMUX,
 } vsf_peripheral_type_t;
 
 typedef void vsf_test_reboot_t(void);

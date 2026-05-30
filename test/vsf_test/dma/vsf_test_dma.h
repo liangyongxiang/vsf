@@ -92,5 +92,29 @@ void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_te
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_DMA_MEM2MEM_ENABLE == ENABLED
+#   define __vsf_test_dma_mem2mem_suite { .name = "dma_mem2mem", .cases = __dma_mem2mem_cases, .case_count = dimof(__dma_mem2mem_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_DMA },
+#else
+#   define __vsf_test_dma_mem2mem_suite
+#endif
+#if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
+#   define __vsf_test_dma_mem2mem_irq_suite { .name = "dma_mem2mem_irq", .cases = __dma_mem2mem_irq_cases, .case_count = dimof(__dma_mem2mem_irq_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_DMA },
+#else
+#   define __vsf_test_dma_mem2mem_irq_suite
+#endif
+#if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
+#   define __vsf_test_dma_scatter_gather_suite { .name = "dma_scatter_gather", .cases = __dma_scatter_gather_cases, .case_count = dimof(__dma_scatter_gather_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_DMA },
+#else
+#   define __vsf_test_dma_scatter_gather_suite
+#endif
+
+#define VSF_TEST_DMA_SUITES \
+    __vsf_test_dma_mem2mem_suite \
+    __vsf_test_dma_mem2mem_irq_suite \
+    __vsf_test_dma_scatter_gather_suite
+
 #endif /* __VSF_TEST_DMA_H__ */
 /* EOF */

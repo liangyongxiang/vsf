@@ -377,5 +377,113 @@ void vsf_test_gpio_io_check_run(const vsf_test_suite_t *suite, const vsf_test_ca
 }
 #endif
 
+
+/*============================ SUITE TABLE ==================================*/
+
+#if VSF_TEST_GPIO_ANALOG_MODE_ENABLE == ENABLED
+#   define __vsf_test_gpio_analog_mode_suite { .name = "gpio_analog_mode", .cases = __gpio_analog_mode_cases, .case_count = dimof(__gpio_analog_mode_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_analog_mode_suite
+#endif
+#if VSF_TEST_GPIO_ATOMIC_ENABLE == ENABLED
+#   define __vsf_test_gpio_atomic_suite { .name = "gpio_atomic", .cases = __gpio_atomic_cases, .case_count = dimof(__gpio_atomic_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_atomic_suite
+#endif
+#if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
+#   define __vsf_test_gpio_concurrent_prio_suite { .name = "gpio_concurrent_prio", .cases = __gpio_concurrent_prio_cases, .case_count = dimof(__gpio_concurrent_prio_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_concurrent_prio_suite
+#endif
+#if VSF_TEST_GPIO_DIRECTION_ENABLE == ENABLED
+#   define __vsf_test_gpio_direction_suite { .name = "gpio_direction", .cases = __gpio_direction_cases, .case_count = dimof(__gpio_direction_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_direction_suite
+#endif
+#if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
+#   define __vsf_test_gpio_exti_suite { .name = "gpio_exti", .cases = __gpio_exti_cases, .case_count = dimof(__gpio_exti_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_exti_suite
+#endif
+#if VSF_TEST_GPIO_IO_CHECK_ENABLE == ENABLED
+#   define __vsf_test_gpio_io_check_suite { .name = "gpio_io_check", .cases = __gpio_io_check_cases, .case_count = dimof(__gpio_io_check_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_io_check_suite
+#endif
+#if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
+#   define __vsf_test_gpio_irq_latency_suite { .name = "gpio_irq_latency", .cases = __gpio_irq_latency_cases, .case_count = dimof(__gpio_irq_latency_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_irq_latency_suite
+#endif
+#if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
+#   define __vsf_test_gpio_irq_lifecycle_suite { .name = "gpio_irq_lifecycle", .cases = __gpio_irq_lifecycle_cases, .case_count = dimof(__gpio_irq_lifecycle_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_irq_lifecycle_suite
+#endif
+#if VSF_TEST_GPIO_MULTI_PIN_ENABLE == ENABLED
+#   define __vsf_test_gpio_multi_pin_suite { .name = "gpio_multi_pin", .cases = __gpio_multi_pin_cases, .case_count = dimof(__gpio_multi_pin_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_multi_pin_suite
+#endif
+#if VSF_TEST_GPIO_OPEN_DRAIN_ENABLE == ENABLED
+#   define __vsf_test_gpio_open_drain_suite { .name = "gpio_open_drain", .cases = __gpio_open_drain_cases, .case_count = dimof(__gpio_open_drain_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_open_drain_suite
+#endif
+#if VSF_TEST_GPIO_OUTPUT_INPUT_ENABLE == ENABLED
+#   define __vsf_test_gpio_output_input_suite { .name = "gpio_output_input", .cases = __gpio_output_input_cases, .case_count = dimof(__gpio_output_input_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_output_input_suite
+#endif
+#if VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED
+#   define __vsf_test_gpio_pinmux_suite { .name = "gpio_pinmux", .cases = __gpio_pinmux_cases, .case_count = dimof(__gpio_pinmux_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_NONE },
+#else
+#   define __vsf_test_gpio_pinmux_suite
+#endif
+#if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
+#   define __vsf_test_gpio_systimer_health_suite { .name = "gpio_systimer_health", .cases = __gpio_systimer_health_cases, .case_count = dimof(__gpio_systimer_health_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_systimer_health_suite
+#endif
+#if VSF_TEST_GPIO_TOGGLE_ENABLE == ENABLED
+#   define __vsf_test_gpio_toggle_suite { .name = "gpio_toggle", .cases = __gpio_toggle_cases, .case_count = dimof(__gpio_toggle_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_toggle_suite
+#endif
+#if VSF_TEST_GPIO_TOGGLE_FREQ_ENABLE == ENABLED
+#   define __vsf_test_gpio_toggle_freq_suite { .name = "gpio_toggle_freq", .cases = __gpio_toggle_freq_cases, .case_count = dimof(__gpio_toggle_freq_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_toggle_freq_suite
+#endif
+#if VSF_TEST_GPIO_TOGGLE_STRESS_ENABLE == ENABLED
+#   define __vsf_test_gpio_toggle_stress_suite { .name = "gpio_toggle_stress", .cases = __gpio_toggle_stress_cases, .case_count = dimof(__gpio_toggle_stress_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_toggle_stress_suite
+#endif
+#if VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED
+#   define __vsf_test_gpio_write_throughput_suite { .name = "gpio_write_throughput", .cases = __gpio_write_throughput_cases, .case_count = dimof(__gpio_write_throughput_cases), .peripheral_type = VSF_PERIPHERAL_TYPE_GPIO },
+#else
+#   define __vsf_test_gpio_write_throughput_suite
+#endif
+
+#define VSF_TEST_GPIO_SUITES \
+    __vsf_test_gpio_analog_mode_suite \
+    __vsf_test_gpio_atomic_suite \
+    __vsf_test_gpio_concurrent_prio_suite \
+    __vsf_test_gpio_direction_suite \
+    __vsf_test_gpio_exti_suite \
+    __vsf_test_gpio_io_check_suite \
+    __vsf_test_gpio_irq_latency_suite \
+    __vsf_test_gpio_irq_lifecycle_suite \
+    __vsf_test_gpio_multi_pin_suite \
+    __vsf_test_gpio_open_drain_suite \
+    __vsf_test_gpio_output_input_suite \
+    __vsf_test_gpio_pinmux_suite \
+    __vsf_test_gpio_systimer_health_suite \
+    __vsf_test_gpio_toggle_suite \
+    __vsf_test_gpio_toggle_freq_suite \
+    __vsf_test_gpio_toggle_stress_suite \
+    __vsf_test_gpio_write_throughput_suite
+
 #endif  /* __VSF_TEST_GPIO_H__ */
 /* EOF */

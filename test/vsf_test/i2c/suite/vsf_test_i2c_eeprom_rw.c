@@ -19,21 +19,6 @@
 
 #define __VSF_TEST_I2C_CLASS_IMPLEMENT
 #include "vsf_test_i2c_eeprom_rw.h"
-
-#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-
-/*============================ MACROS ========================================*/
-
-#ifndef VSF_TEST_I2C_CLOCK_HZ
-#   define VSF_TEST_I2C_CLOCK_HZ                100000
-#endif
-#ifndef VSF_TEST_I2C_TIMEOUT_MS
-#   define VSF_TEST_I2C_TIMEOUT_MS              1000
-#endif
-#ifndef VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS
-#   define VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS  100
-#endif
-
 /*============================ LOCAL VARIABLES ===============================*/
 
 typedef enum {
@@ -42,22 +27,30 @@ typedef enum {
     I2C_POLL_TIMEOUT,
 } __i2c_poll_result_t;
 
+#ifndef VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS
+#   define VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS  100
+#endif
+
+static volatile vsf_i2c_irq_mask_t __irq_mask;
+static uint8_t __write_buf[17];
+static uint8_t __read_buf[16];
+
 static void __i2c_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
                       vsf_i2c_irq_mask_t irq_mask)
 {
     (void)i2c_ptr;
-    vsf_test_i2c_eeprom_rw_suite_t *suite = (vsf_test_i2c_eeprom_rw_suite_t *)target_ptr;
-    suite->irq_mask |= irq_mask;
+    vsf_test_suite_t *suite = target_ptr;
+    __irq_mask |= irq_mask;
 }
 
-static __i2c_poll_result_t __i2c_wait_result(vsf_test_i2c_eeprom_rw_suite_t *suite,
+static __i2c_poll_result_t __i2c_wait_result(vsf_test_suite_t *suite,
                                               uint32_t timeout_ms)
 {
     while (timeout_ms-- > 0) {
-        if (suite->irq_mask & VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE) {
+        if (__irq_mask & VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE) {
             return I2C_POLL_COMPLETE;
         }
-        if (suite->irq_mask & VSF_I2C_IRQ_MASK_MASTER_ERR) {
+        if (__irq_mask & VSF_I2C_IRQ_MASK_MASTER_ERR) {
             return I2C_POLL_ERR;
         }
         vsf_test_busy_wait_ms(1);
@@ -65,17 +58,17 @@ static __i2c_poll_result_t __i2c_wait_result(vsf_test_i2c_eeprom_rw_suite_t *sui
     return I2C_POLL_TIMEOUT;
 }
 
-static bool __i2c_wait_complete(vsf_test_i2c_eeprom_rw_suite_t *suite, uint32_t timeout_ms)
+static bool __i2c_wait_complete(vsf_test_suite_t *suite, uint32_t timeout_ms)
 {
     return __i2c_wait_result(suite, timeout_ms) == I2C_POLL_COMPLETE;
 }
 
-static bool __eeprom_ack_poll(vsf_test_i2c_eeprom_rw_suite_t *suite,
+static bool __eeprom_ack_poll(vsf_test_suite_t *suite,
                                vsf_i2c_t *i2c, uint8_t eeprom_addr,
                                uint8_t *dummy_buf, uint32_t max_ms)
 {
     while (max_ms-- > 0) {
-        suite->irq_mask = 0;
+        __irq_mask = 0;
         vsf_err_t err = vsf_i2c_master_request(i2c, eeprom_addr,
             VSF_I2C_CMD_START | VSF_I2C_CMD_STOP | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_7_BITS,
             1, dummy_buf);
@@ -94,19 +87,38 @@ static bool __eeprom_ack_poll(vsf_test_i2c_eeprom_rw_suite_t *suite,
     return false;
 }
 
+
+
+#if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
+
+/*============================ MACROS ========================================*/
+
+#ifndef VSF_TEST_I2C_CLOCK_HZ
+#   define VSF_TEST_I2C_CLOCK_HZ                100000
+#endif
+#ifndef VSF_TEST_I2C_TIMEOUT_MS
+#   define VSF_TEST_I2C_TIMEOUT_MS              1000
+#endif
+
+/*============================ LOCAL VARIABLES ===============================*/
+
+
+
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c)
+void vsf_test_i2c_eeprom_rw_run(vsf_test_case_t *tc)
 {
-    vsf_i2c_t *i2c = c->suite->i2c;
-    uint8_t data_len = c->data_len;
+    vsf_test_i2c_eeprom_rw_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
+    vsf_i2c_t *i2c = (vsf_i2c_t *)suite->arg;
+    uint8_t data_len = p->data_len;
 
     VSF_TEST_ASSERT(data_len > 0);
     VSF_TEST_ASSERT(data_len <= VSF_TEST_I2C_CASE_MAX_COUNT);
 
-    memset(c->suite->write_buf, 0, sizeof(c->suite->write_buf));
-    memset(c->suite->read_buf, 0, sizeof(c->suite->read_buf));
-    c->suite->irq_mask = 0;
+    memset(__write_buf, 0, sizeof(__write_buf));
+    memset(__read_buf, 0, sizeof(__read_buf));
+    __irq_mask = 0;
 
     /* Init i2c master. */
     vsf_err_t err = vsf_i2c_init(i2c, &(vsf_i2c_cfg_t){
@@ -114,7 +126,7 @@ void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c)
         .clock_hz   = VSF_TEST_I2C_CLOCK_HZ,
         .isr        = {
             .handler_fn = __i2c_isr,
-            .target_ptr = c->suite,
+            .target_ptr = suite,
             .prio       = vsf_arch_prio_0,
         },
     });
@@ -124,41 +136,41 @@ void vsf_test_i2c_eeprom_rw_run(const vsf_test_i2c_eeprom_rw_case_t *c)
         VSF_I2C_IRQ_MASK_MASTER_ERR | VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE);
 
     /* Build write buffer: [mem_addr, payload...]. */
-    c->suite->write_buf[0] = c->mem_addr;
+    __write_buf[0] = p->mem_addr;
     for (uint8_t i = 0; i < data_len; i++) {
-        c->suite->write_buf[1 + i] = (uint8_t)(0xA0 + i);
+        __write_buf[1 + i] = (uint8_t)(0xA0 + i);
     }
 
     /* Phase 1: Write [mem_addr, payload] to EEPROM. */
-    c->suite->irq_mask = 0;
-    err = vsf_i2c_master_request(i2c, c->eeprom_addr,
+    __irq_mask = 0;
+    err = vsf_i2c_master_request(i2c, p->eeprom_addr,
         VSF_I2C_CMD_START | VSF_I2C_CMD_STOP | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_7_BITS,
-        data_len + 1, c->suite->write_buf);
+        data_len + 1, __write_buf);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-    VSF_TEST_ASSERT(__i2c_wait_complete(c->suite, VSF_TEST_I2C_TIMEOUT_MS));
+    VSF_TEST_ASSERT(__i2c_wait_complete(suite, VSF_TEST_I2C_TIMEOUT_MS));
 
     /* Phase 1.5: ACK poll until EEPROM write cycle completes. */
-    VSF_TEST_ASSERT(__eeprom_ack_poll(c->suite, i2c, c->eeprom_addr,
-                                      &c->suite->write_buf[0], VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS));
+    VSF_TEST_ASSERT(__eeprom_ack_poll(suite, i2c, p->eeprom_addr,
+                                      &__write_buf[0], VSF_TEST_I2C_EEPROM_ACK_POLL_MAX_MS));
 
     /* Phase 2a: Set memory address (write phase, no stop). */
-    c->suite->irq_mask = 0;
-    err = vsf_i2c_master_request(i2c, c->eeprom_addr,
+    __irq_mask = 0;
+    err = vsf_i2c_master_request(i2c, p->eeprom_addr,
         VSF_I2C_CMD_START | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_NO_STOP | VSF_I2C_CMD_7_BITS,
-        1, &c->suite->write_buf[0]);
+        1, &__write_buf[0]);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-    VSF_TEST_ASSERT(__i2c_wait_complete(c->suite, VSF_TEST_I2C_TIMEOUT_MS));
+    VSF_TEST_ASSERT(__i2c_wait_complete(suite, VSF_TEST_I2C_TIMEOUT_MS));
 
     /* Phase 2b: Restart, then read data_len bytes. */
-    c->suite->irq_mask = 0;
-    err = vsf_i2c_master_request(i2c, c->eeprom_addr,
+    __irq_mask = 0;
+    err = vsf_i2c_master_request(i2c, p->eeprom_addr,
         VSF_I2C_CMD_RESTART | VSF_I2C_CMD_STOP | VSF_I2C_CMD_READ | VSF_I2C_CMD_7_BITS,
-        data_len, c->suite->read_buf);
+        data_len, __read_buf);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-    VSF_TEST_ASSERT(__i2c_wait_complete(c->suite, VSF_TEST_I2C_TIMEOUT_MS));
+    VSF_TEST_ASSERT(__i2c_wait_complete(suite, VSF_TEST_I2C_TIMEOUT_MS));
 
     for (uint8_t i = 0; i < data_len; i++) {
-        VSF_TEST_ASSERT(c->suite->read_buf[i] == c->suite->write_buf[1 + i]);
+        VSF_TEST_ASSERT(__read_buf[i] == __write_buf[1 + i]);
     }
 
     vsf_trace_info("I2C:EEPROM_RW:PASS len=%u" VSF_TRACE_CFG_LINEEND,

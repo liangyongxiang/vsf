@@ -18,12 +18,16 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_spi_async.h"
-
-#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-
-/*============================ MACROS ========================================*/
+/*============================ LOCAL VARIABLES ===============================*/
 
 #define SPI_ASYNC_MAX_DATA_LEN              256
+
+static uint8_t __spi_async_tx_buf[SPI_ASYNC_MAX_DATA_LEN];
+static uint8_t __spi_async_rx_buf[SPI_ASYNC_MAX_DATA_LEN];
+
+
+
+#if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
 
 /*============================ TYPES =========================================*/
 
@@ -31,11 +35,6 @@ typedef struct {
     volatile bool           done;
     vsf_spi_irq_mask_t      irq_mask;
 } vsf_test_spi_async_ctx_t;
-
-/*============================ LOCAL VARIABLES ===============================*/
-
-static uint8_t __spi_async_tx_buf[SPI_ASYNC_MAX_DATA_LEN];
-static uint8_t __spi_async_rx_buf[SPI_ASYNC_MAX_DATA_LEN];
 
 /*============================ PROTOTYPES ====================================*/
 
@@ -61,20 +60,21 @@ static void __spi_async_prepare_buffers(uint16_t len)
     }
 }
 
-void vsf_test_spi_async_run(void *arg)
+void vsf_test_spi_async_run(vsf_test_case_t *tc)
 {
-    vsf_test_spi_async_case_t *c = (vsf_test_spi_async_case_t *)arg;
-    vsf_spi_t *spi = c->suite->spi;
+    vsf_test_spi_async_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
+    vsf_spi_t *spi = (vsf_spi_t *)suite->arg;
     vsf_test_spi_async_ctx_t ctx = { .done = false, .irq_mask = 0 };
 
-    uint16_t data_len = c->data_len;
+    uint16_t data_len = p->data_len;
     if (data_len == 0 || data_len > SPI_ASYNC_MAX_DATA_LEN) {
         data_len = SPI_ASYNC_MAX_DATA_LEN;
     }
 
     vsf_err_t err = vsf_spi_init(spi, &(vsf_spi_cfg_t){
-        .mode      = VSF_SPI_MASTER | c->mode | VSF_SPI_DATASIZE_8,
-        .clock_hz  = c->clock_hz,
+        .mode      = VSF_SPI_MASTER | p->mode | VSF_SPI_DATASIZE_8,
+        .clock_hz  = p->clock_hz,
         .isr       = {
             .handler_fn = __vsf_test_spi_async_handler,
             .target_ptr = &ctx,
@@ -89,7 +89,7 @@ void vsf_test_spi_async_run(void *arg)
 
     bool pass = true;
 
-    switch (c->test_type) {
+    switch (p->test_type) {
     case 0: {
         /* --- Test 0: Full-duplex async transfer --- */
         vsf_trace_info("SPI:ASYNC:FULL_DUPLEX_START" VSF_TRACE_CFG_LINEEND);

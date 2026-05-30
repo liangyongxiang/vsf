@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_i2c_slave_fifo_run(void *arg);
+void vsf_test_i2c_slave_fifo_run(vsf_test_case_t *tc);
 
 #endif /* __VSF_TEST_I2C_SLAVE_FIFO_H__ */
 /* EOF */

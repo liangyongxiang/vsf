@@ -25,11 +25,15 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c)
+void vsf_test_gpio_pinmux_run(vsf_test_case_t *tc)
 {
-    vsf_gpio_t *gpio = c->suite->gpio;
-    vsf_gpio_pin_mask_t tx_mask = (vsf_gpio_pin_mask_t)1u << c->tx_pin;
-    vsf_gpio_pin_mask_t rx_mask = (vsf_gpio_pin_mask_t)1u << c->rx_pin;
+    vsf_test_gpio_pinmux_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
+    void **handles = (void **)suite->arg;
+    vsf_gpio_t *gpio = (vsf_gpio_t *)handles[0];
+    vsf_usart_t *usart = (vsf_usart_t *)handles[1];
+    vsf_gpio_pin_mask_t tx_mask = (vsf_gpio_pin_mask_t)1u << p->tx_pin;
+    vsf_gpio_pin_mask_t rx_mask = (vsf_gpio_pin_mask_t)1u << p->rx_pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
@@ -55,18 +59,18 @@ void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c)
     /* Step 3: bring up UART and send a small payload. We do not assert
      * loopback receive here because the host script handles the
      * post-condition (UART line bytes captured on LA / serial). */
-    err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
+    err = vsf_usart_init(usart, &(vsf_usart_cfg_t){
         .mode     = VSF_USART_8_BIT_LENGTH | VSF_USART_1_STOPBIT
                   | VSF_USART_NO_PARITY    | VSF_USART_TX_ENABLE,
-        .baudrate = c->baudrate,
+        .baudrate = p->baudrate,
     });
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-    while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
+    while (fsm_rt_cpl != vsf_usart_enable(usart));
 
     const char *payload = "PINMUX\r\n";
     while (*payload) {
-        while (!vsf_usart_txfifo_get_free_count(c->suite->usart));
-        vsf_usart_txfifo_write(c->suite->usart, (uint8_t *)payload, 1);
+        while (!vsf_usart_txfifo_get_free_count(usart));
+        vsf_usart_txfifo_write(usart, (uint8_t *)payload, 1);
         payload++;
     }
     vsf_test_busy_wait_ms(50);
@@ -74,8 +78,8 @@ void vsf_test_gpio_pinmux_run(const vsf_test_gpio_pinmux_case_t *c)
     /* Tear down so subsequent suites get UART1 in a clean state. Without
      * this, later RX-on-UART1 scenarios (rx_baud, rx_data, ...) fail
      * because the peripheral is left enabled in TX-only mode. */
-    while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
-    vsf_usart_fini(c->suite->usart);
+    while (fsm_rt_cpl != vsf_usart_disable(usart));
+    vsf_usart_fini(usart);
 }
 
 #endif /* VSF_TEST_GPIO_PINMUX_ENABLE == ENABLED */

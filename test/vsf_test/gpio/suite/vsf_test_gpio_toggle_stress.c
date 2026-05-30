@@ -24,11 +24,13 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_toggle_stress_run(const vsf_test_gpio_toggle_stress_case_t *c)
+void vsf_test_gpio_toggle_stress_run(vsf_test_case_t *tc)
 {
-    vsf_gpio_t *gpio = c->suite->gpio;
-    vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << c->out_pin;
-    vsf_gpio_pin_mask_t in_mask  = (vsf_gpio_pin_mask_t)1u << c->in_pin;
+    vsf_test_gpio_toggle_stress_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
+    vsf_gpio_t *gpio = (vsf_gpio_t *)suite->arg;
+    vsf_gpio_pin_mask_t out_mask = (vsf_gpio_pin_mask_t)1u << p->out_pin;
+    vsf_gpio_pin_mask_t in_mask  = (vsf_gpio_pin_mask_t)1u << p->in_pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
@@ -37,7 +39,7 @@ void vsf_test_gpio_toggle_stress_run(const vsf_test_gpio_toggle_stress_case_t *c
     vsf_gpio_port_config_pins(gpio, out_mask, &(vsf_gpio_cfg_t){
         .mode = VSF_GPIO_OUTPUT_PUSH_PULL | VSF_GPIO_NO_PULL_UP_DOWN,
     });
-    if (c->in_pin != c->out_pin) {
+    if (p->in_pin != p->out_pin) {
         vsf_gpio_port_config_pins(gpio, in_mask, &(vsf_gpio_cfg_t){
             .mode = VSF_GPIO_INPUT | VSF_GPIO_NO_PULL_UP_DOWN,
         });
@@ -48,7 +50,7 @@ void vsf_test_gpio_toggle_stress_run(const vsf_test_gpio_toggle_stress_case_t *c
     vsf_test_busy_wait_ms(1);
     bool expected_high = false;
     uint32_t miss = 0;
-    for (uint32_t i = 0; i < c->stress_count; i++) {
+    for (uint32_t i = 0; i < p->stress_count; i++) {
         vsf_gpio_toggle(gpio, out_mask);
         expected_high = !expected_high;
         /* Read on every iteration so a missed edge is caught immediately. */
@@ -60,7 +62,7 @@ void vsf_test_gpio_toggle_stress_run(const vsf_test_gpio_toggle_stress_case_t *c
         }
     }
     vsf_trace_info("GPIO:STRESS:count=%lu miss=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)c->stress_count, (unsigned long)miss);
+                   (unsigned long)p->stress_count, (unsigned long)miss);
     VSF_TEST_ASSERT(miss == 0);
 }
 

@@ -13,7 +13,7 @@
 extern "C" {
 #endif
 
-void vsf_test_wdt_reboot_run(void *arg);
+void vsf_test_wdt_reboot_run(vsf_test_case_t *tc);
 
 #ifdef __cplusplus
 }

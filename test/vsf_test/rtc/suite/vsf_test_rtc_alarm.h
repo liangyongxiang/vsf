@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_rtc_alarm_run(void *arg);
+void vsf_test_rtc_alarm_run(vsf_test_case_t *tc);
 
 #endif /* __VSF_TEST_RTC_ALARM_H__ */
 /* EOF */

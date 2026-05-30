@@ -28,7 +28,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_flash_boundary_run(const vsf_test_flash_boundary_case_t *c);
+void vsf_test_flash_boundary_run(vsf_test_case_t *tc);
 
 #ifdef __cplusplus
 }

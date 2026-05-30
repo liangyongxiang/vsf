@@ -30,7 +30,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_dma_mem2mem_run(void *arg);
+void vsf_test_dma_mem2mem_run(vsf_test_case_t *tc);
 
 #endif /* __VSF_TEST_DMA_MEM2MEM_H__ */
 /* EOF */

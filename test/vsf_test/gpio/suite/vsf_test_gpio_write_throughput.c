@@ -24,10 +24,12 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_write_throughput_run(const vsf_test_gpio_write_throughput_case_t *c)
+void vsf_test_gpio_write_throughput_run(vsf_test_case_t *tc)
 {
-    vsf_gpio_t *gpio = c->suite->gpio;
-    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
+    vsf_test_gpio_write_throughput_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
+    vsf_gpio_t *gpio = (vsf_gpio_t *)suite->arg;
+    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << p->pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
@@ -58,7 +60,7 @@ void vsf_test_gpio_write_throughput_run(const vsf_test_gpio_write_throughput_cas
     if (elapsed_us > 0) {
         VSF_TEST_ASSERT(writes_per_sec > 1000000);
     }
-    (void)c->duration_us;
+    (void)p->duration_us;
 }
 
 #endif /* VSF_TEST_GPIO_WRITE_THROUGHPUT_ENABLE == ENABLED */

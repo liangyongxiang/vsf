@@ -2,6 +2,22 @@
 
 #define __VSF_TEST_ADC_CLASS_IMPLEMENT
 #include "vsf_test_adc_stream.h"
+/*============================ LOCAL VARIABLES ===============================*/
+
+static volatile bool __completed;
+
+static void __adc_isr(void *target_ptr, vsf_adc_t *adc_ptr,
+
+                      vsf_adc_irq_mask_t irq_mask)
+{
+    (void)adc_ptr;
+    vsf_test_suite_t *suite = target_ptr;
+    if (irq_mask & VSF_ADC_IRQ_MASK_CPL) {
+        __completed = true;
+    }
+}
+
+
 
 #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
 
@@ -12,22 +28,14 @@
 
 /*============================ LOCAL VARIABLES ===============================*/
 
-static void __adc_isr(void *target_ptr, vsf_adc_t *adc_ptr,
-                      vsf_adc_irq_mask_t irq_mask)
-{
-    (void)adc_ptr;
-    vsf_test_adc_stream_suite_t *suite = (vsf_test_adc_stream_suite_t *)target_ptr;
-    if (irq_mask & VSF_ADC_IRQ_MASK_CPL) {
-        suite->completed = true;
-    }
-}
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_adc_stream_run(void *arg)
+void vsf_test_adc_stream_run(vsf_test_case_t *tc)
 {
-    vsf_test_adc_stream_case_t *c = (vsf_test_adc_stream_case_t *)arg;
-    vsf_adc_t *adc = c->suite->adc;
+    vsf_test_adc_stream_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
+    vsf_adc_t *adc = (vsf_adc_t *)suite->arg;
 
     vsf_adc_capability_t cap = vsf_adc_capability(adc);
     VSF_TEST_ASSERT(cap.max_data_bits == 12);
@@ -37,7 +45,7 @@ void vsf_test_adc_stream_run(void *arg)
         .mode     = VSF_ADC_REF_VDD_1 | VSF_ADC_DATA_ALIGN_RIGHT | VSF_ADC_SCAN_CONV_SINGLE_MODE,
         .isr      = {
             .handler_fn = __adc_isr,
-            .target_ptr = c->suite,
+            .target_ptr = suite,
             .prio       = vsf_arch_prio_0,
         },
         .clock_hz = 48000000,
@@ -47,7 +55,7 @@ void vsf_test_adc_stream_run(void *arg)
     while (fsm_rt_cpl != vsf_adc_enable(adc));
 
     /* --- Test 1: Stream 100 samples from temp sensor --- */
-    c->suite->completed = false;
+    __completed = false;
 
     vsf_adc_channel_cfg_t ch_cfg = {
         .channel       = 4,
@@ -62,10 +70,10 @@ void vsf_test_adc_stream_run(void *arg)
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     uint32_t timeout_ms = 500;
-    while (!c->suite->completed && timeout_ms-- > 0) {
+    while (!__completed && timeout_ms-- > 0) {
         vsf_test_busy_wait_ms(1);
     }
-    VSF_TEST_ASSERT(c->suite->completed);
+    VSF_TEST_ASSERT(__completed);
 
     for (uint32_t i = 0; i < ADC_STREAM_SAMPLE_COUNT; i++) {
         VSF_TEST_ASSERT(samples[i] <= 0x0FFF);
@@ -73,16 +81,16 @@ void vsf_test_adc_stream_run(void *arg)
 
     /* --- Test 2: Rapid fire 1-sample requests --- */
     for (uint32_t i = 0; i < ADC_STREAM_RAPID_COUNT; i++) {
-        c->suite->completed = false;
+        __completed = false;
         uint16_t single = 0;
         err = vsf_adc_channel_request(adc, &single, 1);
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
         timeout_ms = 100;
-        while (!c->suite->completed && timeout_ms-- > 0) {
+        while (!__completed && timeout_ms-- > 0) {
             vsf_test_busy_wait_ms(1);
         }
-        VSF_TEST_ASSERT(c->suite->completed);
+        VSF_TEST_ASSERT(__completed);
         VSF_TEST_ASSERT(single <= 0x0FFF);
     }
 

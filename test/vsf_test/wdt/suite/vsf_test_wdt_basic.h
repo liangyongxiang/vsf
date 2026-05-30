@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_wdt_basic_run(void *arg);
+void vsf_test_wdt_basic_run(vsf_test_case_t *tc);
 
 #endif /* __VSF_TEST_WDT_BASIC_H__ */
 /* EOF */

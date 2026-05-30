@@ -8,16 +8,17 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_rng_basic_run(void *arg)
+void vsf_test_rng_basic_run(vsf_test_case_t *tc)
 {
-    vsf_test_rng_basic_case_t *c = (vsf_test_rng_basic_case_t *)arg;
-    vsf_rng_t *rng = c->suite->rng;
+    vsf_test_rng_basic_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
+    vsf_rng_t *rng = (vsf_rng_t *)suite->arg;
 
     vsf_err_t err = vsf_rng_init(rng);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     uint32_t buffer[16];
-    uint8_t word_count = c->word_count > 16 ? 16 : c->word_count;
+    uint8_t word_count = p->word_count > 16 ? 16 : p->word_count;
 
     err = vsf_rng_generate_request(rng, buffer, word_count, NULL, NULL);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);

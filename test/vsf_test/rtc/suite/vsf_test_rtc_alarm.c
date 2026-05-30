@@ -2,35 +2,38 @@
 
 #define __VSF_TEST_RTC_CLASS_IMPLEMENT
 #include "vsf_test_rtc_alarm.h"
-
-#if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-
-/*============================ MACROS ========================================*/
-
-
 /*============================ LOCAL VARIABLES ===============================*/
+
+static volatile bool __alarm_triggered;
 
 static void __rtc_alarm_isr(void *target_ptr, vsf_rtc_t *rtc_ptr,
                             vsf_rtc_irq_mask_t irq_mask)
 {
     (void)rtc_ptr;
-    vsf_test_rtc_alarm_suite_t *suite = (vsf_test_rtc_alarm_suite_t *)target_ptr;
+    vsf_test_suite_t *suite = target_ptr;
     if (irq_mask & VSF_RTC_IRQ_MASK_ALARM) {
-        suite->alarm_triggered = true;
+        __alarm_triggered = true;
     }
 }
 
+
+
+#if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
+/*============================ MACROS ========================================*/
+
+
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_rtc_alarm_run(void *arg)
+void vsf_test_rtc_alarm_run(vsf_test_case_t *tc)
 {
-    vsf_test_rtc_alarm_case_t *c = (vsf_test_rtc_alarm_case_t *)arg;
-    vsf_rtc_t *rtc = c->suite->rtc;
+    vsf_test_rtc_alarm_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
+    vsf_rtc_t *rtc = (vsf_rtc_t *)suite->arg;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
 
-    c->suite->alarm_triggered = false;
+    __alarm_triggered = false;
 
     // Set datetime to 2024-01-01 12:00:00 Monday
     vsf_rtc_tm_t set_tm = {
@@ -47,7 +50,7 @@ void vsf_test_rtc_alarm_run(void *arg)
     vsf_err_t err = vsf_rtc_init(rtc, &(vsf_rtc_cfg_t){
         .isr = {
             .handler_fn = __rtc_alarm_isr,
-            .target_ptr = c->suite,
+            .target_ptr = suite,
             .prio       = vsf_arch_prio_0,
         },
     });
@@ -79,11 +82,11 @@ void vsf_test_rtc_alarm_run(void *arg)
 
     // Wait up to ~3.5 seconds for alarm to fire
     uint32_t timeout_ms = 3500;
-    while (!c->suite->alarm_triggered && timeout_ms-- > 0) {
+    while (!__alarm_triggered && timeout_ms-- > 0) {
         vsf_test_busy_wait_ms(1);
     }
 
-    VSF_TEST_ASSERT(c->suite->alarm_triggered);
+    VSF_TEST_ASSERT(__alarm_triggered);
 
     vsf_trace_info("RTC:ALARM:PASS" VSF_TRACE_CFG_LINEEND);
 

@@ -27,7 +27,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_i2c_bus_scan_run(const vsf_test_i2c_bus_scan_case_t *c);
+void vsf_test_i2c_bus_scan_run(vsf_test_case_t *tc);
 
 #ifdef __cplusplus
 }

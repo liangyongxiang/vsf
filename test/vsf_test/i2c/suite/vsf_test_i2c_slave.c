@@ -1,6 +1,18 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_i2c_slave.h"
+/*============================ LOCAL VARIABLES ===============================*/
+
+typedef struct {
+    volatile vsf_i2c_irq_mask_t master_irq_mask;
+    volatile vsf_i2c_irq_mask_t slave_irq_mask;
+    uint8_t master_buf[16];
+    uint8_t slave_buf[16];
+} __i2c_slave_state_t;
+
+static __i2c_slave_state_t __i2c_slave_state;
+
+
 
 #if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
 
@@ -14,17 +26,6 @@
 #endif
 
 #define VSF_TEST_I2C_SLAVE_ADDR               0x50
-
-/*============================ LOCAL VARIABLES ===============================*/
-
-typedef struct {
-    volatile vsf_i2c_irq_mask_t master_irq_mask;
-    volatile vsf_i2c_irq_mask_t slave_irq_mask;
-    uint8_t master_buf[16];
-    uint8_t slave_buf[16];
-} __i2c_slave_state_t;
-
-static __i2c_slave_state_t __i2c_slave_state;
 
 /*============================ IMPLEMENTATION ================================*/
 
@@ -74,11 +75,13 @@ static bool __wait_slave_complete(__i2c_slave_state_t *st, uint32_t timeout_ms)
     return false;
 }
 
-void vsf_test_i2c_slave_run(void *arg)
+void vsf_test_i2c_slave_run(vsf_test_case_t *tc)
 {
-    vsf_test_i2c_slave_case_t *c = (vsf_test_i2c_slave_case_t *)arg;
-    vsf_i2c_t *master_i2c = c->suite->master_i2c;
-    vsf_i2c_t *slave_i2c  = c->suite->slave_i2c;
+    vsf_test_i2c_slave_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
+    void **handles = (void **)suite->arg;
+    vsf_i2c_t *master_i2c = (vsf_i2c_t *)handles[0];
+    vsf_i2c_t *slave_i2c  = (vsf_i2c_t *)handles[1];
     __i2c_slave_state_t *st = &__i2c_slave_state;
 
     memset(st, 0, sizeof(*st));

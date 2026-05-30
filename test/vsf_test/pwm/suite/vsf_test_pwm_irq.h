@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_pwm_irq_run(void *arg);
+void vsf_test_pwm_irq_run(vsf_test_case_t *tc);
 
 #endif /* __VSF_TEST_PWM_IRQ_H__ */
 /* EOF */

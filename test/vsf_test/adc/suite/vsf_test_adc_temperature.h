@@ -18,7 +18,7 @@ extern "C" {
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_adc_temperature_run(void *arg);
+void vsf_test_adc_temperature_run(vsf_test_case_t *tc);
 
 #ifdef __cplusplus
 }

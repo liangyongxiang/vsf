@@ -124,16 +124,14 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
         init = _format_case(case, defaults_keys)
         lines.append(f"    {init}{comma}{suffix}")
 
-    # New: CASE_DATA macro for static initialization (suite back-pointer)
-    case_data_macro = f"VSF_TEST_{upper}_CASE_DATA"
-    lines.append(f"#define {case_data_macro}(suite_ref)  \\")
+    # PARAMS_INIT macro for static parameter initialization (no suite back-pointer)
+    params_init_macro = f"VSF_TEST_{upper}_PARAMS_INIT"
+    lines.append(f"#define {params_init_macro}  \\")
     for i, case in enumerate(cases):
         comma = "," if i < len(cases) - 1 else ""
         suffix = "  \\" if i < len(cases) - 1 else ""
         init = _format_case(case, defaults_keys)
-        # Insert .suite = suite_ref before the closing }
-        init_with_suite = init[:-1] + ", .suite = suite_ref }"
-        lines.append(f"    {init_with_suite}{comma}{suffix}")
+        lines.append(f"    {init}{comma}{suffix}")
 
     # New: CASES macro for static vsf_test_case_t array initialization
     cases_macro = f"VSF_TEST_{upper}_CASES"

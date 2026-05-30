@@ -202,7 +202,7 @@ void vsf_test_run_suite_case(vsf_test_suite_t *suite, uint16_t local_idx)
     test_case->result = VSF_TEST_RESULT_PASS;
     __vsf_test_self->jmp_buf = &buf;
     if (0 == setjmp(buf)) {
-        test_case->jmp_fn(test_case->arg);
+        test_case->jmp_fn(test_case);
     }
 
 #if VSF_TEST_CFG_EMIT_MARKERS == ENABLED

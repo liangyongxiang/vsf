@@ -43,66 +43,39 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_adc_suite_base_t) {
-    public_member(
-        implement(vsf_test_suite_t)
-        vsf_adc_t *adc;
-    )
-};
 
-vsf_class(vsf_test_adc_oneshot_suite_t) {
-    public_member(
-        implement(vsf_test_adc_suite_base_t)
-    )
-};
 
-vsf_class(vsf_test_adc_temperature_suite_t) {
-    public_member(
-        implement(vsf_test_adc_suite_base_t)
-    )
-};
 
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-vsf_class(vsf_test_adc_oneshot_case_t) {
+vsf_class(vsf_test_adc_oneshot_params_t) {
     public_member(
         uint8_t  idx;
         uint8_t  channel;
         uint16_t expected_min;
         uint16_t expected_max;
-        vsf_test_adc_oneshot_suite_t *suite;
     )
 };
 #endif
 
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-vsf_class(vsf_test_adc_temperature_case_t) {
+vsf_class(vsf_test_adc_temperature_params_t) {
     public_member(
         uint8_t  idx;
         uint8_t  channel_count;   /* total ADC channels (e.g. 5 for 4 ext + 1 temp) */
         uint8_t  sensor_channel;  /* internal temperature sensor channel index */
         uint16_t temp_raw_min;    /* minimum plausible raw sample at room temp */
         uint16_t temp_raw_max;    /* maximum plausible raw sample at room temp */
-        vsf_test_adc_temperature_suite_t *suite;
     )
 };
 #endif
 
 #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
-vsf_class(vsf_test_adc_stream_suite_t) {
-    public_member(
-        implement(vsf_test_adc_suite_base_t)
-    )
-    private_member(
-        volatile bool completed;
-    )
-};
 
-vsf_class(vsf_test_adc_stream_case_t) {
+vsf_class(vsf_test_adc_stream_params_t) {
     public_member(
         uint8_t  idx;
         uint8_t  channel;
         uint16_t sample_count;
-        vsf_test_adc_stream_suite_t *suite;
     )
 };
 #endif
@@ -110,15 +83,15 @@ vsf_class(vsf_test_adc_stream_case_t) {
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_ADC_ONESHOT_ENABLE == ENABLED
-void vsf_test_adc_oneshot_run(void *arg);
+void vsf_test_adc_oneshot_run(vsf_test_case_t *tc);
 #endif
 
 #if VSF_TEST_ADC_TEMPERATURE_ENABLE == ENABLED
-void vsf_test_adc_temperature_run(void *arg);
+void vsf_test_adc_temperature_run(vsf_test_case_t *tc);
 #endif
 
 #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
-void vsf_test_adc_stream_run(void *arg);
+void vsf_test_adc_stream_run(vsf_test_case_t *tc);
 #endif
 
 #ifdef __cplusplus

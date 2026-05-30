@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_concurrent_prio_run(const vsf_test_gpio_concurrent_prio_case_t *c);
+void vsf_test_gpio_concurrent_prio_run(vsf_test_case_t *tc);
 
 #ifdef __cplusplus
 }

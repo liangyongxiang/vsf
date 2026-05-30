@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_timer_async_run(void *arg);
+void vsf_test_timer_async_run(vsf_test_case_t *tc);
 
 #endif /* __VSF_TEST_TIMER_ASYNC_H__ */
 /* EOF */

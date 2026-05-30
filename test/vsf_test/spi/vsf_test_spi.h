@@ -41,46 +41,28 @@ extern "C" {
 
 /*============================ TYPES =========================================*/
 
-vsf_class(vsf_test_spi_suite_base_t) {
-    public_member(
-        implement(vsf_test_suite_t)
-        vsf_spi_t *spi;
-    )
-};
 
-vsf_class(vsf_test_spi_loopback_suite_t) {
-    public_member(
-        implement(vsf_test_spi_suite_base_t)
-    )
-};
 
-vsf_class(vsf_test_spi_async_suite_t) {
-    public_member(
-        implement(vsf_test_spi_suite_base_t)
-    )
-};
 
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-vsf_class(vsf_test_spi_loopback_case_t) {
+vsf_class(vsf_test_spi_loopback_params_t) {
     public_member(
         uint8_t  idx;
         uint32_t mode;
         uint32_t clock_hz;
         uint16_t data_len;
-        vsf_test_spi_loopback_suite_t *suite;
     )
 };
 #endif
 
 #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-vsf_class(vsf_test_spi_async_case_t) {
+vsf_class(vsf_test_spi_async_params_t) {
     public_member(
         uint8_t  idx;
         uint32_t mode;
         uint32_t clock_hz;
         uint16_t data_len;
         uint8_t  test_type;
-        vsf_test_spi_async_suite_t *suite;
     )
 };
 #endif
@@ -88,10 +70,10 @@ vsf_class(vsf_test_spi_async_case_t) {
 /*============================ PROTOTYPES ====================================*/
 
 #if VSF_TEST_SPI_LOOPBACK_ENABLE == ENABLED
-void vsf_test_spi_loopback_run(void *arg);
+void vsf_test_spi_loopback_run(vsf_test_case_t *tc);
 #endif
 #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-void vsf_test_spi_async_run(void *arg);
+void vsf_test_spi_async_run(vsf_test_case_t *tc);
 #endif
 #ifdef __cplusplus
 }

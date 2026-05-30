@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-void vsf_test_gpio_write_throughput_run(const vsf_test_gpio_write_throughput_case_t *c);
+void vsf_test_gpio_write_throughput_run(vsf_test_case_t *tc);
 
 #ifdef __cplusplus
 }

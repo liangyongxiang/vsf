@@ -24,10 +24,12 @@
 
 /*============================ IMPLEMENTATION ================================*/
 
-void vsf_test_gpio_toggle_freq_run(const vsf_test_gpio_toggle_freq_case_t *c)
+void vsf_test_gpio_toggle_freq_run(vsf_test_case_t *tc)
 {
-    vsf_gpio_t *gpio = c->suite->gpio;
-    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << c->pin;
+    vsf_test_gpio_toggle_freq_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
+    vsf_gpio_t *gpio = (vsf_gpio_t *)suite->arg;
+    vsf_gpio_pin_mask_t pin_mask = (vsf_gpio_pin_mask_t)1u << p->pin;
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
@@ -39,18 +41,18 @@ void vsf_test_gpio_toggle_freq_run(const vsf_test_gpio_toggle_freq_case_t *c)
     vsf_gpio_clear(gpio, pin_mask);
 
     vsf_systimer_tick_t start = vsf_systimer_get();
-    for (uint32_t i = 0; i < c->toggle_count; i++) {
+    for (uint32_t i = 0; i < p->toggle_count; i++) {
         vsf_gpio_toggle(gpio, pin_mask);
     }
     vsf_systimer_tick_t end = vsf_systimer_get();
 
     uint64_t total_us = vsf_systimer_tick_to_us(end - start);
     /* Avoid divide-by-zero on impossibly fast loops. */
-    uint32_t period_ns = (c->toggle_count == 0) ? 0
-                        : (uint32_t)((total_us * 1000ULL) / c->toggle_count);
+    uint32_t period_ns = (p->toggle_count == 0) ? 0
+                        : (uint32_t)((total_us * 1000ULL) / p->toggle_count);
 
     vsf_trace_info("GPIO:TOGGLE_FREQ:count=%lu total_us=%llu period_ns=%lu" VSF_TRACE_CFG_LINEEND,
-                   (unsigned long)c->toggle_count, (unsigned long long)total_us,
+                   (unsigned long)p->toggle_count, (unsigned long long)total_us,
                    (unsigned long)period_ns);
 
     /* No firmware-side timing assertion: the authoritative pass/fail comes

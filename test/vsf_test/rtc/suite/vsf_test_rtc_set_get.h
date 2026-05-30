@@ -13,7 +13,7 @@
 
 /*============================ PROTOTYPES ====================================*/
 
-void vsf_test_rtc_set_get_run(void *arg);
+void vsf_test_rtc_set_get_run(vsf_test_case_t *tc);
 
 #endif /* __VSF_TEST_RTC_SET_GET_H__ */
 /* EOF */

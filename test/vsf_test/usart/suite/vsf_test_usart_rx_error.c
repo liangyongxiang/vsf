@@ -70,12 +70,14 @@ static void __rx_error_handler(void *target_ptr, vsf_usart_t *usart_ptr,
 /*============================ IMPLEMENTATION ================================*/
 
 #if VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_case_t *c)
+void vsf_test_usart_rx_parity_error_run(vsf_test_case_t *tc)
 {
+    vsf_test_usart_rx_parity_error_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
 
-    vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
-        .mode     = c->mode,
+    vsf_err_t err = vsf_usart_init((vsf_usart_t *)suite->arg, &(vsf_usart_cfg_t){
+        .mode     = p->mode,
         .baudrate = VSF_TEST_RX_ERROR_DEFAULT_BAUDRATE,
         .isr      = {
             .handler_fn = __rx_error_handler,
@@ -84,11 +86,11 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
         },
     });
 
-    if (c->expect_pass) {
+    if (p->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_enable((vsf_usart_t *)suite->arg));
 
-        vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_PARITY_ERR);
+        vsf_usart_irq_enable((vsf_usart_t *)suite->arg, VSF_USART_IRQ_MASK_PARITY_ERR);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;
@@ -97,25 +99,27 @@ void vsf_test_usart_rx_parity_error_run(const vsf_test_usart_rx_parity_error_cas
             elapsed_ms += 10;
         }
 
-        vsf_usart_irq_disable(c->suite->usart, VSF_USART_IRQ_MASK_PARITY_ERR);
+        vsf_usart_irq_disable((vsf_usart_t *)suite->arg, VSF_USART_IRQ_MASK_PARITY_ERR);
 
         VSF_TEST_ASSERT(ctx.parity_err);
 
-        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_disable((vsf_usart_t *)suite->arg));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-    vsf_usart_fini(c->suite->usart);
+    vsf_usart_fini((vsf_usart_t *)suite->arg);
 }
 #endif /* VSF_TEST_USART_RX_PARITY_ERROR_ENABLE == ENABLED */
 
 #if VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_t *c)
+void vsf_test_usart_rx_frame_error_run(vsf_test_case_t *tc)
 {
+    vsf_test_usart_rx_frame_error_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false };
 
-    vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
-        .mode     = c->mode,
+    vsf_err_t err = vsf_usart_init((vsf_usart_t *)suite->arg, &(vsf_usart_cfg_t){
+        .mode     = p->mode,
         .baudrate = VSF_TEST_RX_ERROR_DEFAULT_BAUDRATE,
         .isr      = {
             .handler_fn = __rx_error_handler,
@@ -124,11 +128,11 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
         },
     });
 
-    if (c->expect_pass) {
+    if (p->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_enable((vsf_usart_t *)suite->arg));
 
-        vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_FRAME_ERR);
+        vsf_usart_irq_enable((vsf_usart_t *)suite->arg, VSF_USART_IRQ_MASK_FRAME_ERR);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;
@@ -137,25 +141,27 @@ void vsf_test_usart_rx_frame_error_run(const vsf_test_usart_rx_frame_error_case_
             elapsed_ms += 10;
         }
 
-        vsf_usart_irq_disable(c->suite->usart, VSF_USART_IRQ_MASK_FRAME_ERR);
+        vsf_usart_irq_disable((vsf_usart_t *)suite->arg, VSF_USART_IRQ_MASK_FRAME_ERR);
 
         VSF_TEST_ASSERT(ctx.frame_err);
 
-        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_disable((vsf_usart_t *)suite->arg));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-    vsf_usart_fini(c->suite->usart);
+    vsf_usart_fini((vsf_usart_t *)suite->arg);
 }
 #endif /* VSF_TEST_USART_RX_FRAME_ERROR_ENABLE == ENABLED */
 
 #if VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_t *c)
+void vsf_test_usart_rx_break_error_run(vsf_test_case_t *tc)
 {
+    vsf_test_usart_rx_break_error_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
     __rx_error_ctx_t ctx = { .parity_err = false, .frame_err = false, .break_err = false };
 
-    vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
-        .mode     = c->mode,
+    vsf_err_t err = vsf_usart_init((vsf_usart_t *)suite->arg, &(vsf_usart_cfg_t){
+        .mode     = p->mode,
         .baudrate = VSF_TEST_RX_ERROR_DEFAULT_BAUDRATE,
         .isr      = {
             .handler_fn = __rx_error_handler,
@@ -164,11 +170,11 @@ void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_
         },
     });
 
-    if (c->expect_pass) {
+    if (p->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_enable((vsf_usart_t *)suite->arg));
 
-        vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_BREAK_ERR);
+        vsf_usart_irq_enable((vsf_usart_t *)suite->arg, VSF_USART_IRQ_MASK_BREAK_ERR);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;
@@ -177,28 +183,30 @@ void vsf_test_usart_rx_break_error_run(const vsf_test_usart_rx_break_error_case_
             elapsed_ms += 10;
         }
 
-        vsf_usart_irq_disable(c->suite->usart, VSF_USART_IRQ_MASK_BREAK_ERR);
+        vsf_usart_irq_disable((vsf_usart_t *)suite->arg, VSF_USART_IRQ_MASK_BREAK_ERR);
 
         VSF_TEST_ASSERT(ctx.break_err);
 
-        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_disable((vsf_usart_t *)suite->arg));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-    vsf_usart_fini(c->suite->usart);
+    vsf_usart_fini((vsf_usart_t *)suite->arg);
 }
 #endif /* VSF_TEST_USART_RX_BREAK_ERROR_ENABLE == ENABLED */
 
 #if VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED
-void vsf_test_usart_rx_overflow_error_run(const vsf_test_usart_rx_overflow_error_case_t *c)
+void vsf_test_usart_rx_overflow_error_run(vsf_test_case_t *tc)
 {
+    vsf_test_usart_rx_overflow_error_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
     /* Only the OVERFLOW IRQ is enabled (no RX/RX_TIMEOUT), so the FIFO is
      * never drained — host's burst quickly exceeds the 32-byte PL011 FIFO
      * and OVERRUN fires. */
     __rx_error_ctx_t ctx = { 0 };
 
-    vsf_err_t err = vsf_usart_init(c->suite->usart, &(vsf_usart_cfg_t){
-        .mode     = c->mode,
+    vsf_err_t err = vsf_usart_init((vsf_usart_t *)suite->arg, &(vsf_usart_cfg_t){
+        .mode     = p->mode,
         .baudrate = VSF_TEST_RX_ERROR_DEFAULT_BAUDRATE,
         .isr      = {
             .handler_fn = __rx_error_handler,
@@ -207,11 +215,11 @@ void vsf_test_usart_rx_overflow_error_run(const vsf_test_usart_rx_overflow_error
         },
     });
 
-    if (c->expect_pass) {
+    if (p->expect_pass) {
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
-        while (fsm_rt_cpl != vsf_usart_enable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_enable((vsf_usart_t *)suite->arg));
 
-        vsf_usart_irq_enable(c->suite->usart, VSF_USART_IRQ_MASK_RX_OVERFLOW_ERR);
+        vsf_usart_irq_enable((vsf_usart_t *)suite->arg, VSF_USART_IRQ_MASK_RX_OVERFLOW_ERR);
 
         uint32_t elapsed_ms = 0;
         const uint32_t max_ms = VSF_TEST_RX_ERROR_PAYLOAD_DRAIN_MS * 10;
@@ -220,15 +228,15 @@ void vsf_test_usart_rx_overflow_error_run(const vsf_test_usart_rx_overflow_error
             elapsed_ms += 10;
         }
 
-        vsf_usart_irq_disable(c->suite->usart, VSF_USART_IRQ_MASK_RX_OVERFLOW_ERR);
+        vsf_usart_irq_disable((vsf_usart_t *)suite->arg, VSF_USART_IRQ_MASK_RX_OVERFLOW_ERR);
 
         VSF_TEST_ASSERT(ctx.overflow_err);
 
-        while (fsm_rt_cpl != vsf_usart_disable(c->suite->usart));
+        while (fsm_rt_cpl != vsf_usart_disable((vsf_usart_t *)suite->arg));
     } else {
         VSF_TEST_ASSERT(err != VSF_ERR_NONE);
     }
-    vsf_usart_fini(c->suite->usart);
+    vsf_usart_fini((vsf_usart_t *)suite->arg);
 }
 #endif /* VSF_TEST_USART_RX_OVERFLOW_ERROR_ENABLE == ENABLED */
 

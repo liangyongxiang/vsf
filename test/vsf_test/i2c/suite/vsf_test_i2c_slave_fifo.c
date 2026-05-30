@@ -1,6 +1,17 @@
 /*============================ INCLUDES ======================================*/
 
 #include "vsf_test_i2c_slave_fifo.h"
+/*============================ LOCAL VARIABLES ===============================*/
+
+static volatile vsf_i2c_irq_mask_t __master_irq_mask;
+static volatile vsf_i2c_irq_mask_t __slave_irq_mask;
+static uint8_t __master_buf[16];
+static uint8_t __slave_buf[16];
+static volatile uint_fast16_t __slave_rx_offset;
+static volatile bool __master_done;
+static volatile bool __slave_complete;
+
+
 
 #if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
 
@@ -21,59 +32,60 @@ static void __master_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
                          vsf_i2c_irq_mask_t irq_mask)
 {
     (void)i2c_ptr;
-    vsf_test_i2c_slave_fifo_suite_t *suite = (vsf_test_i2c_slave_fifo_suite_t *)target_ptr;
-    suite->master_irq_mask |= irq_mask;
+    vsf_test_suite_t *suite = target_ptr;
+    __master_irq_mask |= irq_mask;
     if (irq_mask & VSF_I2C_IRQ_MASK_MASTER_TRANSFER_COMPLETE) {
-        suite->master_done = true;
+        __master_done = true;
     }
 }
 
 static void __slave_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
                         vsf_i2c_irq_mask_t irq_mask)
 {
-    vsf_test_i2c_slave_fifo_suite_t *suite = (vsf_test_i2c_slave_fifo_suite_t *)target_ptr;
-    suite->slave_irq_mask |= irq_mask;
+    vsf_test_suite_t *suite = target_ptr;
+    __slave_irq_mask |= irq_mask;
 
     /* Slave receive via fifo_transfer: read available bytes from RX FIFO. */
     if (irq_mask & VSF_I2C_IRQ_MASK_SLAVE_RX) {
-        uint_fast16_t remaining = 16 - suite->slave_rx_offset;
+        uint_fast16_t remaining = 16 - __slave_rx_offset;
         uint_fast16_t got = vsf_i2c_slave_fifo_transfer(i2c_ptr, false,
-            remaining, suite->slave_buf + suite->slave_rx_offset);
-        suite->slave_rx_offset += got;
+            remaining, __slave_buf + __slave_rx_offset);
+        __slave_rx_offset += got;
     }
     if (irq_mask & (VSF_I2C_IRQ_MASK_SLAVE_TRANSFER_COMPLETE | VSF_I2C_IRQ_MASK_SLAVE_STOP_DETECT)) {
-        suite->slave_complete = true;
+        __slave_complete = true;
     }
 }
 
-static bool __wait_master_done(vsf_test_i2c_slave_fifo_suite_t *suite, uint32_t timeout_ms)
+static bool __wait_master_done(vsf_test_suite_t *suite, uint32_t timeout_ms)
 {
     while (timeout_ms-- > 0) {
-        if (suite->master_done) return true;
+        if (__master_done) return true;
         vsf_test_busy_wait_ms(1);
     }
     return false;
 }
 
-static bool __wait_slave_complete(vsf_test_i2c_slave_fifo_suite_t *suite, uint32_t timeout_ms)
+static bool __wait_slave_complete(vsf_test_suite_t *suite, uint32_t timeout_ms)
 {
     while (timeout_ms-- > 0) {
-        if (suite->slave_complete) return true;
+        if (__slave_complete) return true;
         vsf_test_busy_wait_ms(1);
     }
     return false;
 }
 
-void vsf_test_i2c_slave_fifo_run(void *arg)
+void vsf_test_i2c_slave_fifo_run(vsf_test_case_t *tc)
 {
-    vsf_test_i2c_slave_fifo_case_t *c = (vsf_test_i2c_slave_fifo_case_t *)arg;
-    vsf_i2c_t *master_i2c = c->suite->master_i2c;
-    vsf_i2c_t *slave_i2c  = c->suite->slave_i2c;
-    vsf_test_i2c_slave_fifo_suite_t *suite = c->suite;
+    vsf_test_i2c_slave_fifo_params_t *p = tc->arg;
+    vsf_test_suite_t *suite = tc->suite;
+    void **handles = (void **)suite->arg;
+    vsf_i2c_t *master_i2c = (vsf_i2c_t *)handles[0];
+    vsf_i2c_t *slave_i2c  = (vsf_i2c_t *)handles[1];
 
     /* Zero all per-run state. */
-    uintptr_t base = (uintptr_t)&suite->master_irq_mask;
-    uintptr_t end  = (uintptr_t)&suite->slave_complete + sizeof(suite->slave_complete);
+    uintptr_t base = (uintptr_t)&__master_irq_mask;
+    uintptr_t end  = (uintptr_t)&__slave_complete + sizeof(__slave_complete);
     memset((void *)base, 0, end - base);
 
     /* ---- Init slave (fifo-driven RX) ---- */
@@ -110,23 +122,23 @@ void vsf_test_i2c_slave_fifo_run(void *arg)
 
     /* ---- Slave receive via FIFO (master writes) ---- */
     for (uint8_t i = 0; i < 16; i++) {
-        suite->master_buf[i] = (uint8_t)(0xA0 + i);
-        suite->slave_buf[i] = 0;
+        __master_buf[i] = (uint8_t)(0xA0 + i);
+        __slave_buf[i] = 0;
     }
-    suite->master_done     = false;
-    suite->slave_complete  = false;
-    suite->slave_rx_offset = 0;
+    __master_done     = false;
+    __slave_complete  = false;
+    __slave_rx_offset = 0;
 
     err = vsf_i2c_master_request(master_i2c, VSF_TEST_I2C_SLAVE_FIFO_ADDR,
         VSF_I2C_CMD_START | VSF_I2C_CMD_STOP | VSF_I2C_CMD_WRITE | VSF_I2C_CMD_7_BITS,
-        16, suite->master_buf);
+        16, __master_buf);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     VSF_TEST_ASSERT(__wait_master_done(suite, VSF_TEST_I2C_SLAVE_FIFO_TIMEOUT_MS));
     VSF_TEST_ASSERT(__wait_slave_complete(suite, VSF_TEST_I2C_SLAVE_FIFO_TIMEOUT_MS));
 
     for (uint8_t i = 0; i < 16; i++) {
-        VSF_TEST_ASSERT(suite->slave_buf[i] == suite->master_buf[i]);
+        VSF_TEST_ASSERT(__slave_buf[i] == __master_buf[i]);
     }
 
     vsf_trace_info("I2C:SLAVE_FIFO:RX:PASS" VSF_TRACE_CFG_LINEEND);

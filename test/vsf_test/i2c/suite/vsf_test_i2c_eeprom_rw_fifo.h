@@ -46,7 +46,7 @@ typedef struct {
     volatile bool error;
     vsf_i2c_cmd_t cur_cmd;
     uint_fast16_t offset;
-} vsf_test_i2c_eeprom_rw_fifo_var_t;
+} vsf_test_i2c_eeprom_rw_fifo_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

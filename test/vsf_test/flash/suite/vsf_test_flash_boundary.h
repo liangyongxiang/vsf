@@ -38,7 +38,7 @@ extern "C" {
 typedef struct {
     uint8_t write_buf[VSF_TEST_FLASH_BOUNDARY_BUF_SIZE];
     uint8_t read_buf[VSF_TEST_FLASH_BOUNDARY_BUF_SIZE];
-} vsf_test_flash_boundary_var_t;
+} vsf_test_flash_boundary_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

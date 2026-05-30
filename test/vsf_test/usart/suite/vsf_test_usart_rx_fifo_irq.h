@@ -35,7 +35,7 @@ typedef struct {
     uint_fast16_t target;
     uint8_t *dst;
     volatile bool done;
-} vsf_test_usart_rx_fifo_irq_var_t;
+} vsf_test_usart_rx_fifo_irq_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

@@ -32,7 +32,7 @@ extern "C" {
 typedef struct {
     volatile uint32_t lifecycle_count;
     vsf_gpio_pin_mask_t lifecycle_pin;
-} vsf_test_gpio_irq_lifecycle_var_t;
+} vsf_test_gpio_irq_lifecycle_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

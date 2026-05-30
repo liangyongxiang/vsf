@@ -34,7 +34,7 @@ typedef struct {
     uint_fast16_t remaining;
     const uint8_t *src;
     volatile bool done;
-} vsf_test_usart_tx_fifo_irq_var_t;
+} vsf_test_usart_tx_fifo_irq_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

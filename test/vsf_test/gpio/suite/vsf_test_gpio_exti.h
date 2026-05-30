@@ -33,7 +33,7 @@ typedef struct {
     vsf_gpio_pin_mask_t expected_pin;
     volatile uint32_t count;
     bool disable_on_fire;
-} vsf_test_gpio_exti_var_t;
+} vsf_test_gpio_exti_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

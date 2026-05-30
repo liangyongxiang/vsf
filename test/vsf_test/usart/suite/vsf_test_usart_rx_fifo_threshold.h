@@ -42,7 +42,7 @@ typedef struct {
     uint8_t *dst;
     uint32_t target;
     volatile uint32_t received;
-} vsf_test_usart_rx_fifo_threshold_var_t;
+} vsf_test_usart_rx_fifo_threshold_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

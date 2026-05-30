@@ -19,7 +19,7 @@ typedef struct {
     volatile uint32_t isr_count;
     uint_fast16_t received;
     uint_fast16_t target;
-} vsf_test_usart_rx_bulk_irq_var_t;
+} vsf_test_usart_rx_bulk_irq_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

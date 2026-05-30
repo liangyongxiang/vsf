@@ -37,87 +37,87 @@
 
 typedef union {
 #if VSF_TEST_ADC_STREAM_ENABLE == ENABLED
-    vsf_test_adc_stream_var_t adc_stream;
+    vsf_test_adc_stream_data_t adc_stream;
 #endif
 #if VSF_TEST_DMA_MEM2MEM_IRQ_ENABLE == ENABLED
-    vsf_test_dma_mem2mem_irq_var_t dma_mem2mem_irq;
+    vsf_test_dma_mem2mem_irq_data_t dma_mem2mem_irq;
 #endif
 #if VSF_TEST_DMA_SCATTER_GATHER_ENABLE == ENABLED
-    vsf_test_dma_scatter_gather_var_t dma_scatter_gather;
+    vsf_test_dma_scatter_gather_data_t dma_scatter_gather;
 #endif
 #if VSF_TEST_FLASH_BOUNDARY_ENABLE == ENABLED
-    vsf_test_flash_boundary_var_t flash_boundary;
+    vsf_test_flash_boundary_data_t flash_boundary;
 #endif
 #if VSF_TEST_FLASH_ERASE_PROGRAM_READ_ENABLE == ENABLED
-    vsf_test_flash_erase_program_read_var_t flash_erase_program_read;
+    vsf_test_flash_erase_program_read_data_t flash_erase_program_read;
 #endif
 #if VSF_TEST_GPIO_CONCURRENT_PRIO_ENABLE == ENABLED
-    vsf_test_gpio_concurrent_prio_var_t gpio_concurrent_prio;
+    vsf_test_gpio_concurrent_prio_data_t gpio_concurrent_prio;
 #endif
 #if VSF_TEST_GPIO_EXTI_ENABLE == ENABLED
-    vsf_test_gpio_exti_var_t gpio_exti;
+    vsf_test_gpio_exti_data_t gpio_exti;
 #endif
 #if VSF_TEST_GPIO_IRQ_LATENCY_ENABLE == ENABLED
-    vsf_test_gpio_irq_latency_var_t gpio_irq_latency;
+    vsf_test_gpio_irq_latency_data_t gpio_irq_latency;
 #endif
 #if VSF_TEST_GPIO_IRQ_LIFECYCLE_ENABLE == ENABLED
-    vsf_test_gpio_irq_lifecycle_var_t gpio_irq_lifecycle;
+    vsf_test_gpio_irq_lifecycle_data_t gpio_irq_lifecycle;
 #endif
 #if VSF_TEST_I2C_BUS_SCAN_ENABLE == ENABLED
-    vsf_test_i2c_bus_scan_var_t i2c_bus_scan;
+    vsf_test_i2c_bus_scan_data_t i2c_bus_scan;
 #endif
 #if VSF_TEST_I2C_EEPROM_PAGE_ENABLE == ENABLED
-    vsf_test_i2c_eeprom_page_var_t i2c_eeprom_page;
+    vsf_test_i2c_eeprom_page_data_t i2c_eeprom_page;
 #endif
 #if VSF_TEST_I2C_EEPROM_RW_ENABLE == ENABLED
-    vsf_test_i2c_eeprom_rw_var_t i2c_eeprom_rw;
+    vsf_test_i2c_eeprom_rw_data_t i2c_eeprom_rw;
 #endif
 #if VSF_TEST_I2C_EEPROM_RW_FIFO_ENABLE == ENABLED
-    vsf_test_i2c_eeprom_rw_fifo_var_t i2c_eeprom_rw_fifo;
+    vsf_test_i2c_eeprom_rw_fifo_data_t i2c_eeprom_rw_fifo;
 #endif
 #if VSF_TEST_I2C_SLAVE_ENABLE == ENABLED
-    vsf_test_i2c_slave_var_t i2c_slave;
+    vsf_test_i2c_slave_data_t i2c_slave;
 #endif
 #if VSF_TEST_I2C_SLAVE_FIFO_ENABLE == ENABLED
-    vsf_test_i2c_slave_fifo_var_t i2c_slave_fifo;
+    vsf_test_i2c_slave_fifo_data_t i2c_slave_fifo;
 #endif
 #if VSF_TEST_RTC_ALARM_ENABLE == ENABLED
-    vsf_test_rtc_alarm_var_t rtc_alarm;
+    vsf_test_rtc_alarm_data_t rtc_alarm;
 #endif
 #if VSF_TEST_SPI_ASYNC_ENABLE == ENABLED
-    vsf_test_spi_async_var_t spi_async;
+    vsf_test_spi_async_data_t spi_async;
 #endif
 #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
-    vsf_test_timer_async_var_t timer_async;
+    vsf_test_timer_async_data_t timer_async;
 #endif
 #if VSF_TEST_TIMER_ONESHOT_ENABLE == ENABLED
-    vsf_test_timer_oneshot_var_t timer_oneshot;
+    vsf_test_timer_oneshot_data_t timer_oneshot;
 #endif
 #if VSF_TEST_TIMER_PERIODIC_ENABLE == ENABLED
-    vsf_test_timer_periodic_var_t timer_periodic;
+    vsf_test_timer_periodic_data_t timer_periodic;
 #endif
 #if VSF_TEST_USART_REQUEST_RX_IRQ_ENABLE == ENABLED
-    vsf_test_usart_request_rx_irq_var_t usart_request_rx_irq;
+    vsf_test_usart_request_rx_irq_data_t usart_request_rx_irq;
 #endif
 #if VSF_TEST_USART_REQUEST_TX_IRQ_ENABLE == ENABLED
-    vsf_test_usart_request_tx_irq_var_t usart_request_tx_irq;
+    vsf_test_usart_request_tx_irq_data_t usart_request_tx_irq;
 #endif
 #if VSF_TEST_USART_RX_BULK_IRQ_ENABLE == ENABLED
-    vsf_test_usart_rx_bulk_irq_var_t usart_rx_bulk_irq;
+    vsf_test_usart_rx_bulk_irq_data_t usart_rx_bulk_irq;
 #endif
 #if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
-    vsf_test_usart_rx_data_var_t usart_rx_data;
+    vsf_test_usart_rx_data_data_t usart_rx_data;
 #endif
 #if VSF_TEST_USART_RX_FIFO_IRQ_ENABLE == ENABLED
-    vsf_test_usart_rx_fifo_irq_var_t usart_rx_fifo_irq;
+    vsf_test_usart_rx_fifo_irq_data_t usart_rx_fifo_irq;
 #endif
 #if VSF_TEST_USART_RX_FIFO_THRESHOLD_ENABLE == ENABLED
-    vsf_test_usart_rx_fifo_threshold_var_t usart_rx_fifo_threshold;
+    vsf_test_usart_rx_fifo_threshold_data_t usart_rx_fifo_threshold;
 #endif
 #if VSF_TEST_USART_TX_FIFO_IRQ_ENABLE == ENABLED
-    vsf_test_usart_tx_fifo_irq_var_t usart_tx_fifo_irq;
+    vsf_test_usart_tx_fifo_irq_data_t usart_tx_fifo_irq;
 #endif
-} vsf_test_suites_t;
+} vsf_test_suite_data_t;
 
 /*============================ TYPES =========================================*/
 
@@ -519,9 +519,7 @@ typedef struct {
 
 /*============================ GLOBAL VARIABLES ==============================*/
 
-extern vsf_test_suites_t vsf_test_suites;
-extern const vsf_test_inst_t __board_test_instances[];
-extern uint8_t __board_test_instance_count;
+extern vsf_test_suite_data_t vsf_test_suite_data;
 extern const vsf_test_suite_t vsf_test_suite_list[];
 extern uint8_t vsf_test_suite_count;
 

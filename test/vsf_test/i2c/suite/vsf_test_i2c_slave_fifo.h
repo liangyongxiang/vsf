@@ -29,8 +29,9 @@ typedef struct {
     volatile uint_fast16_t slave_rx_offset;
     volatile bool master_done;
     volatile bool slave_complete;
-} vsf_test_i2c_slave_fifo_var_t;
+} vsf_test_i2c_slave_fifo_data_t;
 #endif
+
 /*============================ PROTOTYPES ====================================*/
 
 void vsf_test_i2c_slave_fifo_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);

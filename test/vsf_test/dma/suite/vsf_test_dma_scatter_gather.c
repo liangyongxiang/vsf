@@ -37,26 +37,26 @@ static void __vsf_test_dma_sg_handler(void *target_ptr, vsf_dma_t *dma_ptr,
     (void)dma_ptr;
     (void)channel;
     (void)irq_mask;
-    vsf_test_suites.dma_scatter_gather.sg_done = true;
+    vsf_test_suite_data.dma_scatter_gather.sg_done = true;
 }
 
 static void __sg_prepare_buffers(void)
 {
-    for (uint16_t i = 0; i < sizeof(vsf_test_suites.dma_scatter_gather.sg_src_buf); i++) {
-        vsf_test_suites.dma_scatter_gather.sg_src_buf[i] = (uint8_t)(0xA5 + i);
+    for (uint16_t i = 0; i < sizeof(vsf_test_suite_data.dma_scatter_gather.sg_src_buf); i++) {
+        vsf_test_suite_data.dma_scatter_gather.sg_src_buf[i] = (uint8_t)(0xA5 + i);
     }
-    memset(vsf_test_suites.dma_scatter_gather.sg_dst_buf, 0, sizeof(vsf_test_suites.dma_scatter_gather.sg_dst_buf));
+    memset(vsf_test_suite_data.dma_scatter_gather.sg_dst_buf, 0, sizeof(vsf_test_suite_data.dma_scatter_gather.sg_dst_buf));
 }
 
 static bool __sg_verify_two_segment(void)
 {
     for (uint16_t i = 0; i < VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE; i++) {
-        if (vsf_test_suites.dma_scatter_gather.sg_dst_buf[i] != vsf_test_suites.dma_scatter_gather.sg_src_buf[i]) {
+        if (vsf_test_suite_data.dma_scatter_gather.sg_dst_buf[i] != vsf_test_suite_data.dma_scatter_gather.sg_src_buf[i]) {
             return false;
         }
     }
     for (uint16_t i = 0; i < VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE; i++) {
-        if (vsf_test_suites.dma_scatter_gather.sg_dst_buf[VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE + i] != vsf_test_suites.dma_scatter_gather.sg_src_buf[VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE + i]) {
+        if (vsf_test_suite_data.dma_scatter_gather.sg_dst_buf[VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE + i] != vsf_test_suite_data.dma_scatter_gather.sg_src_buf[VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE + i]) {
             return false;
         }
     }
@@ -69,7 +69,7 @@ static bool __sg_verify_scatter_read(void)
         for (uint16_t i = 0; i < VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE; i++) {
             uint16_t src_idx = seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE * 2 + i;
             uint16_t dst_idx = seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE + i;
-            if (vsf_test_suites.dma_scatter_gather.sg_dst_buf[dst_idx] != vsf_test_suites.dma_scatter_gather.sg_src_buf[src_idx]) {
+            if (vsf_test_suite_data.dma_scatter_gather.sg_dst_buf[dst_idx] != vsf_test_suite_data.dma_scatter_gather.sg_src_buf[src_idx]) {
                 return false;
             }
         }
@@ -83,7 +83,7 @@ static bool __sg_verify_gather_write(void)
         for (uint16_t i = 0; i < VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE; i++) {
             uint16_t src_idx = seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE + i;
             uint16_t dst_idx = seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE * 2 + i;
-            if (vsf_test_suites.dma_scatter_gather.sg_dst_buf[dst_idx] != vsf_test_suites.dma_scatter_gather.sg_src_buf[src_idx]) {
+            if (vsf_test_suite_data.dma_scatter_gather.sg_dst_buf[dst_idx] != vsf_test_suite_data.dma_scatter_gather.sg_src_buf[src_idx]) {
                 return false;
             }
         }
@@ -126,19 +126,19 @@ void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_te
         vsf_dma_channel_sg_desc_t descs[2] = {
             {
                 .mode = ch_cfg.mode,
-                .src_address = (vsf_dma_addr_t)&vsf_test_suites.dma_scatter_gather.sg_src_buf[0],
-                .dst_address = (vsf_dma_addr_t)&vsf_test_suites.dma_scatter_gather.sg_dst_buf[0],
+                .src_address = (vsf_dma_addr_t)&vsf_test_suite_data.dma_scatter_gather.sg_src_buf[0],
+                .dst_address = (vsf_dma_addr_t)&vsf_test_suite_data.dma_scatter_gather.sg_dst_buf[0],
                 .count = VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE,
             },
             {
                 .mode = ch_cfg.mode,
-                .src_address = (vsf_dma_addr_t)&vsf_test_suites.dma_scatter_gather.sg_src_buf[VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE],
-                .dst_address = (vsf_dma_addr_t)&vsf_test_suites.dma_scatter_gather.sg_dst_buf[VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE],
+                .src_address = (vsf_dma_addr_t)&vsf_test_suite_data.dma_scatter_gather.sg_src_buf[VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE],
+                .dst_address = (vsf_dma_addr_t)&vsf_test_suite_data.dma_scatter_gather.sg_dst_buf[VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE],
                 .count = VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE,
             },
         };
 
-        vsf_test_suites.dma_scatter_gather.sg_done = false;
+        vsf_test_suite_data.dma_scatter_gather.sg_done = false;
         err = vsf_dma_channel_sg_config_desc(dma, ch,
             (vsf_dma_isr_t){ .handler_fn = __vsf_test_dma_sg_handler, .target_ptr = NULL },
             descs, dimof(descs));
@@ -148,10 +148,10 @@ void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_te
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
         uint32_t timeout = 100000;
-        while (!vsf_test_suites.dma_scatter_gather.sg_done && timeout--) {
+        while (!vsf_test_suite_data.dma_scatter_gather.sg_done && timeout--) {
             vsf_arch_sleep(0);
         }
-        VSF_TEST_ASSERT(vsf_test_suites.dma_scatter_gather.sg_done);
+        VSF_TEST_ASSERT(vsf_test_suite_data.dma_scatter_gather.sg_done);
 
         pass = __sg_verify_two_segment();
         vsf_trace_info("DMA:SG:TWO_SEGMENT_%s" VSF_TRACE_CFG_LINEEND,
@@ -166,12 +166,12 @@ void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_te
         vsf_dma_channel_sg_desc_t descs[4];
         for (uint8_t seg = 0; seg < 4; seg++) {
             descs[seg].mode = ch_cfg.mode;
-            descs[seg].src_address = (vsf_dma_addr_t)&vsf_test_suites.dma_scatter_gather.sg_src_buf[seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE * 2];
-            descs[seg].dst_address = (vsf_dma_addr_t)&vsf_test_suites.dma_scatter_gather.sg_dst_buf[seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE];
+            descs[seg].src_address = (vsf_dma_addr_t)&vsf_test_suite_data.dma_scatter_gather.sg_src_buf[seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE * 2];
+            descs[seg].dst_address = (vsf_dma_addr_t)&vsf_test_suite_data.dma_scatter_gather.sg_dst_buf[seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE];
             descs[seg].count = VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE;
         }
 
-        vsf_test_suites.dma_scatter_gather.sg_done = false;
+        vsf_test_suite_data.dma_scatter_gather.sg_done = false;
         err = vsf_dma_channel_sg_config_desc(dma, ch,
             (vsf_dma_isr_t){ .handler_fn = __vsf_test_dma_sg_handler, .target_ptr = NULL },
             descs, dimof(descs));
@@ -181,10 +181,10 @@ void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_te
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
         uint32_t timeout = 100000;
-        while (!vsf_test_suites.dma_scatter_gather.sg_done && timeout--) {
+        while (!vsf_test_suite_data.dma_scatter_gather.sg_done && timeout--) {
             vsf_arch_sleep(0);
         }
-        VSF_TEST_ASSERT(vsf_test_suites.dma_scatter_gather.sg_done);
+        VSF_TEST_ASSERT(vsf_test_suite_data.dma_scatter_gather.sg_done);
 
         pass = __sg_verify_scatter_read();
         vsf_trace_info("DMA:SG:SCATTER_READ_%s" VSF_TRACE_CFG_LINEEND,
@@ -199,12 +199,12 @@ void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_te
         vsf_dma_channel_sg_desc_t descs[4];
         for (uint8_t seg = 0; seg < 4; seg++) {
             descs[seg].mode = ch_cfg.mode;
-            descs[seg].src_address = (vsf_dma_addr_t)&vsf_test_suites.dma_scatter_gather.sg_src_buf[seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE];
-            descs[seg].dst_address = (vsf_dma_addr_t)&vsf_test_suites.dma_scatter_gather.sg_dst_buf[seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE * 2];
+            descs[seg].src_address = (vsf_dma_addr_t)&vsf_test_suite_data.dma_scatter_gather.sg_src_buf[seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE];
+            descs[seg].dst_address = (vsf_dma_addr_t)&vsf_test_suite_data.dma_scatter_gather.sg_dst_buf[seg * VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE * 2];
             descs[seg].count = VSF_TEST_DMA_SCATTER_GATHER_BUF_SIZE;
         }
 
-        vsf_test_suites.dma_scatter_gather.sg_done = false;
+        vsf_test_suite_data.dma_scatter_gather.sg_done = false;
         err = vsf_dma_channel_sg_config_desc(dma, ch,
             (vsf_dma_isr_t){ .handler_fn = __vsf_test_dma_sg_handler, .target_ptr = NULL },
             descs, dimof(descs));
@@ -214,10 +214,10 @@ void vsf_test_dma_scatter_gather_run(const vsf_test_suite_t *suite, const vsf_te
         VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
         uint32_t timeout = 100000;
-        while (!vsf_test_suites.dma_scatter_gather.sg_done && timeout--) {
+        while (!vsf_test_suite_data.dma_scatter_gather.sg_done && timeout--) {
             vsf_arch_sleep(0);
         }
-        VSF_TEST_ASSERT(vsf_test_suites.dma_scatter_gather.sg_done);
+        VSF_TEST_ASSERT(vsf_test_suite_data.dma_scatter_gather.sg_done);
 
         pass = __sg_verify_gather_write();
         vsf_trace_info("DMA:SG:GATHER_WRITE_%s" VSF_TRACE_CFG_LINEEND,

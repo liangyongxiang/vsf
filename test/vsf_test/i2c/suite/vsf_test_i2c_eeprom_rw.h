@@ -41,7 +41,7 @@ typedef struct {
     volatile vsf_i2c_irq_mask_t irq_mask;
     uint8_t write_buf[VSF_TEST_I2C_EEPROM_RW_WRITE_BUF_SIZE];
     uint8_t read_buf[VSF_TEST_I2C_EEPROM_RW_READ_BUF_SIZE];
-} vsf_test_i2c_eeprom_rw_var_t;
+} vsf_test_i2c_eeprom_rw_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

@@ -30,7 +30,7 @@ static void __bus_scan_isr(void *target_ptr, vsf_i2c_t *i2c_ptr,
                             vsf_i2c_irq_mask_t irq_mask)
 {
     (void)i2c_ptr;
-    vsf_test_suites.i2c_bus_scan.irq_mask = irq_mask;
+    vsf_test_suite_data.i2c_bus_scan.irq_mask = irq_mask;
 }
 
 static int __bus_scan_once(vsf_test_suite_t *suite,
@@ -50,12 +50,12 @@ static int __bus_scan_once(vsf_test_suite_t *suite,
 
     int found = 0;
     for (uint8_t addr = 0x08; addr <= 0x77; addr++) {
-        vsf_test_suites.i2c_bus_scan.irq_mask = 0;
+        vsf_test_suite_data.i2c_bus_scan.irq_mask = 0;
         vsf_i2c_master_request(i2c, addr,
             VSF_I2C_CMD_START | VSF_I2C_CMD_STOP
             | VSF_I2C_CMD_7_BITS | VSF_I2C_CMD_WRITE,
             0, NULL);
-        if (!(vsf_test_suites.i2c_bus_scan.irq_mask & VSF_I2C_IRQ_MASK_MASTER_ADDRESS_NACK)) {
+        if (!(vsf_test_suite_data.i2c_bus_scan.irq_mask & VSF_I2C_IRQ_MASK_MASTER_ADDRESS_NACK)) {
             found++;
         }
     }

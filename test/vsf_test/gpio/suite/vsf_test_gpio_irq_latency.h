@@ -34,7 +34,7 @@ typedef struct {
     volatile vsf_systimer_tick_t isr_tick;
     volatile bool fired;
     vsf_systimer_tick_t trigger_tick;
-} vsf_test_gpio_irq_latency_var_t;
+} vsf_test_gpio_irq_latency_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

@@ -32,7 +32,7 @@
 typedef struct {
     volatile bool req_tx_cpl;
     volatile uint32_t req_tx_irq_count;
-} vsf_test_usart_request_tx_irq_var_t;
+} vsf_test_usart_request_tx_irq_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

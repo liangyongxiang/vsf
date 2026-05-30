@@ -43,7 +43,7 @@ void vsf_test_flash_erase_program_read_run(const vsf_test_suite_t *suite, const 
     uint32_t size = p->size;
 
     VSF_TEST_ASSERT(size > 0);
-    VSF_TEST_ASSERT(size <= sizeof(vsf_test_suites.flash_erase_program_read.write_buf));
+    VSF_TEST_ASSERT(size <= sizeof(vsf_test_suite_data.flash_erase_program_read.write_buf));
 
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
@@ -74,7 +74,7 @@ void vsf_test_flash_erase_program_read_run(const vsf_test_suite_t *suite, const 
 
     /* Prepare test pattern. */
     for (uint32_t i = 0; i < size; i++) {
-        vsf_test_suites.flash_erase_program_read.write_buf[i] = (uint8_t)(0xA5 + i);
+        vsf_test_suite_data.flash_erase_program_read.write_buf[i] = (uint8_t)(0xA5 + i);
     }
 
     /* Phase 1: Erase target region. */
@@ -82,21 +82,21 @@ void vsf_test_flash_erase_program_read_run(const vsf_test_suite_t *suite, const 
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     /* Phase 2: Read back to verify erase (should be all 0xFF). */
-    err = vsf_flash_read_multi_sector(flash, offset, vsf_test_suites.flash_erase_program_read.read_buf, size);
+    err = vsf_flash_read_multi_sector(flash, offset, vsf_test_suite_data.flash_erase_program_read.read_buf, size);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     for (uint32_t i = 0; i < size; i++) {
-        VSF_TEST_ASSERT(vsf_test_suites.flash_erase_program_read.read_buf[i] == 0xFF);
+        VSF_TEST_ASSERT(vsf_test_suite_data.flash_erase_program_read.read_buf[i] == 0xFF);
     }
 
     /* Phase 3: Program test pattern. */
-    err = vsf_flash_write_multi_sector(flash, offset, vsf_test_suites.flash_erase_program_read.write_buf, size);
+    err = vsf_flash_write_multi_sector(flash, offset, vsf_test_suite_data.flash_erase_program_read.write_buf, size);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
 
     /* Phase 4: Read back and verify. */
-    err = vsf_flash_read_multi_sector(flash, offset, vsf_test_suites.flash_erase_program_read.read_buf, size);
+    err = vsf_flash_read_multi_sector(flash, offset, vsf_test_suite_data.flash_erase_program_read.read_buf, size);
     VSF_TEST_ASSERT(err == VSF_ERR_NONE);
     for (uint32_t i = 0; i < size; i++) {
-        VSF_TEST_ASSERT(vsf_test_suites.flash_erase_program_read.read_buf[i] == vsf_test_suites.flash_erase_program_read.write_buf[i]);
+        VSF_TEST_ASSERT(vsf_test_suite_data.flash_erase_program_read.read_buf[i] == vsf_test_suite_data.flash_erase_program_read.write_buf[i]);
     }
 
     vsf_trace_info("FLASH:ERASE_PROGRAM_READ:PASS offset=%lu size=%lu" VSF_TRACE_CFG_LINEEND,

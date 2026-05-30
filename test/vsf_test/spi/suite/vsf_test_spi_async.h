@@ -44,8 +44,9 @@
 typedef struct {
     uint8_t spi_async_tx_buf[VSF_TEST_SPI_ASYNC_MAX_DATA_LEN];
     uint8_t spi_async_rx_buf[VSF_TEST_SPI_ASYNC_MAX_DATA_LEN];
-} vsf_test_spi_async_var_t;
+} vsf_test_spi_async_data_t;
 #endif
+
 /*============================ PROTOTYPES ====================================*/
 
 void vsf_test_spi_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);

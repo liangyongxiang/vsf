@@ -37,7 +37,7 @@ extern "C" {
 #if VSF_TEST_USART_RX_DATA_ENABLE == ENABLED
 typedef struct {
     uint8_t rx_data_buf[VSF_TEST_USART_RX_DATA_BUF_SIZE];
-} vsf_test_usart_rx_data_var_t;
+} vsf_test_usart_rx_data_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

@@ -17,8 +17,9 @@
 #if VSF_TEST_TIMER_ASYNC_ENABLE == ENABLED
 typedef struct {
     volatile uint8_t counter;
-} vsf_test_timer_async_var_t;
+} vsf_test_timer_async_data_t;
 #endif
+
 /*============================ PROTOTYPES ====================================*/
 
 void vsf_test_timer_async_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);

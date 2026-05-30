@@ -19,7 +19,7 @@
 
 /*============================ SCENARIO STATE INSTANCE ========================*/
 
-vsf_test_suites_t vsf_test_suites;
+vsf_test_suite_data_t vsf_test_suite_data;
 
 /*============================ STATIC DATA ==================================*/
 

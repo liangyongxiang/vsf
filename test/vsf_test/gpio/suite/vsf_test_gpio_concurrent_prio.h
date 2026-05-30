@@ -34,7 +34,7 @@ typedef struct {
     uint32_t period_us;
     volatile uint32_t callback_toggles;
     volatile uint32_t main_toggles;
-} vsf_test_gpio_concurrent_prio_var_t;
+} vsf_test_gpio_concurrent_prio_data_t;
 #endif
 
 /*============================ PROTOTYPES ====================================*/

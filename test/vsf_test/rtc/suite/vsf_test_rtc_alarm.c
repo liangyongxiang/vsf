@@ -14,7 +14,7 @@ static void __rtc_alarm_isr(void *target_ptr, vsf_rtc_t *rtc_ptr,
     (void)rtc_ptr;
     vsf_test_suite_t *suite = target_ptr;
     if (irq_mask & VSF_RTC_IRQ_MASK_ALARM) {
-        vsf_test_suites.rtc_alarm.alarm_triggered = true;
+        vsf_test_suite_data.rtc_alarm.alarm_triggered = true;
     }
 }
 
@@ -33,7 +33,7 @@ void vsf_test_rtc_alarm_run(const vsf_test_suite_t *suite, const vsf_test_case_t
     /* Dispatcher (vsf_test_run_case) emits start / :DONE Capture Markers
      * and the settle delay; suite-aware suites do not print them. */
 
-    vsf_test_suites.rtc_alarm.alarm_triggered = false;
+    vsf_test_suite_data.rtc_alarm.alarm_triggered = false;
 
     // Set datetime to 2024-01-01 12:00:00 Monday
     vsf_rtc_tm_t set_tm = {
@@ -82,11 +82,11 @@ void vsf_test_rtc_alarm_run(const vsf_test_suite_t *suite, const vsf_test_case_t
 
     // Wait up to ~3.5 seconds for alarm to fire
     uint32_t timeout_ms = 3500;
-    while (!vsf_test_suites.rtc_alarm.alarm_triggered && timeout_ms-- > 0) {
+    while (!vsf_test_suite_data.rtc_alarm.alarm_triggered && timeout_ms-- > 0) {
         vsf_test_busy_wait_ms(1);
     }
 
-    VSF_TEST_ASSERT(vsf_test_suites.rtc_alarm.alarm_triggered);
+    VSF_TEST_ASSERT(vsf_test_suite_data.rtc_alarm.alarm_triggered);
 
     vsf_trace_info("RTC:ALARM:PASS" VSF_TRACE_CFG_LINEEND);
 

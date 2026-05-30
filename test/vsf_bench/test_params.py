@@ -190,8 +190,7 @@ def load_test_params(
       2. Environment variable `VSF_TEST_GLOBAL_PARAMS_DIR`.
       3. Default: <project_root>/vsf.demo/vsf/test/vsf_test/params
     """
-    local_dir = Path(project_root) / "application" / "component" / "vsf-test"
-    yml_path = local_dir / "test_params.yml"
+    yml_path = Path(project_root) / "application" / "component" / "vsf-test" / "test_params.yml"
 
     if global_base is not None:
         gb = Path(global_base)
@@ -200,7 +199,8 @@ def load_test_params(
     elif os.environ.get(GLOBAL_PARAMS_ENV):
         gb = Path(os.environ[GLOBAL_PARAMS_ENV])
     else:
-        gb = Path(project_root) / "vsf.demo" / "vsf" / "test" / "vsf_test" / "params"
+        # script-relative: vsf.demo/vsf/test/vsf_test/params
+        gb = (Path(__file__).resolve().parent / ".." / "vsf_test" / "params").resolve()
 
     params = load_yaml_with_includes(yml_path, global_base=gb)
     pinmap = _load_pinmap(Path(project_root))

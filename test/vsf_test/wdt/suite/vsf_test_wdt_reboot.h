@@ -10,7 +10,6 @@
 #ifndef VSF_TEST_WDT_REBOOT_CASE_COUNT
 #   define VSF_TEST_WDT_REBOOT_CASE_COUNT      1
 #endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif

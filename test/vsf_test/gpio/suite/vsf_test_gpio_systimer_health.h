@@ -1,3 +1,20 @@
+/******************************************************************************
+ *   Copyright(C)2009-2024 by VSF Team                                       *
+ *                                                                           *
+ *  Licensed under the Apache License, Version 2.0 (the "License");          *
+ *  you may not use this file except in compliance with the License.         *
+ *  You may obtain a copy of the License at                                  *
+ *                                                                           *
+ *     http://www.apache.org/licenses/LICENSE-2.0                            *
+ *                                                                           *
+ *  Unless required by applicable law or agreed to in writing, software      *
+ *  distributed under the License is distributed on an "AS IS" BASIS,        *
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
+ *  See the License for the specific language governing permissions and      *
+ *  limitations under the License.                                           *
+ *                                                                           *
+ *****************************************************************************/
+
 #ifndef __VSF_TEST_GPIO_SYSTIMER_HEALTH_H__
 #define __VSF_TEST_GPIO_SYSTIMER_HEALTH_H__
 
@@ -13,11 +30,20 @@
 #   define VSF_TEST_GPIO_SYSTIMER_HEALTH_CASE_COUNT     3
 #endif
 
-#ifndef VSF_TEST_GPIO_SYSTIMER_HEALTH_CASES_INIT
-#   define VSF_TEST_GPIO_SYSTIMER_HEALTH_CASES_INIT     \
-        { .idx = 0, .pin = 4, .interval_ms = 10,  .toggle_count = 10 }, \
-        { .idx = 1, .pin = 4, .interval_ms = 50,  .toggle_count = 10 }, \
-        { .idx = 2, .pin = 4, .interval_ms = 100, .toggle_count = 5  }
+/*============================ PROTOTYPES ====================================*/
+
+#if VSF_TEST_GPIO_SYSTIMER_HEALTH_ENABLE == ENABLED
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void vsf_test_gpio_systimer_health_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif
 
 #endif /* __VSF_TEST_GPIO_SYSTIMER_HEALTH_H__ */

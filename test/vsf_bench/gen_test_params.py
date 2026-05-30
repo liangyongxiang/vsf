@@ -87,8 +87,6 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
         return
 
     upper = name.upper()
-    init_macro = f"VSF_TEST_{upper}_CASES_INIT"
-
     lines.append(f"/* === {scenario_key} ({name}) === */")
     lines.append("")
 
@@ -115,14 +113,6 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
             lines.append(f"#define {macro}  {_format_value(value)}")
             defaults_keys.add(key)
         lines.append("")
-
-    # cases → INIT macro (suite pointer filled at runtime by add_cases)
-    lines.append(f"#define {init_macro}  \\")
-    for i, case in enumerate(cases):
-        comma = "," if i < len(cases) - 1 else ""
-        suffix = "  \\" if i < len(cases) - 1 else ""
-        init = _format_case(case, defaults_keys)
-        lines.append(f"    {init}{comma}{suffix}")
 
     # PARAMS_INIT macro for static parameter initialization (no suite back-pointer)
     params_init_macro = f"VSF_TEST_{upper}_PARAMS_INIT"

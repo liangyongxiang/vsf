@@ -10,10 +10,6 @@
 #ifndef VSF_TEST_ADC_TEMPERATURE_CASE_COUNT
 #   define VSF_TEST_ADC_TEMPERATURE_CASE_COUNT     1
 #endif
-
-#define VSF_TEST_ADC_TEMPERATURE_CASES_INIT                                     \
-    { 0 }
-
 #ifdef __cplusplus
 extern "C" {
 #endif

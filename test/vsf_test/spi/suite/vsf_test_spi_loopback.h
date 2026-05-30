@@ -33,11 +33,6 @@
 #   define VSF_TEST_SPI_LOOPBACK_CASE_COUNT     1
 #endif
 
-#ifndef VSF_TEST_SPI_LOOPBACK_CASES_INIT
-#define VSF_TEST_SPI_LOOPBACK_CASES_INIT                                       \
-    { 0 }
-#endif
-
 /*============================ PROTOTYPES ====================================*/
 
 void vsf_test_spi_loopback_run(const vsf_test_suite_t *suite, const vsf_test_case_t *tc, const void *fixture);

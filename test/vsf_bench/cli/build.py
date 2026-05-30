@@ -19,6 +19,8 @@ from vsf_bench import pipeline
 def main():
     parser = argparse.ArgumentParser(prog="vsf-bench-build")
     parser.add_argument("--project-root", type=Path, default=Path.cwd())
+    parser.add_argument("--source-dir", type=str, default=None)
+    parser.add_argument("--build-dir", type=str, default=None)
     parser.add_argument("hardware_map")
     args = parser.parse_args()
 
@@ -31,8 +33,15 @@ def main():
         print(f"[vsf-bench-build] Config error: {e}", file=sys.stderr)
         sys.exit(2)
 
+    if args.source_dir:
+        board.build.source_dir = args.source_dir
+        if not args.build_dir:
+            board.build.build_dir = str(Path(args.source_dir) / "build")
+    if args.build_dir:
+        board.build.build_dir = args.build_dir
+
     try:
-        pipeline.build_phase(board, project_root)
+        pipeline.build_phase(board)
     except Exception as e:
         print(f"[vsf-bench-build] Build failed: {e}", file=sys.stderr)
         sys.exit(1)

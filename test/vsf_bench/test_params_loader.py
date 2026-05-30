@@ -45,22 +45,23 @@ def _deep_merge(base: dict, overlay: dict) -> dict:
 PIN_MACRO_RE = re.compile(r"^#define\s+(VSF_TEST_[A-Z0-9_]*PIN[A-Z0-9_]*)\s+(\d+)\s*(?:/\*.*\*/)?$")
 
 
-def _load_pinmap(project_root: Path) -> dict[str, int]:
-    """Parse VSF_TEST_*PIN* macros from board-specific C headers.
+def _load_pinmap(board_pins_path: str | Path | None) -> dict[str, int]:
+    """Parse VSF_TEST_*PIN* macros from a board-specific C header.
 
-    Searches `board/<any>/vsf_test_board_pins.h` under *project_root*.
+    If `board_pins_path` is given and exists, parse it directly.
     Returns a dict mapping macro name → integer value.
     """
     pinmap: dict[str, int] = {}
-    board_dir = project_root / "board"
-    if not board_dir.exists():
+    if not board_pins_path:
         return pinmap
-    for header_path in board_dir.rglob("vsf_test_board_pins.h"):
-        with open(header_path) as f:
-            for line in f:
-                m = PIN_MACRO_RE.match(line.strip())
-                if m:
-                    pinmap[m.group(1)] = int(m.group(2))
+    header_path = Path(board_pins_path)
+    if not header_path.exists():
+        return pinmap
+    with open(header_path) as f:
+        for line in f:
+            m = PIN_MACRO_RE.match(line.strip())
+            if m:
+                pinmap[m.group(1)] = int(m.group(2))
     return pinmap
 
 
@@ -179,29 +180,31 @@ def load_yaml_with_includes(
 
 
 def load_test_params(
-    project_root: str | Path,
+    test_params_yml: str | Path,
+    board_pins_path: str | Path | None = None,
     global_base: str | Path | None = None,
 ) -> dict:
-    """Load aggregated test params from the standard project location.
+    """Load aggregated test params.
 
-    Local YAMLs in application/component/vsf-test/ override global YAMLs.
-    The global base is resolved in this order:
-      1. Explicit `global_base` argument (absolute or project-relative).
-      2. Environment variable `VSF_TEST_GLOBAL_PARAMS_DIR`.
-      3. Default: <project_root>/vsf.demo/vsf/test/vsf_test/params
+    Args:
+        test_params_yml: Path to the root test_params.yml.
+        board_pins_path: Optional path to vsf_test_board_pins.h for pin macro resolution.
+        global_base: Optional global params directory (absolute or cwd-relative).
+                     Falls back to VSF_TEST_GLOBAL_PARAMS_DIR env var,
+                     then to the script-relative vsf_test/params directory.
     """
-    yml_path = Path(project_root) / "application" / "component" / "vsf-test" / "test_params.yml"
+    yml_path = Path(test_params_yml)
 
     if global_base is not None:
         gb = Path(global_base)
         if not gb.is_absolute():
-            gb = Path(project_root) / gb
+            gb = Path.cwd() / gb
     elif os.environ.get(GLOBAL_PARAMS_ENV):
         gb = Path(os.environ[GLOBAL_PARAMS_ENV])
     else:
-        # script-relative: vsf.demo/vsf/test/vsf_test/params
+        # script-relative: vsf_bench/../vsf_test/params
         gb = (Path(__file__).resolve().parent / ".." / "vsf_test" / "params").resolve()
 
     params = load_yaml_with_includes(yml_path, global_base=gb)
-    pinmap = _load_pinmap(Path(project_root))
+    pinmap = _load_pinmap(board_pins_path)
     return _resolve_pinmap(params, pinmap)

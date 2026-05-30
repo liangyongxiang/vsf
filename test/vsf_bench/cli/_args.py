@@ -17,6 +17,10 @@ def add_shared_test_args(parser: argparse.ArgumentParser) -> None:
     """
     parser.add_argument("--project-root", type=str, default=None)
     parser.add_argument("--log-dir", type=str, default=None)
+    parser.add_argument("--source-dir", type=str, default=None,
+                        help="Override build source_dir from hardware-map.yml")
+    parser.add_argument("--build-dir", type=str, default=None,
+                        help="Override build build_dir from hardware-map.yml")
     parser.add_argument("--suite", action="append", default=None)
     parser.add_argument("--case", action="append", default=None)
     parser.add_argument("--case-index", action="append", type=int, default=None)

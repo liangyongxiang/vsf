@@ -43,7 +43,7 @@ except ImportError as e:
     print("Error: PyYAML is required. Install with: pip install pyyaml", file=sys.stderr)
     raise SystemExit(1) from e
 
-from vsf_bench.test_params import load_yaml_with_includes
+from vsf_bench.test_params_loader import load_yaml_with_includes
 
 
 def _format_value(value) -> str:
@@ -141,12 +141,13 @@ def _emit_scenario(lines: list[str], scenario_key: str, sc: dict) -> None:
     lines.append("")
 
 def _load_yaml_with_includes(yml_path: Path, stack: list[Path] | None = None) -> dict:
-    """Backward-compatible alias for the shared loader."""
-    return load_yaml_with_includes(yml_path, stack)
+    """Backward-compatible alias for the shared loader with global_base."""
+    global_base = (Path(__file__).resolve().parent / ".." / "vsf_test" / "params").resolve()
+    return load_yaml_with_includes(yml_path, stack, global_base=global_base)
 
 
 def generate_header(yml_path: Path, out_path: Path) -> None:
-    params = load_yaml_with_includes(yml_path)
+    params = _load_yaml_with_includes(yml_path)
 
     lines = [
         "/* Auto-generated from test_params.yml — do not edit manually */",

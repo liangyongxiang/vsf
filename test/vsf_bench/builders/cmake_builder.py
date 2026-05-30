@@ -8,13 +8,16 @@ from vsf_bench.config import BuildConfig
 
 
 class CMakeBuilder(BuildRunner):
-    def __init__(self, build_config: BuildConfig, project_root: str | Path):
-        self.source_dir = Path(project_root) / build_config.source_dir
-        self.build_dir = Path(project_root) / build_config.build_dir
-        self.project_root = Path(project_root)
+    def __init__(self, build_config: BuildConfig):
+        self.source_dir = Path(build_config.source_dir)
+        self.build_dir = Path(build_config.build_dir)
 
     def build(self) -> Path:
-        """Run cmake configure (if needed) + build. Returns build directory."""
+        """Run cmake configure (if needed) + build. Returns build directory.
+
+        Paths are resolved against cwd so the caller controls the anchor
+        directory via os.chdir or by using absolute paths in hardware-map.yml.
+        """
         self.build_dir.mkdir(parents=True, exist_ok=True)
 
         if not (self.build_dir / "CMakeCache.txt").exists():
@@ -25,13 +28,11 @@ class CMakeBuilder(BuildRunner):
                     "-S", str(self.source_dir),
                 ],
                 check=True,
-                cwd=str(self.project_root),
             )
 
         subprocess.run(
             ["cmake", "--build", str(self.build_dir)],
             check=True,
-            cwd=str(self.project_root),
         )
 
         return self.build_dir

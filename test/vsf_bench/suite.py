@@ -8,14 +8,17 @@ import sys
 from pathlib import Path
 
 
-def discover_suites(project_root: Path) -> dict[str, Path]:
+def discover_suites(_project_root: Path | None = None) -> dict[str, Path]:
     """Walk the test tree and return {suite_name: script_path}.
 
-    Each `vsf.demo/vsf/test/vsf_test/<peripheral>/suite/vsf_test_<suite>.py`
-    file is registered under `<suite>`.
+    Discovers `vsf_test_<suite>.py` files under `vsf/test/vsf_test/`.
+    Uses the script's own location (vsf/test/vsf_bench/) to find the
+    sibling `vsf_test/` directory, so discovery works regardless of
+    project layout (root repo, vsf.demo directly, or a private HAL).
     """
     suites: dict[str, Path] = {}
-    base = project_root / "vsf.demo" / "vsf" / "test" / "vsf_test"
+    # vsf_bench and vsf_test are siblings under vsf/test/.
+    base = (Path(__file__).resolve().parent / ".." / "vsf_test").resolve()
     if not base.exists():
         return suites
     for peripheral_dir in base.iterdir():

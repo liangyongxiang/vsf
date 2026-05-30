@@ -23,7 +23,7 @@ from vsf_bench.runners.registry import get_runner_class
 from vsf_bench.instruments.serial_instrument import SerialInstrument
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.suite import discover_suites, load_script_module, script_needs_la, resolve_suites
-from vsf_bench.test_params import load_test_params
+from vsf_bench.test_params_loader import load_test_params
 
 
 def __bprint(*args, **kwargs):
@@ -39,7 +39,7 @@ def load_board(hardware_map_path: Path):
     return board
 
 
-def build_phase(board, project_root: Path) -> Path:
+def build_phase(board) -> Path:
     """Run the configured build tool → return build_dir. Raises on error."""
     build_tool = board.build.build_tool
     builder_cfg = board.build.builders.get(build_tool)
@@ -49,7 +49,7 @@ def build_phase(board, project_root: Path) -> Path:
     if builder_cls is None:
         raise RuntimeError(f"Unknown builder type: {builder_cfg.type}")
     __bprint(f"Building ({board.build.source_dir}) via {build_tool}...")
-    builder = builder_cls(board.build, project_root)
+    builder = builder_cls(board.build)
     build_dir = builder.build()
     __bprint(f"Build complete: {build_dir}")
     return build_dir
@@ -256,7 +256,7 @@ def run_test_phase(
     Returns True if every suite/case passed (phase1 + decode), False otherwise.
     Does NOT build or flash — that is the caller's responsibility.
     """
-    discovered = discover_suites(project_root)
+    discovered = discover_suites()
     ordered_suites = resolve_suites(suite_names, script_override, discovered)
     if not ordered_suites:
         raise RuntimeError("No suites discovered")
@@ -270,7 +270,12 @@ def run_test_phase(
     # Resolve non-numeric --case values to indices via YAML lookup
     if case_specs and len(ordered_suites) == 1:
         suite_name = ordered_suites[0][0]
-        params = load_test_params(project_root)
+        # test_params.yml is cwd-relative by convention
+        test_params_yml = Path("application/component/vsf-test/test_params.yml")
+        params = load_test_params(
+            test_params_yml=test_params_yml,
+            board_pins_path=board.board_pins,
+        )
         resolved: list[str] = []
         for spec in case_specs:
             if spec.isdigit():
@@ -288,7 +293,7 @@ def run_test_phase(
     ser.open()
 
     la_cfg = board.logic_analyzer
-    cli_path = project_root / la_cfg.cli if la_cfg else None
+    cli_path = Path(la_cfg.cli) if la_cfg else None
 
     try:
         ser.expect("VSF Test Ready", timeout=10.0)

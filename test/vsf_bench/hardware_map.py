@@ -13,9 +13,22 @@ from vsf_bench.config import (
 )
 
 
+def _resolve_yaml_path(value: str, yaml_dir: Path) -> str:
+    """Convert a path relative to the YAML file into an absolute path."""
+    if not value:
+        return value
+    p = Path(value)
+    return str(p if p.is_absolute() else yaml_dir / p)
+
+
 def load(path: str | Path) -> BoardConfig:
-    """Load the first connected board from a hardware-map.yml file."""
+    """Load the first connected board from a hardware-map.yml file.
+
+    All relative paths inside the YAML are resolved against the YAML file's
+    parent directory so the hardware-map is self-contained regardless of cwd.
+    """
     p = Path(path)
+    yaml_dir = p.parent.resolve()
     with open(p) as f:
         entries = yaml.safe_load(f)
 
@@ -47,8 +60,8 @@ def load(path: str | Path) -> BoardConfig:
             builders[build_tool] = BuilderConfig(type=build_tool)
 
         build = BuildConfig(
-            source_dir=build_cfg.get("source_dir", ""),
-            build_dir=build_cfg.get("build_dir", ""),
+            source_dir=_resolve_yaml_path(build_cfg.get("source_dir", ""), yaml_dir),
+            build_dir=_resolve_yaml_path(build_cfg.get("build_dir", ""), yaml_dir),
             build_tool=build_tool,
             builders=builders,
             artifacts=build_artifacts,
@@ -77,7 +90,7 @@ def load(path: str | Path) -> BoardConfig:
         la_raw = entry.get("logic_analyzer")
         if la_raw:
             la_cfg = LogicAnalyzerConfig(
-                cli=la_raw["cli"],
+                cli=_resolve_yaml_path(la_raw["cli"], yaml_dir),
                 device=la_raw.get("device", "DSLogic"),
                 samplerate=la_raw.get("samplerate", "10M"),
                 capture_duration=float(la_raw.get("capture_duration", 120)),
@@ -94,6 +107,7 @@ def load(path: str | Path) -> BoardConfig:
             build=build,
             fixtures=entry.get("fixtures", []),
             logic_analyzer=la_cfg,
+            board_pins=_resolve_yaml_path(entry.get("board_pins", ""), yaml_dir),
         )
         board.validate()
         return board

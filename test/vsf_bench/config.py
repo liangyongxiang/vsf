@@ -55,6 +55,7 @@ class BoardConfig:
     connected: bool = True
     fixtures: list[str] = field(default_factory=list)
     logic_analyzer: LogicAnalyzerConfig | None = None
+    board_pins: str = ""
 
     def validate(self) -> None:
         missing = []

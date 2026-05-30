@@ -49,11 +49,19 @@ def main():
         print(f"[vsf-bench] Config error: {e}", file=sys.stderr)
         sys.exit(2)
 
-    build_dir = project_root / board.build.build_dir
+    # Apply CLI overrides for source/build directories
+    if args.source_dir:
+        board.build.source_dir = args.source_dir
+        if not args.build_dir:
+            board.build.build_dir = str(Path(args.source_dir) / "build")
+    if args.build_dir:
+        board.build.build_dir = args.build_dir
+
+    build_dir = Path(board.build.build_dir)
 
     if do_build:
         try:
-            build_dir = pipeline.build_phase(board, project_root)
+            build_dir = pipeline.build_phase(board)
         except Exception as e:
             print(f"[vsf-bench] Build failed: {e}", file=sys.stderr)
             sys.exit(1)

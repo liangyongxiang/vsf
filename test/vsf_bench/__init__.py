@@ -9,7 +9,7 @@ from vsf_bench.hardware_map import load as load_board
 from vsf_bench.instruments.logic_analyzer_instrument import LogicAnalyzerInstrument
 from vsf_bench.instruments.serial_instrument import SerialInstrument, SuiteTimeoutError
 from vsf_bench.pipeline import run_test_phase
-from vsf_bench.test_params import load_test_params
+from vsf_bench.test_params_loader import load_test_params
 
 __all__ = [
     "LogicAnalyzerInstrument",

@@ -16,10 +16,13 @@ USE FOR:
 - Multi-board parallel testing
 - Hardware-interaction tests: GPIO trigger + serial send/expect + LA capture + post-process. Declarative YAML — no Python required.
 - Stress/loop testing with `--repeat N` and `--set` overrides
-- **Crash analysis:** halt CPU, capture fault registers + stack backtrace via CMSIS-DAP (no GDB needed)
+- **Crash analysis:** halt CPU, DWARF stack unwind (GDB), fault register decode, stacked frame scan, interrupt state dump, debug capability overview
+- **Live health check:** one-shot snapshot of CPU mode, registers, MSP/PSP, enabled/pending/active IRQs, DWT cycle counter
+- **NVIC interrupt dump:** full vector table with peripheral names, enable/pending/active status, dynamic priority detection
 - **Breakpoint debugging:** set hardware breakpoints at address/symbol, run until hit, inspect registers/variables
 - **Variable inspection:** read global/static variables by name or fnmatch pattern from ELF symbol table
 - **Memory inspection:** read arbitrary memory blocks via SWD
+- **Multi-core support:** `--core N` for dual-core targets (BH1098H CPU0/CPU1)
 
 DO NOT USE FOR:
 - HAL driver porting (use vsf-hal-driver)
@@ -43,11 +46,15 @@ DO NOT USE FOR:
 - **Script signature:** `def run(serial, la=None)`. Scripts validate only — orchestrator sends triggers. Exception = FAIL, normal return = PASS.
 - **Output path convention:** All run artifacts go under `logs/<ts>-<board>-<pipeline>/`. Loop iterations get `runs/01/`, `runs/02/` subdirectories. Files prefixed by category: `run.log` (combined log), `test-*` (test artifacts), `la-*` (LA artifacts). No `--log-dir` or `log_dir` config — `logs/` is hardcoded.
 - **Path model:** All paths are cwd-relative or absolute. No `project_root` parameter.
-- **vsf-bench-debug:** Separate CLI (`vsf-bench-debug`) for crash analysis and breakpoint inspection. Uses pyOCD + CMSIS-DAP/J-Link probe. Requires `pip install pyocd pyelftools`. Board must have `debug_probe` in hardware-map.yml.
+- **vsf-bench-debug:** Separate CLI (`vsf-bench-debug`) for crash analysis, live health checks, and breakpoint inspection. Uses pyOCD + CMSIS-DAP/J-Link probe. Requires `pip install pyocd pyelftools`. Board must have `debug_probe` in hardware-map.yml.
+- **DWARF backtrace:** `backtrace` uses pyOCD's embedded GDBServer (`GDBServer(session, core=N)`) + one-shot `arm-none-eabi-gdb -batch bt` for accurate stack unwinding (tail-call, inline, MSP/PSP). Falls back to heuristic stack walk when GDB is unavailable.
 - **ELF auto-discovery:** `vsf-bench-debug` resolves ELF path from `--project` → project build artifacts, or `--elf` for explicit path. ELF enables symbol resolution (function names, source locations, variable lookup).
+- **Multi-core:** `--core N` selects CPU core (0=primary, 1=secondary). GDBServer auto-manages per-core ports. `live` / `intc` / `crash-dump` all support `--core`.
 - **Breakpoint lifecycle:** `break` halts CPU, sets hardware breakpoint at address/symbol, resumes; CPU halts on hit. `continue` resumes from halted state. Breakpoints are cleared on session disconnect.
 - **Variable inspection:** `vars` reads global/static variables from ELF symbol table. Supports fnmatch patterns (`vsf_*`, `*buffer*`). Project `debug_vars` list auto-dumps with `--project`.
-- **Crash dump:** `crash-dump` halts CPU, reads all core + fault registers, unwinds stack, resolves symbols, extracts assertion context (caller_func, file, line, expression). Outputs JSON.
+- **Interrupt dump (`intc`):** Full NVIC state — vector table (VTOR), system exceptions + peripheral IRQs with names parsed from `soc_config.h`, enable/pending/active flags, dynamic priority detection (write-test IPR, read AIRCR.PRIGROUP), sorted by preempt priority. Header shows CPUID, DWT cycle counter, FPB, MPU, stack limits (MSPLIM/PSPLIM), SHCSR system handler status.
+- **Live health check (`live`):** One-shot snapshot — CPUID + DWT + FPB + MPU + stack limits + SHCSR + current exception mode (IPSR) + PC/SP/LR/MSP/PSP/CONTROL + interrupt summary (enabled/active/pending counts and names).
+- **Crash dump:** `crash-dump` halts CPU, DWARF unwinds stack, reads all core + fault registers, decodes CFSR/HFSR fault flags, scans stack upward to locate the hardware-stacked exception frame (R0-R3,R12,LR_fault,PC_fault,xPSR), resolves fault PC to source file:line, includes debug caps and active/pending IRQ list. Outputs JSON.
 
 ## Quickstart
 
@@ -195,14 +202,20 @@ vsf-bench --pipeline bt_stress --board b1 --repeat 5 --set pair_wait.delay=3.0
 # Install debug dependencies (once)
 pip install pyocd pyelftools
 
-# Crash dump — halt CPU, capture fault registers + stack + assertion context
+# Live health check — mode, registers, IRQs, caps (no crash needed)
+vsf-bench-debug live --board b1 board/
+
+# Full NVIC dump — vector table, priorities, enable/pending/active, peripheral names
+vsf-bench-debug intc --board b1 --project application-standalone board/
+
+# Crash dump — DWARF unwind + fault frame + interrupt state + debug caps
 vsf-bench-debug crash-dump --board b1 --project application-standalone board/
 
-# Backtrace — halt CPU, walk call stack with symbol resolution
+# Backtrace — DWARF stack unwind (GDB), falls back to heuristic
 vsf-bench-debug backtrace --board b1 --project application-standalone board/
 
 # Registers — halt CPU, dump all core registers
-vsf-bench-debug regs --board b1 --project application-standalone board/
+vsf-bench-debug regs --board b1 board/
 
 # Memory read — read 256 bytes from address
 vsf-bench-debug read --board b1 --addr 0x2000FF00 --len 256 board/
@@ -215,10 +228,12 @@ vsf-bench-debug vars --board b1 --project application-standalone --name "vsf_*" 
 
 # Breakpoint — halt, set BP at symbol, resume, wait for hit
 vsf-bench-debug break --board b1 --project application-standalone main board/
-vsf-bench-debug break --board b1 0x08001234 board/
 
 # Continue — resume after manual halt or breakpoint hit
 vsf-bench-debug continue --board b1 board/
+
+# Dual-core — target CPU1 on BH1098H
+vsf-bench-debug --core 1 live --board b1 board/
 ```
 
 ## Error handling
@@ -245,6 +260,10 @@ vsf-bench-debug continue --board b1 board/
 | Debug: breakpoint not hit | address wrong or code path not executed | verify address with `arm-none-eabi-objdump -d`; check code path reached |
 | Debug: probe not found | multiple CMSIS-DAP probes, no unique_id | set `debug_probe.probe` to target probe serial number |
 | Debug: target locked | CPU in low-power or locked state | power-cycle board; check debug port not disabled in firmware |
+| Debug: Core N not available | Multi-core target with fewer cores than requested | verify `--core` value; use `live` without `--core` to check available cores |
+| Debug: DWARF backtrace fails | GDB not found or GDBServer conflict | ensure `arm-none-eabi-gdb` in PATH; check pyOCD session is closed |
+| Debug: intc shows "IRQ" without peripheral name | soc_config.h not found at expected path | BH1098 only — names parsed from vendor BSP header |
+| Debug: fault_frame shows "overwritten, not EXC_RETURN" | HardFault handler called subroutines (LR overwritten) | normal; decoder scans stack for real frame — check frame_offset and PC_fault |
 
 If vsf-bench not installed: `pip install -e vsf/test/vsf_bench`.
 

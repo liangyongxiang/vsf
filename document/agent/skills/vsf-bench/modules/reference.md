@@ -191,11 +191,20 @@ Hardware requirement: CMSIS-DAP or J-Link probe connected to board SWD pins.
 Dependencies: `pip install pyocd pyelftools`
 
 ```bash
-# All subcommands share --board and <board_dir> positional
-vsf-bench-debug <cmd> --board <name> [options] <board_dir>
+# All subcommands share --board, --core, and <board_dir> positional
+vsf-bench-debug <cmd> --board <name> [--core 0|1] [options] <board_dir>
 ```
 
 `<board_dir>` is the directory containing `hardware-map.yml` (usually `board/`).
+
+### Multi-core (`--core N`)
+
+All debug commands support `--core N` (default 0) for dual-core targets like BH1098H.
+Core 1 is typically held in reset until CPU0 firmware releases it.
+
+```bash
+vsf-bench-debug --core 1 live --board b1 board/     # CPU1 health check
+```
 
 ### ELF auto-discovery
 
@@ -205,40 +214,95 @@ ELF is resolved automatically (no `--elf` needed if project configured):
 2. `--project <name>` → `project.build.artifacts` (format: "elf" or "out") resolved relative to `build_dir`
 3. Board's embedded `build` config artifacts (flat-format)
 
-### crash-dump
+### live — system health snapshot
 
-Halt CPU, capture full crash context, output JSON, resume.
+One-shot live state: CPUID, DWT cycle counter, FPB, MPU, stack limits, SHCSR, current exception mode (IPSR), PC/SP/LR/MSP/PSP/CONTROL, interrupt summary. **No crash needed — works on any running firmware.**
+
+```bash
+vsf-bench-debug live --board b1 board/
+```
+
+Output:
+```
+CPU: 0x631F1320 (impl=Arm China, part=0x132, var=1, rev=r0p15)
+DWT: 0x48000001 (4 comparators, cycle counter=121562)
+FPB: 0x10000080 (9 breakpoints, 1 literal)
+MPU: not present
+Stack limits: MSPLIM=0x00000001 PSPLIM=0x28027B14
+SHCSR: 0x00000400
+
+  Mode: PendSV (IPSR=14)
+  PC=0x020080DC  SP=0x28027B14  LR=0x02008137
+  MSP=0x28027B14  PSP=0x2802A2E0  CONTROL=0x00000004
+
+  Interrupts: 14 enabled
+  Active:  #14 PendSV
+```
+
+### intc — NVIC interrupt dump
+
+Full interrupt controller state: vector table with handler addresses (resolved to function names via ELF), peripheral names from `soc_config.h`, enable/pending/active flags, dynamic priority bit detection from hardware. Header includes CPUID, DWT, FPB, MPU, stack limits, SHCSR.
+
+```bash
+vsf-bench-debug intc --board b1 --project application-standalone board/
+```
+
+Output:
+```
+Core: 0  VTOR: 0x20000200  NVIC: 4-bit priority (3 preempt + 1 sub)
+CPUID: Arm China Star-MC1 r0p15  DWT: 4 comparators, cycle counter=7958369
+FPB: 9 breakpoints  MPU: not present  Stack: MSPLIM=0x... PSPLIM=0x...
+SHCSR: 0x00000400
+
+Enabled: 14  Pending: 0  Active: 1
+
+ IRQ Name                     Lvl Pre Sub E P A  Handler
+  1 Reset                      0   0   0 . . .  Reset_Handler
+  3 HardFault                  0   0   0 . . .  HardFault_Handler
+ 17 IRQ001 (MBOX)              0   0   0 E . .  isr_wrapper
+ 45 IRQ029 (SCAL)              2   1   0 E . .  __wrapped_SCAL_IRQHandler
+ 19 IRQ003 (I2S)              12   6   0 E . .  __wrapped_I2S_IRQHandler
+ 14 PendSV                    14   7   0 . . A  __wrapped_PendSV_Handler
+```
+
+Columns: `Lvl`=effective priority (0=highest), `Pre`=preempt group, `Sub`=subgroup, `E`=Enabled, `P`=Pending, `A`=Active.
+
+### crash-dump — enhanced crash analysis
+
+Halt CPU, DWARF unwind, fault registers, **stack scan** for hardware-stacked exception frame (R0-R3,R12,LR_fault,PC_fault,xPSR), fault PC resolved to source file:line, debug caps overview, active/pending IRQ list.
 
 ```bash
 vsf-bench-debug crash-dump --board b1 --project application-standalone board/
-vsf-bench-debug crash-dump --board b1 --elf build/app.out board/
 ```
 
-Output (JSON):
+Output (JSON, abridged):
 ```json
 {
-  "fault": "HARD_FAULT",
-  "pc": "0x08001234",
-  "sp": "0x2000FF00",
-  "lr": "0x08001000",
-  "cfsr": "0x00008200",
-  "hfsr": "0x40000000",
-  "mmfar": "0x00000000",
-  "bfar": "0xE000ED38",
-  "regs": {"R0": "0x00000000", ...},
-  "stack": [{"pc": "0x08001234", "function": "fault_handler", "file": "main.c", "line": 42}, ...],
-  "pc_func": "HardFault_Handler",
-  "lr_func": "main",
-  "assertion": {"caller_func": "gpio_init", "file": "gpio.c", "line": 128, "expression": "port != NULL"}
+  "fault": "UNDEFINSTR",
+  "pc": "0x020318E8", "sp": "0x28041880", "lr": "0x02020389",
+  "cfsr": "0x00010000", "hfsr": "0x40000000",
+  "regs": {"R0": "0x00000003", "SP": "0x28041880", "PC": "0x020318E8", ...},
+  "stack": [{"pc": "0x020318E8", "file": "vsf_os.c", "line": 154}],
+  "fault_frame": {
+    "ipsr": 3, "mode": "HardFault",
+    "exc_return": "LR=0x02020389 (overwritten, not EXC_RETURN)",
+    "frame_offset": 208,
+    "frame_at_SP": {
+      "R0": "0xAAAAAAAA", "R1": "0xAAAAAAAA",
+      "R12": "0x28041F30", "LR_fault": "0x0202407F",
+      "PC_fault": "0x02023FE1", "xPSR": "0x00000008"
+    },
+    "fault_pc": "0x02023FE0",
+    "fault_pc_file": "vsf_os.c", "fault_pc_line": 154
+  }
 }
 ```
 
-When PC is in `vsf_trace_assert` and no hardware fault is active, `fault` = `"Assertion"` with
-assertion context extracted automatically (caller_func, file, line, func, expression).
+When HardFault handler has pushed extra registers (R4-R11+LR), `frame_offset` reports how far the decoder had to scan upward to find the real exception frame. `PC_fault` is the actual faulting instruction address; `LR_fault` is the return address at fault time.
 
-### backtrace
+### backtrace — DWARF stack unwind
 
-Halt CPU, walk call stack with symbol resolution, resume.
+Uses pyOCD's embedded GDBServer (`GDBServer(session, core=N)`) + one-shot `arm-none-eabi-gdb -batch bt`. Accurately handles tail-call optimization, inline functions, MSP/PSP selection, and leaf functions. Falls back to heuristic stack walk when GDB is unavailable.
 
 ```bash
 vsf-bench-debug backtrace --board b1 --project application-standalone board/
@@ -246,32 +310,17 @@ vsf-bench-debug backtrace --board b1 --project application-standalone board/
 
 Output:
 ```
-[vsf-bench-debug] ELF: build/application-standalone.out
-  #0: PC=0x08001234  SP=0x2000FF00  LR=0x08001001  <HardFault_Handler>  // startup.c:156
-  #1: PC=0x08001000  LR=0x08000801  <main>  // main.c:42
-  #2: PC=0x08000800  <Reset_Handler>
+  #0: PC=0x020080DC  SP=0x00000000  LR=0x00000000  <vsf_test_busy_wait_ms>  // vsf_test.c:196
+  #1: PC=0x02008136  <__read_line>  // vsf_test_shell.c:33
+  #2: PC=0xAAAAAAAA  <??>
 ```
-
-Frame #0 shows live PC/SP/LR. Subsequent frames show PC decoded from LR on stack.
 
 ### regs
 
-Halt CPU, dump all core registers (R0-R12, SP, LR, PC, XPSR) with optional symbol resolution.
+Halt CPU, dump all core registers (R0-R12, SP, LR, PC, XPSR).
 
 ```bash
-vsf-bench-debug regs --board b1 --project application-standalone board/
-```
-
-Output:
-```
-[vsf-bench-debug] ELF: build/application-standalone.out
-  R0   = 0x20001000
-  R1   = 0x00000001
-  ...
-  SP   = 0x2000FF00
-  LR   = 0x08001001  <main+0x10>
-  PC   = 0x08001234  <HardFault_Handler>
-  XPSR = 0x61000000
+vsf-bench-debug regs --board b1 board/
 ```
 
 ### read
@@ -282,77 +331,21 @@ Read a memory block and display as hexdump.
 vsf-bench-debug read --board b1 --addr 0x20000000 --len 256 board/
 ```
 
-Output (hexdump with ASCII sidebar):
-```
-  0x20000000: 48 65 6C 6C 6F 00 00 00  01 00 00 00 00 00 00 00  Hello...........
-  0x20000010: ...
-```
-
-`--addr` accepts hex (`0x...`) or decimal. `--len` defaults to 256.
-
 ### vars
 
-Read global/static variables by name from ELF symbol table. Requires ELF.
+Read global/static variables by name from ELF symbol table.
 
 ```bash
-# Single variable (exact name)
-vsf-bench-debug vars --board b1 --project application-standalone --name vsf_trace_rx_buff board/
-
-# Multiple variables
-vsf-bench-debug vars --board b1 --project application-standalone --name rx_buff --name tx_buff board/
-
-# fnmatch pattern (wildcards *, ?)
 vsf-bench-debug vars --board b1 --project application-standalone --name "vsf_*" board/
-vsf-bench-debug vars --board b1 --project application-standalone --name "*buffer*" board/
-
-# With project (auto-includes project.debug_vars list)
-vsf-bench-debug vars --board b1 --project application-standalone board/
 ```
 
-Output per variable:
-```
-  vsf_trace_rx_buff @ 0x20001000  (128 bytes)
-        raw: 48656c6c6f...
-      uint8: 72  uint16: 25960  uint32: 1819043144  uint64: 7694652266186761800
-    pointer: 0x20001000
-     string: "Hello VSF"
-```
+### break / continue
 
-### break
-
-Halt CPU, set hardware breakpoint at address or symbol, resume and wait for hit.
+Set hardware breakpoint at address or symbol, resume and wait for hit.
 
 ```bash
-# By symbol (requires ELF)
 vsf-bench-debug break --board b1 --project application-standalone main board/
-vsf-bench-debug break --board b1 --project application-standalone gpio_isr board/
-
-# By hex address
-vsf-bench-debug break --board b1 0x08001234 board/
-```
-
-Output:
-```
-[vsf-bench-debug] Halted at 0x08000800
-[vsf-bench-debug] Breakpoint at 0x08001000 <main>
-[vsf-bench-debug] ELF: build/application-standalone.out
-```
-
-Breakpoints are hardware breakpoints (set via pyOCD). They persist until the DebugSession
-disconnects. After a breakpoint hit, use `regs`, `vars`, `read`, or `backtrace` to inspect
-state (each opens a new session).
-
-### continue
-
-Resume CPU from halted state (after manual halt via other tool, or after breakpoint hit).
-
-```bash
 vsf-bench-debug continue --board b1 board/
-```
-
-Output:
-```
-[vsf-bench-debug] Resumed
 ```
 
 ### debug_probe configuration (hardware-map.yml)

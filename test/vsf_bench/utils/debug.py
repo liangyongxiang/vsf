@@ -959,56 +959,81 @@ class DebugSession:
     # ── fault frame decoder ────────────────────────────────
 
     def fault_frame_decode(self, dump: CrashDump) -> dict:
-        """Decode the stacked exception frame from a HardFault.
+        """Decode the stacked exception frame from the current context.
 
-        Reads the 8-word frame pushed by Cortex-M on exception entry
-        (R0-R3, R12, LR, PC, xPSR) from SP at time of fault.
-        Also decodes EXC_RETURN to determine stack (MSP/PSP) and FPU state.
+        If the CPU is halted inside an exception handler (IPSR != 0),
+        the 8-word hardware-stacked frame (R0-R3, R12, LR, PC, xPSR)
+        is at the current SP.  If we're back in thread mode, the frame
+        is no longer on the stack — we can only report what we have.
         """
-        sp      = dump.core_regs.get("SP", 0)
-        lr_val  = dump.core_regs.get("LR", 0)
-        exc_return = lr_val  # LR holds EXC_RETURN on exception entry
-
-        # Decode EXC_RETURN
-        exc_info = []
-        stack_name = "MSP" if (exc_return & (1 << 3)) else "PSP"
-        exc_info.append(f"stack={stack_name}")
-        if exc_return & (1 << 4):
-            exc_info.append("FPU_frame_present(+18 words)")
-        else:
-            exc_info.append("standard_frame(8 words)")
-        if exc_return & (1 << 0):
-            exc_info.append("Secure→NonSecure")  # TrustZone
-        security = "secure" if (exc_return & (1 << 6)) else "non-secure"
-        exc_info.append(security)
-
-        # Read 8 stacked registers (R0,R1,R2,R3,R12,LR,PC,xPSR)
-        frame: dict[str, int] = {}
-        frame_names = ["R0", "R1", "R2", "R3", "R12", "LR_fault", "PC_fault", "xPSR"]
         import struct
-        stack_data = self.read_mem(sp, 32)
+
+        regs = dump.core_regs
+        sp     = regs.get("SP", 0)
+        lr_val = regs.get("LR", 0)
+        xpsr   = regs.get("XPSR", 0)
+        ipsr   = xpsr & 0x1FF  # exception number (0 = thread mode)
+
+        result: dict = {}
+        result["ipsr"] = ipsr
+
+        exc_names = {2: "NMI", 3: "HardFault", 4: "MemManage", 5: "BusFault",
+                     6: "UsageFault", 11: "SVCall", 14: "PendSV", 15: "SysTick"}
+        result["mode"] = exc_names.get(ipsr, f"Exception{ipsr}" if ipsr else "Thread")
+
+        # EXC_RETURN: only valid when LR was set on exception entry.
+        # If LR looks like EXC_RETURN (0xFFFFFFFX), decode it.
+        if (lr_val & 0xFF000000) == 0xFF000000:
+            exc_info = []
+            exc_info.append("MSP" if (lr_val & (1 << 3)) else "PSP")
+            if lr_val & (1 << 4):
+                exc_info.append("FPU_frame(+18w)")
+            else:
+                exc_info.append("std_frame(8w)")
+            if lr_val & (1 << 0):
+                exc_info.append("S→NS")
+            result["exc_return"] = f"0x{lr_val:08X} ({', '.join(exc_info)})"
+        else:
+            result["exc_return"] = f"LR=0x{lr_val:08X} (overwritten, not EXC_RETURN)"
+
+        # Read the 8-word hardware-stacked frame from SP.
+        frame_names = ["R0", "R1", "R2", "R3", "R12", "LR_fault", "PC_fault", "xPSR"]
+
+        def _looks_like_frame(data: bytes) -> bool:
+            pc_like = struct.unpack("<I", data[24:28])[0] & ~1
+            lr_like = struct.unpack("<I", data[20:24])[0] & ~1
+            return (0x02000000 <= pc_like <= 0x02100000 and
+                    0x02000000 <= lr_like <= 0x02100000)
+
+        frame_data = self.read_mem(sp, 32)
+        frame_offset = 0
+        # If the frame at SP doesn't look valid, scan upward
+        if not _looks_like_frame(frame_data):
+            for off in range(32, 512, 8):
+                data = self.read_mem(sp + off, 32)
+                if _looks_like_frame(data):
+                    frame_data = data
+                    frame_offset = off
+                    break
+
+        frame: dict[str, int] = {}
         for i, name in enumerate(frame_names):
-            if i * 4 + 4 <= len(stack_data):
-                frame[name] = struct.unpack("<I", stack_data[i*4:i*4+4])[0]
+            if i * 4 + 4 <= len(frame_data):
+                frame[name] = struct.unpack("<I", frame_data[i*4:i*4+4])[0]
+        result["frame_offset"] = frame_offset
+        result["frame_at_SP"] = {k: f"0x{v:08X}" for k, v in frame.items()}
 
         # Resolve fault PC
-        fault_pc_func = ""
-        fault_pc_file = ""
-        fault_pc_line = 0
-        if self._elf is not None and "PC_fault" in frame:
+        fault_pc = frame.get("PC_fault", 0) & ~1
+        if fault_pc and self._elf is not None:
             self._elf._ensure_loaded()
-            f = self._elf.resolve(frame["PC_fault"])
-            fault_pc_func = f.function
-            fault_pc_file = f.file
-            fault_pc_line = f.line
+            f = self._elf.resolve(fault_pc)
+            result["fault_pc"] = f"0x{fault_pc:08X}"
+            result["fault_pc_func"] = f.function
+            result["fault_pc_file"] = f.file
+            result["fault_pc_line"] = f.line
 
-        return {
-            "exc_return": f"0x{exc_return:08X} ({', '.join(exc_info)})",
-            "frame": {k: f"0x{v:08X}" for k, v in frame.items()},
-            "fault_pc_func": fault_pc_func,
-            "fault_pc_file": fault_pc_file,
-            "fault_pc_line": fault_pc_line,
-        }
+        return result
 
     # ── crash dump ─────────────────────────────────────────
 

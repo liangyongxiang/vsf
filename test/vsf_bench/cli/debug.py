@@ -50,6 +50,9 @@ def parse_args():
 
     sub.add_parser("continue", help="Resume CPU and wait for breakpoint")
 
+    intc_p = sub.add_parser("intc", help="Dump interrupt controller state (NVIC)")
+    _add_elf_args(intc_p)
+
     parser.add_argument("--board", type=str, default=None)
     parser.add_argument("--core", type=int, default=0, help="CPU core number (0=primary, 1=secondary)")
     parser.add_argument("board_dir")
@@ -381,6 +384,49 @@ def _resolve_break_addr(target_str: str, elf_path: str | None) -> int:
     raise ValueError(f"Not a valid address and no ELF for symbol lookup: {target_str}")
 
 
+def cmd_intc(board, args):
+    """Read and display the full interrupt controller state."""
+    from vsf_bench.utils.debug import DebugSession
+
+    elf_path = _find_elf(args, str(Path(args.board_dir).resolve()), board)
+    probe_cfg = board.debug_probe
+    target = probe_cfg.get("target", "cortex_m")
+    probe_id = probe_cfg.get("probe")
+
+    with DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core) as dbg:
+        vectors = dbg.intc_dump()
+
+    if elf_path:
+        print(f"[vsf-bench-debug] ELF: {elf_path}")
+    print(f"[vsf-bench-debug] Core: {args.core}  "
+          f"VTOR: (see below)  Priority: 3 preempt + 1 sub bits")
+    print()
+
+    # Count active/pending
+    enabled = sum(1 for v in vectors if v.enabled)
+    pending = sum(1 for v in vectors if v.pending)
+    active  = sum(1 for v in vectors if v.active)
+    print(f"  Enabled: {enabled}  Pending: {pending}  Active: {active}")
+    print()
+
+    # Header
+    print(f"  {'IRQ':>4s} {'Name':20s} {'Prio':>4s} {'Pre':>3s} {'Sub':>3s} E P A  Handler")
+    print(f"  {'-'*4} {'-'*20} {'-'*4} {'-'*3} {'-'*3} - - -  {'-'*40}")
+
+    for v in vectors:
+        # Show: system exceptions with valid handlers, or any enabled/pending/active IRQ
+        if v.irq < 16:
+            if v.handler == 0:
+                continue  # skip empty system exception slots
+        else:
+            if not v.enabled and not v.pending and not v.active:
+                continue  # skip unused peripheral IRQs
+
+        handler_str = v.handler_func or (f"0x{v.handler:08X}" if v.handler else "")
+        print(f"  {v.irq:4d} {v.name:20s} {v.priority:4d} {v.preempt_prio:3d} {v.sub_prio:3d} "
+              f"{'E' if v.enabled else '.':1s} {'P' if v.pending else '.':1s} {'A' if v.active else '.':1s}  {handler_str}")
+
+
 def cmd_continue(board, args):
     """Resume CPU from halted state (useful after a manual halt)."""
     from vsf_bench.utils.debug import DebugSession
@@ -422,6 +468,7 @@ def main():
         "vars": cmd_vars,
         "break": cmd_break,
         "continue": cmd_continue,
+        "intc": cmd_intc,
     }
     try:
         handlers[args.cmd](board, args)

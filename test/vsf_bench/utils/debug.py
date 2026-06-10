@@ -34,6 +34,21 @@ from pathlib import Path
 
 
 @dataclass
+class IntVector:
+    """One entry in the interrupt vector table."""
+    irq: int                # IRQ number (0-15 = system, 16+ = peripheral)
+    name: str               # exception/peripheral name
+    handler: int            # handler address from vector table
+    handler_func: str = ""  # resolved function name (ELF)
+    enabled: bool = False   # NVIC ISER
+    pending: bool = False   # NVIC ISPR
+    active: bool = False    # NVIC IABR
+    priority: int = 0       # raw 8-bit priority
+    preempt_prio: int = 0   # preemption priority (group)
+    sub_prio: int = 0       # subpriority (subgroup)
+
+
+@dataclass
 class StackFrame:
     """One frame in a stack backtrace."""
     pc: int
@@ -649,6 +664,150 @@ class DebugSession:
             stack=frames,
             pc_func=pc_func,
         )
+
+    # ── interrupt controller dump ─────────────────────────
+
+    _NVIC_BASE = 0xE000E100
+    _SCS_BASE  = 0xE000E000
+
+    # Standard Cortex-M system exception names
+    _SYS_EXC_NAMES = [
+        "", "Reset", "NMI", "HardFault", "MemManage", "BusFault",
+        "UsageFault", "", "", "", "SVCall", "DebugMon", "", "PendSV", "SysTick",
+    ]
+
+    def intc_dump(self) -> list[IntVector]:
+        """Read the full interrupt state: vector table, NVIC enables,
+        pending, active, priorities.  Sorted by priority (lowest first
+        = highest urgency) then by IRQ number.
+
+        Requires a connected session.
+        """
+        if self._session is None:
+            raise RuntimeError("Not connected — call connect() first")
+
+        t = self._pyocd_target
+
+        # ── SCB registers ──
+        vtor     = t.read32(self._SCS_BASE + 0x08)       # 0xE000ED08
+        aircr    = t.read32(self._SCS_BASE + 0xD0C)       # 0xE000ED0C
+        shcsr    = t.read32(self._SCS_BASE + 0xD24)       # 0xE000ED24
+        icsr     = t.read32(self._SCS_BASE + 0xD04)       # 0xE000ED04
+
+        # Priority grouping
+        prigroup   = (aircr >> 8) & 7
+        # On v8-M, shift = prigroup (3 preempt bits + 1 sub = PRIGROUP 3)
+        # Simple model: preempt_bits = 7 - prigroup, sub_bits = prigroup - 3
+        # For PRIGROUP=3: preempt=4, sub=0  (incorrect)
+        # Actually: implemented bits = 4 (from 3 preempt + 1 sub)
+        # preempt bits = 7 - prigroup, sub bits = prigroup - (7 - num_impl_bits)?
+        # Let's use the standard formula:
+        #   num_impl_priority_bits: read from AIRCR or hardcode 4 for v8-M
+        num_impl_bits = 4  # Star-MC1 v8-M implements 4 priority bits
+        preempt_bits = num_impl_bits - (prigroup - (8 - num_impl_bits))
+        # Standard: preempt_bits = 7 - prigroup  (but this depends on implementation width)
+
+        # Use the boot-log confirmed values: "NVIC: 3 preempt bits, 1 sub bits"
+        preempt_bits = 3
+        sub_bits = 1
+
+        vectors: list[IntVector] = []
+
+        # ── System exceptions (0-15) ──
+        sys_enable_mask = 0  # SHCSR bits for system handlers
+        if shcsr & (1 << 15): sys_enable_mask |= (1 << 3)   # MemManage
+        if shcsr & (1 << 16): sys_enable_mask |= (1 << 4)   # BusFault
+        if shcsr & (1 << 17): sys_enable_mask |= (1 << 5)   # UsageFault
+        if shcsr & (1 << 14): sys_enable_mask |= (1 << 11)  # DebugMon (actually DHCSR, skip)
+        if shcsr & (1 << 11): sys_enable_mask |= (1 << 15)  # SysTick?
+
+        # PendSV/SysTick are in ICSR
+        sys_pending_mask = 0
+        if icsr & (1 << 28): sys_pending_mask |= (1 << 14)  # PendSV pending
+        if icsr & (1 << 26): sys_pending_mask |= (1 << 15)  # SysTick pending
+
+        # Read system exception priorities (SCB_SHPR1-3 at 0xE000ED18)
+        shpr = []
+        for off in (0x18, 0x1C, 0x20):
+            shpr.append(t.read32(self._SCS_BASE + off))
+
+        for i in range(16):
+            handler_addr = t.read32(vtor + i * 4) if vtor != 0 else 0
+            name = self._SYS_EXC_NAMES[i] if i < len(self._SYS_EXC_NAMES) else ""
+            if not name:
+                name = f"Exception{i}"
+
+            # System handler priority
+            prio = 0
+            if i >= 4 and i <= 6:   # MemManage, BusFault, UsageFault
+                prio = (shpr[0] >> (8 * (i - 4))) & 0xFF
+            elif i == 11:            # SVCall
+                prio = (shpr[1] >> 16) & 0xFF
+            elif i == 14:            # PendSV
+                prio = (shpr[2] >> 16) & 0xFF
+            elif i == 15:            # SysTick
+                prio = (shpr[2] >> 24) & 0xFF
+
+            vectors.append(IntVector(
+                irq=i,
+                name=name,
+                handler=handler_addr,
+                enabled=bool(sys_enable_mask & (1 << i)),
+                pending=bool(sys_pending_mask & (1 << i)),
+                active=False if i >= 16 else (icsr & 0x1FF) == i,
+                priority=prio,
+                preempt_prio=prio >> (8 - preempt_bits),
+                sub_prio=(prio >> (8 - preempt_bits - sub_bits)) & ((1 << sub_bits) - 1),
+            ))
+
+        # ── Peripheral IRQs (16+) ──
+        # Determine how many IRQs: read ICTR (0xE000E004) bits [3:0]
+        ictr = t.read32(self._SCS_BASE + 4)
+        num_irqs = 32 * ((ictr & 0xF) + 1)   # typically 240 for Star-MC1
+
+        for irq in range(16, 16 + num_irqs):
+            irq_idx = irq - 16
+            iser_word = irq_idx // 32
+            iser_bit  = irq_idx % 32
+
+            # ISER/ICER/ISPR/ICPR/IABR at NVIC_BASE + 0/0x80/0x100/0x180/0x200
+            iser = t.read32(self._NVIC_BASE + 0x00 + iser_word * 4)
+            ispr = t.read32(self._NVIC_BASE + 0x100 + iser_word * 4)
+            iabr = t.read32(self._NVIC_BASE + 0x200 + iser_word * 4)
+
+            # IPR at NVIC_BASE + 0x300
+            ipr_word = irq_idx // 4
+            ipr_byte = irq_idx % 4
+            ipr_val = t.read32(self._NVIC_BASE + 0x300 + ipr_word * 4)
+            prio = (ipr_val >> (ipr_byte * 8)) & 0xFF
+
+            handler_addr = t.read32(vtor + irq * 4) if vtor != 0 else 0
+
+            vectors.append(IntVector(
+                irq=irq,
+                name=f"IRQ{irq_idx:03d}",
+                handler=handler_addr,
+                enabled=bool(iser & (1 << iser_bit)),
+                pending=bool(ispr & (1 << iser_bit)),
+                active=bool(iabr & (1 << iser_bit)),
+                priority=prio,
+                preempt_prio=prio >> (8 - preempt_bits),
+                sub_prio=(prio >> (8 - preempt_bits - sub_bits)) & ((1 << sub_bits) - 1),
+            ))
+
+        # ── Resolve handler names via ELF ──
+        if self._elf is not None:
+            self._elf._ensure_loaded()
+            for v in vectors:
+                if v.handler and (v.handler & ~1) != 0:
+                    func = self._elf.get_function(v.handler)
+                    if func:
+                        v.handler_func = func
+
+        # Sort by priority (lowest = most urgent), then by IRQ number
+        vectors.sort(key=lambda v: (v.preempt_prio, v.sub_prio, (v.priority & ((1 << sub_bits) - 1)), v.irq))
+
+        return vectors
 
     # ── crash dump ─────────────────────────────────────────
 

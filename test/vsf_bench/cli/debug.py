@@ -178,16 +178,16 @@ def cmd_backtrace(board, args):
     target = probe_cfg.get("target", "cortex_m")
     probe_id = probe_cfg.get("probe")
 
-    # DWARF path: don't open pyOCD session — GDBServer owns the probe
+    # DWARF path: embedded GDBServer (pyOCD thread, shares probe)
     if elf_path:
-        dbg = DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core)
-        try:
-            frames = dbg.backtrace_dwarf()
-            _print_frames(frames, elf_path)
-            return
-        except Exception as e:
-            print(f"[vsf-bench-debug] DWARF backtrace failed ({e}), "
-                  "falling back to heuristic", file=sys.stderr)
+        with DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core) as dbg:
+            try:
+                frames = dbg.backtrace_dwarf()
+                _print_frames(frames, elf_path)
+                return
+            except Exception as e:
+                print(f"[vsf-bench-debug] DWARF backtrace failed ({e}), "
+                      "falling back to heuristic", file=sys.stderr)
 
     # Heuristic fallback
     with DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core) as dbg:

@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import fnmatch
 import json
-import socket
+import re
 import struct
 import subprocess
 import time
@@ -305,8 +305,9 @@ class DebugSession:
 
     Parameters:
         target: pyOCD target name (e.g. ``"cortex_m"``).
-        probe: optional probe unique ID to disambiguate multiple probes.
+        probe: probe unique ID.  Required when >1 probe is connected.
         elf_path: optional path to ELF/.out file for symbol resolution.
+        core: CPU core number (0 = primary, 1 = secondary, …).
     """
 
     def __init__(self, target: str = "cortex_m", probe: str | None = None,
@@ -320,6 +321,7 @@ class DebugSession:
         self._core = core
         self._session = None
         self._elf = ElfContext(elf_path) if elf_path else None
+        self._gdb_server = None  # pyOCD embedded GDBServer
 
     # ── context manager ────────────────────────────────────
 
@@ -346,7 +348,8 @@ class DebugSession:
         self._session.open()
 
     def disconnect(self):
-        """Close pyOCD session."""
+        """Close pyOCD session and embedded GDBServer."""
+        self._stop_gdb_server()
         if self._session is not None:
             self._session.close()
             self._session = None
@@ -550,24 +553,44 @@ class DebugSession:
             return self._elf.is_valid_addr(addr)
         return self._target.is_plausible_code_addr(addr)
 
-    # ── DWARF backtrace (GDB-driven, independent session) ───
+    # ── Embedded GDBServer (pyOCD thread, no subprocess) ────
 
-    def backtrace_dwarf(self, gdb_port: int = 0) -> list[StackFrame]:
+    def _start_gdb_server(self):
+        """Start pyOCD's embedded GDBServer on the current session.
+
+        Uses ``pyocd.gdbserver.GDBServer`` — a Python thread that
+        shares the existing session's probe connection.  No subprocess,
+        no port management, no refcounting.  pyOCD handles multicore
+        natively.
+        """
+        if self._gdb_server is not None:
+            return
+        try:
+            from pyocd.gdbserver.gdbserver import GDBServer
+        except ImportError:
+            raise RuntimeError("pyOCD not installed. Run: pip install pyocd")
+        self._gdb_server = GDBServer(self._session, core=self._core)  # core=N → self.target=CortexM_v8M, has .ap
+        self._gdb_server.start()
+
+    def _stop_gdb_server(self):
+        """Stop the embedded GDBServer."""
+        if self._gdb_server is not None:
+            self._gdb_server.stop()
+            self._gdb_server = None
+
+    # ── DWARF backtrace (GDB-driven, embedded server) ────────
+
+    def backtrace_dwarf(self) -> list[StackFrame]:
         """Return DWARF-accurate call stack via GDB.
 
-        Starts an independent ``pyocd gdbserver`` subprocess (so it
-        doesn't conflict with DebugSession's own probe access), runs
-        a one-shot ``arm-none-eabi-gdb -batch bt``, then stops the
-        server.
-
-        The DebugSession must NOT have an open pyOCD connection when
-        this is called — the probe must be free for the GDBServer.
-
-        Requires *elf_path* to be set for symbol resolution.
+        Uses pyOCD's embedded GDBServer (``GDBServer(session)``),
+        which shares the existing probe connection.  pyOCD manages
+        ports, cores, and lifecycle.
         """
-        import random
         import shutil
 
+        if self._session is None:
+            raise RuntimeError("Not connected — call connect() first")
         if not self._elf_path:
             raise RuntimeError("ELF path required for DWARF backtrace")
 
@@ -578,68 +601,37 @@ class DebugSession:
                 "Install ARM GNU Toolchain."
             )
 
-        if gdb_port == 0:
-            gdb_port = random.randint(3100, 3900)
+        self._start_gdb_server()
 
-        # 1. Start GDBServer subprocess (owns the probe independently)
-        gdb_port = gdb_port + self._core  # core 0→3333, core 1→3334, …
-        cmd = ["pyocd", "gdbserver", "-t", self._target_name,
-               "-p", str(gdb_port)]
-        if self._probe:
-            cmd += ["-u", self._probe]
-        if self._core > 0:
-            cmd += ["-c", str(self._core)]
-
-        gdb_server = subprocess.Popen(
-            cmd, stdin=subprocess.DEVNULL,
-            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        gdb_bin_native = str(Path(gdb_bin).resolve())
+        elf_native = str(Path(self._elf_path).resolve())
+        gdb_cmd = (
+            f'"{gdb_bin_native}"'
+            f' -batch -q "{elf_native}"'
+            f' -ex "set pagination off"'
+            f' -ex "set confirm off"'
+            f' -ex "target extended-remote localhost:{self._gdb_server.port}"'
+            f' -ex "bt"'
+            f' -ex "detach"'
         )
-        try:
-            # 2. Give GDBServer time to fully initialise the target
-            time.sleep(5)
-
-            # 3. Run GDB batch
-            gdb_cmd = (
-                f'"{gdb_bin}"'
-                f' -batch -q "{self._elf_path}"'
-                f' -ex "set pagination off"'
-                f' -ex "set confirm off"'
-                f' -ex "target extended-remote localhost:{gdb_port}"'
-                f' -ex "bt"'
-                f' -ex "detach"'
+        result = subprocess.run(
+            gdb_cmd, shell=True,
+            capture_output=True, text=True, timeout=30,
+        )
+        frames = _parse_gdb_backtrace(result.stdout)
+        if not frames and result.returncode != 0:
+            raise RuntimeError(
+                f"GDB failed (rc={result.returncode}): "
+                f"{result.stderr.strip()[:200]}"
             )
-            result = subprocess.run(
-                gdb_cmd, shell=True,
-                capture_output=True, text=True, timeout=30,
-            )
-            return _parse_gdb_backtrace(result.stdout)
-        finally:
-            # 4. Stop GDBServer
-            try:
-                gdb_server.terminate()
-                gdb_server.wait(timeout=3)
-            except Exception:
-                try:
-                    gdb_server.kill()
-                    gdb_server.wait(timeout=2)
-                except Exception:
-                    pass
+        return frames
 
     def crash_dump_dwarf(self) -> CrashDump:
-        """DWARF-accurate crash dump via GDB.
-
-        Must be called BEFORE :meth:`connect` — the probe must be free.
-        """
+        """DWARF-accurate crash dump via GDB + embedded GDBServer."""
         frames = self.backtrace_dwarf()
-
-        # Now connect pyOCD for register reads
-        self.connect()
-        try:
-            regs = self.read_core_regs()
-            faults = self.read_fault_regs()
-            fault_type = self._target.classify_fault(faults)
-        finally:
-            self.disconnect()
+        regs = self.read_core_regs()
+        faults = self.read_fault_regs()
+        fault_type = self._target.classify_fault(faults)
 
         pc = regs.get("PC", 0)
         sp = regs.get("SP", 0)

@@ -54,6 +54,16 @@ def parse_args():
     intc_p.add_argument("--raw", action="store_true", help="Show raw register hexdump")
     _add_elf_args(intc_p)
 
+    dump_p = sub.add_parser("dump", help="Full memory dump to binary file for post-mortem analysis")
+    dump_p.add_argument("--addr", type=str, help="Start address (hex). Required unless --region is used.")
+    dump_p.add_argument("--len", type=int, help="Length in bytes. Required unless --region is used.")
+    dump_p.add_argument("--region", type=str, choices=["sram", "flash", "stack"],
+                        help="Predefined region (overrides --addr/--len)")
+    dump_p.add_argument("--output", type=str, default=None,
+                        help="Output .bin path (default: logs/<ts>-<board>-dump/<region>.bin)")
+    dump_p.add_argument("--chunk", type=int, default=4096,
+                        help="Read chunk size in bytes (default: 4096)")
+
     sub.add_parser("live", help="Live running state: regs + exception + caps snapshot")
 
     parser.add_argument("--board", type=str, default=None)
@@ -530,6 +540,89 @@ def cmd_live(board, args):
             print("  No active or pending IRQs")
 
 
+def cmd_dump(board, args):
+    """Read a memory region and write to a binary file with metadata."""
+    from vsf_bench.utils.debug import DebugSession
+    from datetime import datetime
+    import json, time as _time
+
+    probe_cfg = board.debug_probe
+    target = probe_cfg.get("target", "cortex_m")
+    probe_id = probe_cfg.get("probe")
+
+    # Resolve region
+    if args.region == "sram":
+        addr, length = 0x20000000, 0x00084000
+        label = "sram"
+    elif args.region == "flash":
+        addr, length = 0x02000000, 0x00100000
+        label = "flash"
+    elif args.region == "stack":
+        # Stack around current SP — dump 32KB
+        with DebugSession(target=target, probe=probe_id, core=args.core) as dbg:
+            sp = dbg.read_core_regs().get("SP", 0x20000000)
+        addr = max(0x20000000, sp - 0x4000)
+        length = 0x8000
+        label = f"stack_sp_0x{sp:08X}"
+    elif args.addr and args.len:
+        addr = int(args.addr, 0)
+        length = args.len
+        label = f"0x{addr:08X}_{length}"
+    else:
+        print("[vsf-bench-debug] Error: specify --region or --addr/--len", file=sys.stderr)
+        sys.exit(2)
+
+    # Output path
+    if args.output:
+        out_path = Path(args.output)
+    else:
+        ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+        out_dir = Path(f"logs/{ts}-{board.name}-dump")
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_path = out_dir / f"{label}.bin"
+    meta_path = out_path.with_suffix(".json")
+
+    # Dump
+    print(f"[vsf-bench-debug] Dumping 0x{addr:08X} +{length:#,} bytes → {out_path}")
+    print(f"[vsf-bench-debug] Chunk size: {args.chunk} bytes — reading...")
+
+    with DebugSession(target=target, probe=probe_id, core=args.core) as dbg:
+        t0 = _time.time()
+        bytes_read = 0
+        with open(out_path, "wb") as f:
+            for offset in range(0, length, args.chunk):
+                chunk_len = min(args.chunk, length - offset)
+                try:
+                    data = dbg.read_mem(addr + offset, chunk_len)
+                    f.write(data)
+                    bytes_read += len(data)
+                except Exception as e:
+                    print(f"  [err] 0x{addr+offset:08X}: {e}", file=sys.stderr)
+                    break
+                if offset % (args.chunk * 16) == 0 and offset > 0:
+                    pct = bytes_read * 100 // length
+                    print(f"  {bytes_read:#,}/{length:#,} bytes ({pct}%)...")
+
+    elapsed = _time.time() - t0
+    speed = bytes_read / elapsed / 1024 if elapsed > 0 else 0
+    print(f"[vsf-bench-debug] Done: {bytes_read:#,} bytes in {elapsed:.1f}s ({speed:.0f} KB/s)")
+    print(f"[vsf-bench-debug] Binary: {out_path}")
+    print(f"[vsf-bench-debug] Meta:   {meta_path}")
+
+    # Write metadata
+    meta = {
+        "timestamp": datetime.now().isoformat(),
+        "board": board.name,
+        "core": args.core,
+        "addr": f"0x{addr:08X}",
+        "length": bytes_read,
+        "label": label,
+        "speed_kbs": round(speed, 1),
+    }
+    with open(meta_path, "w") as f:
+        json.dump(meta, f, indent=2)
+
+
 def cmd_continue(board, args):
     """Resume CPU from halted state (useful after a manual halt)."""
     from vsf_bench.utils.debug import DebugSession
@@ -573,6 +666,7 @@ def main():
         "continue": cmd_continue,
         "intc": cmd_intc,
         "live": cmd_live,
+        "dump": cmd_dump,
     }
     try:
         handlers[args.cmd](board, args)

@@ -414,6 +414,10 @@ class DebugSession:
         data = self.read_mem(addr, 4)
         return struct.unpack("<I", data)[0]
 
+    def write32(self, addr: int, value: int) -> None:
+        """Write a 32-bit word to *addr*."""
+        self._pyocd_target.write_memory(addr, value, 32)
+
     def read_str(self, addr: int, max_len: int = 256) -> str:
         """Read a null-terminated ASCII string from *addr*."""
         data = self.read_mem(addr, max_len)
@@ -676,12 +680,12 @@ class DebugSession:
         "UsageFault", "", "", "", "SVCall", "DebugMon", "", "PendSV", "SysTick",
     ]
 
-    def intc_dump(self) -> list[IntVector]:
-        """Read the full interrupt state: vector table, NVIC enables,
-        pending, active, priorities.  Sorted by priority (lowest first
-        = highest urgency) then by IRQ number.
+    def intc_dump(self) -> tuple[list[IntVector], int, int, int]:
+        """Read the full interrupt state.
 
-        Requires a connected session.
+        Returns:
+            (vectors, impl_bits, preempt_bits, sub_bits)
+            where vectors are sorted by priority (lowest = most urgent).
         """
         if self._session is None:
             raise RuntimeError("Not connected — call connect() first")
@@ -694,22 +698,29 @@ class DebugSession:
         shcsr    = self.read32(self._SCB_BASE + 0x24)       # 0xE000ED24
         icsr     = self.read32(self._SCB_BASE + 0x04)       # 0xE000ED04
 
-        # Priority grouping
-        prigroup   = (aircr >> 8) & 7
-        # On v8-M, shift = prigroup (3 preempt bits + 1 sub = PRIGROUP 3)
-        # Simple model: preempt_bits = 7 - prigroup, sub_bits = prigroup - 3
-        # For PRIGROUP=3: preempt=4, sub=0  (incorrect)
-        # Actually: implemented bits = 4 (from 3 preempt + 1 sub)
-        # preempt bits = 7 - prigroup, sub bits = prigroup - (7 - num_impl_bits)?
-        # Let's use the standard formula:
-        #   num_impl_priority_bits: read from AIRCR or hardcode 4 for v8-M
-        num_impl_bits = 4  # Star-MC1 v8-M implements 4 priority bits
-        preempt_bits = num_impl_bits - (prigroup - (8 - num_impl_bits))
-        # Standard: preempt_bits = 7 - prigroup  (but this depends on implementation width)
+        # PRIGROUP
+        prigroup = (aircr >> 8) & 7
 
-        # Use the boot-log confirmed values: "NVIC: 3 preempt bits, 1 sub bits"
-        preempt_bits = 3
-        sub_bits = 1
+        # ── Detect implemented priority bits & NVIC size ──
+        ictr = self.read32(0xE000E004)
+        num_irqs = 32 * ((ictr & 0xF) + 1)
+        test_ipr = self._NVIC_BASE + 0x300 + (num_irqs - 1) * 4
+        saved = self.read32(test_ipr)
+        self.write32(test_ipr, 0xFF)
+        readback = self.read32(test_ipr)
+        self.write32(test_ipr, saved)
+        rb_byte = readback & 0xFF
+        impl_bits = 0
+        for bit in range(7, -1, -1):
+            if rb_byte & (1 << bit):
+                impl_bits = bit + 1
+                break
+        if impl_bits == 0:
+            impl_bits = 4  # fallback: most Cortex-M use 3-8 bits
+        # PRIGROUP splits the *full 8-bit field*; only top N bits matter.
+        # preempt = min(prigroup, N), sub = N - preempt
+        preempt_bits = min(prigroup, impl_bits)
+        sub_bits = impl_bits - preempt_bits
 
         vectors: list[IntVector] = []
 
@@ -764,7 +775,29 @@ class DebugSession:
         # ── Peripheral IRQs (16+) ──
         # Determine how many IRQs: read ICTR (0xE000E004) bits [3:0]
         ictr = self.read32(0xE000E004)   # ICTR is in SCS ID block, not SCB
-        num_irqs = 32 * ((ictr & 0xF) + 1)   # typically 240 for Star-MC1
+        num_irqs = 32 * ((ictr & 0xF) + 1)
+
+        # ── Detect implemented priority bits (don't hardcode) ──
+        # Write 0xFF to an unused IPR slot, read back to see which
+        # bits the hardware actually stores.
+        test_ipr  = self._NVIC_BASE + 0x300 + (num_irqs - 1) * 4
+        saved     = self.read32(test_ipr)
+        self.write32(test_ipr, 0xFF)
+        readback  = self.read32(test_ipr)
+        self._pyocd_target.write32(test_ipr, saved)
+        rb_byte = readback & 0xFF
+        impl_bits = 0
+        for bit in range(7, -1, -1):
+            if rb_byte & (1 << bit):
+                impl_bits = bit + 1
+                break
+        # PRIGROUP splits implemented bits: sub = max(0, N - (7 - prigroup))
+        if impl_bits == 0:
+            impl_bits = 4  # fallback: most Cortex-M use 3-8 bits
+        # PRIGROUP splits the *full 8-bit field*; only top N bits matter.
+        # preempt = min(prigroup, N), sub = N - preempt
+        preempt_bits = min(prigroup, impl_bits)
+        sub_bits = impl_bits - preempt_bits
 
         for irq in range(16, 16 + num_irqs):
             irq_idx = irq - 16
@@ -809,7 +842,7 @@ class DebugSession:
         # Sort by priority (lowest = most urgent), then by IRQ number
         vectors.sort(key=lambda v: (v.preempt_prio, v.sub_prio, v.irq))
 
-        return vectors
+        return vectors, impl_bits, preempt_bits, sub_bits
 
     # ── crash dump ─────────────────────────────────────────
 

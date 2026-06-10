@@ -395,12 +395,12 @@ def cmd_intc(board, args):
 
     with DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core) as dbg:
         vtor = dbg.read32(0xE000ED08)
-        vectors = dbg.intc_dump()
+        vectors, impl_bits, preempt_bits, sub_bits = dbg.intc_dump()
 
     if elf_path:
         print(f"[vsf-bench-debug] ELF: {elf_path}")
     print(f"[vsf-bench-debug] Core: {args.core}  VTOR: 0x{vtor:08X}  "
-          f"NVIC: 4-bit priority (3 preempt + 1 sub)")
+          f"NVIC: {impl_bits}-bit priority ({preempt_bits} preempt + {sub_bits} sub)")
     print()
 
     # Count active/pending

@@ -39,6 +39,15 @@ static struct {
 #if VSF_HAL_USE_RNG == ENABLED
     vsf_rng_t  *rng;
 #endif
+#if VSF_ESPIDF_CFG_USE_USB_HOST == ENABLED
+    vk_usbh_t  *usbh;
+#endif
+#if VSF_ESPIDF_CFG_USE_USB_DEVICE == ENABLED
+    vk_usbd_dev_t *usbd;
+#endif
+#if VSF_ESPIDF_CFG_USE_HEAP_CAPS == ENABLED
+    vsf_heap_t *(*caps_to_heap)(uint32_t caps);
+#endif
 } __vsf_espidf = { 0 };
 
 /*============================ LOCAL VARIABLES ===============================*/
@@ -58,30 +67,33 @@ void vsf_espidf_init(const vsf_espidf_cfg_t *cfg)
 #endif
     __vsf_espidf.is_inited = true;
 
+#if VSF_ESPIDF_CFG_USE_USB_HOST == ENABLED
+    __vsf_espidf.usbh = (cfg != NULL) ? cfg->usb_host.usbh : NULL;
+#endif
+#if VSF_ESPIDF_CFG_USE_USB_DEVICE == ENABLED
+    __vsf_espidf.usbd = (cfg != NULL) ? cfg->usb_device.usbd : NULL;
+#endif
+#if VSF_ESPIDF_CFG_USE_HEAP_CAPS == ENABLED
+    __vsf_espidf.caps_to_heap = (cfg != NULL) ? cfg->caps_to_heap : NULL;
+#endif
+
     // Per-module init hooks. Only modules with visible init state are
     // chained here; esp_err/esp_log/esp_system/esp_ringbuf are stateless
     // from the sub-system perspective.
 #if VSF_ESPIDF_CFG_USE_TIMER == ENABLED
     extern esp_err_t esp_timer_init(void);
-    vsf_trace_info("vsf_espidf_init: before esp_timer_init"VSF_TRACE_CFG_LINEEND);
     (void)esp_timer_init();
-    vsf_trace_info("vsf_espidf_init: after esp_timer_init"VSF_TRACE_CFG_LINEEND);
 #endif
 #if VSF_ESPIDF_CFG_USE_EVENT == ENABLED
     extern esp_err_t esp_event_loop_create_default(void);
-    vsf_trace_info("vsf_espidf_init: before esp_event_loop_create_default"VSF_TRACE_CFG_LINEEND);
     (void)esp_event_loop_create_default();
-    vsf_trace_info("vsf_espidf_init: after esp_event_loop_create_default"VSF_TRACE_CFG_LINEEND);
 #endif
 #if VSF_ESPIDF_CFG_USE_PARTITION == ENABLED
     extern void vsf_espidf_partition_init(const vsf_espidf_partition_cfg_t *cfg);
-    vsf_trace_info("vsf_espidf_init: before partition_init"VSF_TRACE_CFG_LINEEND);
     vsf_espidf_partition_init((cfg != NULL) ? &cfg->partition : NULL);
-    vsf_trace_info("vsf_espidf_init: after partition_init"VSF_TRACE_CFG_LINEEND);
 #endif
 #if VSF_ESPIDF_CFG_USE_ESP_FLASH == ENABLED
     extern void vsf_espidf_esp_flash_init(vk_mal_t *root_mal);
-    vsf_trace_info("vsf_espidf_init: before esp_flash_init"VSF_TRACE_CFG_LINEEND);
     vsf_espidf_esp_flash_init(
 #   if VSF_ESPIDF_CFG_USE_PARTITION == ENABLED
             (cfg != NULL) ? cfg->partition.root_mal : NULL
@@ -89,7 +101,6 @@ void vsf_espidf_init(const vsf_espidf_cfg_t *cfg)
             NULL
 #   endif
     );
-    vsf_trace_info("vsf_espidf_init: after esp_flash_init"VSF_TRACE_CFG_LINEEND);
 #endif
 #if VSF_ESPIDF_CFG_USE_DRIVER_GPTIMER == ENABLED
     extern void vsf_espidf_gptimer_init(const vsf_espidf_gptimer_cfg_t *cfg);
@@ -115,13 +126,23 @@ void vsf_espidf_init(const vsf_espidf_cfg_t *cfg)
     extern void vsf_espidf_adc_init(const vsf_espidf_adc_cfg_t *cfg);
     vsf_espidf_adc_init((cfg != NULL) ? &cfg->adc : NULL);
 #endif
+#if VSF_ESPIDF_CFG_USE_APP_TRACE == ENABLED
+    extern void vsf_espidf_app_trace_init(const vsf_espidf_app_trace_cfg_t *cfg);
+    vsf_espidf_app_trace_init((cfg != NULL) ? &cfg->app_trace : NULL);
+#endif
 #if VSF_ESPIDF_CFG_USE_NETIF == ENABLED
     extern void vsf_espidf_netif_init(void);
-    vsf_trace_info("vsf_espidf_init: before netif_init"VSF_TRACE_CFG_LINEEND);
-    vsf_trace_info("vsf_espidf_init: VSF_OS_CFG_PRIORITY_NUM=%d VSF_ARCH_SWI_NUM=%d VSF_SWI_NUM=%d"VSF_TRACE_CFG_LINEEND,
-                   (int)VSF_OS_CFG_PRIORITY_NUM, (int)VSF_ARCH_SWI_NUM, (int)VSF_SWI_NUM);
     vsf_espidf_netif_init();
-    vsf_trace_info("vsf_espidf_init: after netif_init"VSF_TRACE_CFG_LINEEND);
+#endif
+#if VSF_ESPIDF_CFG_USE_USB_HOST == ENABLED
+    // USB Host is initialized lazily by the application via usb_host_install().
+    // The caller-supplied vk_usbh_t (with user-selected HCD driver already set)
+    // is stored during vsf_espidf_init() and consumed by usb_host_install().
+#endif
+#if VSF_ESPIDF_CFG_USE_USB_DEVICE == ENABLED
+    // USB Device is initialized lazily by the application via usb_enable().
+    // The caller-supplied vk_usbd_dev_t (with user-selected DCD driver already
+    // set) is stored during vsf_espidf_init() and consumed by usb_enable().
 #endif
     // TODO:
     //   vsf_espidf_nvs_init();
@@ -131,6 +152,27 @@ void vsf_espidf_init(const vsf_espidf_cfg_t *cfg)
 vsf_rng_t * vsf_espidf_get_rng(void)
 {
     return __vsf_espidf.rng;
+}
+#endif
+
+#if VSF_ESPIDF_CFG_USE_USB_HOST == ENABLED
+vk_usbh_t * vsf_espidf_get_usbh(void)
+{
+    return __vsf_espidf.usbh;
+}
+#endif
+
+#if VSF_ESPIDF_CFG_USE_USB_DEVICE == ENABLED
+vk_usbd_dev_t * vsf_espidf_get_usbd(void)
+{
+    return __vsf_espidf.usbd;
+}
+#endif
+
+#if VSF_ESPIDF_CFG_USE_HEAP_CAPS == ENABLED
+vsf_heap_t *(*vsf_espidf_get_caps_to_heap(void))(uint32_t caps)
+{
+    return __vsf_espidf.caps_to_heap;
 }
 #endif
 

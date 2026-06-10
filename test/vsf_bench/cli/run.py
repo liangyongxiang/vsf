@@ -1,0 +1,310 @@
+"""vsf-bench — unified build / flash / test pipeline.
+
+Composes build_phase, program_phase, and run_test_phase from focused
+modules (phases/, board.py, test_runner.py) based on the requested flags.
+"""
+
+import argparse
+import sys
+from pathlib import Path
+
+from vsf_bench.board import load_board, acquire_board_lock
+from vsf_bench.config.models import SerialPortConfig
+from vsf_bench.phases.build import build_phase
+from vsf_bench.phases.program import program_phase
+from vsf_bench.phases.la import la_capture_phase, la_decode_phase
+from vsf_bench.test_runner import run_test_phase
+from vsf_bench.cli._args import add_shared_test_args, resolve_shuffle_seed
+from vsf_bench.utils.tee_logger import init_logger as _init_logger
+from vsf_bench.utils.lock import LockBusyError
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(prog="vsf-bench")
+    add_shared_test_args(parser)
+    parser.add_argument("--build", action="store_true")
+    parser.add_argument("--program", action="store_true")
+    parser.add_argument("--test", action="store_true")
+    parser.add_argument("--la-capture", action="store_true",
+                        help="Capture via logic analyzer (saves .dsl + serial.log)")
+    parser.add_argument("--la-channel", default="CH8",
+                        help="LA channel label (default: CH8)")
+    parser.add_argument("--la-duration", type=float, default=30.0,
+                        help="LA capture duration in seconds (default: 30)")
+    parser.add_argument("--la-decode", action="store_true",
+                        help="Decode UART from a .dsl capture file")
+    parser.add_argument("--la-decode-file", default=None,
+                        help=".dsl file to decode (required for --la-decode without --la-capture)")
+    parser.add_argument("--la-baudrate", type=int, default=2_000_000,
+                        help="UART baud rate for decode (default: 2000000)")
+    parser.add_argument("--set", action="append", default=None,
+                        help="Override step params: --set key=value or --set id.key=value")
+    parser.add_argument("--all", action="store_true")
+    parser.add_argument(
+        "--pipeline", type=str, default=None,
+        help="Run a named multi-stage pipeline (from hardware-map.yml pipelines section)",
+    )
+    parser.add_argument(
+        "--list-pipelines", action="store_true",
+        help="List available pipelines in hardware-map.yml",
+    )
+    return parser.parse_args()
+
+
+def _mk_run_dir(board: str, pipeline_or_project: str) -> Path:
+    from datetime import datetime
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    run_dir = Path(f"logs/{timestamp}-{board}-{pipeline_or_project}").resolve()
+    run_dir.mkdir(parents=True, exist_ok=True)
+    return run_dir
+
+
+def _collect_projects(step, project_map, hw_path):
+    from vsf_bench.config.map import load_project
+    st = step.type.value
+    project_name = step.params.get("project") or step.params.get("build") or step.params.get("program")
+    if project_name and project_name not in project_map:
+        try:
+            project_map[project_name] = load_project(str(hw_path), project_name)
+        except Exception:
+            pass
+    if step.steps:
+        for s in step.steps:
+            _collect_projects(s, project_map, hw_path)
+
+
+def _parse_set(set_args: list[str]) -> dict:
+    import yaml
+    result = {}
+    for spec in set_args:
+        if "=" in spec:
+            key, val = spec.split("=", 1)
+            result[key] = yaml.safe_load(val)
+    return result
+
+
+def main():
+    args = parse_args()
+    # Load hardware-map defaults (log_dir etc.)
+    hw_path = Path(args.hardware_map).resolve()
+    from vsf_bench.config.map import load_defaults
+    _defaults = load_defaults(str(hw_path)) if hw_path.exists() else {}
+
+    # ── --list-pipelines ──
+    if args.list_pipelines:
+        from vsf_bench.config.map import list_pipelines as _list_pipelines
+        try:
+            pipelines = _list_pipelines(str(hw_path))
+        except Exception as e:
+            print(f"[vsf-bench] Error: {e}", file=sys.stderr)
+            sys.exit(2)
+        if not pipelines:
+            print("No pipelines defined in hardware-map.yml")
+        else:
+            print("Available pipelines:")
+            for p in pipelines:
+                desc = f" — {p.description}" if p.description else ""
+                print(f"  {p.name}{desc}")
+        return
+
+    # ── --pipeline (new unified steps model) ──
+    if args.pipeline:
+        if not args.board:
+            print("[vsf-bench] Error: --pipeline requires --board", file=sys.stderr)
+            sys.exit(2)
+        from vsf_bench.config.map import load_board_and_project, load_pipeline, load_project
+        board_name = args.board[0]
+        try:
+            pipeline_obj = load_pipeline(str(hw_path), args.pipeline)
+            board, _ = load_board_and_project(str(hw_path), board_name=board_name, project_name="application-standalone")
+            if not pipeline_obj.steps:
+                print("[vsf-bench] Error: pipeline has no steps", file=sys.stderr)
+                sys.exit(2)
+
+            # Build project map from steps
+            project_map = {}
+            for step in pipeline_obj.steps:
+                _collect_projects(step, project_map, hw_path)
+
+            run_dir = _mk_run_dir(board_name, args.pipeline)
+            _init_logger(run_dir)
+        except Exception as e:
+            print(f"[vsf-bench] Pipeline error: {e}", file=sys.stderr)
+            sys.exit(2)
+
+        from vsf_bench.pipeline import execute_pipeline
+        try:
+            overrides = _parse_set(args.set) if hasattr(args, 'set') and args.set else None
+            ok = execute_pipeline(pipeline_obj, board, run_dir, project_map, overrides=overrides)
+            if not ok:
+                sys.exit(1)
+        except Exception as e:
+            print(f"[vsf-bench] Pipeline failed: {e}", file=sys.stderr)
+            sys.exit(1)
+        return
+
+    hardware_map_path = Path(args.hardware_map).resolve()
+    do_build = args.build or args.all
+    do_program = args.program or args.all
+    do_test = args.test or args.all
+    do_la_capture = args.la_capture
+    do_la_decode = args.la_decode
+
+    test_params_yml = hardware_map_path.parent / "test_params.yml"
+    if not test_params_yml.exists():
+        test_params_yml = None
+
+    if not args.project:
+        print("[vsf-bench] Error: --project is required", file=sys.stderr)
+        sys.exit(2)
+
+    # Load project
+    from vsf_bench.config.map import load_project as _load_project
+    try:
+        project = _load_project(str(hardware_map_path), args.project)
+    except Exception as e:
+        print(f"[vsf-bench] Config error: {e}", file=sys.stderr)
+        sys.exit(2)
+
+    # Load board (only needed for program/test/capture)
+    board = None
+    if do_program or do_test or do_la_capture:
+        try:
+            _board_result = load_board(
+                hardware_map_path,
+                project_name=args.project,
+                board_name=(args.board[0] if args.board else None),
+            )
+            # load_board returns (board, project) tuple when project_name is given
+            board = _board_result[0] if isinstance(_board_result, tuple) else _board_result
+        except Exception as e:
+            print(f"[vsf-bench] Config error: {e}", file=sys.stderr)
+            sys.exit(2)
+        for _rcfg in project.runners.values():
+            p = _rcfg.params
+            p.setdefault("program_port", board.serial_ports.get("program", SerialPortConfig()).port)
+            p.setdefault("debug_port", board.serial_ports.get("debug", SerialPortConfig()).port)
+            p.setdefault("debug_baudrate", board.serial_ports.get("debug", SerialPortConfig()).baudrate)
+
+    # Create run_dir for this invocation, init TeeLogger inside it
+    tag = board.name if board else "vsf-bench"
+    run_dir = _mk_run_dir(tag, args.pipeline or args.project or "vsf-bench")
+    _init_logger(run_dir)
+
+    build_config = project.build
+
+    # Apply CLI overrides for source/build directories
+    if args.source_dir:
+        build_config.source_dir = args.source_dir
+        if not args.build_dir:
+            build_config.build_dir = str(Path(args.source_dir) / "build")
+    if args.build_dir:
+        build_config.build_dir = args.build_dir
+
+    build_dir = Path(build_config.build_dir)
+
+    if do_build:
+        try:
+            build_dir = build_phase(project)
+        except Exception as e:
+            print(f"[vsf-bench] Build failed: {e}", file=sys.stderr)
+            sys.exit(1)
+
+    if do_program or do_test:
+        try:
+            lock = acquire_board_lock(board, args.wait)
+        except LockBusyError as e:
+            print(f"[vsf-bench] {e}", file=sys.stderr)
+            sys.exit(3)
+    else:
+        lock = None
+
+    try:
+        if do_program:
+            if not build_dir.exists():
+                print(f"[vsf-bench] Build directory missing: {build_dir}", file=sys.stderr)
+                print("[vsf-bench] Run with --build first.", file=sys.stderr)
+                sys.exit(2)
+            try:
+                program_phase(board, build_dir, project=project)
+            except Exception as e:
+                print(f"[vsf-bench] Program failed: {e}", file=sys.stderr)
+                sys.exit(1)
+
+        if do_la_capture:
+            try:
+                dsl_path = la_capture_phase(
+                    board=board,
+                    run_dir=run_dir,
+                    duration=args.la_duration,
+                    channel=args.la_channel,
+                )
+            except Exception as e:
+                print(f"[vsf-bench] LA capture failed: {e}", file=sys.stderr)
+                sys.exit(1)
+
+            if do_la_decode:
+                try:
+                    la_decode_phase(
+                        capture_path=dsl_path,
+                        channel=args.la_channel,
+                        baudrate=args.la_baudrate,
+                    )
+                except Exception as e:
+                    print(f"[vsf-bench] LA decode failed: {e}", file=sys.stderr)
+                    sys.exit(1)
+
+        elif do_la_decode:
+            if not args.la_decode_file:
+                print("[vsf-bench] Error: --la-decode requires --la-decode-file", file=sys.stderr)
+                sys.exit(2)
+            try:
+                la_decode_phase(
+                    capture_path=Path(args.la_decode_file),
+                    channel=args.la_channel,
+                    baudrate=args.la_baudrate,
+                )
+            except Exception as e:
+                print(f"[vsf-bench] LA decode failed: {e}", file=sys.stderr)
+                sys.exit(1)
+
+        if not do_test:
+            if do_program or do_la_capture:
+                print(f"[vsf-bench] Done. Log: {run_dir / 'run.log'}")
+            return
+
+        case_specs: list[str] = []
+        if args.case:
+            case_specs.extend(args.case)
+        if args.case_index:
+            case_specs.extend(str(i) for i in args.case_index)
+
+        shuffle_seed = resolve_shuffle_seed(args, case_specs)
+
+        # run_dir already created above
+
+        try:
+            overall_pass = run_test_phase(
+                board=board,
+                suite_names=args.suite,
+                script_override=Path(args.script) if args.script else None,
+                case_specs=case_specs,
+                la_mode=args.la_mode,
+                run_dir=run_dir,
+                shuffle_seed=shuffle_seed,
+                test_params_yml=test_params_yml,
+                trace_level=args.trace_level,
+            )
+        except Exception as e:
+            print(f"[vsf-bench] Test phase error: {e}", file=sys.stderr)
+            sys.exit(1)
+
+        if not overall_pass:
+            sys.exit(1)
+    finally:
+        if lock is not None:
+            lock.release()
+
+
+if __name__ == "__main__":
+    main()

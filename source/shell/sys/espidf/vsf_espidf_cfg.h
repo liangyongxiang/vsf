@@ -104,6 +104,27 @@
 #ifndef VSF_ESPIDF_CFG_USE_VFS
 #   define VSF_ESPIDF_CFG_USE_VFS               DISABLED
 #endif
+// Maximum number of concurrently registered VFS entries (base paths).
+#ifndef VSF_ESPIDF_CFG_VFS_MAX_REGISTERED
+#   define VSF_ESPIDF_CFG_VFS_MAX_REGISTERED    8
+#endif
+// Maximum open file descriptors per VFS entry (for fd translation).
+#ifndef VSF_ESPIDF_CFG_VFS_MAX_FDS
+#   define VSF_ESPIDF_CFG_VFS_MAX_FDS           16
+#endif
+// ESP-IDF CONFIG_VFS_SUPPORT_DIR equivalent.  Controls whether directory
+// related ops (stat, link, opendir, readdir, mkdir, ...) are compiled.
+#ifndef VSF_ESPIDF_CFG_VFS_SUPPORT_DIR
+#   define VSF_ESPIDF_CFG_VFS_SUPPORT_DIR       ENABLED
+#endif
+// ESP-IDF CONFIG_VFS_SUPPORT_SELECT equivalent.
+#ifndef VSF_ESPIDF_CFG_VFS_SUPPORT_SELECT
+#   define VSF_ESPIDF_CFG_VFS_SUPPORT_SELECT    DISABLED
+#endif
+// ESP-IDF CONFIG_VFS_SUPPORT_TERMIOS equivalent.
+#ifndef VSF_ESPIDF_CFG_VFS_SUPPORT_TERMIOS
+#   define VSF_ESPIDF_CFG_VFS_SUPPORT_TERMIOS   DISABLED
+#endif
 #ifndef VSF_ESPIDF_CFG_USE_LITTLEFS
 #   define VSF_ESPIDF_CFG_USE_LITTLEFS          DISABLED
 #endif
@@ -242,6 +263,37 @@
 #endif
 #ifndef VSF_ESPIDF_CFG_USE_DRIVER_ADC
 #   define VSF_ESPIDF_CFG_USE_DRIVER_ADC        DISABLED
+#endif
+
+// USB Host (bridged to vsf_usbh)
+#ifndef VSF_ESPIDF_CFG_USE_USB_HOST
+#   define VSF_ESPIDF_CFG_USE_USB_HOST          DISABLED
+#endif
+
+// USB Device (bridged to vsf_usbd)
+#ifndef VSF_ESPIDF_CFG_USE_USB_DEVICE
+#   define VSF_ESPIDF_CFG_USE_USB_DEVICE        DISABLED
+#endif
+
+// LCD panel (IO + vendor panels bridged to vsf_disp_t)
+#ifndef VSF_ESPIDF_CFG_USE_LCD
+#   define VSF_ESPIDF_CFG_USE_LCD                DISABLED
+#endif
+// Ringbuf QueueSet integration (xRingbufferAddToQueueSetRead / ...).
+// Requires VSF_USE_FREERTOS and VSF_FREERTOS_CFG_USE_QUEUESET.
+#ifndef VSF_ESPIDF_CFG_RINGBUF_USE_FREERTOS_QUEUESET
+#   define VSF_ESPIDF_CFG_RINGBUF_USE_FREERTOS_QUEUESET  DISABLED
+#endif
+
+// Application tracing (esp_apptrace_* API).
+// Virtual transport: up-channel -> stdout, down-channel <- stdin.
+#ifndef VSF_ESPIDF_CFG_USE_APP_TRACE
+#   define VSF_ESPIDF_CFG_USE_APP_TRACE         DISABLED
+#endif
+
+// Console (REPL + command registration + argtable3 + linenoise).
+#ifndef VSF_ESPIDF_CFG_USE_CONSOLE
+#   define VSF_ESPIDF_CFG_USE_CONSOLE           DISABLED
 #endif
 
 #endif      // __VSF_ESPIDF_CFG_H__

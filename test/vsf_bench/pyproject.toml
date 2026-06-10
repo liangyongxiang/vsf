@@ -1,0 +1,51 @@
+[project]
+name = "vsf-bench"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml",
+    "pyserial",
+]
+
+[project.scripts]
+vsf-bench       = "vsf_bench.cli.run:main"
+vsf-bench-build = "vsf_bench.cli.build:main"
+vsf-bench-program = "vsf_bench.cli.program:main"
+vsf-bench-test  = "vsf_bench.cli.test:main"
+vsf-bench-debug = "vsf_bench.cli.debug:main"
+
+[project.optional-dependencies]
+debug = ["pyocd"]
+gpio = ["pyftdi"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = [
+    "vsf_bench",
+    "vsf_bench.adapters",
+    "vsf_bench.builders",
+    "vsf_bench.capabilities",
+    "vsf_bench.cli",
+    "vsf_bench.config",
+    "vsf_bench.phases",
+    "vsf_bench.runners",
+    "vsf_bench.targets",
+    "vsf_bench.utils",
+    "vsf_bench.vsf_test",
+]
+
+[tool.setuptools.package-dir]
+"vsf_bench" = "."
+"vsf_bench.adapters" = "adapters"
+"vsf_bench.builders" = "builders"
+"vsf_bench.capabilities" = "capabilities"
+"vsf_bench.cli" = "cli"
+"vsf_bench.config" = "config"
+"vsf_bench.phases" = "phases"
+"vsf_bench.runners" = "runners"
+"vsf_bench.targets" = "targets"
+"vsf_bench.utils" = "utils"
+"vsf_bench.vsf_test" = "vsf_test"

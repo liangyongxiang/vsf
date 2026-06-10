@@ -26,6 +26,13 @@
 
 #if VSF_USE_ESPIDF == ENABLED
 
+#if VSF_ESPIDF_CFG_USE_HEAP_CAPS == ENABLED
+#   if !defined(VSF_USE_HEAP) || VSF_USE_HEAP != ENABLED
+#       error "VSF_ESPIDF_CFG_USE_HEAP_CAPS requires VSF_USE_HEAP"
+#   endif
+#   include "service/heap/vsf_heap.h"
+#endif
+
 #if VSF_ESPIDF_CFG_USE_PARTITION == ENABLED
 #   include "component/mal/vsf_mal.h"
 #   include "./include/esp_partition.h"
@@ -34,6 +41,18 @@
 #if VSF_ESPIDF_CFG_USE_ESP_FLASH == ENABLED
 #   include "component/mal/vsf_mal.h"
 #   include "./include/esp_flash.h"
+#endif
+
+#if VSF_ESPIDF_CFG_USE_USB_HOST == ENABLED
+#   include "component/usb/host/vsf_usbh.h"
+#endif
+
+#if VSF_ESPIDF_CFG_USE_USB_DEVICE == ENABLED
+#   include "component/usb/device/vsf_usbd.h"
+#endif
+
+#if VSF_ESPIDF_CFG_USE_APP_TRACE == ENABLED
+#   include <stdio.h>
 #endif
 
 #ifdef __cplusplus
@@ -169,6 +188,46 @@ typedef struct vsf_espidf_gptimer_cfg_t {
 } vsf_espidf_gptimer_cfg_t;
 #endif
 
+#if VSF_ESPIDF_CFG_USE_USB_HOST == ENABLED
+// USB Host sub-system configuration.
+//
+// The board layer provides a pre-configured vk_usbh_t with the HCD
+// driver, PHY setup, interrupt routing etc. already set according to
+// the actual hardware environment. The espidf shim adds the ESP-IDF
+// bridge class driver on top and manages the client/device model.
+//
+//   usbh  Board-owned vk_usbh_t instance. NULL -> usb_host_install()
+//         returns ESP_ERR_INVALID_STATE.
+typedef struct vsf_espidf_usb_host_cfg_t {
+    vk_usbh_t                  *usbh;
+} vsf_espidf_usb_host_cfg_t;
+#endif
+
+#if VSF_ESPIDF_CFG_USE_USB_DEVICE == ENABLED
+// USB Device sub-system configuration.
+//
+// The board layer provides a pre-configured vk_usbd_dev_t with the DCD
+// driver, descriptors and a bridge class interface already set according
+// to the actual hardware environment. The espidf shim wraps the ROM
+// usb_device.h API on top.
+//
+//   usbd  Board-owned vk_usbd_dev_t instance. NULL -> usb_enable()
+//         returns failure.
+typedef struct vsf_espidf_usb_device_cfg_t {
+    vk_usbd_dev_t              *usbd;
+} vsf_espidf_usb_device_cfg_t;
+#endif
+
+#if VSF_ESPIDF_CFG_USE_APP_TRACE == ENABLED
+// Application trace sub-system configuration.
+//   up_stream    FILE* for up-channel (target -> host) output. NULL -> stdout.
+//   down_stream  FILE* for down-channel (host -> target) input. NULL -> stdin.
+typedef struct vsf_espidf_app_trace_cfg_t {
+    FILE                       *up_stream;
+    FILE                       *down_stream;
+} vsf_espidf_app_trace_cfg_t;
+#endif
+
 typedef struct vsf_espidf_cfg_t {
 #if VSF_HAL_USE_RNG == ENABLED
     vsf_rng_t *rng;
@@ -194,6 +253,22 @@ typedef struct vsf_espidf_cfg_t {
 #if VSF_ESPIDF_CFG_USE_DRIVER_ADC == ENABLED
     vsf_espidf_adc_cfg_t       adc;
 #endif
+#if VSF_ESPIDF_CFG_USE_USB_HOST == ENABLED
+    vsf_espidf_usb_host_cfg_t  usb_host;
+#endif
+#if VSF_ESPIDF_CFG_USE_USB_DEVICE == ENABLED
+    vsf_espidf_usb_device_cfg_t  usb_device;
+#endif
+#if VSF_ESPIDF_CFG_USE_APP_TRACE == ENABLED
+    vsf_espidf_app_trace_cfg_t  app_trace;
+#endif
+#if VSF_ESPIDF_CFG_USE_HEAP_CAPS == ENABLED
+    /* Optional callback to map an ESP-IDF heap_caps bitmask to a VS F
+     * heap instance. When non-NULL, heap_caps_malloc() and
+     * xRingbufferCreateWithCaps() route allocations through the
+     * returned heap. If NULL, the default flat heap is used. */
+    vsf_heap_t *(*caps_to_heap)(uint32_t caps);
+#endif
 } vsf_espidf_cfg_t;
 
 /*============================ GLOBAL VARIABLES ==============================*/
@@ -209,6 +284,23 @@ extern void vsf_espidf_init(const vsf_espidf_cfg_t *cfg);
 // via vsf_espidf_init(), or NULL if none was provided (callers should
 // fall back to their own default).
 extern vsf_rng_t * vsf_espidf_get_rng(void);
+#endif
+
+#if VSF_ESPIDF_CFG_USE_USB_HOST == ENABLED
+extern vk_usbh_t * vsf_espidf_get_usbh(void);
+#endif
+
+#if VSF_ESPIDF_CFG_USE_USB_DEVICE == ENABLED
+extern vk_usbd_dev_t * vsf_espidf_get_usbd(void);
+#endif
+
+#if VSF_ESPIDF_CFG_USE_HEAP_CAPS == ENABLED
+extern vsf_heap_t *(*vsf_espidf_get_caps_to_heap(void))(uint32_t caps);
+#endif
+
+#if VSF_ESPIDF_CFG_USE_APP_TRACE == ENABLED
+extern void vsf_espidf_app_trace_init(const vsf_espidf_app_trace_cfg_t *cfg);
+extern const vsf_espidf_app_trace_cfg_t *vsf_espidf_get_app_trace_cfg(void);
 #endif
 
 #ifdef __cplusplus

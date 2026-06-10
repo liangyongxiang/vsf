@@ -173,6 +173,11 @@ typedef struct vk_disp_param_t {
 
 typedef void (*vk_disp_on_ready_t)(vk_disp_t *disp);
 
+// ui_data  -- opaque context pointer, set by caller before init / refresh /
+//             fini.  Retrieved by ui_on_ready callback to wake the waiting
+//             task when the operation completes.
+// ui_on_ready -- completion callback, invoked by driver via vk_disp_on_ready()
+//             when init, refresh, or fini finishes.
 vsf_class(vk_disp_t) {
     public_member(
         const vk_disp_param_t   param;
@@ -233,8 +238,55 @@ extern const vk_disp_drv_t vk_disp_cvrt_drv;
 
 /*============================ PROTOTYPES ====================================*/
 
+/*
+ * vk_disp_init / vk_disp_fini / vk_disp_refresh are asynchronous.
+ * The driver signals completion by calling vk_disp_on_ready(pthis),
+ * which invokes the ui_on_ready callback registered on the vk_disp_t.
+ *
+ * NOTE: The ui_on_ready callback may fire either synchronously (within
+ * the call to vk_disp_init/refresh itself) or asynchronously (after the
+ * call returns), depending on the driver implementation.  Callers must
+ * handle both cases.
+ *
+ * Typical usage pattern:
+ *   1. Set disp->ui_data = <your context pointer>
+ *   2. Set disp->ui_on_ready = <your callback>
+ *   3. Call vk_disp_init(disp)
+ *   4. Wait disp->ui_on_ready being called
+ *   5. Set disp->ui_on_ready if necessary
+ *   6. Call vk_disp_refresh(disp, ...)
+ *   7. Wait disp->ui_on_ready being called
+ *
+ * The ui_on_ready callback receives the vk_disp_t * and can retrieve
+ * the waiting context from disp->ui_data, and will never be changed by display driver.
+ */
+
+/**
+ * @brief Initialize a display instance (asynchronous)
+ * @param[in] pthis: a pointer to structure @ref vk_disp_t
+ * @return vsf_err_t: VSF_ERR_NONE if initialization started successfully, otherwise returns error code
+ * @note Completion is signaled via the ui_on_ready callback.
+ */
 extern vsf_err_t vk_disp_init(vk_disp_t *pthis);
+/**
+ * @brief Deinitialize a display instance (asynchronous)
+ * @param[in] pthis: a pointer to structure @ref vk_disp_t
+ * @note Completion is signaled via the ui_on_ready callback.
+ */
 extern void vk_disp_fini(vk_disp_t *pthis);
+/**
+ * @brief Refresh a display area (asynchronous)
+ * @param[in] pthis: a pointer to structure @ref vk_disp_t
+ * @param[in] area: a pointer to structure @ref vk_disp_area_t specifying the region to refresh
+ * @param[in] disp_buff: pointer to the pixel data for the area.
+ *            Pixels must be tightly packed per row: row stride equals
+ *            area->size.x * bytes_per_pixel.  The buffer only needs to
+ *            cover the area, NOT the full screen — rows are contiguous
+ *            without any padding to the display width.
+ * @return vsf_err_t: VSF_ERR_NONE if refresh started successfully, otherwise returns error code
+ * @pre vk_disp_init must have been called and its asynchronous completion
+ *      signaled via ui_on_ready before calling this function.
+ */
 extern vsf_err_t vk_disp_refresh(vk_disp_t *pthis, vk_disp_area_t *area, void *disp_buff);
 
 #ifdef __VSF_DISP_CLASS_INHERIT__

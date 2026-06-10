@@ -54,6 +54,8 @@ def parse_args():
     intc_p.add_argument("--raw", action="store_true", help="Show raw register hexdump")
     _add_elf_args(intc_p)
 
+    sub.add_parser("live", help="Live running state: regs + exception + caps snapshot")
+
     parser.add_argument("--board", type=str, default=None)
     parser.add_argument("--core", type=int, default=0, help="CPU core number (0=primary, 1=secondary)")
     parser.add_argument("board_dir")
@@ -474,6 +476,60 @@ def cmd_intc(board, args):
               f"{'E' if v.enabled else '.':1s} {'P' if v.pending else '.':1s} {'A' if v.active else '.':1s}  {handler_str}")
 
 
+def cmd_live(board, args):
+    """One-shot live system health: regs, exception, caps, interrupt summary."""
+    from vsf_bench.utils.debug import DebugSession
+
+    probe_cfg = board.debug_probe
+    target = probe_cfg.get("target", "cortex_m")
+    probe_id = probe_cfg.get("probe")
+
+    with DebugSession(target=target, probe=probe_id, core=args.core) as dbg:
+        # ── Debug caps ──
+        caps = dbg.debug_caps()
+        print(f"CPU: {caps.get('cpuid', '?')}")
+        print(f"DWT: {caps.get('dwt', '?')}")
+        print(f"FPB: {caps.get('fpb', '?')}")
+        print(f"MPU: {caps.get('mpu', '?')}")
+        print(f"Stack limits: {caps.get('stack_limits', '?')}")
+        print(f"SHCSR: {caps.get('shcsr', '?')}")
+
+        # ── Current exception ──
+        xpsr = dbg.read_core_regs().get("XPSR", 0)
+        ipsr = xpsr & 0x1FF
+        exc_names = {0: "Thread mode", 2: "NMI", 3: "HardFault", 4: "MemManage",
+                     5: "BusFault", 6: "UsageFault", 11: "SVCall", 14: "PendSV",
+                     15: "SysTick"}
+        mode = exc_names.get(ipsr, f"Exception {ipsr}")
+        print(f"\n  Mode: {mode} (IPSR={ipsr})")
+
+        # ── Registers (abbreviated) ──
+        regs = dbg.read_core_regs()
+        print(f"  PC=0x{regs['PC']:08X}  SP=0x{regs['SP']:08X}  LR=0x{regs['LR']:08X}")
+        msp = dbg.read32(0xE000ED30)  # actually this is MSPLIM, not MSP
+        # Read MSP/PSP from core registers
+        try:
+            msp_val = dbg._pyocd_target.read_core_register('msp')
+            psp_val = dbg._pyocd_target.read_core_register('psp')
+            control = dbg._pyocd_target.read_core_register('control')
+            print(f"  MSP=0x{msp_val:08X}  PSP=0x{psp_val:08X}  CONTROL=0x{control:08X}")
+        except Exception:
+            pass
+
+        # ── Interrupt summary ──
+        vectors, _, _, _ = dbg.intc_dump()
+        active = [(v.irq, v.name) for v in vectors if v.active]
+        pending = [(v.irq, v.name) for v in vectors if v.pending]
+        enabled = sum(1 for v in vectors if v.enabled)
+        print(f"\n  Interrupts: {enabled} enabled")
+        if active:
+            print(f"  Active:  {', '.join(f'#{n} {name}' for n, name in active)}")
+        if pending:
+            print(f"  Pending: {', '.join(f'#{n} {name}' for n, name in pending)}")
+        if not active and not pending:
+            print("  No active or pending IRQs")
+
+
 def cmd_continue(board, args):
     """Resume CPU from halted state (useful after a manual halt)."""
     from vsf_bench.utils.debug import DebugSession
@@ -516,6 +572,7 @@ def main():
         "break": cmd_break,
         "continue": cmd_continue,
         "intc": cmd_intc,
+        "live": cmd_live,
     }
     try:
         handlers[args.cmd](board, args)

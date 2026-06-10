@@ -667,8 +667,8 @@ class DebugSession:
 
     # ── interrupt controller dump ─────────────────────────
 
-    _NVIC_BASE = 0xE000E100
-    _SCS_BASE  = 0xE000E000
+    _NVIC_BASE = 0xE000E100    # NVIC registers
+    _SCB_BASE  = 0xE000ED00    # System Control Block (within SCS)
 
     # Standard Cortex-M system exception names
     _SYS_EXC_NAMES = [
@@ -689,10 +689,10 @@ class DebugSession:
         t = self._pyocd_target
 
         # ── SCB registers ──
-        vtor     = t.read32(self._SCS_BASE + 0x08)       # 0xE000ED08
-        aircr    = t.read32(self._SCS_BASE + 0xD0C)       # 0xE000ED0C
-        shcsr    = t.read32(self._SCS_BASE + 0xD24)       # 0xE000ED24
-        icsr     = t.read32(self._SCS_BASE + 0xD04)       # 0xE000ED04
+        vtor     = self.read32(self._SCB_BASE + 0x08)       # 0xE000ED08
+        aircr    = self.read32(self._SCB_BASE + 0x0C)       # 0xE000ED0C
+        shcsr    = self.read32(self._SCB_BASE + 0x24)       # 0xE000ED24
+        icsr     = self.read32(self._SCB_BASE + 0x04)       # 0xE000ED04
 
         # Priority grouping
         prigroup   = (aircr >> 8) & 7
@@ -729,10 +729,10 @@ class DebugSession:
         # Read system exception priorities (SCB_SHPR1-3 at 0xE000ED18)
         shpr = []
         for off in (0x18, 0x1C, 0x20):
-            shpr.append(t.read32(self._SCS_BASE + off))
+            shpr.append(self.read32(self._SCB_BASE + off))
 
         for i in range(16):
-            handler_addr = t.read32(vtor + i * 4) if vtor != 0 else 0
+            handler_addr = self.read32(vtor + i * 4) if vtor != 0 else 0
             name = self._SYS_EXC_NAMES[i] if i < len(self._SYS_EXC_NAMES) else ""
             if not name:
                 name = f"Exception{i}"
@@ -762,7 +762,7 @@ class DebugSession:
 
         # ── Peripheral IRQs (16+) ──
         # Determine how many IRQs: read ICTR (0xE000E004) bits [3:0]
-        ictr = t.read32(self._SCS_BASE + 4)
+        ictr = self.read32(0xE000E004)   # ICTR is in SCS ID block, not SCB
         num_irqs = 32 * ((ictr & 0xF) + 1)   # typically 240 for Star-MC1
 
         for irq in range(16, 16 + num_irqs):
@@ -771,17 +771,17 @@ class DebugSession:
             iser_bit  = irq_idx % 32
 
             # ISER/ICER/ISPR/ICPR/IABR at NVIC_BASE + 0/0x80/0x100/0x180/0x200
-            iser = t.read32(self._NVIC_BASE + 0x00 + iser_word * 4)
-            ispr = t.read32(self._NVIC_BASE + 0x100 + iser_word * 4)
-            iabr = t.read32(self._NVIC_BASE + 0x200 + iser_word * 4)
+            iser = self.read32(self._NVIC_BASE + 0x00 + iser_word * 4)
+            ispr = self.read32(self._NVIC_BASE + 0x100 + iser_word * 4)
+            iabr = self.read32(self._NVIC_BASE + 0x200 + iser_word * 4)
 
             # IPR at NVIC_BASE + 0x300
             ipr_word = irq_idx // 4
             ipr_byte = irq_idx % 4
-            ipr_val = t.read32(self._NVIC_BASE + 0x300 + ipr_word * 4)
+            ipr_val = self.read32(self._NVIC_BASE + 0x300 + ipr_word * 4)
             prio = (ipr_val >> (ipr_byte * 8)) & 0xFF
 
-            handler_addr = t.read32(vtor + irq * 4) if vtor != 0 else 0
+            handler_addr = self.read32(vtor + irq * 4) if vtor != 0 else 0
 
             vectors.append(IntVector(
                 irq=irq,

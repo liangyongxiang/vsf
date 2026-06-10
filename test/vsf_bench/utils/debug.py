@@ -310,13 +310,14 @@ class DebugSession:
     """
 
     def __init__(self, target: str = "cortex_m", probe: str | None = None,
-                 elf_path: str | None = None):
+                 elf_path: str | None = None, core: int = 0):
         from vsf_bench.targets import get_debug_target
 
         self._target_name = target
         self._target = get_debug_target(target)
         self._probe = probe
         self._elf_path = elf_path
+        self._core = core
         self._session = None
         self._elf = ElfContext(elf_path) if elf_path else None
 
@@ -354,7 +355,14 @@ class DebugSession:
     def _pyocd_target(self):
         if self._session is None:
             raise RuntimeError("Not connected — call connect() first")
-        return self._session.target
+        # ``SoCTarget.cores`` is a dict {core_number: CortexM}
+        cores = self._session.target.cores
+        if self._core not in cores:
+            raise RuntimeError(
+                f"Core {self._core} not available — target has "
+                f"{list(cores.keys())}"
+            )
+        return cores[self._core]
 
     # ── basic debug ops ────────────────────────────────────
 
@@ -574,10 +582,13 @@ class DebugSession:
             gdb_port = random.randint(3100, 3900)
 
         # 1. Start GDBServer subprocess (owns the probe independently)
+        gdb_port = gdb_port + self._core  # core 0→3333, core 1→3334, …
         cmd = ["pyocd", "gdbserver", "-t", self._target_name,
                "-p", str(gdb_port)]
         if self._probe:
             cmd += ["-u", self._probe]
+        if self._core > 0:
+            cmd += ["-c", str(self._core)]
 
         gdb_server = subprocess.Popen(
             cmd, stdin=subprocess.DEVNULL,

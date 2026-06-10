@@ -51,6 +51,7 @@ def parse_args():
     sub.add_parser("continue", help="Resume CPU and wait for breakpoint")
 
     parser.add_argument("--board", type=str, default=None)
+    parser.add_argument("--core", type=int, default=0, help="CPU core number (0=primary, 1=secondary)")
     parser.add_argument("board_dir")
     return parser.parse_args()
 
@@ -134,7 +135,7 @@ def cmd_crash_dump(board, args):
     target = probe_cfg.get("target", "cortex_m")
     probe_id = probe_cfg.get("probe")
 
-    with DebugSession(target=target, probe=probe_id, elf_path=elf_path) as dbg:
+    with DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core) as dbg:
         if elf_path:
             try:
                 dump = dbg.crash_dump_dwarf()
@@ -179,7 +180,7 @@ def cmd_backtrace(board, args):
 
     # DWARF path: don't open pyOCD session — GDBServer owns the probe
     if elf_path:
-        dbg = DebugSession(target=target, probe=probe_id, elf_path=elf_path)
+        dbg = DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core)
         try:
             frames = dbg.backtrace_dwarf()
             _print_frames(frames, elf_path)
@@ -189,7 +190,7 @@ def cmd_backtrace(board, args):
                   "falling back to heuristic", file=sys.stderr)
 
     # Heuristic fallback
-    with DebugSession(target=target, probe=probe_id, elf_path=elf_path) as dbg:
+    with DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core) as dbg:
         dbg.halt()
         try:
             frames = dbg.stack_backtrace()
@@ -208,7 +209,7 @@ def cmd_regs(board, args):
     target = probe_cfg.get("target", "cortex_m")
     probe_id = probe_cfg.get("probe")
 
-    with DebugSession(target=target, probe=probe_id, elf_path=elf_path) as dbg:
+    with DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core) as dbg:
         dbg.halt()
         try:
             regs = dbg.read_core_regs()
@@ -246,7 +247,7 @@ def cmd_read(board, args):
     target = probe_cfg.get("target", "cortex_m")
     probe_id = probe_cfg.get("probe")
 
-    with DebugSession(target=target, probe=probe_id) as dbg:
+    with DebugSession(target=target, probe=probe_id, core=args.core) as dbg:
         data = dbg.read_mem(addr, length)
     for i in range(0, len(data), 16):
         chunk = data[i:i + 16]
@@ -290,7 +291,7 @@ def cmd_vars(board, args):
               "Use --name <var> or configure debug_vars in project.", file=sys.stderr)
         sys.exit(2)
 
-    with DebugSession(target=target, probe=probe_id, elf_path=elf_path) as dbg:
+    with DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core) as dbg:
         print(f"[vsf-bench-debug] ELF: {elf_path}")
 
         for name in names:
@@ -344,7 +345,7 @@ def cmd_break(board, args):
     probe_id = probe_cfg.get("probe")
 
     addr = _resolve_break_addr(args.target, elf_path)
-    with DebugSession(target=target, probe=probe_id, elf_path=elf_path) as dbg:
+    with DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core) as dbg:
         dbg.halt()
         regs = dbg.read_core_regs()
         print(f"[vsf-bench-debug] Halted at 0x{regs['PC']:08X}")
@@ -388,7 +389,7 @@ def cmd_continue(board, args):
     target = probe_cfg.get("target", "cortex_m")
     probe_id = probe_cfg.get("probe")
 
-    with DebugSession(target=target, probe=probe_id) as dbg:
+    with DebugSession(target=target, probe=probe_id, core=args.core) as dbg:
         if dbg._pyocd_target.get_state() != dbg._pyocd_target.State.HALTED:
             dbg.halt()
         dbg._pyocd_target.resume()

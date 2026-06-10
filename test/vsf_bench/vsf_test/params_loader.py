@@ -219,15 +219,16 @@ def load_test_params(
     test_params_yml: str | Path,
     board_pins_path: str | Path | None = None,
     global_base: str | Path | None = None,
+    validate: bool = False,
 ) -> dict:
     """Load aggregated test params.
 
     Args:
         test_params_yml: Path to the root test_params.yml (required).
         board_pins_path: Optional path to vsf_test_board_pins.h for pin macro resolution.
-        global_base: Optional global params directory (absolute or cwd-relative).
-                     Falls back to VSF_TEST_GLOBAL_PARAMS_DIR env var,
-                     then to the script-relative vsf_test_suite/params directory.
+        global_base: Optional global params directory.
+        validate: If True, validate against JSON Schema before returning.
+                  Raises SystemExit on schema errors.
     """
     yml_path = Path(test_params_yml).resolve()
 
@@ -238,9 +239,47 @@ def load_test_params(
     elif os.environ.get(GLOBAL_PARAMS_ENV):
         gb = Path(os.environ[GLOBAL_PARAMS_ENV])
     else:
-        # script-relative: vsf_bench/../vsf_test_suite/params
         gb = (Path(__file__).resolve().parent / ".." / "vsf_test_suite" / "params").resolve()
 
     params = load_yaml_with_includes(yml_path, global_base=gb)
     pinmap = _load_pinmap(board_pins_path)
-    return _resolve_pinmap(params, pinmap)
+    result = _resolve_pinmap(params, pinmap)
+
+    if validate:
+        _validate_with_schema(result, yml_path)
+
+    return result
+
+
+def _validate_with_schema(params: dict, yml_path: Path) -> None:
+    """Validate *params* against the JSON Schema in ``test_params.schema.json``.
+
+    Prints errors to stderr and raises SystemExit(2) on failure.
+    """
+    import json
+    try:
+        import jsonschema
+    except ImportError:
+        # jsonschema not installed — skip validation (not a hard dependency)
+        print("[vsf-bench] Warning: jsonschema not installed, skipping schema validation. "
+              "Run: pip install jsonschema", file=sys.stderr)
+        return
+
+    schema_path = Path(__file__).resolve().parent / "test_params.schema.json"
+    try:
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError) as e:
+        print(f"[vsf-bench] Warning: cannot load schema {schema_path}: {e}", file=sys.stderr)
+        return
+
+    validator = jsonschema.Draft202012Validator(schema)
+    errors = sorted(validator.iter_errors(params), key=lambda e: e.json_path)
+    if not errors:
+        print(f"[vsf-bench] Schema OK: {yml_path}")
+        return
+
+    print(f"[vsf-bench] Schema errors in {yml_path}:", file=sys.stderr)
+    for err in errors:
+        path = err.json_path or "(root)"
+        print(f"  {path}: {err.message}", file=sys.stderr)
+    raise SystemExit(2)

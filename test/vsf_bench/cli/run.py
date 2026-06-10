@@ -107,6 +107,17 @@ def main():
                 print(f"  {p.name}{desc}")
         return
 
+    # ── --dry-run: validate test_params.yml schema only ──
+    if args.dry_run:
+        test_params_yml = hw_path.parent / "test_params.yml"
+        from vsf_bench.vsf_test.params_loader import load_test_params
+        if test_params_yml.exists():
+            load_test_params(test_params_yml, validate=True)
+            print("[vsf-bench] Dry-run OK — schema valid")
+        else:
+            print(f"[vsf-bench] test_params.yml not found at {test_params_yml}")
+        return
+
     # ── --pipeline (new unified steps model) ──
     if args.pipeline:
         if not args.board:

@@ -55,6 +55,17 @@ def main():
     # ── Single board ──
     board_name = args.board[0] if args.board else None
     test_params_yml = hardware_map_path.parent / "test_params.yml"
+
+    # ── Dry-run: validate schema only ──
+    if args.dry_run:
+        from vsf_bench.vsf_test.params_loader import load_test_params
+        if test_params_yml.exists():
+            load_test_params(test_params_yml, validate=True)
+            print("[vsf-bench-test] Dry-run OK — schema valid")
+        else:
+            print(f"[vsf-bench-test] test_params.yml not found at {test_params_yml}")
+        return
+
     if not test_params_yml.exists():
         test_params_yml = None
 

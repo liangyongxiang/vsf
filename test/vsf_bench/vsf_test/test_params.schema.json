@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vsf-bench/vsf_test/test_params.schema.json",
+  "title": "VSF Test Parameters",
+  "description": "Schema for test_params.yml — per-suite host/LA test configuration.",
+
+  "type": "object",
+  "properties": {
+    "include": {
+      "description": "List of YAML files to merge (resolved relative to this file, then global base)",
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      ]
+    }
+  },
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "host": {
+        "type": "object",
+        "description": "Host-side script parameters (e.g. serial_wait_ms, expected_freq_hz)"
+      },
+      "la": {
+        "type": "object",
+        "description": "LA-side decode parameters (e.g. channel, baudrate)"
+      },
+      "defaults": {
+        "type": "object",
+        "description": "Default values applied to each case"
+      },
+      "cases": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "suite_timeout_s": {
+        "type": "number",
+        "description": "Per-suite timeout override (seconds)"
+      }
+    },
+    "additionalProperties": true
+  }
+}

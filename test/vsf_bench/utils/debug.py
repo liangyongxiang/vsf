@@ -43,9 +43,9 @@ class IntVector:
     enabled: bool = False   # NVIC ISER
     pending: bool = False   # NVIC ISPR
     active: bool = False    # NVIC IABR
-    priority: int = 0       # raw 8-bit priority
-    preempt_prio: int = 0   # preemption priority (group)
-    sub_prio: int = 0       # subpriority (subgroup)
+    priority: int = 0       # effective priority level (0=highest, N-1=lowest)
+    preempt_prio: int = 0   # preemption group priority
+    sub_prio: int = 0       # subgroup priority within preempt group
 
 
 @dataclass
@@ -748,6 +748,7 @@ class DebugSession:
             elif i == 15:            # SysTick
                 prio = (shpr[2] >> 24) & 0xFF
 
+            level = prio >> (8 - (preempt_bits + sub_bits))  # effective level (0-15 for 4-bit)
             vectors.append(IntVector(
                 irq=i,
                 name=name,
@@ -755,7 +756,7 @@ class DebugSession:
                 enabled=bool(sys_enable_mask & (1 << i)),
                 pending=bool(sys_pending_mask & (1 << i)),
                 active=False if i >= 16 else (icsr & 0x1FF) == i,
-                priority=prio,
+                priority=level,
                 preempt_prio=prio >> (8 - preempt_bits),
                 sub_prio=(prio >> (8 - preempt_bits - sub_bits)) & ((1 << sub_bits) - 1),
             ))
@@ -783,6 +784,7 @@ class DebugSession:
 
             handler_addr = self.read32(vtor + irq * 4) if vtor != 0 else 0
 
+            level = prio >> (8 - (preempt_bits + sub_bits))  # effective level (0-15 for 4-bit)
             vectors.append(IntVector(
                 irq=irq,
                 name=f"IRQ{irq_idx:03d}",
@@ -790,7 +792,7 @@ class DebugSession:
                 enabled=bool(iser & (1 << iser_bit)),
                 pending=bool(ispr & (1 << iser_bit)),
                 active=bool(iabr & (1 << iser_bit)),
-                priority=prio,
+                priority=level,
                 preempt_prio=prio >> (8 - preempt_bits),
                 sub_prio=(prio >> (8 - preempt_bits - sub_bits)) & ((1 << sub_bits) - 1),
             ))
@@ -805,7 +807,7 @@ class DebugSession:
                         v.handler_func = func
 
         # Sort by priority (lowest = most urgent), then by IRQ number
-        vectors.sort(key=lambda v: (v.preempt_prio, v.sub_prio, (v.priority & ((1 << sub_bits) - 1)), v.irq))
+        vectors.sort(key=lambda v: (v.preempt_prio, v.sub_prio, v.irq))
 
         return vectors
 

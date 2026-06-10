@@ -400,7 +400,7 @@ def cmd_intc(board, args):
     if elf_path:
         print(f"[vsf-bench-debug] ELF: {elf_path}")
     print(f"[vsf-bench-debug] Core: {args.core}  VTOR: 0x{vtor:08X}  "
-          f"Priority: 3 preempt + 1 sub bits")
+          f"NVIC: 4-bit priority (3 preempt + 1 sub)")
     print()
 
     # Count active/pending
@@ -411,8 +411,8 @@ def cmd_intc(board, args):
     print()
 
     # Header
-    print(f"  {'IRQ':>4s} {'Name':20s} {'Prio':>4s} {'Pre':>3s} {'Sub':>3s} E P A  Handler")
-    print(f"  {'-'*4} {'-'*20} {'-'*4} {'-'*3} {'-'*3} - - -  {'-'*40}")
+    print(f"  {'IRQ':>4s} {'Name':20s} {'Lvl':>3s} {'Pre':>3s} {'Sub':>3s} E P A  Handler")
+    print(f"  {'-'*4} {'-'*20} {'-'*3} {'-'*3} {'-'*3} - - -  {'-'*40}")
 
     for v in vectors:
         # Show: system exceptions with valid handlers, or any enabled/pending/active IRQ
@@ -424,7 +424,7 @@ def cmd_intc(board, args):
                 continue  # skip unused peripheral IRQs
 
         handler_str = v.handler_func or (f"0x{v.handler:08X}" if v.handler else "")
-        print(f"  {v.irq:4d} {v.name:20s} {v.priority:4d} {v.preempt_prio:3d} {v.sub_prio:3d} "
+        print(f"  {v.irq:4d} {v.name:20s} {v.priority:3d} {v.preempt_prio:3d} {v.sub_prio:3d} "
               f"{'E' if v.enabled else '.':1s} {'P' if v.pending else '.':1s} {'A' if v.active else '.':1s}  {handler_str}")
 
 

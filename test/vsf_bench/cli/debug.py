@@ -130,7 +130,7 @@ def _find_elf_in_artifacts(build) -> str | None:
 
 
 def cmd_crash_dump(board, args):
-    """Halt CPU, capture crash context, output JSON — DWARF preferred."""
+    """Halt CPU, capture full crash context — DWARF preferred."""
     from vsf_bench.utils.debug import DebugSession
 
     elf_path = _find_elf(args, str(Path(args.board_dir).resolve()), board)
@@ -153,6 +153,39 @@ def cmd_crash_dump(board, args):
     if elf_path:
         print(f"[vsf-bench-debug] ELF: {elf_path}")
 
+    # ── Debug capability overview ──
+    try:
+        with DebugSession(target=target, probe=probe_id, core=args.core) as dbg:
+            caps = dbg.debug_caps()
+        print(f"[vsf-bench-debug] CPUID: {caps.get('cpuid', '?')}")
+        print(f"[vsf-bench-debug] DWT:   {caps.get('dwt', '?')}")
+        print(f"[vsf-bench-debug] FPB:   {caps.get('fpb', '?')}")
+        print(f"[vsf-bench-debug] MPU:   {caps.get('mpu', '?')}")
+        print(f"[vsf-bench-debug] Stack: {caps.get('stack_limits', '?')}")
+        print(f"[vsf-bench-debug] SHCSR: {caps.get('shcsr', '?')}")
+        print()
+    except Exception as e:
+        print(f"[vsf-bench-debug] Caps read failed: {e}", file=sys.stderr)
+        print()
+
+    # ── Interrupt state summary ──
+    try:
+        with DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core) as dbg:
+            vectors, impl_bits, preempt_bits, sub_bits = dbg.intc_dump()
+        active_irqs = [(v.irq, v.name) for v in vectors if v.active]
+        pending_irqs = [(v.irq, v.name) for v in vectors if v.pending]
+        if active_irqs:
+            print(f"[vsf-bench-debug] Active IRQs:  {', '.join(f'#{n} {name}' for n, name in active_irqs)}")
+        if pending_irqs:
+            print(f"[vsf-bench-debug] Pending IRQs: {', '.join(f'#{n} {name}' for n, name in pending_irqs)}")
+        if not active_irqs and not pending_irqs:
+            print("[vsf-bench-debug] No active or pending IRQs")
+        print()
+    except Exception as e:
+        print(f"[vsf-bench-debug] INTC read failed: {e}", file=sys.stderr)
+        print()
+
+    # ── Fault details ──
     print(dump.to_json())
 
 

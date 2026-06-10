@@ -55,10 +55,13 @@ def parse_args():
     _add_elf_args(intc_p)
 
     dump_p = sub.add_parser("dump", help="Full memory dump to binary file for post-mortem analysis")
-    dump_p.add_argument("--addr", type=str, help="Start address (hex). Required unless --region is used.")
-    dump_p.add_argument("--len", type=int, help="Length in bytes. Required unless --region is used.")
+    dump_p.add_argument("--addr", type=str, help="Start address (hex). Required unless --region/--all.")
+    dump_p.add_argument("--len", type=int, help="Length in bytes. Required unless --region/--all.")
     dump_p.add_argument("--region", type=str, choices=["sram", "flash", "stack"],
                         help="Predefined region (overrides --addr/--len)")
+    dump_p.add_argument("--all", action="store_true",
+                        help="Dump all regions: ELF sections + hardware-map dump_regions")
+    _add_elf_args(dump_p)
     dump_p.add_argument("--output", type=str, default=None,
                         help="Output .bin path (default: logs/<ts>-<board>-dump/<region>.bin)")
     dump_p.add_argument("--chunk", type=int, default=4096,
@@ -540,8 +543,12 @@ def cmd_live(board, args):
             print("  No active or pending IRQs")
 
 
+def _make_dump_label(addr: int, length: int) -> str:
+    return f"0x{addr:08X}_{length}"
+
+
 def cmd_dump(board, args):
-    """Read a memory region and write to a binary file with metadata."""
+    """Read memory region(s) and write to binary files with metadata."""
     from vsf_bench.utils.debug import DebugSession
     from datetime import datetime
     import json, time as _time
@@ -550,77 +557,86 @@ def cmd_dump(board, args):
     target = probe_cfg.get("target", "cortex_m")
     probe_id = probe_cfg.get("probe")
 
-    # Resolve region
-    if args.region == "sram":
-        addr, length = 0x20000000, 0x00084000
-        label = "sram"
+    # ── Collect regions ──
+    regions: list[tuple[str, int, int]] = []  # (label, addr, length)
+
+    if args.all:
+        elf_path = _find_elf(args, str(Path(args.board_dir).resolve()), board)
+        if elf_path:
+            try:
+                from elftools.elf.elffile import ELFFile
+                with open(elf_path, "rb") as f:
+                    ef = ELFFile(f)
+                    for sec in ef.iter_sections():
+                        addr = sec.header.sh_addr
+                        size = sec.header.sh_size
+                        fl = sec.header.sh_flags
+                        if (fl & 0x2) and (fl & 0x1) and size > 0:
+                            if 0x1FFF0000 <= addr < 0x40000000:
+                                regions.append((sec.name, addr, size))
+            except Exception as e:
+                print(f"[vsf-bench-debug] ELF section scan failed: {e}", file=sys.stderr)
+        for dr in getattr(board, "dump_regions", []):
+            regions.append((dr.get("name", _make_dump_label(dr["addr"], dr["size"])),
+                           dr["addr"], dr["size"]))
+        if not regions:
+            regions.append(("sram_upper", 0x28000000, 0x00044000))
+
+    elif args.region == "sram":
+        regions = [("sram", 0x20000000, 0x00004000), ("sram_upper", 0x28000000, 0x00044000)]
     elif args.region == "flash":
-        addr, length = 0x02000000, 0x00100000
-        label = "flash"
+        regions = [("flash", 0x02000000, 0x00100000)]
     elif args.region == "stack":
-        # Stack around current SP — dump 32KB
         with DebugSession(target=target, probe=probe_id, core=args.core) as dbg:
             sp = dbg.read_core_regs().get("SP", 0x20000000)
         addr = max(0x20000000, sp - 0x4000)
-        length = 0x8000
-        label = f"stack_sp_0x{sp:08X}"
+        regions = [(f"stack_sp_0x{sp:08X}", addr, 0x8000)]
     elif args.addr and args.len:
         addr = int(args.addr, 0)
-        length = args.len
-        label = f"0x{addr:08X}_{length}"
+        regions = [(_make_dump_label(addr, args.len), addr, args.len)]
     else:
-        print("[vsf-bench-debug] Error: specify --region or --addr/--len", file=sys.stderr)
+        print("[vsf-bench-debug] Error: specify --region, --all, or --addr/--len", file=sys.stderr)
         sys.exit(2)
 
-    # Output path
-    if args.output:
-        out_path = Path(args.output)
-    else:
-        ts = datetime.now().strftime("%Y%m%d-%H%M%S")
-        out_dir = Path(f"logs/{ts}-{board.name}-dump")
-        out_dir.mkdir(parents=True, exist_ok=True)
-        out_path = out_dir / f"{label}.bin"
-    meta_path = out_path.with_suffix(".json")
-
-    # Dump
-    print(f"[vsf-bench-debug] Dumping 0x{addr:08X} +{length:#,} bytes → {out_path}")
-    print(f"[vsf-bench-debug] Chunk size: {args.chunk} bytes — reading...")
+    # ── Output directory ──
+    ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+    out_dir = Path(args.output) if args.output else Path(f"logs/{ts}-{board.name}-dump")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    total_bytes = 0
+    total_start = _time.time()
 
     with DebugSession(target=target, probe=probe_id, core=args.core) as dbg:
-        t0 = _time.time()
-        bytes_read = 0
-        with open(out_path, "wb") as f:
-            for offset in range(0, length, args.chunk):
-                chunk_len = min(args.chunk, length - offset)
-                try:
-                    data = dbg.read_mem(addr + offset, chunk_len)
-                    f.write(data)
-                    bytes_read += len(data)
-                except Exception as e:
-                    print(f"  [err] 0x{addr+offset:08X}: {e}", file=sys.stderr)
-                    break
-                if offset % (args.chunk * 16) == 0 and offset > 0:
-                    pct = bytes_read * 100 // length
-                    print(f"  {bytes_read:#,}/{length:#,} bytes ({pct}%)...")
+        for label, addr, length in regions:
+            safe = label.replace("/", "_").replace("\\", "_").replace(" ", "_")
+            bp = out_dir / f"{safe}.bin"
+            mp = out_dir / f"{safe}.json"
 
-    elapsed = _time.time() - t0
-    speed = bytes_read / elapsed / 1024 if elapsed > 0 else 0
-    print(f"[vsf-bench-debug] Done: {bytes_read:#,} bytes in {elapsed:.1f}s ({speed:.0f} KB/s)")
-    print(f"[vsf-bench-debug] Binary: {out_path}")
-    print(f"[vsf-bench-debug] Meta:   {meta_path}")
+            print(f"\n[vsf-bench-debug] {label}: 0x{addr:08X} +{length:#,} bytes → {bp.name}")
+            t0 = _time.time(); bytes_read = 0; errors = []
+            with open(bp, "wb") as f:
+                for off in range(0, length, args.chunk):
+                    cl = min(args.chunk, length - off)
+                    try:
+                        f.write(dbg.read_mem(addr + off, cl))
+                        bytes_read += cl
+                    except Exception as e:
+                        errors.append(f"0x{addr+off:08X}: {e}"); break
+                    if off % (args.chunk * 32) == 0 and off > 0:
+                        print(f"  {bytes_read*100//length}% ({bytes_read:#,}/{length:#,})", end="\r")
 
-    # Write metadata
-    meta = {
-        "timestamp": datetime.now().isoformat(),
-        "board": board.name,
-        "core": args.core,
-        "addr": f"0x{addr:08X}",
-        "length": bytes_read,
-        "label": label,
-        "speed_kbs": round(speed, 1),
-    }
-    with open(meta_path, "w") as f:
-        json.dump(meta, f, indent=2)
+            elapsed = _time.time() - t0
+            speed = bytes_read / elapsed / 1024 if elapsed > 0 else 0
+            st = "OK" if not errors else f"PARTIAL ({errors[0][:50]})"
+            print(f"  {st} — {bytes_read:#,} bytes in {elapsed:.1f}s ({speed:.0f} KB/s)")
+            total_bytes += bytes_read
+
+            with open(mp, "w") as f:
+                json.dump({"timestamp": datetime.now().isoformat(), "board": board.name,
+                          "core": args.core, "addr": f"0x{addr:08X}", "length": bytes_read,
+                          "label": label, "speed_kbs": round(speed,1), "errors": errors}, f, indent=2)
+
+    total_elapsed = _time.time() - total_start
+    print(f"\n[vsf-bench-debug] Total: {total_bytes:#,} bytes in {total_elapsed:.1f}s → {out_dir}")
 
 
 def cmd_continue(board, args):

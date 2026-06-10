@@ -401,12 +401,19 @@ def cmd_intc(board, args):
             _print_intc_raw(dbg, vtor)
             return
 
+        caps = dbg.debug_caps()
         vectors, impl_bits, preempt_bits, sub_bits = dbg.intc_dump()
 
     if elf_path:
         print(f"[vsf-bench-debug] ELF: {elf_path}")
     print(f"[vsf-bench-debug] Core: {args.core}  VTOR: 0x{vtor:08X}  "
           f"NVIC: {impl_bits}-bit priority ({preempt_bits} preempt + {sub_bits} sub)")
+    print(f"[vsf-bench-debug] CPUID: {caps.get('cpuid', '?')}")
+    print(f"[vsf-bench-debug] DWT:   {caps.get('dwt', '?')}")
+    print(f"[vsf-bench-debug] FPB:   {caps.get('fpb', '?')}")
+    print(f"[vsf-bench-debug] MPU:   {caps.get('mpu', '?')}")
+    print(f"[vsf-bench-debug] Stack: {caps.get('stack_limits', '?')}")
+    print(f"[vsf-bench-debug] SHCSR: {caps.get('shcsr', '?')}")
     print()
 
     # Count active/pending

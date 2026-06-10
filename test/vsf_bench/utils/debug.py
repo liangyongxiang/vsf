@@ -91,6 +91,8 @@ class CrashDump:
     lr_func: str = ""
     # Assertion context (populated when PC is in a known assert function)
     assertion: dict | None = None
+    # Fault frame decode (populated when fault_type != NoFault)
+    fault_frame: dict | None = None
 
     def to_dict(self) -> dict:
         d = {
@@ -111,6 +113,8 @@ class CrashDump:
             d["lr_func"] = self.lr_func
         if self.assertion:
             d["assertion"] = self.assertion
+        if self.fault_frame:
+            d["fault_frame"] = self.fault_frame
         return d
 
     def to_json(self, indent: int = 2) -> str:
@@ -720,6 +724,69 @@ class DebugSession:
         cls._irq_names = names
         return names
 
+    def debug_caps(self) -> dict:
+        """Return CPUID, DWT, MPU, stack limits, SHCSR as a dict."""
+        d: dict = {}
+        # ── CPUID ──
+        cpuid = self.read32(0xE000ED00)
+        implementer = (cpuid >> 24) & 0xFF
+        variant    = (cpuid >> 20) & 0xF
+        constant   = (cpuid >> 16) & 0xF
+        partno     = (cpuid >> 4) & 0xFFF
+        revision   = cpuid & 0xF
+        impl_names = {0x41: "ARM", 0x63: "Arm China", 0x51: "Qualcomm"}
+        imp_str = impl_names.get(implementer, '0x%02X' % implementer)
+        d["cpuid"] = (f"0x{cpuid:08X} (impl={imp_str}, "
+                      f"part=0x{partno:03X}, var={variant}, rev=r{revision}p{constant})")
+
+        # ── DWT ──
+        dwt_ctrl = self.read32(0xE0001000)
+        ncmp     = (dwt_ctrl >> 28) & 0xF
+        cyc_str = ""
+        if not (dwt_ctrl >> 25) & 1:
+            if not (dwt_ctrl & 1):
+                self.write32(0xE0001000, dwt_ctrl | 1)
+            cyccnt = self.read32(0xE0001004)
+            cyc_str = f", cycle counter={cyccnt}"
+        d["dwt"] = f"0x{dwt_ctrl:08X} ({ncmp} comparators{cyc_str})"
+
+        # ── FPB ──
+        fp_ctrl = self.read32(0xE0002000)
+        nbp = ((fp_ctrl >> 4) & 0xF) + 1
+        nlp = ((fp_ctrl >> 8) & 0xF) + 1
+        d["fpb"] = f"0x{fp_ctrl:08X} ({nbp} breakpoints, {nlp} literal)"
+
+        # ── MPU ──
+        mpu_type = self.read32(0xE000ED90)
+        if mpu_type & 1:
+            nregions = ((mpu_type >> 8) & 0xFF) + 1
+            d["mpu"] = f"0x{mpu_type:08X} ({nregions} regions)"
+        else:
+            d["mpu"] = "not present"
+
+        # ── Stack limits (v8-M) ──
+        try:
+            msplim = self.read32(0xE000ED30)
+            psplim = self.read32(0xE000ED38)
+            d["stack_limits"] = f"MSPLIM=0x{msplim:08X} PSPLIM=0x{psplim:08X}"
+        except Exception:
+            d["stack_limits"] = "N/A"
+
+        # ── SHCSR system handler state ──
+        shcsr = self.read32(0xE000ED24)
+        flags = []
+        names = {15: "MemFault", 16: "BusFault", 17: "UsageFault",
+                 18: "SVC", 12: "DebugMon", 11: "SysTick", 14: "PendSV"}
+        bitnames = {15: "MEM_ACT", 16: "BUS_ACT", 17: "USG_ACT",
+                    14: "PEND_ACT", 12: "MON_ACT", 11: "SYST_ACT"}
+        for bit, name in bitnames.items():
+            if shcsr & (1 << bit):
+                flags.append(name)
+        flag_str = ", ".join(flags)
+        d["shcsr"] = f"0x{shcsr:08X}" + (f" ({flag_str})" if flags else "")
+
+        return d
+
     def intc_dump(self) -> tuple[list[IntVector], int, int, int]:
         """Read the full interrupt state.
 
@@ -889,6 +956,60 @@ class DebugSession:
 
         return vectors, impl_bits, preempt_bits, sub_bits
 
+    # ── fault frame decoder ────────────────────────────────
+
+    def fault_frame_decode(self, dump: CrashDump) -> dict:
+        """Decode the stacked exception frame from a HardFault.
+
+        Reads the 8-word frame pushed by Cortex-M on exception entry
+        (R0-R3, R12, LR, PC, xPSR) from SP at time of fault.
+        Also decodes EXC_RETURN to determine stack (MSP/PSP) and FPU state.
+        """
+        sp      = dump.core_regs.get("SP", 0)
+        lr_val  = dump.core_regs.get("LR", 0)
+        exc_return = lr_val  # LR holds EXC_RETURN on exception entry
+
+        # Decode EXC_RETURN
+        exc_info = []
+        stack_name = "MSP" if (exc_return & (1 << 3)) else "PSP"
+        exc_info.append(f"stack={stack_name}")
+        if exc_return & (1 << 4):
+            exc_info.append("FPU_frame_present(+18 words)")
+        else:
+            exc_info.append("standard_frame(8 words)")
+        if exc_return & (1 << 0):
+            exc_info.append("Secure→NonSecure")  # TrustZone
+        security = "secure" if (exc_return & (1 << 6)) else "non-secure"
+        exc_info.append(security)
+
+        # Read 8 stacked registers (R0,R1,R2,R3,R12,LR,PC,xPSR)
+        frame: dict[str, int] = {}
+        frame_names = ["R0", "R1", "R2", "R3", "R12", "LR_fault", "PC_fault", "xPSR"]
+        import struct
+        stack_data = self.read_mem(sp, 32)
+        for i, name in enumerate(frame_names):
+            if i * 4 + 4 <= len(stack_data):
+                frame[name] = struct.unpack("<I", stack_data[i*4:i*4+4])[0]
+
+        # Resolve fault PC
+        fault_pc_func = ""
+        fault_pc_file = ""
+        fault_pc_line = 0
+        if self._elf is not None and "PC_fault" in frame:
+            self._elf._ensure_loaded()
+            f = self._elf.resolve(frame["PC_fault"])
+            fault_pc_func = f.function
+            fault_pc_file = f.file
+            fault_pc_line = f.line
+
+        return {
+            "exc_return": f"0x{exc_return:08X} ({', '.join(exc_info)})",
+            "frame": {k: f"0x{v:08X}" for k, v in frame.items()},
+            "fault_pc_func": fault_pc_func,
+            "fault_pc_file": fault_pc_file,
+            "fault_pc_line": fault_pc_line,
+        }
+
     # ── crash dump ─────────────────────────────────────────
 
     def crash_dump(self) -> CrashDump:
@@ -920,6 +1041,18 @@ class DebugSession:
             if assertion and fault_type == "NoFault":
                 fault_type = "Assertion"
 
+            # Decode fault frame when a real fault occurred
+            fault_frame = None
+            if fault_type != "NoFault" and fault_type != "Assertion":
+                try:
+                    fault_frame = self.fault_frame_decode(
+                        CrashDump(fault_type=fault_type, pc=regs["PC"],
+                                  sp=regs["SP"], lr=regs["LR"],
+                                  core_regs=regs)
+                    )
+                except Exception:
+                    pass
+
         finally:
             try:
                 self.resume()
@@ -940,6 +1073,7 @@ class DebugSession:
             pc_func=pc_func,
             lr_func=lr_func,
             assertion=assertion,
+            fault_frame=fault_frame,
         )
 
 

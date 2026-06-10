@@ -680,6 +680,46 @@ class DebugSession:
         "UsageFault", "", "", "", "SVCall", "DebugMon", "", "PendSV", "SysTick",
     ]
 
+    # Cached IRQ name lookup — parsed lazily from soc_config.h
+    _irq_names: dict[int, str] | None = None
+
+    @classmethod
+    def _load_irq_names(cls) -> dict[int, str]:
+        """Parse ``soc_config.h`` to map IRQ number → peripheral name."""
+        if cls._irq_names is not None:
+            return cls._irq_names
+        import re as _re
+        p = (
+            Path(__file__).resolve().parents[5]
+            / "board" / "BHClears" / "BH1098" / "common" / "vendor" / "bsp"
+            / "soc" / "BH1098" / "inc" / "soc_config.h"
+        )
+        names: dict[int, str] = {}
+        if not p.exists():
+            cls._irq_names = {}
+            return names
+        content = p.read_text(encoding="utf-8", errors="replace")
+        idx = content.find("Bhclears Specific Interrupt Numbers")
+        if idx < 0:
+            cls._irq_names = {}
+            return names
+        tail = content[idx:]
+        cur = -1
+        for line in tail.split("\n"):
+            mm = _re.match(r"\s*(\w+_IRQn)\s*(?:=\s*(-?\d+))?\s*,?", line)
+            if mm:
+                name = mm.group(1).replace("_IRQn", "")
+                if mm.group(2):
+                    cur = int(mm.group(2))
+                else:
+                    cur += 1
+                if cur >= 0:
+                    names[cur] = name
+            elif "}" in line and names:
+                break  # end of enum
+        cls._irq_names = names
+        return names
+
     def intc_dump(self) -> tuple[list[IntVector], int, int, int]:
         """Read the full interrupt state.
 
@@ -818,9 +858,14 @@ class DebugSession:
             handler_addr = self.read32(vtor + irq * 4) if vtor != 0 else 0
 
             level = prio >> (8 - (preempt_bits + sub_bits))  # effective level (0-15 for 4-bit)
+            irq_names = self._load_irq_names()
+            pname = irq_names.get(irq_idx, "")
+            display = f"IRQ{irq_idx:03d}"
+            if pname:
+                display = f"IRQ{irq_idx:03d} ({pname})"
             vectors.append(IntVector(
                 irq=irq,
-                name=f"IRQ{irq_idx:03d}",
+                name=display,
                 handler=handler_addr,
                 enabled=bool(iser & (1 << iser_bit)),
                 pending=bool(ispr & (1 << iser_bit)),

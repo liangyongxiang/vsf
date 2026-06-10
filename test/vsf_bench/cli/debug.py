@@ -51,6 +51,7 @@ def parse_args():
     sub.add_parser("continue", help="Resume CPU and wait for breakpoint")
 
     intc_p = sub.add_parser("intc", help="Dump interrupt controller state (NVIC)")
+    intc_p.add_argument("--raw", action="store_true", help="Show raw register hexdump")
     _add_elf_args(intc_p)
 
     parser.add_argument("--board", type=str, default=None)
@@ -395,6 +396,11 @@ def cmd_intc(board, args):
 
     with DebugSession(target=target, probe=probe_id, elf_path=elf_path, core=args.core) as dbg:
         vtor = dbg.read32(0xE000ED08)
+
+        if args.raw:
+            _print_intc_raw(dbg, vtor)
+            return
+
         vectors, impl_bits, preempt_bits, sub_bits = dbg.intc_dump()
 
     if elf_path:
@@ -411,8 +417,8 @@ def cmd_intc(board, args):
     print()
 
     # Header
-    print(f"  {'IRQ':>4s} {'Name':20s} {'Lvl':>3s} {'Pre':>3s} {'Sub':>3s} E P A  Handler")
-    print(f"  {'-'*4} {'-'*20} {'-'*3} {'-'*3} {'-'*3} - - -  {'-'*40}")
+    print(f"  {'IRQ':>4s} {'Name':24s} {'Lvl':>3s} {'Pre':>3s} {'Sub':>3s} E P A  Handler")
+    print(f"  {'-'*4} {'-'*24} {'-'*3} {'-'*3} {'-'*3} - - -  {'-'*40}")
 
     for v in vectors:
         # Show: system exceptions with valid handlers, or any enabled/pending/active IRQ
@@ -424,7 +430,7 @@ def cmd_intc(board, args):
                 continue  # skip unused peripheral IRQs
 
         handler_str = v.handler_func or (f"0x{v.handler:08X}" if v.handler else "")
-        print(f"  {v.irq:4d} {v.name:20s} {v.priority:3d} {v.preempt_prio:3d} {v.sub_prio:3d} "
+        print(f"  {v.irq:4d} {v.name:24s} {v.priority:3d} {v.preempt_prio:3d} {v.sub_prio:3d} "
               f"{'E' if v.enabled else '.':1s} {'P' if v.pending else '.':1s} {'A' if v.active else '.':1s}  {handler_str}")
 
 

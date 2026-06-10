@@ -4,15 +4,15 @@ Both hardware_map.py (for validation) and pipeline.py (for dispatch)
 import from here. Add new built-in runners here.
 """
 
-from vsf_bench.runners.swd_runner import SWDRunner
-from vsf_bench.runners.uf2_runner import UF2Runner
+from vsf_bench.adapters.cmsis_dap import CMSISDAPAdapter
+from vsf_bench.adapters.uf2 import UF2Adapter
 from vsf_bench.runners.plugin_runner import PluginRunner
 from vsf_bench.adapters.dfu import DFUAdapter
 
 RUNNER_TYPES: dict[str, type] = {
-    "openocd": SWDRunner,
+    "openocd": CMSISDAPAdapter,
     "plugin": PluginRunner,
-    "uf2": UF2Runner,
+    "uf2": UF2Adapter,
     "dfu": DFUAdapter,
 }
 

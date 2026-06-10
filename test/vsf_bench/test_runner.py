@@ -114,7 +114,8 @@ def _run_script_phase1(
 def _call_decode(mod, adapter, channels: dict, capture_path: Path,
                  start_ns: int | None, end_ns: int | None,
                  marker_baud: int = 115200,
-                 test_params_yml: Path | None = None) -> None:
+                 test_params_yml: Path | None = None,
+                 marker_channel: str = "uart0_tx") -> None:
     sig = inspect.signature(mod.decode)
     params = sig.parameters
     kwargs = {}
@@ -124,6 +125,8 @@ def _call_decode(mod, adapter, channels: dict, capture_path: Path,
         kwargs["decode_end_ns"] = end_ns
     if "marker_baud" in params:
         kwargs["marker_baud"] = marker_baud
+    if "marker_channel" in params:
+        kwargs["marker_channel"] = marker_channel
     if "test_params_yml" in params:
         kwargs["test_params_yml"] = test_params_yml
     if "capture_path" in params:

@@ -38,6 +38,7 @@ class CaptureScene:
         self._cli_path = cli_path
         self._run_dir = run_dir
         self._marker_baudrate = marker_baudrate
+        self._marker_channel = la_cfg.marker_channel or "uart0_tx"
 
     # ------------------------------------------------------------------ shared
 
@@ -100,7 +101,8 @@ class CaptureScene:
             try:
                 call_decode(mod, shared_adapter, self._la_cfg.channels,
                            shared_capture, decode_start, decode_end,
-                           self._marker_baudrate, test_params_yml)
+                           self._marker_baudrate, test_params_yml,
+                           marker_channel=self._marker_channel)
                 elapsed = time.perf_counter() - t0_decode
                 log(f"PASS decode: {suite_name} ({elapsed:.3f} s)")
             except (AssertionError, RuntimeError, KeyError, AttributeError, FileNotFoundError) as e:

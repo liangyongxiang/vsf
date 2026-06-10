@@ -113,8 +113,8 @@ _PERIPHERAL_ENUM_RE = r"^\s*VSF_PERIPHERAL_TYPE_(\w+)\s*(?:=\s*(\d+))?,?"
 def _find_vsf_test_header() -> Path | None:
     """Locate vsf_test.h relative to vsf-bench package."""
     candidates = [
-        # vsf submodule layout
-        Path(__file__).resolve().parent / ".." / ".." / ".." / ".."
+        # vsf submodule layout (suite.py → ../../.. = vsf root)
+        Path(__file__).resolve().parent.parent.parent.parent
         / "source" / "component" / "test" / "vsf_test" / "vsf_test.h",
     ]
     for p in candidates:

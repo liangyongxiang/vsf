@@ -677,7 +677,7 @@ class DebugSession:
     # Standard Cortex-M system exception names
     _SYS_EXC_NAMES = [
         "", "Reset", "NMI", "HardFault", "MemManage", "BusFault",
-        "UsageFault", "", "", "", "SVCall", "DebugMon", "", "PendSV", "SysTick",
+        "UsageFault", "", "", "", "", "SVCall", "DebugMon", "", "PendSV", "SysTick",
     ]
 
     # Cached IRQ name lookup — parsed lazily from soc_config.h
